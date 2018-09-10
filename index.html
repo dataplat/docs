@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/zenburn.min.css">
 
+
     <style>
         .customnav {
             background: #e3e3e3
@@ -143,12 +144,11 @@
                 } else {
                     $('#back-to-top').fadeOut();
                 }
-            });
-            // scroll body to 0px on click
+            })
             $('#back-to-top').click(function () {
                 $(window).scrollTo(0, 800)
                 return false;
-            });
+            })
 
         })
     </script>
@@ -164,10 +164,10 @@
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
             aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="oi oi-menu"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav mr-auto">
+        <div class="collapse navbar-collapse flex-grow-1 text-right" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto flex-nowrap">
                 <li class="nav-item">
                     <a class="nav-link" href="https://dbatools.io/download/">download</a>
                 </li>
