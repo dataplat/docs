@@ -111,8 +111,10 @@
             var indexhelp = ''
             var allcmds = $.getJSON(index_url, function (data) {
                 indexhelp = data
-                cmdlist.add(data)
-                $(window).trigger('hashchange');
+                cmdlist.add(data, function() {
+                    $(window).trigger('hashchange');
+                })
+
             })
             $('#cmdlist').on('click', 'a', function (e) {
                 e.preventDefault();
