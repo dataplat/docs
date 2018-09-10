@@ -51,8 +51,10 @@
 			function prepare_md(doc_to_render) {
 				rtn = []
 				rtn.push('# ' + doc_to_render.CommandName)
-				rtn.push('\n\n\n\n')
-				rtn.push('\n\n\n\n')
+				if (doc_to_render.Author) {
+					rtn.push('##### Author: *' + doc_to_render.Author + '*')
+				}
+				rtn.push('\n&nbsp;\n')
 				rtn.push('## Synopsis')
 				rtn.push(doc_to_render.Synopsis)
 				rtn.push('## Description')
