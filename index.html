@@ -57,22 +57,29 @@
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
             function prepare_md(doc_to_render) {
-                rtn = []
-                rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author) {
-                    rtn.push('##### Author: *' + doc_to_render.Author + '*')
-                }
-                rtn.push('\n&nbsp;\n')
-                rtn.push('## Synopsis')
-                rtn.push(doc_to_render.Synopsis)
-                rtn.push('## Description')
-                rtn.push(doc_to_render.Description)
-                rtn.push('## Syntax')
-                rtn.push('```\n' + doc_to_render.Syntax.replace(/(\r\n){2,8}/g, '\n') + '\n```')
-                rtn.push('## Examples')
-                rtn.push('```\n' + doc_to_render.Examples.replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----') + '\n```')
-                return _.join(rtn, '\n')
-            }
+				rtn = []
+				rtn.push('# ' + doc_to_render.CommandName)
+				if (doc_to_render.Author) {
+					rtn.push('##### Author: *' + doc_to_render.Author + '*')
+				}
+				rtn.push('\n&nbsp;\n')
+				rtn.push('## Synopsis')
+				rtn.push(doc_to_render.Synopsis)
+				rtn.push('')
+				rtn.push('## Description')
+				rtn.push(doc_to_render.Description)
+				rtn.push('')
+				rtn.push('## Syntax')
+				rtn.push('```')
+				rtn.push(doc_to_render.Syntax.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n'))
+				rtn.push('```')
+				rtn.push('')
+				rtn.push('## Examples')
+				rtn.push('```')
+				rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
+				rtn.push('```')
+				return _.join(rtn, '\n')
+			}
             function render_doc(doc_to_render) {
                 var md_text = prepare_md(doc_to_render)
                 var rendered = marked(md_text, {
