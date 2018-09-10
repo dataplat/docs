@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+	<title>dbatools docs</title>
+	<link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
+	<link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
+	<link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
+	<meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/bs4-4.0.0-beta/jq-3.2.1/jq-3.2.1/jszip-2.5.0/dt-1.10.16/b-1.4.2/b-html5-1.4.2/fh-3.1.3/r-2.2.0/datatables.min.css">
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/zenburn.min.css">
+	
+	<style>
+		.customnav {
+			background: #e3e3e3
+		}
+
+		body {
+			min-height: 75rem;
+		}
+
+		h2 small.text-muted {
+			font-size: 50%;
+		}
+
+		@media (max-width: 575px) {
+			.hidden-xs-down {
+				display: none!important;
+			}
+		}
+
+		@media (min-width: 575px) {
+			.hidden-xs-up {
+				display: none!important;
+			}
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/powershell.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
+	<script type="text/javascript" language="javascript" src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+	<script type="text/javascript" language="javascript">
+		$(document).ready(function () {
+			function prepare_md(doc_to_render) {
+				rtn = []
+				rtn.push('# ' + doc_to_render.CommandName)
+				rtn.push('\n\n\n\n')
+				rtn.push('\n\n\n\n')
+				rtn.push('## Synopsis')
+				rtn.push(doc_to_render.Synopsis)
+				rtn.push('## Description')
+				rtn.push(doc_to_render.Description)
+				rtn.push('## Syntax')
+				rtn.push('```\n' + doc_to_render.Syntax.replace(/(\r\n){2,8}/g, '\n') + '\n```')
+				rtn.push('## Examples')
+				rtn.push('```\n' + doc_to_render.Examples.replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----') + '\n```')
+				return _.join(rtn, '\n')
+			}
+			function render_doc(doc_to_render) {
+				var md_text = prepare_md(doc_to_render)
+				var rendered = marked(md_text, {
+					gfm : true,
+					tables: true
+				})
+				$('#rendered').html(marked(md_text));
+				$('#rendered code').each(function(i, block) {
+					 hljs.highlightBlock(block);
+				})
+			}
+			var index_url = 'assets/dbatools-index.json'
+			var values = [];
+			var options = {
+				valueNames: [ 'CommandName' ],
+				item: '<a class="list-group-item"><span class="CommandName"></span></a>'
+			}
+			cmdlist = new List('cmdlist', options, values);
+			var indexhelp = ''
+			var allcmds = jQuery.getJSON(index_url, function(data) {
+				indexhelp = data
+				jQuery.each(data, function(i,el) {
+					cmdlist.add(el)
+				})
+				$(window).trigger('hashchange');
+			})
+			jQuery('#cmdlist').on('click', '.CommandName', function(e) {
+				e.preventDefault();
+				window.location.hash = '#' + jQuery(this).text();
+			})
+			jQuery('#search-ft').on('keyup', function() {
+				var searchString = jQuery(this).val();
+				cmdlist.search(searchString);
+			})
+			$( window ).on( 'hashchange', function( e ) {
+    			var hash = window.location.hash.substr(1);
+    			if (hash.length > 0) {
+					var topublish = _.findIndex(indexhelp, {'Name' : hash})
+					if (topublish == -1) {
+					// not found
+					} else {
+						var doc_to_render = indexhelp[topublish]
+						render_doc(doc_to_render)
+					}
+				}		
+			})
+		})
+	</script>
+</head>
+
+
+<body>
+
+	<nav class="navbar navbar-expand-md customnav">
+		<a href="https://dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
+			<img width="223" height="64" src="https://dbatools.io/wp-content/uploads/2016/05/dbatools-logo-1.png" class="custom-logo"
+			 alt="dbatools" itemprop="logo" scale="0">
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+		 aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="https://dbatools.io/download/">download</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://dbatools.io/getting-started/">get started</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://dbatools.io/functions/">commands</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="#">docs</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://dbatools.io/team/">team</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://dbatools.io/subscribe/">subscribe</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://dbatools.io/slack">find us</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://dbatools.io/builds">build reference</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://dbatools.io/boh">bill of health</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col">
+				<h2>docs
+					<small class="text-muted">auto generated (alpha version)</small>
+				</h2>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<hr />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-3">
+				<div id="relcommands" class="">
+					<h3>Functions</h3>
+					<p></p>
+					<div class="form-group row">
+						<div class="col-lg-12">
+						  <input type="text" class="form-control" id="search-ft" placeholder="Search" autocomplete="off">
+						</div>
+					</div>
+
+					<div id="cmdlist">
+						<div class="list list-group"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-9">
+				<div id="rendered">
+					<h4>Welcome to dbatools docs</h4>
+					<p>Search on the left and click on it to show the related help</p>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	</div>
+	</div>
+</body>
+
+</html>
