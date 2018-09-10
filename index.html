@@ -111,9 +111,7 @@
             var indexhelp = ''
             var allcmds = $.getJSON(index_url, function (data) {
                 indexhelp = data
-                $.each(data, function (i, el) {
-                    cmdlist.add(el)
-                })
+                cmdlist.add(data)
                 $(window).trigger('hashchange');
             })
             $('#cmdlist').on('click', 'a', function (e) {
@@ -251,8 +249,6 @@
         </div>
     </div>
 
-    </div>
-    </div>
 </body>
 
 </html>
