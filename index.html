@@ -57,29 +57,29 @@
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
             function prepare_md(doc_to_render) {
-				rtn = []
-				rtn.push('# ' + doc_to_render.CommandName)
-				if (doc_to_render.Author) {
-					rtn.push('##### Author: *' + doc_to_render.Author + '*')
-				}
-				rtn.push('\n&nbsp;\n')
-				rtn.push('## Synopsis')
-				rtn.push(doc_to_render.Synopsis)
-				rtn.push('')
-				rtn.push('## Description')
-				rtn.push(doc_to_render.Description)
-				rtn.push('')
-				rtn.push('## Syntax')
-				rtn.push('```')
-				rtn.push(doc_to_render.Syntax.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n'))
-				rtn.push('```')
-				rtn.push('')
-				rtn.push('## Examples')
-				rtn.push('```')
-				rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
-				rtn.push('```')
-				return _.join(rtn, '\n')
-			}
+                rtn = []
+                rtn.push('# ' + doc_to_render.CommandName)
+                if (doc_to_render.Author) {
+                    rtn.push('##### Author: *' + doc_to_render.Author + '*')
+                }
+                rtn.push('\n&nbsp;\n')
+                rtn.push('## Synopsis')
+                rtn.push(doc_to_render.Synopsis)
+                rtn.push('')
+                rtn.push('## Description')
+                rtn.push(doc_to_render.Description)
+                rtn.push('')
+                rtn.push('## Syntax')
+                rtn.push('```')
+                rtn.push(doc_to_render.Syntax.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n'))
+                rtn.push('```')
+                rtn.push('')
+                rtn.push('## Examples')
+                rtn.push('```')
+                rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
+                rtn.push('```')
+                return _.join(rtn, '\n')
+            }
             function render_doc(doc_to_render) {
                 var md_text = prepare_md(doc_to_render)
                 var rendered = marked(md_text, {
@@ -117,9 +117,19 @@
             $(window).on('hashchange', function (e) {
                 var hash = window.location.hash.substr(1);
                 if (hash.length > 0) {
+                    //exact match
                     var topublish = _.findIndex(indexhelp, { 'Name': hash })
                     if (topublish == -1) {
-                        // not found
+                        //lowercase match
+                        var topublish = _.findIndex(indexhelp, function (el) { return _.toLower(el.Name) == _.toLower(hash) })
+                        if (topublish !== -1) {
+                            //normalization of URI
+                            window.location.hash = '#' + indexhelp[topublish].CommandName
+                            return
+                        }
+                    }
+                    if (topublish == -1) {
+                        $('#rendered').html(marked('### 404 Function not found \n (while searching for ' + hash + ')'));
                     } else {
                         var doc_to_render = indexhelp[topublish]
                         render_doc(doc_to_render)
