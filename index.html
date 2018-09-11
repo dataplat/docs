@@ -163,6 +163,7 @@
             function render_doc(doc_to_render) {
                 var md_text = prepare_md(doc_to_render)
                 var rendered = marked(md_text, {
+                    breaks: true,
                     gfm: true,
                     tables: true
                 })
