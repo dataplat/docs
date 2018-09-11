@@ -166,7 +166,7 @@
                     gfm: true,
                     tables: true
                 })
-                $('#rendered').html(marked(md_text));
+                $('#rendered').html(rendered);
                 $('#rendered code').each(function (i, block) {
                     hljs.highlightBlock(block);
                 })
