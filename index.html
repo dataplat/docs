@@ -203,6 +203,12 @@
             $(window).on('hashchange', function (e) {
                 var hash = window.location.hash.substr(1);
                 if (hash.length > 0) {
+                    //ends with /
+                    if (_.endsWith(hash, '/')) {
+                        window.location.hash = '#' + hash.slice(0, hash.length-1)
+                        $(window).trigger('hashchange');
+                        return
+                    }
                     //exact match
                     var topublish = _.findIndex(indexhelp, { 'Name': hash })
                     if (topublish == -1) {
@@ -211,7 +217,7 @@
                         if (topublish !== -1) {
                             //normalization of URI
                             window.location.hash = '#' + indexhelp[topublish].CommandName
-                            $(window).trigger('hashchange');
+                            $(window).trigger('hashchange')
                             return
                         }
                     }
