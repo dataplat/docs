@@ -143,6 +143,11 @@
                     rtn.push('##### Author: *' + doc_to_render.Author + '*')
                 }
                 rtn.push('\n&nbsp;\n')
+                if (doc_to_render.Alias) {
+                    rtn.push('')
+                    rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
+                    rtn.push('')
+                }
                 rtn.push('## Synopsis')
                 rtn.push(doc_to_render.Synopsis)
                 rtn.push('')
@@ -208,7 +213,7 @@
                 if (hash.length > 0) {
                     //ends with /
                     if (_.endsWith(hash, '/')) {
-                        window.location.hash = '#' + hash.slice(0, hash.length-1)
+                        window.location.hash = '#' + hash.slice(0, hash.length - 1)
                         $(window).trigger('hashchange');
                         return
                     }
@@ -256,8 +261,8 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png" class="custom-logo" alt="dbatools"
-                itemprop="logo" scale="0">
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png" class="custom-logo"
+                alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
             aria-expanded="false" aria-label="Toggle navigation">
