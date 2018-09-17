@@ -158,6 +158,9 @@
                 rtn.push('```')
                 rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
                 rtn.push('```')
+                rtn.push('')
+                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
+                rtn.push('')
                 return _.join(rtn, '\n')
             }
             function render_doc(doc_to_render) {
