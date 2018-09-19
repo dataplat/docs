@@ -207,7 +207,7 @@
             })
             $('#search-ft').on('keyup', function () {
                 var searchString = $(this).val();
-                cmdlist.search(searchString, ['CommandName']);
+                cmdlist.search(searchString, ['CommandName', 'Alias']);
             })
             $(window).on('hashchange', function (e) {
                 var hash = window.location.hash.substr(1);
