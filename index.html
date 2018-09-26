@@ -234,13 +234,13 @@
                     rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
                     rtn.push('```')
                 } else {
-                    var examples = doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
+                    var examples = doc_to_render.Examples.replace('\r\n', '\n').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
                     idx = 0
                     var inside = 0
                     _.forEach(examples, function (row) {
                         if (_.startsWith(row, '----')) {
                             rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
-                        } else if (_.startsWith(row, 'PS C:\\>')) {
+                        } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
                             if (inside == 0) { rtn.push('```') }
                             rtn.push(row)
                             inside = 1
