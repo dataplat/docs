@@ -57,6 +57,10 @@
             display: none;
         }
 
+		code.wrapped {
+			white-space: pre-wrap;
+		}
+
         /* from https://loading.io/css/ */
 
         .lds-ellipsis {
@@ -286,6 +290,7 @@
                     mention: 'twitter'
                 })
                 )
+                $("#rendered h2#syntax").next().find('code').addClass('wrapped')
                 $("#rendered h2#examples").append(' <button id="rawexamples" type="button" class="btn  btn-outline-primary" data-toggle="button" aria-pressed="false" autocomplete="off">See Raw</button>')
                 if (examples_mode == 'old') {
                     $('#rawexamples').button('toggle')
