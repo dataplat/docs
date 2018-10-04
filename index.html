@@ -57,9 +57,30 @@
             display: none;
         }
 
-		code.wrapped {
-			white-space: pre-wrap;
-		}
+        code.wrapped {
+            white-space: pre-wrap;
+        }
+
+        .bd-clipboard {
+            position: relative;
+            float: right;
+        }
+
+
+        .btn-clipboard {
+            position: absolute;
+            top: .5rem;
+            right: .5rem;
+            z-index: 10;
+            display: block;
+            padding: .25rem .5rem;
+            font-size: 75%;
+            color: #818a91;
+            cursor: pointer;
+            background-color: transparent;
+            border: 0;
+            border-radius: .25rem;
+        }
 
         /* from https://loading.io/css/ */
 
@@ -137,6 +158,8 @@
     <script src="//cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/autolinker/1.7.1/Autolinker.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+
     <script type="text/javascript" language="javascript">
         function register_dbatools_hljs(dbatoolscommands) {
 
@@ -246,7 +269,7 @@
                             rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
                         } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
                             if (inside == 0) { rtn.push('```') }
-                            rtn.push(row)
+                            rtn.push(row.replace(/^PS C:\\>\s?/, "PS C:\\> "))
                             inside = 1
                         } else if ((_.trim(row) == '') || (_.trim(row) == 'Description')) {
                             //rtn.push(row)
@@ -291,6 +314,20 @@
                 })
                 )
                 $("#rendered h2#syntax").next().find('code').addClass('wrapped')
+                if (ClipboardJS.isSupported()) {
+                    $("#rendered pre").before('<div class="bd-clipboard"><button class="btn-clipboard" title="Copy to clipboard">Copy</button></div>')
+                    new ClipboardJS('.btn-clipboard', {
+                        text: function (trigger) {
+                            var textlines = $(trigger).parent().next('pre').find('code').text().split('\n')
+                            var copied = []
+                            _.forEach(textlines, function (row) {
+                                copied.push(row.replace(/^PS C:\\> /, "").replace(/^>>/, ""))
+                            })
+                            return _.join(copied, '\n')
+                        }
+                    });
+                }
+
                 $("#rendered h2#examples").append(' <button id="rawexamples" type="button" class="btn  btn-outline-primary" data-toggle="button" aria-pressed="false" autocomplete="off">See Raw</button>')
                 if (examples_mode == 'old') {
                     $('#rawexamples').button('toggle')
