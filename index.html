@@ -315,10 +315,10 @@
                 )
                 $("#rendered h2#syntax").next().find('code').addClass('wrapped')
                 if (ClipboardJS.isSupported()) {
-                    $("#rendered pre").before('<div class="bd-clipboard"><button class="btn-clipboard" title="Copy to clipboard">Copy</button></div>')
+                    $("#rendered h5[id^='example-']").append('<div class="bd-clipboard"><button class="btn-clipboard" title="Copy to clipboard">Copy</button></div>')
                     new ClipboardJS('.btn-clipboard', {
                         text: function (trigger) {
-                            var textlines = $(trigger).parent().next('pre').find('code').text().split('\n')
+                            var textlines = $(trigger).parent().parent().next('pre').find('code').text().split('\n')
                             var copied = []
                             _.forEach(textlines, function (row) {
                                 copied.push(row.replace(/^PS C:\\> /, "").replace(/^>>/, ""))
