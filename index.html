@@ -66,7 +66,6 @@
             float: right;
         }
 
-
         .btn-clipboard {
             position: absolute;
             top: .5rem;
@@ -80,6 +79,21 @@
             background-color: transparent;
             border: 0;
             border-radius: .25rem;
+        }
+
+        /*param tables do not have thead */
+        .table thead {
+            display : none;
+        }
+        /*no need to be elastic for param tables*/
+        .table td:first-child {
+            width : 15em;
+        }
+
+        h5.param {
+            background: #f8f8f8;
+            display: inline-block;
+            font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
         }
 
         /* from https://loading.io/css/ */
@@ -282,6 +296,42 @@
                         }
                     })
                 }
+                if (doc_to_render.Params) {
+                    var dotitle = 0
+                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == true }), function (el) {
+                        if (dotitle == 0) {
+                            dotitle = 1
+                            rtn.push('### Required Parameters')
+                        }
+                        rtn.push('##### -' + el[0])
+                        rtn.push(el[1])
+                        rtn.push('')
+                        rtn.push('|  |  |')
+                        rtn.push('| - | - |')
+                        rtn.push('| Alias | ' + el[2] + ' |')
+                        rtn.push('| Required | ' + el[3] + ' |')
+                        rtn.push('| Pipeline | ' + el[4] + ' |')
+                        rtn.push('| Default Value | ' + el[5] + ' |')
+                        rtn.push('')
+                    })
+                    var dotitle = 0
+                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == false }), function (el) {
+                        if (dotitle == 0) {
+                            dotitle = 1
+                            rtn.push('### Optional Parameters')
+                        }
+                        rtn.push('##### -' + el[0])
+                        rtn.push(el[1])
+                        rtn.push('')
+                        rtn.push('|  |  |')
+                        rtn.push('| - | - |')
+                        rtn.push('| Alias | ' + el[2] + ' |')
+                        rtn.push('| Required | ' + el[3] + ' |')
+                        rtn.push('| Pipeline | ' + el[4] + ' |')
+                        rtn.push('| Default Value | ' + el[5] + ' |')
+                        rtn.push('')
+                    })
+                }
                 rtn.push('')
                 rtn.push('## Syntax')
                 rtn.push('```')
@@ -300,7 +350,9 @@
                     gfm: true,
                     tables: true
                 })
-                $('#rendered').html(rendered);
+                $('#rendered').html(rendered)
+                $("#rendered h5[id^='-']").addClass('param')
+                $('#rendered table').addClass('table table-sm table-hover')
                 if (examples_mode == 'new') {
                     $('#rendered code').addClass('powershell')
                 }
