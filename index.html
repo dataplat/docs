@@ -284,6 +284,12 @@
                 rtn.push('## Description')
                 rtn.push(doc_to_render.Description)
                 rtn.push('')
+                rtn.push('## Syntax')
+                rtn.push('```')
+                rtn.push(doc_to_render.Syntax.replace(/(\r\n)/g, '\n\n'))
+                rtn.push('```')
+                rtn.push('\n&nbsp;\n')
+                rtn.push('')
                 rtn.push('## Examples')
                 rtn.push('\n&nbsp;\n')
                 if (examples_mode == 'old') {
