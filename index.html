@@ -355,11 +355,6 @@
                     })
                 }
                 rtn.push('')
-                rtn.push('## Syntax')
-                rtn.push('```')
-                rtn.push(doc_to_render.Syntax.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n'))
-                rtn.push('```')
-                rtn.push('')
                 rtn.push('\n&nbsp;\n')
                 rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
                 rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](http://127.0.0.1/boh.html#' + doc_to_render.CommandName + ').')
