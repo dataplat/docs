@@ -60,6 +60,10 @@
             }
         }
 
+        code.hljs-inline {
+            display: inline;
+        }
+
         .back-to-top {
             cursor: pointer;
             position: fixed;
@@ -403,6 +407,7 @@
                     $('#rawexamples').button('toggle')
                     $('#rawexamples').text('See New')
                 }
+                $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
             }
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
