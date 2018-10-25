@@ -407,7 +407,9 @@
                     $('#rawexamples').button('toggle')
                     $('#rawexamples').text('See New')
                 }
+                /* not all code is a block */
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
+                $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
