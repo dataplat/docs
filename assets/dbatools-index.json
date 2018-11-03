@@ -5557,17 +5557,17 @@
                            ""
                        ],
                        [
-                           "TargetLogSizeMB",
+                           "TargetLogSize",
                            "Specifies the target size of the transaction log file in megabytes.",
-                           "",
+                           "TargetLogSizeMB",
                            true,
                            "false",
                            "0"
                        ],
                        [
+                           "IncrementSize",
+                           "Specifies the amount the transaction log should grow in megabytes. If this value differs from the suggested value based on your TargetLogSize, you will be prompted to confirm your choice.\nThis value will be calculated if not specified.",
                            "IncrementSizeMB",
-                           "Specifies the amount the transaction log should grow in megabytes. If this value differs from the suggested value based on your TargetLogSizeMB, you will be prompted to confirm your choice.\nThis value will be calculated if not specified.",
-                           "",
                            false,
                            "false",
                            "-1"
@@ -5589,9 +5589,9 @@
                            "False"
                        ],
                        [
+                           "ShrinkSize",
+                           "Specifies the target size of the transaction log file for the shrink operation in megabytes.",
                            "ShrinkSizeMB",
-                           "Specifies the target size of the transaction log file for the shrink operation.",
-                           "",
                            true,
                            "false",
                            "0"
@@ -5603,6 +5603,14 @@
                            false,
                            "false",
                            ""
+                       ],
+                       [
+                           "ExcludeDiskSpaceValidation",
+                           "If this switch is enabled, the validation for enough disk space using Get-DbaDiskSpace command will be skipped.\r\nThis can be useful when you know that you have enough space to grow your TLog but you don\u0027t have PowerShell Remoting enabled to validate it.",
+                           "",
+                           false,
+                           "false",
+                           "False"
                        ],
                        [
                            "EnableException",
@@ -5634,8 +5642,8 @@
         "Synopsis":  "This command will help you to automatically grow your transaction log  file in a responsible way (preventing the generation of too many VLFs).",
         "Name":  "Expand-DbaTLogResponsibly",
         "Links":  "https://dbatools.io/Expand-DbaTLogResponsibly",
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance sqlcluster -Database db1 -TargetLogSizeMB 50000\nGrows the transaction log for database db1 on sqlcluster to 50000 MB and calculates the increment size.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance sqlcluster -Database db1, db2 -TargetLogSizeMB 10000 -IncrementSizeMB 200\nGrows the transaction logs for databases db1 and db2 on sqlcluster to 1000MB and sets the growth increment to 200MB.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance sqlcluster -Database db1 -TargetLogSizeMB 10000 -LogFileId 9\nGrows the transaction log file  with FileId 9 of the db1 database on sqlcluster instance to 10000MB.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance sqlcluster -Database (Get-Content D:\\DBs.txt) -TargetLogSizeMB 50000\nGrows the transaction log of the databases specified in the file \u0027D:\\DBs.txt\u0027 on sqlcluster instance to 50000MB.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance SqlInstance -Database db1,db2 -TargetLogSizeMB 100 -IncrementSizeMB 10 -ShrinkLogFile -ShrinkSizeMB 10 -BackupDirectory R:\\MSSQL\\Backup\nGrows the transaction logs for databases db1 and db2 on SQL server SQLInstance to 100MB, sets the incremental growth to 10MB, shrinks the transaction log to 10MB and uses the directory \r\nR:\\MSSQL\\Backup for the required backups.",
-        "Syntax":  "Expand-DbaTLogResponsibly [-SqlInstance] \u003cDbaInstanceParameter\u003e [[-SqlCredential] \u003cPSCredential\u003e] [-Database \u003cObject[]\u003e] [[-ExcludeDatabase] \u003cObject[]\u003e] [-TargetLogSizeMB] \u003cInt32\u003e [[-IncrementSizeMB] \u003cInt32\u003e] [[-LogFileId] \u003cInt32\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]\nExpand-DbaTLogResponsibly [-SqlInstance] \u003cDbaInstanceParameter\u003e [[-SqlCredential] \u003cPSCredential\u003e] [-Database \u003cObject[]\u003e] [[-ExcludeDatabase] \u003cObject[]\u003e] [-TargetLogSizeMB] \u003cInt32\u003e [[-IncrementSizeMB] \u003cInt32\u003e] [[-LogFileId] \u003cInt32\u003e] [-ShrinkLogFile] [-ShrinkSizeMB] \u003cInt32\u003e [[-BackupDirectory] \u003cString\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance sqlcluster -Database db1 -TargetLogSize 50000\nGrows the transaction log for database db1 on sqlcluster to 50000 MB and calculates the increment size.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance sqlcluster -Database db1, db2 -TargetLogSize 10000 -IncrementSize 200\nGrows the transaction logs for databases db1 and db2 on sqlcluster to 1000MB and sets the growth increment to 200MB.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance sqlcluster -Database db1 -TargetLogSize 10000 -LogFileId 9\nGrows the transaction log file  with FileId 9 of the db1 database on sqlcluster instance to 10000MB.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance sqlcluster -Database (Get-Content D:\\DBs.txt) -TargetLogSize 50000\nGrows the transaction log of the databases specified in the file \u0027D:\\DBs.txt\u0027 on sqlcluster instance to 50000MB.\n-------------------------- EXAMPLE 5 --------------------------\nPS C:\\\u003eExpand-DbaTLogResponsibly -SqlInstance SqlInstance -Database db1,db2 -TargetLogSize 100 -IncrementSize 10 -ShrinkLogFile -ShrinkSize 10 -BackupDirectory R:\\MSSQL\\Backup\nGrows the transaction logs for databases db1 and db2 on SQL server SQLInstance to 100MB, sets the incremental growth to 10MB, shrinks the transaction log to 10MB and uses the directory \r\nR:\\MSSQL\\Backup for the required backups.",
+        "Syntax":  "Expand-DbaTLogResponsibly [-SqlInstance] \u003cDbaInstanceParameter\u003e [[-SqlCredential] \u003cPSCredential\u003e] [-Database \u003cObject[]\u003e] [[-ExcludeDatabase] \u003cObject[]\u003e] [-TargetLogSize] \u003cInt32\u003e [[-IncrementSize] \u003cInt32\u003e] [[-LogFileId] \u003cInt32\u003e] [-ExcludeDiskSpaceValidation] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]\nExpand-DbaTLogResponsibly [-SqlInstance] \u003cDbaInstanceParameter\u003e [[-SqlCredential] \u003cPSCredential\u003e] [-Database \u003cObject[]\u003e] [[-ExcludeDatabase] \u003cObject[]\u003e] [-TargetLogSize] \u003cInt32\u003e [[-IncrementSize] \u003cInt32\u003e] [[-LogFileId] \u003cInt32\u003e] [-ShrinkLogFile] [-ShrinkSize] \u003cInt32\u003e [[-BackupDirectory] \u003cString\u003e] [-ExcludeDiskSpaceValidation] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Export-DbaAvailabilityGroup",
@@ -37456,6 +37464,108 @@
         "Syntax":  "Suspend-DbaAgDbDataMovement [[-SqlInstance] \u003cDbaInstanceParameter[]\u003e] [[-SqlCredential] \u003cPSCredential\u003e] [[-AvailabilityGroup] \u003cString\u003e] [[-Database] \u003cString[]\u003e] [[-InputObject] \u003cAvailabilityDatabase[]\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Sync-DbaAvailabilityGroup",
+        "Description":  "Syncs depdendent objects for availability groups. Such objects include:\n\nSpConfigure\nCustomErrors\nCredentials\nDatabaseMail\nLinkedServers\nLogins\nLoginPermissions\nSystemTriggers\nDatabaseOwner\nAgentCategory\nAgentOperator\nAgentAlert\nAgentProxy\nAgentSchedule\nAgentJob\n\nNote that any of these can be excluded. For specific object exclusions (such as a single job), using the underlying Copy-Dba* command will be required.\n\nThis command does not filter by which logins are in use by the ag databases or which linked servers are used. All objects that are not excluded will be copied like hulk smash.",
+        "Tags":  "HA",
+        "Params":  [
+                       [
+                           "Primary",
+                           "The primary SQL Server instance. Server version must be SQL Server version 2012 or higher.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "PrimarySqlCredential",
+                           "Login to the primary instance using alternative credentials. Windows and SQL Authentication supported. Accepts credential objects (Get-Credential)",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Secondary",
+                           "The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "SecondarySqlCredential",
+                           "Login to the target instance using alternative credentials. Windows and SQL Authentication supported. Accepts credential objects (Get-Credential)",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "AvailabilityGroup",
+                           "The name of the Availability Group.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Exclude",
+                           "Exclude one or more objects to export\nSpConfigure\r\nCustomErrors\r\nCredentials\r\nDatabaseMail\r\nLinkedServers\r\nLogins\r\nLoginPermissions\r\nSystemTriggers\r\nDatabaseOwner\r\nAgentCategory\r\nAgentOperator\r\nAgentAlert\r\nAgentProxy\r\nAgentSchedule\r\nAgentJob",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "InputObject",
+                           "Enables piping from Get-DbaAvailabilityGroup.",
+                           "",
+                           false,
+                           "true (ByValue)",
+                           ""
+                       ],
+                       [
+                           "Force",
+                           "If this switch is enabled, the objects will dropped and recreated on Destination.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "EnableException",
+                           "By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.\r\nThis avoids overwhelming you with \"sea of red\" exceptions, but is inconvenient because it basically disables advanced scripting.\r\nUsing this switch turns this \"nice by default\" feature off and enables you to catch exceptions with your own try/catch.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "WhatIf",
+                           "Shows what would happen if the command were to run. No actions are actually performed.",
+                           "wi",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Confirm",
+                           "Prompts you for confirmation before executing any changing operations within the command.",
+                           "cf",
+                           false,
+                           "false",
+                           ""
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Chrissy LeMaire (@cl), netnerds.net",
+        "Synopsis":  "Syncs depdendent objects such as jobs, logins and custom errors for availability groups",
+        "Name":  "Sync-DbaAvailabilityGroup",
+        "Links":  "https://dbatools.io/Sync-DbaAvailabilityGroup",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSync-DbaAvailabilityGroup -Primary sql2016a -AvailabilityGroup db3\nSyncs the following on all replicas found in the db3 AG:\r\nSpConfigure, CustomErrors, Credentials, DatabaseMail, LinkedServers\r\nLogins, LoginPermissions, SystemTriggers, DatabaseOwner, AgentCategory,\r\nAgentOperator, AgentAlert, AgentProxy, AgentScheduleAgentJob\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-DbaAvailabilityGroup -SqlInstance sql2016a | Sync-DbaAvailabilityGroup -Exclude LoginPermissions, LinkedServers\nSyncs the following on all replicas found in the db3 AG:\r\nSpConfigure, CustomErrors, Credentials, DatabaseMail, Logins,\r\nSystemTriggers, DatabaseOwner, AgentCategory, AgentOperator\r\nAgentAlert, AgentProxy, AgentScheduleAgentJob\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eGet-DbaAvailabilityGroup -SqlInstance sql2016a | Sync-DbaAvailabilityGroup -WhatIf\nShows what would happen if the command were to run but doesn\u0027t actually perform the action.",
+        "Syntax":  "Sync-DbaAvailabilityGroup [[-Primary] \u003cDbaInstanceParameter\u003e] [[-PrimarySqlCredential] \u003cPSCredential\u003e] [[-Secondary] \u003cDbaInstanceParameter[]\u003e] [[-SecondarySqlCredential] \u003cPSCredential\u003e] [[-AvailabilityGroup] \u003cString\u003e] [[-Exclude] \u003cString[]\u003e] [[-InputObject] \u003cAvailabilityGroup[]\u003e] [-Force] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Sync-DbaLoginPermission",
         "Description":  "Syncs only SQL Server login permissions, roles, etc. Does not add or drop logins. If a matching login does not exist on the destination, the login will be skipped. Credential removal is not currently supported for this operation.",
         "Tags":  [
@@ -37514,7 +37624,7 @@
                        [
                            "EnableException",
                            "By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.\r\nThis avoids overwhelming you with \"sea of red\" exceptions, but is inconvenient because it basically disables advanced scripting.\r\nUsing this switch turns this \"nice by default\" feature off and enables you to catch exceptions with your own try/catch.",
-                           "Silent",
+                           "",
                            false,
                            "false",
                            "False"
@@ -37542,7 +37652,7 @@
         "Name":  "Sync-DbaLoginPermission",
         "Links":  "https://dbatools.io/Sync-DbaLoginPermission",
         "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eSync-DbaLoginPermission -Source sqlserver2014a -Destination sqlcluster\nSyncs only SQL Server login permissions, roles, etc. Does not add or drop logins or users. To copy logins and their permissions, use Copy-SqlLogin.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eSync-DbaLoginPermission -Source sqlserver2014a -Destination sqlcluster -Exclude realcajun -SourceSqlCredential $scred -DestinationSqlCredential $dcred\nCopies all login permissions except for realcajun using SQL Authentication to connect to each server. If a login already exists on the destination, the permissions will not be migrated.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eSync-DbaLoginPermission -Source sqlserver2014a -Destination sqlcluster -Login realcajun, netnerds\nCopies permissions ONLY for logins netnerds and realcajun.",
-        "Syntax":  "Sync-DbaLoginPermission [-Source] \u003cDbaInstanceParameter\u003e [[-SourceSqlCredential] \u003cPSCredential\u003e] [-Destination] \u003cDbaInstanceParameter\u003e [[-DestinationSqlCredential] \u003cPSCredential\u003e] [[-Login] \u003cObject[]\u003e] [[-ExcludeLogin] \u003cObject[]\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Sync-DbaLoginPermission [-Source] \u003cDbaInstanceParameter\u003e [[-SourceSqlCredential] \u003cPSCredential\u003e] [-Destination] \u003cDbaInstanceParameter[]\u003e [[-DestinationSqlCredential] \u003cPSCredential\u003e] [[-Login] \u003cString[]\u003e] [[-ExcludeLogin] \u003cString[]\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
     },
     {
         "CommandName":  "Test-DbaBackupInformation",
