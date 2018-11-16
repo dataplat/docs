@@ -413,6 +413,7 @@
             }
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
+            var external_url = 'assets/external.json'
             var values = [];
             var options = {
                 valueNames: ['CommandName'],
@@ -429,6 +430,9 @@
                 })
                 register_dbatools_hljs(dbacommands.join(' '))
                 $(window).trigger('hashchange');
+            })
+            $.getJSON(external_url, function (data) {
+                $('#dbatools_version').text('(v ' + data.version + ')')
             })
             $('#cmdlist').on('click', 'a', function (e) {
                 e.preventDefault();
@@ -473,7 +477,7 @@
                         var doc_to_render = indexhelp[topublish]
                         render_doc(doc_to_render, 'new')
                         $("body").data("doc_to_render", indexhelp[topublish]);
-                        $(window).scrollTo($('#rendered'), 500)
+                        $('#back-to-top').trigger('click')
                     }
                 } else {
                     $('#loader').addClass('invisible')
@@ -550,7 +554,10 @@
         <div class="row">
             <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 bd-sidebar">
                 <div id="relcommands" class="">
-                    <h3>commands</h3>
+                    <h3>
+                        commands
+                        <small id="dbatools_version" class="text-muted"></small>
+                    </h3>
                     <p></p>
                     <div class="form-group row">
                         <div class="col-lg-12">
