@@ -41207,6 +41207,114 @@
         "Syntax":  "Uninstall-DbaWatchUpdate [\u003cCommonParameters\u003e]"
     },
     {
+        "CommandName":  "Update-DbaInstance",
+        "Description":  "Starts and automated process of updating SQL Server installation to a specific version defined in the parameters.\nThe command will:\n\n* Search for SQL Server installations in a remote registry\n* Check if current settings are applicable to the current SQL Server versions\n* Search for a KB executable in a folder specified in -Path\n* Establish a PSRemote connection to the target machine if necessary\n* Extract KB to a temporary folder in a current user\u0027s profile\n* Run the installation from the temporary folder updating all instances on the computer at once\n* Remove temporary files\n* Restart the computer (if -Restart is specified)\n* Repeat for each consequent KB and computer\n\nThe impact of this function is set to High, if you don\u0027t want to receive interactive prompts, set -Confirm to $false.\nCredentials are a required parameter for remote machines. Without specifying -Credential, the installation will fail due to lack of permissions.\n\nCredSSP is a recommended transport for running the updates remotely. Update-DbaInstance will attempt to reconfigure\nlocal and remote hosts to support CredSSP, which is why it is desirable to run this command in an elevated console at all times.\nCVE-2018-0886 security update is required for both local and remote hosts. If CredSSP connections are failing, make sure to\napply recent security updates prior to doing anything else.\n\nAlways backup databases and configurations prior to upgrade.",
+        "Tags":  [
+                     "Install",
+                     "Patching",
+                     "SP",
+                     "CU",
+                     "Instance"
+                 ],
+        "Params":  [
+                       [
+                           "ComputerName",
+                           "Target computer with SQL instance or instsances.",
+                           "cn,host,Server",
+                           false,
+                           "true (ByValue)",
+                           "$env:COMPUTERNAME"
+                       ],
+                       [
+                           "Credential",
+                           "Windows Credential with permission to log on to the remote server. Must be specified for any remote connection.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Version",
+                           "A target version of the installation you want to reach. If not specified, a latest available version would be used by default.\r\nCan be defined using the following general pattern: \u003cMajorVersion\u003e\u003cSPX\u003e\u003cCUX\u003e.\r\nAny part of the pattern can be ommitted if needed:\r\n2008R2SP1 - will update SQL 2008R2 to SP1\r\n2016CU3 - will update SQL 2016 to CU3 of current Service Pack installed\r\nSP0CU3 - will update all existing SQL Server versions to RTM CU3 without installing any service packs\r\nSP1CU7 - will update all existing SQL Server versions to SP1 and then (after restart if -Restart is specified) to SP1CU7\r\nCU7 - will update all existing SQL Server versions to CU7 of current Service Pack installed",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "MajorVersion",
+                           "When -Version is not specified, it allows user to only update specific version(s) of SQL Server. Syntax: SQL20XX or simply 20XX.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Type",
+                           "Type of the update: All | ServicePack | CumulativeUpdate. Mutually exclusive with -Version.\r\nDefault: All",
+                           "",
+                           false,
+                           "false",
+                           "All"
+                       ],
+                       [
+                           "KB",
+                           "Install a specific update or list of updates. Can be a number of a string KBXXXXXXX.",
+                           "",
+                           true,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Path",
+                           "Path to the folder(s) with SQL Server patches downloaded. It will be scanned recursively for available patches.\r\nPath should be available from both server with SQL Server installation and client that runs the command.\r\nAll file names should match the pattern used by Microsoft: SQLServer####*-KB###-*x##*.exe\r\nIf a file is missing in the repository, the installation will fail.\r\nConsider setting the following configuration if you want to omit this parameter: `Set-DbatoolsConfig -Name Path.SQLServerUpdates -Value \u0027\\\\path\\to\\updates\u0027`",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Restart",
+                           "Restart computer automatically after a successful installation of a patch and wait until it comes back online.\r\nUsing this parameter is the only way to chain-install more than 1 patch on a computer, since every single patch will require a restart of said computer.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "EnableException",
+                           "By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.\r\nThis avoids overwhelming you with \"sea of red\" exceptions, but is inconvenient because it basically disables advanced scripting.\r\nUsing this switch turns this \"nice by default\" feature off and enables you to catch exceptions with your own try/catch.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "WhatIf",
+                           "Shows what would happen if the command were to run. No actions are actually performed.",
+                           "wi",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Confirm",
+                           "Prompts you for confirmation before executing any changing operations within the command.",
+                           "cf",
+                           false,
+                           "false",
+                           ""
+                       ]
+                   ],
+        "Alias":  "",
+        "Author":  "Kirill Kravtsov (@nvarscar) https://nvarscar.wordpress.com/",
+        "Synopsis":  "Invokes installation of SQL Server Service Packs and Cumulative Updates on local and remote servers.",
+        "Name":  "Update-DbaInstance",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eUpdate-DbaInstance -ComputerName SQL1 -Version SP3 -Path \\\\network\\share\nUpdates all applicable SQL Server installations on SQL1 to SP3.\r\nBinary files for the update will be searched among all files and folders recursively in \\\\network\\share.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eUpdate-DbaInstance -ComputerName SQL1, SQL2 -Restart -Path \\\\network\\share\nUpdates all applicable SQL Server installations on SQL1 and SQL2 with the most recent patch.\r\nIt will install latest ServicePack, restart the computers, install latest Cumulative Update, and finally restart the computer once again.\r\nBinary files for the update will be searched among all files and folders recursively in \\\\network\\share.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eUpdate-DbaInstance -ComputerName SQL1 -MajorVersion 2012 -Type ServicePack -Path \\\\network\\share\nUpdates SQL Server 2012 on SQL1 with the most recent ServicePack found in your patch repository.\r\nBinary files for the update will be searched among all files and folders recursively in \\\\network\\share.\n-------------------------- EXAMPLE 4 --------------------------\nPS C:\\\u003eUpdate-DbaInstance -ComputerName SQL1 -KB 123456 -Restart -Path \\\\network\\share\nInstalls KB 123456 on SQL1 and restarts the computer.\r\nBinary files for the update will be searched among all files and folders recursively in \\\\network\\share.",
+        "Syntax":  "Update-DbaInstance [[-ComputerName] \u003cDbaInstanceParameter[]\u003e] [-Credential \u003cPSCredential\u003e] [-MajorVersion \u003cString[]\u003e] [-Type \u003cString\u003e] [-Path \u003cString[]\u003e] [-Restart] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]\nUpdate-DbaInstance [[-ComputerName] \u003cDbaInstanceParameter[]\u003e] [-Credential \u003cPSCredential\u003e] -Version \u003cString[]\u003e [-Path \u003cString[]\u003e] [-Restart] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]\nUpdate-DbaInstance [[-ComputerName] \u003cDbaInstanceParameter[]\u003e] [-Credential \u003cPSCredential\u003e] -KB \u003cString[]\u003e [-Path \u003cString[]\u003e] [-Restart] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
+    },
+    {
         "CommandName":  "Update-DbaServiceAccount",
         "Description":  "Reconfigure the service account or update the password of the specified SQL Server service. The service will be restarted in the event of changing the account.",
         "Tags":  [
