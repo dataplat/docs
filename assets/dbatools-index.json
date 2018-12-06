@@ -23467,7 +23467,7 @@
                        ],
                        [
                            "SqlObject",
-                           "Specify on or multiple SQL objects. Those will be converted to script and their scripts run on the target system(s).",
+                           "Specify one or multiple SQL objects. Those will be converted to script and their scripts run on the target system(s).",
                            "",
                            true,
                            "false",
