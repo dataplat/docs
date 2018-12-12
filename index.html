@@ -277,6 +277,11 @@
                     rtn.push('##### Author: *' + doc_to_render.Author + '*')
                 }
                 rtn.push('\n&nbsp;\n')
+                if (doc_to_render.Availability) {
+                    rtn.push('')
+                    rtn.push('**Availability : ' + doc_to_render.Availability + '**')
+                    rtn.push('')
+                }
                 if (doc_to_render.Alias) {
                     rtn.push('')
                     rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
@@ -445,7 +450,7 @@
                     if (_.endsWith(hash, '/')) {
                         window.location.hash = '#' + hash.slice(0, hash.length - 1)
                         $(window).trigger('hashchange');
-                        return
+                        return;
                     }
                     //exact match
                     var topublish = _.findIndex(indexhelp, { 'Name': hash })
@@ -456,7 +461,7 @@
                             //normalization of URI
                             window.location.hash = '#' + indexhelp[topublish].CommandName
                             $(window).trigger('hashchange')
-                            return
+                            return;
                         }
                     }
                     if (topublish == -1) {
