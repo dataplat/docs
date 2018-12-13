@@ -273,15 +273,18 @@
             function prepare_md(doc_to_render, examples_mode) {
                 rtn = []
                 rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author) {
-                    rtn.push('##### Author: *' + doc_to_render.Author + '*')
+                if (doc_to_render.Author || doc_to_render.Availability) {
+                    rtn.push('|  |  |')
+                    rtn.push('| - | - |')
+                    if (doc_to_render.Author) {
+                        rtn.push('|  **Author**  | ' + doc_to_render.Author + ' |')
+                    }
+                    if (doc_to_render.Availability) {
+                        rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
+                    }
+                    rtn.push('')
                 }
                 rtn.push('\n&nbsp;\n')
-                if (doc_to_render.Availability) {
-                    rtn.push('')
-                    rtn.push('**Availability : ' + doc_to_render.Availability + '**')
-                    rtn.push('')
-                }
                 if (doc_to_render.Alias) {
                     rtn.push('')
                     rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
@@ -386,8 +389,8 @@
                 $('#rendered code').each(function (i, block) {
                     hljs.highlightBlock(block);
                 })
-                var authorcontent = $("#rendered h5[id^='author-']").text()
-                $("#rendered h5[id^='author-']").html(Autolinker.link(authorcontent, {
+                var authorcontent = $("td:contains('Author')").next('td').addClass('dbatools_author').text()
+                $("#rendered .dbatools_author").html(Autolinker.link(authorcontent, {
                     className: 'myLink',
                     mention: 'twitter'
                 })
@@ -407,7 +410,7 @@
                     });
                 }
 
-               
+
                 /* not all code is a block */
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
