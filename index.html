@@ -107,7 +107,7 @@
         }
         /*no need to be elastic for param tables*/
         .table td:first-child {
-            width : 15em;
+            width : 10em;
         }
 
         h5.param {
@@ -277,7 +277,7 @@
                     rtn.push('|  |  |')
                     rtn.push('| - | - |')
                     if (doc_to_render.Author) {
-                        rtn.push('|  **Author**  | ' + doc_to_render.Author + ' |')
+                        rtn.push('|  **Author**  | ' + doc_to_render.Author.replace('|', ',') + ' |')
                     }
                     if (doc_to_render.Availability) {
                         rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
