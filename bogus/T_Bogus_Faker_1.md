@@ -1,0 +1,54 @@
+# Faker(*T*) Class
+ 
+
+
+## Inheritance Hierarchy
+<a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">System.Object</a><br />&nbsp;&nbsp;Bogus.Faker(T)<br />
+**Namespace:**&nbsp;<a href="N_Bogus">Bogus</a><br />**Assembly:**&nbsp;Bogus (in Bogus.dll) Version: 0.0.0-localbuild built on 1/1/2015 12:00:00 AM
+The Faker(T) type exposes the following members.
+
+
+## Constructors
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1__ctor">Faker(T)()</a></td><td>
+Initializes a new instance of the Faker(T) class</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1__ctor_1">Faker(T)(String)</a></td><td>
+Initializes a new instance of the Faker(T) class</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1__ctor_2">Faker(T)(String, IBinder)</a></td><td>
+Initializes a new instance of the Faker(T) class</td></tr></table>&nbsp;
+<a href="#faker(*t*)-class">Back to Top</a>
+
+## Properties
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public property](media/pubproperty.gif "Public property")</td><td><a href="P_Bogus_Faker_1_Locale">Locale</a></td><td /></tr></table>&nbsp;
+<a href="#faker(*t*)-class">Back to Top</a>
+
+## Methods
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_AssertConfigurationIsValid">AssertConfigurationIsValid</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_Clone">Clone</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_CustomInstantiator">CustomInstantiator</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="http://msdn2.microsoft.com/en-us/library/bsc2ak47" target="_blank">Equals</a></td><td>
+Determines whether the specified object is equal to the current object.
+ (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.)</td></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="http://msdn2.microsoft.com/en-us/library/4k87zsw7" target="_blank">Finalize</a></td><td>
+Allows an object to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.
+ (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.)</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_FinishWith">FinishWith</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_Generate_1">Generate(String)</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_Generate">Generate(Int32, String)</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_GenerateForever">GenerateForever</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_GenerateLazy">GenerateLazy</a></td><td /></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="M_Bogus_Faker_1_GetFieldOrPropertyType">GetFieldOrPropertyType</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="http://msdn2.microsoft.com/en-us/library/zdee4b3y" target="_blank">GetHashCode</a></td><td>
+Serves as the default hash function.
+ (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.)</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="http://msdn2.microsoft.com/en-us/library/dfwy45w9" target="_blank">GetType</a></td><td>
+Gets the <a href="http://msdn2.microsoft.com/en-us/library/42892f65" target="_blank">Type</a> of the current instance.
+ (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.)</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_Ignore__1">Ignore(TPropertyOrField)</a></td><td /></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="M_Bogus_Faker_1_MakeValidationException">MakeValidationException</a></td><td /></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="http://msdn2.microsoft.com/en-us/library/57ctke0a" target="_blank">MemberwiseClone</a></td><td>
+Creates a shallow copy of the current <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.
+ (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.)</td></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="M_Bogus_Faker_1_ParseDirtyRulesSets">ParseDirtyRulesSets</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_Populate">Populate</a></td><td /></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="M_Bogus_Faker_1_PopulateInternal">PopulateInternal</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1">RuleFor(TProperty)(Expression(Func(T, TProperty)))</a></td><td> **Obsolete. **</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_1">RuleFor(TProperty)(Expression(Func(T, TProperty)), Func(TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_2">RuleFor(TProperty)(Expression(Func(T, TProperty)), Func(Faker, TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_3">RuleFor(TProperty)(Expression(Func(T, TProperty)), Func(Faker, T, TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_4">RuleFor(TProperty)(Expression(Func(T, TProperty)), TProperty)</a></td><td /></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_5">RuleFor(TProperty)(String, Func(Faker, TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleForType__1">RuleForType(TType)</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_Rules">Rules</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleSet">RuleSet</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_StrictMode">StrictMode</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="http://msdn2.microsoft.com/en-us/library/7bxwbwt2" target="_blank">ToString</a></td><td>
+Returns a string that represents the current object.
+ (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/e5kfa45b" target="_blank">Object</a>.)</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_UseSeed">UseSeed</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_Validate">Validate</a></td><td /></tr></table>&nbsp;
+<a href="#faker(*t*)-class">Back to Top</a>
+
+## Operators
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public operator](media/puboperator.gif "Public operator")![Static member](media/static.gif "Static member")</td><td><a href="M_Bogus_Faker_1_op_Implicit">Implicit(Faker(T) to T)</a></td><td /></tr></table>&nbsp;
+<a href="#faker(*t*)-class">Back to Top</a>
+
+## Fields
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_Actions">Actions</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_binder">binder</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_CreateActions">CreateActions</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_currentRuleSet">currentRuleSet</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")![Static member](media/static.gif "Static member")</td><td><a href="F_Bogus_Faker_1_Default">Default</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_FakerHub">FakerHub</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_FinalizeActions">FinalizeActions</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_IsValid">IsValid</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_localSeed">localSeed</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_SetterCache">SetterCache</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_StrictModes">StrictModes</a></td><td /></tr><tr><td>![Protected field](media/protfield.gif "Protected field")</td><td><a href="F_Bogus_Faker_1_TypeProperties">TypeProperties</a></td><td /></tr></table>&nbsp;
+<a href="#faker(*t*)-class">Back to Top</a>
+
+## Extension Methods
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public Extension Method](media/pubextension.gif "Public Extension Method")</td><td><a href="M_Bogus_Extensions_ExtensionsForFakerT_GenerateBetween__1">GenerateBetween(T)</a></td><td> (Defined by <a href="T_Bogus_Extensions_ExtensionsForFakerT">ExtensionsForFakerT</a>.)</td></tr><tr><td>![Public Extension Method](media/pubextension.gif "Public Extension Method")</td><td><a href="M_Bogus_Extensions_ExtensionsForFakerT_OrNull">OrNull</a></td><td> (Defined by <a href="T_Bogus_Extensions_ExtensionsForFakerT">ExtensionsForFakerT</a>.)</td></tr></table>&nbsp;
+<a href="#faker(*t*)-class">Back to Top</a>
+
+## See Also
+
+
+#### Reference
+<a href="N_Bogus">Bogus Namespace</a><br />
