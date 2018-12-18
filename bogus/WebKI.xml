@@ -1,0 +1,1729 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+  <HelpKINode Title="Abbreviation method" Url="html/M_Bogus_DataSets_Hacker_Abbreviation.htm" />
+  <HelpKINode Title="Abstract method" Url="html/M_Bogus_DataSets_Images_Abstract.htm" />
+  <HelpKINode Title="Account method" Url="html/M_Bogus_DataSets_Finance_Account.htm" />
+  <HelpKINode Title="AccountName method" Url="html/M_Bogus_DataSets_Finance_AccountName.htm" />
+  <HelpKINode Title="Action property" Url="html/P_Bogus_Rule_1_Action.htm" />
+  <HelpKINode Title="Actions field" Url="html/F_Bogus_Faker_1_Actions.htm" />
+  <HelpKINode Title="Add method">
+    <HelpKINode Title="BArray.Add Method " Url="html/Overload_Bogus_Bson_BArray_Add.htm" />
+    <HelpKINode Title="BObject.Add Method " Url="html/Overload_Bogus_Bson_BObject_Add.htm" />
+    <HelpKINode Title="BValue.Add Method " Url="html/Overload_Bogus_Bson_BValue_Add.htm" />
+    <HelpKINode Title="MultiDictionary(Key, Key2, Value).Add Method " Url="html/Overload_Bogus_MultiDictionary_3_Add.htm" />
+    <HelpKINode Title="MultiSetDictionary(Key, Value).Add Method " Url="html/Overload_Bogus_MultiSetDictionary_2_Add.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Address class">
+    <HelpKINode Title="Address Class" Url="html/T_Bogus_DataSets_Address.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Address__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Address.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Address.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Address.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Address field" Url="html/F_Bogus_Person_Address.htm" />
+  <HelpKINode Title="Address property" Url="html/P_Bogus_Faker_Address.htm" />
+  <HelpKINode Title="Address.Address constructor" Url="html/M_Bogus_DataSets_Address__ctor.htm" />
+  <HelpKINode Title="Address.BuildingNumber method" Url="html/M_Bogus_DataSets_Address_BuildingNumber.htm" />
+  <HelpKINode Title="Address.CardinalDirection method" Url="html/M_Bogus_DataSets_Address_CardinalDirection.htm" />
+  <HelpKINode Title="Address.City method" Url="html/M_Bogus_DataSets_Address_City.htm" />
+  <HelpKINode Title="Address.CityPrefix method" Url="html/M_Bogus_DataSets_Address_CityPrefix.htm" />
+  <HelpKINode Title="Address.CitySuffix method" Url="html/M_Bogus_DataSets_Address_CitySuffix.htm" />
+  <HelpKINode Title="Address.Country method" Url="html/M_Bogus_DataSets_Address_Country.htm" />
+  <HelpKINode Title="Address.CountryCode method" Url="html/M_Bogus_DataSets_Address_CountryCode.htm" />
+  <HelpKINode Title="Address.County method" Url="html/M_Bogus_DataSets_Address_County.htm" />
+  <HelpKINode Title="Address.Direction method" Url="html/M_Bogus_DataSets_Address_Direction.htm" />
+  <HelpKINode Title="Address.FullAddress method" Url="html/M_Bogus_DataSets_Address_FullAddress.htm" />
+  <HelpKINode Title="Address.Latitude method" Url="html/M_Bogus_DataSets_Address_Latitude.htm" />
+  <HelpKINode Title="Address.Longitude method" Url="html/M_Bogus_DataSets_Address_Longitude.htm" />
+  <HelpKINode Title="Address.Name field" Url="html/F_Bogus_DataSets_Address_Name.htm" />
+  <HelpKINode Title="Address.OrdinalDirection method" Url="html/M_Bogus_DataSets_Address_OrdinalDirection.htm" />
+  <HelpKINode Title="Address.SecondaryAddress method" Url="html/M_Bogus_DataSets_Address_SecondaryAddress.htm" />
+  <HelpKINode Title="Address.State method" Url="html/M_Bogus_DataSets_Address_State.htm" />
+  <HelpKINode Title="Address.StateAbbr method" Url="html/M_Bogus_DataSets_Address_StateAbbr.htm" />
+  <HelpKINode Title="Address.StreetAddress method" Url="html/M_Bogus_DataSets_Address_StreetAddress.htm" />
+  <HelpKINode Title="Address.StreetName method" Url="html/M_Bogus_DataSets_Address_StreetName.htm" />
+  <HelpKINode Title="Address.StreetSuffix method" Url="html/M_Bogus_DataSets_Address_StreetSuffix.htm" />
+  <HelpKINode Title="Address.ZipCode method" Url="html/M_Bogus_DataSets_Address_ZipCode.htm" />
+  <HelpKINode Title="Adjective method" Url="html/M_Bogus_DataSets_Hacker_Adjective.htm" />
+  <HelpKINode Title="All field" Url="html/F_Bogus_DataSets_CardType_All.htm" />
+  <HelpKINode Title="Alpha2 enumeration member" Url="html/T_Bogus_DataSets_Iso3166Format.htm" />
+  <HelpKINode Title="Alpha3 enumeration member" Url="html/T_Bogus_DataSets_Iso3166Format.htm" />
+  <HelpKINode Title="AlphaNumeric method" Url="html/M_Bogus_Randomizer_AlphaNumeric.htm" />
+  <HelpKINode Title="AmericanExpress field" Url="html/F_Bogus_DataSets_CardType_AmericanExpress.htm" />
+  <HelpKINode Title="Amount method" Url="html/M_Bogus_DataSets_Finance_Amount.htm" />
+  <HelpKINode Title="AndroidId method" Url="html/M_Bogus_DataSets_System_AndroidId.htm" />
+  <HelpKINode Title="Animals method" Url="html/M_Bogus_DataSets_Images_Animals.htm" />
+  <HelpKINode Title="ApplePushToken method" Url="html/M_Bogus_DataSets_System_ApplePushToken.htm" />
+  <HelpKINode Title="Array enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="ArrayElement method" Url="html/Overload_Bogus_Randomizer_ArrayElement.htm" />
+  <HelpKINode Title="ArrayElements(Of T) method" Url="html/M_Bogus_Randomizer_ArrayElements__1.htm" />
+  <HelpKINode Title="ArrayElements&lt;T&gt; method" Url="html/M_Bogus_Randomizer_ArrayElements__1.htm" />
+  <HelpKINode Title="AssertConfigurationIsValid method" Url="html/M_Bogus_Faker_1_AssertConfigurationIsValid.htm" />
+  <HelpKINode Title="Avatar field" Url="html/F_Bogus_Person_Avatar.htm" />
+  <HelpKINode Title="Avatar method" Url="html/M_Bogus_DataSets_Internet_Avatar.htm" />
+  <HelpKINode Title="BArray class">
+    <HelpKINode Title="BArray Class" Url="html/T_Bogus_Bson_BArray.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Bson_BArray__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Bson_BArray.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Bson_BArray.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BArray.Add method" Url="html/Overload_Bogus_Bson_BArray_Add.htm" />
+  <HelpKINode Title="BArray.BArray constructor" Url="html/M_Bogus_Bson_BArray__ctor.htm" />
+  <HelpKINode Title="BArray.Clear method" Url="html/M_Bogus_Bson_BArray_Clear.htm" />
+  <HelpKINode Title="BArray.Contains method" Url="html/M_Bogus_Bson_BArray_Contains.htm" />
+  <HelpKINode Title="BArray.Count property" Url="html/P_Bogus_Bson_BArray_Count.htm" />
+  <HelpKINode Title="BArray.HasValues property" Url="html/P_Bogus_Bson_BArray_HasValues.htm" />
+  <HelpKINode Title="BArray.IndexOf method" Url="html/M_Bogus_Bson_BArray_IndexOf.htm" />
+  <HelpKINode Title="BArray.Insert method" Url="html/M_Bogus_Bson_BArray_Insert.htm" />
+  <HelpKINode Title="BArray.Item property" Url="html/Overload_Bogus_Bson_BArray_Item.htm" />
+  <HelpKINode Title="BArray.Remove method" Url="html/M_Bogus_Bson_BArray_Remove.htm" />
+  <HelpKINode Title="BArray.RemoveAt method" Url="html/M_Bogus_Bson_BArray_RemoveAt.htm" />
+  <HelpKINode Title="Between method" Url="html/M_Bogus_DataSets_Date_Between.htm" />
+  <HelpKINode Title="BetweenOffset method" Url="html/M_Bogus_DataSets_Date_BetweenOffset.htm" />
+  <HelpKINode Title="Bic method" Url="html/M_Bogus_DataSets_Finance_Bic.htm" />
+  <HelpKINode Title="Binary enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="BinaryValue property" Url="html/P_Bogus_Bson_BValue_BinaryValue.htm" />
+  <HelpKINode Title="Binder class">
+    <HelpKINode Title="Binder Class" Url="html/T_Bogus_Binder.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_Bogus_Binder__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Binder.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Binder.htm" />
+  </HelpKINode>
+  <HelpKINode Title="binder field" Url="html/F_Bogus_Faker_1_binder.htm" />
+  <HelpKINode Title="Binder property" Url="html/P_Bogus_IFakerTInternal_Binder.htm" />
+  <HelpKINode Title="Binder.Binder constructor" Url="html/Overload_Bogus_Binder__ctor.htm" />
+  <HelpKINode Title="Binder.BindingFlags field" Url="html/F_Bogus_Binder_BindingFlags.htm" />
+  <HelpKINode Title="Binder.GetMembers method" Url="html/M_Bogus_Binder_GetMembers.htm" />
+  <HelpKINode Title="BindingFlags field" Url="html/F_Bogus_Binder_BindingFlags.htm" />
+  <HelpKINode Title="BitcoinAddress method" Url="html/M_Bogus_DataSets_Finance_BitcoinAddress.htm" />
+  <HelpKINode Title="BlackBerryPin method" Url="html/M_Bogus_DataSets_System_BlackBerryPin.htm" />
+  <HelpKINode Title="BObject class">
+    <HelpKINode Title="BObject Class" Url="html/T_Bogus_Bson_BObject.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Bson_BObject__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Bson_BObject.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Bson_BObject.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BObject.Add method" Url="html/Overload_Bogus_Bson_BObject_Add.htm" />
+  <HelpKINode Title="BObject.BObject constructor" Url="html/M_Bogus_Bson_BObject__ctor.htm" />
+  <HelpKINode Title="BObject.Clear method" Url="html/M_Bogus_Bson_BObject_Clear.htm" />
+  <HelpKINode Title="BObject.Contains method" Url="html/M_Bogus_Bson_BObject_Contains.htm" />
+  <HelpKINode Title="BObject.ContainsKey method" Url="html/M_Bogus_Bson_BObject_ContainsKey.htm" />
+  <HelpKINode Title="BObject.Count property" Url="html/P_Bogus_Bson_BObject_Count.htm" />
+  <HelpKINode Title="BObject.Item property" Url="html/Overload_Bogus_Bson_BObject_Item.htm" />
+  <HelpKINode Title="BObject.Keys property" Url="html/P_Bogus_Bson_BObject_Keys.htm" />
+  <HelpKINode Title="BObject.Remove method" Url="html/M_Bogus_Bson_BObject_Remove.htm" />
+  <HelpKINode Title="BObject.TryGetValue method" Url="html/M_Bogus_Bson_BObject_TryGetValue.htm" />
+  <HelpKINode Title="BObject.Values property" Url="html/P_Bogus_Bson_BObject_Values.htm" />
+  <HelpKINode Title="Bogus namespace" Url="html/N_Bogus.htm" />
+  <HelpKINode Title="Bogus.Binder class" Url="html/T_Bogus_Binder.htm" />
+  <HelpKINode Title="Bogus.BogusException class" Url="html/T_Bogus_BogusException.htm" />
+  <HelpKINode Title="Bogus.Bson namespace" Url="html/N_Bogus_Bson.htm" />
+  <HelpKINode Title="Bogus.Bson.BArray class" Url="html/T_Bogus_Bson_BArray.htm" />
+  <HelpKINode Title="Bogus.Bson.BObject class" Url="html/T_Bogus_Bson_BObject.htm" />
+  <HelpKINode Title="Bogus.Bson.Bson class" Url="html/T_Bogus_Bson_Bson.htm" />
+  <HelpKINode Title="Bogus.Bson.BValue class" Url="html/T_Bogus_Bson_BValue.htm" />
+  <HelpKINode Title="Bogus.Bson.BValueType enumeration" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="Bogus.Chars class" Url="html/T_Bogus_Chars.htm" />
+  <HelpKINode Title="Bogus.Database class" Url="html/T_Bogus_Database.htm" />
+  <HelpKINode Title="Bogus.DataCategoryAttribute class" Url="html/T_Bogus_DataCategoryAttribute.htm" />
+  <HelpKINode Title="Bogus.DataSet class" Url="html/T_Bogus_DataSet.htm" />
+  <HelpKINode Title="Bogus.DataSets namespace" Url="html/N_Bogus_DataSets.htm" />
+  <HelpKINode Title="Bogus.DataSets.Address class" Url="html/T_Bogus_DataSets_Address.htm" />
+  <HelpKINode Title="Bogus.DataSets.CardType class" Url="html/T_Bogus_DataSets_CardType.htm" />
+  <HelpKINode Title="Bogus.DataSets.ColorFormat enumeration" Url="html/T_Bogus_DataSets_ColorFormat.htm" />
+  <HelpKINode Title="Bogus.DataSets.Commerce class" Url="html/T_Bogus_DataSets_Commerce.htm" />
+  <HelpKINode Title="Bogus.DataSets.Company class" Url="html/T_Bogus_DataSets_Company.htm" />
+  <HelpKINode Title="Bogus.DataSets.Currency class" Url="html/T_Bogus_DataSets_Currency.htm" />
+  <HelpKINode Title="Bogus.DataSets.Database class" Url="html/T_Bogus_DataSets_Database.htm" />
+  <HelpKINode Title="Bogus.DataSets.Date class" Url="html/T_Bogus_DataSets_Date.htm" />
+  <HelpKINode Title="Bogus.DataSets.Finance class" Url="html/T_Bogus_DataSets_Finance.htm" />
+  <HelpKINode Title="Bogus.DataSets.Hacker class" Url="html/T_Bogus_DataSets_Hacker.htm" />
+  <HelpKINode Title="Bogus.DataSets.Images class" Url="html/T_Bogus_DataSets_Images.htm" />
+  <HelpKINode Title="Bogus.DataSets.Internet class" Url="html/T_Bogus_DataSets_Internet.htm" />
+  <HelpKINode Title="Bogus.DataSets.Iso3166Format enumeration" Url="html/T_Bogus_DataSets_Iso3166Format.htm" />
+  <HelpKINode Title="Bogus.DataSets.Lorem class" Url="html/T_Bogus_DataSets_Lorem.htm" />
+  <HelpKINode Title="Bogus.DataSets.Name class" Url="html/T_Bogus_DataSets_Name.htm" />
+  <HelpKINode Title="Bogus.DataSets.Name.Gender enumeration" Url="html/T_Bogus_DataSets_Name_Gender.htm" />
+  <HelpKINode Title="Bogus.DataSets.PhoneNumbers class" Url="html/T_Bogus_DataSets_PhoneNumbers.htm" />
+  <HelpKINode Title="Bogus.DataSets.Rant class" Url="html/T_Bogus_DataSets_Rant.htm" />
+  <HelpKINode Title="Bogus.DataSets.System class" Url="html/T_Bogus_DataSets_System.htm" />
+  <HelpKINode Title="Bogus.Distributions.Gaussian namespace" Url="html/N_Bogus_Distributions_Gaussian.htm" />
+  <HelpKINode Title="Bogus.Distributions.Gaussian.ExtensionsForRandomizer class" Url="html/T_Bogus_Distributions_Gaussian_ExtensionsForRandomizer.htm" />
+  <HelpKINode Title="Bogus.Extensions namespace" Url="html/N_Bogus_Extensions.htm" />
+  <HelpKINode Title="Bogus.Extensions.Brazil namespace" Url="html/N_Bogus_Extensions_Brazil.htm" />
+  <HelpKINode Title="Bogus.Extensions.Brazil.ExtensionsForBrazil class" Url="html/T_Bogus_Extensions_Brazil_ExtensionsForBrazil.htm" />
+  <HelpKINode Title="Bogus.Extensions.Canada namespace" Url="html/N_Bogus_Extensions_Canada.htm" />
+  <HelpKINode Title="Bogus.Extensions.Canada.ExtensionsForCanada class" Url="html/T_Bogus_Extensions_Canada_ExtensionsForCanada.htm" />
+  <HelpKINode Title="Bogus.Extensions.Denmark namespace" Url="html/N_Bogus_Extensions_Denmark.htm" />
+  <HelpKINode Title="Bogus.Extensions.Denmark.ExtensionsForDenmark class" Url="html/T_Bogus_Extensions_Denmark_ExtensionsForDenmark.htm" />
+  <HelpKINode Title="Bogus.Extensions.ExtensionsForCultureInfo class" Url="html/T_Bogus_Extensions_ExtensionsForCultureInfo.htm" />
+  <HelpKINode Title="Bogus.Extensions.ExtensionsForFakerT class" Url="html/T_Bogus_Extensions_ExtensionsForFakerT.htm" />
+  <HelpKINode Title="Bogus.Extensions.ExtensionsForPropertyInfo class" Url="html/T_Bogus_Extensions_ExtensionsForPropertyInfo.htm" />
+  <HelpKINode Title="Bogus.Extensions.ExtensionsForString class" Url="html/T_Bogus_Extensions_ExtensionsForString.htm" />
+  <HelpKINode Title="Bogus.Extensions.Extras namespace" Url="html/N_Bogus_Extensions_Extras.htm" />
+  <HelpKINode Title="Bogus.Extensions.Extras.FinanceExtensions class" Url="html/T_Bogus_Extensions_Extras_FinanceExtensions.htm" />
+  <HelpKINode Title="Bogus.Extensions.Finland namespace" Url="html/N_Bogus_Extensions_Finland.htm" />
+  <HelpKINode Title="Bogus.Extensions.Finland.ExtensionsForFinland class" Url="html/T_Bogus_Extensions_Finland_ExtensionsForFinland.htm" />
+  <HelpKINode Title="Bogus.Extensions.Italy namespace" Url="html/N_Bogus_Extensions_Italy.htm" />
+  <HelpKINode Title="Bogus.Extensions.Italy.ExtensionsForItaly class" Url="html/T_Bogus_Extensions_Italy_ExtensionsForItaly.htm" />
+  <HelpKINode Title="Bogus.Extensions.Portugal namespace" Url="html/N_Bogus_Extensions_Portugal.htm" />
+  <HelpKINode Title="Bogus.Extensions.Portugal.ExtensionsForPortugal class" Url="html/T_Bogus_Extensions_Portugal_ExtensionsForPortugal.htm" />
+  <HelpKINode Title="Bogus.Extensions.UnitedKingdom namespace" Url="html/N_Bogus_Extensions_UnitedKingdom.htm" />
+  <HelpKINode Title="Bogus.Extensions.UnitedKingdom.ExtensionsForUnitedKingdom class" Url="html/T_Bogus_Extensions_UnitedKingdom_ExtensionsForUnitedKingdom.htm" />
+  <HelpKINode Title="Bogus.Extensions.UnitedStates namespace" Url="html/N_Bogus_Extensions_UnitedStates.htm" />
+  <HelpKINode Title="Bogus.Extensions.UnitedStates.ExtensionsForUnitedStates class" Url="html/T_Bogus_Extensions_UnitedStates_ExtensionsForUnitedStates.htm" />
+  <HelpKINode Title="Bogus.Faker class" Url="html/T_Bogus_Faker.htm" />
+  <HelpKINode Title="Bogus.Faker(Of T) class" Url="html/T_Bogus_Faker_1.htm" />
+  <HelpKINode Title="Bogus.Faker&lt;T&gt; class" Url="html/T_Bogus_Faker_1.htm" />
+  <HelpKINode Title="Bogus.FinalizeAction(Of T) class" Url="html/T_Bogus_FinalizeAction_1.htm" />
+  <HelpKINode Title="Bogus.FinalizeAction&lt;T&gt; class" Url="html/T_Bogus_FinalizeAction_1.htm" />
+  <HelpKINode Title="Bogus.Hashids class" Url="html/T_Bogus_Hashids.htm" />
+  <HelpKINode Title="Bogus.IBinder interface" Url="html/T_Bogus_IBinder.htm" />
+  <HelpKINode Title="Bogus.IFakerTInternal interface" Url="html/T_Bogus_IFakerTInternal.htm" />
+  <HelpKINode Title="Bogus.IHasContext interface" Url="html/T_Bogus_IHasContext.htm" />
+  <HelpKINode Title="Bogus.IHashids interface" Url="html/T_Bogus_IHashids.htm" />
+  <HelpKINode Title="Bogus.IHasRandomizer interface" Url="html/T_Bogus_IHasRandomizer.htm" />
+  <HelpKINode Title="Bogus.ILocaleAware interface" Url="html/T_Bogus_ILocaleAware.htm" />
+  <HelpKINode Title="Bogus.IRuleSet(Of T) interface" Url="html/T_Bogus_IRuleSet_1.htm" />
+  <HelpKINode Title="Bogus.IRuleSet&lt;T&gt; interface" Url="html/T_Bogus_IRuleSet_1.htm" />
+  <HelpKINode Title="Bogus.MultiDictionary(Of Key, Key2, Value) class" Url="html/T_Bogus_MultiDictionary_3.htm" />
+  <HelpKINode Title="Bogus.MultiDictionary&lt;Key, Key2, Value&gt; class" Url="html/T_Bogus_MultiDictionary_3.htm" />
+  <HelpKINode Title="Bogus.MultiSetDictionary(Of Key, Value) class" Url="html/T_Bogus_MultiSetDictionary_2.htm" />
+  <HelpKINode Title="Bogus.MultiSetDictionary&lt;Key, Value&gt; class" Url="html/T_Bogus_MultiSetDictionary_2.htm" />
+  <HelpKINode Title="Bogus.MustashMethod class" Url="html/T_Bogus_MustashMethod.htm" />
+  <HelpKINode Title="Bogus.Person class" Url="html/T_Bogus_Person.htm" />
+  <HelpKINode Title="Bogus.Person.CardAddress class" Url="html/T_Bogus_Person_CardAddress.htm" />
+  <HelpKINode Title="Bogus.Person.CardAddress.CardGeo class" Url="html/T_Bogus_Person_CardAddress_CardGeo.htm" />
+  <HelpKINode Title="Bogus.Person.CardCompany class" Url="html/T_Bogus_Person_CardCompany.htm" />
+  <HelpKINode Title="Bogus.Platform namespace" Url="html/N_Bogus_Platform.htm" />
+  <HelpKINode Title="Bogus.Platform.ExtensionsForType class" Url="html/T_Bogus_Platform_ExtensionsForType.htm" />
+  <HelpKINode Title="Bogus.PopulateAction(Of T) class" Url="html/T_Bogus_PopulateAction_1.htm" />
+  <HelpKINode Title="Bogus.PopulateAction&lt;T&gt; class" Url="html/T_Bogus_PopulateAction_1.htm" />
+  <HelpKINode Title="Bogus.Premium namespace" Url="html/N_Bogus_Premium.htm" />
+  <HelpKINode Title="Bogus.Premium.ContextHelper class" Url="html/T_Bogus_Premium_ContextHelper.htm" />
+  <HelpKINode Title="Bogus.Premium.License class" Url="html/T_Bogus_Premium_License.htm" />
+  <HelpKINode Title="Bogus.Premium.LicenseVerifier class" Url="html/T_Bogus_Premium_LicenseVerifier.htm" />
+  <HelpKINode Title="Bogus.Premium.PremiumDataSet class" Url="html/T_Bogus_Premium_PremiumDataSet.htm" />
+  <HelpKINode Title="Bogus.Randomizer class" Url="html/T_Bogus_Randomizer.htm" />
+  <HelpKINode Title="Bogus.ResourceHelper class" Url="html/T_Bogus_ResourceHelper.htm" />
+  <HelpKINode Title="Bogus.Rule(Of T) class" Url="html/T_Bogus_Rule_1.htm" />
+  <HelpKINode Title="Bogus.Rule&lt;T&gt; class" Url="html/T_Bogus_Rule_1.htm" />
+  <HelpKINode Title="Bogus.SeedNotifier class" Url="html/T_Bogus_SeedNotifier.htm" />
+  <HelpKINode Title="Bogus.Tokenizer class" Url="html/T_Bogus_Tokenizer.htm" />
+  <HelpKINode Title="Bogus.Utils class" Url="html/T_Bogus_Utils.htm" />
+  <HelpKINode Title="Bogus.ValidationException class" Url="html/T_Bogus_ValidationException.htm" />
+  <HelpKINode Title="Bogus.ValidationResult class" Url="html/T_Bogus_ValidationResult.htm" />
+  <HelpKINode Title="Bogus.WordFunctions class" Url="html/T_Bogus_WordFunctions.htm" />
+  <HelpKINode Title="BogusException class">
+    <HelpKINode Title="BogusException Class" Url="html/T_Bogus_BogusException.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_Bogus_BogusException__ctor.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_Bogus_BogusException.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_BogusException.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_BogusException.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BogusException.BogusException constructor" Url="html/Overload_Bogus_BogusException__ctor.htm" />
+  <HelpKINode Title="Bool method" Url="html/Overload_Bogus_Randomizer_Bool.htm" />
+  <HelpKINode Title="Boolean enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="BoolValue property" Url="html/P_Bogus_Bson_BValue_BoolValue.htm" />
+  <HelpKINode Title="Bs field" Url="html/F_Bogus_Person_CardCompany_Bs.htm" />
+  <HelpKINode Title="Bs method" Url="html/M_Bogus_DataSets_Company_Bs.htm" />
+  <HelpKINode Title="BsAdjective method" Url="html/M_Bogus_DataSets_Company_BsAdjective.htm" />
+  <HelpKINode Title="BsBuzz method" Url="html/M_Bogus_DataSets_Company_BsBuzz.htm" />
+  <HelpKINode Title="BsNoun method" Url="html/M_Bogus_DataSets_Company_BsNoun.htm" />
+  <HelpKINode Title="Bson class">
+    <HelpKINode Title="Bson Class" Url="html/T_Bogus_Bson_Bson.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Bson_Bson.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Bson.Load method" Url="html/M_Bogus_Bson_Bson_Load.htm" />
+  <HelpKINode Title="Bson.Serialize method" Url="html/M_Bogus_Bson_Bson_Serialize.htm" />
+  <HelpKINode Title="BuildingNumber method" Url="html/M_Bogus_DataSets_Address_BuildingNumber.htm" />
+  <HelpKINode Title="Business method" Url="html/M_Bogus_DataSets_Images_Business.htm" />
+  <HelpKINode Title="BValue class">
+    <HelpKINode Title="BValue Class" Url="html/T_Bogus_Bson_BValue.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_Bogus_Bson_BValue__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Bson_BValue.htm" />
+    <HelpKINode Title="operators and type conversions" Url="html/Operators_T_Bogus_Bson_BValue.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Bson_BValue.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BValue to Byte() conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_3.htm" />
+  <HelpKINode Title="BValue to Byte[] conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_3.htm" />
+  <HelpKINode Title="BValue to DateTime conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_4.htm" />
+  <HelpKINode Title="BValue to Double conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit.htm" />
+  <HelpKINode Title="BValue to Int32 conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_1.htm" />
+  <HelpKINode Title="BValue to Int64 conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_2.htm" />
+  <HelpKINode Title="BValue to String conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_5.htm" />
+  <HelpKINode Title="BValue.Add method" Url="html/Overload_Bogus_Bson_BValue_Add.htm" />
+  <HelpKINode Title="BValue.BinaryValue property" Url="html/P_Bogus_Bson_BValue_BinaryValue.htm" />
+  <HelpKINode Title="BValue.BoolValue property" Url="html/P_Bogus_Bson_BValue_BoolValue.htm" />
+  <HelpKINode Title="BValue.BValue constructor" Url="html/Overload_Bogus_Bson_BValue__ctor.htm" />
+  <HelpKINode Title="BValue.Clear method" Url="html/M_Bogus_Bson_BValue_Clear.htm" />
+  <HelpKINode Title="BValue.Contains method" Url="html/M_Bogus_Bson_BValue_Contains.htm" />
+  <HelpKINode Title="BValue.ContainsKey method" Url="html/M_Bogus_Bson_BValue_ContainsKey.htm" />
+  <HelpKINode Title="BValue.DateTimeValue property" Url="html/P_Bogus_Bson_BValue_DateTimeValue.htm" />
+  <HelpKINode Title="BValue.DoubleValue property" Url="html/P_Bogus_Bson_BValue_DoubleValue.htm" />
+  <HelpKINode Title="BValue.Equality operator" Url="html/M_Bogus_Bson_BValue_op_Equality.htm" />
+  <HelpKINode Title="BValue.Inequality operator" Url="html/M_Bogus_Bson_BValue_op_Inequality.htm" />
+  <HelpKINode Title="BValue.Int32Value property" Url="html/P_Bogus_Bson_BValue_Int32Value.htm" />
+  <HelpKINode Title="BValue.Int64Value property" Url="html/P_Bogus_Bson_BValue_Int64Value.htm" />
+  <HelpKINode Title="BValue.IsNone property" Url="html/P_Bogus_Bson_BValue_IsNone.htm" />
+  <HelpKINode Title="BValue.Item property" Url="html/Overload_Bogus_Bson_BValue_Item.htm" />
+  <HelpKINode Title="BValue.StringValue property" Url="html/P_Bogus_Bson_BValue_StringValue.htm" />
+  <HelpKINode Title="BValue.ValueType property" Url="html/P_Bogus_Bson_BValue_ValueType.htm" />
+  <HelpKINode Title="BValueType enumeration" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="Byte method" Url="html/M_Bogus_Randomizer_Byte.htm" />
+  <HelpKINode Title="Byte() to BValue conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_6.htm" />
+  <HelpKINode Title="Bytes method" Url="html/M_Bogus_Randomizer_Bytes.htm" />
+  <HelpKINode Title="Byte[] to BValue conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_6.htm" />
+  <HelpKINode Title="CardAddress class">
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Person_CardAddress.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Person_CardAddress.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CardCompany class">
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Person_CardCompany.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Person_CardCompany.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CardGeo class">
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Person_CardAddress_CardGeo.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Person_CardAddress_CardGeo.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CardinalDirection method" Url="html/M_Bogus_DataSets_Address_CardinalDirection.htm" />
+  <HelpKINode Title="CardType class">
+    <HelpKINode Title="CardType Class" Url="html/T_Bogus_DataSets_CardType.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_CardType.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_CardType.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CardType.All field" Url="html/F_Bogus_DataSets_CardType_All.htm" />
+  <HelpKINode Title="CardType.AmericanExpress field" Url="html/F_Bogus_DataSets_CardType_AmericanExpress.htm" />
+  <HelpKINode Title="CardType.DinersClub field" Url="html/F_Bogus_DataSets_CardType_DinersClub.htm" />
+  <HelpKINode Title="CardType.Discover field" Url="html/F_Bogus_DataSets_CardType_Discover.htm" />
+  <HelpKINode Title="CardType.Instapayment field" Url="html/F_Bogus_DataSets_CardType_Instapayment.htm" />
+  <HelpKINode Title="CardType.Jcb field" Url="html/F_Bogus_DataSets_CardType_Jcb.htm" />
+  <HelpKINode Title="CardType.Laser field" Url="html/F_Bogus_DataSets_CardType_Laser.htm" />
+  <HelpKINode Title="CardType.Maestro field" Url="html/F_Bogus_DataSets_CardType_Maestro.htm" />
+  <HelpKINode Title="CardType.Mastercard field" Url="html/F_Bogus_DataSets_CardType_Mastercard.htm" />
+  <HelpKINode Title="CardType.Solo field" Url="html/F_Bogus_DataSets_CardType_Solo.htm" />
+  <HelpKINode Title="CardType.Switch field" Url="html/F_Bogus_DataSets_CardType_Switch.htm" />
+  <HelpKINode Title="CardType.Visa field" Url="html/F_Bogus_DataSets_CardType_Visa.htm" />
+  <HelpKINode Title="CatchPhrase field" Url="html/F_Bogus_Person_CardCompany_CatchPhrase.htm" />
+  <HelpKINode Title="CatchPhrase method" Url="html/M_Bogus_DataSets_Company_CatchPhrase.htm" />
+  <HelpKINode Title="CatchPhraseAdjective method" Url="html/M_Bogus_DataSets_Company_CatchPhraseAdjective.htm" />
+  <HelpKINode Title="CatchPhraseDescriptor method" Url="html/M_Bogus_DataSets_Company_CatchPhraseDescriptor.htm" />
+  <HelpKINode Title="CatchPhraseNoun method" Url="html/M_Bogus_DataSets_Company_CatchPhraseNoun.htm" />
+  <HelpKINode Title="Categories method" Url="html/M_Bogus_DataSets_Commerce_Categories.htm" />
+  <HelpKINode Title="Category property" Url="html/P_Bogus_DataSet_Category.htm" />
+  <HelpKINode Title="Cats method" Url="html/M_Bogus_DataSets_Images_Cats.htm" />
+  <HelpKINode Title="Char method" Url="html/M_Bogus_Randomizer_Char.htm" />
+  <HelpKINode Title="Chars class">
+    <HelpKINode Title="Chars Class" Url="html/T_Bogus_Chars.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Chars.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Chars method" Url="html/M_Bogus_Randomizer_Chars.htm" />
+  <HelpKINode Title="Chars.HexLowerCase field" Url="html/F_Bogus_Chars_HexLowerCase.htm" />
+  <HelpKINode Title="Chars.HexUpperCase field" Url="html/F_Bogus_Chars_HexUpperCase.htm" />
+  <HelpKINode Title="Chars.LowerCase field" Url="html/F_Bogus_Chars_LowerCase.htm" />
+  <HelpKINode Title="Chars.Numbers field" Url="html/F_Bogus_Chars_Numbers.htm" />
+  <HelpKINode Title="Chars.UpperCase field" Url="html/F_Bogus_Chars_UpperCase.htm" />
+  <HelpKINode Title="CheckLicense method" Url="html/M_Bogus_Premium_PremiumDataSet_CheckLicense.htm" />
+  <HelpKINode Title="City field" Url="html/F_Bogus_Person_CardAddress_City.htm" />
+  <HelpKINode Title="City method">
+    <HelpKINode Title="Address.City Method " Url="html/M_Bogus_DataSets_Address_City.htm" />
+    <HelpKINode Title="Images.City Method " Url="html/M_Bogus_DataSets_Images_City.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CityPrefix method" Url="html/M_Bogus_DataSets_Address_CityPrefix.htm" />
+  <HelpKINode Title="CitySuffix method" Url="html/M_Bogus_DataSets_Address_CitySuffix.htm" />
+  <HelpKINode Title="ClampLength method" Url="html/M_Bogus_Extensions_ExtensionsForString_ClampLength.htm" />
+  <HelpKINode Title="ClampString method" Url="html/M_Bogus_Randomizer_ClampString.htm" />
+  <HelpKINode Title="Clear method">
+    <HelpKINode Title="BArray.Clear Method " Url="html/M_Bogus_Bson_BArray_Clear.htm" />
+    <HelpKINode Title="BObject.Clear Method " Url="html/M_Bogus_Bson_BObject_Clear.htm" />
+    <HelpKINode Title="BValue.Clear Method " Url="html/M_Bogus_Bson_BValue_Clear.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Clone method" Url="html/M_Bogus_Faker_1_Clone.htm" />
+  <HelpKINode Title="Cnpj method" Url="html/M_Bogus_Extensions_Brazil_ExtensionsForBrazil_Cnpj.htm" />
+  <HelpKINode Title="Code property" Url="html/P_Bogus_DataSets_Currency_Code.htm" />
+  <HelpKINode Title="CodiceFiscale method" Url="html/Overload_Bogus_Extensions_Italy_ExtensionsForItaly_CodiceFiscale.htm" />
+  <HelpKINode Title="Collation method" Url="html/M_Bogus_DataSets_Database_Collation.htm" />
+  <HelpKINode Title="CollectionItem(Of T) method" Url="html/M_Bogus_Randomizer_CollectionItem__1.htm" />
+  <HelpKINode Title="CollectionItem&lt;T&gt; method" Url="html/M_Bogus_Randomizer_CollectionItem__1.htm" />
+  <HelpKINode Title="Color method">
+    <HelpKINode Title="Commerce.Color Method " Url="html/M_Bogus_DataSets_Commerce_Color.htm" />
+    <HelpKINode Title="Internet.Color Method " Url="html/M_Bogus_DataSets_Internet_Color.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ColorFormat enumeration" Url="html/T_Bogus_DataSets_ColorFormat.htm" />
+  <HelpKINode Title="Column method" Url="html/M_Bogus_DataSets_Database_Column.htm" />
+  <HelpKINode Title="Commerce class">
+    <HelpKINode Title="Commerce Class" Url="html/T_Bogus_DataSets_Commerce.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Commerce__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Commerce.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Commerce.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Commerce.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Commerce property" Url="html/P_Bogus_Faker_Commerce.htm" />
+  <HelpKINode Title="Commerce.Categories method" Url="html/M_Bogus_DataSets_Commerce_Categories.htm" />
+  <HelpKINode Title="Commerce.Color method" Url="html/M_Bogus_DataSets_Commerce_Color.htm" />
+  <HelpKINode Title="Commerce.Commerce constructor" Url="html/M_Bogus_DataSets_Commerce__ctor.htm" />
+  <HelpKINode Title="Commerce.Department method" Url="html/M_Bogus_DataSets_Commerce_Department.htm" />
+  <HelpKINode Title="Commerce.Price method" Url="html/M_Bogus_DataSets_Commerce_Price.htm" />
+  <HelpKINode Title="Commerce.Product method" Url="html/M_Bogus_DataSets_Commerce_Product.htm" />
+  <HelpKINode Title="Commerce.ProductAdjective method" Url="html/M_Bogus_DataSets_Commerce_ProductAdjective.htm" />
+  <HelpKINode Title="Commerce.ProductMaterial method" Url="html/M_Bogus_DataSets_Commerce_ProductMaterial.htm" />
+  <HelpKINode Title="Commerce.ProductName method" Url="html/M_Bogus_DataSets_Commerce_ProductName.htm" />
+  <HelpKINode Title="CommonFileExt method" Url="html/M_Bogus_DataSets_System_CommonFileExt.htm" />
+  <HelpKINode Title="CommonFileName method" Url="html/M_Bogus_DataSets_System_CommonFileName.htm" />
+  <HelpKINode Title="CommonFileType method" Url="html/M_Bogus_DataSets_System_CommonFileType.htm" />
+  <HelpKINode Title="Company class">
+    <HelpKINode Title="Company Class" Url="html/T_Bogus_DataSets_Company.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Company__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Company.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Company.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Company.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Company field" Url="html/F_Bogus_Person_Company.htm" />
+  <HelpKINode Title="Company property" Url="html/P_Bogus_Faker_Company.htm" />
+  <HelpKINode Title="Company.Bs method" Url="html/M_Bogus_DataSets_Company_Bs.htm" />
+  <HelpKINode Title="Company.BsAdjective method" Url="html/M_Bogus_DataSets_Company_BsAdjective.htm" />
+  <HelpKINode Title="Company.BsBuzz method" Url="html/M_Bogus_DataSets_Company_BsBuzz.htm" />
+  <HelpKINode Title="Company.BsNoun method" Url="html/M_Bogus_DataSets_Company_BsNoun.htm" />
+  <HelpKINode Title="Company.CatchPhrase method" Url="html/M_Bogus_DataSets_Company_CatchPhrase.htm" />
+  <HelpKINode Title="Company.CatchPhraseAdjective method" Url="html/M_Bogus_DataSets_Company_CatchPhraseAdjective.htm" />
+  <HelpKINode Title="Company.CatchPhraseDescriptor method" Url="html/M_Bogus_DataSets_Company_CatchPhraseDescriptor.htm" />
+  <HelpKINode Title="Company.CatchPhraseNoun method" Url="html/M_Bogus_DataSets_Company_CatchPhraseNoun.htm" />
+  <HelpKINode Title="Company.Company constructor" Url="html/M_Bogus_DataSets_Company__ctor.htm" />
+  <HelpKINode Title="Company.CompanyName method" Url="html/Overload_Bogus_DataSets_Company_CompanyName.htm" />
+  <HelpKINode Title="Company.CompanySuffix method" Url="html/M_Bogus_DataSets_Company_CompanySuffix.htm" />
+  <HelpKINode Title="Company.Name field" Url="html/F_Bogus_DataSets_Company_Name.htm" />
+  <HelpKINode Title="Company.Suffixes method" Url="html/M_Bogus_DataSets_Company_Suffixes.htm" />
+  <HelpKINode Title="CompanyName method" Url="html/Overload_Bogus_DataSets_Company_CompanyName.htm" />
+  <HelpKINode Title="CompanySuffix method" Url="html/M_Bogus_DataSets_Company_CompanySuffix.htm" />
+  <HelpKINode Title="Contains method">
+    <HelpKINode Title="BArray.Contains Method " Url="html/M_Bogus_Bson_BArray_Contains.htm" />
+    <HelpKINode Title="BObject.Contains Method " Url="html/M_Bogus_Bson_BObject_Contains.htm" />
+    <HelpKINode Title="BValue.Contains Method " Url="html/M_Bogus_Bson_BValue_Contains.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ContainsKey method">
+    <HelpKINode Title="BObject.ContainsKey Method " Url="html/M_Bogus_Bson_BObject_ContainsKey.htm" />
+    <HelpKINode Title="BValue.ContainsKey Method " Url="html/M_Bogus_Bson_BValue_ContainsKey.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Context property" Url="html/P_Bogus_IHasContext_Context.htm" />
+  <HelpKINode Title="ContextHelper class">
+    <HelpKINode Title="ContextHelper Class" Url="html/T_Bogus_Premium_ContextHelper.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Premium_ContextHelper.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ContextHelper.GetOrSet method" Url="html/Overload_Bogus_Premium_ContextHelper_GetOrSet.htm" />
+  <HelpKINode Title="Count property">
+    <HelpKINode Title="BArray.Count Property " Url="html/P_Bogus_Bson_BArray_Count.htm" />
+    <HelpKINode Title="BObject.Count Property " Url="html/P_Bogus_Bson_BObject_Count.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Country method" Url="html/M_Bogus_DataSets_Address_Country.htm" />
+  <HelpKINode Title="CountryCode method" Url="html/M_Bogus_DataSets_Address_CountryCode.htm" />
+  <HelpKINode Title="County method" Url="html/M_Bogus_DataSets_Address_County.htm" />
+  <HelpKINode Title="Cpf method" Url="html/M_Bogus_Extensions_Brazil_ExtensionsForBrazil_Cpf.htm" />
+  <HelpKINode Title="Cpr method" Url="html/M_Bogus_Extensions_Denmark_ExtensionsForDenmark_Cpr.htm" />
+  <HelpKINode Title="CreateActions field" Url="html/F_Bogus_Faker_1_CreateActions.htm" />
+  <HelpKINode Title="CreateSetter(Of T) method" Url="html/M_Bogus_Extensions_ExtensionsForPropertyInfo_CreateSetter__1.htm" />
+  <HelpKINode Title="CreateSetter&lt;T&gt; method" Url="html/M_Bogus_Extensions_ExtensionsForPropertyInfo_CreateSetter__1.htm" />
+  <HelpKINode Title="CreditCardCvv method" Url="html/M_Bogus_DataSets_Finance_CreditCardCvv.htm" />
+  <HelpKINode Title="CreditCardNumber method" Url="html/M_Bogus_DataSets_Finance_CreditCardNumber.htm" />
+  <HelpKINode Title="CreditCardNumberLastFourDigits method" Url="html/M_Bogus_Extensions_Extras_FinanceExtensions_CreditCardNumberLastFourDigits.htm" />
+  <HelpKINode Title="CreditCardNumberObfuscated method" Url="html/M_Bogus_Extensions_Extras_FinanceExtensions_CreditCardNumberObfuscated.htm" />
+  <HelpKINode Title="Currency class">
+    <HelpKINode Title="Currency Class" Url="html/T_Bogus_DataSets_Currency.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Currency__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Currency.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Currency.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Currency.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Currency method" Url="html/M_Bogus_DataSets_Finance_Currency.htm" />
+  <HelpKINode Title="Currency.Code property" Url="html/P_Bogus_DataSets_Currency_Code.htm" />
+  <HelpKINode Title="Currency.Currency constructor" Url="html/M_Bogus_DataSets_Currency__ctor.htm" />
+  <HelpKINode Title="Currency.Default field" Url="html/F_Bogus_DataSets_Currency_Default.htm" />
+  <HelpKINode Title="Currency.Description property" Url="html/P_Bogus_DataSets_Currency_Description.htm" />
+  <HelpKINode Title="Currency.Symbol property" Url="html/P_Bogus_DataSets_Currency_Symbol.htm" />
+  <HelpKINode Title="currentRuleSet field" Url="html/F_Bogus_Faker_1_currentRuleSet.htm" />
+  <HelpKINode Title="CustomInstantiator method">
+    <HelpKINode Title="Faker(T).CustomInstantiator Method " Url="html/M_Bogus_Faker_1_CustomInstantiator.htm" />
+    <HelpKINode Title="IRuleSet(T).CustomInstantiator Method " Url="html/M_Bogus_IRuleSet_1_CustomInstantiator.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Data field" Url="html/F_Bogus_Database_Data.htm" />
+  <HelpKINode Title="Database class">
+    <HelpKINode Title="Database Class" Url="html/T_Bogus_Database.htm" />
+    <HelpKINode Title="Database Class" Url="html/T_Bogus_DataSets_Database.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Database__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Database.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Database.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Database.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Database.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Database.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Database property" Url="html/P_Bogus_Faker_Database.htm" />
+  <HelpKINode Title="Database.Collation method" Url="html/M_Bogus_DataSets_Database_Collation.htm" />
+  <HelpKINode Title="Database.Column method" Url="html/M_Bogus_DataSets_Database_Column.htm" />
+  <HelpKINode Title="Database.Data field" Url="html/F_Bogus_Database_Data.htm" />
+  <HelpKINode Title="Database.Database constructor" Url="html/M_Bogus_DataSets_Database__ctor.htm" />
+  <HelpKINode Title="Database.Engine method" Url="html/M_Bogus_DataSets_Database_Engine.htm" />
+  <HelpKINode Title="Database.Get method" Url="html/M_Bogus_Database_Get.htm" />
+  <HelpKINode Title="Database.GetAllLocales method" Url="html/M_Bogus_Database_GetAllLocales.htm" />
+  <HelpKINode Title="Database.GetLocale method" Url="html/M_Bogus_Database_GetLocale.htm" />
+  <HelpKINode Title="Database.HasKey method" Url="html/M_Bogus_Database_HasKey.htm" />
+  <HelpKINode Title="Database.LocaleResourceExists method" Url="html/M_Bogus_Database_LocaleResourceExists.htm" />
+  <HelpKINode Title="Database.ResetLocale method" Url="html/M_Bogus_Database_ResetLocale.htm" />
+  <HelpKINode Title="Database.ResourceNameFormat field" Url="html/F_Bogus_Database_ResourceNameFormat.htm" />
+  <HelpKINode Title="Database.Type method" Url="html/M_Bogus_DataSets_Database_Type.htm" />
+  <HelpKINode Title="DataCategoryAttribute class">
+    <HelpKINode Title="DataCategoryAttribute Class" Url="html/T_Bogus_DataCategoryAttribute.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataCategoryAttribute__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataCategoryAttribute.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataCategoryAttribute.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DataCategoryAttribute.DataCategoryAttribute constructor" Url="html/M_Bogus_DataCategoryAttribute__ctor.htm" />
+  <HelpKINode Title="DataCategoryAttribute.Name property" Url="html/P_Bogus_DataCategoryAttribute_Name.htm" />
+  <HelpKINode Title="DataSet class">
+    <HelpKINode Title="DataSet Class" Url="html/T_Bogus_DataSet.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSet__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSet.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSet.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSet.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DataSet.Category property" Url="html/P_Bogus_DataSet_Category.htm" />
+  <HelpKINode Title="DataSet.DataSet constructor" Url="html/M_Bogus_DataSet__ctor.htm" />
+  <HelpKINode Title="DataSet.Get method" Url="html/Overload_Bogus_DataSet_Get.htm" />
+  <HelpKINode Title="DataSet.GetArray method" Url="html/M_Bogus_DataSet_GetArray.htm" />
+  <HelpKINode Title="DataSet.GetFormattedValue method" Url="html/M_Bogus_DataSet_GetFormattedValue.htm" />
+  <HelpKINode Title="DataSet.GetObject method" Url="html/M_Bogus_DataSet_GetObject.htm" />
+  <HelpKINode Title="DataSet.GetRandomArrayItem method" Url="html/M_Bogus_DataSet_GetRandomArrayItem.htm" />
+  <HelpKINode Title="DataSet.GetRandomBObject method" Url="html/M_Bogus_DataSet_GetRandomBObject.htm" />
+  <HelpKINode Title="DataSet.HasKey method" Url="html/M_Bogus_DataSet_HasKey.htm" />
+  <HelpKINode Title="DataSet.Locale property" Url="html/P_Bogus_DataSet_Locale.htm" />
+  <HelpKINode Title="DataSet.Notifier field" Url="html/F_Bogus_DataSet_Notifier.htm" />
+  <HelpKINode Title="DataSet.Random property" Url="html/P_Bogus_DataSet_Random.htm" />
+  <HelpKINode Title="DataSet.ResolveCategory method" Url="html/M_Bogus_DataSet_ResolveCategory.htm" />
+  <HelpKINode Title="DataUri method" Url="html/M_Bogus_DataSets_Images_DataUri.htm" />
+  <HelpKINode Title="Date class">
+    <HelpKINode Title="Date Class" Url="html/T_Bogus_DataSets_Date.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Date__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Date.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Date.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Date.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Date property" Url="html/P_Bogus_Faker_Date.htm" />
+  <HelpKINode Title="Date.Between method" Url="html/M_Bogus_DataSets_Date_Between.htm" />
+  <HelpKINode Title="Date.BetweenOffset method" Url="html/M_Bogus_DataSets_Date_BetweenOffset.htm" />
+  <HelpKINode Title="Date.Date constructor" Url="html/M_Bogus_DataSets_Date__ctor.htm" />
+  <HelpKINode Title="Date.Future method" Url="html/M_Bogus_DataSets_Date_Future.htm" />
+  <HelpKINode Title="Date.FutureOffset method" Url="html/M_Bogus_DataSets_Date_FutureOffset.htm" />
+  <HelpKINode Title="Date.Month method" Url="html/M_Bogus_DataSets_Date_Month.htm" />
+  <HelpKINode Title="Date.Past method" Url="html/M_Bogus_DataSets_Date_Past.htm" />
+  <HelpKINode Title="Date.PastOffset method" Url="html/M_Bogus_DataSets_Date_PastOffset.htm" />
+  <HelpKINode Title="Date.RandomTimeSpanFromTicks method" Url="html/M_Bogus_DataSets_Date_RandomTimeSpanFromTicks.htm" />
+  <HelpKINode Title="Date.Recent method" Url="html/M_Bogus_DataSets_Date_Recent.htm" />
+  <HelpKINode Title="Date.RecentOffset method" Url="html/M_Bogus_DataSets_Date_RecentOffset.htm" />
+  <HelpKINode Title="Date.Soon method" Url="html/M_Bogus_DataSets_Date_Soon.htm" />
+  <HelpKINode Title="Date.SoonOffset method" Url="html/M_Bogus_DataSets_Date_SoonOffset.htm" />
+  <HelpKINode Title="Date.SystemClock field" Url="html/F_Bogus_DataSets_Date_SystemClock.htm" />
+  <HelpKINode Title="Date.Timespan method" Url="html/M_Bogus_DataSets_Date_Timespan.htm" />
+  <HelpKINode Title="Date.Weekday method" Url="html/M_Bogus_DataSets_Date_Weekday.htm" />
+  <HelpKINode Title="DateOfBirth field" Url="html/F_Bogus_Person_DateOfBirth.htm" />
+  <HelpKINode Title="DateTime to BValue conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_7.htm" />
+  <HelpKINode Title="DateTimeValue property" Url="html/P_Bogus_Bson_BValue_DateTimeValue.htm" />
+  <HelpKINode Title="Decimal method" Url="html/M_Bogus_Randomizer_Decimal.htm" />
+  <HelpKINode Title="Decode method">
+    <HelpKINode Title="Hashids.Decode Method " Url="html/M_Bogus_Hashids_Decode.htm" />
+    <HelpKINode Title="IHashids.Decode Method " Url="html/M_Bogus_IHashids_Decode.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DecodeHex method">
+    <HelpKINode Title="Hashids.DecodeHex Method " Url="html/M_Bogus_Hashids_DecodeHex.htm" />
+    <HelpKINode Title="IHashids.DecodeHex Method " Url="html/M_Bogus_IHashids_DecodeHex.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DecodeLong method">
+    <HelpKINode Title="Hashids.DecodeLong Method " Url="html/M_Bogus_Hashids_DecodeLong.htm" />
+    <HelpKINode Title="IHashids.DecodeLong Method " Url="html/M_Bogus_IHashids_DecodeLong.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Decrypt method" Url="html/M_Bogus_Hashids_Decrypt.htm" />
+  <HelpKINode Title="DecryptHex method" Url="html/M_Bogus_Hashids_DecryptHex.htm" />
+  <HelpKINode Title="Default field">
+    <HelpKINode Title="Currency.Default Field" Url="html/F_Bogus_DataSets_Currency_Default.htm" />
+    <HelpKINode Title="Faker(T).Default Field" Url="html/F_Bogus_Faker_1_Default.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DefaultStrictMode field" Url="html/F_Bogus_Faker_DefaultStrictMode.htm" />
+  <HelpKINode Title="DEFAULT_ALPHABET field" Url="html/F_Bogus_Hashids_DEFAULT_ALPHABET.htm" />
+  <HelpKINode Title="DEFAULT_SEPS field" Url="html/F_Bogus_Hashids_DEFAULT_SEPS.htm" />
+  <HelpKINode Title="Delimited enumeration member" Url="html/T_Bogus_DataSets_ColorFormat.htm" />
+  <HelpKINode Title="Department method" Url="html/M_Bogus_DataSets_Commerce_Department.htm" />
+  <HelpKINode Title="Description property" Url="html/P_Bogus_DataSets_Currency_Description.htm" />
+  <HelpKINode Title="Digits method" Url="html/M_Bogus_Randomizer_Digits.htm" />
+  <HelpKINode Title="DinersClub field" Url="html/F_Bogus_DataSets_CardType_DinersClub.htm" />
+  <HelpKINode Title="Direction method" Url="html/M_Bogus_DataSets_Address_Direction.htm" />
+  <HelpKINode Title="DirectoryPath method" Url="html/M_Bogus_DataSets_System_DirectoryPath.htm" />
+  <HelpKINode Title="Discover field" Url="html/F_Bogus_DataSets_CardType_Discover.htm" />
+  <HelpKINode Title="DomainName method" Url="html/M_Bogus_DataSets_Internet_DomainName.htm" />
+  <HelpKINode Title="DomainSuffix method" Url="html/M_Bogus_DataSets_Internet_DomainSuffix.htm" />
+  <HelpKINode Title="DomainWord method" Url="html/M_Bogus_DataSets_Internet_DomainWord.htm" />
+  <HelpKINode Title="Double enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="Double method" Url="html/M_Bogus_Randomizer_Double.htm" />
+  <HelpKINode Title="Double to BValue conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_8.htm" />
+  <HelpKINode Title="DoubleValue property" Url="html/P_Bogus_Bson_BValue_DoubleValue.htm" />
+  <HelpKINode Title="DsAddress property" Url="html/P_Bogus_Person_DsAddress.htm" />
+  <HelpKINode Title="DsCompany property" Url="html/P_Bogus_Person_DsCompany.htm" />
+  <HelpKINode Title="DsDate property" Url="html/P_Bogus_Person_DsDate.htm" />
+  <HelpKINode Title="DsInternet property" Url="html/P_Bogus_Person_DsInternet.htm" />
+  <HelpKINode Title="DsName property" Url="html/P_Bogus_Person_DsName.htm" />
+  <HelpKINode Title="DsPhoneNumbers property" Url="html/P_Bogus_Person_DsPhoneNumbers.htm" />
+  <HelpKINode Title="Ein method" Url="html/M_Bogus_Extensions_UnitedStates_ExtensionsForUnitedStates_Ein.htm" />
+  <HelpKINode Title="Email field" Url="html/F_Bogus_Person_Email.htm" />
+  <HelpKINode Title="Email method" Url="html/M_Bogus_DataSets_Internet_Email.htm" />
+  <HelpKINode Title="Encode method">
+    <HelpKINode Title="Hashids.Encode Method " Url="html/Overload_Bogus_Hashids_Encode.htm" />
+    <HelpKINode Title="IHashids.Encode Method " Url="html/Overload_Bogus_IHashids_Encode.htm" />
+  </HelpKINode>
+  <HelpKINode Title="EncodeHex method">
+    <HelpKINode Title="Hashids.EncodeHex Method " Url="html/M_Bogus_Hashids_EncodeHex.htm" />
+    <HelpKINode Title="IHashids.EncodeHex Method " Url="html/M_Bogus_IHashids_EncodeHex.htm" />
+  </HelpKINode>
+  <HelpKINode Title="EncodeLong method">
+    <HelpKINode Title="Hashids.EncodeLong Method " Url="html/Overload_Bogus_Hashids_EncodeLong.htm" />
+    <HelpKINode Title="IHashids.EncodeLong Method " Url="html/Overload_Bogus_IHashids_EncodeLong.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Encrypt method" Url="html/M_Bogus_Hashids_Encrypt.htm" />
+  <HelpKINode Title="EncryptHex method" Url="html/M_Bogus_Hashids_EncryptHex.htm" />
+  <HelpKINode Title="Engine method" Url="html/M_Bogus_DataSets_Database_Engine.htm" />
+  <HelpKINode Title="Enum(Of T) method" Url="html/M_Bogus_Randomizer_Enum__1.htm" />
+  <HelpKINode Title="Enum&lt;T&gt; method" Url="html/M_Bogus_Randomizer_Enum__1.htm" />
+  <HelpKINode Title="Equality operator" Url="html/M_Bogus_Bson_BValue_op_Equality.htm" />
+  <HelpKINode Title="EthereumAddress method" Url="html/M_Bogus_DataSets_Finance_EthereumAddress.htm" />
+  <HelpKINode Title="Even method" Url="html/M_Bogus_Randomizer_Even.htm" />
+  <HelpKINode Title="ExampleEmail method" Url="html/M_Bogus_DataSets_Internet_ExampleEmail.htm" />
+  <HelpKINode Title="Exception method" Url="html/M_Bogus_DataSets_System_Exception.htm" />
+  <HelpKINode Title="ExtensionsForBrazil class">
+    <HelpKINode Title="ExtensionsForBrazil Class" Url="html/T_Bogus_Extensions_Brazil_ExtensionsForBrazil.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_Brazil_ExtensionsForBrazil.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForBrazil.Cnpj method" Url="html/M_Bogus_Extensions_Brazil_ExtensionsForBrazil_Cnpj.htm" />
+  <HelpKINode Title="ExtensionsForBrazil.Cpf method" Url="html/M_Bogus_Extensions_Brazil_ExtensionsForBrazil_Cpf.htm" />
+  <HelpKINode Title="ExtensionsForCanada class">
+    <HelpKINode Title="ExtensionsForCanada Class" Url="html/T_Bogus_Extensions_Canada_ExtensionsForCanada.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_Canada_ExtensionsForCanada.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForCanada.Sin method" Url="html/M_Bogus_Extensions_Canada_ExtensionsForCanada_Sin.htm" />
+  <HelpKINode Title="ExtensionsForCultureInfo class">
+    <HelpKINode Title="ExtensionsForCultureInfo Class" Url="html/T_Bogus_Extensions_ExtensionsForCultureInfo.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Extensions_ExtensionsForCultureInfo.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_ExtensionsForCultureInfo.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForCultureInfo.Lookup field" Url="html/F_Bogus_Extensions_ExtensionsForCultureInfo_Lookup.htm" />
+  <HelpKINode Title="ExtensionsForCultureInfo.ToBogusLocale method" Url="html/M_Bogus_Extensions_ExtensionsForCultureInfo_ToBogusLocale.htm" />
+  <HelpKINode Title="ExtensionsForDenmark class">
+    <HelpKINode Title="ExtensionsForDenmark Class" Url="html/T_Bogus_Extensions_Denmark_ExtensionsForDenmark.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_Denmark_ExtensionsForDenmark.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForDenmark.Cpr method" Url="html/M_Bogus_Extensions_Denmark_ExtensionsForDenmark_Cpr.htm" />
+  <HelpKINode Title="ExtensionsForFakerT class">
+    <HelpKINode Title="ExtensionsForFakerT Class" Url="html/T_Bogus_Extensions_ExtensionsForFakerT.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_ExtensionsForFakerT.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForFakerT.GenerateBetween(Of T) method" Url="html/M_Bogus_Extensions_ExtensionsForFakerT_GenerateBetween__1.htm" />
+  <HelpKINode Title="ExtensionsForFakerT.GenerateBetween&lt;T&gt; method" Url="html/M_Bogus_Extensions_ExtensionsForFakerT_GenerateBetween__1.htm" />
+  <HelpKINode Title="ExtensionsForFakerT.OrNull method" Url="html/M_Bogus_Extensions_ExtensionsForFakerT_OrNull.htm" />
+  <HelpKINode Title="ExtensionsForFinland class">
+    <HelpKINode Title="ExtensionsForFinland Class" Url="html/T_Bogus_Extensions_Finland_ExtensionsForFinland.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_Finland_ExtensionsForFinland.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForFinland.Henkil&#246;tunnus method" Url="html/M_Bogus_Extensions_Finland_ExtensionsForFinland_Henkil&#246;tunnus.htm" />
+  <HelpKINode Title="ExtensionsForItaly class">
+    <HelpKINode Title="ExtensionsForItaly Class" Url="html/T_Bogus_Extensions_Italy_ExtensionsForItaly.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_Italy_ExtensionsForItaly.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForItaly.CodiceFiscale method" Url="html/Overload_Bogus_Extensions_Italy_ExtensionsForItaly_CodiceFiscale.htm" />
+  <HelpKINode Title="ExtensionsForPortugal class">
+    <HelpKINode Title="ExtensionsForPortugal Class" Url="html/T_Bogus_Extensions_Portugal_ExtensionsForPortugal.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_Portugal_ExtensionsForPortugal.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForPortugal.Nif method" Url="html/M_Bogus_Extensions_Portugal_ExtensionsForPortugal_Nif.htm" />
+  <HelpKINode Title="ExtensionsForPortugal.Nipc method" Url="html/M_Bogus_Extensions_Portugal_ExtensionsForPortugal_Nipc.htm" />
+  <HelpKINode Title="ExtensionsForPropertyInfo class">
+    <HelpKINode Title="ExtensionsForPropertyInfo Class" Url="html/T_Bogus_Extensions_ExtensionsForPropertyInfo.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_ExtensionsForPropertyInfo.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForPropertyInfo.CreateSetter(Of T) method" Url="html/M_Bogus_Extensions_ExtensionsForPropertyInfo_CreateSetter__1.htm" />
+  <HelpKINode Title="ExtensionsForPropertyInfo.CreateSetter&lt;T&gt; method" Url="html/M_Bogus_Extensions_ExtensionsForPropertyInfo_CreateSetter__1.htm" />
+  <HelpKINode Title="ExtensionsForRandomizer class">
+    <HelpKINode Title="ExtensionsForRandomizer Class" Url="html/T_Bogus_Distributions_Gaussian_ExtensionsForRandomizer.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Distributions_Gaussian_ExtensionsForRandomizer.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForRandomizer.GaussianDecimal method" Url="html/M_Bogus_Distributions_Gaussian_ExtensionsForRandomizer_GaussianDecimal.htm" />
+  <HelpKINode Title="ExtensionsForRandomizer.GaussianDouble method" Url="html/M_Bogus_Distributions_Gaussian_ExtensionsForRandomizer_GaussianDouble.htm" />
+  <HelpKINode Title="ExtensionsForRandomizer.GaussianFloat method" Url="html/M_Bogus_Distributions_Gaussian_ExtensionsForRandomizer_GaussianFloat.htm" />
+  <HelpKINode Title="ExtensionsForRandomizer.GaussianInt method" Url="html/M_Bogus_Distributions_Gaussian_ExtensionsForRandomizer_GaussianInt.htm" />
+  <HelpKINode Title="ExtensionsForString class">
+    <HelpKINode Title="ExtensionsForString Class" Url="html/T_Bogus_Extensions_ExtensionsForString.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_ExtensionsForString.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForString.ClampLength method" Url="html/M_Bogus_Extensions_ExtensionsForString_ClampLength.htm" />
+  <HelpKINode Title="ExtensionsForString.RemoveDiacritics method" Url="html/M_Bogus_Extensions_ExtensionsForString_RemoveDiacritics.htm" />
+  <HelpKINode Title="ExtensionsForType class">
+    <HelpKINode Title="ExtensionsForType Class" Url="html/T_Bogus_Platform_ExtensionsForType.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Platform_ExtensionsForType.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForType.GetAssembly method" Url="html/M_Bogus_Platform_ExtensionsForType_GetAssembly.htm" />
+  <HelpKINode Title="ExtensionsForType.GetCustomAttributeX(Of T) method" Url="html/M_Bogus_Platform_ExtensionsForType_GetCustomAttributeX__1.htm" />
+  <HelpKINode Title="ExtensionsForType.GetCustomAttributeX&lt;T&gt; method" Url="html/M_Bogus_Platform_ExtensionsForType_GetCustomAttributeX__1.htm" />
+  <HelpKINode Title="ExtensionsForType.IsEnum method" Url="html/M_Bogus_Platform_ExtensionsForType_IsEnum.htm" />
+  <HelpKINode Title="ExtensionsForUnitedKingdom class">
+    <HelpKINode Title="ExtensionsForUnitedKingdom Class" Url="html/T_Bogus_Extensions_UnitedKingdom_ExtensionsForUnitedKingdom.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_UnitedKingdom_ExtensionsForUnitedKingdom.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForUnitedKingdom.Nino method" Url="html/M_Bogus_Extensions_UnitedKingdom_ExtensionsForUnitedKingdom_Nino.htm" />
+  <HelpKINode Title="ExtensionsForUnitedKingdom.SortCode method" Url="html/M_Bogus_Extensions_UnitedKingdom_ExtensionsForUnitedKingdom_SortCode.htm" />
+  <HelpKINode Title="ExtensionsForUnitedStates class">
+    <HelpKINode Title="ExtensionsForUnitedStates Class" Url="html/T_Bogus_Extensions_UnitedStates_ExtensionsForUnitedStates.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_UnitedStates_ExtensionsForUnitedStates.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ExtensionsForUnitedStates.Ein method" Url="html/M_Bogus_Extensions_UnitedStates_ExtensionsForUnitedStates_Ein.htm" />
+  <HelpKINode Title="ExtensionsForUnitedStates.Ssn method" Url="html/M_Bogus_Extensions_UnitedStates_ExtensionsForUnitedStates_Ssn.htm" />
+  <HelpKINode Title="Faker class">
+    <HelpKINode Title="Faker Class" Url="html/T_Bogus_Faker.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Faker__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Faker.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Faker.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Faker.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Faker(Of T) class">
+    <HelpKINode Title="Faker(T) Class" Url="html/T_Bogus_Faker_1.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_Bogus_Faker_1__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Faker_1.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Faker_1.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Faker_1.htm" />
+    <HelpKINode Title="type conversions" Url="html/Operators_T_Bogus_Faker_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Faker(Of T) to T conversion" Url="html/M_Bogus_Faker_1_op_Implicit.htm" />
+  <HelpKINode Title="Faker(Of T).Actions field" Url="html/F_Bogus_Faker_1_Actions.htm" />
+  <HelpKINode Title="Faker(Of T).AssertConfigurationIsValid method" Url="html/M_Bogus_Faker_1_AssertConfigurationIsValid.htm" />
+  <HelpKINode Title="Faker(Of T).binder field" Url="html/F_Bogus_Faker_1_binder.htm" />
+  <HelpKINode Title="Faker(Of T).Clone method" Url="html/M_Bogus_Faker_1_Clone.htm" />
+  <HelpKINode Title="Faker(Of T).CreateActions field" Url="html/F_Bogus_Faker_1_CreateActions.htm" />
+  <HelpKINode Title="Faker(Of T).currentRuleSet field" Url="html/F_Bogus_Faker_1_currentRuleSet.htm" />
+  <HelpKINode Title="Faker(Of T).CustomInstantiator method" Url="html/M_Bogus_Faker_1_CustomInstantiator.htm" />
+  <HelpKINode Title="Faker(Of T).Default field" Url="html/F_Bogus_Faker_1_Default.htm" />
+  <HelpKINode Title="Faker(Of T).Faker constructor" Url="html/Overload_Bogus_Faker_1__ctor.htm" />
+  <HelpKINode Title="Faker(Of T).FakerHub field" Url="html/F_Bogus_Faker_1_FakerHub.htm" />
+  <HelpKINode Title="Faker(Of T).FinalizeActions field" Url="html/F_Bogus_Faker_1_FinalizeActions.htm" />
+  <HelpKINode Title="Faker(Of T).FinishWith method" Url="html/M_Bogus_Faker_1_FinishWith.htm" />
+  <HelpKINode Title="Faker(Of T).Generate method" Url="html/Overload_Bogus_Faker_1_Generate.htm" />
+  <HelpKINode Title="Faker(Of T).GenerateForever method" Url="html/M_Bogus_Faker_1_GenerateForever.htm" />
+  <HelpKINode Title="Faker(Of T).GenerateLazy method" Url="html/M_Bogus_Faker_1_GenerateLazy.htm" />
+  <HelpKINode Title="Faker(Of T).GetFieldOrPropertyType method" Url="html/M_Bogus_Faker_1_GetFieldOrPropertyType.htm" />
+  <HelpKINode Title="Faker(Of T).Ignore(Of TPropertyOrField) method" Url="html/M_Bogus_Faker_1_Ignore__1.htm" />
+  <HelpKINode Title="Faker(Of T).IsValid field" Url="html/F_Bogus_Faker_1_IsValid.htm" />
+  <HelpKINode Title="Faker(Of T).Locale property" Url="html/P_Bogus_Faker_1_Locale.htm" />
+  <HelpKINode Title="Faker(Of T).localSeed field" Url="html/F_Bogus_Faker_1_localSeed.htm" />
+  <HelpKINode Title="Faker(Of T).MakeValidationException method" Url="html/M_Bogus_Faker_1_MakeValidationException.htm" />
+  <HelpKINode Title="Faker(Of T).ParseDirtyRulesSets method" Url="html/M_Bogus_Faker_1_ParseDirtyRulesSets.htm" />
+  <HelpKINode Title="Faker(Of T).Populate method" Url="html/M_Bogus_Faker_1_Populate.htm" />
+  <HelpKINode Title="Faker(Of T).PopulateInternal method" Url="html/M_Bogus_Faker_1_PopulateInternal.htm" />
+  <HelpKINode Title="Faker(Of T).RuleFor method" Url="html/Overload_Bogus_Faker_1_RuleFor.htm" />
+  <HelpKINode Title="Faker(Of T).RuleForType(Of TType) method" Url="html/M_Bogus_Faker_1_RuleForType__1.htm" />
+  <HelpKINode Title="Faker(Of T).Rules method" Url="html/M_Bogus_Faker_1_Rules.htm" />
+  <HelpKINode Title="Faker(Of T).RuleSet method" Url="html/M_Bogus_Faker_1_RuleSet.htm" />
+  <HelpKINode Title="Faker(Of T).SetterCache field" Url="html/F_Bogus_Faker_1_SetterCache.htm" />
+  <HelpKINode Title="Faker(Of T).StrictMode method" Url="html/M_Bogus_Faker_1_StrictMode.htm" />
+  <HelpKINode Title="Faker(Of T).StrictModes field" Url="html/F_Bogus_Faker_1_StrictModes.htm" />
+  <HelpKINode Title="Faker(Of T).TypeProperties field" Url="html/F_Bogus_Faker_1_TypeProperties.htm" />
+  <HelpKINode Title="Faker(Of T).UseSeed method" Url="html/M_Bogus_Faker_1_UseSeed.htm" />
+  <HelpKINode Title="Faker(Of T).Validate method" Url="html/M_Bogus_Faker_1_Validate.htm" />
+  <HelpKINode Title="Faker.Address property" Url="html/P_Bogus_Faker_Address.htm" />
+  <HelpKINode Title="Faker.Commerce property" Url="html/P_Bogus_Faker_Commerce.htm" />
+  <HelpKINode Title="Faker.Company property" Url="html/P_Bogus_Faker_Company.htm" />
+  <HelpKINode Title="Faker.Database property" Url="html/P_Bogus_Faker_Database.htm" />
+  <HelpKINode Title="Faker.Date property" Url="html/P_Bogus_Faker_Date.htm" />
+  <HelpKINode Title="Faker.DefaultStrictMode field" Url="html/F_Bogus_Faker_DefaultStrictMode.htm" />
+  <HelpKINode Title="Faker.Faker constructor" Url="html/M_Bogus_Faker__ctor.htm" />
+  <HelpKINode Title="Faker.Finance property" Url="html/P_Bogus_Faker_Finance.htm" />
+  <HelpKINode Title="Faker.GlobalUniqueIndex field" Url="html/F_Bogus_Faker_GlobalUniqueIndex.htm" />
+  <HelpKINode Title="Faker.Hacker property" Url="html/P_Bogus_Faker_Hacker.htm" />
+  <HelpKINode Title="Faker.Hashids property" Url="html/P_Bogus_Faker_Hashids.htm" />
+  <HelpKINode Title="Faker.Image property" Url="html/P_Bogus_Faker_Image.htm" />
+  <HelpKINode Title="Faker.IndexFaker field" Url="html/F_Bogus_Faker_IndexFaker.htm" />
+  <HelpKINode Title="Faker.IndexGlobal property" Url="html/P_Bogus_Faker_IndexGlobal.htm" />
+  <HelpKINode Title="Faker.IndexVariable field" Url="html/F_Bogus_Faker_IndexVariable.htm" />
+  <HelpKINode Title="Faker.Internet property" Url="html/P_Bogus_Faker_Internet.htm" />
+  <HelpKINode Title="Faker.Locale property" Url="html/P_Bogus_Faker_Locale.htm" />
+  <HelpKINode Title="Faker.Lorem property" Url="html/P_Bogus_Faker_Lorem.htm" />
+  <HelpKINode Title="Faker.Make method" Url="html/Overload_Bogus_Faker_Make.htm" />
+  <HelpKINode Title="Faker.MakeLazy method" Url="html/Overload_Bogus_Faker_MakeLazy.htm" />
+  <HelpKINode Title="Faker.Name property" Url="html/P_Bogus_Faker_Name.htm" />
+  <HelpKINode Title="Faker.Notifier field" Url="html/F_Bogus_Faker_Notifier.htm" />
+  <HelpKINode Title="Faker.Parse method" Url="html/M_Bogus_Faker_Parse.htm" />
+  <HelpKINode Title="Faker.Person property" Url="html/P_Bogus_Faker_Person.htm" />
+  <HelpKINode Title="Faker.Phone property" Url="html/P_Bogus_Faker_Phone.htm" />
+  <HelpKINode Title="Faker.PickRandom method" Url="html/Overload_Bogus_Faker_PickRandom.htm" />
+  <HelpKINode Title="Faker.PickRandomParam(Of T) method" Url="html/M_Bogus_Faker_PickRandomParam__1.htm" />
+  <HelpKINode Title="Faker.PickRandomParam&lt;T&gt; method" Url="html/M_Bogus_Faker_PickRandomParam__1.htm" />
+  <HelpKINode Title="Faker.PickRandomWithout(Of T) method" Url="html/M_Bogus_Faker_PickRandomWithout__1.htm" />
+  <HelpKINode Title="Faker.PickRandomWithout&lt;T&gt; method" Url="html/M_Bogus_Faker_PickRandomWithout__1.htm" />
+  <HelpKINode Title="Faker.Random property" Url="html/P_Bogus_Faker_Random.htm" />
+  <HelpKINode Title="Faker.Rant property" Url="html/P_Bogus_Faker_Rant.htm" />
+  <HelpKINode Title="Faker.System property" Url="html/P_Bogus_Faker_System.htm" />
+  <HelpKINode Title="Faker.UniqueIndex property" Url="html/P_Bogus_Faker_UniqueIndex.htm" />
+  <HelpKINode Title="Faker&lt;T&gt; class">
+    <HelpKINode Title="Faker(T) Class" Url="html/T_Bogus_Faker_1.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_Bogus_Faker_1__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Faker_1.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Faker_1.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Faker_1.htm" />
+    <HelpKINode Title="type conversions" Url="html/Operators_T_Bogus_Faker_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Faker&lt;T&gt; to T conversion" Url="html/M_Bogus_Faker_1_op_Implicit.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Actions field" Url="html/F_Bogus_Faker_1_Actions.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.AssertConfigurationIsValid method" Url="html/M_Bogus_Faker_1_AssertConfigurationIsValid.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.binder field" Url="html/F_Bogus_Faker_1_binder.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Clone method" Url="html/M_Bogus_Faker_1_Clone.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.CreateActions field" Url="html/F_Bogus_Faker_1_CreateActions.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.currentRuleSet field" Url="html/F_Bogus_Faker_1_currentRuleSet.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.CustomInstantiator method" Url="html/M_Bogus_Faker_1_CustomInstantiator.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Default field" Url="html/F_Bogus_Faker_1_Default.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Faker constructor" Url="html/Overload_Bogus_Faker_1__ctor.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.FakerHub field" Url="html/F_Bogus_Faker_1_FakerHub.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.FinalizeActions field" Url="html/F_Bogus_Faker_1_FinalizeActions.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.FinishWith method" Url="html/M_Bogus_Faker_1_FinishWith.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Generate method" Url="html/Overload_Bogus_Faker_1_Generate.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.GenerateForever method" Url="html/M_Bogus_Faker_1_GenerateForever.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.GenerateLazy method" Url="html/M_Bogus_Faker_1_GenerateLazy.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.GetFieldOrPropertyType method" Url="html/M_Bogus_Faker_1_GetFieldOrPropertyType.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Ignore&lt;TPropertyOrField&gt; method" Url="html/M_Bogus_Faker_1_Ignore__1.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.IsValid field" Url="html/F_Bogus_Faker_1_IsValid.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Locale property" Url="html/P_Bogus_Faker_1_Locale.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.localSeed field" Url="html/F_Bogus_Faker_1_localSeed.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.MakeValidationException method" Url="html/M_Bogus_Faker_1_MakeValidationException.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.ParseDirtyRulesSets method" Url="html/M_Bogus_Faker_1_ParseDirtyRulesSets.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Populate method" Url="html/M_Bogus_Faker_1_Populate.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.PopulateInternal method" Url="html/M_Bogus_Faker_1_PopulateInternal.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.RuleFor method" Url="html/Overload_Bogus_Faker_1_RuleFor.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.RuleForType&lt;TType&gt; method" Url="html/M_Bogus_Faker_1_RuleForType__1.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Rules method" Url="html/M_Bogus_Faker_1_Rules.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.RuleSet method" Url="html/M_Bogus_Faker_1_RuleSet.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.SetterCache field" Url="html/F_Bogus_Faker_1_SetterCache.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.StrictMode method" Url="html/M_Bogus_Faker_1_StrictMode.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.StrictModes field" Url="html/F_Bogus_Faker_1_StrictModes.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.TypeProperties field" Url="html/F_Bogus_Faker_1_TypeProperties.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.UseSeed method" Url="html/M_Bogus_Faker_1_UseSeed.htm" />
+  <HelpKINode Title="Faker&lt;T&gt;.Validate method" Url="html/M_Bogus_Faker_1_Validate.htm" />
+  <HelpKINode Title="FakerHub field" Url="html/F_Bogus_Faker_1_FakerHub.htm" />
+  <HelpKINode Title="FakerHub property" Url="html/P_Bogus_IFakerTInternal_FakerHub.htm" />
+  <HelpKINode Title="Fashion method" Url="html/M_Bogus_DataSets_Images_Fashion.htm" />
+  <HelpKINode Title="Female enumeration member" Url="html/T_Bogus_DataSets_Name_Gender.htm" />
+  <HelpKINode Title="FileExt method" Url="html/M_Bogus_DataSets_System_FileExt.htm" />
+  <HelpKINode Title="FileName method" Url="html/M_Bogus_DataSets_System_FileName.htm" />
+  <HelpKINode Title="FilePath method" Url="html/M_Bogus_DataSets_System_FilePath.htm" />
+  <HelpKINode Title="FileType method" Url="html/M_Bogus_DataSets_System_FileType.htm" />
+  <HelpKINode Title="FinalizeAction(Of T) class">
+    <HelpKINode Title="FinalizeAction(T) Class" Url="html/T_Bogus_FinalizeAction_1.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_FinalizeAction_1__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_FinalizeAction_1.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_FinalizeAction_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FinalizeAction(Of T).FinalizeAction constructor" Url="html/M_Bogus_FinalizeAction_1__ctor.htm" />
+  <HelpKINode Title="FinalizeAction&lt;T&gt; class">
+    <HelpKINode Title="FinalizeAction(T) Class" Url="html/T_Bogus_FinalizeAction_1.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_FinalizeAction_1__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_FinalizeAction_1.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_FinalizeAction_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FinalizeAction&lt;T&gt;.FinalizeAction constructor" Url="html/M_Bogus_FinalizeAction_1__ctor.htm" />
+  <HelpKINode Title="FinalizeActions field" Url="html/F_Bogus_Faker_1_FinalizeActions.htm" />
+  <HelpKINode Title="Finance class">
+    <HelpKINode Title="Finance Class" Url="html/T_Bogus_DataSets_Finance.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Finance__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Finance.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Finance.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Finance.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Finance property" Url="html/P_Bogus_Faker_Finance.htm" />
+  <HelpKINode Title="Finance.Account method" Url="html/M_Bogus_DataSets_Finance_Account.htm" />
+  <HelpKINode Title="Finance.AccountName method" Url="html/M_Bogus_DataSets_Finance_AccountName.htm" />
+  <HelpKINode Title="Finance.Amount method" Url="html/M_Bogus_DataSets_Finance_Amount.htm" />
+  <HelpKINode Title="Finance.Bic method" Url="html/M_Bogus_DataSets_Finance_Bic.htm" />
+  <HelpKINode Title="Finance.BitcoinAddress method" Url="html/M_Bogus_DataSets_Finance_BitcoinAddress.htm" />
+  <HelpKINode Title="Finance.CreditCardCvv method" Url="html/M_Bogus_DataSets_Finance_CreditCardCvv.htm" />
+  <HelpKINode Title="Finance.CreditCardNumber method" Url="html/M_Bogus_DataSets_Finance_CreditCardNumber.htm" />
+  <HelpKINode Title="Finance.Currency method" Url="html/M_Bogus_DataSets_Finance_Currency.htm" />
+  <HelpKINode Title="Finance.EthereumAddress method" Url="html/M_Bogus_DataSets_Finance_EthereumAddress.htm" />
+  <HelpKINode Title="Finance.Finance constructor" Url="html/M_Bogus_DataSets_Finance__ctor.htm" />
+  <HelpKINode Title="Finance.Iban method" Url="html/M_Bogus_DataSets_Finance_Iban.htm" />
+  <HelpKINode Title="Finance.RoutingNumber method" Url="html/M_Bogus_DataSets_Finance_RoutingNumber.htm" />
+  <HelpKINode Title="Finance.TransactionType method" Url="html/M_Bogus_DataSets_Finance_TransactionType.htm" />
+  <HelpKINode Title="FinanceExtensions class">
+    <HelpKINode Title="FinanceExtensions Class" Url="html/T_Bogus_Extensions_Extras_FinanceExtensions.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Extensions_Extras_FinanceExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FinanceExtensions.CreditCardNumberLastFourDigits method" Url="html/M_Bogus_Extensions_Extras_FinanceExtensions_CreditCardNumberLastFourDigits.htm" />
+  <HelpKINode Title="FinanceExtensions.CreditCardNumberObfuscated method" Url="html/M_Bogus_Extensions_Extras_FinanceExtensions_CreditCardNumberObfuscated.htm" />
+  <HelpKINode Title="FindLicense method" Url="html/Overload_Bogus_Premium_LicenseVerifier_FindLicense.htm" />
+  <HelpKINode Title="FindName method" Url="html/M_Bogus_DataSets_Name_FindName.htm" />
+  <HelpKINode Title="FinishWith method">
+    <HelpKINode Title="Faker(T).FinishWith Method " Url="html/M_Bogus_Faker_1_FinishWith.htm" />
+    <HelpKINode Title="IRuleSet(T).FinishWith Method " Url="html/M_Bogus_IRuleSet_1_FinishWith.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FirstName field" Url="html/F_Bogus_Person_FirstName.htm" />
+  <HelpKINode Title="FirstName method" Url="html/M_Bogus_DataSets_Name_FirstName.htm" />
+  <HelpKINode Title="Float method" Url="html/M_Bogus_Randomizer_Float.htm" />
+  <HelpKINode Title="Flow(Of U) method" Url="html/M_Bogus_SeedNotifier_Flow__1.htm" />
+  <HelpKINode Title="Flow&lt;U&gt; method" Url="html/M_Bogus_SeedNotifier_Flow__1.htm" />
+  <HelpKINode Title="Food method" Url="html/M_Bogus_DataSets_Images_Food.htm" />
+  <HelpKINode Title="FullAddress method" Url="html/M_Bogus_DataSets_Address_FullAddress.htm" />
+  <HelpKINode Title="FullName field" Url="html/F_Bogus_Person_FullName.htm" />
+  <HelpKINode Title="FullName method" Url="html/M_Bogus_DataSets_Name_FullName.htm" />
+  <HelpKINode Title="Functions property" Url="html/P_Bogus_WordFunctions_Functions.htm" />
+  <HelpKINode Title="Future method" Url="html/M_Bogus_DataSets_Date_Future.htm" />
+  <HelpKINode Title="FutureOffset method" Url="html/M_Bogus_DataSets_Date_FutureOffset.htm" />
+  <HelpKINode Title="GaussianDecimal method" Url="html/M_Bogus_Distributions_Gaussian_ExtensionsForRandomizer_GaussianDecimal.htm" />
+  <HelpKINode Title="GaussianDouble method" Url="html/M_Bogus_Distributions_Gaussian_ExtensionsForRandomizer_GaussianDouble.htm" />
+  <HelpKINode Title="GaussianFloat method" Url="html/M_Bogus_Distributions_Gaussian_ExtensionsForRandomizer_GaussianFloat.htm" />
+  <HelpKINode Title="GaussianInt method" Url="html/M_Bogus_Distributions_Gaussian_ExtensionsForRandomizer_GaussianInt.htm" />
+  <HelpKINode Title="Gender field" Url="html/F_Bogus_Person_Gender.htm" />
+  <HelpKINode Title="Generate method" Url="html/Overload_Bogus_Faker_1_Generate.htm" />
+  <HelpKINode Title="GenerateBetween(Of T) method" Url="html/M_Bogus_Extensions_ExtensionsForFakerT_GenerateBetween__1.htm" />
+  <HelpKINode Title="GenerateBetween&lt;T&gt; method" Url="html/M_Bogus_Extensions_ExtensionsForFakerT_GenerateBetween__1.htm" />
+  <HelpKINode Title="GenerateForever method" Url="html/M_Bogus_Faker_1_GenerateForever.htm" />
+  <HelpKINode Title="GenerateLazy method" Url="html/M_Bogus_Faker_1_GenerateLazy.htm" />
+  <HelpKINode Title="Geo field" Url="html/F_Bogus_Person_CardAddress_Geo.htm" />
+  <HelpKINode Title="Get method">
+    <HelpKINode Title="Database.Get Method " Url="html/M_Bogus_Database_Get.htm" />
+    <HelpKINode Title="DataSet.Get Method " Url="html/Overload_Bogus_DataSet_Get.htm" />
+    <HelpKINode Title="PremiumDataSet.Get Method " Url="html/Overload_Bogus_Premium_PremiumDataSet_Get.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GetAllLocales method" Url="html/M_Bogus_Database_GetAllLocales.htm" />
+  <HelpKINode Title="GetArray method" Url="html/M_Bogus_DataSet_GetArray.htm" />
+  <HelpKINode Title="GetAssembly method" Url="html/M_Bogus_Platform_ExtensionsForType_GetAssembly.htm" />
+  <HelpKINode Title="GetCustomAttributeX(Of T) method" Url="html/M_Bogus_Platform_ExtensionsForType_GetCustomAttributeX__1.htm" />
+  <HelpKINode Title="GetCustomAttributeX&lt;T&gt; method" Url="html/M_Bogus_Platform_ExtensionsForType_GetCustomAttributeX__1.htm" />
+  <HelpKINode Title="GetFieldOrPropertyType method" Url="html/M_Bogus_Faker_1_GetFieldOrPropertyType.htm" />
+  <HelpKINode Title="GetFormattedValue method" Url="html/M_Bogus_DataSet_GetFormattedValue.htm" />
+  <HelpKINode Title="GetLocale method" Url="html/M_Bogus_Database_GetLocale.htm" />
+  <HelpKINode Title="GetMembers method">
+    <HelpKINode Title="Binder.GetMembers Method " Url="html/M_Bogus_Binder_GetMembers.htm" />
+    <HelpKINode Title="IBinder.GetMembers Method " Url="html/M_Bogus_IBinder_GetMembers.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GetNotifier method" Url="html/M_Bogus_IHasRandomizer_GetNotifier.htm" />
+  <HelpKINode Title="GetObject method" Url="html/M_Bogus_DataSet_GetObject.htm" />
+  <HelpKINode Title="GetOrSet method" Url="html/Overload_Bogus_Premium_ContextHelper_GetOrSet.htm" />
+  <HelpKINode Title="GetRandomArrayItem method" Url="html/M_Bogus_DataSet_GetRandomArrayItem.htm" />
+  <HelpKINode Title="GetRandomBObject method" Url="html/M_Bogus_DataSet_GetRandomBObject.htm" />
+  <HelpKINode Title="GlobalUniqueIndex field" Url="html/F_Bogus_Faker_GlobalUniqueIndex.htm" />
+  <HelpKINode Title="Guid method" Url="html/M_Bogus_Randomizer_Guid.htm" />
+  <HelpKINode Title="Hacker class">
+    <HelpKINode Title="Hacker Class" Url="html/T_Bogus_DataSets_Hacker.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Hacker__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Hacker.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Hacker.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Hacker.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Hacker property" Url="html/P_Bogus_Faker_Hacker.htm" />
+  <HelpKINode Title="Hacker.Abbreviation method" Url="html/M_Bogus_DataSets_Hacker_Abbreviation.htm" />
+  <HelpKINode Title="Hacker.Adjective method" Url="html/M_Bogus_DataSets_Hacker_Adjective.htm" />
+  <HelpKINode Title="Hacker.Hacker constructor" Url="html/M_Bogus_DataSets_Hacker__ctor.htm" />
+  <HelpKINode Title="Hacker.IngVerb method" Url="html/M_Bogus_DataSets_Hacker_IngVerb.htm" />
+  <HelpKINode Title="Hacker.Noun method" Url="html/M_Bogus_DataSets_Hacker_Noun.htm" />
+  <HelpKINode Title="Hacker.Phrase method" Url="html/M_Bogus_DataSets_Hacker_Phrase.htm" />
+  <HelpKINode Title="Hacker.Verb method" Url="html/M_Bogus_DataSets_Hacker_Verb.htm" />
+  <HelpKINode Title="HasFirstNameList field" Url="html/F_Bogus_DataSets_Name_HasFirstNameList.htm" />
+  <HelpKINode Title="Hash method" Url="html/M_Bogus_Randomizer_Hash.htm" />
+  <HelpKINode Title="Hashids class">
+    <HelpKINode Title="Hashids Class" Url="html/T_Bogus_Hashids.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_Bogus_Hashids__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Hashids.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Hashids.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Hashids property" Url="html/P_Bogus_Faker_Hashids.htm" />
+  <HelpKINode Title="Hashids.Decode method" Url="html/M_Bogus_Hashids_Decode.htm" />
+  <HelpKINode Title="Hashids.DecodeHex method" Url="html/M_Bogus_Hashids_DecodeHex.htm" />
+  <HelpKINode Title="Hashids.DecodeLong method" Url="html/M_Bogus_Hashids_DecodeLong.htm" />
+  <HelpKINode Title="Hashids.Decrypt method" Url="html/M_Bogus_Hashids_Decrypt.htm" />
+  <HelpKINode Title="Hashids.DecryptHex method" Url="html/M_Bogus_Hashids_DecryptHex.htm" />
+  <HelpKINode Title="Hashids.DEFAULT_ALPHABET field" Url="html/F_Bogus_Hashids_DEFAULT_ALPHABET.htm" />
+  <HelpKINode Title="Hashids.DEFAULT_SEPS field" Url="html/F_Bogus_Hashids_DEFAULT_SEPS.htm" />
+  <HelpKINode Title="Hashids.Encode method" Url="html/Overload_Bogus_Hashids_Encode.htm" />
+  <HelpKINode Title="Hashids.EncodeHex method" Url="html/M_Bogus_Hashids_EncodeHex.htm" />
+  <HelpKINode Title="Hashids.EncodeLong method" Url="html/Overload_Bogus_Hashids_EncodeLong.htm" />
+  <HelpKINode Title="Hashids.Encrypt method" Url="html/M_Bogus_Hashids_Encrypt.htm" />
+  <HelpKINode Title="Hashids.EncryptHex method" Url="html/M_Bogus_Hashids_EncryptHex.htm" />
+  <HelpKINode Title="Hashids.Hashids constructor" Url="html/Overload_Bogus_Hashids__ctor.htm" />
+  <HelpKINode Title="HasKey method">
+    <HelpKINode Title="Database.HasKey Method " Url="html/M_Bogus_Database_HasKey.htm" />
+    <HelpKINode Title="DataSet.HasKey Method " Url="html/M_Bogus_DataSet_HasKey.htm" />
+    <HelpKINode Title="PremiumDataSet.HasKey Method " Url="html/M_Bogus_Premium_PremiumDataSet_HasKey.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HasValues property" Url="html/P_Bogus_Bson_BArray_HasValues.htm" />
+  <HelpKINode Title="Henkil&#246;tunnus method" Url="html/M_Bogus_Extensions_Finland_ExtensionsForFinland_Henkil&#246;tunnus.htm" />
+  <HelpKINode Title="Hex enumeration member" Url="html/T_Bogus_DataSets_ColorFormat.htm" />
+  <HelpKINode Title="Hexadecimal method" Url="html/M_Bogus_Randomizer_Hexadecimal.htm" />
+  <HelpKINode Title="HexLowerCase field" Url="html/F_Bogus_Chars_HexLowerCase.htm" />
+  <HelpKINode Title="HexUpperCase field" Url="html/F_Bogus_Chars_HexUpperCase.htm" />
+  <HelpKINode Title="Iban method" Url="html/M_Bogus_DataSets_Finance_Iban.htm" />
+  <HelpKINode Title="IBinder interface">
+    <HelpKINode Title="IBinder Interface" Url="html/T_Bogus_IBinder.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_IBinder.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IBinder.GetMembers method" Url="html/M_Bogus_IBinder_GetMembers.htm" />
+  <HelpKINode Title="IFakerTInternal interface">
+    <HelpKINode Title="IFakerTInternal Interface" Url="html/T_Bogus_IFakerTInternal.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_IFakerTInternal.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IFakerTInternal.Binder property" Url="html/P_Bogus_IFakerTInternal_Binder.htm" />
+  <HelpKINode Title="IFakerTInternal.FakerHub property" Url="html/P_Bogus_IFakerTInternal_FakerHub.htm" />
+  <HelpKINode Title="IFakerTInternal.LocalSeed property" Url="html/P_Bogus_IFakerTInternal_LocalSeed.htm" />
+  <HelpKINode Title="IFakerTInternal.TypeOfT property" Url="html/P_Bogus_IFakerTInternal_TypeOfT.htm" />
+  <HelpKINode Title="Ignore(Of TPropertyOrField) method">
+    <HelpKINode Title="Faker(T).Ignore(TPropertyOrField) Method " Url="html/M_Bogus_Faker_1_Ignore__1.htm" />
+    <HelpKINode Title="IRuleSet(T).Ignore(TPropertyOrField) Method " Url="html/M_Bogus_IRuleSet_1_Ignore__1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Ignore&lt;TPropertyOrField&gt; method">
+    <HelpKINode Title="Faker(T).Ignore(TPropertyOrField) Method " Url="html/M_Bogus_Faker_1_Ignore__1.htm" />
+    <HelpKINode Title="IRuleSet(T).Ignore(TPropertyOrField) Method " Url="html/M_Bogus_IRuleSet_1_Ignore__1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IHasContext interface">
+    <HelpKINode Title="IHasContext Interface" Url="html/T_Bogus_IHasContext.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_IHasContext.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IHasContext.Context property" Url="html/P_Bogus_IHasContext_Context.htm" />
+  <HelpKINode Title="IHashids interface">
+    <HelpKINode Title="IHashids Interface" Url="html/T_Bogus_IHashids.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_IHashids.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IHashids.Decode method" Url="html/M_Bogus_IHashids_Decode.htm" />
+  <HelpKINode Title="IHashids.DecodeHex method" Url="html/M_Bogus_IHashids_DecodeHex.htm" />
+  <HelpKINode Title="IHashids.DecodeLong method" Url="html/M_Bogus_IHashids_DecodeLong.htm" />
+  <HelpKINode Title="IHashids.Encode method" Url="html/Overload_Bogus_IHashids_Encode.htm" />
+  <HelpKINode Title="IHashids.EncodeHex method" Url="html/M_Bogus_IHashids_EncodeHex.htm" />
+  <HelpKINode Title="IHashids.EncodeLong method" Url="html/Overload_Bogus_IHashids_EncodeLong.htm" />
+  <HelpKINode Title="IHasRandomizer interface">
+    <HelpKINode Title="IHasRandomizer Interface" Url="html/T_Bogus_IHasRandomizer.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_IHasRandomizer.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_IHasRandomizer.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IHasRandomizer.GetNotifier method" Url="html/M_Bogus_IHasRandomizer_GetNotifier.htm" />
+  <HelpKINode Title="IHasRandomizer.Random property" Url="html/P_Bogus_IHasRandomizer_Random.htm" />
+  <HelpKINode Title="ILocaleAware interface">
+    <HelpKINode Title="ILocaleAware Interface" Url="html/T_Bogus_ILocaleAware.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_ILocaleAware.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ILocaleAware.Locale property" Url="html/P_Bogus_ILocaleAware_Locale.htm" />
+  <HelpKINode Title="Image method" Url="html/M_Bogus_DataSets_Images_Image.htm" />
+  <HelpKINode Title="Image property" Url="html/P_Bogus_Faker_Image.htm" />
+  <HelpKINode Title="Images class">
+    <HelpKINode Title="Images Class" Url="html/T_Bogus_DataSets_Images.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Images__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Images.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Images.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Images.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Images.Abstract method" Url="html/M_Bogus_DataSets_Images_Abstract.htm" />
+  <HelpKINode Title="Images.Animals method" Url="html/M_Bogus_DataSets_Images_Animals.htm" />
+  <HelpKINode Title="Images.Business method" Url="html/M_Bogus_DataSets_Images_Business.htm" />
+  <HelpKINode Title="Images.Cats method" Url="html/M_Bogus_DataSets_Images_Cats.htm" />
+  <HelpKINode Title="Images.City method" Url="html/M_Bogus_DataSets_Images_City.htm" />
+  <HelpKINode Title="Images.DataUri method" Url="html/M_Bogus_DataSets_Images_DataUri.htm" />
+  <HelpKINode Title="Images.Fashion method" Url="html/M_Bogus_DataSets_Images_Fashion.htm" />
+  <HelpKINode Title="Images.Food method" Url="html/M_Bogus_DataSets_Images_Food.htm" />
+  <HelpKINode Title="Images.Image method" Url="html/M_Bogus_DataSets_Images_Image.htm" />
+  <HelpKINode Title="Images.Images constructor" Url="html/M_Bogus_DataSets_Images__ctor.htm" />
+  <HelpKINode Title="Images.ImageUrl method" Url="html/M_Bogus_DataSets_Images_ImageUrl.htm" />
+  <HelpKINode Title="Images.Nature method" Url="html/M_Bogus_DataSets_Images_Nature.htm" />
+  <HelpKINode Title="Images.Nightlife method" Url="html/M_Bogus_DataSets_Images_Nightlife.htm" />
+  <HelpKINode Title="Images.People method" Url="html/M_Bogus_DataSets_Images_People.htm" />
+  <HelpKINode Title="Images.Sports method" Url="html/M_Bogus_DataSets_Images_Sports.htm" />
+  <HelpKINode Title="Images.Technics method" Url="html/M_Bogus_DataSets_Images_Technics.htm" />
+  <HelpKINode Title="Images.Transport method" Url="html/M_Bogus_DataSets_Images_Transport.htm" />
+  <HelpKINode Title="ImageUrl method" Url="html/M_Bogus_DataSets_Images_ImageUrl.htm" />
+  <HelpKINode Title="IndexFaker field" Url="html/F_Bogus_Faker_IndexFaker.htm" />
+  <HelpKINode Title="IndexGlobal property" Url="html/P_Bogus_Faker_IndexGlobal.htm" />
+  <HelpKINode Title="IndexOf method" Url="html/M_Bogus_Bson_BArray_IndexOf.htm" />
+  <HelpKINode Title="IndexVariable field" Url="html/F_Bogus_Faker_IndexVariable.htm" />
+  <HelpKINode Title="Inequality operator" Url="html/M_Bogus_Bson_BValue_op_Inequality.htm" />
+  <HelpKINode Title="IngVerb method" Url="html/M_Bogus_DataSets_Hacker_IngVerb.htm" />
+  <HelpKINode Title="Initialize method" Url="html/M_Bogus_Premium_PremiumDataSet_Initialize.htm" />
+  <HelpKINode Title="Insert method" Url="html/M_Bogus_Bson_BArray_Insert.htm" />
+  <HelpKINode Title="Instapayment field" Url="html/F_Bogus_DataSets_CardType_Instapayment.htm" />
+  <HelpKINode Title="Int method" Url="html/M_Bogus_Randomizer_Int.htm" />
+  <HelpKINode Title="Int32 enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="Int32 to BValue conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_9.htm" />
+  <HelpKINode Title="Int32Value property" Url="html/P_Bogus_Bson_BValue_Int32Value.htm" />
+  <HelpKINode Title="Int64 enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="Int64 to BValue conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_10.htm" />
+  <HelpKINode Title="Int64Value property" Url="html/P_Bogus_Bson_BValue_Int64Value.htm" />
+  <HelpKINode Title="Internet class">
+    <HelpKINode Title="Internet Class" Url="html/T_Bogus_DataSets_Internet.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Internet__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Internet.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Internet.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Internet.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Internet property" Url="html/P_Bogus_Faker_Internet.htm" />
+  <HelpKINode Title="Internet.Avatar method" Url="html/M_Bogus_DataSets_Internet_Avatar.htm" />
+  <HelpKINode Title="Internet.Color method" Url="html/M_Bogus_DataSets_Internet_Color.htm" />
+  <HelpKINode Title="Internet.DomainName method" Url="html/M_Bogus_DataSets_Internet_DomainName.htm" />
+  <HelpKINode Title="Internet.DomainSuffix method" Url="html/M_Bogus_DataSets_Internet_DomainSuffix.htm" />
+  <HelpKINode Title="Internet.DomainWord method" Url="html/M_Bogus_DataSets_Internet_DomainWord.htm" />
+  <HelpKINode Title="Internet.Email method" Url="html/M_Bogus_DataSets_Internet_Email.htm" />
+  <HelpKINode Title="Internet.ExampleEmail method" Url="html/M_Bogus_DataSets_Internet_ExampleEmail.htm" />
+  <HelpKINode Title="Internet.Internet constructor" Url="html/M_Bogus_DataSets_Internet__ctor.htm" />
+  <HelpKINode Title="Internet.Ip method" Url="html/M_Bogus_DataSets_Internet_Ip.htm" />
+  <HelpKINode Title="Internet.Ipv6 method" Url="html/M_Bogus_DataSets_Internet_Ipv6.htm" />
+  <HelpKINode Title="Internet.Mac method" Url="html/M_Bogus_DataSets_Internet_Mac.htm" />
+  <HelpKINode Title="Internet.Name field" Url="html/F_Bogus_DataSets_Internet_Name.htm" />
+  <HelpKINode Title="Internet.Password method" Url="html/M_Bogus_DataSets_Internet_Password.htm" />
+  <HelpKINode Title="Internet.Protocol method" Url="html/M_Bogus_DataSets_Internet_Protocol.htm" />
+  <HelpKINode Title="Internet.Url method" Url="html/M_Bogus_DataSets_Internet_Url.htm" />
+  <HelpKINode Title="Internet.UrlWithPath method" Url="html/M_Bogus_DataSets_Internet_UrlWithPath.htm" />
+  <HelpKINode Title="Internet.UserAgent method" Url="html/M_Bogus_DataSets_Internet_UserAgent.htm" />
+  <HelpKINode Title="Internet.UserName method" Url="html/M_Bogus_DataSets_Internet_UserName.htm" />
+  <HelpKINode Title="Ip method" Url="html/M_Bogus_DataSets_Internet_Ip.htm" />
+  <HelpKINode Title="Ipv6 method" Url="html/M_Bogus_DataSets_Internet_Ipv6.htm" />
+  <HelpKINode Title="IRuleSet(Of T) interface">
+    <HelpKINode Title="IRuleSet(T) Interface" Url="html/T_Bogus_IRuleSet_1.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_IRuleSet_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IRuleSet(Of T).CustomInstantiator method" Url="html/M_Bogus_IRuleSet_1_CustomInstantiator.htm" />
+  <HelpKINode Title="IRuleSet(Of T).FinishWith method" Url="html/M_Bogus_IRuleSet_1_FinishWith.htm" />
+  <HelpKINode Title="IRuleSet(Of T).Ignore(Of TPropertyOrField) method" Url="html/M_Bogus_IRuleSet_1_Ignore__1.htm" />
+  <HelpKINode Title="IRuleSet(Of T).RuleFor method" Url="html/Overload_Bogus_IRuleSet_1_RuleFor.htm" />
+  <HelpKINode Title="IRuleSet(Of T).Rules method" Url="html/M_Bogus_IRuleSet_1_Rules.htm" />
+  <HelpKINode Title="IRuleSet(Of T).StrictMode method" Url="html/M_Bogus_IRuleSet_1_StrictMode.htm" />
+  <HelpKINode Title="IRuleSet&lt;T&gt; interface">
+    <HelpKINode Title="IRuleSet(T) Interface" Url="html/T_Bogus_IRuleSet_1.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_IRuleSet_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IRuleSet&lt;T&gt;.CustomInstantiator method" Url="html/M_Bogus_IRuleSet_1_CustomInstantiator.htm" />
+  <HelpKINode Title="IRuleSet&lt;T&gt;.FinishWith method" Url="html/M_Bogus_IRuleSet_1_FinishWith.htm" />
+  <HelpKINode Title="IRuleSet&lt;T&gt;.Ignore&lt;TPropertyOrField&gt; method" Url="html/M_Bogus_IRuleSet_1_Ignore__1.htm" />
+  <HelpKINode Title="IRuleSet&lt;T&gt;.RuleFor method" Url="html/Overload_Bogus_IRuleSet_1_RuleFor.htm" />
+  <HelpKINode Title="IRuleSet&lt;T&gt;.Rules method" Url="html/M_Bogus_IRuleSet_1_Rules.htm" />
+  <HelpKINode Title="IRuleSet&lt;T&gt;.StrictMode method" Url="html/M_Bogus_IRuleSet_1_StrictMode.htm" />
+  <HelpKINode Title="IsEnum method" Url="html/M_Bogus_Platform_ExtensionsForType_IsEnum.htm" />
+  <HelpKINode Title="IsNone property" Url="html/P_Bogus_Bson_BValue_IsNone.htm" />
+  <HelpKINode Title="Iso3166Format enumeration" Url="html/T_Bogus_DataSets_Iso3166Format.htm" />
+  <HelpKINode Title="IsValid field" Url="html/F_Bogus_Faker_1_IsValid.htm" />
+  <HelpKINode Title="Item property">
+    <HelpKINode Title="BArray.Item Property " Url="html/Overload_Bogus_Bson_BArray_Item.htm" />
+    <HelpKINode Title="BObject.Item Property " Url="html/Overload_Bogus_Bson_BObject_Item.htm" />
+    <HelpKINode Title="BValue.Item Property " Url="html/Overload_Bogus_Bson_BValue_Item.htm" />
+    <HelpKINode Title="Name.Item Property " Url="html/P_Bogus_DataSets_Name_Item.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jcb field" Url="html/F_Bogus_DataSets_CardType_Jcb.htm" />
+  <HelpKINode Title="JobArea method" Url="html/M_Bogus_DataSets_Name_JobArea.htm" />
+  <HelpKINode Title="JobDescriptor method" Url="html/M_Bogus_DataSets_Name_JobDescriptor.htm" />
+  <HelpKINode Title="JobTitle method" Url="html/M_Bogus_DataSets_Name_JobTitle.htm" />
+  <HelpKINode Title="JobType method" Url="html/M_Bogus_DataSets_Name_JobType.htm" />
+  <HelpKINode Title="Keys property" Url="html/P_Bogus_Bson_BObject_Keys.htm" />
+  <HelpKINode Title="Laser field" Url="html/F_Bogus_DataSets_CardType_Laser.htm" />
+  <HelpKINode Title="LastName field" Url="html/F_Bogus_Person_LastName.htm" />
+  <HelpKINode Title="LastName method" Url="html/M_Bogus_DataSets_Name_LastName.htm" />
+  <HelpKINode Title="Lat field" Url="html/F_Bogus_Person_CardAddress_CardGeo_Lat.htm" />
+  <HelpKINode Title="Latitude method" Url="html/M_Bogus_DataSets_Address_Latitude.htm" />
+  <HelpKINode Title="Letter method" Url="html/M_Bogus_DataSets_Lorem_Letter.htm" />
+  <HelpKINode Title="License class">
+    <HelpKINode Title="License Class" Url="html/T_Bogus_Premium_License.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Premium_License__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Premium_License.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Premium_License.htm" />
+  </HelpKINode>
+  <HelpKINode Title="License.License constructor" Url="html/M_Bogus_Premium_License__ctor.htm" />
+  <HelpKINode Title="License.LicenseKey property" Url="html/P_Bogus_Premium_License_LicenseKey.htm" />
+  <HelpKINode Title="License.LicenseTo property" Url="html/P_Bogus_Premium_License_LicenseTo.htm" />
+  <HelpKINode Title="LicenseFile field" Url="html/F_Bogus_Premium_LicenseVerifier_LicenseFile.htm" />
+  <HelpKINode Title="LicenseKey property" Url="html/P_Bogus_Premium_License_LicenseKey.htm" />
+  <HelpKINode Title="LicenseTo property" Url="html/P_Bogus_Premium_License_LicenseTo.htm" />
+  <HelpKINode Title="LicenseVerifier class">
+    <HelpKINode Title="LicenseVerifier Class" Url="html/T_Bogus_Premium_LicenseVerifier.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Premium_LicenseVerifier.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Premium_LicenseVerifier.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Premium_LicenseVerifier.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LicenseVerifier.FindLicense method" Url="html/Overload_Bogus_Premium_LicenseVerifier_FindLicense.htm" />
+  <HelpKINode Title="LicenseVerifier.LicenseFile field" Url="html/F_Bogus_Premium_LicenseVerifier_LicenseFile.htm" />
+  <HelpKINode Title="LicenseVerifier.ProbePaths property" Url="html/P_Bogus_Premium_LicenseVerifier_ProbePaths.htm" />
+  <HelpKINode Title="LicenseVerifier.ReadLicense method" Url="html/M_Bogus_Premium_LicenseVerifier_ReadLicense.htm" />
+  <HelpKINode Title="LicenseVerifier.VerifyLicense method" Url="html/M_Bogus_Premium_LicenseVerifier_VerifyLicense.htm" />
+  <HelpKINode Title="Lines method" Url="html/M_Bogus_DataSets_Lorem_Lines.htm" />
+  <HelpKINode Title="ListItem method" Url="html/Overload_Bogus_Randomizer_ListItem.htm" />
+  <HelpKINode Title="ListItems method" Url="html/Overload_Bogus_Randomizer_ListItems.htm" />
+  <HelpKINode Title="Lng field" Url="html/F_Bogus_Person_CardAddress_CardGeo_Lng.htm" />
+  <HelpKINode Title="Load method" Url="html/M_Bogus_Bson_Bson_Load.htm" />
+  <HelpKINode Title="LoadResource method" Url="html/M_Bogus_Premium_PremiumDataSet_LoadResource.htm" />
+  <HelpKINode Title="Locale property">
+    <HelpKINode Title="DataSet.Locale Property " Url="html/P_Bogus_DataSet_Locale.htm" />
+    <HelpKINode Title="Faker(T).Locale Property " Url="html/P_Bogus_Faker_1_Locale.htm" />
+    <HelpKINode Title="Faker.Locale Property " Url="html/P_Bogus_Faker_Locale.htm" />
+    <HelpKINode Title="ILocaleAware.Locale Property " Url="html/P_Bogus_ILocaleAware_Locale.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LocaleResourceExists method" Url="html/M_Bogus_Database_LocaleResourceExists.htm" />
+  <HelpKINode Title="localSeed field" Url="html/F_Bogus_Faker_1_localSeed.htm" />
+  <HelpKINode Title="LocalSeed property" Url="html/P_Bogus_IFakerTInternal_LocalSeed.htm" />
+  <HelpKINode Title="Long method" Url="html/M_Bogus_Randomizer_Long.htm" />
+  <HelpKINode Title="Longitude method" Url="html/M_Bogus_DataSets_Address_Longitude.htm" />
+  <HelpKINode Title="Lookup field" Url="html/F_Bogus_Extensions_ExtensionsForCultureInfo_Lookup.htm" />
+  <HelpKINode Title="Lorem class">
+    <HelpKINode Title="Lorem Class" Url="html/T_Bogus_DataSets_Lorem.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Lorem__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Lorem.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Lorem.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Lorem.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Lorem field" Url="html/F_Bogus_DataSets_System_Lorem.htm" />
+  <HelpKINode Title="Lorem property" Url="html/P_Bogus_Faker_Lorem.htm" />
+  <HelpKINode Title="Lorem.Letter method" Url="html/M_Bogus_DataSets_Lorem_Letter.htm" />
+  <HelpKINode Title="Lorem.Lines method" Url="html/M_Bogus_DataSets_Lorem_Lines.htm" />
+  <HelpKINode Title="Lorem.Lorem constructor" Url="html/M_Bogus_DataSets_Lorem__ctor.htm" />
+  <HelpKINode Title="Lorem.Paragraph method" Url="html/M_Bogus_DataSets_Lorem_Paragraph.htm" />
+  <HelpKINode Title="Lorem.Paragraphs method" Url="html/Overload_Bogus_DataSets_Lorem_Paragraphs.htm" />
+  <HelpKINode Title="Lorem.Sentence method" Url="html/M_Bogus_DataSets_Lorem_Sentence.htm" />
+  <HelpKINode Title="Lorem.Sentences method" Url="html/M_Bogus_DataSets_Lorem_Sentences.htm" />
+  <HelpKINode Title="Lorem.Slug method" Url="html/M_Bogus_DataSets_Lorem_Slug.htm" />
+  <HelpKINode Title="Lorem.Text method" Url="html/M_Bogus_DataSets_Lorem_Text.htm" />
+  <HelpKINode Title="Lorem.Word method" Url="html/M_Bogus_DataSets_Lorem_Word.htm" />
+  <HelpKINode Title="Lorem.Words method" Url="html/M_Bogus_DataSets_Lorem_Words.htm" />
+  <HelpKINode Title="LowerCase field" Url="html/F_Bogus_Chars_LowerCase.htm" />
+  <HelpKINode Title="Mac method" Url="html/M_Bogus_DataSets_Internet_Mac.htm" />
+  <HelpKINode Title="Maestro field" Url="html/F_Bogus_DataSets_CardType_Maestro.htm" />
+  <HelpKINode Title="Make method" Url="html/Overload_Bogus_Faker_Make.htm" />
+  <HelpKINode Title="MakeLazy method" Url="html/Overload_Bogus_Faker_MakeLazy.htm" />
+  <HelpKINode Title="MakeValidationException method" Url="html/M_Bogus_Faker_1_MakeValidationException.htm" />
+  <HelpKINode Title="Male enumeration member" Url="html/T_Bogus_DataSets_Name_Gender.htm" />
+  <HelpKINode Title="Mastercard field" Url="html/F_Bogus_DataSets_CardType_Mastercard.htm" />
+  <HelpKINode Title="Method property" Url="html/P_Bogus_MustashMethod_Method.htm" />
+  <HelpKINode Title="MimeType method" Url="html/M_Bogus_DataSets_System_MimeType.htm" />
+  <HelpKINode Title="Month method" Url="html/M_Bogus_DataSets_Date_Month.htm" />
+  <HelpKINode Title="MultiDictionary(Of Key, Key2, Value) class">
+    <HelpKINode Title="MultiDictionary(Key, Key2, Value) Class" Url="html/T_Bogus_MultiDictionary_3.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_MultiDictionary_3__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_MultiDictionary_3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_MultiDictionary_3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MultiDictionary(Of Key, Key2, Value).Add method" Url="html/Overload_Bogus_MultiDictionary_3_Add.htm" />
+  <HelpKINode Title="MultiDictionary(Of Key, Key2, Value).MultiDictionary constructor" Url="html/M_Bogus_MultiDictionary_3__ctor.htm" />
+  <HelpKINode Title="MultiDictionary&lt;Key, Key2, Value&gt; class">
+    <HelpKINode Title="MultiDictionary(Key, Key2, Value) Class" Url="html/T_Bogus_MultiDictionary_3.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_MultiDictionary_3__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_MultiDictionary_3.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_MultiDictionary_3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MultiDictionary&lt;Key, Key2, Value&gt;.Add method" Url="html/Overload_Bogus_MultiDictionary_3_Add.htm" />
+  <HelpKINode Title="MultiDictionary&lt;Key, Key2, Value&gt;.MultiDictionary constructor" Url="html/M_Bogus_MultiDictionary_3__ctor.htm" />
+  <HelpKINode Title="MultiSetDictionary(Of Key, Value) class">
+    <HelpKINode Title="MultiSetDictionary(Key, Value) Class" Url="html/T_Bogus_MultiSetDictionary_2.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_MultiSetDictionary_2__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_MultiSetDictionary_2.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_MultiSetDictionary_2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MultiSetDictionary(Of Key, Value).Add method" Url="html/Overload_Bogus_MultiSetDictionary_2_Add.htm" />
+  <HelpKINode Title="MultiSetDictionary(Of Key, Value).MultiSetDictionary constructor" Url="html/M_Bogus_MultiSetDictionary_2__ctor.htm" />
+  <HelpKINode Title="MultiSetDictionary&lt;Key, Value&gt; class">
+    <HelpKINode Title="MultiSetDictionary(Key, Value) Class" Url="html/T_Bogus_MultiSetDictionary_2.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_MultiSetDictionary_2__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_MultiSetDictionary_2.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_MultiSetDictionary_2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MultiSetDictionary&lt;Key, Value&gt;.Add method" Url="html/Overload_Bogus_MultiSetDictionary_2_Add.htm" />
+  <HelpKINode Title="MultiSetDictionary&lt;Key, Value&gt;.MultiSetDictionary constructor" Url="html/M_Bogus_MultiSetDictionary_2__ctor.htm" />
+  <HelpKINode Title="MustashMethod class">
+    <HelpKINode Title="MustashMethod Class" Url="html/T_Bogus_MustashMethod.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_MustashMethod__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_MustashMethod.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_MustashMethod.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MustashMethod.Method property" Url="html/P_Bogus_MustashMethod_Method.htm" />
+  <HelpKINode Title="MustashMethod.MustashMethod constructor" Url="html/M_Bogus_MustashMethod__ctor.htm" />
+  <HelpKINode Title="MustashMethod.Name property" Url="html/P_Bogus_MustashMethod_Name.htm" />
+  <HelpKINode Title="MustashMethod.OptionalArgs property" Url="html/P_Bogus_MustashMethod_OptionalArgs.htm" />
+  <HelpKINode Title="MustashMethods field" Url="html/F_Bogus_Tokenizer_MustashMethods.htm" />
+  <HelpKINode Title="Name class">
+    <HelpKINode Title="Name Class" Url="html/T_Bogus_DataSets_Name.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Name__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Name.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Name.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Name.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Name field">
+    <HelpKINode Title="Address.Name Field" Url="html/F_Bogus_DataSets_Address_Name.htm" />
+    <HelpKINode Title="Company.Name Field" Url="html/F_Bogus_DataSets_Company_Name.htm" />
+    <HelpKINode Title="Internet.Name Field" Url="html/F_Bogus_DataSets_Internet_Name.htm" />
+    <HelpKINode Title="Person.CardCompany.Name Field" Url="html/F_Bogus_Person_CardCompany_Name.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Name property">
+    <HelpKINode Title="DataCategoryAttribute.Name Property " Url="html/P_Bogus_DataCategoryAttribute_Name.htm" />
+    <HelpKINode Title="Faker.Name Property " Url="html/P_Bogus_Faker_Name.htm" />
+    <HelpKINode Title="MustashMethod.Name Property " Url="html/P_Bogus_MustashMethod_Name.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Name.FindName method" Url="html/M_Bogus_DataSets_Name_FindName.htm" />
+  <HelpKINode Title="Name.FirstName method" Url="html/M_Bogus_DataSets_Name_FirstName.htm" />
+  <HelpKINode Title="Name.FullName method" Url="html/M_Bogus_DataSets_Name_FullName.htm" />
+  <HelpKINode Title="Name.Gender enumeration" Url="html/T_Bogus_DataSets_Name_Gender.htm" />
+  <HelpKINode Title="Name.HasFirstNameList field" Url="html/F_Bogus_DataSets_Name_HasFirstNameList.htm" />
+  <HelpKINode Title="Name.Item property" Url="html/P_Bogus_DataSets_Name_Item.htm" />
+  <HelpKINode Title="Name.JobArea method" Url="html/M_Bogus_DataSets_Name_JobArea.htm" />
+  <HelpKINode Title="Name.JobDescriptor method" Url="html/M_Bogus_DataSets_Name_JobDescriptor.htm" />
+  <HelpKINode Title="Name.JobTitle method" Url="html/M_Bogus_DataSets_Name_JobTitle.htm" />
+  <HelpKINode Title="Name.JobType method" Url="html/M_Bogus_DataSets_Name_JobType.htm" />
+  <HelpKINode Title="Name.LastName method" Url="html/M_Bogus_DataSets_Name_LastName.htm" />
+  <HelpKINode Title="Name.Name constructor" Url="html/M_Bogus_DataSets_Name__ctor.htm" />
+  <HelpKINode Title="Name.Prefix method" Url="html/M_Bogus_DataSets_Name_Prefix.htm" />
+  <HelpKINode Title="Name.Suffix method" Url="html/M_Bogus_DataSets_Name_Suffix.htm" />
+  <HelpKINode Title="Name.SupportsGenderFirstNames field" Url="html/F_Bogus_DataSets_Name_SupportsGenderFirstNames.htm" />
+  <HelpKINode Title="Name.SupportsGenderLastNames field" Url="html/F_Bogus_DataSets_Name_SupportsGenderLastNames.htm" />
+  <HelpKINode Title="Name.SupportsGenderPrefixes field" Url="html/F_Bogus_DataSets_Name_SupportsGenderPrefixes.htm" />
+  <HelpKINode Title="Nature method" Url="html/M_Bogus_DataSets_Images_Nature.htm" />
+  <HelpKINode Title="Nif method" Url="html/M_Bogus_Extensions_Portugal_ExtensionsForPortugal_Nif.htm" />
+  <HelpKINode Title="Nightlife method" Url="html/M_Bogus_DataSets_Images_Nightlife.htm" />
+  <HelpKINode Title="Nino method" Url="html/M_Bogus_Extensions_UnitedKingdom_ExtensionsForUnitedKingdom_Nino.htm" />
+  <HelpKINode Title="Nipc method" Url="html/M_Bogus_Extensions_Portugal_ExtensionsForPortugal_Nipc.htm" />
+  <HelpKINode Title="None enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="Notifier field">
+    <HelpKINode Title="DataSet.Notifier Field" Url="html/F_Bogus_DataSet_Notifier.htm" />
+    <HelpKINode Title="Faker.Notifier Field" Url="html/F_Bogus_Faker_Notifier.htm" />
+    <HelpKINode Title="Person.Notifier Field" Url="html/F_Bogus_Person_Notifier.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Notify method" Url="html/M_Bogus_SeedNotifier_Notify.htm" />
+  <HelpKINode Title="Noun method" Url="html/M_Bogus_DataSets_Hacker_Noun.htm" />
+  <HelpKINode Title="Number method" Url="html/Overload_Bogus_Randomizer_Number.htm" />
+  <HelpKINode Title="Numbers field" Url="html/F_Bogus_Chars_Numbers.htm" />
+  <HelpKINode Title="Object enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="Odd method" Url="html/M_Bogus_Randomizer_Odd.htm" />
+  <HelpKINode Title="OptionalArgs property" Url="html/P_Bogus_MustashMethod_OptionalArgs.htm" />
+  <HelpKINode Title="OrdinalDirection method" Url="html/M_Bogus_DataSets_Address_OrdinalDirection.htm" />
+  <HelpKINode Title="OrNull method" Url="html/M_Bogus_Extensions_ExtensionsForFakerT_OrNull.htm" />
+  <HelpKINode Title="Paragraph method" Url="html/M_Bogus_DataSets_Lorem_Paragraph.htm" />
+  <HelpKINode Title="Paragraphs method" Url="html/Overload_Bogus_DataSets_Lorem_Paragraphs.htm" />
+  <HelpKINode Title="Parse method">
+    <HelpKINode Title="Faker.Parse Method " Url="html/M_Bogus_Faker_Parse.htm" />
+    <HelpKINode Title="Tokenizer.Parse Method " Url="html/M_Bogus_Tokenizer_Parse.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ParseDirtyRulesSets method" Url="html/M_Bogus_Faker_1_ParseDirtyRulesSets.htm" />
+  <HelpKINode Title="Password method" Url="html/M_Bogus_DataSets_Internet_Password.htm" />
+  <HelpKINode Title="Past method" Url="html/M_Bogus_DataSets_Date_Past.htm" />
+  <HelpKINode Title="PastOffset method" Url="html/M_Bogus_DataSets_Date_PastOffset.htm" />
+  <HelpKINode Title="People method" Url="html/M_Bogus_DataSets_Images_People.htm" />
+  <HelpKINode Title="Person class">
+    <HelpKINode Title="Person Class" Url="html/T_Bogus_Person.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Person__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Person.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Person.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Person.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Person property" Url="html/P_Bogus_Faker_Person.htm" />
+  <HelpKINode Title="Person.Address field" Url="html/F_Bogus_Person_Address.htm" />
+  <HelpKINode Title="Person.Avatar field" Url="html/F_Bogus_Person_Avatar.htm" />
+  <HelpKINode Title="Person.CardAddress class">
+    <HelpKINode Title="Person.CardAddress Class" Url="html/T_Bogus_Person_CardAddress.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Person_CardAddress__ctor.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Person.CardAddress.CardAddress constructor" Url="html/M_Bogus_Person_CardAddress__ctor.htm" />
+  <HelpKINode Title="Person.CardAddress.CardGeo class">
+    <HelpKINode Title="Person.CardAddress.CardGeo Class" Url="html/T_Bogus_Person_CardAddress_CardGeo.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Person_CardAddress_CardGeo__ctor.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Person.CardAddress.CardGeo.CardGeo constructor" Url="html/M_Bogus_Person_CardAddress_CardGeo__ctor.htm" />
+  <HelpKINode Title="Person.CardAddress.CardGeo.Lat field" Url="html/F_Bogus_Person_CardAddress_CardGeo_Lat.htm" />
+  <HelpKINode Title="Person.CardAddress.CardGeo.Lng field" Url="html/F_Bogus_Person_CardAddress_CardGeo_Lng.htm" />
+  <HelpKINode Title="Person.CardAddress.City field" Url="html/F_Bogus_Person_CardAddress_City.htm" />
+  <HelpKINode Title="Person.CardAddress.Geo field" Url="html/F_Bogus_Person_CardAddress_Geo.htm" />
+  <HelpKINode Title="Person.CardAddress.State field" Url="html/F_Bogus_Person_CardAddress_State.htm" />
+  <HelpKINode Title="Person.CardAddress.Street field" Url="html/F_Bogus_Person_CardAddress_Street.htm" />
+  <HelpKINode Title="Person.CardAddress.Suite field" Url="html/F_Bogus_Person_CardAddress_Suite.htm" />
+  <HelpKINode Title="Person.CardAddress.ZipCode field" Url="html/F_Bogus_Person_CardAddress_ZipCode.htm" />
+  <HelpKINode Title="Person.CardCompany class">
+    <HelpKINode Title="Person.CardCompany Class" Url="html/T_Bogus_Person_CardCompany.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Person_CardCompany__ctor.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Person.CardCompany.Bs field" Url="html/F_Bogus_Person_CardCompany_Bs.htm" />
+  <HelpKINode Title="Person.CardCompany.CardCompany constructor" Url="html/M_Bogus_Person_CardCompany__ctor.htm" />
+  <HelpKINode Title="Person.CardCompany.CatchPhrase field" Url="html/F_Bogus_Person_CardCompany_CatchPhrase.htm" />
+  <HelpKINode Title="Person.CardCompany.Name field" Url="html/F_Bogus_Person_CardCompany_Name.htm" />
+  <HelpKINode Title="Person.Company field" Url="html/F_Bogus_Person_Company.htm" />
+  <HelpKINode Title="Person.DateOfBirth field" Url="html/F_Bogus_Person_DateOfBirth.htm" />
+  <HelpKINode Title="Person.DsAddress property" Url="html/P_Bogus_Person_DsAddress.htm" />
+  <HelpKINode Title="Person.DsCompany property" Url="html/P_Bogus_Person_DsCompany.htm" />
+  <HelpKINode Title="Person.DsDate property" Url="html/P_Bogus_Person_DsDate.htm" />
+  <HelpKINode Title="Person.DsInternet property" Url="html/P_Bogus_Person_DsInternet.htm" />
+  <HelpKINode Title="Person.DsName property" Url="html/P_Bogus_Person_DsName.htm" />
+  <HelpKINode Title="Person.DsPhoneNumbers property" Url="html/P_Bogus_Person_DsPhoneNumbers.htm" />
+  <HelpKINode Title="Person.Email field" Url="html/F_Bogus_Person_Email.htm" />
+  <HelpKINode Title="Person.FirstName field" Url="html/F_Bogus_Person_FirstName.htm" />
+  <HelpKINode Title="Person.FullName field" Url="html/F_Bogus_Person_FullName.htm" />
+  <HelpKINode Title="Person.Gender field" Url="html/F_Bogus_Person_Gender.htm" />
+  <HelpKINode Title="Person.LastName field" Url="html/F_Bogus_Person_LastName.htm" />
+  <HelpKINode Title="Person.Notifier field" Url="html/F_Bogus_Person_Notifier.htm" />
+  <HelpKINode Title="Person.Person constructor" Url="html/M_Bogus_Person__ctor.htm" />
+  <HelpKINode Title="Person.Phone field" Url="html/F_Bogus_Person_Phone.htm" />
+  <HelpKINode Title="Person.Populate method" Url="html/M_Bogus_Person_Populate.htm" />
+  <HelpKINode Title="Person.Random property" Url="html/P_Bogus_Person_Random.htm" />
+  <HelpKINode Title="Person.UserName field" Url="html/F_Bogus_Person_UserName.htm" />
+  <HelpKINode Title="Person.Website field" Url="html/F_Bogus_Person_Website.htm" />
+  <HelpKINode Title="Phone field" Url="html/F_Bogus_Person_Phone.htm" />
+  <HelpKINode Title="Phone property" Url="html/P_Bogus_Faker_Phone.htm" />
+  <HelpKINode Title="PhoneFormat method" Url="html/M_Bogus_DataSets_PhoneNumbers_PhoneFormat.htm" />
+  <HelpKINode Title="PhoneNumber method" Url="html/M_Bogus_DataSets_PhoneNumbers_PhoneNumber.htm" />
+  <HelpKINode Title="PhoneNumberFormat method" Url="html/M_Bogus_DataSets_PhoneNumbers_PhoneNumberFormat.htm" />
+  <HelpKINode Title="PhoneNumbers class">
+    <HelpKINode Title="PhoneNumbers Class" Url="html/T_Bogus_DataSets_PhoneNumbers.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_PhoneNumbers__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_PhoneNumbers.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_PhoneNumbers.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_PhoneNumbers.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PhoneNumbers.PhoneFormat method" Url="html/M_Bogus_DataSets_PhoneNumbers_PhoneFormat.htm" />
+  <HelpKINode Title="PhoneNumbers.PhoneNumber method" Url="html/M_Bogus_DataSets_PhoneNumbers_PhoneNumber.htm" />
+  <HelpKINode Title="PhoneNumbers.PhoneNumberFormat method" Url="html/M_Bogus_DataSets_PhoneNumbers_PhoneNumberFormat.htm" />
+  <HelpKINode Title="PhoneNumbers.PhoneNumbers constructor" Url="html/M_Bogus_DataSets_PhoneNumbers__ctor.htm" />
+  <HelpKINode Title="PhoneNumbers.ReplaceExclamChar method" Url="html/M_Bogus_DataSets_PhoneNumbers_ReplaceExclamChar.htm" />
+  <HelpKINode Title="Phrase method" Url="html/M_Bogus_DataSets_Hacker_Phrase.htm" />
+  <HelpKINode Title="PickRandom method" Url="html/Overload_Bogus_Faker_PickRandom.htm" />
+  <HelpKINode Title="PickRandomParam(Of T) method" Url="html/M_Bogus_Faker_PickRandomParam__1.htm" />
+  <HelpKINode Title="PickRandomParam&lt;T&gt; method" Url="html/M_Bogus_Faker_PickRandomParam__1.htm" />
+  <HelpKINode Title="PickRandomWithout(Of T) method" Url="html/M_Bogus_Faker_PickRandomWithout__1.htm" />
+  <HelpKINode Title="PickRandomWithout&lt;T&gt; method" Url="html/M_Bogus_Faker_PickRandomWithout__1.htm" />
+  <HelpKINode Title="Populate method">
+    <HelpKINode Title="Faker(T).Populate Method " Url="html/M_Bogus_Faker_1_Populate.htm" />
+    <HelpKINode Title="Person.Populate Method " Url="html/M_Bogus_Person_Populate.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PopulateAction(Of T) class">
+    <HelpKINode Title="PopulateAction(T) Class" Url="html/T_Bogus_PopulateAction_1.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_PopulateAction_1__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_PopulateAction_1.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_PopulateAction_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PopulateAction(Of T).PopulateAction constructor" Url="html/M_Bogus_PopulateAction_1__ctor.htm" />
+  <HelpKINode Title="PopulateAction&lt;T&gt; class">
+    <HelpKINode Title="PopulateAction(T) Class" Url="html/T_Bogus_PopulateAction_1.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_PopulateAction_1__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_PopulateAction_1.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_PopulateAction_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PopulateAction&lt;T&gt;.PopulateAction constructor" Url="html/M_Bogus_PopulateAction_1__ctor.htm" />
+  <HelpKINode Title="PopulateInternal method" Url="html/M_Bogus_Faker_1_PopulateInternal.htm" />
+  <HelpKINode Title="Prefix method" Url="html/M_Bogus_DataSets_Name_Prefix.htm" />
+  <HelpKINode Title="PremiumDataSet class">
+    <HelpKINode Title="PremiumDataSet Class" Url="html/T_Bogus_Premium_PremiumDataSet.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Premium_PremiumDataSet__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Premium_PremiumDataSet.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Premium_PremiumDataSet.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Premium_PremiumDataSet.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PremiumDataSet.CheckLicense method" Url="html/M_Bogus_Premium_PremiumDataSet_CheckLicense.htm" />
+  <HelpKINode Title="PremiumDataSet.Get method" Url="html/Overload_Bogus_Premium_PremiumDataSet_Get.htm" />
+  <HelpKINode Title="PremiumDataSet.HasKey method" Url="html/M_Bogus_Premium_PremiumDataSet_HasKey.htm" />
+  <HelpKINode Title="PremiumDataSet.Initialize method" Url="html/M_Bogus_Premium_PremiumDataSet_Initialize.htm" />
+  <HelpKINode Title="PremiumDataSet.LoadResource method" Url="html/M_Bogus_Premium_PremiumDataSet_LoadResource.htm" />
+  <HelpKINode Title="PremiumDataSet.PremiumDataSet constructor" Url="html/M_Bogus_Premium_PremiumDataSet__ctor.htm" />
+  <HelpKINode Title="Price method" Url="html/M_Bogus_DataSets_Commerce_Price.htm" />
+  <HelpKINode Title="ProbePaths property" Url="html/P_Bogus_Premium_LicenseVerifier_ProbePaths.htm" />
+  <HelpKINode Title="Product method" Url="html/M_Bogus_DataSets_Commerce_Product.htm" />
+  <HelpKINode Title="ProductAdjective method" Url="html/M_Bogus_DataSets_Commerce_ProductAdjective.htm" />
+  <HelpKINode Title="ProductMaterial method" Url="html/M_Bogus_DataSets_Commerce_ProductMaterial.htm" />
+  <HelpKINode Title="ProductName method" Url="html/M_Bogus_DataSets_Commerce_ProductName.htm" />
+  <HelpKINode Title="ProhibitInStrictMode property" Url="html/P_Bogus_Rule_1_ProhibitInStrictMode.htm" />
+  <HelpKINode Title="PropertyName property" Url="html/P_Bogus_Rule_1_PropertyName.htm" />
+  <HelpKINode Title="Protocol method" Url="html/M_Bogus_DataSets_Internet_Protocol.htm" />
+  <HelpKINode Title="Random property">
+    <HelpKINode Title="DataSet.Random Property " Url="html/P_Bogus_DataSet_Random.htm" />
+    <HelpKINode Title="Faker.Random Property " Url="html/P_Bogus_Faker_Random.htm" />
+    <HelpKINode Title="IHasRandomizer.Random Property " Url="html/P_Bogus_IHasRandomizer_Random.htm" />
+    <HelpKINode Title="Person.Random Property " Url="html/P_Bogus_Person_Random.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Randomizer class">
+    <HelpKINode Title="Randomizer Class" Url="html/T_Bogus_Randomizer.htm" />
+    <HelpKINode Title="constructor" Url="html/Overload_Bogus_Randomizer__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Randomizer.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Randomizer.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Randomizer.AlphaNumeric method" Url="html/M_Bogus_Randomizer_AlphaNumeric.htm" />
+  <HelpKINode Title="Randomizer.ArrayElement method" Url="html/Overload_Bogus_Randomizer_ArrayElement.htm" />
+  <HelpKINode Title="Randomizer.ArrayElements(Of T) method" Url="html/M_Bogus_Randomizer_ArrayElements__1.htm" />
+  <HelpKINode Title="Randomizer.ArrayElements&lt;T&gt; method" Url="html/M_Bogus_Randomizer_ArrayElements__1.htm" />
+  <HelpKINode Title="Randomizer.Bool method" Url="html/Overload_Bogus_Randomizer_Bool.htm" />
+  <HelpKINode Title="Randomizer.Byte method" Url="html/M_Bogus_Randomizer_Byte.htm" />
+  <HelpKINode Title="Randomizer.Bytes method" Url="html/M_Bogus_Randomizer_Bytes.htm" />
+  <HelpKINode Title="Randomizer.Char method" Url="html/M_Bogus_Randomizer_Char.htm" />
+  <HelpKINode Title="Randomizer.Chars method" Url="html/M_Bogus_Randomizer_Chars.htm" />
+  <HelpKINode Title="Randomizer.ClampString method" Url="html/M_Bogus_Randomizer_ClampString.htm" />
+  <HelpKINode Title="Randomizer.CollectionItem(Of T) method" Url="html/M_Bogus_Randomizer_CollectionItem__1.htm" />
+  <HelpKINode Title="Randomizer.CollectionItem&lt;T&gt; method" Url="html/M_Bogus_Randomizer_CollectionItem__1.htm" />
+  <HelpKINode Title="Randomizer.Decimal method" Url="html/M_Bogus_Randomizer_Decimal.htm" />
+  <HelpKINode Title="Randomizer.Digits method" Url="html/M_Bogus_Randomizer_Digits.htm" />
+  <HelpKINode Title="Randomizer.Double method" Url="html/M_Bogus_Randomizer_Double.htm" />
+  <HelpKINode Title="Randomizer.Enum(Of T) method" Url="html/M_Bogus_Randomizer_Enum__1.htm" />
+  <HelpKINode Title="Randomizer.Enum&lt;T&gt; method" Url="html/M_Bogus_Randomizer_Enum__1.htm" />
+  <HelpKINode Title="Randomizer.Even method" Url="html/M_Bogus_Randomizer_Even.htm" />
+  <HelpKINode Title="Randomizer.Float method" Url="html/M_Bogus_Randomizer_Float.htm" />
+  <HelpKINode Title="Randomizer.Guid method" Url="html/M_Bogus_Randomizer_Guid.htm" />
+  <HelpKINode Title="Randomizer.Hash method" Url="html/M_Bogus_Randomizer_Hash.htm" />
+  <HelpKINode Title="Randomizer.Hexadecimal method" Url="html/M_Bogus_Randomizer_Hexadecimal.htm" />
+  <HelpKINode Title="Randomizer.Int method" Url="html/M_Bogus_Randomizer_Int.htm" />
+  <HelpKINode Title="Randomizer.ListItem method" Url="html/Overload_Bogus_Randomizer_ListItem.htm" />
+  <HelpKINode Title="Randomizer.ListItems method" Url="html/Overload_Bogus_Randomizer_ListItems.htm" />
+  <HelpKINode Title="Randomizer.Long method" Url="html/M_Bogus_Randomizer_Long.htm" />
+  <HelpKINode Title="Randomizer.Number method" Url="html/Overload_Bogus_Randomizer_Number.htm" />
+  <HelpKINode Title="Randomizer.Odd method" Url="html/M_Bogus_Randomizer_Odd.htm" />
+  <HelpKINode Title="Randomizer.Randomizer constructor" Url="html/Overload_Bogus_Randomizer__ctor.htm" />
+  <HelpKINode Title="Randomizer.RandomLocale method" Url="html/M_Bogus_Randomizer_RandomLocale.htm" />
+  <HelpKINode Title="Randomizer.Replace method" Url="html/M_Bogus_Randomizer_Replace.htm" />
+  <HelpKINode Title="Randomizer.ReplaceNumbers method" Url="html/M_Bogus_Randomizer_ReplaceNumbers.htm" />
+  <HelpKINode Title="Randomizer.ReplaceSymbols method" Url="html/M_Bogus_Randomizer_ReplaceSymbols.htm" />
+  <HelpKINode Title="Randomizer.SByte method" Url="html/M_Bogus_Randomizer_SByte.htm" />
+  <HelpKINode Title="Randomizer.Seed field" Url="html/F_Bogus_Randomizer_Seed.htm" />
+  <HelpKINode Title="Randomizer.Short method" Url="html/M_Bogus_Randomizer_Short.htm" />
+  <HelpKINode Title="Randomizer.Shuffle(Of T) method" Url="html/M_Bogus_Randomizer_Shuffle__1.htm" />
+  <HelpKINode Title="Randomizer.Shuffle&lt;T&gt; method" Url="html/M_Bogus_Randomizer_Shuffle__1.htm" />
+  <HelpKINode Title="Randomizer.String method" Url="html/Overload_Bogus_Randomizer_String.htm" />
+  <HelpKINode Title="Randomizer.String2 method" Url="html/Overload_Bogus_Randomizer_String2.htm" />
+  <HelpKINode Title="Randomizer.UInt method" Url="html/M_Bogus_Randomizer_UInt.htm" />
+  <HelpKINode Title="Randomizer.ULong method" Url="html/M_Bogus_Randomizer_ULong.htm" />
+  <HelpKINode Title="Randomizer.UShort method" Url="html/M_Bogus_Randomizer_UShort.htm" />
+  <HelpKINode Title="Randomizer.Uuid method" Url="html/M_Bogus_Randomizer_Uuid.htm" />
+  <HelpKINode Title="Randomizer.WeightedRandom(Of T) method" Url="html/M_Bogus_Randomizer_WeightedRandom__1.htm" />
+  <HelpKINode Title="Randomizer.WeightedRandom&lt;T&gt; method" Url="html/M_Bogus_Randomizer_WeightedRandom__1.htm" />
+  <HelpKINode Title="Randomizer.Word method" Url="html/M_Bogus_Randomizer_Word.htm" />
+  <HelpKINode Title="Randomizer.Words method" Url="html/M_Bogus_Randomizer_Words.htm" />
+  <HelpKINode Title="Randomizer.WordsArray method" Url="html/Overload_Bogus_Randomizer_WordsArray.htm" />
+  <HelpKINode Title="RandomLocale method" Url="html/M_Bogus_Randomizer_RandomLocale.htm" />
+  <HelpKINode Title="RandomTimeSpanFromTicks method" Url="html/M_Bogus_DataSets_Date_RandomTimeSpanFromTicks.htm" />
+  <HelpKINode Title="Rant class">
+    <HelpKINode Title="Rant Class" Url="html/T_Bogus_DataSets_Rant.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_Rant__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_Rant.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_Rant.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_Rant.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Rant property" Url="html/P_Bogus_Faker_Rant.htm" />
+  <HelpKINode Title="Rant.Rant constructor" Url="html/M_Bogus_DataSets_Rant__ctor.htm" />
+  <HelpKINode Title="Rant.Review method" Url="html/M_Bogus_DataSets_Rant_Review.htm" />
+  <HelpKINode Title="Rant.Reviews method" Url="html/M_Bogus_DataSets_Rant_Reviews.htm" />
+  <HelpKINode Title="ReadBObjectResource method" Url="html/M_Bogus_ResourceHelper_ReadBObjectResource.htm" />
+  <HelpKINode Title="ReadBValueResource method" Url="html/M_Bogus_ResourceHelper_ReadBValueResource.htm" />
+  <HelpKINode Title="ReadLicense method" Url="html/M_Bogus_Premium_LicenseVerifier_ReadLicense.htm" />
+  <HelpKINode Title="ReadResource method" Url="html/M_Bogus_ResourceHelper_ReadResource.htm" />
+  <HelpKINode Title="Recent method" Url="html/M_Bogus_DataSets_Date_Recent.htm" />
+  <HelpKINode Title="RecentOffset method" Url="html/M_Bogus_DataSets_Date_RecentOffset.htm" />
+  <HelpKINode Title="RegisterMustashMethods method" Url="html/M_Bogus_Tokenizer_RegisterMustashMethods.htm" />
+  <HelpKINode Title="Remove method">
+    <HelpKINode Title="BArray.Remove Method " Url="html/M_Bogus_Bson_BArray_Remove.htm" />
+    <HelpKINode Title="BObject.Remove Method " Url="html/M_Bogus_Bson_BObject_Remove.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RemoveAt method" Url="html/M_Bogus_Bson_BArray_RemoveAt.htm" />
+  <HelpKINode Title="RemoveDiacritics method" Url="html/M_Bogus_Extensions_ExtensionsForString_RemoveDiacritics.htm" />
+  <HelpKINode Title="Replace method" Url="html/M_Bogus_Randomizer_Replace.htm" />
+  <HelpKINode Title="ReplaceExclamChar method" Url="html/M_Bogus_DataSets_PhoneNumbers_ReplaceExclamChar.htm" />
+  <HelpKINode Title="ReplaceNumbers method" Url="html/M_Bogus_Randomizer_ReplaceNumbers.htm" />
+  <HelpKINode Title="ReplaceSymbols method" Url="html/M_Bogus_Randomizer_ReplaceSymbols.htm" />
+  <HelpKINode Title="ResetLocale method" Url="html/M_Bogus_Database_ResetLocale.htm" />
+  <HelpKINode Title="ResolveCategory method" Url="html/M_Bogus_DataSet_ResolveCategory.htm" />
+  <HelpKINode Title="ResourceExists method" Url="html/M_Bogus_ResourceHelper_ResourceExists.htm" />
+  <HelpKINode Title="ResourceHelper class">
+    <HelpKINode Title="ResourceHelper Class" Url="html/T_Bogus_ResourceHelper.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_ResourceHelper.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ResourceHelper.ReadBObjectResource method" Url="html/M_Bogus_ResourceHelper_ReadBObjectResource.htm" />
+  <HelpKINode Title="ResourceHelper.ReadBValueResource method" Url="html/M_Bogus_ResourceHelper_ReadBValueResource.htm" />
+  <HelpKINode Title="ResourceHelper.ReadResource method" Url="html/M_Bogus_ResourceHelper_ReadResource.htm" />
+  <HelpKINode Title="ResourceHelper.ResourceExists method" Url="html/M_Bogus_ResourceHelper_ResourceExists.htm" />
+  <HelpKINode Title="ResourceNameFormat field" Url="html/F_Bogus_Database_ResourceNameFormat.htm" />
+  <HelpKINode Title="Review method" Url="html/M_Bogus_DataSets_Rant_Review.htm" />
+  <HelpKINode Title="Reviews method" Url="html/M_Bogus_DataSets_Rant_Reviews.htm" />
+  <HelpKINode Title="Rgb enumeration member" Url="html/T_Bogus_DataSets_ColorFormat.htm" />
+  <HelpKINode Title="RoutingNumber method" Url="html/M_Bogus_DataSets_Finance_RoutingNumber.htm" />
+  <HelpKINode Title="Rule(Of T) class">
+    <HelpKINode Title="Rule(T) Class" Url="html/T_Bogus_Rule_1.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Rule_1__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Rule_1.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Rule_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Rule(Of T).Action property" Url="html/P_Bogus_Rule_1_Action.htm" />
+  <HelpKINode Title="Rule(Of T).ProhibitInStrictMode property" Url="html/P_Bogus_Rule_1_ProhibitInStrictMode.htm" />
+  <HelpKINode Title="Rule(Of T).PropertyName property" Url="html/P_Bogus_Rule_1_PropertyName.htm" />
+  <HelpKINode Title="Rule(Of T).Rule constructor" Url="html/M_Bogus_Rule_1__ctor.htm" />
+  <HelpKINode Title="Rule(Of T).RuleSet property" Url="html/P_Bogus_Rule_1_RuleSet.htm" />
+  <HelpKINode Title="Rule&lt;T&gt; class">
+    <HelpKINode Title="Rule(T) Class" Url="html/T_Bogus_Rule_1.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Rule_1__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Rule_1.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_Rule_1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Rule&lt;T&gt;.Action property" Url="html/P_Bogus_Rule_1_Action.htm" />
+  <HelpKINode Title="Rule&lt;T&gt;.ProhibitInStrictMode property" Url="html/P_Bogus_Rule_1_ProhibitInStrictMode.htm" />
+  <HelpKINode Title="Rule&lt;T&gt;.PropertyName property" Url="html/P_Bogus_Rule_1_PropertyName.htm" />
+  <HelpKINode Title="Rule&lt;T&gt;.Rule constructor" Url="html/M_Bogus_Rule_1__ctor.htm" />
+  <HelpKINode Title="Rule&lt;T&gt;.RuleSet property" Url="html/P_Bogus_Rule_1_RuleSet.htm" />
+  <HelpKINode Title="RuleFor method">
+    <HelpKINode Title="Faker(T).RuleFor Method " Url="html/Overload_Bogus_Faker_1_RuleFor.htm" />
+    <HelpKINode Title="IRuleSet(T).RuleFor Method " Url="html/Overload_Bogus_IRuleSet_1_RuleFor.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RuleForType(Of TType) method" Url="html/M_Bogus_Faker_1_RuleForType__1.htm" />
+  <HelpKINode Title="RuleForType&lt;TType&gt; method" Url="html/M_Bogus_Faker_1_RuleForType__1.htm" />
+  <HelpKINode Title="Rules method">
+    <HelpKINode Title="Faker(T).Rules Method " Url="html/M_Bogus_Faker_1_Rules.htm" />
+    <HelpKINode Title="IRuleSet(T).Rules Method " Url="html/M_Bogus_IRuleSet_1_Rules.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RuleSet method" Url="html/M_Bogus_Faker_1_RuleSet.htm" />
+  <HelpKINode Title="RuleSet property" Url="html/P_Bogus_Rule_1_RuleSet.htm" />
+  <HelpKINode Title="SByte method" Url="html/M_Bogus_Randomizer_SByte.htm" />
+  <HelpKINode Title="SecondaryAddress method" Url="html/M_Bogus_DataSets_Address_SecondaryAddress.htm" />
+  <HelpKINode Title="Seed field" Url="html/F_Bogus_Randomizer_Seed.htm" />
+  <HelpKINode Title="SeedNotifier class">
+    <HelpKINode Title="SeedNotifier Class" Url="html/T_Bogus_SeedNotifier.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_SeedNotifier__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_SeedNotifier.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SeedNotifier.Flow(Of U) method" Url="html/M_Bogus_SeedNotifier_Flow__1.htm" />
+  <HelpKINode Title="SeedNotifier.Flow&lt;U&gt; method" Url="html/M_Bogus_SeedNotifier_Flow__1.htm" />
+  <HelpKINode Title="SeedNotifier.Notify method" Url="html/M_Bogus_SeedNotifier_Notify.htm" />
+  <HelpKINode Title="SeedNotifier.SeedNotifier constructor" Url="html/M_Bogus_SeedNotifier__ctor.htm" />
+  <HelpKINode Title="Semver method" Url="html/M_Bogus_DataSets_System_Semver.htm" />
+  <HelpKINode Title="Sentence method" Url="html/M_Bogus_DataSets_Lorem_Sentence.htm" />
+  <HelpKINode Title="Sentences method" Url="html/M_Bogus_DataSets_Lorem_Sentences.htm" />
+  <HelpKINode Title="Serialize method" Url="html/M_Bogus_Bson_Bson_Serialize.htm" />
+  <HelpKINode Title="SetterCache field" Url="html/F_Bogus_Faker_1_SetterCache.htm" />
+  <HelpKINode Title="Short method" Url="html/M_Bogus_Randomizer_Short.htm" />
+  <HelpKINode Title="Shuffle(Of T) method" Url="html/M_Bogus_Randomizer_Shuffle__1.htm" />
+  <HelpKINode Title="Shuffle&lt;T&gt; method" Url="html/M_Bogus_Randomizer_Shuffle__1.htm" />
+  <HelpKINode Title="Sin method" Url="html/M_Bogus_Extensions_Canada_ExtensionsForCanada_Sin.htm" />
+  <HelpKINode Title="Slashify method" Url="html/M_Bogus_Utils_Slashify.htm" />
+  <HelpKINode Title="Slug method" Url="html/M_Bogus_DataSets_Lorem_Slug.htm" />
+  <HelpKINode Title="Slugify method" Url="html/M_Bogus_Utils_Slugify.htm" />
+  <HelpKINode Title="Solo field" Url="html/F_Bogus_DataSets_CardType_Solo.htm" />
+  <HelpKINode Title="Soon method" Url="html/M_Bogus_DataSets_Date_Soon.htm" />
+  <HelpKINode Title="SoonOffset method" Url="html/M_Bogus_DataSets_Date_SoonOffset.htm" />
+  <HelpKINode Title="SortCode method" Url="html/M_Bogus_Extensions_UnitedKingdom_ExtensionsForUnitedKingdom_SortCode.htm" />
+  <HelpKINode Title="Sports method" Url="html/M_Bogus_DataSets_Images_Sports.htm" />
+  <HelpKINode Title="Ssn method" Url="html/M_Bogus_Extensions_UnitedStates_ExtensionsForUnitedStates_Ssn.htm" />
+  <HelpKINode Title="State field" Url="html/F_Bogus_Person_CardAddress_State.htm" />
+  <HelpKINode Title="State method" Url="html/M_Bogus_DataSets_Address_State.htm" />
+  <HelpKINode Title="StateAbbr method" Url="html/M_Bogus_DataSets_Address_StateAbbr.htm" />
+  <HelpKINode Title="Street field" Url="html/F_Bogus_Person_CardAddress_Street.htm" />
+  <HelpKINode Title="StreetAddress method" Url="html/M_Bogus_DataSets_Address_StreetAddress.htm" />
+  <HelpKINode Title="StreetName method" Url="html/M_Bogus_DataSets_Address_StreetName.htm" />
+  <HelpKINode Title="StreetSuffix method" Url="html/M_Bogus_DataSets_Address_StreetSuffix.htm" />
+  <HelpKINode Title="StrictMode method">
+    <HelpKINode Title="Faker(T).StrictMode Method " Url="html/M_Bogus_Faker_1_StrictMode.htm" />
+    <HelpKINode Title="IRuleSet(T).StrictMode Method " Url="html/M_Bogus_IRuleSet_1_StrictMode.htm" />
+  </HelpKINode>
+  <HelpKINode Title="StrictModes field" Url="html/F_Bogus_Faker_1_StrictModes.htm" />
+  <HelpKINode Title="String enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="String method" Url="html/Overload_Bogus_Randomizer_String.htm" />
+  <HelpKINode Title="String to BValue conversion" Url="html/M_Bogus_Bson_BValue_op_Implicit_11.htm" />
+  <HelpKINode Title="String2 method" Url="html/Overload_Bogus_Randomizer_String2.htm" />
+  <HelpKINode Title="StringValue property" Url="html/P_Bogus_Bson_BValue_StringValue.htm" />
+  <HelpKINode Title="Suffix method" Url="html/M_Bogus_DataSets_Name_Suffix.htm" />
+  <HelpKINode Title="Suffixes method" Url="html/M_Bogus_DataSets_Company_Suffixes.htm" />
+  <HelpKINode Title="Suite field" Url="html/F_Bogus_Person_CardAddress_Suite.htm" />
+  <HelpKINode Title="SupportsGenderFirstNames field" Url="html/F_Bogus_DataSets_Name_SupportsGenderFirstNames.htm" />
+  <HelpKINode Title="SupportsGenderLastNames field" Url="html/F_Bogus_DataSets_Name_SupportsGenderLastNames.htm" />
+  <HelpKINode Title="SupportsGenderPrefixes field" Url="html/F_Bogus_DataSets_Name_SupportsGenderPrefixes.htm" />
+  <HelpKINode Title="Switch field" Url="html/F_Bogus_DataSets_CardType_Switch.htm" />
+  <HelpKINode Title="Symbol property" Url="html/P_Bogus_DataSets_Currency_Symbol.htm" />
+  <HelpKINode Title="System class">
+    <HelpKINode Title="System Class" Url="html/T_Bogus_DataSets_System.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_DataSets_System__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_DataSets_System.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_DataSets_System.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_DataSets_System.htm" />
+  </HelpKINode>
+  <HelpKINode Title="System property" Url="html/P_Bogus_Faker_System.htm" />
+  <HelpKINode Title="System.AndroidId method" Url="html/M_Bogus_DataSets_System_AndroidId.htm" />
+  <HelpKINode Title="System.ApplePushToken method" Url="html/M_Bogus_DataSets_System_ApplePushToken.htm" />
+  <HelpKINode Title="System.BlackBerryPin method" Url="html/M_Bogus_DataSets_System_BlackBerryPin.htm" />
+  <HelpKINode Title="System.CommonFileExt method" Url="html/M_Bogus_DataSets_System_CommonFileExt.htm" />
+  <HelpKINode Title="System.CommonFileName method" Url="html/M_Bogus_DataSets_System_CommonFileName.htm" />
+  <HelpKINode Title="System.CommonFileType method" Url="html/M_Bogus_DataSets_System_CommonFileType.htm" />
+  <HelpKINode Title="System.DirectoryPath method" Url="html/M_Bogus_DataSets_System_DirectoryPath.htm" />
+  <HelpKINode Title="System.Exception method" Url="html/M_Bogus_DataSets_System_Exception.htm" />
+  <HelpKINode Title="System.FileExt method" Url="html/M_Bogus_DataSets_System_FileExt.htm" />
+  <HelpKINode Title="System.FileName method" Url="html/M_Bogus_DataSets_System_FileName.htm" />
+  <HelpKINode Title="System.FilePath method" Url="html/M_Bogus_DataSets_System_FilePath.htm" />
+  <HelpKINode Title="System.FileType method" Url="html/M_Bogus_DataSets_System_FileType.htm" />
+  <HelpKINode Title="System.Lorem field" Url="html/F_Bogus_DataSets_System_Lorem.htm" />
+  <HelpKINode Title="System.MimeType method" Url="html/M_Bogus_DataSets_System_MimeType.htm" />
+  <HelpKINode Title="System.Semver method" Url="html/M_Bogus_DataSets_System_Semver.htm" />
+  <HelpKINode Title="System.System constructor" Url="html/M_Bogus_DataSets_System__ctor.htm" />
+  <HelpKINode Title="System.Version method" Url="html/M_Bogus_DataSets_System_Version.htm" />
+  <HelpKINode Title="SystemClock field" Url="html/F_Bogus_DataSets_Date_SystemClock.htm" />
+  <HelpKINode Title="Technics method" Url="html/M_Bogus_DataSets_Images_Technics.htm" />
+  <HelpKINode Title="Text method" Url="html/M_Bogus_DataSets_Lorem_Text.htm" />
+  <HelpKINode Title="Timespan method" Url="html/M_Bogus_DataSets_Date_Timespan.htm" />
+  <HelpKINode Title="ToBogusLocale method" Url="html/M_Bogus_Extensions_ExtensionsForCultureInfo_ToBogusLocale.htm" />
+  <HelpKINode Title="Tokenizer class">
+    <HelpKINode Title="Tokenizer Class" Url="html/T_Bogus_Tokenizer.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_Tokenizer__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_Bogus_Tokenizer.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Tokenizer.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Tokenizer.MustashMethods field" Url="html/F_Bogus_Tokenizer_MustashMethods.htm" />
+  <HelpKINode Title="Tokenizer.Parse method" Url="html/M_Bogus_Tokenizer_Parse.htm" />
+  <HelpKINode Title="Tokenizer.RegisterMustashMethods method" Url="html/M_Bogus_Tokenizer_RegisterMustashMethods.htm" />
+  <HelpKINode Title="Tokenizer.Tokenizer constructor" Url="html/M_Bogus_Tokenizer__ctor.htm" />
+  <HelpKINode Title="TransactionType method" Url="html/M_Bogus_DataSets_Finance_TransactionType.htm" />
+  <HelpKINode Title="Transport method" Url="html/M_Bogus_DataSets_Images_Transport.htm" />
+  <HelpKINode Title="TryGetValue method" Url="html/M_Bogus_Bson_BObject_TryGetValue.htm" />
+  <HelpKINode Title="Type method" Url="html/M_Bogus_DataSets_Database_Type.htm" />
+  <HelpKINode Title="TypeOfT property" Url="html/P_Bogus_IFakerTInternal_TypeOfT.htm" />
+  <HelpKINode Title="TypeProperties field" Url="html/F_Bogus_Faker_1_TypeProperties.htm" />
+  <HelpKINode Title="UInt method" Url="html/M_Bogus_Randomizer_UInt.htm" />
+  <HelpKINode Title="ULong method" Url="html/M_Bogus_Randomizer_ULong.htm" />
+  <HelpKINode Title="UniqueIndex property" Url="html/P_Bogus_Faker_UniqueIndex.htm" />
+  <HelpKINode Title="UpperCase field" Url="html/F_Bogus_Chars_UpperCase.htm" />
+  <HelpKINode Title="Url method" Url="html/M_Bogus_DataSets_Internet_Url.htm" />
+  <HelpKINode Title="UrlWithPath method" Url="html/M_Bogus_DataSets_Internet_UrlWithPath.htm" />
+  <HelpKINode Title="UserAgent method" Url="html/M_Bogus_DataSets_Internet_UserAgent.htm" />
+  <HelpKINode Title="UserName field" Url="html/F_Bogus_Person_UserName.htm" />
+  <HelpKINode Title="UserName method" Url="html/M_Bogus_DataSets_Internet_UserName.htm" />
+  <HelpKINode Title="UseSeed method" Url="html/M_Bogus_Faker_1_UseSeed.htm" />
+  <HelpKINode Title="UShort method" Url="html/M_Bogus_Randomizer_UShort.htm" />
+  <HelpKINode Title="UTCDateTime enumeration member" Url="html/T_Bogus_Bson_BValueType.htm" />
+  <HelpKINode Title="Utils class">
+    <HelpKINode Title="Utils Class" Url="html/T_Bogus_Utils.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_Utils.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Utils.Slashify method" Url="html/M_Bogus_Utils_Slashify.htm" />
+  <HelpKINode Title="Utils.Slugify method" Url="html/M_Bogus_Utils_Slugify.htm" />
+  <HelpKINode Title="Uuid method" Url="html/M_Bogus_Randomizer_Uuid.htm" />
+  <HelpKINode Title="Validate method" Url="html/M_Bogus_Faker_1_Validate.htm" />
+  <HelpKINode Title="ValidationException class">
+    <HelpKINode Title="ValidationException Class" Url="html/T_Bogus_ValidationException.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_ValidationException__ctor.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_Bogus_ValidationException.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_ValidationException.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_ValidationException.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ValidationException.ValidationException constructor" Url="html/M_Bogus_ValidationException__ctor.htm" />
+  <HelpKINode Title="ValidationResult class">
+    <HelpKINode Title="ValidationResult Class" Url="html/T_Bogus_ValidationResult.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_ValidationResult__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_ValidationResult.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ValidationResult.ValidationResult constructor" Url="html/M_Bogus_ValidationResult__ctor.htm" />
+  <HelpKINode Title="Values property" Url="html/P_Bogus_Bson_BObject_Values.htm" />
+  <HelpKINode Title="ValueType property" Url="html/P_Bogus_Bson_BValue_ValueType.htm" />
+  <HelpKINode Title="Verb method" Url="html/M_Bogus_DataSets_Hacker_Verb.htm" />
+  <HelpKINode Title="VerifyLicense method" Url="html/M_Bogus_Premium_LicenseVerifier_VerifyLicense.htm" />
+  <HelpKINode Title="Version method" Url="html/M_Bogus_DataSets_System_Version.htm" />
+  <HelpKINode Title="Visa field" Url="html/F_Bogus_DataSets_CardType_Visa.htm" />
+  <HelpKINode Title="Website field" Url="html/F_Bogus_Person_Website.htm" />
+  <HelpKINode Title="Weekday method" Url="html/M_Bogus_DataSets_Date_Weekday.htm" />
+  <HelpKINode Title="WeightedRandom(Of T) method" Url="html/M_Bogus_Randomizer_WeightedRandom__1.htm" />
+  <HelpKINode Title="WeightedRandom&lt;T&gt; method" Url="html/M_Bogus_Randomizer_WeightedRandom__1.htm" />
+  <HelpKINode Title="Word method">
+    <HelpKINode Title="Lorem.Word Method " Url="html/M_Bogus_DataSets_Lorem_Word.htm" />
+    <HelpKINode Title="Randomizer.Word Method " Url="html/M_Bogus_Randomizer_Word.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WordFunctions class">
+    <HelpKINode Title="WordFunctions Class" Url="html/T_Bogus_WordFunctions.htm" />
+    <HelpKINode Title="constructor" Url="html/M_Bogus_WordFunctions__ctor.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_Bogus_WordFunctions.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_Bogus_WordFunctions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WordFunctions.Functions property" Url="html/P_Bogus_WordFunctions_Functions.htm" />
+  <HelpKINode Title="WordFunctions.WordFunctions constructor" Url="html/M_Bogus_WordFunctions__ctor.htm" />
+  <HelpKINode Title="Words method">
+    <HelpKINode Title="Lorem.Words Method " Url="html/M_Bogus_DataSets_Lorem_Words.htm" />
+    <HelpKINode Title="Randomizer.Words Method " Url="html/M_Bogus_Randomizer_Words.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WordsArray method" Url="html/Overload_Bogus_Randomizer_WordsArray.htm" />
+  <HelpKINode Title="ZipCode field" Url="html/F_Bogus_Person_CardAddress_ZipCode.htm" />
+  <HelpKINode Title="ZipCode method" Url="html/M_Bogus_DataSets_Address_ZipCode.htm" />
+</HelpKI>
