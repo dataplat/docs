@@ -6,22 +6,22 @@ The docs below give you an idea of the types of values that can be used with <st
 
 | &nbsp; |Name | Examples | Sample Output |
 |:---------|:----------|:-------------|:------|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Address.htm">Address</a> | Cities, ZipCodes, Counties | Berkshire, 70548 |
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Commerce.htm">Commerce</a> | Categories, Departments | Automotive, Jewelry|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Company.htm">Company</a> | Name, Suffix | Dickinson, Morar and Wolff, Inc.|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Database.htm">Database</a> | Collation, Engine | ascii_bin, MyISAM|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Date.htm">Date</a> | Dates | Tuesday, June 19, 2018 8:06:16 AM|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Finance.htm">Finance</a> | Bic, RoutingNumber | ODIOBNB1503, 646402606|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Hacker.htm">Hacker</a> | Nount, Phrase | firewall, Try to quantify the SMTP capacitor, maybe it will quantify the 1080p capacitor!|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Image.htm">Image</a> | Cats, Food (really works) | http://lorempixel.com/100/100/cats/1, http://lorempixel.com/100/100/food/8|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Internet.htm">Internet</a> | DomainName, ExampleEmail | myra.com, Rylan_Dietrich95@example.org|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Lorem.htm">Lorem</a> | Letters, Lines, Paragraphs | Quia aut tempora ut saepe.|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Name.htm">Name</a> | FirstName, JobType | Emma, Engineer|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Person.htm">Person</a> | Username, Avatar | Lorene26, https://s3.uifaces.com/faces/lor/128.jpg|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Phone.htm">Phone</a> | Phone | 1-331-415-7665|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Random.htm">Random</a> | tons of different stuff | 10, mobile|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_Rant.htm">Rant</a> | Review, Reviews | this product is revolting.|
-|![Public property](media/pubproperty.gif "Public property") | <a href="html/N_Bogus_Faker_System.htm">System</a> | FileName, FileExt | berkshire_invoice_zambia.tiff|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/Fields_T_Bogus_Person_CardAddress.htm">Address</a> | Cities, ZipCodes, Counties | Berkshire, 70548 |
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/T_Bogus_DataSets_Commerce.htm">Commerce</a> | Categories, Departments | Automotive, Jewelry|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/Fields_T_Bogus_Person_CardCompany.htm">Company</a> | Name, Suffix | Dickinson, Morar and Wolff, Inc.|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/Methods_T_Bogus_DataSets_Database.htm">Database</a> | Collation, Engine | ascii_bin, MyISAM|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/T_Bogus_DataSets_Date.htm">Date</a> | Dates | Tuesday, June 19, 2018 8:06:16 AM|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/Methods_T_Bogus_DataSets_Finance.htm">Finance</a> | Bic, RoutingNumber | ODIOBNB1503, 646402606|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/T_Bogus_DataSets_Hacker.htm">Hacker</a> | Nount, Phrase | firewall, Try to quantify the SMTP capacitor, maybe it will quantify the 1080p capacitor!|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/Methods_T_Bogus_DataSets_Images.htm">Image</a> | Cats, Food (really works) | http://lorempixel.com/100/100/cats/1, http://lorempixel.com/100/100/food/8|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/T_Bogus_DataSets_Internet.htm">Internet</a> | DomainName, ExampleEmail | myra.com, Rylan_Dietrich95@example.org|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/T_Bogus_DataSets_Lorem.htm">Lorem</a> | Letters, Lines, Paragraphs | Quia aut tempora ut saepe.|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/T_Bogus_DataSets_Name.htm">Name</a> | FirstName, JobType | Emma, Engineer|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/Fields_T_Bogus_Person.htm">Person</a> | Username, Avatar | Lorene26, https://s3.uifaces.com/faces/lor/128.jpg|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/P_Bogus_Faker_Phone.htm">Phone</a> | Phone | 1-331-415-7665|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/T_Bogus_Randomizer.htm">Random</a> | tons of different stuff | 10, mobile|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/Methods_T_Bogus_DataSets_Rant.htm">Rant</a> | Review, Reviews | this product is revolting.|
+|![Public property](media/pubproperty.gif "Public property") | <a href="html/Methods_T_Bogus_DataSets_System.htm">System</a> | FileName, FileExt | berkshire_invoice_zambia.tiff|
 
 ## References
 
