@@ -1,0 +1,13 @@
+# Faker(*T*).RuleFor Method 
+ 
+
+
+## Overload List
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1">RuleFor(TProperty)(Expression(Func(T, TProperty)))</a></td><td> **Obsolete. **</td></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_1">RuleFor(TProperty)(Expression(Func(T, TProperty)), Func(TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_2">RuleFor(TProperty)(Expression(Func(T, TProperty)), Func(Faker, TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_3">RuleFor(TProperty)(Expression(Func(T, TProperty)), Func(Faker, T, TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_4">RuleFor(TProperty)(Expression(Func(T, TProperty)), TProperty)</a></td><td /></tr><tr><td>![Protected method](media/protmethod.gif "Protected method")</td><td><a href="M_Bogus_Faker_1_RuleFor__1_5">RuleFor(TProperty)(String, Func(Faker, TProperty))</a></td><td /></tr></table>&nbsp;
+<a href="#faker(*t*).rulefor-method">Back to Top</a>
+
+## See Also
+
+
+#### Reference
+<a href="T_Bogus_Faker_1">Faker(T) Class</a><br /><a href="N_Bogus">Bogus Namespace</a><br />

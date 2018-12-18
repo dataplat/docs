@@ -1,0 +1,15 @@
+# MultiDictionary(*Key*, *Key2*, *Value*) Properties
+ 
+
+The <a href="T_Bogus_MultiDictionary_3">MultiDictionary(Key, Key2, Value)</a> generic type exposes the following members.
+
+
+## Properties
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public property](media/pubproperty.gif "Public property")</td><td><a href="http://msdn2.microsoft.com/en-us/library/ms132092" target="_blank">Comparer</a></td><td> (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key*</a>, <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key2*</a>, <a href="T_Bogus_MultiDictionary_3">*Value*</a>)).)</td></tr><tr><td>![Public property](media/pubproperty.gif "Public property")</td><td><a href="http://msdn2.microsoft.com/en-us/library/zhcy256f" target="_blank">Count</a></td><td> (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key*</a>, <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key2*</a>, <a href="T_Bogus_MultiDictionary_3">*Value*</a>)).)</td></tr><tr><td>![Public property](media/pubproperty.gif "Public property")</td><td><a href="http://msdn2.microsoft.com/en-us/library/9tee9ht2" target="_blank">Item</a></td><td> (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key*</a>, <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key2*</a>, <a href="T_Bogus_MultiDictionary_3">*Value*</a>)).)</td></tr><tr><td>![Public property](media/pubproperty.gif "Public property")</td><td><a href="http://msdn2.microsoft.com/en-us/library/yt2fy5zk" target="_blank">Keys</a></td><td> (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key*</a>, <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key2*</a>, <a href="T_Bogus_MultiDictionary_3">*Value*</a>)).)</td></tr><tr><td>![Public property](media/pubproperty.gif "Public property")</td><td><a href="http://msdn2.microsoft.com/en-us/library/ekcfxy3x" target="_blank">Values</a></td><td> (Inherited from <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key*</a>, <a href="http://msdn2.microsoft.com/en-us/library/xfhwa508" target="_blank">Dictionary</a>(<a href="T_Bogus_MultiDictionary_3">*Key2*</a>, <a href="T_Bogus_MultiDictionary_3">*Value*</a>)).)</td></tr></table>&nbsp;
+<a href="#multidictionary(*key*,-*key2*,-*value*)-properties">Back to Top</a>
+
+## See Also
+
+
+#### Reference
+<a href="T_Bogus_MultiDictionary_3">MultiDictionary(Key, Key2, Value) Class</a><br /><a href="N_Bogus">Bogus Namespace</a><br />

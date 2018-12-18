@@ -1,0 +1,16 @@
+# IRuleSet(*T*) Interface
+ 
+
+**Namespace:**&nbsp;<a href="N_Bogus">Bogus</a><br />**Assembly:**&nbsp;Bogus (in Bogus.dll) Version: 0.0.0-localbuild built on 1/1/2015 12:00:00 AM
+The IRuleSet(T) type exposes the following members.
+
+
+## Methods
+&nbsp;<table><tr><th></th><th>Name</th><th>Description</th></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_IRuleSet_1_CustomInstantiator">CustomInstantiator</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_IRuleSet_1_FinishWith">FinishWith</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_IRuleSet_1_Ignore__1">Ignore(TPropertyOrField)</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_IRuleSet_1_RuleFor__1">RuleFor(TProperty)(Expression(Func(T, TProperty)), Func(TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_IRuleSet_1_RuleFor__1_1">RuleFor(TProperty)(Expression(Func(T, TProperty)), Func(Faker, TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_IRuleSet_1_RuleFor__1_2">RuleFor(TProperty)(Expression(Func(T, TProperty)), Func(Faker, T, TProperty))</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_IRuleSet_1_RuleFor__1_3">RuleFor(TProperty)(Expression(Func(T, TProperty)), TProperty)</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_IRuleSet_1_Rules">Rules</a></td><td /></tr><tr><td>![Public method](media/pubmethod.gif "Public method")</td><td><a href="M_Bogus_IRuleSet_1_StrictMode">StrictMode</a></td><td /></tr></table>&nbsp;
+<a href="#iruleset(*t*)-interface">Back to Top</a>
+
+## See Also
+
+
+#### Reference
+<a href="N_Bogus">Bogus Namespace</a><br />
