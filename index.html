@@ -20,10 +20,12 @@
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+        href="//cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-80639740-2"></script>
@@ -103,17 +105,18 @@
 
         /*param tables do not have thead */
         .table thead {
-            display : none;
+            display: none;
         }
+
         /*no need to be elastic for param tables*/
         .table td:first-child {
-            width : 10em;
+            width: 10em;
         }
 
         h5.param {
             background: #f8f8f8;
             display: inline-block;
-            font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         }
 
         /* from https://loading.io/css/ */
@@ -159,6 +162,7 @@
             0% {
                 transform: scale(0);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -168,6 +172,7 @@
             0% {
                 transform: scale(1);
             }
+
             100% {
                 transform: scale(0);
             }
@@ -177,6 +182,7 @@
             0% {
                 transform: translate(0, 0);
             }
+
             100% {
                 transform: translate(19px, 0);
             }
@@ -184,7 +190,8 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -460,6 +467,18 @@
                     if (topublish == -1) {
                         //lowercase match
                         var topublish = _.findIndex(indexhelp, function (el) { return _.toLower(el.Name) == _.toLower(hash) })
+                        if (topublish == -1) {
+                            //alias match
+                            var topublish = _.findIndex(indexhelp, { 'Alias': hash })
+                            if (topublish == -1) {
+                                //lowercase alias match
+                                var topublish = _.findIndex(indexhelp, function (el) { return _.toLower(el.Alias) == _.toLower(hash) })
+                            }
+                            if (topublish == -1) {
+                                //multiple aliases, optionally lowercased
+                                var topublish = _.findIndex(indexhelp, function (el) { return _.includes(_.toLower(el.Alias).split(','), _.toLower(hash)) })
+                            }
+                        }
                         if (topublish !== -1) {
                             //normalization of URI
                             window.location.hash = '#' + indexhelp[topublish].CommandName
@@ -500,11 +519,11 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png" class="custom-logo"
-                alt="dbatools" itemprop="logo" scale="0">
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
+                class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
-            aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="oi oi-menu"></span>
         </button>
         <div class="collapse navbar-collapse flex-grow-1 text-right" id="navbarCollapse">
@@ -557,7 +576,8 @@
                     <p></p>
                     <div class="form-group row">
                         <div class="col-lg-12">
-                            <input type="text" class="form-control" id="search-ft" placeholder="Search" autocomplete="off">
+                            <input type="text" class="form-control" id="search-ft" placeholder="Search"
+                                autocomplete="off">
                         </div>
                     </div>
 
@@ -568,7 +588,8 @@
             </div>
             <div class="col-xl-9 col-lg-7 col-md-7 col-sm-12 bd-content">
                 <div id="headscroll">
-                    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page">&#94;</a>
+                    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button"
+                        title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
                     <div id="loader" class="row h-100 justify-content-center align-items-center loader invisible">
