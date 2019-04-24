@@ -1,4 +1,29 @@
 ﻿{
     "version": "0.9.809",
-    "external_links": []
+    "external_links": [
+        {
+            "name": "offline installs of dbatools",
+            "href": "https://dbatools.io/offline"
+        },
+        {
+            "name": "getting started with powershell",
+            "href": "https://dbatools.io/start"
+        },
+        {
+            "name": "talking to your security team about powershell and dbatools",
+            "href": "https://dbatools.io/secure"
+        },
+        {
+            "name": "using dacpac functions to clone sql server databases",
+            "href": "https://dbatools.io/clone"
+        },
+        {
+            "name": "managing central management server",
+            "href": "https://dbatools.io/cms"
+        },
+        {
+            "name": "simplifying snapshots",
+            "href": "https://dbatools.io/snapshots"
+        }
+    ]
 }
