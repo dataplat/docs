@@ -119,6 +119,16 @@
             font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         }
 
+        #extlist a.list-group-item:last-child {
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        #extlist a.list-group-item:first-child {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
         /* from https://loading.io/css/ */
 
         .lds-ellipsis {
@@ -303,11 +313,32 @@
                 rtn.push('## Description')
                 rtn.push(doc_to_render.Description)
                 rtn.push('')
-                rtn.push('## Syntax')
-                rtn.push('```')
-                rtn.push(doc_to_render.Syntax.replace(/(\r\n)/g, '\n\n'))
-                rtn.push('```')
-                rtn.push('\n&nbsp;\n')
+                if (doc_to_render.Syntax) {
+                    rtn.push('## Syntax')
+                    rtn.push('```')
+                    var splitted_paramsets = []
+                    _.forEach(doc_to_render.Syntax.split(doc_to_render.CommandName), function (val) {
+                        if (!_.isEmpty(val)) {
+                            splitted_paramsets.push(doc_to_render.CommandName + val)
+                        }
+                    })
+                    _.forEach(splitted_paramsets, function (syntax) {
+                        _.forEach(syntax.split(/[\[]+-/), function (val, i) {
+                            if (!_.isEmpty(val)) {
+                                if (i == 0) {
+                                    rtn.push(val)
+                                } else {
+                                    rtn.push('    [-' + val.replace('\n', '').replace('\n', ''))
+                                }
+                            }
+                        })
+                        rtn.push('')
+                    })
+
+
+                    rtn.push('```')
+                    rtn.push('\n&nbsp;\n')
+                }
                 rtn.push('')
                 rtn.push('## Examples')
                 rtn.push('\n&nbsp;\n')
@@ -442,16 +473,34 @@
                 register_dbatools_hljs(dbacommands.join(' '))
                 $(window).trigger('hashchange');
             })
+            var options2 = {
+                valueNames: ['extName', { name: 'extHref', attr: 'href' }],
+                item: '<div><a class="list-group-item list-group-item-secondary extHref" href="#" _target="_blank"><span class="extName"></span></a></div>'
+            }
+
+            extlist = new List('extlist', options2, [])
+
             $.getJSON(external_url, function (data) {
                 $('#dbatools_version').text('(v ' + data.version + ')')
+                _.forEach(data.external_links, function (el) {
+                    extlist.add({ 'extName': el.name, 'extHref': el.href })
+                })
             })
+
             $('#cmdlist').on('click', 'a', function (e) {
                 e.preventDefault();
                 window.location.hash = '#' + $(this).find('span.CommandName').text();
+                $('#cmdlist').find('a.active').removeClass('active')
+                $(this).addClass('active')
             })
             $('#search-ft').on('keyup', function () {
                 var searchString = $(this).val();
                 cmdlist.search(searchString, ['CommandName', 'Alias']);
+                extlist.search('$$$')
+                if (_.isEmpty(searchString)) {
+                    extlist.search()
+                }
+
             })
             $(window).on('hashchange', function (e) {
                 var hash = window.location.hash.substr(1);
@@ -580,7 +629,9 @@
                                 autocomplete="off">
                         </div>
                     </div>
-
+                    <div id="extlist">
+                        <div class="list list-group"></div>
+                    </div>
                     <div id="cmdlist">
                         <div class="list list-group"></div>
                     </div>
