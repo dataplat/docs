@@ -136,7 +136,7 @@
         "CommandName":  "Add-DbaAgListener",
         "Availability":  "Windows, Linux, macOS",
         "Links":  "https://dbatools.io/Add-DbaAgListener",
-        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eAdd-DbaAgListener -SqlInstance sql2017 -AvailabilityGroup SharePoint -IPAddress 10.0.20.20\nCreates a listener on 10.0.20.20 port 1433 for the SharePoint availability group on sql2017.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-DbaAvailabilityGroup -SqlInstance sql2017 -AvailabilityGroup availabilitygroup1 | Add-DbaAgListener -Dhcp\nCreates a listener on port 1433 with a dynamic IP for the group1 availability group on sql2017.",
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eAdd-DbaAgListener -SqlInstance sql2017 -AvailabilityGroup SharePoint -IPAddress 10.0.20.20\nCreates a listener on 10.0.20.20 port 1433 for the SharePoint availability group on sql2017.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eGet-DbaAvailabilityGroup -SqlInstance sql2017 -AvailabilityGroup availabilitygroup1 | Add-DbaAgListener -Dhcp\nCreates a listener on port 1433 with a dynamic IP for the group1 availability group on sql2017.\n-------------------------- EXAMPLE 3 --------------------------\nPS C:\\\u003eAdd-DbaAgListener -SqlInstance sql2017 -AvailabilityGroup SharePoint -IPAddress 10.0.20.20,10.1.77.77 -SubnetMask 255.255.252.0\nCreates a multi-subnet listener with 10.0.20.20 and 10.1.77.77, on two /22 subnets, on port 1433 for the SharePoint availability group on sql2017.",
         "Params":  [
                        [
                            "SqlInstance",
@@ -172,7 +172,15 @@
                        ],
                        [
                            "IPAddress",
-                           "Sets the IP address of the availability group listener.",
+                           "Sets the IP address(es) of the availability group listener.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "SubnetIP",
+                           "Sets the Subnet IP address(es) of the availability group listener.",
                            "",
                            false,
                            "false",
@@ -180,7 +188,7 @@
                        ],
                        [
                            "SubnetMask",
-                           "Sets the subnet IP mask of the availability group listener. Defaults to 255.255.255.0.",
+                           "Sets the subnet IP mask(s) of the availability group listener. Defaults to 255.255.255.0.",
                            "",
                            false,
                            "false",
@@ -243,7 +251,7 @@
                            ""
                        ]
                    ],
-        "Syntax":  "Add-DbaAgListener [[-SqlInstance] \u003cDbaInstanceParameter[]\u003e] [[-SqlCredential] \u003cPSCredential\u003e] [[-AvailabilityGroup] \u003cString[]\u003e] [[-Name] \u003cString\u003e] [[-IPAddress] \u003cIPAddress\u003e] [[-SubnetMask] \u003cIPAddress\u003e] [[-Port] \u003cInt32\u003e] [-Dhcp] [-Passthru] [[-InputObject] \u003cAvailabilityGroup[]\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Add-DbaAgListener [[-SqlInstance] \u003cDbaInstanceParameter[]\u003e] [[-SqlCredential] \u003cPSCredential\u003e] [[-AvailabilityGroup] \u003cString[]\u003e] [[-Name] \u003cString\u003e] [[-IPAddress] \u003cIPAddress[]\u003e] [[-SubnetIP] \u003cIPAddress[]\u003e] [[-SubnetMask] \u003cIPAddress[]\u003e] [[-Port] \u003cInt32\u003e] [-Dhcp] [-Passthru] [[-InputObject] \u003cAvailabilityGroup[]\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
     },
     {
         "Name":  "Add-DbaAgReplica",
@@ -1322,6 +1330,88 @@
                        ]
                    ],
         "Syntax":  "Backup-DbaDbMasterKey [[-SqlInstance] \u003cDbaInstanceParameter[]\u003e] [[-SqlCredential] \u003cPSCredential\u003e] [[-Credential] \u003cPSCredential\u003e] [[-Database] \u003cString[]\u003e] [[-ExcludeDatabase] \u003cString[]\u003e] [[-SecurePassword] \u003cSecureString\u003e] [[-Path] \u003cString\u003e] [[-InputObject] \u003cDatabase[]\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
+    },
+    {
+        "Name":  "Backup-DbaServiceMasterKey",
+        "Description":  "Backs up specified service master key.",
+        "Tags":  [
+                     "Certificate",
+                     "Database"
+                 ],
+        "Synopsis":  "Backs up specified service master key.",
+        "Alias":  "",
+        "Author":  "Chrissy LeMaire (@cl), netnerds.net",
+        "CommandName":  "Backup-DbaServiceMasterKey",
+        "Availability":  "Windows, Linux, macOS",
+        "Links":  null,
+        "Examples":  "-------------------------- EXAMPLE 1 --------------------------\nPS C:\\\u003eBackup-DbaServiceMasterKey -SqlInstance server1\\sql2016\n```\r\nComputerName : SERVER1\r\nInstanceName : SQL2016\r\nSqlInstance  : SERVER1\\SQL2016\r\nFilename     : E:\\MSSQL13.SQL2016\\MSSQL\\Backup\\server1$sql2016-SMK-20170614162311.key\r\nStatus       : Success\r\n```\nPrompts for export password, then logs into server1\\sql2016 with Windows credentials then backs up the service master key to the default backup directory.\n-------------------------- EXAMPLE 2 --------------------------\nPS C:\\\u003eBackup-DbaServiceMasterKey -SqlInstance Server1 -Path \\\\nas\\sqlbackups\\keys\nLogs into sql2016 with Windows credentials then backs up the service master key to the \\\\nas\\sqlbackups\\keys directory.",
+        "Params":  [
+                       [
+                           "SqlInstance",
+                           "The target SQL Server instance or instances.",
+                           "",
+                           true,
+                           "true (ByValue)",
+                           ""
+                       ],
+                       [
+                           "SqlCredential",
+                           "Allows you to login to SQL Server using alternative credentials.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "KeyCredential",
+                           "Pass a credential object for the password",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "SecurePassword",
+                           "The password to encrypt the exported key. This must be a SecureString.",
+                           "Password",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Path",
+                           "The directory to export the key. If no path is specified, the default backup directory for the instance will be used.",
+                           "",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "EnableException",
+                           "By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.\r\nThis avoids overwhelming you with \"sea of red\" exceptions, but is inconvenient because it basically disables advanced scripting.\r\nUsing this switch turns this \"nice by default\" feature off and enables you to catch exceptions with your own try/catch.",
+                           "",
+                           false,
+                           "false",
+                           "False"
+                       ],
+                       [
+                           "WhatIf",
+                           "Shows what would happen if the command were to run. No actions are actually performed.",
+                           "wi",
+                           false,
+                           "false",
+                           ""
+                       ],
+                       [
+                           "Confirm",
+                           "Prompts you for confirmation before executing any changing operations within the command.",
+                           "cf",
+                           false,
+                           "false",
+                           ""
+                       ]
+                   ],
+        "Syntax":  "Backup-DbaServiceMasterKey [-SqlInstance] \u003cDbaInstanceParameter[]\u003e [[-SqlCredential] \u003cPSCredential\u003e] [[-KeyCredential] \u003cPSCredential\u003e] [[-SecurePassword] \u003cSecureString\u003e] [[-Path] \u003cString\u003e] [-EnableException] [-WhatIf] [-Confirm] [\u003cCommonParameters\u003e]"
     },
     {
         "Name":  "Clear-DbaConnectionPool",
@@ -18066,7 +18156,7 @@
                            "False"
                        ]
                    ],
-        "Syntax":  "Get-DbaRandomizedValue [[-DataType] \u003cString\u003e] [[-RandomizerType] \u003cString\u003e] [[-RandomizerSubType] \u003cString\u003e] [[-Min] \u003cInt64\u003e] [[-Max] \u003cInt64\u003e] [[-Precision] \u003cInt32\u003e] [[-CharacterString] \u003cString\u003e] [[-Format] \u003cString\u003e] [[-Symbol] \u003cString\u003e] [[-Locale] \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
+        "Syntax":  "Get-DbaRandomizedValue [[-DataType] \u003cString\u003e] [[-RandomizerType] \u003cString\u003e] [[-RandomizerSubType] \u003cString\u003e] [[-Min] \u003cObject\u003e] [[-Max] \u003cObject\u003e] [[-Precision] \u003cInt32\u003e] [[-CharacterString] \u003cString\u003e] [[-Format] \u003cString\u003e] [[-Symbol] \u003cString\u003e] [[-Locale] \u003cString\u003e] [-EnableException] [\u003cCommonParameters\u003e]"
     },
     {
         "Name":  "Get-DbaRegistryRoot",
