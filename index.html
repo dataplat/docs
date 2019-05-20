@@ -537,7 +537,7 @@
                         }
                     }
                     if (topublish == -1) {
-                        $('#rendered').html(marked('### 404 Function not found \n (while searching for ' + hash + ')'));
+                        $('#rendered').html(marked('### 404 Function not found \n (while searching for ' + hash + '). Please visit dbatools.io/commands for an updated index of current commands.'));
                     } else {
                         var doc_to_render = indexhelp[topublish]
                         render_doc(doc_to_render, 'new')
