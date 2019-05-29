@@ -26336,7 +26336,7 @@
     },
     {
         "Name":  "Invoke-DbaWhoIsActive",
-        "Description":  "Output results of Adam Machanic\u0027s sp_WhoIsActive\n\nThis command was built with Adam\u0027s permission. To read more about sp_WhoIsActive, please visit:\n\nUpdates: http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx\n\nAlso, consider donating to Adam if you find this stored procedure helpful: http://tinyurl.com/WhoIsActiveDonate",
+        "Description":  "Output results of Adam Machanic\u0027s sp_WhoIsActive\n\nThis command was built with Adam\u0027s permission. To read more about sp_WhoIsActive, please visit:\n\nUpdates: http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx\n\nAlso, consider donating to Adam if you find this stored procedure helpful: https://tinyurl.com/WhoIsActiveDonate",
         "Tags":  [
                      "AdamMechanic",
                      "WhoIsActive",
