@@ -478,7 +478,6 @@
                 valueNames: ['extName', { name: 'extHref', attr: 'href' }],
                 item: '<div><a class="list-group-item list-group-item-secondary extHref" href="#" _target="_blank"><span class="extName"></span></a></div>'
             }
-
             extlist = new List('extlist', options2, [])
 
             $.getJSON(external_url, function (data) {
@@ -541,8 +540,12 @@
                     } else {
                         var doc_to_render = indexhelp[topublish]
                         render_doc(doc_to_render, 'new')
-                        $("body").data("doc_to_render", indexhelp[topublish]);
-                        $('#back-to-top').trigger('click')
+                        $("body").data("doc_to_render", indexhelp[topublish])
+                        if ($("#headscroll").offset().top > 150) {
+                            $(window).scrollTo('#headscroll')
+                        } else {
+                            $(window).scrollTo(0, 800)
+                        }
                     }
                 } else {
                     $('#loader').addClass('invisible')
