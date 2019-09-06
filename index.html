@@ -459,7 +459,7 @@
             var external_url = 'assets/external.json'
             var values = [];
             var options = {
-                valueNames: ['CommandName'],
+                valueNames: ['CommandName', 'Description', 'Alias', 'Examples', 'Params'],
                 item: '<a class="list-group-item" href="#"><span class="CommandName"></span></a>'
             }
             cmdlist = new List('cmdlist', options, values);
@@ -486,7 +486,16 @@
                     extlist.add({ 'extName': el.name, 'extHref': el.href })
                 })
             })
-
+            cmdlist.on('searchComplete', function (e) {
+                if (cmdlist.matchingItems.length === 0) {
+                    var searchString = $('#search-ft').val().trim();
+                    if (searchString.length > 0 && !searchString.startsWith("ft:")) {
+                        if (searchString != "f" && searchString != "ft" && searchString != "ft:") {
+                            $('#search-ft').val("ft:" + searchString)
+                        }
+                    }
+                }
+            })
             $('#cmdlist').on('click', 'a', function (e) {
                 e.preventDefault();
                 window.location.hash = '#' + $(this).find('span.CommandName').text();
@@ -495,7 +504,15 @@
             })
             $('#search-ft').on('keyup', function () {
                 var searchString = $(this).val();
-                cmdlist.search(searchString, ['CommandName', 'Alias']);
+                if (searchString.trim() == "ft:") {
+                    extlist.search();
+                }
+                else if (searchString.startsWith("ft:")) {
+                    searchString = searchString.substring(3).trim();
+                    cmdlist.search(searchString, ['CommandName', 'Alias', 'Description', 'Examples', 'Params']);
+                } else {
+                    cmdlist.search(searchString, ['CommandName', 'Alias']);
+                }
                 extlist.search('$$$')
                 if (_.isEmpty(searchString)) {
                     extlist.search()
@@ -629,7 +646,7 @@
                     <p></p>
                     <div class="form-group row">
                         <div class="col-lg-12">
-                            <input type="text" class="form-control" id="search-ft" placeholder="Search"
+                            <input type="text" class="form-control" id="search-ft" placeholder="Search (&quot;ft: term&quot; enables fulltext)"
                                 autocomplete="off">
                         </div>
                     </div>
