@@ -353,6 +353,7 @@
                     var inside = 0
                     _.forEach(examples, function (row) {
                         if (_.startsWith(row, '----')) {
+                            rtn.push('')
                             rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
                         } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
                             if (inside == 0) { rtn.push('```') }
