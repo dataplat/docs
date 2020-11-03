@@ -1,0 +1,22 @@
+name: update-assets
+on:
+  workflow_dispatch:
+
+jobs:
+  updatehelpindex:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout'
+      uses: 'actions/checkout@v2.3.4'
+
+    - name: 'Pull help index file'
+      working-directory: assets
+      run: curl -O https://raw.githubusercontent.com/sqlcollaborative/docs/master/bin/dbatools-index.json
+
+    - name: commit if file changed
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: updating help index file
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
