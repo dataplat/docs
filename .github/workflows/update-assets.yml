@@ -20,3 +20,30 @@ jobs:
 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  bumpversion:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout'
+      uses: 'actions/checkout@v2.3.4'
+
+    - name: 'Pull module manifest to get version'
+      working-directory: assets
+      shell: pwsh
+      run: |
+        curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/dbatools.psd1
+        $modData = Import-PowerShellDataFile dbatools.psd1
+        $ext = Get-Content .\external.json | ConvertFrom-Json
+        if ($ext.Version -ne $modData.ModuleVersion) {
+          $ext.Version = $modData.Module Version
+          $ext | ConvertTo-Json | Out-File ./external.json
+        }
+        Remove-Item ./dbatools.psd1 -Force
+
+    - name: commit if file changed
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: bumping doc version
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
