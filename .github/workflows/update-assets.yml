@@ -39,7 +39,7 @@ jobs:
         echo "Module version: $($modData.ModuleVersion)"
         echo "External version: $($ext.Version)"
         if ($ext.Version -ne $modData.ModuleVersion) {
-          $ext.Version = $modData.Module Version
+          $ext.Version = $modData.ModuleVersion
           $ext | ConvertTo-Json | Out-File ./external.json
         }
         Remove-Item ./dbatools.psd1 -Force
