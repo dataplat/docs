@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  updatehelpindex:
+  updateassets:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout'
@@ -13,17 +13,6 @@ jobs:
       working-directory: assets
       run: curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/bin/dbatools-index.json
 
-    - name: commit if file changed
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: updating help index file
-
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  bumpversion:
-    runs-on: ubuntu-latest
-    steps:
     - name: 'Bump version based on manifest'
       working-directory: assets
       shell: pwsh
@@ -42,7 +31,7 @@ jobs:
     - name: commit if file changed
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: bumping doc version
+        commit_message: updating assets
 
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
