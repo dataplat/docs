@@ -386,6 +386,9 @@
                         rtn.push('| Required | ' + el[3] + ' |')
                         rtn.push('| Pipeline | ' + el[4] + ' |')
                         rtn.push('| Default Value | ' + el[5] + ' |')
+                        if (el[6]) {
+                            rtn.push('| Accepted Values | ' + el[6] + ' |')
+                        }
                         rtn.push('')
                     })
                     var dotitle = 0
@@ -403,6 +406,9 @@
                         rtn.push('| Required | ' + el[3] + ' |')
                         rtn.push('| Pipeline | ' + el[4] + ' |')
                         rtn.push('| Default Value | ' + el[5] + ' |')
+                        if (el[6]) {
+                            rtn.push('| Accepted Values | ' + el[6] + ' |')
+                        }
                         rtn.push('')
                     })
                 }
