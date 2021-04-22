@@ -369,6 +369,10 @@
                             rtn.push(row)
                         }
                     })
+                    if (inside == 1) {
+                        inside = 0
+                        rtn.push('```')
+                    }
                 }
                 if (doc_to_render.Params) {
                     var dotitle = 0
