@@ -324,12 +324,12 @@
                         }
                     })
                     _.forEach(splitted_paramsets, function (syntax) {
-                        _.forEach(syntax.split(/[\[]+-/), function (val, i) {
+                        _.forEach(syntax.replace('\r', '').replace('\n', '').split(/ \[/), function (val, i) {
                             if (!_.isEmpty(val)) {
                                 if (i == 0) {
                                     rtn.push(val)
                                 } else {
-                                    rtn.push('    [-' + val.replace('\n', '').replace('\n', ''))
+                                    rtn.push('    [' + val.replace('\n', '').replace('\n', ''))
                                 }
                             }
                         })
