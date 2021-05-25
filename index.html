@@ -401,8 +401,8 @@
                     cmdlist.search(searchString, ['CommandName', 'Alias', 'Description', 'Examples', 'Params']);
                 } else if (searchString.startsWith("tag:")) {
                     searchString = searchString.substring(4).trim();
-                    if (cmdlist.filtered) {
-                        cmdlist.filter();
+                    if (cmdlist.searched) {
+                        cmdlist.search();
                     }
                     cmdlist.filter(function (item) {
                         if (_.indexOf(item.values().Tags, searchString) !== -1) {
