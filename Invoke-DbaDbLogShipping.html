@@ -1,0 +1,3067 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+    <title>dbatools docs | Invoke-DbaDbLogShipping</title>
+    <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
+    <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
+    <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
+    <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
+
+    <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+    <meta name="keywords" content="dbatools, ">
+    <meta name="subtitle" content="Docs for Invoke-DbaDbLogShipping">
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="dbatools docs:  Invoke-DbaDbLogShipping" />
+    <meta property="og:url" content="https://docs.dbatools.io/Invoke-DbaDbLogShipping.html" />
+    <meta property="og:description" content="dbatools docs for Invoke-DbaDbLogShipping" />
+    <meta property="og:site_name" content="docs.dbatools.io" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:text:title" content="dbatools docs:  Invoke-DbaDbLogShipping" />
+    <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+        href="//cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-80639740-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-80639740-2');
+    </script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="//cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/autolinker/1.7.1/Autolinker.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jqcloud2@2.0.3/dist/jqcloud.min.js"
+        integrity="sha256-+krhsKJpvd3AZYVGHcwyCUGO01uNdGSTvqR7Apcy30E=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" language="javascript">
+        function register_dbatools_hljs(dbatoolscommands) {
+
+            hljs.registerLanguage("powershell", function (e) {
+                var t = {
+                    b: "`[\\s\\S]",
+                    r: 0
+                },
+                    o = {
+                        cN: "variable",
+                        v: [{
+                            b: /\$[\w\d][\w\d_:]*/
+                        }]
+                    },
+                    r = {
+                        cN: "literal",
+                        b: /\$(null|true|false)\b/
+                    },
+                    n = {
+                        cN: "string",
+                        v: [{
+                            b: /"/,
+                            e: /"/
+                        }, {
+                            b: /@"/,
+                            e: /^"@/
+                        }],
+                        c: [t, o, {
+                            cN: "variable",
+                            b: /\$[A-z]/,
+                            e: /[^A-z]/
+                        }]
+                    },
+                    a = {
+                        cN: "string",
+                        v: [{
+                            b: /'/,
+                            e: /'/
+                        }, {
+                            b: /@'/,
+                            e: /^'@/
+                        }]
+                    },
+                    i = {
+                        cN: "doctag",
+                        v: [{
+                            b: /\.(synopsis|description|example|inputs|outputs|notes|link|component|role|functionality)/
+                        }, {
+                            b: /\.(parameter|forwardhelptargetname|forwardhelpcategory|remotehelprunspace|externalhelp)\s+\S+/
+                        }]
+                    },
+                    s = e.inherit(e.C(null, null), {
+                        v: [{
+                            b: /#/,
+                            e: /$/
+                        }, {
+                            b: /<#/,
+                            e: /#>/
+                        }],
+                        c: [i]
+                    });
+                return {
+                    aliases: ["ps"],
+                    l: /-?[A-z\.\-]+/,
+                    cI: !0,
+                    k: {
+                        keyword: "if else foreach return function do while until elseif begin for trap data dynamicparam end break throw param continue finally in switch exit filter try process catch",
+                        built_in: dbatoolscommands + " Add-Computer Add-Content Add-History Add-JobTrigger Add-Member Add-PSSnapin Add-Type Checkpoint-Computer Clear-Content Clear-EventLog Clear-History Clear-Host Clear-Item Clear-ItemProperty Clear-Variable Compare-Object Complete-Transaction Connect-PSSession Connect-WSMan Convert-Path ConvertFrom-Csv ConvertFrom-Json ConvertFrom-SecureString ConvertFrom-StringData ConvertTo-Csv ConvertTo-Html ConvertTo-Json ConvertTo-SecureString ConvertTo-Xml Copy-Item Copy-ItemProperty Debug-Process Disable-ComputerRestore Disable-JobTrigger Disable-PSBreakpoint Disable-PSRemoting Disable-PSSessionConfiguration Disable-WSManCredSSP Disconnect-PSSession Disconnect-WSMan Disable-ScheduledJob Enable-ComputerRestore Enable-JobTrigger Enable-PSBreakpoint Enable-PSRemoting Enable-PSSessionConfiguration Enable-ScheduledJob Enable-WSManCredSSP Enter-PSSession Exit-PSSession Export-Alias Export-Clixml Export-Console Export-Counter Export-Csv Export-FormatData Export-ModuleMember Export-PSSession ForEach-Object Format-Custom Format-List Format-Table Format-Wide Get-Acl Get-Alias Get-AuthenticodeSignature Get-ChildItem Get-Command Get-ComputerRestorePoint Get-Content Get-ControlPanelItem Get-Counter Get-Credential Get-Culture Get-Date Get-Event Get-EventLog Get-EventSubscriber Get-ExecutionPolicy Get-FormatData Get-Host Get-HotFix Get-Help Get-History Get-IseSnippet Get-Item Get-ItemProperty Get-Job Get-JobTrigger Get-Location Get-Member Get-Module Get-PfxCertificate Get-Process Get-PSBreakpoint Get-PSCallStack Get-PSDrive Get-PSProvider Get-PSSession Get-PSSessionConfiguration Get-PSSnapin Get-Random Get-ScheduledJob Get-ScheduledJobOption Get-Service Get-TraceSource Get-Transaction Get-TypeData Get-UICulture Get-Unique Get-Variable Get-Verb Get-WinEvent Get-WmiObject Get-WSManCredSSP Get-WSManInstance Group-Object Import-Alias Import-Clixml Import-Counter Import-Csv Import-IseSnippet Import-LocalizedData Import-PSSession Import-Module Invoke-AsWorkflow Invoke-Command Invoke-Expression Invoke-History Invoke-Item Invoke-RestMethod Invoke-WebRequest Invoke-WmiMethod Invoke-WSManAction Join-Path Limit-EventLog Measure-Command Measure-Object Move-Item Move-ItemProperty New-Alias New-Event New-EventLog New-IseSnippet New-Item New-ItemProperty New-JobTrigger New-Object New-Module New-ModuleManifest New-PSDrive New-PSSession New-PSSessionConfigurationFile New-PSSessionOption New-PSTransportOption New-PSWorkflowExecutionOption New-PSWorkflowSession New-ScheduledJobOption New-Service New-TimeSpan New-Variable New-WebServiceProxy New-WinEvent New-WSManInstance New-WSManSessionOption Out-Default Out-File Out-GridView Out-Host Out-Null Out-Printer Out-String Pop-Location Push-Location Read-Host Receive-Job Register-EngineEvent Register-ObjectEvent Register-PSSessionConfiguration Register-ScheduledJob Register-WmiEvent Remove-Computer Remove-Event Remove-EventLog Remove-Item Remove-ItemProperty Remove-Job Remove-JobTrigger Remove-Module Remove-PSBreakpoint Remove-PSDrive Remove-PSSession Remove-PSSnapin Remove-TypeData Remove-Variable Remove-WmiObject Remove-WSManInstance Rename-Computer Rename-Item Rename-ItemProperty Reset-ComputerMachinePassword Resolve-Path Restart-Computer Restart-Service Restore-Computer Resume-Job Resume-Service Save-Help Select-Object Select-String Select-Xml Send-MailMessage Set-Acl Set-Alias Set-AuthenticodeSignature Set-Content Set-Date Set-ExecutionPolicy Set-Item Set-ItemProperty Set-JobTrigger Set-Location Set-PSBreakpoint Set-PSDebug Set-PSSessionConfiguration Set-ScheduledJob Set-ScheduledJobOption Set-Service Set-StrictMode Set-TraceSource Set-Variable Set-WmiInstance Set-WSManInstance Set-WSManQuickConfig Show-Command Show-ControlPanelItem Show-EventLog Sort-Object Split-Path Start-Job Start-Process Start-Service Start-Sleep Start-Transaction Start-Transcript Stop-Computer Stop-Job Stop-Process Stop-Service Stop-Transcript Suspend-Job Suspend-Service Tee-Object Test-ComputerSecureChannel Test-Connection Test-ModuleManifest Test-Path Test-PSSessionConfigurationFile Trace-Command Unblock-File Undo-Transaction Unregister-Event Unregister-PSSessionConfiguration Unregister-ScheduledJob Update-FormatData Update-Help Update-List Update-TypeData Use-Transaction Wait-Event Wait-Job Wait-Process Where-Object Write-Debug Write-Error Write-EventLog Write-Host Write-Output Write-Progress Write-Verbose Write-Warning Add-MDTPersistentDrive Disable-MDTMonitorService Enable-MDTMonitorService Get-MDTDeploymentShareStatistics Get-MDTMonitorData Get-MDTOperatingSystemCatalog Get-MDTPersistentDrive Import-MDTApplication Import-MDTDriver Import-MDTOperatingSystem Import-MDTPackage Import-MDTTaskSequence New-MDTDatabase Remove-MDTMonitorData Remove-MDTPersistentDrive Restore-MDTPersistentDrive Set-MDTMonitorData Test-MDTDeploymentShare Test-MDTMonitorData Update-MDTDatabaseSchema Update-MDTDeploymentShare Update-MDTLinkedDS Update-MDTMedia Update-MDTMedia Add-VamtProductKey Export-VamtData Find-VamtManagedMachine Get-VamtConfirmationId Get-VamtProduct Get-VamtProductKey Import-VamtData Initialize-VamtData Install-VamtConfirmationId Install-VamtProductActivation Install-VamtProductKey Update-VamtProduct",
+                        nomarkup: "-ne -eq -lt -gt -ge -le -not -like -notlike -match -notmatch -contains -notcontains -in -notin -replace"
+                    },
+                    c: [t, e.NM, n, a, r, o, s]
+                }
+            });
+
+        }
+        $(document).ready(function () {
+            function render_doc(doc_to_render, examples_mode) {
+                
+                $("#rendered h5").each(function (i, el) {
+                    if ($(el).text().startsWith('-')) {
+                        $(el).addClass('param')
+                    }
+                })
+                $('#rendered table').addClass('table table-sm table-hover')
+                if (examples_mode == 'new') {
+                    $('#rendered code').addClass('powershell')
+                }
+                $('#rendered code').each(function (i, block) {
+                    hljs.highlightBlock(block);
+                })
+                var authorcontent = $("td:contains('Author')").next('td').addClass('dbatools_author').text()
+                $("#rendered .dbatools_author").html(Autolinker.link(authorcontent, {
+                    className: 'myLink',
+                    mention: 'twitter'
+                })
+                )
+                $("#rendered h2#syntax").next().find('code').addClass('wrapped')
+                if (ClipboardJS.isSupported()) {
+                    $("#rendered h5[id^='example-']").append('<div class="bd-clipboard"><button class="btn-clipboard" title="Copy to clipboard">Copy</button></div>')
+                    new ClipboardJS('.btn-clipboard', {
+                        text: function (trigger) {
+                            var textlines = $(trigger).parent().parent().next('pre').find('code').text().split('\n')
+                            var copied = []
+                            _.forEach(textlines, function (row) {
+                                copied.push(row.replace(/^PS C:\\> /, "").replace(/^>>/, ""))
+                            })
+                            return _.join(copied, '\n')
+                        }
+                    });
+                }
+
+
+                //not all code is a block 
+                $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
+                $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
+            }
+
+            $('#loader').removeClass('invisible')
+            var index_url = 'assets/dbatools-index.json'
+            var external_url = 'assets/external.json'
+            var values = [];
+            var options = {
+                valueNames: ['CommandName', 'Description', 'Alias', 'Examples', 'Params'],
+                item: '<a class="list-group-item" href="#"><span class="CommandName"></span></a>'
+            }
+            cmdlist = new List('cmdlist', options, values);
+            var indexhelp = ''
+            var allcmds = $.getJSON(index_url, function (data) {
+                indexhelp = data
+                cmdlist.add(data)
+                var dbacommands = []
+                var cloudlist = {}
+                _.forEach(data, function (el) {
+                    dbacommands.push(el.CommandName)
+                    if (_.isArray(el.Tags)) {
+                        _.forEach(el.Tags, function (el) {
+                            if (!_.has(cloudlist, el)) {
+                                cloudlist[el] = 0
+                            }
+                            cloudlist[el] += 1
+                        })
+                    } else if (!_.isUndefined(el.Tags)){
+                        if (!_.has(cloudlist, el.Tags)) {
+                            cloudlist[el.Tags] = 0
+                        }
+                        cloudlist[el.Tags] += 1
+                    }
+                })
+                var weightedVals = []
+                _.forEach(cloudlist, function (value, key) {
+                    weightedVals.push({
+                        text: key,
+                        weight: value,
+                        handlers: {
+                            click: function () { $('#search-ft').val('tag:' + key).trigger('keyup') }
+                        }
+                    })
+                })
+                var pixelHeight = window.innerHeight * 0.65;
+                $('#canvas').css({ 'height': pixelHeight + 'px' });
+                $('#canvas').jQCloud(weightedVals, {
+                    autoResize: true
+                });
+
+                register_dbatools_hljs(dbacommands.join(' '))
+                $(window).trigger('hashchange');
+            })
+            var options2 = {
+                valueNames: ['extName', { name: 'extHref', attr: 'href' }],
+                item: '<div><a class="list-group-item list-group-item-secondary extHref" href="#" _target="_blank"><span class="extName"></span></a></div>'
+            }
+            extlist = new List('extlist', options2, [])
+
+            $.getJSON(external_url, function (data) {
+                $('#dbatools_version').text('(v ' + data.version + ')')
+                _.forEach(data.external_links, function (el) {
+                    extlist.add({ 'extName': el.name, 'extHref': el.href })
+                })
+            })
+            cmdlist.on('searchComplete', function (e) {
+                if (cmdlist.matchingItems.length === 0) {
+                    var searchString = $('#search-ft').val().trim();
+                    if (searchString.length > 0 && !searchString.startsWith("ft:")) {
+                        if (searchString != "f" && searchString != "ft" && searchString != "ft:") {
+                            $('#search-ft').val("ft:" + searchString)
+                        }
+                    }
+                }
+            })
+            $('#cmdlist').on('click', 'a', function (e) {
+                e.preventDefault();
+                window.location.href = $(this).find('span.CommandName').text()
+                /*
+                window.location.hash = '#' + $(this).find('span.CommandName').text();
+                $('#cmdlist').find('a.active').removeClass('active')
+                $(this).addClass('active')
+                */
+            })
+            $('#search-ft').on('keyup', function () {
+                var searchString = $(this).val();
+                if (searchString.trim() == "ft:" || searchString.trim() == "tag:") {
+                    extlist.search();
+                }
+                else if (searchString.startsWith("ft:")) {
+                    searchString = searchString.substring(3).trim();
+                    cmdlist.search(searchString, ['CommandName', 'Alias', 'Description', 'Examples', 'Params']);
+                } else if (searchString.startsWith("tag:")) {
+                    searchString = searchString.substring(4).trim();
+                    cmdlist.filter(function (item) {
+                        if (_.indexOf(item.values().Tags, searchString) !== -1) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
+                } else {
+                    cmdlist.search(searchString, ['CommandName', 'Alias']);
+                }
+                extlist.search('$$$')
+                if (_.isEmpty(searchString)) {
+                    extlist.search()
+                    cmdlist.filter()
+                }
+            })
+            $('#clear-search').on('click', function () {
+                $('#search-ft').val('').trigger('keyup')
+            })
+            $(window).on('hashchange', function (e) {
+                var hash = window.location.hash.substr(1);
+                var pagename = window.location.pathname.split("/").filter(function (c) { return c.length; }).pop();
+                if (_.isUndefined(pagename)) {
+                    pagename = ''
+                } else {
+                    pagename = pagename.split('.')[0];
+                }
+                if (hash.length == 0) {
+                    hash = pagename
+                }
+                if (hash.length > 0) {
+                    //ends with /
+                    if (_.endsWith(hash, '/')) {
+                        window.location.hash = '#' + hash.slice(0, hash.length - 1)
+                        $(window).trigger('hashchange');
+                        return;
+                    }
+                    //exact match
+                    var topublish = _.findIndex(indexhelp, { 'Name': hash })
+                    if (topublish == -1) {
+                        //lowercase match
+                        var topublish = _.findIndex(indexhelp, function (el) { return _.toLower(el.Name) == _.toLower(hash) })
+                        if (topublish == -1) {
+                            //alias match
+                            var topublish = _.findIndex(indexhelp, { 'Alias': hash })
+                            if (topublish == -1) {
+                                //lowercase alias match
+                                var topublish = _.findIndex(indexhelp, function (el) { return _.toLower(el.Alias) == _.toLower(hash) })
+                            }
+                            if (topublish == -1) {
+                                //multiple aliases, optionally lowercased
+                                var topublish = _.findIndex(indexhelp, function (el) { return _.includes(_.toLower(el.Alias).split(','), _.toLower(hash)) })
+                            }
+                        }
+                        if (topublish !== -1) {
+                            //normalization of URI
+                            window.location.hash = '#' + indexhelp[topublish].CommandName
+                            $(window).trigger('hashchange')
+                            return;
+                        }
+                    }
+                    if (topublish == -1) {
+                        $('#rendered').html(marked('### 404 Function not found \n (while searching for ' + hash + '). Please visit dbatools.io/commands for an updated index of current commands.'));
+                    } else {
+                        var doc_to_render = indexhelp[topublish]
+                        render_doc(doc_to_render, 'new')
+                        $("body").data("doc_to_render", indexhelp[topublish])
+                        if ($("#headscroll").offset().top > 150) {
+                            $(window).scrollTo('#headscroll')
+                        } else {
+                            $(window).scrollTo(0, 800)
+                        }
+                    }
+                } else {
+                    $('#loader').addClass('invisible')
+                }
+            })
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            })
+            $('#back-to-top').click(function () {
+                $(window).scrollTo(0, 800)
+                return false;
+            })
+
+        })
+    </script>
+</head>
+
+
+<body>
+
+    <nav class="navbar navbar-expand-md customnav">
+        <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
+                class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span>
+        </button>
+        <div class="collapse navbar-collapse flex-grow-1 text-right" id="navbarCollapse">
+            <ul class="navbar-nav ml-auto flex-nowrap">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://dbatools.io/download/">download</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://dbatools.io/getting-started/">get started</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://dbatools.io/functions/">commands</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">docs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://dbatools.io/team/">team</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://dbatools.io/subscribe/">subscribe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://dbatools.io/slack">find us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://dbatools.io/builds">build reference</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://dbatools.io/boh">bill of health</a>
+                </li>
+            </ul>
+            <div class="p-2 flex-shrink-0 bd-highlight invisible">cl said "add this much | |"</div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-lg-5 col-md-5 col-sm-12 bd-sidebar">
+                <div id="relcommands" class="">
+                    <h3>
+                        commands
+                        <small id="dbatools_version" class="text-muted"></small>
+                    </h3>
+                    <p></p>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <div class="input-group">
+
+                                <input type="text" class="form-control" id="search-ft"
+                                    placeholder="Search (&quot;ft: term&quot; enables fulltext)" autocomplete="off">
+                                <div class="input-group-append">
+                                    <div class="input-group-text" id="clear-search">Clear</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="extlist">
+                        <div class="list list-group"></div>
+                    </div>
+                    <div id="cmdlist">
+                        <div class="list list-group"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-7 col-md-7 col-sm-12 bd-content">
+                <div id="headscroll">
+                    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button"
+                        title="Click to return on the top page">&#94;</a>
+                </div>
+                <div id="rendered">
+                    <h1 id="invoke-dbadblogshipping">Invoke-DbaDbLogShipping</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Author</strong></td>
+<td>Sander Stad (@sqlstad), sqlstad.nl</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Windows only</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<h2 id="synopsis">Synopsis</h2>
+<p>Invoke-DbaDbLogShipping sets up log shipping for one or more databases</p>
+<h2 id="description">Description</h2>
+<p>Invoke-DbaDbLogShipping helps to easily set up log shipping for one or more databases.</p>
+<p>This function will make a lot of decisions for you assuming you want default values like a daily interval for the schedules with a 15 minute interval on the day.
+There are some settings that cannot be made by the function and they need to be prepared before the function is executed.</p>
+<p>The following settings need to be made before log shipping can be initiated:</p>
+<ul>
+<li>Backup destination (the folder and the privileges)</li>
+<li>Copy destination (the folder and the privileges)</li>
+</ul>
+<ul>
+<li>Privileges
+Make sure your agent service on both the primary and the secondary instance is an Active Directory account.
+Also have the credentials ready to set the folder permissions</li>
+</ul>
+<p>** Network share
+The backup destination needs to be shared and have the share privileges of FULL CONTROL to Everyone.</p>
+<p>** NTFS permissions
+The backup destination must have at least read/write permissions for the primary instance agent account.
+The backup destination must have at least read permissions for the secondary instance agent account.
+The copy destination must have at least read/write permission for the secondary instance agent acount.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>Invoke-DbaDbLogShipping
+    [-SourceSqlInstance] &lt;DbaInstanceParameter&gt;
+    [-DestinationSqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [[-SourceSqlCredential] &lt;PSCredential&gt;]
+    [[-SourceCredential] &lt;PSCredential&gt;]
+    [[-DestinationSqlCredential] &lt;PSCredential&gt;]
+    [[-DestinationCredential] &lt;PSCredential&gt;]
+    [-Database] &lt;Object[]&gt;
+    [-SharedPath] &lt;String&gt;
+    [[-LocalPath] &lt;String&gt;]
+    [[-BackupJob] &lt;String&gt;]
+    [[-BackupRetention] &lt;Int32&gt;]
+    [[-BackupSchedule] &lt;String&gt;]
+    [-BackupScheduleDisabled]
+    [[-BackupScheduleFrequencyType] &lt;Object&gt;]
+    [[-BackupScheduleFrequencyInterval] &lt;Object[]&gt;]
+    [[-BackupScheduleFrequencySubdayType] &lt;Object&gt;]
+    [[-BackupScheduleFrequencySubdayInterval] &lt;Int32&gt;]
+    [[-BackupScheduleFrequencyRelativeInterval] &lt;Object&gt;]
+    [[-BackupScheduleFrequencyRecurrenceFactor] &lt;Int32&gt;]
+    [[-BackupScheduleStartDate] &lt;String&gt;]
+    [[-BackupScheduleEndDate] &lt;String&gt;]
+    [[-BackupScheduleStartTime] &lt;String&gt;]
+    [[-BackupScheduleEndTime] &lt;String&gt;]
+    [[-BackupThreshold] &lt;Int32&gt;]
+    [-CompressBackup]
+    [[-CopyDestinationFolder] &lt;String&gt;]
+    [[-CopyJob] &lt;String&gt;]
+    [[-CopyRetention] &lt;Int32&gt;]
+    [[-CopySchedule] &lt;String&gt;]
+    [-CopyScheduleDisabled]
+    [[-CopyScheduleFrequencyType] &lt;Object&gt;]
+    [[-CopyScheduleFrequencyInterval] &lt;Object[]&gt;]
+    [[-CopyScheduleFrequencySubdayType] &lt;Object&gt;]
+    [[-CopyScheduleFrequencySubdayInterval] &lt;Int32&gt;]
+    [[-CopyScheduleFrequencyRelativeInterval] &lt;Object&gt;]
+    [[-CopyScheduleFrequencyRecurrenceFactor] &lt;Int32&gt;]
+    [[-CopyScheduleStartDate] &lt;String&gt;]
+    [[-CopyScheduleEndDate] &lt;String&gt;]
+    [[-CopyScheduleStartTime] &lt;String&gt;]
+    [[-CopyScheduleEndTime] &lt;String&gt;]
+    [-DisconnectUsers]
+    [[-FullBackupPath] &lt;String&gt;]
+    [-GenerateFullBackup]
+    [[-HistoryRetention] &lt;Int32&gt;]
+    [-NoRecovery]
+    [-NoInitialization]
+    [[-PrimaryMonitorServer] &lt;String&gt;]
+    [[-PrimaryMonitorCredential] &lt;PSCredential&gt;]
+    [[-PrimaryMonitorServerSecurityMode] &lt;Object&gt;]
+    [-PrimaryThresholdAlertEnabled]
+    [[-RestoreDataFolder] &lt;String&gt;]
+    [[-RestoreLogFolder] &lt;String&gt;]
+    [[-RestoreDelay] &lt;Int32&gt;]
+    [[-RestoreAlertThreshold] &lt;Int32&gt;]
+    [[-RestoreJob] &lt;String&gt;]
+    [[-RestoreRetention] &lt;Int32&gt;]
+    [[-RestoreSchedule] &lt;String&gt;]
+    [-RestoreScheduleDisabled]
+    [[-RestoreScheduleFrequencyType] &lt;Object&gt;]
+    [[-RestoreScheduleFrequencyInterval] &lt;Object[]&gt;]
+    [[-RestoreScheduleFrequencySubdayType] &lt;Object&gt;]
+    [[-RestoreScheduleFrequencySubdayInterval] &lt;Int32&gt;]
+    [[-RestoreScheduleFrequencyRelativeInterval] &lt;Object&gt;]
+    [[-RestoreScheduleFrequencyRecurrenceFactor] &lt;Int32&gt;]
+    [[-RestoreScheduleStartDate] &lt;String&gt;]
+    [[-RestoreScheduleEndDate] &lt;String&gt;]
+    [[-RestoreScheduleStartTime] &lt;String&gt;]
+    [[-RestoreScheduleEndTime] &lt;String&gt;]
+    [[-RestoreThreshold] &lt;Int32&gt;]
+    [[-SecondaryDatabasePrefix] &lt;String&gt;]
+    [[-SecondaryDatabaseSuffix] &lt;String&gt;]
+    [[-SecondaryMonitorServer] &lt;String&gt;]
+    [[-SecondaryMonitorCredential] &lt;PSCredential&gt;]
+    [[-SecondaryMonitorServerSecurityMode] &lt;Object&gt;]
+    [-SecondaryThresholdAlertEnabled]
+    [-Standby]
+    [[-StandbyDirectory] &lt;String&gt;]
+    [-UseExistingFullBackup]
+    [[-UseBackupFolder] &lt;String&gt;]
+    [-Force]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+</code></pre>
+<p> </p>
+<h2 id="examples">Examples</h2>
+<p> </p>
+<h5 id="example-1">Example:  1</h5>
+<pre><code>PS C:\&gt; $params = @{
+&gt;&gt; SourceSqlInstance = 'sql1'
+&gt;&gt; DestinationSqlInstance = 'sql2'
+&gt;&gt; Database = 'db1'
+&gt;&gt; SharedPath= '\\sql1\logshipping'
+&gt;&gt; LocalPath= 'D:\Data\logshipping'
+&gt;&gt; BackupScheduleFrequencyType = 'daily'
+&gt;&gt; BackupScheduleFrequencyInterval = 1
+&gt;&gt; CompressBackup = $true
+&gt;&gt; CopyScheduleFrequencyType = 'daily'
+&gt;&gt; CopyScheduleFrequencyInterval = 1
+&gt;&gt; GenerateFullBackup = $true
+&gt;&gt; RestoreScheduleFrequencyType = 'daily'
+&gt;&gt; RestoreScheduleFrequencyInterval = 1
+&gt;&gt; SecondaryDatabaseSuffix = 'DR'
+&gt;&gt; CopyDestinationFolder = '\\sql2\logshippingdest'
+&gt;&gt; Force = $true
+&gt;&gt; }
+&gt;&gt;
+PS C:\&gt; Invoke-DbaDbLogShipping @params
+</code></pre>
+<p>Sets up log shipping for database &quot;db1&quot; with the backup path to a network share allowing local backups.<br>
+It creates daily schedules for the backup, copy and restore job with all the defaults to be executed every 15 minutes daily.<br>
+The secondary database will be called &quot;db1_LS&quot;.<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; $params = @{
+&gt;&gt; SourceSqlInstance = 'sql1'
+&gt;&gt; DestinationSqlInstance = 'sql2'
+&gt;&gt; Database = 'db1'
+&gt;&gt; SharedPath= '\\sql1\logshipping'
+&gt;&gt; GenerateFullBackup = $true
+&gt;&gt; Force = $true
+&gt;&gt; }
+&gt;&gt;
+PS C:\&gt; Invoke-DbaDbLogShipping @params
+</code></pre>
+<p>Sets up log shipping with all defaults except that a backup file is generated.<br>
+The script will show a message that the copy destination has not been supplied and asks if you want to use the default which would be the backup directory of the secondary server with the folder <br>
+&quot;logshipping&quot; i.e. &quot;D:\SQLBackup\Logshiping&quot;.<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="sourcesqlinstance">-SourceSqlInstance</h5>
+<p>Source SQL Server instance which contains the databases to be log shipped.
+You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>SourceServerInstance,SourceSqlServerSqlServer,Source</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="destinationsqlinstance">-DestinationSqlInstance</h5>
+<p>Destination SQL Server instance which contains the databases to be log shipped.
+You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>DestinationServerInstance,DestinationSqlServer,Destination</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="database">-Database</h5>
+<p>Database to set up log shipping for.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sharedpath">-SharedPath</h5>
+<p>The backup unc path to place the backup files. This is the root directory.
+A directory with the name of the database will be created in this path.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>BackupNetworkPath</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sourcecredential">-SourceCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="destinationcredential">-DestinationCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="localpath">-LocalPath</h5>
+<p>If the backup path is locally for the source server you can also set this value.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>BackupLocalPath</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupjob">-BackupJob</h5>
+<p>Name of the backup that will be created in the SQL Server agent.
+The parameter works as a prefix where the name of the database will be added to the backup job name.
+The default is &quot;LSBackup_[databasename]&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupretention">-BackupRetention</h5>
+<p>The backup retention period in minutes. Default is 4320 / 72 hours<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupschedule">-BackupSchedule</h5>
+<p>Name of the backup schedule created for the backup job.
+The parameter works as a prefix where the name of the database will be added to the backup job schedule name.
+Default is &quot;LSBackupSchedule_[databasename]&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupscheduledisabled">-BackupScheduleDisabled</h5>
+<p>Parameter to set the backup schedule to disabled upon creation.
+By default the schedule is enabled.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupschedulefrequencytype">-BackupScheduleFrequencyType</h5>
+<p>A value indicating when a job is to be executed.
+Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Daily,Weekly,AgentStart,IdleComputer</td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupschedulefrequencyinterval">-BackupScheduleFrequencyInterval</h5>
+<p>The number of type periods to occur between each execution of the backup job.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupschedulefrequencysubdaytype">-BackupScheduleFrequencySubdayType</h5>
+<p>Specifies the units for the sub-day FrequencyInterval.
+Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &quot;Hours&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Time,Seconds,Minutes,Hours</td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupschedulefrequencysubdayinterval">-BackupScheduleFrequencySubdayInterval</h5>
+<p>The number of sub-day type periods to occur between each execution of the backup job.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupschedulefrequencyrelativeinterval">-BackupScheduleFrequencyRelativeInterval</h5>
+<p>A job's occurrence of FrequencyInterval in each month, if FrequencyInterval is 32 (monthlyrelative).<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Unused,First,Second,Third,Fourth,Last</td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupschedulefrequencyrecurrencefactor">-BackupScheduleFrequencyRecurrenceFactor</h5>
+<p>The number of weeks or months between the scheduled execution of a job. FrequencyRecurrenceFactor is used only if FrequencyType is 8, &quot;Weekly&quot;, 16, &quot;Monthly&quot;, 32 or &quot;MonthlyRelative&quot;.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupschedulestartdate">-BackupScheduleStartDate</h5>
+<p>The date on which execution of a job can begin.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupscheduleenddate">-BackupScheduleEndDate</h5>
+<p>The date on which execution of a job can stop.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupschedulestarttime">-BackupScheduleStartTime</h5>
+<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.
+Example: '010000' for 01:00:00 AM.
+Example: '140000' for 02:00:00 PM.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupscheduleendtime">-BackupScheduleEndTime</h5>
+<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.
+Example: '010000' for 01:00:00 AM.
+Example: '140000' for 02:00:00 PM.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupthreshold">-BackupThreshold</h5>
+<p>Is the length of time, in minutes, after the last backup before a threshold alert error is raised.
+The default is 60.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="compressbackup">-CompressBackup</h5>
+<p>Do the backups need to be compressed. By default the backups are not compressed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="copydestinationfolder">-CopyDestinationFolder</h5>
+<p>The path to copy the transaction log backup files to. This is the root directory.
+A directory with the name of the database will be created in this path.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyjob">-CopyJob</h5>
+<p>Name of the copy job that will be created in the SQL Server agent.
+The parameter works as a prefix where the name of the database will be added to the copy job name.
+The default is &quot;LSBackup_[databasename]&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyretention">-CopyRetention</h5>
+<p>The copy retention period in minutes. Default is 4320 / 72 hours<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyschedule">-CopySchedule</h5>
+<p>Name of the backup schedule created for the copy job.
+The parameter works as a prefix where the name of the database will be added to the copy job schedule name.
+Default is &quot;LSCopy_[DestinationServerName]_[DatabaseName]&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyscheduledisabled">-CopyScheduleDisabled</h5>
+<p>Parameter to set the copy schedule to disabled upon creation.
+By default the schedule is enabled.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyschedulefrequencytype">-CopyScheduleFrequencyType</h5>
+<p>A value indicating when a job is to be executed.
+Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Daily,Weekly,AgentStart,IdleComputer</td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyschedulefrequencyinterval">-CopyScheduleFrequencyInterval</h5>
+<p>The number of type periods to occur between each execution of the copy job.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyschedulefrequencysubdaytype">-CopyScheduleFrequencySubdayType</h5>
+<p>Specifies the units for the subday FrequencyInterval.
+Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &quot;Hours&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Time,Seconds,Minutes,Hours</td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyschedulefrequencysubdayinterval">-CopyScheduleFrequencySubdayInterval</h5>
+<p>The number of subday type periods to occur between each execution of the copy job.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyschedulefrequencyrelativeinterval">-CopyScheduleFrequencyRelativeInterval</h5>
+<p>A job's occurrence of FrequencyInterval in each month, if FrequencyInterval is 32 (monthlyrelative).<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Unused,First,Second,Third,Fourth,Last</td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyschedulefrequencyrecurrencefactor">-CopyScheduleFrequencyRecurrenceFactor</h5>
+<p>The number of weeks or months between the scheduled execution of a job. FrequencyRecurrenceFactor is used only if FrequencyType is 8, &quot;Weekly&quot;, 16, &quot;Monthly&quot;, 32 or &quot;MonthlyRelative&quot;.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyschedulestartdate">-CopyScheduleStartDate</h5>
+<p>The date on which execution of a job can begin.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyscheduleenddate">-CopyScheduleEndDate</h5>
+<p>The date on which execution of a job can stop.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyschedulestarttime">-CopyScheduleStartTime</h5>
+<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.
+Example: '010000' for 01:00:00 AM.
+Example: '140000' for 02:00:00 PM.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="copyscheduleendtime">-CopyScheduleEndTime</h5>
+<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.
+Example: '010000' for 01:00:00 AM.
+Example: '140000' for 02:00:00 PM.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="disconnectusers">-DisconnectUsers</h5>
+<p>If this parameter is set in combinations of standby the users will be disconnected during restore.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="fullbackuppath">-FullBackupPath</h5>
+<p>Path to an existing full backup. Use this when an existing backup needs to used to initialize the database on the secondary instance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="generatefullbackup">-GenerateFullBackup</h5>
+<p>If the database is not initialized on the secondary instance it can be done by creating a new full backup and
+restore it for you.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="historyretention">-HistoryRetention</h5>
+<p>Is the length of time in minutes in which the history is retained.
+The default value is 14420<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="norecovery">-NoRecovery</h5>
+<p>If this parameter is set the database will be in recovery mode. The database will not be readable.
+This setting is default.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="noinitialization">-NoInitialization</h5>
+<p>If this parameter is set the secondary database will not be initialized.
+The database needs to be on the secondary instance in recovery mode.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="primarymonitorserver">-PrimaryMonitorServer</h5>
+<p>Is the name of the monitor server for the primary server.
+The default is the name of the primary sql server.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="primarymonitorcredential">-PrimaryMonitorCredential</h5>
+<p>Allows you to login to enter a secure credential. Only needs to be used when the PrimaryMonitorServerSecurityMode is 0 or &quot;sqlserver&quot;
+To use: $scred = Get-Credential, then pass $scred object to the -PrimaryMonitorCredential parameter.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="primarymonitorserversecuritymode">-PrimaryMonitorServerSecurityMode</h5>
+<p>The security mode used to connect to the monitor server for the primary server. Allowed values are 0, &quot;sqlserver&quot;, 1, &quot;windows&quot;
+The default is 1 or Windows.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>0,sqlserver,1,windows</td>
+</tr>
+</tbody>
+</table>
+<h5 id="primarythresholdalertenabled">-PrimaryThresholdAlertEnabled</h5>
+<p>Enables the Threshold alert for the primary database<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoredatafolder">-RestoreDataFolder</h5>
+<p>Folder to be used to restore the database data files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.
+If the parameter is not set the default data folder of the secondary instance will be used including the name of the database.
+If the folder is set but doesn't exist the default data folder of the secondary instance will be used including the name of the database.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restorelogfolder">-RestoreLogFolder</h5>
+<p>Folder to be used to restore the database log files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.
+If the parameter is not set the default transaction log folder of the secondary instance will be used.
+If the folder is set but doesn't exist the default transaction log folder of the secondary instance will be used.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoredelay">-RestoreDelay</h5>
+<p>In case a delay needs to be set for the restore.
+The default is 0.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restorealertthreshold">-RestoreAlertThreshold</h5>
+<p>The amount of minutes after which an alert will be raised is no restore has taken place.
+The default is 45 minutes.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restorejob">-RestoreJob</h5>
+<p>Name of the restore job that will be created in the SQL Server agent.
+The parameter works as a prefix where the name of the database will be added to the restore job name.
+The default is &quot;LSRestore_[databasename]&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreretention">-RestoreRetention</h5>
+<p>The backup retention period in minutes. Default is 4320 / 72 hours<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreschedule">-RestoreSchedule</h5>
+<p>Name of the backup schedule created for the restore job.
+The parameter works as a prefix where the name of the database will be added to the restore job schedule name.
+Default is &quot;LSRestore_[DestinationServerName]_[DatabaseName]&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restorescheduledisabled">-RestoreScheduleDisabled</h5>
+<p>Parameter to set the restore schedule to disabled upon creation.
+By default the schedule is enabled.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreschedulefrequencytype">-RestoreScheduleFrequencyType</h5>
+<p>A value indicating when a job is to be executed.
+Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Daily,Weekly,AgentStart,IdleComputer</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreschedulefrequencyinterval">-RestoreScheduleFrequencyInterval</h5>
+<p>The number of type periods to occur between each execution of the restore job.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreschedulefrequencysubdaytype">-RestoreScheduleFrequencySubdayType</h5>
+<p>Specifies the units for the subday FrequencyInterval.
+Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &quot;Hours&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Time,Seconds,Minutes,Hours</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreschedulefrequencysubdayinterval">-RestoreScheduleFrequencySubdayInterval</h5>
+<p>The number of subday type periods to occur between each execution of the restore job.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreschedulefrequencyrelativeinterval">-RestoreScheduleFrequencyRelativeInterval</h5>
+<p>A job's occurrence of FrequencyInterval in each month, if FrequencyInterval is 32 (monthlyrelative).<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Unused,First,Second,Third,Fourth,Last</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreschedulefrequencyrecurrencefactor">-RestoreScheduleFrequencyRecurrenceFactor</h5>
+<p>The number of weeks or months between the scheduled execution of a job. FrequencyRecurrenceFactor is used only if FrequencyType is 8, &quot;Weekly&quot;, 16, &quot;Monthly&quot;, 32 or &quot;MonthlyRelative&quot;.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreschedulestartdate">-RestoreScheduleStartDate</h5>
+<p>The date on which execution of a job can begin.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restorescheduleenddate">-RestoreScheduleEndDate</h5>
+<p>The date on which execution of a job can stop.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoreschedulestarttime">-RestoreScheduleStartTime</h5>
+<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.
+Example: '010000' for 01:00:00 AM.
+Example: '140000' for 02:00:00 PM.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restorescheduleendtime">-RestoreScheduleEndTime</h5>
+<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.
+Example: '010000' for 01:00:00 AM.
+Example: '140000' for 02:00:00 PM.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restorethreshold">-RestoreThreshold</h5>
+<p>The number of minutes allowed to elapse between restore operations before an alert is generated.
+The default value = 0<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="secondarydatabaseprefix">-SecondaryDatabasePrefix</h5>
+<p>The secondary database can be renamed to include a prefix.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="secondarydatabasesuffix">-SecondaryDatabaseSuffix</h5>
+<p>The secondary database can be renamed to include a suffix.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="secondarymonitorserver">-SecondaryMonitorServer</h5>
+<p>Is the name of the monitor server for the secondary server.
+The default is the name of the secondary sql server.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="secondarymonitorcredential">-SecondaryMonitorCredential</h5>
+<p>Allows you to login to enter a secure credential. Only needs to be used when the SecondaryMonitorServerSecurityMode is 0 or &quot;sqlserver&quot;
+To use: $scred = Get-Credential, then pass $scred object to the -SecondaryMonitorCredential parameter.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="secondarymonitorserversecuritymode">-SecondaryMonitorServerSecurityMode</h5>
+<p>The security mode used to connect to the monitor server for the secondary server. Allowed values are 0, &quot;sqlserver&quot;, 1, &quot;windows&quot;
+The default is 1 or Windows.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>0,sqlserver,1,windows</td>
+</tr>
+</tbody>
+</table>
+<h5 id="secondarythresholdalertenabled">-SecondaryThresholdAlertEnabled</h5>
+<p>Enables the Threshold alert for the secondary database<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="standby">-Standby</h5>
+<p>If this parameter is set the database will be set to standby mode making the database readable.
+If not set the database will be in recovery mode.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="standbydirectory">-StandbyDirectory</h5>
+<p>Directory to place the standby file(s) in<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="useexistingfullbackup">-UseExistingFullBackup</h5>
+<p>If the database is not initialized on the secondary instance it can be done by selecting an existing full backup
+and restore it for you.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="usebackupfolder">-UseBackupFolder</h5>
+<p>This enables the user to specify a specific backup folder containing one or more backup files to initialize the database on the secondary instance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>The force parameter will ignore some errors in the parameters and assume defaults.
+It will also remove the any present schedules with the same name for the specific job.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>Use this switch to disable any kind of verbose messages<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Invoke-DbaDbLogShipping.ps1">Invoke-DbaDbLogShipping</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Invoke-DbaDbLogShipping">Invoke-DbaDbLogShipping</a>.</p>
+
+                </div> <!-- rendered -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

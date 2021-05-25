@@ -4,20 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-    <title>dbatools docs</title>
+    <title>dbatools docs | Set-DbaStartupParameter</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
     <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+    <meta name="keywords" content="dbatools, ">
+    <meta name="subtitle" content="Docs for Set-DbaStartupParameter">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs site" />
-    <meta property="og:url" content="https://docs.dbatools.io/" />
-    <meta property="og:description" content="dbatools documentation site" />
+    <meta property="og:title" content="dbatools docs:  Set-DbaStartupParameter" />
+    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaStartupParameter.html" />
+    <meta property="og:description" content="dbatools docs for Set-DbaStartupParameter" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs site" />
+    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaStartupParameter" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -39,10 +41,8 @@
         gtag('config', 'UA-80639740-2');
     </script>
 
-    <style>
 
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -133,147 +133,13 @@
 
         }
         $(document).ready(function () {
-            function prepare_md(doc_to_render, examples_mode) {
-                rtn = []
-                rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author || doc_to_render.Availability) {
-                    rtn.push('|  |  |')
-                    rtn.push('| - | - |')
-                    if (doc_to_render.Author) {
-                        rtn.push('|  **Author**  | ' + doc_to_render.Author.replace('|', ',') + ' |')
-                    }
-                    if (doc_to_render.Availability) {
-                        rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
-                    }
-                    rtn.push('')
-                }
-                rtn.push('\n&nbsp;\n')
-                if (doc_to_render.Alias) {
-                    rtn.push('')
-                    rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
-                    rtn.push('')
-                }
-                rtn.push('## Synopsis')
-                rtn.push(doc_to_render.Synopsis)
-                rtn.push('')
-                rtn.push('## Description')
-                rtn.push(doc_to_render.Description)
-                rtn.push('')
-                if (doc_to_render.Syntax) {
-                    rtn.push('## Syntax')
-                    rtn.push('```')
-                    var splitted_paramsets = []
-                    _.forEach(doc_to_render.Syntax.split(doc_to_render.CommandName), function (val) {
-                        if (!_.isEmpty(val)) {
-                            splitted_paramsets.push(doc_to_render.CommandName + val)
-                        }
-                    })
-                    _.forEach(splitted_paramsets, function (syntax) {
-                        _.forEach(syntax.replace('\r', '').replace('\n', '').split(/ \[/), function (val, i) {
-                            if (!_.isEmpty(val)) {
-                                if (i == 0) {
-                                    rtn.push(val)
-                                } else {
-                                    rtn.push('    [' + val.replace('\n', '').replace('\n', ''))
-                                }
-                            }
-                        })
-                        rtn.push('')
-                    })
-
-
-                    rtn.push('```')
-                    rtn.push('\n&nbsp;\n')
-                }
-                rtn.push('')
-                rtn.push('## Examples')
-                rtn.push('\n&nbsp;\n')
-                if (examples_mode == 'old') {
-                    rtn.push('```')
-                    rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
-                    rtn.push('```')
-                } else {
-                    var examples = doc_to_render.Examples.replace('\r\n', '\n').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
-                    idx = 0
-                    var inside = 0
-                    _.forEach(examples, function (row) {
-                        if (_.startsWith(row, '----')) {
-                            rtn.push('')
-                            rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
-                        } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
-                            if (inside == 0) { rtn.push('```') }
-                            rtn.push(row.replace(/^PS C:\\>\s?/, "PS C:\\> "))
-                            inside = 1
-                        } else if ((_.trim(row) == '') || (_.trim(row) == 'Description')) {
-                            //rtn.push(row)
-                        } else {
-                            if (inside == 1) {
-                                inside = 0
-                                rtn.push('```')
-                            }
-                            rtn.push(row)
-                        }
-                    })
-                }
-                if (doc_to_render.Params) {
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == true }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Required Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == false }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Optional Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                }
-                rtn.push('')
-                rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://sqlcollaborative.github.io/boh#' + doc_to_render.CommandName + ').')
-                rtn.push('')
-                return _.join(rtn, '\n')
-            }
             function render_doc(doc_to_render, examples_mode) {
-                var md_text = prepare_md(doc_to_render, examples_mode)
-                var rendered = marked(md_text, {
-                    breaks: true,
-                    gfm: true,
-                    tables: true
+                
+                $("#rendered h5").each(function (i, el) {
+                    if ($(el).text().startsWith('-')) {
+                        $(el).addClass('param')
+                    }
                 })
-                //STATIC GENERATION $('#rendered').html(rendered)
-                $('#rendered').html(rendered)
-                $("#rendered h5[id^='-']").addClass('param')
                 $('#rendered table').addClass('table table-sm table-hover')
                 if (examples_mode == 'new') {
                     $('#rendered code').addClass('powershell')
@@ -303,10 +169,11 @@
                 }
 
 
-                /* not all code is a block */
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
+
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
             var external_url = 'assets/external.json'
@@ -413,7 +280,6 @@
                     extlist.search()
                     cmdlist.filter()
                 }
-
             })
             $('#clear-search').on('click', function () {
                 $('#search-ft').val('').trigger('keyup')
@@ -578,30 +444,782 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <!--<div id="loader" class="row h-100 justify-content-center align-items-center loader invisible">
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <div class="lds-ellipsis">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <p>loading all the help we can get ;-)</p>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    <h4>Welcome</h4>-->
-                    <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
-                    <p>Search on the left and click on a command to show the related help.</p>
-                    <div id="canvas" class="canvas"></div>
-                </div>
+                    <h1 id="set-dbastartupparameter">Set-DbaStartupParameter</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Author</strong></td>
+<td>Stuart Moore (@napalmgram), stuart-moore.com</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Windows only</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<h2 id="synopsis">Synopsis</h2>
+<p>Sets the Startup Parameters for a SQL Server instance</p>
+<h2 id="description">Description</h2>
+<p>Modifies the startup parameters for a specified SQL Server Instance</p>
+<p>For full details of what each parameter does, please refer to this MSDN article - <a href="https://msdn.microsoft.com/en-us/library/ms190737(v=sql.105).aspx">https://msdn.microsoft.com/en-us/library/ms190737(v=sql.105).aspx</a></p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>Set-DbaStartupParameter
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Credential] &lt;PSCredential&gt;]
+    [[-MasterData] &lt;String&gt;]
+    [[-MasterLog] &lt;String&gt;]
+    [[-ErrorLog] &lt;String&gt;]
+    [[-TraceFlag] &lt;String[]&gt;]
+    [-CommandPromptStart]
+    [-MinimalStart]
+    [[-MemoryToReserve] &lt;Int32&gt;]
+    [-SingleUser]
+    [[-SingleUserDetails] &lt;String&gt;]
+    [-NoLoggingToWinEvents]
+    [-StartAsNamedInstance]
+    [-DisableMonitoring]
+    [-IncreasedExtents]
+    [-TraceFlagOverride]
+    [[-StartupConfig] &lt;Object&gt;]
+    [-Offline]
+    [-Force]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+</code></pre>
+<p> </p>
+<h2 id="examples">Examples</h2>
+<p> </p>
+<h5 id="example-1">Example:  1</h5>
+<pre><code>PS C:\&gt; Set-DbaStartupParameter -SqlInstance server1\instance1 -SingleUser
+</code></pre>
+<p>Will configure the SQL Instance server1\instance1 to startup up in Single User mode at next startup<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Set-DbaStartupParameter -SqlInstance sql2016 -IncreasedExtents
+</code></pre>
+<p>Will configure the SQL Instance sql2016 to IncreasedExtents = True (-E)<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Set-DbaStartupParameter -SqlInstance sql2016  -IncreasedExtents:$false -WhatIf
+</code></pre>
+<p>Shows what would happen if you attempted to configure the SQL Instance sql2016 to IncreasedExtents = False (no -E)<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Set-DbaStartupParameter -SqlInstance server1\instance1 -TraceFlag 8032,8048
+</code></pre>
+<p>This will append Trace Flags 8032 and 8048 to the startup parameters<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Set-DbaStartupParameter -SqlInstance sql2016 -SingleUser:$false -TraceFlagOverride
+</code></pre>
+<p>This will remove all trace flags and set SingleUser to false<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Set-DbaStartupParameter -SqlInstance server1\instance1 -SingleUser -TraceFlag 8032,8048 -TraceFlagOverride
+</code></pre>
+<p>This will set Trace Flags 8032 and 8048 to the startup parameters, removing any existing Trace Flags<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; Set-DbaStartupParameter -SqlInstance sql2016 -SingleUser:$false -TraceFlagOverride -Offline
+</code></pre>
+<p>This will remove all trace flags and set SingleUser to false from an offline instance<br></p>
+<h5 id="example-8">Example:  8</h5>
+<pre><code>PS C:\&gt; Set-DbaStartupParameter -SqlInstance sql2016 -ErrorLog c:\Sql\ -Offline
+</code></pre>
+<p>This will attempt to change the ErrorLog path to c:\sql. However, with the offline switch this will not happen. To force it, use the -Force switch like so:<br>
+Set-DbaStartupParameter -SqlInstance sql2016 -ErrorLog c:\Sql\ -Offline -Force<br></p>
+<h5 id="example-9">Example:  9</h5>
+<pre><code>PS C:\&gt; $StartupConfig = Get-DbaStartupParameter -SqlInstance server1\instance1
+PS C:\&gt; Set-DbaStartupParameter -SqlInstance server1\instance1 -SingleUser -NoLoggingToWinEvents
+PS C:\&gt; #Restart your SQL instance with the tool of choice
+PS C:\&gt; #Do Some work
+PS C:\&gt; Set-DbaStartupParameter -SqlInstance server1\instance1 -StartupConfig $StartupConfig
+PS C:\&gt; #Restart your SQL instance with the tool of choice and you're back to normal
+</code></pre>
+<p>In this example we take a copy of the existing startup configuration of server1\instance1<br>
+We then change the startup parameters ahead of some work<br>
+After the work has been completed, we can push the original startup parameters back to server1\instance1 and resume normal operation<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The SQL Server instance to be modified
+If the Sql Instance is offline path parameters will be ignored as we cannot test the instance's access to the path. If you want to force this to work then please use the Force switch<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="credential">-Credential</h5>
+<p>Windows Credential with permission to log on to the server running the SQL instance<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="masterdata">-MasterData</h5>
+<p>Path to the data file for the Master database
+Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if
+the instance is offline<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="masterlog">-MasterLog</h5>
+<p>Path to the log file for the Master database
+Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if
+the instance is offline<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="errorlog">-ErrorLog</h5>
+<p>Path to the SQL Server error log file
+Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if
+the instance is offline<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="traceflag">-TraceFlag</h5>
+<p>A comma separated list of TraceFlags to be applied at SQL Server startup
+By default these will be appended to any existing trace flags set<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="commandpromptstart">-CommandPromptStart</h5>
+<p>Shortens startup time when starting SQL Server from the command prompt. Typically, the SQL Server Database Engine starts as a service by calling the Service Control Manager.
+Because the SQL Server Database Engine does not start as a service when starting from the command prompt<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="minimalstart">-MinimalStart</h5>
+<p>Starts an instance of SQL Server with minimal configuration. This is useful if the setting of a configuration value (for example, over-committing memory) has
+prevented the server from starting. Starting SQL Server in minimal configuration mode places SQL Server in single-user mode<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="memorytoreserve">-MemoryToReserve</h5>
+<p>Specifies an integer number of megabytes (MB) of memory that SQL Server will leave available for memory allocations within the SQL Server process,
+but outside the SQL Server memory pool. The memory outside of the memory pool is the area used by SQL Server for loading items such as extended procedure .dll files,
+the OLE DB providers referenced by distributed queries, and automation objects referenced in Transact-SQL statements. The default is 256 MB.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="singleuser">-SingleUser</h5>
+<p>Start Sql Server in single user mode<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="singleuserdetails">-SingleUserDetails</h5>
+<p>The username for single user<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="nologgingtowinevents">-NoLoggingToWinEvents</h5>
+<p>Don't use Windows Application events log<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="startasnamedinstance">-StartAsNamedInstance</h5>
+<p>Allows you to start a named instance of SQL Server<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="disablemonitoring">-DisableMonitoring</h5>
+<p>Disables the following monitoring features:
+SQL Server performance monitor counters
+Keeping CPU time and cache-hit ratio statistics
+Collecting information for the DBCC SQLPERF command
+Collecting information for some dynamic management views
+Many extended-events event points
+** Warning ** When you use the -x startup option, the information that is available for you to diagnose performance and functional problems with SQL Server is greatly reduced.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="increasedextents">-IncreasedExtents</h5>
+<p>Increases the number of extents that are allocated for each file in a file group.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="traceflagoverride">-TraceFlagOverride</h5>
+<p>Overrides the default behaviour and replaces any existing trace flags. If not trace flags specified will just remove existing ones<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="startupconfig">-StartupConfig</h5>
+<p>Pass in a previously saved SQL Instance startup config
+using this parameter will set TraceFlagOverride to true, so existing Trace Flags will be overridden<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="offline">-Offline</h5>
+<p>Setting this switch will try perform the requested actions without connect to the SQL Server Instance, this will speed things up if you know the Instance is offline.
+When working offline, path inputs (MasterData, MasterLog and ErrorLog) will be ignored, unless Force is specified<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>By default we test the values passed in via MasterData, MasterLog, ErrorLog<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaStartupParameter.ps1">Set-DbaStartupParameter</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaStartupParameter">Set-DbaStartupParameter</a>.</p>
+
+                </div> <!-- rendered -->
             </div>
         </div>
     </div>

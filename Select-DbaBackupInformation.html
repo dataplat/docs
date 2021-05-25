@@ -4,20 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-    <title>dbatools docs</title>
+    <title>dbatools docs | Select-DbaBackupInformation</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
     <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+    <meta name="keywords" content="dbatools, ">
+    <meta name="subtitle" content="Docs for Select-DbaBackupInformation">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs site" />
-    <meta property="og:url" content="https://docs.dbatools.io/" />
-    <meta property="og:description" content="dbatools documentation site" />
+    <meta property="og:title" content="dbatools docs:  Select-DbaBackupInformation" />
+    <meta property="og:url" content="https://docs.dbatools.io/Select-DbaBackupInformation.html" />
+    <meta property="og:description" content="dbatools docs for Select-DbaBackupInformation" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs site" />
+    <meta name="twitter:text:title" content="dbatools docs:  Select-DbaBackupInformation" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -39,10 +41,8 @@
         gtag('config', 'UA-80639740-2');
     </script>
 
-    <style>
 
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -133,147 +133,13 @@
 
         }
         $(document).ready(function () {
-            function prepare_md(doc_to_render, examples_mode) {
-                rtn = []
-                rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author || doc_to_render.Availability) {
-                    rtn.push('|  |  |')
-                    rtn.push('| - | - |')
-                    if (doc_to_render.Author) {
-                        rtn.push('|  **Author**  | ' + doc_to_render.Author.replace('|', ',') + ' |')
-                    }
-                    if (doc_to_render.Availability) {
-                        rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
-                    }
-                    rtn.push('')
-                }
-                rtn.push('\n&nbsp;\n')
-                if (doc_to_render.Alias) {
-                    rtn.push('')
-                    rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
-                    rtn.push('')
-                }
-                rtn.push('## Synopsis')
-                rtn.push(doc_to_render.Synopsis)
-                rtn.push('')
-                rtn.push('## Description')
-                rtn.push(doc_to_render.Description)
-                rtn.push('')
-                if (doc_to_render.Syntax) {
-                    rtn.push('## Syntax')
-                    rtn.push('```')
-                    var splitted_paramsets = []
-                    _.forEach(doc_to_render.Syntax.split(doc_to_render.CommandName), function (val) {
-                        if (!_.isEmpty(val)) {
-                            splitted_paramsets.push(doc_to_render.CommandName + val)
-                        }
-                    })
-                    _.forEach(splitted_paramsets, function (syntax) {
-                        _.forEach(syntax.replace('\r', '').replace('\n', '').split(/ \[/), function (val, i) {
-                            if (!_.isEmpty(val)) {
-                                if (i == 0) {
-                                    rtn.push(val)
-                                } else {
-                                    rtn.push('    [' + val.replace('\n', '').replace('\n', ''))
-                                }
-                            }
-                        })
-                        rtn.push('')
-                    })
-
-
-                    rtn.push('```')
-                    rtn.push('\n&nbsp;\n')
-                }
-                rtn.push('')
-                rtn.push('## Examples')
-                rtn.push('\n&nbsp;\n')
-                if (examples_mode == 'old') {
-                    rtn.push('```')
-                    rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
-                    rtn.push('```')
-                } else {
-                    var examples = doc_to_render.Examples.replace('\r\n', '\n').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
-                    idx = 0
-                    var inside = 0
-                    _.forEach(examples, function (row) {
-                        if (_.startsWith(row, '----')) {
-                            rtn.push('')
-                            rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
-                        } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
-                            if (inside == 0) { rtn.push('```') }
-                            rtn.push(row.replace(/^PS C:\\>\s?/, "PS C:\\> "))
-                            inside = 1
-                        } else if ((_.trim(row) == '') || (_.trim(row) == 'Description')) {
-                            //rtn.push(row)
-                        } else {
-                            if (inside == 1) {
-                                inside = 0
-                                rtn.push('```')
-                            }
-                            rtn.push(row)
-                        }
-                    })
-                }
-                if (doc_to_render.Params) {
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == true }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Required Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == false }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Optional Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                }
-                rtn.push('')
-                rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://sqlcollaborative.github.io/boh#' + doc_to_render.CommandName + ').')
-                rtn.push('')
-                return _.join(rtn, '\n')
-            }
             function render_doc(doc_to_render, examples_mode) {
-                var md_text = prepare_md(doc_to_render, examples_mode)
-                var rendered = marked(md_text, {
-                    breaks: true,
-                    gfm: true,
-                    tables: true
+                
+                $("#rendered h5").each(function (i, el) {
+                    if ($(el).text().startsWith('-')) {
+                        $(el).addClass('param')
+                    }
                 })
-                //STATIC GENERATION $('#rendered').html(rendered)
-                $('#rendered').html(rendered)
-                $("#rendered h5[id^='-']").addClass('param')
                 $('#rendered table').addClass('table table-sm table-hover')
                 if (examples_mode == 'new') {
                     $('#rendered code').addClass('powershell')
@@ -303,10 +169,11 @@
                 }
 
 
-                /* not all code is a block */
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
+
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
             var external_url = 'assets/external.json'
@@ -413,7 +280,6 @@
                     extlist.search()
                     cmdlist.filter()
                 }
-
             })
             $('#clear-search').on('click', function () {
                 $('#search-ft').val('').trigger('keyup')
@@ -578,30 +444,331 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <!--<div id="loader" class="row h-100 justify-content-center align-items-center loader invisible">
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <div class="lds-ellipsis">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <p>loading all the help we can get ;-)</p>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    <h4>Welcome</h4>-->
-                    <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
-                    <p>Search on the left and click on a command to show the related help.</p>
-                    <div id="canvas" class="canvas"></div>
-                </div>
+                    <h1 id="select-dbabackupinformation">Select-DbaBackupInformation</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Author</strong></td>
+<td>Stuart Moore (@napalmgram), stuart-moore.com</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Windows, Linux, macOS</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<h2 id="synopsis">Synopsis</h2>
+<p>Select a subset of backups from a dbatools backup history object</p>
+<h2 id="description">Description</h2>
+<p>Select-DbaBackupInformation filters out a subset of backups from the dbatools backup history object with parameters supplied.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>Select-DbaBackupInformation
+    [-BackupHistory] &lt;Object&gt;
+    [[-RestoreTime] &lt;DateTime&gt;]
+    [-IgnoreLogs]
+    [-IgnoreDiffs]
+    [[-DatabaseName] &lt;String[]&gt;]
+    [[-ServerName] &lt;String[]&gt;]
+    [[-ContinuePoints] &lt;Object&gt;]
+    [[-LastRestoreType] &lt;Object&gt;]
+    [-EnableException]
+    [&lt;CommonParameters&gt;]
+
+</code></pre>
+<p> </p>
+<h2 id="examples">Examples</h2>
+<p> </p>
+<h5 id="example-1">Example:  1</h5>
+<pre><code>PS C:\&gt; $Backups = Get-DbaBackupInformation -SqlInstance Server1 -Path \\server1\backups$
+PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTime (Get-Date).AddHours(-1)
+</code></pre>
+<p>Returns all backups needed to restore all the backups in \server1\backups$ to 1 hour ago<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; $Backups = Get-DbaBackupInformation -SqlInstance Server1 -Path \\server1\backups$
+PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTime (Get-Date).AddHours(-1) -DatabaseName ProdFinance
+</code></pre>
+<p>Returns all the backups needed to restore Database ProdFinance to an hour ago<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; $Backups = Get-DbaBackupInformation -SqlInstance Server1 -Path \\server1\backups$
+PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTime (Get-Date).AddHours(-1) -IgnoreLogs
+</code></pre>
+<p>Returns all the backups in \server1\backups$ to restore to as close prior to 1 hour ago as can be managed with only full and differential backups<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; $Backups = Get-DbaBackupInformation -SqlInstance Server1 -Path \\server1\backups$
+PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTime (Get-Date).AddHours(-1) -IgnoreDiffs
+</code></pre>
+<p>Returns all the backups in \server1\backups$ to restore to 1 hour ago using only Full and Diff backups.<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="backuphistory">-BackupHistory</h5>
+<p>A dbatools.BackupHistory object containing backup history records<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="restoretime">-RestoreTime</h5>
+<p>The point in time you want to restore to<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(Get-Date).addmonths(1)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="ignorelogs">-IgnoreLogs</h5>
+<p>This switch will cause Log Backups to be ignored. So will restore to the last Full or Diff backup only<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="ignorediffs">-IgnoreDiffs</h5>
+<p>This switch will cause Differential backups to be ignored. Unless IgnoreLogs is specified, restore to point in time will still occur, just using all available log backups<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="databasename">-DatabaseName</h5>
+<p>A string array of Database Names that you want to filter to<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="servername">-ServerName</h5>
+<p>A string array of Server Names that you want to filter<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="continuepoints">-ContinuePoints</h5>
+<p>The Output of Get-RestoreContinuableDatabase while provides 'Database',redo_start_lsn,'FirstRecoveryForkID' values. Used to filter backups to continue a restore on a database
+Sets IgnoreDiffs, and also filters databases to only those within the ContinuePoints object, or the ContinuePoints object AND DatabaseName if both specified<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="lastrestoretype">-LastRestoreType</h5>
+<p>The Output of Get-DbaDbRestoreHistory -last
+This is used to check the last type of backup to a database to see if a differential backup can be restored<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Select-DbaBackupInformation.ps1">Select-DbaBackupInformation</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Select-DbaBackupInformation">Select-DbaBackupInformation</a>.</p>
+
+                </div> <!-- rendered -->
             </div>
         </div>
     </div>

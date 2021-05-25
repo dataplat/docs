@@ -4,20 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-    <title>dbatools docs</title>
+    <title>dbatools docs | Invoke-DbaWhoIsActive</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
     <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+    <meta name="keywords" content="dbatools, ">
+    <meta name="subtitle" content="Docs for Invoke-DbaWhoIsActive">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs site" />
-    <meta property="og:url" content="https://docs.dbatools.io/" />
-    <meta property="og:description" content="dbatools documentation site" />
+    <meta property="og:title" content="dbatools docs:  Invoke-DbaWhoIsActive" />
+    <meta property="og:url" content="https://docs.dbatools.io/Invoke-DbaWhoIsActive.html" />
+    <meta property="og:description" content="dbatools docs for Invoke-DbaWhoIsActive" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs site" />
+    <meta name="twitter:text:title" content="dbatools docs:  Invoke-DbaWhoIsActive" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -39,10 +41,8 @@
         gtag('config', 'UA-80639740-2');
     </script>
 
-    <style>
 
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -133,147 +133,13 @@
 
         }
         $(document).ready(function () {
-            function prepare_md(doc_to_render, examples_mode) {
-                rtn = []
-                rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author || doc_to_render.Availability) {
-                    rtn.push('|  |  |')
-                    rtn.push('| - | - |')
-                    if (doc_to_render.Author) {
-                        rtn.push('|  **Author**  | ' + doc_to_render.Author.replace('|', ',') + ' |')
-                    }
-                    if (doc_to_render.Availability) {
-                        rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
-                    }
-                    rtn.push('')
-                }
-                rtn.push('\n&nbsp;\n')
-                if (doc_to_render.Alias) {
-                    rtn.push('')
-                    rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
-                    rtn.push('')
-                }
-                rtn.push('## Synopsis')
-                rtn.push(doc_to_render.Synopsis)
-                rtn.push('')
-                rtn.push('## Description')
-                rtn.push(doc_to_render.Description)
-                rtn.push('')
-                if (doc_to_render.Syntax) {
-                    rtn.push('## Syntax')
-                    rtn.push('```')
-                    var splitted_paramsets = []
-                    _.forEach(doc_to_render.Syntax.split(doc_to_render.CommandName), function (val) {
-                        if (!_.isEmpty(val)) {
-                            splitted_paramsets.push(doc_to_render.CommandName + val)
-                        }
-                    })
-                    _.forEach(splitted_paramsets, function (syntax) {
-                        _.forEach(syntax.replace('\r', '').replace('\n', '').split(/ \[/), function (val, i) {
-                            if (!_.isEmpty(val)) {
-                                if (i == 0) {
-                                    rtn.push(val)
-                                } else {
-                                    rtn.push('    [' + val.replace('\n', '').replace('\n', ''))
-                                }
-                            }
-                        })
-                        rtn.push('')
-                    })
-
-
-                    rtn.push('```')
-                    rtn.push('\n&nbsp;\n')
-                }
-                rtn.push('')
-                rtn.push('## Examples')
-                rtn.push('\n&nbsp;\n')
-                if (examples_mode == 'old') {
-                    rtn.push('```')
-                    rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
-                    rtn.push('```')
-                } else {
-                    var examples = doc_to_render.Examples.replace('\r\n', '\n').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
-                    idx = 0
-                    var inside = 0
-                    _.forEach(examples, function (row) {
-                        if (_.startsWith(row, '----')) {
-                            rtn.push('')
-                            rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
-                        } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
-                            if (inside == 0) { rtn.push('```') }
-                            rtn.push(row.replace(/^PS C:\\>\s?/, "PS C:\\> "))
-                            inside = 1
-                        } else if ((_.trim(row) == '') || (_.trim(row) == 'Description')) {
-                            //rtn.push(row)
-                        } else {
-                            if (inside == 1) {
-                                inside = 0
-                                rtn.push('```')
-                            }
-                            rtn.push(row)
-                        }
-                    })
-                }
-                if (doc_to_render.Params) {
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == true }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Required Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == false }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Optional Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                }
-                rtn.push('')
-                rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://sqlcollaborative.github.io/boh#' + doc_to_render.CommandName + ').')
-                rtn.push('')
-                return _.join(rtn, '\n')
-            }
             function render_doc(doc_to_render, examples_mode) {
-                var md_text = prepare_md(doc_to_render, examples_mode)
-                var rendered = marked(md_text, {
-                    breaks: true,
-                    gfm: true,
-                    tables: true
+                
+                $("#rendered h5").each(function (i, el) {
+                    if ($(el).text().startsWith('-')) {
+                        $(el).addClass('param')
+                    }
                 })
-                //STATIC GENERATION $('#rendered').html(rendered)
-                $('#rendered').html(rendered)
-                $("#rendered h5[id^='-']").addClass('param')
                 $('#rendered table').addClass('table table-sm table-hover')
                 if (examples_mode == 'new') {
                     $('#rendered code').addClass('powershell')
@@ -303,10 +169,11 @@
                 }
 
 
-                /* not all code is a block */
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
+
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
             var external_url = 'assets/external.json'
@@ -413,7 +280,6 @@
                     extlist.search()
                     cmdlist.filter()
                 }
-
             })
             $('#clear-search').on('click', function () {
                 $('#search-ft').val('').trigger('keyup')
@@ -578,30 +444,931 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <!--<div id="loader" class="row h-100 justify-content-center align-items-center loader invisible">
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <div class="lds-ellipsis">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <p>loading all the help we can get ;-)</p>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    <h4>Welcome</h4>-->
-                    <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
-                    <p>Search on the left and click on a command to show the related help.</p>
-                    <div id="canvas" class="canvas"></div>
-                </div>
+                    <h1 id="invoke-dbawhoisactive">Invoke-DbaWhoIsActive</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Author</strong></td>
+<td>Chrissy LeMaire (@cl), netnerds.net</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Windows, Linux, macOS</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<h2 id="synopsis">Synopsis</h2>
+<p>Outputs results of Adam Machanic's sp_WhoIsActive DataTable</p>
+<h2 id="description">Description</h2>
+<p>Output results of Adam Machanic's sp_WhoIsActive</p>
+<p>This command was built with Adam's permission. To read more about sp_WhoIsActive, please visit:</p>
+<p>Updates: <a href="http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx">http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx</a></p>
+<p>Also, consider donating to Adam if you find this stored procedure helpful: <a href="http://tinyurl.com/WhoIsActiveDonate">http://tinyurl.com/WhoIsActiveDonate</a></p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>Invoke-DbaWhoIsActive
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Database] &lt;Object&gt;]
+    [[-Filter] &lt;String&gt;]
+    [[-FilterType] &lt;String&gt;]
+    [[-NotFilter] &lt;String&gt;]
+    [[-NotFilterType] &lt;String&gt;]
+    [-ShowOwnSpid]
+    [-ShowSystemSpids]
+    [[-ShowSleepingSpids] &lt;Int32&gt;]
+    [-GetFullInnerText]
+    [[-GetPlans] &lt;Int32&gt;]
+    [-GetOuterCommand]
+    [-GetTransactionInfo]
+    [[-GetTaskInfo] &lt;Int32&gt;]
+    [-GetLocks]
+    [-GetAverageTime]
+    [-GetAdditonalInfo]
+    [-FindBlockLeaders]
+    [[-DeltaInterval] &lt;Int32&gt;]
+    [[-OutputColumnList] &lt;String&gt;]
+    [[-SortOrder] &lt;String&gt;]
+    [[-FormatOutput] &lt;Int32&gt;]
+    [[-DestinationTable] &lt;String&gt;]
+    [-ReturnSchema]
+    [[-Schema] &lt;String&gt;]
+    [-Help]
+    [-EnableException]
+    [&lt;CommonParameters&gt;]
+
+</code></pre>
+<p> </p>
+<h2 id="examples">Examples</h2>
+<p> </p>
+<h5 id="example-1">Example:  1</h5>
+<pre><code>PS C:\&gt; Invoke-DbaWhoIsActive -SqlInstance sqlserver2014a
+</code></pre>
+<p>Execute sp_whoisactive on sqlserver2014a. This command expects sp_WhoIsActive to be in the master database. Logs into the SQL Server with Windows credentials.<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Invoke-DbaWhoIsActive -SqlInstance sqlserver2014a -SqlCredential $credential -Database dbatools
+</code></pre>
+<p>Execute sp_whoisactive on sqlserver2014a. This command expects sp_WhoIsActive to be in the dbatools database. Logs into the SQL Server with SQL Authentication.<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Invoke-DbaWhoIsActive -SqlInstance sqlserver2014a -GetAverageTime
+</code></pre>
+<p>Similar to running sp_WhoIsActive @get_avg_time<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Invoke-DbaWhoIsActive -SqlInstance sqlserver2014a -GetOuterCommand -FindBlockLeaders
+</code></pre>
+<p>Similar to running sp_WhoIsActive @get_outer_command = 1, @find_block_leaders = 1<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="database">-Database</h5>
+<p>The database where sp_WhoIsActive is installed. Defaults to master. If the sp_WhoIsActive is not installed, the command will warn and exit.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filter">-Filter</h5>
+<p>FiltersBoth inclusive and exclusive
+Set either filter to '' to disable
+Session is a session ID, and either 0 or '' can be used to indicate &quot;all&quot; sessions
+All other filter types support % or _ as wildcards<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>As</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filtertype">-FilterType</h5>
+<p>Valid filter types are: session, program, database, login, and host<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Session</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Session,Program,Database,Login,Host</td>
+</tr>
+</tbody>
+</table>
+<h5 id="notfilter">-NotFilter</h5>
+<p>FiltersBoth inclusive and exclusive
+Set either filter to '' to disable
+Session is a session ID, and either 0 or '' can be used to indicate &quot;all&quot; sessions
+All other filter types support % or _ as wildcards<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="notfiltertype">-NotFilterType</h5>
+<p>Valid filter types are: session, program, database, login, and host<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Session</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Session,Program,Database,Login,Host</td>
+</tr>
+</tbody>
+</table>
+<h5 id="showownspid">-ShowOwnSpid</h5>
+<p>Retrieve data about the calling session?<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="showsystemspids">-ShowSystemSpids</h5>
+<p>Retrieve data about system sessions?<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="showsleepingspids">-ShowSleepingSpids</h5>
+<p>Controls how sleeping SPIDs are handled, based on the idea of levels of interest
+0 does not pull any sleeping SPIDs
+1 pulls only those sleeping SPIDs that also have an open transaction
+2 pulls all sleeping SPIDs<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="getfullinnertext">-GetFullInnerText</h5>
+<p>If 1, gets the full stored procedure or running batch, when available
+If 0, gets only the actual statement that is currently running in the batch or procedure<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="getplans">-GetPlans</h5>
+<p>Get associated query plans for running tasks, if available
+If 1, gets the plan based on the request's statement offset
+If 2, gets the entire plan based on the request's plan_handle<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="getoutercommand">-GetOuterCommand</h5>
+<p>Get the associated outer ad hoc query or stored procedure call, if available<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="gettransactioninfo">-GetTransactionInfo</h5>
+<p>Enables pulling transaction log write info and transaction duration<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="gettaskinfo">-GetTaskInfo</h5>
+<p>Get information on active tasks, based on three interest levels
+Level 0 does not pull any task-related information
+Level 1 is a lightweight mode that pulls the top non-CXPACKET wait, giving preference to blockers
+Level 2 pulls all available task-based metrics, including:
+number of active tasks, current wait stats, physical I/O, context switches, and blocker information<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="getlocks">-GetLocks</h5>
+<p>Gets associated locks for each request, aggregated in an XML format<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="getaveragetime">-GetAverageTime</h5>
+<p>Get average time for past runs of an active query
+(based on the combination of plan handle, sql handle, and offset)<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="getadditonalinfo">-GetAdditonalInfo</h5>
+<p>Get additional non-performance-related information about the session or request text_size, language, date_format, date_first, quoted_identifier, arithabort, ansi_null_dflt_on, ansi_defaults,
+ansi_warnings, ansi_padding, ansi_nulls, concat_null_yields_null, transaction_isolation_level, lock_timeout, deadlock_priority, row_count, command_type
+If a SQL Agent job is running, an subnode called agent_info will be populated with some or all of the following: job_id, job_name, step_id, step_name, msdb_query_error (in the event of an error)
+If @get_task_info is set to 2 and a lock wait is detected, a subnode called block_info will be populated with some or all of the following: lock_type, database_name, object_id, file_id, hobt_id,
+applock_hash, metadata_resource, metadata_class_id, object_name, schema_name<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="findblockleaders">-FindBlockLeaders</h5>
+<p>Walk the blocking chain and count the number of
+total SPIDs blocked all the way down by a given session
+Also enables task_info Level 1, if @get_task_info is set to 0<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="deltainterval">-DeltaInterval</h5>
+<p>Pull deltas on various metrics
+Interval in seconds to wait before doing the second data pull<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="outputcolumnlist">-OutputColumnList</h5>
+<p>List of desired output columns, in desired order
+Note that the final output will be the intersection of all enabled features and all columns in the list. Therefore, only columns associated with enabled features will actually appear in the output.
+Likewise, removing columns from this list may effectively disable features, even if they are turned on
+Each element in this list must be one of the valid output column names. Names must be delimited by square brackets. White space, formatting, and additional characters are allowed, as long as the list
+contains exact matches of delimited valid column names.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>[dd%][session_id][sql_text][sql_command][login_name][wait_info][tasks][tran_log%][cpu%][temp%][block%][reads%][writes%][context%][physical%][query_plan][locks][%]</td>
+</tr>
+</tbody>
+</table>
+<h5 id="sortorder">-SortOrder</h5>
+<p>Column(s) by which to sort output, optionally with sort directions.
+Valid column choices:
+session_id, physical_io, reads, physical_reads, writes, tempdb_allocations,
+tempdb_current, CPU, context_switches, used_memory, physical_io_delta,
+reads_delta, physical_reads_delta, writes_delta, tempdb_allocations_delta,
+tempdb_current_delta, CPU_delta, context_switches_delta, used_memory_delta,
+tasks, tran_start_time, open_tran_count, blocking_session_id, blocked_session_count,
+percent_complete, host_name, login_name, database_name, start_time, login_time
+Note that column names in the list must be bracket-delimited. Commas and/or white space are not required.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>[start_time] ASC</td>
+</tr>
+</tbody>
+</table>
+<h5 id="formatoutput">-FormatOutput</h5>
+<p>Formats some of the output columns in a more &quot;human readable&quot; form
+0 disables output format
+1 formats the output for variable-width fonts
+2 formats the output for fixed-width fonts<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h5 id="destinationtable">-DestinationTable</h5>
+<p>If set to a non-blank value, the script will attempt to insert into the specified destination table. Please note that the script will not verify that the table exists, or that it has the correct
+schema, before doing the insert. Table can be specified in one, two, or three-part format<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="returnschema">-ReturnSchema</h5>
+<p>If set to 1, no data collection will happen and no result set will be returned; instead, a CREATE TABLE statement will be returned via the @schema parameter, which will match the schema of the result
+set that would be returned by using the same collection of the rest of the parameters. The CREATE TABLE statement will have a placeholder token of &lt;table_name&gt; in place of an actual table name.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="schema">-Schema</h5>
+<p>If set to 1, no data collection will happen and no result set will be returned; instead, a CREATE TABLE statement will be returned via the @schema parameter, which will match the schema of the result
+set that would be returned by using the same collection of the rest of the parameters. The CREATE TABLE statement will have a placeholder token of &lt;table_name&gt; in place of an actual table name.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="help">-Help</h5>
+<p>Help! What do I do?<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Invoke-DbaWhoIsActive.ps1">Invoke-DbaWhoIsActive</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Invoke-DbaWhoIsActive">Invoke-DbaWhoIsActive</a>.</p>
+
+                </div> <!-- rendered -->
             </div>
         </div>
     </div>

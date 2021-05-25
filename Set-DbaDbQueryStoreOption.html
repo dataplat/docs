@@ -4,20 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-    <title>dbatools docs</title>
+    <title>dbatools docs | Set-DbaDbQueryStoreOption</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
     <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+    <meta name="keywords" content="dbatools, ">
+    <meta name="subtitle" content="Docs for Set-DbaDbQueryStoreOption">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs site" />
-    <meta property="og:url" content="https://docs.dbatools.io/" />
-    <meta property="og:description" content="dbatools documentation site" />
+    <meta property="og:title" content="dbatools docs:  Set-DbaDbQueryStoreOption" />
+    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaDbQueryStoreOption.html" />
+    <meta property="og:description" content="dbatools docs for Set-DbaDbQueryStoreOption" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs site" />
+    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaDbQueryStoreOption" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -39,10 +41,8 @@
         gtag('config', 'UA-80639740-2');
     </script>
 
-    <style>
 
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -133,147 +133,13 @@
 
         }
         $(document).ready(function () {
-            function prepare_md(doc_to_render, examples_mode) {
-                rtn = []
-                rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author || doc_to_render.Availability) {
-                    rtn.push('|  |  |')
-                    rtn.push('| - | - |')
-                    if (doc_to_render.Author) {
-                        rtn.push('|  **Author**  | ' + doc_to_render.Author.replace('|', ',') + ' |')
-                    }
-                    if (doc_to_render.Availability) {
-                        rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
-                    }
-                    rtn.push('')
-                }
-                rtn.push('\n&nbsp;\n')
-                if (doc_to_render.Alias) {
-                    rtn.push('')
-                    rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
-                    rtn.push('')
-                }
-                rtn.push('## Synopsis')
-                rtn.push(doc_to_render.Synopsis)
-                rtn.push('')
-                rtn.push('## Description')
-                rtn.push(doc_to_render.Description)
-                rtn.push('')
-                if (doc_to_render.Syntax) {
-                    rtn.push('## Syntax')
-                    rtn.push('```')
-                    var splitted_paramsets = []
-                    _.forEach(doc_to_render.Syntax.split(doc_to_render.CommandName), function (val) {
-                        if (!_.isEmpty(val)) {
-                            splitted_paramsets.push(doc_to_render.CommandName + val)
-                        }
-                    })
-                    _.forEach(splitted_paramsets, function (syntax) {
-                        _.forEach(syntax.replace('\r', '').replace('\n', '').split(/ \[/), function (val, i) {
-                            if (!_.isEmpty(val)) {
-                                if (i == 0) {
-                                    rtn.push(val)
-                                } else {
-                                    rtn.push('    [' + val.replace('\n', '').replace('\n', ''))
-                                }
-                            }
-                        })
-                        rtn.push('')
-                    })
-
-
-                    rtn.push('```')
-                    rtn.push('\n&nbsp;\n')
-                }
-                rtn.push('')
-                rtn.push('## Examples')
-                rtn.push('\n&nbsp;\n')
-                if (examples_mode == 'old') {
-                    rtn.push('```')
-                    rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
-                    rtn.push('```')
-                } else {
-                    var examples = doc_to_render.Examples.replace('\r\n', '\n').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
-                    idx = 0
-                    var inside = 0
-                    _.forEach(examples, function (row) {
-                        if (_.startsWith(row, '----')) {
-                            rtn.push('')
-                            rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
-                        } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
-                            if (inside == 0) { rtn.push('```') }
-                            rtn.push(row.replace(/^PS C:\\>\s?/, "PS C:\\> "))
-                            inside = 1
-                        } else if ((_.trim(row) == '') || (_.trim(row) == 'Description')) {
-                            //rtn.push(row)
-                        } else {
-                            if (inside == 1) {
-                                inside = 0
-                                rtn.push('```')
-                            }
-                            rtn.push(row)
-                        }
-                    })
-                }
-                if (doc_to_render.Params) {
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == true }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Required Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == false }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Optional Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                }
-                rtn.push('')
-                rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://sqlcollaborative.github.io/boh#' + doc_to_render.CommandName + ').')
-                rtn.push('')
-                return _.join(rtn, '\n')
-            }
             function render_doc(doc_to_render, examples_mode) {
-                var md_text = prepare_md(doc_to_render, examples_mode)
-                var rendered = marked(md_text, {
-                    breaks: true,
-                    gfm: true,
-                    tables: true
+                
+                $("#rendered h5").each(function (i, el) {
+                    if ($(el).text().startsWith('-')) {
+                        $(el).addClass('param')
+                    }
                 })
-                //STATIC GENERATION $('#rendered').html(rendered)
-                $('#rendered').html(rendered)
-                $("#rendered h5[id^='-']").addClass('param')
                 $('#rendered table').addClass('table table-sm table-hover')
                 if (examples_mode == 'new') {
                     $('#rendered code').addClass('powershell')
@@ -303,10 +169,11 @@
                 }
 
 
-                /* not all code is a block */
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
+
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
             var external_url = 'assets/external.json'
@@ -413,7 +280,6 @@
                     extlist.search()
                     cmdlist.filter()
                 }
-
             })
             $('#clear-search').on('click', function () {
                 $('#search-ft').val('').trigger('keyup')
@@ -578,30 +444,697 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <!--<div id="loader" class="row h-100 justify-content-center align-items-center loader invisible">
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <div class="lds-ellipsis">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <p>loading all the help we can get ;-)</p>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    <h4>Welcome</h4>-->
-                    <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
-                    <p>Search on the left and click on a command to show the related help.</p>
-                    <div id="canvas" class="canvas"></div>
-                </div>
+                    <h1 id="set-dbadbquerystoreoption">Set-DbaDbQueryStoreOption</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Author</strong></td>
+<td>Enrico van de Laar (@evdlaar) , Tracy Boggiano ( @TracyBoggiano )</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Windows, Linux, macOS</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<h2 id="synopsis">Synopsis</h2>
+<p>Configure Query Store settings for a specific or multiple databases.</p>
+<h2 id="description">Description</h2>
+<p>Configure Query Store settings for a specific or multiple databases.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>Set-DbaDbQueryStoreOption
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Database] &lt;Object[]&gt;]
+    [[-ExcludeDatabase] &lt;Object[]&gt;]
+    [-AllDatabases]
+    [[-State] &lt;String[]&gt;]
+    [[-FlushInterval] &lt;Int64&gt;]
+    [[-CollectionInterval] &lt;Int64&gt;]
+    [[-MaxSize] &lt;Int64&gt;]
+    [[-CaptureMode] &lt;String[]&gt;]
+    [[-CleanupMode] &lt;String[]&gt;]
+    [[-StaleQueryThreshold] &lt;Int64&gt;]
+    [[-MaxPlansPerQuery] &lt;Int64&gt;]
+    [[-WaitStatsCaptureMode] &lt;String[]&gt;]
+    [[-CustomCapturePolicyExecutionCount] &lt;Int64&gt;]
+    [[-CustomCapturePolicyTotalCompileCPUTimeMS] &lt;Int64&gt;]
+    [[-CustomCapturePolicyTotalExecutionCPUTimeMS] &lt;Int64&gt;]
+    [[-CustomCapturePolicyStaleThresholdHours] &lt;Int64&gt;]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+</code></pre>
+<p> </p>
+<h2 id="examples">Examples</h2>
+<p> </p>
+<h5 id="example-1">Example:  1</h5>
+<pre><code>PS C:\&gt; Set-DbaDbQueryStoreOption -SqlInstance ServerA\SQL -State ReadWrite -FlushInterval 600 -CollectionInterval 10 -MaxSize 100 -CaptureMode All -CleanupMode Auto -StaleQueryThreshold 100
+</code></pre>
+<p>-AllDatabases<br>
+Configure the Query Store settings for all user databases in the ServerA\SQL Instance.<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Set-DbaDbQueryStoreOption -SqlInstance ServerA\SQL -FlushInterval 600
+</code></pre>
+<p>Only configure the FlushInterval setting for all Query Store databases in the ServerA\SQL Instance.<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Set-DbaDbQueryStoreOption -SqlInstance ServerA\SQL -Database AdventureWorks -State ReadWrite -FlushInterval 600 -CollectionInterval 10 -MaxSize 100 -CaptureMode all -CleanupMode Auto
+</code></pre>
+<p>-StaleQueryThreshold 100<br>
+Configure the Query Store settings for the AdventureWorks database in the ServerA\SQL Instance.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Set-DbaDbQueryStoreOption -SqlInstance ServerA\SQL -Exclude AdventureWorks -State ReadWrite -FlushInterval 600 -CollectionInterval 10 -MaxSize 100 -CaptureMode all -CleanupMode Auto
+</code></pre>
+<p>-StaleQueryThreshold 100<br>
+Configure the Query Store settings for all user databases except the AdventureWorks database in the ServerA\SQL Instance.<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>SqlLogin to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance..<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="database">-Database</h5>
+<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludedatabase">-ExcludeDatabase</h5>
+<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="alldatabases">-AllDatabases</h5>
+<p>Run command against all user databases<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="state">-State</h5>
+<p>Set the state of the Query Store. Valid options are &quot;ReadWrite&quot;, &quot;ReadOnly&quot; and &quot;Off&quot;.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>ReadWrite,ReadOnly,Off</td>
+</tr>
+</tbody>
+</table>
+<h5 id="flushinterval">-FlushInterval</h5>
+<p>Set the flush to disk interval of the Query Store in seconds.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="collectioninterval">-CollectionInterval</h5>
+<p>Set the runtime statistics collection interval of the Query Store in minutes.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="maxsize">-MaxSize</h5>
+<p>Set the maximum size of the Query Store in MB.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="capturemode">-CaptureMode</h5>
+<p>Set the query capture mode of the Query Store. Valid options are &quot;Auto&quot; and &quot;All&quot;.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Auto,All,None,Custom</td>
+</tr>
+</tbody>
+</table>
+<h5 id="cleanupmode">-CleanupMode</h5>
+<p>Set the query cleanup mode policy. Valid options are &quot;Auto&quot; and &quot;Off&quot;.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Auto,Off</td>
+</tr>
+</tbody>
+</table>
+<h5 id="stalequerythreshold">-StaleQueryThreshold</h5>
+<p>Set the stale query threshold in days.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="maxplansperquery">-MaxPlansPerQuery</h5>
+<p>Set the max plans per query captured and kept.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="waitstatscapturemode">-WaitStatsCaptureMode</h5>
+<p>Set wait stats capture on or off.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>On,Off</td>
+</tr>
+</tbody>
+</table>
+<h5 id="customcapturepolicyexecutioncount">-CustomCapturePolicyExecutionCount</h5>
+<p>Set the custom capture policy execution count. Only available in SQL Server 2019 and above.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="customcapturepolicytotalcompilecputimems">-CustomCapturePolicyTotalCompileCPUTimeMS</h5>
+<p>Set the custom capture policy total compile CPU time. Only available in SQL Server 2019 and above.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="customcapturepolicytotalexecutioncputimems">-CustomCapturePolicyTotalExecutionCPUTimeMS</h5>
+<p>Set the custom capture policy total execution CPU time. Only available in SQL Server 2019 and above.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="customcapturepolicystalethresholdhours">-CustomCapturePolicyStaleThresholdHours</h5>
+<p>Set the custom capture policy stale threshold. Only available in SQL Server 2019 and above.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the command were to run<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts for confirmation of every step. For example:
+Are you sure you want to perform this action?
+Performing the operation &quot;Changing Desired State&quot; on target &quot;pubs on SQL2016\VNEXT&quot;.
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is &quot;Y&quot;):<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaDbQueryStoreOption.ps1">Set-DbaDbQueryStoreOption</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaDbQueryStoreOption">Set-DbaDbQueryStoreOption</a>.</p>
+
+                </div> <!-- rendered -->
             </div>
         </div>
     </div>

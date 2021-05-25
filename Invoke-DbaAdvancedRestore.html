@@ -4,20 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-    <title>dbatools docs</title>
+    <title>dbatools docs | Invoke-DbaAdvancedRestore</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
     <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+    <meta name="keywords" content="dbatools, ">
+    <meta name="subtitle" content="Docs for Invoke-DbaAdvancedRestore">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs site" />
-    <meta property="og:url" content="https://docs.dbatools.io/" />
-    <meta property="og:description" content="dbatools documentation site" />
+    <meta property="og:title" content="dbatools docs:  Invoke-DbaAdvancedRestore" />
+    <meta property="og:url" content="https://docs.dbatools.io/Invoke-DbaAdvancedRestore.html" />
+    <meta property="og:description" content="dbatools docs for Invoke-DbaAdvancedRestore" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs site" />
+    <meta name="twitter:text:title" content="dbatools docs:  Invoke-DbaAdvancedRestore" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -39,10 +41,8 @@
         gtag('config', 'UA-80639740-2');
     </script>
 
-    <style>
 
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -133,147 +133,13 @@
 
         }
         $(document).ready(function () {
-            function prepare_md(doc_to_render, examples_mode) {
-                rtn = []
-                rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author || doc_to_render.Availability) {
-                    rtn.push('|  |  |')
-                    rtn.push('| - | - |')
-                    if (doc_to_render.Author) {
-                        rtn.push('|  **Author**  | ' + doc_to_render.Author.replace('|', ',') + ' |')
-                    }
-                    if (doc_to_render.Availability) {
-                        rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
-                    }
-                    rtn.push('')
-                }
-                rtn.push('\n&nbsp;\n')
-                if (doc_to_render.Alias) {
-                    rtn.push('')
-                    rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
-                    rtn.push('')
-                }
-                rtn.push('## Synopsis')
-                rtn.push(doc_to_render.Synopsis)
-                rtn.push('')
-                rtn.push('## Description')
-                rtn.push(doc_to_render.Description)
-                rtn.push('')
-                if (doc_to_render.Syntax) {
-                    rtn.push('## Syntax')
-                    rtn.push('```')
-                    var splitted_paramsets = []
-                    _.forEach(doc_to_render.Syntax.split(doc_to_render.CommandName), function (val) {
-                        if (!_.isEmpty(val)) {
-                            splitted_paramsets.push(doc_to_render.CommandName + val)
-                        }
-                    })
-                    _.forEach(splitted_paramsets, function (syntax) {
-                        _.forEach(syntax.replace('\r', '').replace('\n', '').split(/ \[/), function (val, i) {
-                            if (!_.isEmpty(val)) {
-                                if (i == 0) {
-                                    rtn.push(val)
-                                } else {
-                                    rtn.push('    [' + val.replace('\n', '').replace('\n', ''))
-                                }
-                            }
-                        })
-                        rtn.push('')
-                    })
-
-
-                    rtn.push('```')
-                    rtn.push('\n&nbsp;\n')
-                }
-                rtn.push('')
-                rtn.push('## Examples')
-                rtn.push('\n&nbsp;\n')
-                if (examples_mode == 'old') {
-                    rtn.push('```')
-                    rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
-                    rtn.push('```')
-                } else {
-                    var examples = doc_to_render.Examples.replace('\r\n', '\n').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
-                    idx = 0
-                    var inside = 0
-                    _.forEach(examples, function (row) {
-                        if (_.startsWith(row, '----')) {
-                            rtn.push('')
-                            rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
-                        } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
-                            if (inside == 0) { rtn.push('```') }
-                            rtn.push(row.replace(/^PS C:\\>\s?/, "PS C:\\> "))
-                            inside = 1
-                        } else if ((_.trim(row) == '') || (_.trim(row) == 'Description')) {
-                            //rtn.push(row)
-                        } else {
-                            if (inside == 1) {
-                                inside = 0
-                                rtn.push('```')
-                            }
-                            rtn.push(row)
-                        }
-                    })
-                }
-                if (doc_to_render.Params) {
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == true }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Required Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == false }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Optional Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                }
-                rtn.push('')
-                rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://sqlcollaborative.github.io/boh#' + doc_to_render.CommandName + ').')
-                rtn.push('')
-                return _.join(rtn, '\n')
-            }
             function render_doc(doc_to_render, examples_mode) {
-                var md_text = prepare_md(doc_to_render, examples_mode)
-                var rendered = marked(md_text, {
-                    breaks: true,
-                    gfm: true,
-                    tables: true
+                
+                $("#rendered h5").each(function (i, el) {
+                    if ($(el).text().startsWith('-')) {
+                        $(el).addClass('param')
+                    }
                 })
-                //STATIC GENERATION $('#rendered').html(rendered)
-                $('#rendered').html(rendered)
-                $("#rendered h5[id^='-']").addClass('param')
                 $('#rendered table').addClass('table table-sm table-hover')
                 if (examples_mode == 'new') {
                     $('#rendered code').addClass('powershell')
@@ -303,10 +169,11 @@
                 }
 
 
-                /* not all code is a block */
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
+
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
             var external_url = 'assets/external.json'
@@ -413,7 +280,6 @@
                     extlist.search()
                     cmdlist.filter()
                 }
-
             })
             $('#clear-search').on('click', function () {
                 $('#search-ft').val('').trigger('keyup')
@@ -578,30 +444,766 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <!--<div id="loader" class="row h-100 justify-content-center align-items-center loader invisible">
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <div class="lds-ellipsis">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <p>loading all the help we can get ;-)</p>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    <h4>Welcome</h4>-->
-                    <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
-                    <p>Search on the left and click on a command to show the related help.</p>
-                    <div id="canvas" class="canvas"></div>
-                </div>
+                    <h1 id="invoke-dbaadvancedrestore">Invoke-DbaAdvancedRestore</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Author</strong></td>
+<td>Stuart Moore (@napalmgram - <a href="http://stuart-moore.com">http://stuart-moore.com</a>)</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Windows, Linux, macOS</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<h2 id="synopsis">Synopsis</h2>
+<p>Allows the restore of modified BackupHistory Objects
+For 90% of users Restore-DbaDatabase should be your point of access to this function. The other 10% use it at their own risk</p>
+<h2 id="description">Description</h2>
+<p>This is the final piece in the Restore-DbaDatabase Stack. Usually a BackupHistory object will arrive here from <code>Restore-DbaDatabase</code> via the following pipeline:
+<code>Get-DbaBackupInformation  | Select-DbaBackupInformation | Format-DbaBackupInformation | Test-DbaBackupInformation | Invoke-DbaAdvancedRestore</code></p>
+<p>We have exposed these functions publicly to allow advanced users to perform operations that we don't support, or won't add as they would make things too complex for the majority of our users</p>
+<p>For example if you wanted to do some very complex redirection during a migration, then doing the rewrite of destinations may be better done with your own custom scripts rather than via <code>Format-DbaBackupInformation</code></p>
+<p>We would recommend ALWAYS pushing your input through <code>Test-DbaBackupInformation</code> just to make sure that it makes sense to us.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>Invoke-DbaAdvancedRestore
+    [-BackupHistory] &lt;Object[]&gt;
+    [[-SqlInstance] &lt;DbaInstanceParameter&gt;]
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [-OutputScriptOnly]
+    [-VerifyOnly]
+    [[-RestoreTime] &lt;DateTime&gt;]
+    [[-StandbyDirectory] &lt;String&gt;]
+    [-NoRecovery]
+    [[-MaxTransferSize] &lt;Int32&gt;]
+    [[-BlockSize] &lt;Int32&gt;]
+    [[-BufferCount] &lt;Int32&gt;]
+    [-Continue]
+    [[-AzureCredential] &lt;String&gt;]
+    [-WithReplace]
+    [-KeepReplication]
+    [-KeepCDC]
+    [[-PageRestore] &lt;Object[]&gt;]
+    [[-ExecuteAs] &lt;String&gt;]
+    [-StopBefore]
+    [[-StopMark] &lt;String&gt;]
+    [[-StopAfterDate] &lt;DateTime&gt;]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+</code></pre>
+<p> </p>
+<h2 id="examples">Examples</h2>
+<p> </p>
+<h5 id="example-1">Example:  1</h5>
+<pre><code>PS C:\&gt; $BackupHistory | Invoke-DbaAdvancedRestore -SqlInstance MyInstance
+</code></pre>
+<p>Will restore all the backups in the BackupHistory object according to the transformations it contains<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; $BackupHistory | Invoke-DbaAdvancedRestore -SqlInstance MyInstance -OutputScriptOnly
+PS C:\&gt; $BackupHistory | Invoke-DbaAdvancedRestore -SqlInstance MyInstance
+</code></pre>
+<p>First generates just the T-SQL restore scripts so they can be sanity checked, and then if they are good perform the full restore.<br>
+By reusing the BackupHistory object there is no need to rescan all the backup files again<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="backuphistory">-BackupHistory</h5>
+<p>The BackupHistory object to be restored.
+Can be passed in on the pipeline<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The SqlInstance to which the backups should be restored<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="outputscriptonly">-OutputScriptOnly</h5>
+<p>If set, the restore will not be performed, but the T-SQL scripts to perform it will be returned<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="verifyonly">-VerifyOnly</h5>
+<p>If set, performs a Verify of the backups rather than a full restore<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoretime">-RestoreTime</h5>
+<p>Point in Time to which the database should be restored.
+This should be the same value or earlier, as used in the previous pipeline stages<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(Get-Date).AddDays(2)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="standbydirectory">-StandbyDirectory</h5>
+<p>A folder path where a standby file should be created to put the recovered databases in a standby mode<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="norecovery">-NoRecovery</h5>
+<p>Leave the database in a restoring state so that further restore may be made<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="maxtransfersize">-MaxTransferSize</h5>
+<p>Parameter to set the unit of transfer. Values must be a multiple by 64kb<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="blocksize">-BlockSize</h5>
+<p>Specifies the block size to use. Must be one of 0.5kb,1kb,2kb,4kb,8kb,16kb,32kb or 64kb
+Can be specified in bytes
+Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="buffercount">-BufferCount</h5>
+<p>Number of I/O buffers to use to perform the operation.
+Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="continue">-Continue</h5>
+<p>Indicates that the restore is continuing a restore, so target database must be in Recovering or Standby states
+When specified, WithReplace will be set to true<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="azurecredential">-AzureCredential</h5>
+<p>AzureCredential required to connect to blob storage holding the backups<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="withreplace">-WithReplace</h5>
+<p>Indicated that if the database already exists it should be replaced<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="keepreplication">-KeepReplication</h5>
+<p>Indicates whether replication configuration should be restored as part of the database restore operation<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="keepcdc">-KeepCDC</h5>
+<p>Indicates whether CDC information should be restored as part of the database<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="pagerestore">-PageRestore</h5>
+<p>The output from Get-DbaSuspect page containing the suspect pages to be restored.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="executeas">-ExecuteAs</h5>
+<p>If set, this will cause the database(s) to be restored (and therefore owned) as the SA user<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="stopbefore">-StopBefore</h5>
+<p>Switch to indicate the restore should stop before StopMark<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="stopmark">-StopMark</h5>
+<p>Mark in the transaction log to stop the restore at<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="stopafterdate">-StopAfterDate</h5>
+<p>By default the restore will stop at the first occurence of StopMark found in the chain, passing a datetime where will cause it to stop the first StopMark atfer that datetime<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>Replaces user friendly yellow warnings with bloody red exceptions of doom!
+Use this if you want the function to throw terminating errors you want to catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the cmdlet runs. The cmdlet is not run.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts you for confirmation before running the cmdlet.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Invoke-DbaAdvancedRestore.ps1">Invoke-DbaAdvancedRestore</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Invoke-DbaAdvancedRestore">Invoke-DbaAdvancedRestore</a>.</p>
+
+                </div> <!-- rendered -->
             </div>
         </div>
     </div>

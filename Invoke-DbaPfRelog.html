@@ -4,20 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-    <title>dbatools docs</title>
+    <title>dbatools docs | Invoke-DbaPfRelog</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
     <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+    <meta name="keywords" content="dbatools, ">
+    <meta name="subtitle" content="Docs for Invoke-DbaPfRelog">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs site" />
-    <meta property="og:url" content="https://docs.dbatools.io/" />
-    <meta property="og:description" content="dbatools documentation site" />
+    <meta property="og:title" content="dbatools docs:  Invoke-DbaPfRelog" />
+    <meta property="og:url" content="https://docs.dbatools.io/Invoke-DbaPfRelog.html" />
+    <meta property="og:description" content="dbatools docs for Invoke-DbaPfRelog" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs site" />
+    <meta name="twitter:text:title" content="dbatools docs:  Invoke-DbaPfRelog" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -39,10 +41,8 @@
         gtag('config', 'UA-80639740-2');
     </script>
 
-    <style>
 
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -133,147 +133,13 @@
 
         }
         $(document).ready(function () {
-            function prepare_md(doc_to_render, examples_mode) {
-                rtn = []
-                rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author || doc_to_render.Availability) {
-                    rtn.push('|  |  |')
-                    rtn.push('| - | - |')
-                    if (doc_to_render.Author) {
-                        rtn.push('|  **Author**  | ' + doc_to_render.Author.replace('|', ',') + ' |')
-                    }
-                    if (doc_to_render.Availability) {
-                        rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
-                    }
-                    rtn.push('')
-                }
-                rtn.push('\n&nbsp;\n')
-                if (doc_to_render.Alias) {
-                    rtn.push('')
-                    rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
-                    rtn.push('')
-                }
-                rtn.push('## Synopsis')
-                rtn.push(doc_to_render.Synopsis)
-                rtn.push('')
-                rtn.push('## Description')
-                rtn.push(doc_to_render.Description)
-                rtn.push('')
-                if (doc_to_render.Syntax) {
-                    rtn.push('## Syntax')
-                    rtn.push('```')
-                    var splitted_paramsets = []
-                    _.forEach(doc_to_render.Syntax.split(doc_to_render.CommandName), function (val) {
-                        if (!_.isEmpty(val)) {
-                            splitted_paramsets.push(doc_to_render.CommandName + val)
-                        }
-                    })
-                    _.forEach(splitted_paramsets, function (syntax) {
-                        _.forEach(syntax.replace('\r', '').replace('\n', '').split(/ \[/), function (val, i) {
-                            if (!_.isEmpty(val)) {
-                                if (i == 0) {
-                                    rtn.push(val)
-                                } else {
-                                    rtn.push('    [' + val.replace('\n', '').replace('\n', ''))
-                                }
-                            }
-                        })
-                        rtn.push('')
-                    })
-
-
-                    rtn.push('```')
-                    rtn.push('\n&nbsp;\n')
-                }
-                rtn.push('')
-                rtn.push('## Examples')
-                rtn.push('\n&nbsp;\n')
-                if (examples_mode == 'old') {
-                    rtn.push('```')
-                    rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
-                    rtn.push('```')
-                } else {
-                    var examples = doc_to_render.Examples.replace('\r\n', '\n').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
-                    idx = 0
-                    var inside = 0
-                    _.forEach(examples, function (row) {
-                        if (_.startsWith(row, '----')) {
-                            rtn.push('')
-                            rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
-                        } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
-                            if (inside == 0) { rtn.push('```') }
-                            rtn.push(row.replace(/^PS C:\\>\s?/, "PS C:\\> "))
-                            inside = 1
-                        } else if ((_.trim(row) == '') || (_.trim(row) == 'Description')) {
-                            //rtn.push(row)
-                        } else {
-                            if (inside == 1) {
-                                inside = 0
-                                rtn.push('```')
-                            }
-                            rtn.push(row)
-                        }
-                    })
-                }
-                if (doc_to_render.Params) {
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == true }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Required Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == false }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Optional Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                }
-                rtn.push('')
-                rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://sqlcollaborative.github.io/boh#' + doc_to_render.CommandName + ').')
-                rtn.push('')
-                return _.join(rtn, '\n')
-            }
             function render_doc(doc_to_render, examples_mode) {
-                var md_text = prepare_md(doc_to_render, examples_mode)
-                var rendered = marked(md_text, {
-                    breaks: true,
-                    gfm: true,
-                    tables: true
+                
+                $("#rendered h5").each(function (i, el) {
+                    if ($(el).text().startsWith('-')) {
+                        $(el).addClass('param')
+                    }
                 })
-                //STATIC GENERATION $('#rendered').html(rendered)
-                $('#rendered').html(rendered)
-                $("#rendered h5[id^='-']").addClass('param')
                 $('#rendered table').addClass('table table-sm table-hover')
                 if (examples_mode == 'new') {
                     $('#rendered code').addClass('powershell')
@@ -303,10 +169,11 @@
                 }
 
 
-                /* not all code is a block */
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
+
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
             var external_url = 'assets/external.json'
@@ -413,7 +280,6 @@
                     extlist.search()
                     cmdlist.filter()
                 }
-
             })
             $('#clear-search').on('click', function () {
                 $('#search-ft').val('').trigger('keyup')
@@ -578,30 +444,298 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <!--<div id="loader" class="row h-100 justify-content-center align-items-center loader invisible">
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <div class="lds-ellipsis">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <p>loading all the help we can get ;-)</p>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    <h4>Welcome</h4>-->
-                    <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
-                    <p>Search on the left and click on a command to show the related help.</p>
-                    <div id="canvas" class="canvas"></div>
-                </div>
+                    <h1 id="invoke-dbapfrelog">Invoke-DbaPfRelog</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Author</strong></td>
+<td>Chrissy LeMaire (@cl), netnerds.net</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Windows only</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<h2 id="synopsis">Synopsis</h2>
+<p>Pipeline-compatible wrapper for the relog command which is available on modern Windows platforms.</p>
+<h2 id="description">Description</h2>
+<p>Pipeline-compatible wrapper for the relog command. Relog is useful for converting Windows Perfmon.</p>
+<p>Extracts performance counters from performance counter logs into other formats,
+such as text-TSV (for tab-delimited text), text-CSV (for comma-delimited text), binary-BIN, or SQL.</p>
+<p><code>relog &quot;C:\PerfLogs\Admin\System Correlation\WORKSTATIONX_20180112-000001\DataCollector01.blg&quot; -o C:\temp\foo.csv -f tsv</code></p>
+<p>If you find any input hangs, please send us the output so we can accommodate for it then use -Raw for an immediate solution.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>Invoke-DbaPfRelog
+    [[-Path] &lt;String[]&gt;]
+    [[-Destination] &lt;String&gt;]
+    [[-Type] &lt;String&gt;]
+    [-Append]
+    [-AllowClobber]
+    [[-PerformanceCounter] &lt;String[]&gt;]
+    [[-PerformanceCounterPath] &lt;String&gt;]
+    [[-Interval] &lt;Int32&gt;]
+    [[-BeginTime] &lt;DateTime&gt;]
+    [[-EndTime] &lt;DateTime&gt;]
+    [[-ConfigPath] &lt;String&gt;]
+    [-Summary]
+    [[-InputObject] &lt;Object[]&gt;]
+    [-Multithread]
+    [-AllTime]
+    [-Raw]
+    [-EnableException]
+    [&lt;CommonParameters&gt;]
+
+</code></pre>
+<p> </p>
+<h2 id="examples">Examples</h2>
+<p> </p>
+<h5 id="example-1">Example:  1</h5>
+<pre><code>PS C:\&gt; Invoke-DbaPfRelog -Path C:\temp\perfmon.blg
+</code></pre>
+<p>Creates C:\temp\perfmon.tsv from C:\temp\perfmon.blg.<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Invoke-DbaPfRelog -Path C:\temp\perfmon.blg -Destination C:\temp\a\b\c
+</code></pre>
+<p>Creates the temp, a, and b directories if needed, then generates c.tsv (tab separated) from C:\temp\perfmon.blg.<br>
+Returns the newly created file as a file object.<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Get-DbaPfDataCollectorSet -ComputerName sql2016 | Get-DbaPfDataCollector | Invoke-DbaPfRelog -Destination C:\temp\perf
+</code></pre>
+<p>Creates C:\temp\perf if needed, then generates computername-datacollectorname.tsv (tab separated) from the latest logs of all data collector sets on sql2016. This destination format was chosen to <br>
+avoid naming conflicts with piped input.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Invoke-DbaPfRelog -Path C:\temp\perfmon.blg -Destination C:\temp\a\b\c -Raw
+</code></pre>
+<pre><code class="language-&lt;br&gt;">[Invoke-DbaPfRelog][21:21:35] relog &quot;C:\temp\perfmon.blg&quot; -f csv -o C:\temp\a\b\c&lt;br&gt;
+Input&lt;br&gt;
+
+#####
+File(s):&lt;br&gt;
+C:\temp\perfmon.blg (Binary)&lt;br&gt;
+Begin:    1/13/2018 5:13:23&lt;br&gt;
+End:      1/13/2018 14:29:55&lt;br&gt;
+Samples:  2227&lt;br&gt;
+100.00%&lt;br&gt;
+Output&lt;br&gt;
+
+#####
+File:     C:\temp\a\b\c.csv&lt;br&gt;
+Begin:    1/13/2018 5:13:23&lt;br&gt;
+End:      1/13/2018 14:29:55&lt;br&gt;
+Samples:  2227&lt;br&gt;
+The command completed successfully.&lt;br&gt;
+```&lt;br&gt;
+Creates the temp, a, and b directories if needed, then generates c.tsv (tab separated) from C:\temp\perfmon.blg then outputs the raw results of the relog command.&lt;br&gt;
+
+##### Example:  5 
+</code></pre>
+<p>PS C:&gt; Invoke-DbaPfRelog -Path 'C:\temp\perflog with spaces.blg' -Destination C:\temp\a\b\c -Type csv -BeginTime ((Get-Date).AddDays(-30)) -EndTime ((Get-Date).AddDays(-1))</p>
+<pre><code>Creates the temp, a, and b directories if needed, then generates c.csv (comma separated) from C:\temp\perflog with spaces.blg', starts 30 days ago and ends one day ago.&lt;br&gt;
+
+##### Example:  6 
+</code></pre>
+<p>PS C:&gt; $servers | Get-DbaPfDataCollectorSet | Get-DbaPfDataCollector | Invoke-DbaPfRelog -Multithread -AllowClobber</p>
+<pre><code>Relogs latest data files from all collectors within the servers listed in $servers.&lt;br&gt;
+
+##### Example:  7 
+</code></pre>
+<p>PS C:&gt; Get-DbaPfDataCollector -Collector DataCollector01 | Invoke-DbaPfRelog -AllowClobber -AllTime</p>
+<pre><code>Relogs all the log files from the DataCollector01 on the local computer and allows overwrite.&lt;br&gt;
+### Optional Parameters
+##### -Path
+Specifies the pathname of an existing performance counter log or performance counter path. You can specify multiple input files.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias | FullName |
+| Required | False |
+| Pipeline | true (ByPropertyName) |
+| Default Value |  |
+
+##### -Destination
+Specifies the pathname of the output file or SQL database where the counters will be written. Defaults to the same directory as the source.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value |  |
+
+##### -Type
+The output format. Defaults to tsv. Options include tsv, csv, bin, and sql.
+For a SQL database, the output file specifies the DSN!counter_log. You can specify the database location by using the ODBC manager to configure the DSN (Database System Name).
+For more information, read here: https://technet.microsoft.com/en-us/library/bb490958.aspx&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value | tsv |
+| Accepted Values | tsv,csv,bin,sql |
+
+##### -Append
+If this switch is enabled, output will be appended to the specified file instead of overwriting. This option does not apply to SQL format where the default is always to append.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value | False |
+
+##### -AllowClobber
+If this switch is enabled, the destination file will be overwritten if it exists.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value | False |
+
+##### -PerformanceCounter
+Specifies the performance counter path to log.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value |  |
+
+##### -PerformanceCounterPath
+Specifies the pathname of the text file that lists the performance counters to be included in a relog file. Use this option to list counter paths in an input file, one per line. Default setting is 
+all counters in the original log file are relogged.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value |  |
+
+##### -Interval
+Specifies sample intervals in &quot;n&quot; records. Includes every nth data point in the relog file. Default is every data point.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value | 0 |
+
+##### -BeginTime
+This is is Get-Date object and we format it for you.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value |  |
+
+##### -EndTime
+Specifies end time for copying last record from the input file. This is is Get-Date object and we format it for you.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value |  |
+
+##### -ConfigPath
+Specifies the pathname of the settings file that contains command-line parameters.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value |  |
+
+##### -Summary
+If this switch is enabled, the performance counters and time ranges of log files specified in the input file will be displayed.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value | False |
+
+##### -InputObject
+Accepts the output of Get-DbaPfDataCollector and Get-DbaPfDataCollectorSet as input via the pipeline.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | true (ByValue) |
+| Default Value |  |
+
+##### -Multithread
+If this switch is enabled, processing will be done in parallel. This may speed up large batches or large files.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value | False |
+
+##### -AllTime
+If this switch is enabled and a datacollector or datacollectorset is passed in via the pipeline, collects all logs, not just the latest.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value | False |
+
+##### -Raw
+If this switch is enabled, the results of the DOS command instead of Get-ChildItem will be displayed. This does not run in parallel.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value | False |
+
+##### -EnableException
+By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.&lt;br&gt;
+
+|  |  |
+| - | - |
+| Alias |  |
+| Required | False |
+| Pipeline | false |
+| Default Value | False |
+
+
+
+&amp;nbsp;
+
+Want to see the source code for this command? Check out [Invoke-DbaPfRelog](https://github.com/sqlcollaborative/dbatools/blob/master/functions/Invoke-DbaPfRelog.ps1) on GitHub.
+&lt;br&gt;
+Want to see the Bill Of Health for this command? Check out [Invoke-DbaPfRelog](https://sqlcollaborative.github.io/boh#Invoke-DbaPfRelog).
+</code></pre>
+
+                </div> <!-- rendered -->
             </div>
         </div>
     </div>

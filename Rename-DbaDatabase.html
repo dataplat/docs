@@ -4,20 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-    <title>dbatools docs</title>
+    <title>dbatools docs | Rename-DbaDatabase</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
     <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+    <meta name="keywords" content="dbatools, ">
+    <meta name="subtitle" content="Docs for Rename-DbaDatabase">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs site" />
-    <meta property="og:url" content="https://docs.dbatools.io/" />
-    <meta property="og:description" content="dbatools documentation site" />
+    <meta property="og:title" content="dbatools docs:  Rename-DbaDatabase" />
+    <meta property="og:url" content="https://docs.dbatools.io/Rename-DbaDatabase.html" />
+    <meta property="og:description" content="dbatools docs for Rename-DbaDatabase" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs site" />
+    <meta name="twitter:text:title" content="dbatools docs:  Rename-DbaDatabase" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -39,10 +41,8 @@
         gtag('config', 'UA-80639740-2');
     </script>
 
-    <style>
 
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -133,147 +133,13 @@
 
         }
         $(document).ready(function () {
-            function prepare_md(doc_to_render, examples_mode) {
-                rtn = []
-                rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author || doc_to_render.Availability) {
-                    rtn.push('|  |  |')
-                    rtn.push('| - | - |')
-                    if (doc_to_render.Author) {
-                        rtn.push('|  **Author**  | ' + doc_to_render.Author.replace('|', ',') + ' |')
-                    }
-                    if (doc_to_render.Availability) {
-                        rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
-                    }
-                    rtn.push('')
-                }
-                rtn.push('\n&nbsp;\n')
-                if (doc_to_render.Alias) {
-                    rtn.push('')
-                    rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
-                    rtn.push('')
-                }
-                rtn.push('## Synopsis')
-                rtn.push(doc_to_render.Synopsis)
-                rtn.push('')
-                rtn.push('## Description')
-                rtn.push(doc_to_render.Description)
-                rtn.push('')
-                if (doc_to_render.Syntax) {
-                    rtn.push('## Syntax')
-                    rtn.push('```')
-                    var splitted_paramsets = []
-                    _.forEach(doc_to_render.Syntax.split(doc_to_render.CommandName), function (val) {
-                        if (!_.isEmpty(val)) {
-                            splitted_paramsets.push(doc_to_render.CommandName + val)
-                        }
-                    })
-                    _.forEach(splitted_paramsets, function (syntax) {
-                        _.forEach(syntax.replace('\r', '').replace('\n', '').split(/ \[/), function (val, i) {
-                            if (!_.isEmpty(val)) {
-                                if (i == 0) {
-                                    rtn.push(val)
-                                } else {
-                                    rtn.push('    [' + val.replace('\n', '').replace('\n', ''))
-                                }
-                            }
-                        })
-                        rtn.push('')
-                    })
-
-
-                    rtn.push('```')
-                    rtn.push('\n&nbsp;\n')
-                }
-                rtn.push('')
-                rtn.push('## Examples')
-                rtn.push('\n&nbsp;\n')
-                if (examples_mode == 'old') {
-                    rtn.push('```')
-                    rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
-                    rtn.push('```')
-                } else {
-                    var examples = doc_to_render.Examples.replace('\r\n', '\n').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
-                    idx = 0
-                    var inside = 0
-                    _.forEach(examples, function (row) {
-                        if (_.startsWith(row, '----')) {
-                            rtn.push('')
-                            rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
-                        } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
-                            if (inside == 0) { rtn.push('```') }
-                            rtn.push(row.replace(/^PS C:\\>\s?/, "PS C:\\> "))
-                            inside = 1
-                        } else if ((_.trim(row) == '') || (_.trim(row) == 'Description')) {
-                            //rtn.push(row)
-                        } else {
-                            if (inside == 1) {
-                                inside = 0
-                                rtn.push('```')
-                            }
-                            rtn.push(row)
-                        }
-                    })
-                }
-                if (doc_to_render.Params) {
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == true }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Required Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == false }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Optional Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                }
-                rtn.push('')
-                rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://sqlcollaborative.github.io/boh#' + doc_to_render.CommandName + ').')
-                rtn.push('')
-                return _.join(rtn, '\n')
-            }
             function render_doc(doc_to_render, examples_mode) {
-                var md_text = prepare_md(doc_to_render, examples_mode)
-                var rendered = marked(md_text, {
-                    breaks: true,
-                    gfm: true,
-                    tables: true
+                
+                $("#rendered h5").each(function (i, el) {
+                    if ($(el).text().startsWith('-')) {
+                        $(el).addClass('param')
+                    }
                 })
-                //STATIC GENERATION $('#rendered').html(rendered)
-                $('#rendered').html(rendered)
-                $("#rendered h5[id^='-']").addClass('param')
                 $('#rendered table').addClass('table table-sm table-hover')
                 if (examples_mode == 'new') {
                     $('#rendered code').addClass('powershell')
@@ -303,10 +169,11 @@
                 }
 
 
-                /* not all code is a block */
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
+
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
             var external_url = 'assets/external.json'
@@ -413,7 +280,6 @@
                     extlist.search()
                     cmdlist.filter()
                 }
-
             })
             $('#clear-search').on('click', function () {
                 $('#search-ft').val('').trigger('keyup')
@@ -578,30 +444,707 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <!--<div id="loader" class="row h-100 justify-content-center align-items-center loader invisible">
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <div class="lds-ellipsis">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <p>loading all the help we can get ;-)</p>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    <h4>Welcome</h4>-->
-                    <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
-                    <p>Search on the left and click on a command to show the related help.</p>
-                    <div id="canvas" class="canvas"></div>
-                </div>
+                    <h1 id="rename-dbadatabase">Rename-DbaDatabase</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Author</strong></td>
+<td>Simone Bizzotto (@niphold)</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Windows only</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<h2 id="synopsis">Synopsis</h2>
+<p>Changes database name, logical file names, file group names and physical file names (optionally handling the move). BETA VERSION.</p>
+<h2 id="description">Description</h2>
+<p>Can change every database metadata that can be renamed.
+The ultimate goal is choosing to have a default template to enforce in your environment
+so your naming convention for every bit can be put in place in no time.
+The process is as follows (it follows the hierarchy of the entities):</p>
+<ul>
+<li>database name is changed (optionally, forcing users out)</li>
+<li>filegroup name(s) are changed accordingly</li>
+<li>logical name(s) are changed accordingly</li>
+<li>physical file(s) are changed accordingly</li>
+<li>if Move is specified, the database will be taken offline and the move will initiate, then it will be taken online</li>
+<li>if Move is not specified, the database remains online (unless SetOffline), and you are in charge of moving files
+If any of the above fails, the process stops.
+Please take a backup of your databases BEFORE using this, and remember to backup AFTER (also a FULL backup of master)</li>
+</ul>
+<p>It returns an object for each database with all the renames done, plus hidden properties showing a &quot;human&quot; representation of them.</p>
+<p>It's better you store the resulting object in a variable so you can inspect it in case of issues, e.g. &quot;$result = Rename-DbaDatabase .....&quot;</p>
+<p>To get a grasp without worrying of what would happen under the hood, use &quot;Rename-DbaDatabase .... -Preview | Select-Object *&quot;</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>Rename-DbaDatabase -SqlInstance &lt;DbaInstanceParameter[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Database &lt;Object[]&gt;]
+    [-ExcludeDatabase &lt;Object[]&gt;]
+    [-AllDatabases]
+    [-DatabaseName &lt;String&gt;]
+    [-FileGroupName &lt;String&gt;]
+    [-LogicalName &lt;String&gt;]
+    [-FileName &lt;String&gt;]
+    [-ReplaceBefore]
+    [-Force]
+    [-Move]
+    [-SetOffline]
+    [-Preview]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+Rename-DbaDatabase
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-ExcludeDatabase &lt;Object[]&gt;]
+    [-AllDatabases]
+    [-DatabaseName &lt;String&gt;]
+    [-FileGroupName &lt;String&gt;]
+    [-LogicalName &lt;String&gt;]
+    [-FileName &lt;String&gt;]
+    [-ReplaceBefore]
+    [-Force]
+    [-Move]
+    [-SetOffline]
+    [-Preview] -InputObject &lt;Database[]&gt;
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+</code></pre>
+<p> </p>
+<h2 id="examples">Examples</h2>
+<p> </p>
+<h5 id="example-1">Example:  1</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName HR2 -Preview | Select-Object *
+</code></pre>
+<p>Shows the detailed result set you'll get renaming the HR database to HR2 without doing anything<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName HR2
+</code></pre>
+<p>Renames the HR database to HR2<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sqlserver2014a -Database HR | Rename-DbaDatabase -DatabaseName HR2
+</code></pre>
+<p>Same as before, but with a piped database (renames the HR database to HR2)<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName &quot;dbatools_&lt;DBN&gt;&quot;
+</code></pre>
+<p>Renames the HR database to dbatools_HR<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName &quot;dbatools_&lt;DBN&gt;_&lt;DATE&gt;&quot;
+</code></pre>
+<p>Renames the HR database to dbatools_HR_20170807 (if today is 07th Aug 2017)<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -FileGroupName &quot;dbatools_&lt;FGN&gt;&quot;
+</code></pre>
+<p>Renames every FileGroup within HR to &quot;dbatools_[the original FileGroup name]&quot;<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName &quot;dbatools_&lt;DBN&gt;&quot; -FileGroupName &quot;&lt;DBN&gt;_&lt;FGN&gt;&quot;
+</code></pre>
+<p>Renames the HR database to &quot;dbatools_HR&quot;, then renames every FileGroup within to &quot;dbatools_HR_[the original FileGroup name]&quot;<br></p>
+<h5 id="example-8">Example:  8</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -FileGroupName &quot;dbatools_&lt;DBN&gt;_&lt;FGN&gt;&quot;
+PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName &quot;dbatools_&lt;DBN&gt;&quot;
+</code></pre>
+<p>Renames the HR database to &quot;dbatools_HR&quot;, then renames every FileGroup within to &quot;dbatools_HR_[the original FileGroup name]&quot;<br></p>
+<h5 id="example-9">Example:  9</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName &quot;dbatools_&lt;DBN&gt;&quot; -FileName &quot;&lt;DBN&gt;_&lt;FGN&gt;_&lt;FNN&gt;&quot;
+</code></pre>
+<p>Renames the HR database to &quot;dbatools_HR&quot; and then all filenames as &quot;dbatools_HR_[Name of the FileGroup]_[original_filename]&quot;<br>
+The db stays online (watch out!). You can then proceed manually to move/copy files by hand, set the db offline and then online again to finish the rename process<br></p>
+<h5 id="example-10">Example:  10</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName &quot;dbatools_&lt;DBN&gt;&quot; -FileName &quot;&lt;DBN&gt;_&lt;FGN&gt;_&lt;FNN&gt;&quot; -SetOffline
+</code></pre>
+<p>Renames the HR database to &quot;dbatools_HR&quot; and then all filenames as &quot;dbatools_HR_[Name of the FileGroup]_[original_filename]&quot;<br>
+The db is then set offline (watch out!). You can then proceed manually to move/copy files by hand and then set it online again to finish the rename process<br></p>
+<h5 id="example-11">Example:  11</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName &quot;dbatools_&lt;DBN&gt;&quot; -FileName &quot;&lt;DBN&gt;_&lt;FGN&gt;_&lt;FNN&gt;&quot; -Move
+</code></pre>
+<p>Renames the HR database to &quot;dbatools_HR&quot; and then all filenames as &quot;dbatools_HR_[Name of the FileGroup]_[original_filename]&quot;<br>
+The db is then set offline (watch out!). The function tries to do a simple rename and then sets the db online again to finish the rename process<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>Target any number of instances, in order to return their build state.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Accepts piped database objects<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="database">-Database</h5>
+<p>Targets only specified databases<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludedatabase">-ExcludeDatabase</h5>
+<p>Excludes only specified databases<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="alldatabases">-AllDatabases</h5>
+<p>If you want to apply the naming convention system wide, you need to pass this parameter<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="databasename">-DatabaseName</h5>
+<p>Pass a template to rename the database name. Valid placeholders are:</p>
+<ul>
+<li><DBN> current database name</li>
+<li><DATE> date (yyyyMMdd)<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filegroupname">-FileGroupName</h5>
+<p>Pass a template to rename file group name. Valid placeholders are:</p>
+<ul>
+<li><FGN> current filegroup name</li>
+<li><DBN> current database name</li>
+<li><DATE> date (yyyyMMdd)
+If distinct names cannot be generated, a counter will be appended (0001, 0002, 0003, etc)<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="logicalname">-LogicalName</h5>
+<p>Pass a template to rename logical name. Valid placeholders are:</p>
+<ul>
+<li><FT> file type (ROWS, LOG)</li>
+<li><LGN> current logical name</li>
+<li><FGN> current filegroup name</li>
+<li><DBN> current database name</li>
+<li><DATE> date (yyyyMMdd)
+If distinct names cannot be generated, a counter will be appended (0001, 0002, 0003, etc)<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filename">-FileName</h5>
+<p>Pass a template to rename file name. Valid placeholders are:</p>
+<ul>
+<li><FNN> current file name (the basename, without directory nor extension)</li>
+<li><FT> file type (ROWS, LOG, MMO, FS)</li>
+<li><LGN> current logical name</li>
+<li><FGN> current filegroup name</li>
+<li><DBN> current database name</li>
+<li><DATE> date (yyyyMMdd)
+If distinct names cannot be generated, a counter will be appended (0001, 0002, 0003, etc)<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="replacebefore">-ReplaceBefore</h5>
+<p>If you pass this switch, all upper level &quot;current names&quot; will be inspected and replaced BEFORE doing the
+rename according to the template in the current level (remember the hierarchy):
+Let's say you have a database named &quot;dbatools_HR&quot;, composed by 3 files</p>
+<ul>
+<li>dbatools_HR_Data.mdf</li>
+<li>dbatools_HR_Index.ndf</li>
+<li>dbatools_HR_log.ldf
+Rename-DbaDatabase .... -Database &quot;dbatools_HR&quot; -DatabaseName &quot;dbatools_HRARCHIVE&quot; -FileName '<DBN><FNN>'
+would end up with this logic:</li>
+<li>database --&gt; no placeholders specified</li>
+<li>dbatools_HR to dbatools_HRARCHIVE</li>
+<li>filenames placeholders specified
+<DBN><FNN> --&gt; current database name + current filename&quot;</li>
+<li>dbatools_HR_Data.mdf to dbatools_HRARCHIVEdbatools_HR_Data.mdf</li>
+<li>dbatools_HR_Index.mdf to dbatools_HRARCHIVEdbatools_HR_Data.mdf</li>
+<li>dbatools_HR_log.ldf to dbatools_HRARCHIVEdbatools_HR_log.ldf
+Passing this switch, instead, e.g.
+Rename-DbaDatabase .... -Database &quot;dbatools_HR&quot; -DatabaseName &quot;dbatools_HRARCHIVE&quot; -FileName '<DBN><FNN>' -ReplaceBefore
+end up with this logic instead:</li>
+<li>database --&gt; no placeholders specified</li>
+<li>dbatools_HR to dbatools_HRARCHIVE</li>
+<li>filenames placeholders specified,
+<DBN><FNN>, plus -ReplaceBefore --&gt; current database name + replace OLD &quot;upper level&quot; names inside the current filename</li>
+<li>dbatools_HR_Data.mdf to dbatools_HRARCHIVE_Data.mdf</li>
+<li>dbatools_HR_Index.mdf to dbatools_HRARCHIVE_Data.mdf</li>
+<li>dbatools_HR_log.ldf to dbatools_HRARCHIVE_log.ldf<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>Kills any open session to be able to do renames.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="move">-Move</h5>
+<p>If you want this function to move files, else you're the one in charge of it.
+This enables the same functionality as SetOffline, killing open transactions and putting the database
+offline, then do the actual rename and setting it online again afterwards<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="setoffline">-SetOffline</h5>
+<p>Kills any open session and sets the database offline to be able to move files<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="preview">-Preview</h5>
+<p>Shows the renames without performing any operation (recommended to find your way around this function parameters ;-) )<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="whatif">-WhatIf</h5>
+<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Rename-DbaDatabase.ps1">Rename-DbaDatabase</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Rename-DbaDatabase">Rename-DbaDatabase</a>.</p>
+
+                </div> <!-- rendered -->
             </div>
         </div>
     </div>

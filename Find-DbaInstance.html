@@ -4,20 +4,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
-    <title>dbatools docs</title>
+    <title>dbatools docs | Find-DbaInstance</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
     <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
+    <meta name="keywords" content="dbatools, ">
+    <meta name="subtitle" content="Docs for Find-DbaInstance">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs site" />
-    <meta property="og:url" content="https://docs.dbatools.io/" />
-    <meta property="og:description" content="dbatools documentation site" />
+    <meta property="og:title" content="dbatools docs:  Find-DbaInstance" />
+    <meta property="og:url" content="https://docs.dbatools.io/Find-DbaInstance.html" />
+    <meta property="og:description" content="dbatools docs for Find-DbaInstance" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs site" />
+    <meta name="twitter:text:title" content="dbatools docs:  Find-DbaInstance" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -39,10 +41,8 @@
         gtag('config', 'UA-80639740-2');
     </script>
 
-    <style>
 
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -133,147 +133,13 @@
 
         }
         $(document).ready(function () {
-            function prepare_md(doc_to_render, examples_mode) {
-                rtn = []
-                rtn.push('# ' + doc_to_render.CommandName)
-                if (doc_to_render.Author || doc_to_render.Availability) {
-                    rtn.push('|  |  |')
-                    rtn.push('| - | - |')
-                    if (doc_to_render.Author) {
-                        rtn.push('|  **Author**  | ' + doc_to_render.Author.replace('|', ',') + ' |')
-                    }
-                    if (doc_to_render.Availability) {
-                        rtn.push('| **Availability** | ' + doc_to_render.Availability + ' |')
-                    }
-                    rtn.push('')
-                }
-                rtn.push('\n&nbsp;\n')
-                if (doc_to_render.Alias) {
-                    rtn.push('')
-                    rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
-                    rtn.push('')
-                }
-                rtn.push('## Synopsis')
-                rtn.push(doc_to_render.Synopsis)
-                rtn.push('')
-                rtn.push('## Description')
-                rtn.push(doc_to_render.Description)
-                rtn.push('')
-                if (doc_to_render.Syntax) {
-                    rtn.push('## Syntax')
-                    rtn.push('```')
-                    var splitted_paramsets = []
-                    _.forEach(doc_to_render.Syntax.split(doc_to_render.CommandName), function (val) {
-                        if (!_.isEmpty(val)) {
-                            splitted_paramsets.push(doc_to_render.CommandName + val)
-                        }
-                    })
-                    _.forEach(splitted_paramsets, function (syntax) {
-                        _.forEach(syntax.replace('\r', '').replace('\n', '').split(/ \[/), function (val, i) {
-                            if (!_.isEmpty(val)) {
-                                if (i == 0) {
-                                    rtn.push(val)
-                                } else {
-                                    rtn.push('    [' + val.replace('\n', '').replace('\n', ''))
-                                }
-                            }
-                        })
-                        rtn.push('')
-                    })
-
-
-                    rtn.push('```')
-                    rtn.push('\n&nbsp;\n')
-                }
-                rtn.push('')
-                rtn.push('## Examples')
-                rtn.push('\n&nbsp;\n')
-                if (examples_mode == 'old') {
-                    rtn.push('```')
-                    rtn.push(doc_to_render.Examples.replace('\r\n', '').replace(/(\r\n){2,8}/g, '\n').replace(/\n----/g, '\r\n\r\n----'))
-                    rtn.push('```')
-                } else {
-                    var examples = doc_to_render.Examples.replace('\r\n', '\n').replace(/(\r\n){2,8}/g, '\n').replace(/\r/g, '').split('\n')
-                    idx = 0
-                    var inside = 0
-                    _.forEach(examples, function (row) {
-                        if (_.startsWith(row, '----')) {
-                            rtn.push('')
-                            rtn.push('#####' + row.replace(/-{4,}([^-]*)-{4,}/g, '$1').replace('EXAMPLE', 'Example: '))
-                        } else if ((_.startsWith(row, 'PS C:\\>')) || (_.startsWith(row, '>>'))) {
-                            if (inside == 0) { rtn.push('```') }
-                            rtn.push(row.replace(/^PS C:\\>\s?/, "PS C:\\> "))
-                            inside = 1
-                        } else if ((_.trim(row) == '') || (_.trim(row) == 'Description')) {
-                            //rtn.push(row)
-                        } else {
-                            if (inside == 1) {
-                                inside = 0
-                                rtn.push('```')
-                            }
-                            rtn.push(row)
-                        }
-                    })
-                }
-                if (doc_to_render.Params) {
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == true }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Required Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                    var dotitle = 0
-                    _.forEach(_.filter(doc_to_render.Params, function (p) { return p[3] == false }), function (el) {
-                        if (dotitle == 0) {
-                            dotitle = 1
-                            rtn.push('### Optional Parameters')
-                        }
-                        rtn.push('##### -' + el[0])
-                        rtn.push(el[1])
-                        rtn.push('')
-                        rtn.push('|  |  |')
-                        rtn.push('| - | - |')
-                        rtn.push('| Alias | ' + el[2] + ' |')
-                        rtn.push('| Required | ' + el[3] + ' |')
-                        rtn.push('| Pipeline | ' + el[4] + ' |')
-                        rtn.push('| Default Value | ' + el[5] + ' |')
-                        if (el[6]) {
-                            rtn.push('| Accepted Values | ' + el[6] + ' |')
-                        }
-                        rtn.push('')
-                    })
-                }
-                rtn.push('')
-                rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://sqlcollaborative.github.io/boh#' + doc_to_render.CommandName + ').')
-                rtn.push('')
-                return _.join(rtn, '\n')
-            }
             function render_doc(doc_to_render, examples_mode) {
-                var md_text = prepare_md(doc_to_render, examples_mode)
-                var rendered = marked(md_text, {
-                    breaks: true,
-                    gfm: true,
-                    tables: true
+                
+                $("#rendered h5").each(function (i, el) {
+                    if ($(el).text().startsWith('-')) {
+                        $(el).addClass('param')
+                    }
                 })
-                //STATIC GENERATION $('#rendered').html(rendered)
-                $('#rendered').html(rendered)
-                $("#rendered h5[id^='-']").addClass('param')
                 $('#rendered table').addClass('table table-sm table-hover')
                 if (examples_mode == 'new') {
                     $('#rendered code').addClass('powershell')
@@ -303,10 +169,11 @@
                 }
 
 
-                /* not all code is a block */
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
+
             $('#loader').removeClass('invisible')
             var index_url = 'assets/dbatools-index.json'
             var external_url = 'assets/external.json'
@@ -413,7 +280,6 @@
                     extlist.search()
                     cmdlist.filter()
                 }
-
             })
             $('#clear-search').on('click', function () {
                 $('#search-ft').val('').trigger('keyup')
@@ -578,30 +444,521 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <!--<div id="loader" class="row h-100 justify-content-center align-items-center loader invisible">
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <div class="lds-ellipsis">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="row h-100 justify-content-center align-items-center">
-                                <p>loading all the help we can get ;-)</p>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    <h4>Welcome</h4>-->
-                    <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
-                    <p>Search on the left and click on a command to show the related help.</p>
-                    <div id="canvas" class="canvas"></div>
-                </div>
+                    <h1 id="find-dbainstance">Find-DbaInstance</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Author</strong></td>
+<td>Scott Sutherland, 2018 NetSPI , Friedrich Weinmann (@FredWeinmann)</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Windows, Linux, macOS</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<h2 id="synopsis">Synopsis</h2>
+<p>Search for SQL Server Instances.</p>
+<h2 id="description">Description</h2>
+<p>This function searches for SQL Server Instances.</p>
+<p>It supports a variety of scans for this purpose which can be separated in two categories:</p>
+<ul>
+<li>Discovery</li>
+<li>Scan</li>
+</ul>
+<p>Discovery:
+This is where it compiles a list of computers / addresses to check.
+It supports several methods of generating such lists (including Active Directory lookup or IP Ranges), but also supports specifying a list of computers to check.</p>
+<ul>
+<li>For details on discovery, see the documentation on the '-DiscoveryType' parameter</li>
+<li>For details on explicitly providing a list, see the documentation on the '-ComputerName' parameter</li>
+</ul>
+<p>Scan:
+Once a list of computers has been provided, this command will execute a variety of actions to determine any instances present for each of them.
+This is described in more detail in the documentation on the '-ScanType' parameter.
+Additional parameters allow more granular control over individual scans (e.g. Credentials to use).</p>
+<p>Note on logging and auditing:
+The Discovery phase is un-problematic since it is non-intrusive, however during the scan phase, all targeted computers may be accessed repeatedly.
+This may cause issues with security teams, due to many logon events and possibly failed authentication.
+This action constitutes a network scan, which may be illegal depending on the nation you are in and whether you own the network you scan.
+If you are unsure whether you may use this command in your environment, check the detailed description on the '-ScanType' parameter and contact your IT security team for advice.</p>
+<h2 id="syntax">Syntax</h2>
+<pre><code>Find-DbaInstance
+    [-Credential &lt;PSCredential&gt;]
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-ScanType {TCPPort | SqlConnect | SqlService | DNSResolve | SPN | Browser | Ping | Default | All}]
+    [-DomainController &lt;String&gt;]
+    [-TCPPort &lt;Int32[]&gt;]
+    [-MinimumConfidence {None | Low | Medium | High}]
+    [-EnableException]
+    [&lt;CommonParameters&gt;]
+
+Find-DbaInstance -ComputerName &lt;DbaInstanceParameter[]&gt;
+    [-Credential &lt;PSCredential&gt;]
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-ScanType {TCPPort | SqlConnect | SqlService | DNSResolve | SPN | Browser | Ping | Default | All}]
+    [-DomainController &lt;String&gt;]
+    [-TCPPort &lt;Int32[]&gt;]
+    [-MinimumConfidence {None | Low | Medium | High}]
+    [-EnableException]
+    [&lt;CommonParameters&gt;]
+
+Find-DbaInstance -DiscoveryType {IPRange | DomainSPN | Domain | DataSourceEnumeration | DomainServer | All}
+    [-Credential &lt;PSCredential&gt;]
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-ScanType {TCPPort | SqlConnect | SqlService | DNSResolve | SPN | Browser | Ping | Default | All}]
+    [-IpAddress &lt;String[]&gt;]
+    [-DomainController &lt;String&gt;]
+    [-TCPPort &lt;Int32[]&gt;]
+    [-MinimumConfidence {None | Low | Medium | High}]
+    [-EnableException]
+    [&lt;CommonParameters&gt;]
+
+</code></pre>
+<p> </p>
+<h2 id="examples">Examples</h2>
+<p> </p>
+<h5 id="example-1">Example:  1</h5>
+<pre><code>PS C:\&gt; Find-DbaInstance -DiscoveryType Domain, DataSourceEnumeration
+</code></pre>
+<p>Performs a network search for SQL Instances by:<br></p>
+<ul>
+<li>Looking up the Service Principal Names of computers in Active Directory<br></li>
+<li>Using the UDP broadcast based auto-discovery of SSMS<br>
+After that it will extensively scan all hosts thus discovered for instances.<br></li>
+</ul>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Find-DbaInstance -DiscoveryType All
+</code></pre>
+<p>Performs a network search for SQL Instances, using all discovery protocols:<br></p>
+<ul>
+<li>Active directory search for Service Principal Names<br></li>
+<li>SQL Instance Enumeration (same as SSMS does)<br></li>
+<li>All IPAddresses in the current computer's subnets of all connected network interfaces<br>
+Note: This scan will take a long time, due to including the IP Scan<br></li>
+</ul>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Get-ADComputer -Filter &quot;*&quot; | Find-DbaInstance
+</code></pre>
+<p>Scans all computers in the domain for SQL Instances, using a deep probe:<br></p>
+<ul>
+<li>Tries resolving the name in DNS<br></li>
+<li>Tries pinging the computer<br></li>
+<li>Tries listing all SQL Services using CIM/WMI<br></li>
+<li>Tries discovering all instances via the browser service<br></li>
+<li>Tries connecting to the default TCP Port (1433)<br></li>
+<li>Tries connecting to the TCP port of each discovered instance<br></li>
+<li>Tries to establish a SQL connection to the server using default windows credentials<br></li>
+<li>Tries looking up the Service Principal Names for each instance<br></li>
+</ul>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Get-Content .\servers.txt | Find-DbaInstance -SqlCredential $cred -ScanType Browser, SqlConnect
+</code></pre>
+<p>Reads all servers from the servers.txt file (one server per line),<br>
+then scans each of them for instances using the browser service<br>
+and finally attempts to connect to each instance found using the specified credentials.<br>
+then scans each of them for instances using the browser service and SqlService<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Find-DbaInstance -ComputerName localhost | Get-DbaDatabase | Format-Table -Wrap
+</code></pre>
+<p>Scans localhost for instances using the browser service, traverses all instances for all databases and displays all information in a formatted table.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; $databases = Find-DbaInstance -ComputerName localhost | Get-DbaDatabase
+PS C:\&gt; $results = $databases | Select-Object SqlInstance, Name, Status, RecoveryModel, SizeMB, Compatibility, Owner, LastFullBackup, LastDiffBackup, LastLogBackup
+PS C:\&gt; $results | Format-Table -Wrap
+</code></pre>
+<p>Scans localhost for instances using the browser service, traverses all instances for all databases and displays a subset of the important information in a formatted table.<br>
+Using this method regularly is not recommended. Use Get-DbaService or Get-DbaRegServer instead.<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="computername">-ComputerName</h5>
+<p>The computer to scan. Can be a variety of input types, including text or the output of Get-ADComputer.
+Any extra instance information (such as connection strings or live sql server connections) beyond the computername will be discarded.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="discoverytype">-DiscoveryType</h5>
+<p>The mechanisms to be used to discover instances.
+Supports any combination of:</p>
+<ul>
+<li>Service Principal Name lookup ('DomainSPN'; from Active Directory)</li>
+<li>SQL Instance Enumeration ('DataSourceEnumeration'; same as SSMS uses)</li>
+<li>IP Address range ('IPRange'; all IP Addresses will be scanned)</li>
+<li>Domain Server lookup ('DomainServer'; from Active Directory)
+SPN Lookup:
+The function tries to connect active directory to look up all computers with registered SQL Instances.
+Not all instances need to be registered properly, making this not 100% reliable.
+By default, your nearest Domain Controller is contacted for this scan.
+However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.
+If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.
+SQL Instance Enumeration:
+This uses the default UDP Broadcast based instance enumeration used by SSMS to detect instances.
+Note that the result from this is not used in the actual scan, but only to compile a list of computers to scan.
+To enable the same results for the scan, ensure that the 'Browser' scan is enabled.
+IP Address range:
+This 'Discovery' uses a range of IPAddresses and simply passes them on to be tested.
+See the 'Description' part of help on security issues of network scanning.
+By default, it will enumerate all ethernet network adapters on the local computer and scan the entire subnet they are on.
+By using the '-IpAddress' parameter, custom network ranges can be specified.
+Domain Server:
+This will discover every single computer in Active Directory that is a Windows Server and enabled.
+By default, your nearest Domain Controller is contacted for this scan.
+However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.
+If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="credential">-Credential</h5>
+<p>The credentials to use on windows network connection.
+These credentials are used for:</p>
+<ul>
+<li>Contact to domain controllers for SPN lookups (only if explicit Domain Controller is specified)</li>
+<li>CIM/WMI contact to the scanned computers during the scan phase (see the '-ScanType' parameter documentation on affected scans).<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>The credentials used to connect to SqlInstances to during the scan phase.
+See the '-ScanType' parameter documentation on affected scans.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="scantype">-ScanType</h5>
+<p>The scans are the individual methods used to retrieve information about the scanned computer and any potentially installed instances.
+This parameter is optional, by default all scans except for establishing an actual SQL connection are performed.
+Scans can be specified in any arbitrary combination, however at least one instance detecting scan needs to be specified in order for data to be returned.
+Scans:
+Browser</p>
+<ul>
+<li>Tries discovering all instances via the browser service</li>
+<li>This scan detects instances.
+SQLService</li>
+<li>Tries listing all SQL Services using CIM/WMI</li>
+<li>This scan uses credentials specified in the '-Credential' parameter if any.</li>
+<li>This scan detects instances.</li>
+<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).
+SPN</li>
+<li>Tries looking up the Service Principal Names for each instance</li>
+<li>Will use the nearest Domain Controller by default</li>
+<li>Target a specific domain controller using the '-DomainController' parameter</li>
+<li>If using the '-DomainController' parameter, use the '-Credential' parameter to specify the credentials used to connect
+TCPPort</li>
+<li>Tries connecting to the TCP Ports.</li>
+<li>By default, port 1433 is connected to.</li>
+<li>The parameter '-TCPPort' can be used to provide a list of port numbers to scan.</li>
+<li>This scan detects possible instances. Since other services might bind to a given port, this is not the most reliable test.</li>
+<li>This scan is also used to validate found SPNs if both scans are used in combination
+DNSResolve</li>
+<li>Tries resolving the computername in DNS
+Ping</li>
+<li>Tries pinging the computer. Failure will NOT terminate scans.
+SqlConnect</li>
+<li>Tries to establish a SQL connection to the server</li>
+<li>Uses windows credentials by default</li>
+<li>Specify custom credentials using the '-SqlCredential' parameter</li>
+<li>This scan is not used by default</li>
+<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).
+All</li>
+<li>All of the above<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Default,SQLService,Browser,TCPPort,All,SPN,Ping,SqlConnect,DNSResolve</td>
+</tr>
+</tbody>
+</table>
+<h5 id="ipaddress">-IpAddress</h5>
+<p>This parameter can be used to override the defaults for the IPRange discovery.
+This parameter accepts a list of strings supporting any combination of:</p>
+<ul>
+<li>Plain IP Addresses (e.g.: &quot;10.1.1.1&quot;)</li>
+<li>IP Address Ranges (e.g.: &quot;10.1.1.1-10.1.1.5&quot;)</li>
+<li>IP Address &amp; Subnet Mask (e.g.: &quot;10.1.1.1/255.255.255.0&quot;)</li>
+<li>IP Address &amp; Subnet Length: (e.g.: &quot;10.1.1.1/24)
+Overlapping addresses will not result in duplicate scans.<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="domaincontroller">-DomainController</h5>
+<p>The domain controller to contact for SPN lookups / searches.
+Uses the credentials from the '-Credential' parameter if specified.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="tcpport">-TCPPort</h5>
+<p>The ports to scan in the TCP Port Scan method.
+Defaults to 1433.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>1433</td>
+</tr>
+</tbody>
+</table>
+<h5 id="minimumconfidence">-MinimumConfidence</h5>
+<p>This command tries to discover instances, which isn't always a sure thing.
+Depending on the number and type of scans completed, we have different levels of confidence in our results.
+By default, we will return anything that we have at least a low confidence of being an instance.
+These are the confidence levels we support and how they are determined:</p>
+<ul>
+<li>High: Established SQL Connection (including rejection for bad credentials) or service scan.</li>
+<li>Medium: Browser reply or a combination of TCPConnect <em>and</em> SPN test.</li>
+<li>Low: Either TCPConnect <em>or</em> SPN</li>
+<li>None: Computer existence could be verified, but no sign of an SQL Instance<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Find-DbaInstance.ps1">Find-DbaInstance</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Find-DbaInstance">Find-DbaInstance</a>.</p>
+
+                </div> <!-- rendered -->
             </div>
         </div>
     </div>
