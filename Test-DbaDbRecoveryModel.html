@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>dbatools docs | Test-DbaDbRecoveryModel</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
@@ -261,10 +261,16 @@
                     extlist.search();
                 }
                 else if (searchString.startsWith("ft:")) {
-                    searchString = searchString.substring(3).trim();
+                    searchString = searchString.substring(3).trim();,
+                    if (cmdlist.filtered) {
+                        cmdlist.filter();
+                    }
                     cmdlist.search(searchString, ['CommandName', 'Alias', 'Description', 'Examples', 'Params']);
                 } else if (searchString.startsWith("tag:")) {
                     searchString = searchString.substring(4).trim();
+                    if (cmdlist.filtered) {
+                        cmdlist.filter();
+                    }
                     cmdlist.filter(function (item) {
                         if (_.indexOf(item.values().Tags, searchString) !== -1) {
                             return true;
