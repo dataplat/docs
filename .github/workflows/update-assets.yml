@@ -3,16 +3,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  updateassets:
+  updatehelpindex:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout'
       uses: 'actions/checkout@v2.3.4'
-
+      with:
+        ref: master
     - name: 'Pull help index file'
       working-directory: assets
       run: curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/bin/dbatools-index.json
 
+    - name: commit if file changed
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: updating help index file
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  bumpversion:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout'
+      uses: 'actions/checkout@v2.3.4'
+      with:
+        ref: master
     - name: 'Bump version based on manifest'
       working-directory: assets
       shell: pwsh
@@ -31,8 +47,30 @@ jobs:
     - name: commit if file changed
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: updating assets
-        branch: master
+        commit_message: bumping doc version
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  rebuildpages:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout multiple_pages
+      uses: actions/checkout@v2
+      with:
+        ref: master
+    - name: 'Build docs'
+      working-directory: assets
+      shell: pwsh
+      run: |
+        curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/bin/dbatools-index.json
+        $OutputFolder = (Get-Location).Path
+        Write-Host "running in $OutputFolder"
+        Get-ChildItem $OutputFolder 
+        ./templates/to_md.ps1
+      
+    - name: commit if file changed
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: refreshing docs pages
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

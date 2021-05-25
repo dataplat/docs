@@ -1,0 +1,231 @@
+.customnav {
+    background: #e3e3e3
+}
+
+body {
+    min-height: 75rem;
+}
+
+h2 small.text-muted {
+    font-size: 50%;
+}
+
+@media (max-width: 575px) {
+    .hidden-xs-down {
+        display: none !important;
+    }
+}
+
+@media (min-width: 575px) {
+    .hidden-xs-up {
+        display: none !important;
+    }
+}
+
+code.hljs-inline {
+    display: inline;
+}
+
+.back-to-top {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+}
+
+code.wrapped {
+    white-space: pre-wrap;
+}
+
+.bd-clipboard {
+    position: relative;
+    float: right;
+}
+
+.btn-clipboard {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    z-index: 10;
+    display: block;
+    padding: .25rem .5rem;
+    font-size: 75%;
+    color: #818a91;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    border-radius: .25rem;
+}
+
+/*to keep commandline and output "together"*/
+#rendered pre {
+    margin-bottom: 0;
+}
+
+/*param tables do not have thead */
+.table thead {
+    display: none;
+}
+
+/*no need to be elastic for param tables*/
+.table td:first-child {
+    width: 10em;
+}
+
+h5.param {
+    background: #f8f8f8;
+    display: inline-block;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+#extlist a.list-group-item:last-child {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#extlist a.list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* from https://loading.io/css/ */
+
+.lds-ellipsis {
+    display: inline-block;
+    position: relative;
+    width: 128px;
+    height: 128px;
+}
+
+.lds-ellipsis div {
+    position: absolute;
+    top: 34px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #cef;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+    left: 12px;
+    animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+    left: 12px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+    left: 12px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+    left: 90px;
+    animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(19px, 0);
+    }
+}
+        /*jqcloud*/
+.jqcloud {
+    font: 10px Helvetica, Arial, sans-serif;
+    line-height: normal;
+    overflow: hidden;
+    position: relative
+}
+
+.jqcloud-word {
+    margin: 0;
+    padding: 0
+}
+
+.jqcloud-word.w1 {
+    color: #aab5f0;
+    font-size: 100%
+}
+
+.jqcloud-word.w2 {
+    color: #9ce;
+    font-size: 150%
+}
+
+.jqcloud-word.w3 {
+    color: #a0ddff;
+    font-size: 200%
+}
+
+.jqcloud-word.w4 {
+    color: #90c5f0;
+    font-size: 250%
+}
+
+.jqcloud-word.w5 {
+    color: #90a0dd;
+    font-size: 300%
+}
+
+.jqcloud-word.w6 {
+    color: #90c5f0;
+    font-size: 350%
+}
+
+.jqcloud-word.w7 {
+    color: #39d;
+    font-size: 400%
+}
+
+.jqcloud-word.w8 {
+    color: #0cf;
+    font-size: 450%
+}
+
+.jqcloud-word.w9 {
+    color: #0cf;
+    font-size: 500%
+}
+
+.jqcloud-word.w10 {
+    color: #0cf;
+    font-size: 550%
+}
+
+.jqcloud-word a {
+    color: inherit;
+    font-size: inherit;
+    text-decoration: none
+}
+
+.jqcloud-word a:hover {
+    color: #0cf
+}
