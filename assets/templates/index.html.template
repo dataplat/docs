@@ -388,7 +388,7 @@
                 $(this).addClass('active')
                 */
             })
-            $('#search-ft').on('keyup', function () {
+            $('#search-ft').bind('change keyup', function () {
                 var searchString = $(this).val();
                 if (searchString.trim() == "ft:" || searchString.trim() == "tag:") {
                     extlist.search();
@@ -406,6 +406,9 @@
                         }
                     });
                 } else {
+                    if (cmdlist.filtered) {
+                        cmdlist.filter();
+                    }
                     cmdlist.search(searchString, ['CommandName', 'Alias']);
                 }
                 extlist.search('$$$')
