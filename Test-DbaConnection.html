@@ -388,7 +388,7 @@
                     <a class="nav-link" href="https://dbatools.io/getting-started/">get started</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/functions/">commands</a>
+                    <a class="nav-link" href="https://dbatools.io/commands/">commands</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">docs</a>
@@ -482,6 +482,7 @@
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-Credential] &lt;PSCredential&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
+    [-SkipPSRemoting]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -543,7 +544,7 @@ LocalEdition         : Desktop<br>
 Test connection to SQL2017 instance and collecting information on SQL Server using the sa login, local Administrator account is used to collect port information<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The SQL Server Instance to test connection<br></p>
+<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -571,8 +572,8 @@ Test connection to SQL2017 instance and collecting information on SQL Server usi
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Credential object used to connect to the Computer as a different user
-Utilized for gathering TCPPort information.<br></p>
+<p>Credential object used to connect to the Computer as a different user.
+Utilized for gathering PSRemoting and TCPPort information.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,6 +627,34 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="skippsremoting">-SkipPSRemoting</h5>
+<p>This switch will skip the test for PSRemoting.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

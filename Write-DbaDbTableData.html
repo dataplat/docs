@@ -388,7 +388,7 @@
                     <a class="nav-link" href="https://dbatools.io/getting-started/">get started</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/functions/">commands</a>
+                    <a class="nav-link" href="https://dbatools.io/commands/">commands</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">docs</a>
@@ -494,6 +494,7 @@
     [-KeepNulls]
     [-Truncate]
     [-BulkCopyTimeOut &lt;Int32&gt;]
+    [-ColumnMap &lt;Hashtable&gt;]
     [-EnableException]
     [-UseDynamicStringLength]
     [-WhatIf]
@@ -553,6 +554,13 @@ Special characters like &quot; must be escaped by a ` character.<br>
 In addition any actual instance of the ] character must be escaped by being duplicated.<br>
 This is an example of the type conversion in action. All process properties are converted, including special types like TimeSpan. Script properties are resolved before the type conversion starts <br>
 thanks to ConvertTo-DbaDataTable.<br></p>
+<h5 id="example-8">Example:  8</h5>
+<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance SRV1
+PS C:\&gt; $server.Invoke(&quot;CREATE TABLE tempdb.dbo.test (col1 INT, col2 VARCHAR(100))&quot;)
+PS C:\&gt; $data = Invoke-DbaQuery -SqlInstance $server -Query &quot;SELECT 123 AS value1, 'Hello world' AS value2&quot; -As DataSet
+PS C:\&gt; $data | Write-DbaDbTableData -SqlInstance $server -Table 'tempdb.dbo.test' -ColumnMap @{ value1 = 'col1' ; value2 = 'col2' }
+</code></pre>
+<p>The dataset column 'value1' is inserted into SQL column 'col1' and dataset column value2 is inserted into the SQL Column 'col2'. All other columns are ignored and therefore null or default values.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
@@ -1019,6 +1027,34 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 <tr>
 <td>Default Value</td>
 <td>5000</td>
+</tr>
+</tbody>
+</table>
+<h5 id="columnmap">-ColumnMap</h5>
+<p>By default, the bulk insert tries to automap columns. When it doesn't work as desired, this parameter will help. Check out the examples for more information.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

@@ -388,7 +388,7 @@
                     <a class="nav-link" href="https://dbatools.io/getting-started/">get started</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/functions/">commands</a>
+                    <a class="nav-link" href="https://dbatools.io/commands/">commands</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">docs</a>
@@ -570,25 +570,25 @@ PS C:\&gt; New-DbaDbTable -SqlInstance sql2017 -Database tempdb -Name testtable 
 &gt;&gt;     MaxLength = 20
 &gt;&gt;     Nullable  = $true
 &gt;&gt; }
-PS C:\&gt; $cols += @{
+&gt;&gt; $cols += @{
 &gt;&gt;     Name      = 'test2'
 &gt;&gt;     Type      = 'int'
 &gt;&gt;     Nullable  = $false
 &gt;&gt; }
-PS C:\&gt; $cols += @{
+&gt;&gt; $cols += @{
 &gt;&gt;     Name      = 'test3'
 &gt;&gt;     Type      = 'decimal'
 &gt;&gt;     MaxLength = 9
 &gt;&gt;     Nullable  = $true
 &gt;&gt; }
-PS C:\&gt; $cols += @{
+&gt;&gt; $cols += @{
 &gt;&gt;     Name      = 'test4'
 &gt;&gt;     Type      = 'decimal'
 &gt;&gt;     Precision = 8
 &gt;&gt;     Scale = 2
 &gt;&gt;     Nullable  = $false
 &gt;&gt; }
-&gt;&gt; PS C:\&gt; $cols += @{
+&gt;&gt; $cols += @{
 &gt;&gt;     Name      = 'test5'
 &gt;&gt;     Type      = 'Nvarchar'
 &gt;&gt;     MaxLength = 50
@@ -596,33 +596,33 @@ PS C:\&gt; $cols += @{
 &gt;&gt;     Default  =  'Hello'
 &gt;&gt;     DefaultName = 'DF_Name_test5'
 &gt;&gt; }
-&gt;&gt; PS C:\&gt; $cols += @{
+&gt;&gt; $cols += @{
 &gt;&gt;     Name      = 'test6'
 &gt;&gt;     Type      = 'int'
 &gt;&gt;     Nullable  =  $false
 &gt;&gt;     Default  =  '0'
 &gt;&gt; }
-&gt;&gt; PS C:\&gt; $cols += @{
+&gt;&gt; $cols += @{
 &gt;&gt;     Name      = 'test7'
 &gt;&gt;     Type      = 'smallint'
 &gt;&gt;     Nullable  =  $false
 &gt;&gt;     Default  =  100
 &gt;&gt; }
-&gt;&gt; PS C:\&gt; $cols += @{
+&gt;&gt; $cols += @{
 &gt;&gt;     Name      = 'test8'
 &gt;&gt;     Type      = 'Nchar'
 &gt;&gt;     MaxLength = 3
 &gt;&gt;     Nullable  =  $false
 &gt;&gt;     Default  =  'ABC'
 &gt;&gt; }
-&gt;&gt; PS C:\&gt; $cols += @{
+&gt;&gt; $cols += @{
 &gt;&gt;     Name      = 'test9'
 &gt;&gt;     Type      = 'char'
 &gt;&gt;     MaxLength = 4
 &gt;&gt;     Nullable  =  $false
 &gt;&gt;     Default  =  'XPTO'
 &gt;&gt; }
-&gt;&gt; PS C:\&gt; $cols += @{
+&gt;&gt; $cols += @{
 &gt;&gt;     Name      = 'test10'
 &gt;&gt;     Type      = 'datetime'
 &gt;&gt;     Nullable  =  $false

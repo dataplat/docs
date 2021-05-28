@@ -388,7 +388,7 @@
                     <a class="nav-link" href="https://dbatools.io/getting-started/">get started</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/functions/">commands</a>
+                    <a class="nav-link" href="https://dbatools.io/commands/">commands</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">docs</a>
@@ -511,6 +511,7 @@
     [[-BufferCount] &lt;Int32&gt;]
     [-IgnoreDiffBackup]
     [[-MaxDop] &lt;Int32&gt;]
+    [-ReuseSourceFolderStructure]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -1250,6 +1251,35 @@ Parameter is used as passtrough for Restore-DbaDatabase.<br></p>
 <tr>
 <td>Default Value</td>
 <td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
+<p>By default, databases will be migrated to the destination Sql Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure.
+The same structure on the SOURCE will be kept exactly, so consider this if you're migrating between different versions and use part of Microsoft's default Sql structure (MSSql12.INSTANCE, etc)<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
