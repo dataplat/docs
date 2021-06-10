@@ -500,7 +500,8 @@ This function prevents that by streaming a copy of the data in the most speedy a
     [-KeepIdentity]
     [-KeepNulls]
     [-Truncate]
-    [[-BulkCopyTimeOut] &lt;Int32&gt;]
+    [[-BulkCopyTimeout] &lt;Int32&gt;]
+    [[-CommandTimeout] &lt;Int32&gt;]
     [[-InputObject] &lt;TableViewBase[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -1117,7 +1118,7 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tr>
 </tbody>
 </table>
-<h5 id="bulkcopytimeout">-BulkCopyTimeOut</h5>
+<h5 id="bulkcopytimeout">-BulkCopyTimeout</h5>
 <p>Value in seconds for the BulkCopy operations timeout. The default is 5000 seconds.<br></p>
 <table>
 <thead>
@@ -1142,6 +1143,34 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 <tr>
 <td>Default Value</td>
 <td>5000</td>
+</tr>
+</tbody>
+</table>
+<h5 id="commandtimeout">-CommandTimeout</h5>
+<p>Gets or sets the wait time (in seconds) before terminating the attempt to execute the reader and bulk copy operation. The default is 0 seconds (no timeout).<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
 </tr>
 </tbody>
 </table>

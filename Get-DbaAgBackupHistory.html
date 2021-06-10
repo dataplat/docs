@@ -483,8 +483,8 @@ For detailed examples of the various parameters see the documentation of Get-Dba
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgBackupHistory -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;] -AvailabilityGroup &lt;String&gt;
-    [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;]
+    [-Database &lt;String[]&gt;]
+    [-ExcludeDatabase &lt;String[]&gt;]
     [-IncludeCopyOnly]
     [-Since &lt;DateTime&gt;]
     [-RecoveryFork &lt;String&gt;]
@@ -502,8 +502,8 @@ For detailed examples of the various parameters see the documentation of Get-Dba
 
 Get-DbaAgBackupHistory -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;] -AvailabilityGroup &lt;String&gt;
-    [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;]
+    [-Database &lt;String[]&gt;]
+    [-ExcludeDatabase &lt;String[]&gt;]
     [-IncludeCopyOnly]
     [-Force]
     [-Since &lt;DateTime&gt;]

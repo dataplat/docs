@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | New-DbaDbUser</title>
+    <title>dbatools docs | Set-DbaNetworkConfiguration</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for New-DbaDbUser">
+    <meta name="subtitle" content="Docs for Set-DbaNetworkConfiguration">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  New-DbaDbUser" />
-    <meta property="og:url" content="https://docs.dbatools.io/New-DbaDbUser.html" />
-    <meta property="og:description" content="dbatools docs for New-DbaDbUser" />
+    <meta property="og:title" content="dbatools docs:  Set-DbaNetworkConfiguration" />
+    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaNetworkConfiguration.html" />
+    <meta property="og:description" content="dbatools docs for Set-DbaNetworkConfiguration" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  New-DbaDbUser" />
+    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaNetworkConfiguration" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="new-dbadbuser">New-DbaDbUser</h1>
+                    <h1 id="set-dbanetworkconfiguration">Set-DbaNetworkConfiguration</h1>
 <table>
 <thead>
 <tr>
@@ -464,42 +464,44 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Frank Henninger (@osiris687)</td>
+<td>Andreas Jordan (@JordanOrdix), ordix.de</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows, Linux, macOS</td>
+<td>Windows only</td>
 </tr>
 </tbody>
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new user for the specified database.</p>
+<p>Sets the network configuration of a SQL Server instance.</p>
 <h2 id="description">Description</h2>
-<p>Creates a new user for a specified database with provided specifications.</p>
+<p>Sets the network configuration of a SQL Server instance.</p>
+<p>Parameters are available for typical tasks like enabling or disabling a protocol or switching between dynamic and static ports.
+The object returned by Get-DbaNetworkConfiguration can be used to adjust settings of the properties
+and then passed to this command via pipeline or -InputObject parameter.</p>
+<p>A change to the network configuration with SQL Server requires a restart to take effect,
+support for this can be done via the RestartService parameter.</p>
+<p>Remote SQL WMI is used by default, with PS Remoting used as a fallback.</p>
+<p>For a detailed explanation of the different properties see the documentation at:
+<a href="https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration">https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration</a></p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>New-DbaDbUser
+<pre><code>Set-DbaNetworkConfiguration
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;]
-    [-IncludeSystem]
-    [-Username &lt;String[]&gt;]
-    [-Force]
+    [-Credential &lt;PSCredential&gt;]
+    [-EnableProtocol &lt;String&gt;]
+    [-DisableProtocol &lt;String&gt;]
+    [-DynamicPortForIPAll]
+    [-StaticPortForIPAll &lt;Int32[]&gt;]
+    [-RestartService]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
     [&lt;CommonParameters&gt;]
 
-New-DbaDbUser
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;]
-    [-IncludeSystem]
-    [-Login &lt;String&gt;]
-    [-Username &lt;String[]&gt;]
-    [-Force]
+Set-DbaNetworkConfiguration
+    [-Credential &lt;PSCredential&gt;]
+    [-RestartService] -InputObject &lt;Object[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -510,20 +512,25 @@ New-DbaDbUser
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Login user1
+<pre><code>PS C:\&gt; Set-DbaNetworkConfiguration -SqlInstance sql2016 -EnableProtocol SharedMemory -RestartService
 </code></pre>
-<p>Creates a new sql user with login named user1 in the specified database.<br></p>
+<p>Ensures that the shared memory network protocol for the default instance on sql2016 is enabled.<br>
+Restarts the service if needed.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Username user1
+<pre><code>PS C:\&gt; Set-DbaNetworkConfiguration -SqlInstance sql2016\test -StaticPortForIPAll 14331, 14332 -RestartService
 </code></pre>
-<p>Creates a new sql user without login named user1 in the specified database.<br></p>
+<p>Ensures that the TCP/IP network protocol is enabled and configured to use the ports 14331 and 14332 for all IP addresses.<br>
+Restarts the service if needed.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Login Login1 -Username user1
+<pre><code>PS C:\&gt; $netConf = Get-DbaNetworkConfiguration -SqlInstance sqlserver2014a
+PS C:\&gt; $netConf.TcpIpProperties.KeepAlive = 60000
+PS C:\&gt; $netConf | Set-DbaNetworkConfiguration -RestartService -Confirm:$false
 </code></pre>
-<p>Creates a new sql user named user1 mapped to Login1 in the specified database.<br></p>
+<p>Changes the value of the KeepAlive property for the default instance on sqlserver2014a and restarts the service.<br>
+Does not prompt for confirmation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. Defaults to the default instance on localhost.<br></p>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -550,11 +557,38 @@ New-DbaDbUser
 </tr>
 </tbody>
 </table>
+<h5 id="inputobject">-InputObject</h5>
+<p>The output object from Get-DbaNetworkConfiguration.
+Get-DbaNetworkConfiguration has to be run with -OutputType Full (default) to get the complete object.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance.<br></p>
+<h5 id="credential">-Credential</h5>
+<p>Credential object used to connect to the Computer as a different user.<br></p>
 <table>
 <thead>
 <tr>
@@ -581,8 +615,105 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<h5 id="enableprotocol">-EnableProtocol</h5>
+<p>Enables one of the following network protocols: SharedMemory, NamedPipes, TcpIp.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>SharedMemory,NamedPipes,TcpIp</td>
+</tr>
+</tbody>
+</table>
+<h5 id="disableprotocol">-DisableProtocol</h5>
+<p>Disables one of the following network protocols: SharedMemory, NamedPipes, TcpIp.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>SharedMemory,NamedPipes,TcpIp</td>
+</tr>
+</tbody>
+</table>
+<h5 id="dynamicportforipall">-DynamicPortForIPAll</h5>
+<p>Configures the instance to listen on a dynamic port for all IP addresses.
+Will enable the TCP/IP protocol if needed.
+Will set TcpIpProperties.ListenAll to $true if needed.
+Will reset the last used dynamic port if already set.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="staticportforipall">-StaticPortForIPAll</h5>
+<p>Configures the instance to listen on one or more static ports for all IP addresses.
+Will enable the TCP/IP protocol if needed.
+Will set TcpIpProperties.ListenAll to $true if needed.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,120 +740,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server. By default, system databases are excluded.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="includesystem">-IncludeSystem</h5>
-<p>If this switch is enabled, the user will be added to system databases.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="login">-Login</h5>
-<p>When specified, the user will be associated to this SQL login and have the same name as the Login.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="username">-Username</h5>
-<p>When specified, the user will have this name.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="force">-Force</h5>
-<p>If user exists, drop and recreate.<br></p>
+<h5 id="restartservice">-RestartService</h5>
+<p>Every change to the network configuration needs a service restart to take effect.
+This switch will force a restart of the service if the network configuration has changed.<br></p>
 <table>
 <thead>
 <tr>
@@ -836,9 +856,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/New-DbaDbUser.ps1">New-DbaDbUser</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaNetworkConfiguration.ps1">Set-DbaNetworkConfiguration</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#New-DbaDbUser">New-DbaDbUser</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaNetworkConfiguration">Set-DbaNetworkConfiguration</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

@@ -476,7 +476,8 @@
 <h2 id="synopsis">Synopsis</h2>
 <p>Verifies that your non-dynamic disks are aligned according to physical constraints.</p>
 <h2 id="description">Description</h2>
-<p>Returns $true or $false by default for one server. Returns Server name and IsBestPractice for more than one server.</p>
+<p>Verifies that your non-dynamic disks are aligned according to physical constraints.</p>
+<p>Returns one row per computer, partition and stripe size with.</p>
 <p>Please refer to your storage vendor best practices before following any advice below.</p>
 <p>By default issues with disk alignment should be resolved by a new installation of Windows Server 2008, Windows Vista, or later operating systems, but verifying disk alignment continues to be recommended as a best practice.
 While some versions of Windows use different starting alignments, if you are starting anew 1MB is generally the best practice offset for current operating systems (because it ensures that the partition offset % common stripe unit sizes == 0 )</p>
