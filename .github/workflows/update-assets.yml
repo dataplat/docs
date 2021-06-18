@@ -1,9 +1,11 @@
 name: update-assets
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types: [rebuild-pages]
 
 jobs:
-  bumpversion:
+  rebuild:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -25,21 +27,6 @@ jobs:
           }
           Remove-Item ./dbatools.psd1 -Force
 
-      - name: commit if file changed
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: bumping doc version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  rebuildpages:
-    runs-on: ubuntu-latest
-    needs: bumpversion
-    steps:
-      - name: Checkout multiple_pages
-        uses: actions/checkout@v2
-        with:
-          ref: master
       - name: "Build docs"
         working-directory: assets
         shell: pwsh
