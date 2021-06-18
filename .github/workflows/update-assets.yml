@@ -6,52 +6,53 @@ jobs:
   bumpversion:
     runs-on: ubuntu-latest
     steps:
-    - name: 'Checkout'
-      uses: 'actions/checkout@v2.3.4'
-      with:
-        ref: master
-    - name: 'Bump version based on manifest'
-      working-directory: assets
-      shell: pwsh
-      run: |
-        curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/dbatools.psd1
-        $modData = Import-PowerShellDataFile dbatools.psd1
-        $ext = Get-Content .\external.json | ConvertFrom-Json
-        echo "Module version: $($modData.ModuleVersion)"
-        echo "External version: $($ext.Version)"
-        if ($ext.Version -ne $modData.ModuleVersion) {
-          $ext.Version = $modData.ModuleVersion
-          $ext | ConvertTo-Json | Out-File ./external.json
-        }
-        Remove-Item ./dbatools.psd1 -Force
+      - name: "Checkout"
+        uses: "actions/checkout@v2.3.4"
+        with:
+          ref: master
+      - name: "Bump version based on manifest"
+        working-directory: assets
+        shell: pwsh
+        run: |
+          curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/dbatools.psd1
+          $modData = Import-PowerShellDataFile dbatools.psd1
+          $ext = Get-Content .\external.json | ConvertFrom-Json
+          echo "Module version: $($modData.ModuleVersion)"
+          echo "External version: $($ext.Version)"
+          if ($ext.Version -ne $modData.ModuleVersion) {
+            $ext.Version = $modData.ModuleVersion
+            $ext | ConvertTo-Json | Out-File ./external.json
+          }
+          Remove-Item ./dbatools.psd1 -Force
 
-    - name: commit if file changed
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: bumping doc version
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: commit if file changed
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: bumping doc version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   rebuildpages:
     runs-on: ubuntu-latest
+    needs: bumpversion
     steps:
-    - name: Checkout multiple_pages
-      uses: actions/checkout@v2
-      with:
-        ref: master
-    - name: 'Build docs'
-      working-directory: assets
-      shell: pwsh
-      run: |
-        curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/bin/dbatools-index.json
-        $OutputFolder = (Get-Location).Path
-        Write-Host "running in $OutputFolder"
-        Get-ChildItem $OutputFolder 
-        ./templates/to_md.ps1
-      
-    - name: commit if file changed
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: refreshing docs pages
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout multiple_pages
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: "Build docs"
+        working-directory: assets
+        shell: pwsh
+        run: |
+          curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/bin/dbatools-index.json
+          $OutputFolder = (Get-Location).Path
+          Write-Host "running in $OutputFolder"
+          Get-ChildItem $OutputFolder 
+          ./templates/to_md.ps1
+
+      - name: commit if file changed
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: refreshing docs pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
