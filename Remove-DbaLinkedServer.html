@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Remove-DbaAgentSchedule</title>
+    <title>dbatools docs | Remove-DbaLinkedServer</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Remove-DbaAgentSchedule">
+    <meta name="subtitle" content="Docs for Remove-DbaLinkedServer">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Remove-DbaAgentSchedule" />
-    <meta property="og:url" content="https://docs.dbatools.io/Remove-DbaAgentSchedule.html" />
-    <meta property="og:description" content="dbatools docs for Remove-DbaAgentSchedule" />
+    <meta property="og:title" content="dbatools docs:  Remove-DbaLinkedServer" />
+    <meta property="og:url" content="https://docs.dbatools.io/Remove-DbaLinkedServer.html" />
+    <meta property="og:description" content="dbatools docs for Remove-DbaLinkedServer" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Remove-DbaAgentSchedule" />
+    <meta name="twitter:text:title" content="dbatools docs:  Remove-DbaLinkedServer" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="remove-dbaagentschedule">Remove-DbaAgentSchedule</h1>
+                    <h1 id="remove-dbalinkedserver">Remove-DbaLinkedServer</h1>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Sander Stad (@sqlstad), sqlstad.nl</td>
+<td>Adam Lancaster <a href="https://github.com/lancasteradam">https://github.com/lancasteradam</a></td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,27 +474,16 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes job schedules.</p>
+<p>Removes a linked server.</p>
 <h2 id="description">Description</h2>
-<p>Removes the schedules that have passed through the pipeline.</p>
-<p>If not used with a pipeline, Get-DbaAgentSchedule will be executed with the parameters provided
-and the returned schedules will be removed.</p>
+<p>Removes a linked server.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Remove-DbaAgentSchedule
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Schedule &lt;String[]&gt;]
-    [-ScheduleUid &lt;String[]&gt;]
-    [-Id &lt;Int32[]&gt;]
+<pre><code>Remove-DbaLinkedServer
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-LinkedServer] &lt;String[]&gt;]
+    [[-InputObject] &lt;Object[]&gt;]
     [-EnableException]
-    [-Force]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-Remove-DbaAgentSchedule -InputObject &lt;ScheduleBase[]&gt;
-    [-EnableException]
-    [-Force]
     [-WhatIf]
     [-Confirm]
     [&lt;CommonParameters&gt;]
@@ -504,32 +493,22 @@ Remove-DbaAgentSchedule -InputObject &lt;ScheduleBase[]&gt;
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Remove-DbaAgentSchedule -SqlInstance sql1 -Schedule weekly
+<pre><code>PS C:\&gt; Remove-DbaLinkedServer -SqlInstance sql01 -LinkedServer linkedServer1 -Confirm:$false
 </code></pre>
-<p>Remove the schedule weekly.<br></p>
+<p>Removes the linked server &quot;linkedServer1&quot; from the sql01 instance.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Remove-DbaAgentSchedule -SqlInstance sql1 -Schedule weekly -Force
+<pre><code>PS C:\&gt; $linkedServer1 = Get-DbaLinkedServer -SqlInstance sql01 -LinkedServer linkedServer1
+PS C:\&gt; $linkedServer1 | Remove-DbaLinkedServer -Confirm:$false
 </code></pre>
-<p>Remove the schedule weekly even if the schedule is being used by jobs.<br></p>
+<p>Passes in a linked server via pipeline and removes it from the sql01 instance.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Remove-DbaAgentSchedule -SqlInstance sql1 -Schedule daily, weekly
+<pre><code>PS C:\&gt; Connect-DbaInstance -SqlInstance sql01 | Remove-DbaLinkedServer -LinkedServer linkedServer1 -Confirm:$false
 </code></pre>
-<p>Remove multiple schedules.<br></p>
-<h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Remove-DbaAgentSchedule -SqlInstance sql1, sql2, sql3 -Schedule daily, weekly
-</code></pre>
-<p>Remove the schedule on multiple servers for multiple schedules.<br></p>
-<h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Get-DbaAgentSchedule -SqlInstance sql1 -Schedule sched1, sched2, sched3 | Remove-DbaAgentSchedule
-</code></pre>
-<p>Remove the schedules using a pipeline.<br></p>
-<h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; Remove-DbaAgentSchedule -SqlInstance sql1, sql2, sql3 -ScheduleUid 'bf57fa7e-7720-4936-85a0-87d279db7eb7'
-</code></pre>
-<p>Remove the schedules using the schedule uid.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<p>Removes the linked server &quot;linkedServer1&quot; from the sql01 instance, which is passed in via pipeline.<br></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function
+to be executed against multiple SQL Server instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -544,7 +523,7 @@ Remove-DbaAgentSchedule -InputObject &lt;ScheduleBase[]&gt;
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -556,35 +535,6 @@ Remove-DbaAgentSchedule -InputObject &lt;ScheduleBase[]&gt;
 </tr>
 </tbody>
 </table>
-<h5 id="inputobject">-InputObject</h5>
-<p>A collection of schedules (such as returned by Get-DbaAgentSchedule), to be removed.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -615,9 +565,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="schedule">-Schedule</h5>
-<p>The name of the job schedule.
-Please note that there can be several schedules with the same name. These differ then only in the Id or the ScheduleUid.<br></p>
+<h5 id="linkedserver">-LinkedServer</h5>
+<p>The name(s) of the linked server(s).<br></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +577,7 @@ Please note that there can be several schedules with the same name. These differ
 <tbody>
 <tr>
 <td>Alias</td>
-<td>Schedules,Name</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>
@@ -644,36 +593,8 @@ Please note that there can be several schedules with the same name. These differ
 </tr>
 </tbody>
 </table>
-<h5 id="scheduleuid">-ScheduleUid</h5>
-<p>The unique identifier of the schedule.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>Uid</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="id">-Id</h5>
-<p>The Id of the schedule.<br></p>
+<h5 id="inputobject">-InputObject</h5>
+<p>Allows piping from Connect-DbaInstance and Get-DbaLinkedServer.<br></p>
 <table>
 <thead>
 <tr>
@@ -692,7 +613,7 @@ Please note that there can be several schedules with the same name. These differ
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -704,34 +625,6 @@ Please note that there can be several schedules with the same name. These differ
 <p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
 This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="force">-Force</h5>
-<p>Remove the schedules even if they where used in one or more jobs.<br></p>
 <table>
 <thead>
 <tr>
@@ -815,9 +708,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Remove-DbaAgentSchedule.ps1">Remove-DbaAgentSchedule</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Remove-DbaLinkedServer.ps1">Remove-DbaLinkedServer</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Remove-DbaAgentSchedule">Remove-DbaAgentSchedule</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Remove-DbaLinkedServer">Remove-DbaLinkedServer</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

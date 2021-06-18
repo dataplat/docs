@@ -478,6 +478,8 @@
 <h2 id="description">Description</h2>
 <p>Creates tracer tokens to determine latency between the publisher/distributor and the distributor/subscriber
 for all transactional publications for a server, database, or publication.</p>
+<p>All replication commands need SSMS 17 installed and are therefore currently not supported.
+Have a look at this issue to get more information: <a href="https://github.com/sqlcollaborative/dbatools/issues/7428">https://github.com/sqlcollaborative/dbatools/issues/7428</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaRepLatency
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

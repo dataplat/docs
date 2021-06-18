@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Chrissy LeMaire (@cl), netnerds.net</td>
+<td>Chrissy LeMaire (@cl), netnerds.net , Andreas Jordan (@JordanOrdix), ordix.de</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,21 +474,50 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Adds a database to an availability group on a SQL Server instance.</p>
+<p>Adds database(s) to an Availability Group on a SQL Server instance.</p>
 <h2 id="description">Description</h2>
-<p>Adds a database to an availability group on a SQL Server instance.</p>
-<p>Before joining the replica databases to the availability group, the databases will be initialized with automatic seeding or full/log backup.</p>
+<p>Adds database(s) to an Availability Group on a SQL Server instance.</p>
+<p>After checking for prerequisites, the commands runs these five steps for every database:
+Step 1: Setting seeding mode if needed.
+If -SeedingMode is used and the current seeding mode of the replica is not in the desired mode, the seeding mode of the replica is changed.
+The seeding mode will not be changed back but stay in this mode.
+If the seeding mode is changed to Automatic, the necessary rigths to create databases will be granted.
+Step 2: Running backup and restore if needed.
+Action is only taken for replicas with a desired seeding mode of Manual and where the database does not yet exist.
+If -UseLastBackup is used, the restore will be performed based on the backup history of the database.
+Otherwise a full and log backup will be taken at the primary and those will be restored at the replica.
+Step 3: Add the database to the Availability Group on the primary replica.
+Step 4: Add the database to the Availability Group on the secondary replicas.
+Step 5: Wait for the database to finish joining the Availability Group on the secondary replicas.</p>
+<p>Use Test-DbaAvailabilityGroup with -AddDatabase to test if all prerequisites are met.</p>
+<p>In case you need a special setup for the database at the replicas, please do the backup restore part</p>
+<p>If you have special requirements for the setup for the database at the replicas,
+perform the backup and restore part with Backup-DbaDatabase and Restore-DbaDatabase in advance.
+Please make sure that the last log backup has been restored before running Add-DbaAgDatabase.</p>
+<p>Known limitations:</p>
+<p>It is not possible to use this command to add the database to a newly added replica,
+because the command fails if the database is already part of the Availability Group.
+This limitation will be removed in a later version.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Add-DbaAgDatabase
-    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
-    [[-SqlCredential] &lt;PSCredential&gt;]
+    [-SqlInstance] &lt;DbaInstanceParameter&gt;
+    [-SqlCredential &lt;PSCredential&gt;] -AvailabilityGroup &lt;String&gt; -Database &lt;String[]&gt;
+    [-Secondary &lt;DbaInstanceParameter[]&gt;]
+    [-SecondarySqlCredential &lt;PSCredential&gt;]
+    [-SeedingMode &lt;String&gt;]
+    [-SharedPath &lt;String&gt;]
+    [-UseLastBackup]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+Add-DbaAgDatabase
     [-AvailabilityGroup] &lt;String&gt;
-    [[-Database] &lt;String[]&gt;]
-    [[-Secondary] &lt;DbaInstanceParameter[]&gt;]
-    [[-SecondarySqlCredential] &lt;PSCredential&gt;]
-    [[-InputObject] &lt;Database[]&gt;]
-    [[-SeedingMode] &lt;String&gt;]
-    [[-SharedPath] &lt;String&gt;]
+    [-Secondary &lt;DbaInstanceParameter[]&gt;]
+    [-SecondarySqlCredential &lt;PSCredential&gt;] -InputObject &lt;Database[]&gt;
+    [-SeedingMode &lt;String&gt;]
+    [-SharedPath &lt;String&gt;]
     [-UseLastBackup]
     [-EnableException]
     [-WhatIf]
@@ -516,8 +545,8 @@
 </code></pre>
 <p>Adds SharePoint databases as found in SharePoint_Config_2019 on sqlcluster to ag1 on sqlcluster<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
-<h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>The availability group where the databases will be added.<br></p>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The primary replica of the Availability Group. Server version must be SQL Server version 2012 or higher.<br></p>
 <table>
 <thead>
 <tr>
@@ -544,10 +573,8 @@
 </tr>
 </tbody>
 </table>
-<h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.
-This should be the primary replica.<br></p>
+<h5 id="availabilitygroup">-AvailabilityGroup</h5>
+<p>The name of the Availability Group where the databases will be added.<br></p>
 <table>
 <thead>
 <tr>
@@ -562,7 +589,7 @@ This should be the primary replica.<br></p>
 </tr>
 <tr>
 <td>Required</td>
-<td>False</td>
+<td>True</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -574,6 +601,63 @@ This should be the primary replica.<br></p>
 </tr>
 </tbody>
 </table>
+<h5 id="database">-Database</h5>
+<p>The database(s) to add.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Enables piping from Get-DbaDatabase, Get-DbaDbSharePoint and more.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -604,36 +688,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="database">-Database</h5>
-<p>The database or databases to add.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h5 id="secondary">-Secondary</h5>
-<p>Not required - the command will figure this out. But if you'd like to be explicit about replicas, this will help.<br></p>
+<p>Not required - the command will figure this out. But use this parameter if secondary replicas listen on a non default port.<br></p>
 <table>
 <thead>
 <tr>
@@ -690,38 +746,10 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase, Get-DbaDbSharePoint and more.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h5 id="seedingmode">-SeedingMode</h5>
 <p>Specifies how the secondary replica will be initially seeded.
 Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.
-Manual requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica.
+Manual uses full and log backup to initially transfer the data to the secondary replica. The command skips this if the database is found in restoring state at the secondary replica.
 If not specified, the setting from the availability group replica will be used. Otherwise the setting will be updated.<br></p>
 <table>
 <thead>
@@ -745,7 +773,7 @@ If not specified, the setting from the availability group replica will be used. 
 </tr>
 <tr>
 <td>Default Value</td>
-<td>Manual</td>
+<td></td>
 </tr>
 <tr>
 <td>Accepted Values</td>
@@ -784,7 +812,7 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="uselastbackup">-UseLastBackup</h5>
-<p>Use the last full and log backup of database. A log backup must be the last backup.<br></p>
+<p>Use the last full and log backup of the database. A log backup must be the last backup.<br></p>
 <table>
 <thead>
 <tr>
