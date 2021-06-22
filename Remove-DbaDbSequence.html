@@ -474,17 +474,24 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a sequence.</p>
+<p>Removes sequences.</p>
 <h2 id="description">Description</h2>
-<p>Removes a sequence in the database(s) specified.</p>
+<p>Removes the sequences that have passed through the pipeline.</p>
+<p>If not used with a pipeline, Get-DbaDbSequence will be executed with the parameters provided
+and the returned sequences will be removed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbSequence
-    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
-    [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Database] &lt;String[]&gt;]
-    [-Name] &lt;String&gt;
-    [[-Schema] &lt;String&gt;]
-    [[-InputObject] &lt;Database[]&gt;]
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Database &lt;String[]&gt;]
+    [-Name &lt;String[]&gt;]
+    [-Schema &lt;String[]&gt;]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+Remove-DbaDbSequence -InputObject &lt;Sequence[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -499,12 +506,12 @@
 </code></pre>
 <p>Removes the sequence TestSequence in the TestDB database on the sqldev01 instance.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sqldev01 -Database TestDB | Remove-DbaDbSequence -Name TestSequence -Schema TestSchema
+<pre><code>PS C:\&gt; Get-DbaDbSequence -SqlInstance SRV1 | Out-GridView -Title 'Select sequence(s) to drop' -OutputMode Multiple | Remove-DbaDbSequence
 </code></pre>
-<p>Using a pipeline this command Removes the sequence named TestSchema.TestSequence in the TestDB database on the sqldev01 instance.<br></p>
+<p>Using a pipeline this command gets all sequences on SRV1, lets the user select those to remove and then removes the selected sequences.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
-<h5 id="name">-Name</h5>
-<p>The name of the sequence.<br></p>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -531,10 +538,8 @@
 </tr>
 </tbody>
 </table>
-<h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function
-to be executed against multiple SQL Server instances.<br></p>
+<h5 id="inputobject">-InputObject</h5>
+<p>Allows piping from Get-DbaDbSequence.<br></p>
 <table>
 <thead>
 <tr>
@@ -549,11 +554,11 @@ to be executed against multiple SQL Server instances.<br></p>
 </tr>
 <tr>
 <td>Required</td>
-<td>False</td>
+<td>True</td>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -561,6 +566,7 @@ to be executed against multiple SQL Server instances.<br></p>
 </tr>
 </tbody>
 </table>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -619,8 +625,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="schema">-Schema</h5>
-<p>The name of the schema for the sequence. The default is dbo.<br></p>
+<h5 id="name">-Name</h5>
+<p>The name(s) of the sequence(s).<br></p>
 <table>
 <thead>
 <tr>
@@ -643,12 +649,12 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>dbo</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<h5 id="schema">-Schema</h5>
+<p>The name(s) of the schema for the sequence(s).<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +673,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>false</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -734,7 +740,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<p>Prompts you for confirmation before executing any changing operations within the command.
+This is the default. Use -Confirm:$false to suppress these prompts.<br></p>
 <table>
 <thead>
 <tr>
