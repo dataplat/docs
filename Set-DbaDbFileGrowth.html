@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Set-DbaPowerPlan</title>
+    <title>dbatools docs | Set-DbaDbFileGrowth</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Set-DbaPowerPlan">
+    <meta name="subtitle" content="Docs for Set-DbaDbFileGrowth">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Set-DbaPowerPlan" />
-    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaPowerPlan.html" />
-    <meta property="og:description" content="dbatools docs for Set-DbaPowerPlan" />
+    <meta property="og:title" content="dbatools docs:  Set-DbaDbFileGrowth" />
+    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaDbFileGrowth.html" />
+    <meta property="og:description" content="dbatools docs for Set-DbaDbFileGrowth" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaPowerPlan" />
+    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaDbFileGrowth" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="set-dbapowerplan">Set-DbaPowerPlan</h1>
+                    <h1 id="set-dbadbfilegrowth">Set-DbaDbFileGrowth</h1>
 <table>
 <thead>
 <tr>
@@ -468,24 +468,25 @@
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows only</td>
+<td>Windows, Linux, macOS</td>
 </tr>
 </tbody>
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the SQL Server OS's Power Plan.</p>
+<p>Sets databases to a non-default growth and growth type. 64MB by default.</p>
+<p>To get the file growth, use Get-DbaDbFile.</p>
 <h2 id="description">Description</h2>
-<p>Sets the SQL Server OS's Power Plan. Defaults to High Performance which is best practice.</p>
-<p>If your organization uses a different power plan that is considered best practice, specify -PowerPlan.</p>
-<p>References:
-<a href="https://support.microsoft.com/en-us/kb/2207548">https://support.microsoft.com/en-us/kb/2207548</a>
-<a href="http://www.sqlskills.com/blogs/glenn/windows-power-plan-effects-on-newer-intel-processors/">http://www.sqlskills.com/blogs/glenn/windows-power-plan-effects-on-newer-intel-processors/</a></p>
+<p>Sets databases to a non-default growth and growth type. 64MB by default.</p>
+<p>To get the file growth, use Get-DbaDbFile.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Set-DbaPowerPlan
-    [-ComputerName] &lt;DbaInstanceParameter[]&gt;
-    [[-Credential] &lt;PSCredential&gt;]
-    [[-PowerPlan] &lt;String&gt;]
+<pre><code>Set-DbaDbFileGrowth
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Database] &lt;String[]&gt;]
+    [[-GrowthType] &lt;String&gt;]
+    [[-Growth] &lt;Int32&gt;]
+    [[-InputObject] &lt;Database[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -496,58 +497,24 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Set-DbaPowerPlan -ComputerName sql2017
+<pre><code>PS C:\&gt; Set-DbaDbFileGrowth -SqlInstance sql2016 -Database test  -GrowthType GB -Growth 1
 </code></pre>
-<p>Sets the Power Plan to High Performance. Skips it if its already set.<br></p>
+<p>Sets the test database on sql2016 to a growth of 1GB<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; 'Server1', 'Server2' | Set-DbaPowerPlan -PowerPlan Balanced
+<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sql2016 -Database test | Set-DbaDbFileGrowth -GrowthType GB -Growth 1
 </code></pre>
-<p>Sets the Power Plan to Balanced for Server1 and Server2. Skips it if its already set.<br></p>
+<p>Sets the test database on sql2016 to a growth of 1GB<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; $cred = Get-Credential 'Domain\User'
-PS C:\&gt; Set-DbaPowerPlan -ComputerName sql2017 -Credential $cred
+<pre><code>PS C:\&gt; Get-DbaDatabase | Set-DbaDbFileGrowth -SqlInstance sql2017, sql2016, sql2012
 </code></pre>
-<p>Connects using alternative Windows credential and sets the Power Plan to High Performance. Skips it if its already set.<br></p>
+<p>Sets all database files on sql2017, sql2016, sql2012 to 64MB.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Set-DbaPowerPlan -ComputerName sqlcluster -PowerPlan 'Maximum Performance'
+<pre><code>PS C:\&gt; Set-DbaDbFileGrowth -SqlInstance sql2017, sql2016, sql2012 -Database test -WhatIf
 </code></pre>
-<p>Sets the Power Plan to &quot;Maximum Performance&quot;. Skips it if its already set.<br></p>
-<h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Get-DbaPowerPlan -ComputerName oldserver | Set-DbaPowerPlan -ComputerName newserver1, newserver2
-</code></pre>
-<p>Uses the Power Plan of oldserver as best practice and sets the Power Plan of newserver1 and newserver2 accordingly.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
-<h5 id="computername">-ComputerName</h5>
-<p>The server(s) to set the Power Plan on.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue, ByPropertyName)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>Shows what would happen if the command were executed<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="credential">-Credential</h5>
-<p>Specifies a PSCredential object to use in authenticating to the server(s), instead of the current user account.<br></p>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -566,7 +533,7 @@ PS C:\&gt; Set-DbaPowerPlan -ComputerName sql2017 -Credential $cred
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByPropertyName)</td>
+<td>false</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -574,9 +541,10 @@ PS C:\&gt; Set-DbaPowerPlan -ComputerName sql2017 -Credential $cred
 </tr>
 </tbody>
 </table>
-<h5 id="powerplan">-PowerPlan</h5>
-<p>If your organization uses a different Power Plan that's considered best practice, specify it here.
-Use Get-DbaPowerPlan -List to get all available Power Plans on a computer.<br></p>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
 <tr>
@@ -587,7 +555,7 @@ Use Get-DbaPowerPlan -List to get all available Power Plans on a computer.<br></
 <tbody>
 <tr>
 <td>Alias</td>
-<td>CustomPowerPlan,RecommendedPowerPlan</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>
@@ -595,7 +563,123 @@ Use Get-DbaPowerPlan -List to get all available Power Plans on a computer.<br></
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByPropertyName)</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="database">-Database</h5>
+<p>The name of the target databases<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="growthtype">-GrowthType</h5>
+<p>The growth type, MB by default - valid values are MB, KB, GB or TB.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>MB</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>KB,MB,GB,TB</td>
+</tr>
+</tbody>
+</table>
+<h5 id="growth">-Growth</h5>
+<p>The growth value. 64 by default.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>64</td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Allows piping from Get-DbaDatabase<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -634,7 +718,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="whatif">-WhatIf</h5>
-<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
+<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run<br></p>
 <table>
 <thead>
 <tr>
@@ -662,7 +746,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
+<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state<br></p>
 <table>
 <thead>
 <tr>
@@ -690,9 +774,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaPowerPlan.ps1">Set-DbaPowerPlan</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaDbFileGrowth.ps1">Set-DbaDbFileGrowth</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaPowerPlan">Set-DbaPowerPlan</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaDbFileGrowth">Set-DbaDbFileGrowth</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

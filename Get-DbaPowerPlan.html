@@ -476,11 +476,13 @@
 <h2 id="synopsis">Synopsis</h2>
 <p>Gets the Power Plan settings for compliance with best practices, which recommend High Performance for SQL Server.</p>
 <h2 id="description">Description</h2>
-<p>Gets the Power Plan settings on a computer against best practices recommendations.</p>
+<p>Gets the Power Plan settings on a computer against best practices recommendations.
+To display all available Power Plans on a computer, use the parameter List.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPowerPlan
     [-ComputerName] &lt;DbaInstanceParameter[]&gt;
     [[-Credential] &lt;PSCredential&gt;]
+    [-List]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -496,6 +498,10 @@
 <pre><code>PS C:\&gt; Get-DbaPowerPlan -ComputerName sql2017 -Credential ad\admin
 </code></pre>
 <p>Gets the Power Plan settings for sql2017 using an alternative credential<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Get-DbaPowerPlan -ComputerName sql2017 -List
+</code></pre>
+<p>Gets all available Power Plans on sql2017<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
 <p>The server(s) to check Power Plan settings on.<br></p>
@@ -551,6 +557,34 @@
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="list">-List</h5>
+<p>Return all available Power Plans.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

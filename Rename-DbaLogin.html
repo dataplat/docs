@@ -474,16 +474,18 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Rename-DbaLogin will rename login and database mapping for a specified login.</p>
+<p>Rename-DbaLogin will rename logins</p>
 <h2 id="description">Description</h2>
 <p>There are times where you might want to rename a login that was copied down, or if the name is not descriptive for what it does.</p>
 <p>It can be a pain to update all of the mappings for a specific user, this does it for you.</p>
+<p>Rename-DbaLogin will rename logins and database mappings for a specified login if Force is specified.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Rename-DbaLogin
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
     [-Login] &lt;String&gt;
     [-NewLogin] &lt;String&gt;
+    [-Force]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -618,6 +620,34 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>Will attempt to rename any associated database users.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

@@ -476,16 +476,17 @@
 <h2 id="synopsis">Synopsis</h2>
 <p>Checks the Power Plan settings for compliance with best practices, which recommend High Performance for SQL Server.</p>
 <h2 id="description">Description</h2>
-<p>Checks the Power Plan settings on a computer against best practices recommendations. If one server is checked, only $true or $false is returned. If multiple servers are checked, each server's name and an isBestPractice field are returned.</p>
+<p>Checks the Power Plan settings on a computer against best practices recommendations.
+Each server's name, the active and the recommended Power Plan and an IsBestPractice field are returned.</p>
+<p>If your organization uses a different Power Plan that is considered best practice, specify -PowerPlan.</p>
 <p>References:
 <a href="https://support.microsoft.com/en-us/kb/2207548">https://support.microsoft.com/en-us/kb/2207548</a>
 <a href="http://www.sqlskills.com/blogs/glenn/windows-power-plan-effects-on-newer-intel-processors/">http://www.sqlskills.com/blogs/glenn/windows-power-plan-effects-on-newer-intel-processors/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaPowerPlan
-    [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
+    [-ComputerName] &lt;DbaInstanceParameter[]&gt;
     [[-Credential] &lt;PSCredential&gt;]
-    [[-CustomPowerPlan] &lt;String&gt;]
-    [[-InputObject] &lt;PSObject[]&gt;]
+    [[-PowerPlan] &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -498,10 +499,18 @@
 </code></pre>
 <p>Checks the Power Plan settings for sqlserver2014a and indicates whether or not it complies with best practices.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Test-DbaPowerPlan -ComputerName sqlserver2014a -CustomPowerPlan 'Maximum Performance'
+<pre><code>PS C:\&gt; Test-DbaPowerPlan -ComputerName sqlserver2014a -PowerPlan 'Maximum Performance'
 </code></pre>
-<p>Checks the Power Plan settings for sqlserver2014a and indicates whether or not it is set to the custom plan &quot;Maximum Performance&quot;.<br></p>
-<h3 id="optional-parameters">Optional Parameters</h3>
+<p>Checks the Power Plan settings for sqlserver2014a and indicates whether or not it is set to the Power Plan &quot;Maximum Performance&quot;.<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; 'newserver1', 'newserver2' | Test-DbaPowerPlan
+</code></pre>
+<p>Checks the Power Plan settings for newserver1 and newserver2 and indicates whether or not they comply with best practices.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Get-DbaPowerPlan -ComputerName oldserver | Test-DbaPowerPlan -ComputerName newserver1, newserver2
+</code></pre>
+<p>Uses the Power Plan of oldserver as best practice and tests the Power Plan of newserver1 and newserver2 against that.<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
 <p>The server(s) to check Power Plan settings on.<br></p>
 <table>
@@ -518,18 +527,19 @@
 </tr>
 <tr>
 <td>Required</td>
-<td>False</td>
+<td>True</td>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>true (ByValue, ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>$env:COMPUTERNAME</td>
+<td></td>
 </tr>
 </tbody>
 </table>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="credential">-Credential</h5>
 <p>Specifies a PSCredential object to use in authenticating to the server(s), instead of the current user account.<br></p>
 <table>
@@ -550,7 +560,7 @@
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -558,8 +568,8 @@
 </tr>
 </tbody>
 </table>
-<h5 id="custompowerplan">-CustomPowerPlan</h5>
-<p>If your organization uses a custom power plan that's considered best practice, specify it here.<br></p>
+<h5 id="powerplan">-PowerPlan</h5>
+<p>If your organization uses a different power plan that's considered best practice, specify it here.<br></p>
 <table>
 <thead>
 <tr>
@@ -570,7 +580,7 @@
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>CustomPowerPlan</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -578,35 +588,7 @@
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaPowerPlan<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>true (ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>
