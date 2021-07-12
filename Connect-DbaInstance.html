@@ -1257,7 +1257,9 @@ Valid values include &quot;CaptureSql&quot;, &quot;ExecuteAndCaptureSql&quot; an
 </tbody>
 </table>
 <h5 id="statementtimeout">-StatementTimeout</h5>
-<p>Sets the number of seconds a statement is given to run before failing with a timeout error.<br></p>
+<p>Sets the number of seconds a statement is given to run before failing with a timeout error.
+The default is read from the configuration 'sql.execution.timeout' that is currently set to 0 (unlimited).
+If you want to change this to 10 minutes, use: Set-DbatoolsConfig -FullName 'sql.execution.timeout' -Value 600<br></p>
 <table>
 <thead>
 <tr>
