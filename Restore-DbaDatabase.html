@@ -481,7 +481,7 @@ backup sets. It will then filter those files down to a set that can perform the 
 full restore chain to the point in time requested by the caller.</p>
 <p>The function defaults to working on a remote instance. This means that all paths passed in must be relative to the remote instance.
 XpDirTree will be used to perform the file scans</p>
-<p>Various means can be used to pass in a list of files to be considered. The default is to non recursively scan the folder
+<p>Various means can be used to pass in a list of files to be considered. The default is to recursively scan the folder
 passed in.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Restore-DbaDatabase -SqlInstance &lt;DbaInstanceParameter&gt;
@@ -495,6 +495,7 @@ passed in.</p>
     [-WithReplace]
     [-KeepReplication]
     [-XpDirTree]
+    [-NoXpDirRecurse]
     [-OutputScriptOnly]
     [-VerifyOnly]
     [-MaintenanceSolutionBackup]
@@ -627,7 +628,7 @@ credential MyAzureCredential held on instance Server1\instance1<br></p>
 </code></pre>
 <p>Will attempt to restore the backups from <a href="http://demo.blob.core.windows.net/backups/dbbackup.bak">http://demo.blob.core.windows.net/backups/dbbackup.bak</a> if a SAS credential with the name <a href="http://demo.blob.core.windows.net/backups">http://demo.blob.core.windows.net/backups</a> exists on server1\instance1<br></p>
 <h5 id="example-9">Example:  9</h5>
-<pre><code>PS C:\&gt; $File = Get-ChildItem c:\backups, \\server1\backups -recurse
+<pre><code>PS C:\&gt; $File = Get-ChildItem c:\backups, \\server1\backups
 PS C:\&gt; $File | Restore-DbaDatabase -SqlInstance Server1\Instance -UseDestinationDefaultDirectories
 </code></pre>
 <p>This will take all of the files found under the folders c:\backups and \server1\backups, and pipeline them into<br>
@@ -694,6 +695,11 @@ PS C:\&gt; Restore-DbaDatabase -SqlInstance server1 -Path \\ServerName\ShareName
 </code></pre>
 <p>Restores 'database' to 'server1' and moves the files to new locations. The format for the $FileStructure HashTable is the file logical name as the Key, and the new location as the Value.<br></p>
 <h5 id="example-16">Example:  16</h5>
+<pre><code>PS C:\&gt; $filemap = Get-DbaDbFileMapping -SqlInstance sql2016 -Database test
+PS C:\&gt; Get-ChildItem \\nas\db\backups\test | Restore-DbaDatabase -SqlInstance sql2019 -Database test -FileMapping $filemap.FileMapping
+</code></pre>
+<p>Restores test to sql2019 using the file structure built from the existing database on sql2016<br></p>
+<h5 id="example-17">Example:  17</h5>
 <pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1 -Path \\ServerName\ShareName\File -DatabaseName database -DatabaseName database -StopMark OvernightStart -StopBefore -StopAfterDate Get-Date('21:00
 </code></pre>
 <p>10/05/2020')<br>
@@ -730,7 +736,7 @@ Note that Date time needs to be specified in your local SQL Server culture<br></
 </table>
 <h5 id="path">-Path</h5>
 <p>Path to SQL Server backup files.
-Paths passed in as strings will be scanned using the desired method, default is a non recursive folder scan
+Paths passed in as strings will be scanned using the desired method, default is a recursive folder scan
 Accepts multiple paths separated by ','
 Or it can consist of FileInfo objects, such as the output of Get-ChildItem or Get-Item. This allows you to work with
 your own file structures as needed<br></p>
@@ -1107,6 +1113,34 @@ You must have sysadmin role membership on the instance for this to work.<br></p>
 </tr>
 </tbody>
 </table>
+<h5 id="noxpdirrecurse">-NoXpDirRecurse</h5>
+<p>If specified, prevents the XpDirTree process from recursing (its default behaviour)<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 <h5 id="outputscriptonly">-OutputScriptOnly</h5>
 <p>Switch indicates that ONLY T-SQL scripts should be generated, no restore takes place
 Due to the limitations of SMO, this switch cannot be combined with VeriyOnly, and a warning will be raised if it is.<br></p>
@@ -1218,7 +1252,7 @@ This Parameter is exclusive with DestinationDataDirectory<br></p>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -1516,7 +1550,7 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="directoryrecurse">-DirectoryRecurse</h5>
-<p>If specified the specified directory will be recursed into<br></p>
+<p>If specified the specified directory will be recursed into (overriding the default behaviour)<br></p>
 <table>
 <thead>
 <tr>

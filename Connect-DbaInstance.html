@@ -590,13 +590,9 @@ ConnectionString is an alias of SqlInstance, so you can use -SqlInstance $connst
 PS C:\&gt; $server = Connect-DbaInstance -SqlInstance psdbatools.database.windows.net -Database abc -SqCredential $cred -Tenant guidheremaybename
 PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&quot;
 </code></pre>
-<p>When connecting from a non-Azure workstation, logs into Azure using Universal with MFA Support with a username and password, then performs a sample query.<br></p>
+<p>When connecting from a non-Azure workstation, logs into Azure using Universal with MFA Support with a username and password, then performs a sample query.<br>
+Note that generating access tokens is not supported on Core, so when using Tenant on Core, we rewrite the connection string with Active Directory Service Principal authentication instead.<br></p>
 <h5 id="example-14">Example:  14</h5>
-<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance psdbatools.database.windows.net -Database abc -AuthenticationType 'AD Universal with MFA Support'
-PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&quot;
-</code></pre>
-<p>When connecting from an Azure VM with .NET 4.7.2 and higher, logs into Azure using Universal with MFA Support, then performs a sample query.<br></p>
-<h5 id="example-15">Example:  15</h5>
 <pre><code>PS C:\&gt; $cred = Get-Credential guid-app-id-here # appid for username, clientsecret for password
 PS C:\&gt; Set-DbatoolsConfig -FullName azure.tenantid -Value 'guidheremaybename' -Passthru | Register-DbatoolsConfig
 PS C:\&gt; Set-DbatoolsConfig -FullName azure.appid -Value $cred.Username -Passthru | Register-DbatoolsConfig
@@ -606,22 +602,8 @@ PS C:\&gt; Connect-DbaInstance -SqlInstance psdbatools.database.windows.net
 </code></pre>
 <p>Permanently sets some app id config values. To set them temporarily (just for a session), remove -Passthru | Register-DbatoolsConfig<br>
 When connecting from a non-Azure workstation or an Azure VM without .NET 4.7.2 and higher, logs into Azure using Universal with MFA Support, then performs a sample query.<br></p>
-<h5 id="example-16">Example:  16</h5>
-<pre><code>PS C:\&gt; Set-DbatoolsConfig -FullName sql.connection.experimental -Value $true
-PS C:\&gt; $sqlcred = Get-Credential sqladmin
-PS C:\&gt; $server = Connect-DbaInstance -SqlInstance sql2014 -SqlCredential $sqlcred
-PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&quot;
-</code></pre>
-<p>Use the new code path for handling connections. Especially when you have problems with connection pooling, try this.<br>
-We also have added additional -Verbose and -Debug output to help us understand your problem if you open an issue related to connections.<br>
-For additional information about how the new code path works, please have a look at the code: <a href="https://github.com/sqlcollaborative/dbatools/blob/development/functions/Connect-DbaInstance.ps1">https://github.com/sqlcollaborative/dbatools/blob/development/functions/Connect-DbaInstance.ps1</a><br>
-If you like to use the new code path permanently, register this config:<br></p>
-<pre><code>PS C:\&gt; Set-DbatoolsConfig -FullName sql.connection.experimental -Value $true -Passthru | Register-DbatoolsConfig
-</code></pre>
-<p>As we would like to use the new code path as a default in the future, please give feedback if you are using it in your environment.<br></p>
-<h5 id="example-17">Example:  17</h5>
-<pre><code>PS C:\&gt; Set-DbatoolsConfig -FullName sql.connection.experimental -Value $true
-PS C:\&gt; $azureCredential = Get-Credential -Message 'Azure Credential'
+<h5 id="example-15">Example:  15</h5>
+<pre><code>PS C:\&gt; $azureCredential = Get-Credential -Message 'Azure Credential'
 PS C:\&gt; $azureAccount = Connect-AzAccount -Credential $azureCredential
 PS C:\&gt; $azureToken = (Get-AzAccessToken -ResourceUrl https://database.windows.net).Token
 PS C:\&gt; $azureInstance = &quot;YOURSERVER.database.windows.net&quot;
@@ -630,8 +612,12 @@ PS C:\&gt; $server = Connect-DbaInstance -SqlInstance $azureInstance -Database $
 PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&quot;
 </code></pre>
 <p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken.<br>
-Note that the token is valid for only one hour and cannot be renewed automatically.<br>
-This is only available in the new code path for handling connections (see example above).<br></p>
+Note that the token is valid for only one hour and cannot be renewed automatically.<br></p>
+<h5 id="example-16">Example:  16</h5>
+<pre><code>PS C:\&gt; $token = (New-DbaAzAccessToken -Type RenewableServicePrincipal -Subtype AzureSqlDb -Tenant $tenantid -Credential $cred).GetAccessToken()
+PS C:\&gt; Connect-DbaInstance -SqlInstance sample.database.windows.net -Accesstoken $token
+</code></pre>
+<p>Uses dbatools to generate the access token for an Azure SQL Database, then logs in using that AccessToken.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
@@ -1429,7 +1415,7 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </tbody>
 </table>
 <h5 id="authenticationtype">-AuthenticationType</h5>
-<p>Basically used to force AD Universal with MFA Support when other types have been detected<br></p>
+<p>Not used in the current version.<br></p>
 <table>
 <thead>
 <tr>
@@ -1489,7 +1475,7 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </tbody>
 </table>
 <h5 id="thumbprint">-Thumbprint</h5>
-<p>Thumbprint for connections to Azure MSI<br></p>
+<p>Not used in the current version.<br></p>
 <table>
 <thead>
 <tr>
@@ -1517,7 +1503,7 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </tbody>
 </table>
 <h5 id="store">-Store</h5>
-<p>Store where the Azure MSI certificate is stored<br></p>
+<p>Not used in the current version.<br></p>
 <table>
 <thead>
 <tr>
@@ -1550,8 +1536,7 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </table>
 <h5 id="accesstoken">-AccessToken</h5>
 <p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken, that has to be generated with Get-AzAccessToken.
-Note that the token is valid for only one hour and cannot be renewed automatically.
-This is only available in the new code path for handling connections (see the last two examples).<br></p>
+Note that the token is valid for only one hour and cannot be renewed automatically.<br></p>
 <table>
 <thead>
 <tr>

@@ -488,6 +488,7 @@ passed in.</p>
     [-DatabaseName &lt;String[]&gt;]
     [-SourceInstance &lt;String[]&gt;]
     [-NoXpDirTree]
+    [-NoXpDirRecurse]
     [-DirectoryRecurse]
     [-EnableException]
     [-MaintenanceSolution]
@@ -705,7 +706,36 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="noxpdirtree">-NoXpDirTree</h5>
-<p>If this switch is set, then Files will be parsed as locally files. This can cause failures if the running user can see files that the parsing SQL Instance cannot<br></p>
+<p>If specified, this switch will cause the files to be parsed as local files to the SQL Server Instance provided. Errors may be observed when the SQL Server Instance cannot access the files being
+parsed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="noxpdirrecurse">-NoXpDirRecurse</h5>
+<p>If specified, this switch changes xp_dirtree behavior to not recurse the folder structure.<br></p>
 <table>
 <thead>
 <tr>

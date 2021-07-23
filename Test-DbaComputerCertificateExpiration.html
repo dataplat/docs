@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaManagementObject</title>
+    <title>dbatools docs | Test-DbaComputerCertificateExpiration</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Get-DbaManagementObject">
+    <meta name="subtitle" content="Docs for Test-DbaComputerCertificateExpiration">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaManagementObject" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaManagementObject.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaManagementObject" />
+    <meta property="og:title" content="dbatools docs:  Test-DbaComputerCertificateExpiration" />
+    <meta property="og:url" content="https://docs.dbatools.io/Test-DbaComputerCertificateExpiration.html" />
+    <meta property="og:description" content="dbatools docs for Test-DbaComputerCertificateExpiration" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaManagementObject" />
+    <meta name="twitter:text:title" content="dbatools docs:  Test-DbaComputerCertificateExpiration" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbamanagementobject">Get-DbaManagementObject</h1>
+                    <h1 id="test-dbacomputercertificateexpiration">Test-DbaComputerCertificateExpiration</h1>
 <table>
 <thead>
 <tr>
@@ -464,25 +464,30 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Ben Miller (@DBAduck), <a href="http://dbaduck.com">http://dbaduck.com</a></td>
+<td>Chrissy LeMaire (@cl), netnerds.net</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows, Linux, macOS</td>
+<td>Windows only</td>
 </tr>
 </tbody>
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Mangaement Object versions installed on the machine.</p>
+<p>Tests for certificates that are expiring soon</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaManagementObject returns an object with the Version and the
-Add-Type Load Template for each version on the server.</p>
+<p>Tests for certificates that are expiring soon</p>
+<p>By default, it tests candidates that are ideal for using with SQL Server's network encryption</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaManagementObject
+<pre><code>Test-DbaComputerCertificateExpiration
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
     [[-Credential] &lt;PSCredential&gt;]
-    [[-VersionNumber] &lt;Int32&gt;]
+    [[-Store] &lt;String[]&gt;]
+    [[-Folder] &lt;String[]&gt;]
+    [[-Type] &lt;String&gt;]
+    [[-Path] &lt;String&gt;]
+    [[-Thumbprint] &lt;String[]&gt;]
+    [[-Threshold] &lt;Int32&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -491,16 +496,21 @@ Add-Type Load Template for each version on the server.</p>
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaManagementObject
+<pre><code>PS C:\&gt; Test-DbaComputerCertificateExpiration
 </code></pre>
-<p>Returns all versions of SMO on the computer<br></p>
+<p>Gets computer certificates on localhost that are candidates for using with SQL Server's network encryption then checks to see if they'll be expiring within 30 days<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaManagementObject -VersionNumber 13
+<pre><code>PS C:\&gt; Test-DbaComputerCertificateExpiration -ComputerName sql2016 -Threshold 90
 </code></pre>
-<p>Returns just the version specified. If the version does not exist then it will return nothing.<br></p>
+<p>Gets computer certificates on sql2016 that are candidates for using with SQL Server's network encryption then checks to see if they'll be expiring within 90 days<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Test-DbaComputerCertificateExpiration -ComputerName sql2016 -Thumbprint 8123472E32AB412ED4288888B83811DB8F504DED, 04BFF8B3679BB01A986E097868D8D494D70A46D6
+</code></pre>
+<p>Gets computer certificates on sql2016 that match thumbprints 8123472E32AB412ED4288888B83811DB8F504DED or 04BFF8B3679BB01A986E097868D8D494D70A46D6 then checks to see if they'll be expiring within 30 <br>
+days<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The name of the Windows Server(s) you would like to check.<br></p>
+<p>The target SQL Server instance or instances. Defaults to localhost. If target is a cluster, you must specify the distinct nodes.<br></p>
 <table>
 <thead>
 <tr>
@@ -528,7 +538,7 @@ Add-Type Load Template for each version on the server.</p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>This command uses Windows credentials. This parameter allows you to connect remotely as a different user.<br></p>
+<p>Allows you to login to $ComputerName using alternative credentials.<br></p>
 <table>
 <thead>
 <tr>
@@ -555,9 +565,8 @@ Add-Type Load Template for each version on the server.</p>
 </tr>
 </tbody>
 </table>
-<h5 id="versionnumber">-VersionNumber</h5>
-<p>This is the specific version number you are looking for. The function will look
-for that version only.<br></p>
+<h5 id="store">-Store</h5>
+<p>Certificate store - defaults to LocalMachine<br></p>
 <table>
 <thead>
 <tr>
@@ -580,7 +589,154 @@ for that version only.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>0</td>
+<td>LocalMachine</td>
+</tr>
+</tbody>
+</table>
+<h5 id="folder">-Folder</h5>
+<p>Certificate folder - defaults to My (Personal)<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>My</td>
+</tr>
+</tbody>
+</table>
+<h5 id="type">-Type</h5>
+<p>The type of certificates to return. All, Service or SQL Server.
+All is all certificates
+Service is certificates that are candidates for SQL Server services (But may be for IIS, etc)
+SQL Server is certificates currently in use by SQL Server<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Service</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>All,Service,SQL Server</td>
+</tr>
+</tbody>
+</table>
+<h5 id="path">-Path</h5>
+<p>The path to a certificate - basically changes the path into a certificate object<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="thumbprint">-Thumbprint</h5>
+<p>Return certificate based on thumbprint<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="threshold">-Threshold</h5>
+<p>Number of days before expiration to warn. Defaults to 30.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>30</td>
 </tr>
 </tbody>
 </table>
@@ -615,9 +771,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Get-DbaManagementObject.ps1">Get-DbaManagementObject</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Test-DbaComputerCertificateExpiration.ps1">Test-DbaComputerCertificateExpiration</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Get-DbaManagementObject">Get-DbaManagementObject</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Test-DbaComputerCertificateExpiration">Test-DbaComputerCertificateExpiration</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

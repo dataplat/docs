@@ -476,8 +476,10 @@
 <h2 id="synopsis">Synopsis</h2>
 <p>Sets SQL Agent job owners with a desired login if jobs do not match that owner.</p>
 <h2 id="description">Description</h2>
-<p>This function alters SQL Agent Job ownership to match a specified login if their current owner does not match the target login. By default, the target login will be 'sa',
-but the the user may specify a different login for ownership. This be applied to all jobs or only to a select collection of jobs.</p>
+<p>This function alters SQL Agent Job ownership to match a specified login if their current owner does not match the target login.</p>
+<p>By default, the target login will be 'sa',
+but the the user may specify a different login for ownership.</p>
+<p>This be applied to all local (non MultiServer) jobs or only to a select collection of jobs.</p>
 <p>Best practice reference: <a href="https://www.itprotoday.com/sql-server-tip-assign-ownership-jobs-sysadmin-account">https://www.itprotoday.com/sql-server-tip-assign-ownership-jobs-sysadmin-account</a></p>
 <p>If the 'sa' account was renamed, the new name will be used.</p>
 <h2 id="syntax">Syntax</h2>

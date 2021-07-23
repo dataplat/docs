@@ -480,7 +480,6 @@
 <h2 id="syntax">Syntax</h2>
 <pre><code>Read-DbaXEFile
     [-Path] &lt;Object[]&gt;
-    [-Exact]
     [-Raw]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -531,35 +530,6 @@
 </tbody>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="exact">-Exact</h5>
-<p>If this switch is enabled, only an exact search will be used for the Path. By default, this command will add a wildcard to the Path because Eventing uses the file name as a template and adds
-characters.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
 <h5 id="raw">-Raw</h5>
 <p>If this switch is enabled, the Microsoft.SqlServer.XEvent.Linq.PublishedEvent enumeration object will be returned.<br></p>
 <table>

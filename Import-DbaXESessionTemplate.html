@@ -468,7 +468,7 @@
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows only</td>
+<td>Windows, Linux, macOS</td>
 </tr>
 </tbody>
 </table>
@@ -486,6 +486,7 @@
     [[-Template] &lt;String[]&gt;]
     [[-TargetFilePath] &lt;String&gt;]
     [[-TargetFileMetadataPath] &lt;String&gt;]
+    [[-StartUpState] &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -494,19 +495,24 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Import-DbaXESessionTemplate -SqlInstance sql2017 -Template db_query_wait_stats
+<pre><code>PS C:\&gt; Import-DbaXESessionTemplate -SqlInstance sql2017 -Template &quot;15 Second IO Error&quot;
 </code></pre>
-<p>Creates a new XESession named db_query_wait_stats from the dbatools repository to the SQL Server sql2017.<br></p>
+<p>Creates a new XESession named &quot;15 Second IO Error&quot; from the dbatools repository to the SQL Server sql2017.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Import-DbaXESessionTemplate -SqlInstance sql2017 -Template db_query_wait_stats -Name &quot;Query Wait Stats&quot;
+<pre><code>PS C:\&gt; Import-DbaXESessionTemplate -SqlInstance sql2017 -Template &quot;Index Page Splits&quot; -StartUpState On
 </code></pre>
-<p>Creates a new XESession named &quot;Query Wait Stats&quot; using the db_query_wait_stats template.<br></p>
+<p>Creates a new XESession named &quot;Index Page Splits&quot; from the dbatools repository to the SQL Server sql2017, starts the XESession and sets the StartUpState to On so that it starts on the next server <br>
+restart.<br></p>
 <h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Import-DbaXESessionTemplate -SqlInstance sql2017 -Template &quot;Query Wait Statistics&quot; -Name &quot;Query Wait Stats&quot; | Start-DbaXESession
+</code></pre>
+<p>Creates a new XESession named &quot;Query Wait Stats&quot; using the Query Wait Statistics template, then immediately starts it.<br></p>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Get-DbaXESession -SqlInstance sql2017 -Session 'Database Health 2014' | Remove-DbaXESession
 PS C:\&gt; Import-DbaXESessionTemplate -SqlInstance sql2017 -Template 'Database Health 2014' | Start-DbaXESession
 </code></pre>
 <p>Removes a session if it exists, then recreates it using a template.<br></p>
-<h5 id="example-4">Example:  4</h5>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Get-DbaXESessionTemplate | Out-GridView -PassThru | Import-DbaXESessionTemplate -SqlInstance sql2017
 </code></pre>
 <p>Allows you to select a Session template then import to an instance named sql2017.<br></p>
@@ -711,6 +717,38 @@ This path is relative to the destination directory<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="startupstate">-StartUpState</h5>
+<p>Specifies the start up state of the session. The default is Off.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Off</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>On,Off</td>
 </tr>
 </tbody>
 </table>

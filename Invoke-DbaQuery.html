@@ -481,12 +481,12 @@
 It was designed to be more convenient to use in a pipeline and to behave in a way consistent with the rest of our functions.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaQuery
-    [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String&gt;] -Query &lt;String&gt;
     [-QueryTimeout &lt;Int32&gt;]
     [-As &lt;String&gt;]
-    [-SqlParameters &lt;IDictionary&gt;]
+    [-SqlParameter &lt;PSObject[]&gt;]
     [-CommandType {Text | StoredProcedure | TableDirect}]
     [-AppendServerInstance]
     [-MessagesToOutput]
@@ -496,27 +496,27 @@ It was designed to be more convenient to use in a pipeline and to behave in a wa
     [&lt;CommonParameters&gt;]
 
 Invoke-DbaQuery
-    [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;String&gt;]
-    [-QueryTimeout &lt;Int32&gt;] -File &lt;Object[]&gt;
-    [-As &lt;String&gt;]
-    [-SqlParameters &lt;IDictionary&gt;]
-    [-CommandType {Text | StoredProcedure | TableDirect}]
-    [-AppendServerInstance]
-    [-MessagesToOutput]
-    [-InputObject &lt;Database[]&gt;]
-    [-ReadOnly]
-    [-EnableException]
-    [&lt;CommonParameters&gt;]
-
-Invoke-DbaQuery
-    [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String&gt;]
     [-QueryTimeout &lt;Int32&gt;] -SqlObject &lt;SqlSmoObject[]&gt;
     [-As &lt;String&gt;]
-    [-SqlParameters &lt;IDictionary&gt;]
+    [-SqlParameter &lt;PSObject[]&gt;]
+    [-CommandType {Text | StoredProcedure | TableDirect}]
+    [-AppendServerInstance]
+    [-MessagesToOutput]
+    [-InputObject &lt;Database[]&gt;]
+    [-ReadOnly]
+    [-EnableException]
+    [&lt;CommonParameters&gt;]
+
+Invoke-DbaQuery
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Database &lt;String&gt;]
+    [-QueryTimeout &lt;Int32&gt;] -File &lt;Object[]&gt;
+    [-As &lt;String&gt;]
+    [-SqlParameter &lt;PSObject[]&gt;]
     [-CommandType {Text | StoredProcedure | TableDirect}]
     [-AppendServerInstance]
     [-MessagesToOutput]
@@ -546,7 +546,7 @@ Invoke-DbaQuery
 </code></pre>
 <p>Runs the sql commands stored in rebuild.sql against all accessible databases of the instances &quot;server1&quot;, &quot;server1\nordwind&quot; and &quot;server2&quot;<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance . -Query 'SELECT * FROM users WHERE Givenname = @name' -SqlParameters @{ Name = &quot;Maria&quot; }
+<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance . -Query 'SELECT * FROM users WHERE Givenname = @name' -SqlParameter @{ Name = &quot;Maria&quot; }
 </code></pre>
 <p>Executes a simple query against the users table using SQL Parameters.<br>
 This avoids accidental SQL Injection and is the safest way to execute queries with dynamic content.<br>
@@ -558,7 +558,7 @@ The inserted text will always be treated as string content, and not as a referen
 </code></pre>
 <p>Executes a query with ReadOnly application intent on aglistener1.<br></p>
 <h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance &quot;server1&quot; -Database tempdb -Query &quot;Example_SP&quot; -SqlParameters @{ Name = &quot;Maria&quot; } -CommandType StoredProcedure
+<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance &quot;server1&quot; -Database tempdb -Query &quot;Example_SP&quot; -SqlParameter @{ Name = &quot;Maria&quot; } -CommandType StoredProcedure
 </code></pre>
 <p>Executes a stored procedure Example_SP using SQL Parameters<br></p>
 <h5 id="example-8">Example:  8</h5>
@@ -567,9 +567,30 @@ The inserted text will always be treated as string content, and not as a referen
 <p>&quot;StartDate&quot; = $startdate;<br>
 &quot;EndDate&quot; = $enddate;<br>
 };<br></p>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance &quot;server1&quot; -Database tempdb -Query &quot;Example_SP&quot; -SqlParameters $QueryParameters -CommandType StoredProcedure
+<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance &quot;server1&quot; -Database tempdb -Query &quot;Example_SP&quot; -SqlParameter $QueryParameters -CommandType StoredProcedure
 </code></pre>
 <p>Executes a stored procedure Example_SP using multiple SQL Parameters<br></p>
+<h5 id="example-9">Example:  9</h5>
+<pre><code>PS C:\&gt; $inparam = @()
+PS C:\&gt; $inparam += [pscustomobject]@{
+&gt;&gt;     somestring = 'string1'
+&gt;&gt;     somedate = '2021-07-15T01:02:00'
+&gt;&gt; }
+PS C:\&gt; $inparam += [pscustomobject]@{
+&gt;&gt;     somestring = 'string2'
+&gt;&gt;     somedate = '2021-07-15T02:03:00'
+&gt;&gt; }
+&gt;&gt; $inparamAsDataTable = ConvertTo-DbaDataTable -InputObject $inparam
+PS C:\&gt; New-DbaSqlParameter -SqlDbType structured -Value $inparamAsDataTable -TypeName 'dbatools_tabletype'
+PS C:\&gt; Invoke-DbaQuery -SqlInstance localhost -Database master -CommandType StoredProcedure -Query my_proc -SqlParameter $inparamAsDataTable
+</code></pre>
+<p>Creates an TVP input parameter and uses it to invoke a stored procedure.<br></p>
+<h5 id="example-10">Example:  10</h5>
+<pre><code>PS C:\&gt; $output = New-DbaSqlParameter -ParameterName json_result -SqlDbType NVarChar -Size -1 -Direction Output
+PS C:\&gt; Invoke-DbaQuery -SqlInstance localhost -Database master -CommandType StoredProcedure -Query my_proc -SqlParameter $output
+PS C:\&gt; $output.Value
+</code></pre>
+<p>Creates an output parameter and uses it to invoke a stored procedure.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="query">-Query</h5>
 <p>Specifies one or more queries to be run. The queries can be Transact-SQL, XQuery statements, or sqlcmd commands. Multiple queries in a single batch may be separated by a semicolon or a GO
@@ -804,8 +825,8 @@ PSObject and PSObjectArray output introduces overhead but adds flexibility for w
 </tr>
 </tbody>
 </table>
-<h5 id="sqlparameters">-SqlParameters</h5>
-<p>Specifies a hashtable of parameters for parameterized SQL queries.  <a href="http://blog.codinghorror.com/give-me-parameterized-sql-or-give-me-death/">http://blog.codinghorror.com/give-me-parameterized-sql-or-give-me-death/</a><br></p>
+<h5 id="sqlparameter">-SqlParameter</h5>
+<p>Specifies a hashtable of parameters or output from New-DbaSqlParameter for parameterized SQL queries.  <a href="http://blog.codinghorror.com/give-me-parameterized-sql-or-give-me-death/">http://blog.codinghorror.com/give-me-parameterized-sql-or-give-me-death/</a><br></p>
 <table>
 <thead>
 <tr>
@@ -816,7 +837,7 @@ PSObject and PSObjectArray output introduces overhead but adds flexibility for w
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>SqlParameters</td>
 </tr>
 <tr>
 <td>Required</td>

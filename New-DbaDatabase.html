@@ -503,6 +503,9 @@
     [[-SecondaryFileMaxSize] &lt;Int32&gt;]
     [[-SecondaryFileCount] &lt;Int32&gt;]
     [[-DefaultFileGroup] &lt;String&gt;]
+    [[-DataFileSuffix] &lt;String&gt;]
+    [[-LogFileSuffix] &lt;String&gt;]
+    [[-SecondaryDataFileSuffix] &lt;String&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -1079,6 +1082,90 @@ Valid options are: Simple, Full, BulkLogged.<br></p>
 <tr>
 <td>Accepted Values</td>
 <td>Primary,Secondary</td>
+</tr>
+</tbody>
+</table>
+<h5 id="datafilesuffix">-DataFileSuffix</h5>
+<p>The data file suffix. Defaults to &quot;_PRIMARY&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>_PRIMARY</td>
+</tr>
+</tbody>
+</table>
+<h5 id="logfilesuffix">-LogFileSuffix</h5>
+<p>The log file suffix. Defaults to &quot;_Log&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>_Log</td>
+</tr>
+</tbody>
+</table>
+<h5 id="secondarydatafilesuffix">-SecondaryDataFileSuffix</h5>
+<p>The secondary data file suffix. Defaults to &quot;_MainData&quot;<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>_MainData</td>
 </tr>
 </tbody>
 </table>

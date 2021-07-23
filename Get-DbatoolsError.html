@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaManagementObject</title>
+    <title>dbatools docs | Get-DbatoolsError</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Get-DbaManagementObject">
+    <meta name="subtitle" content="Docs for Get-DbatoolsError">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaManagementObject" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaManagementObject.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaManagementObject" />
+    <meta property="og:title" content="dbatools docs:  Get-DbatoolsError" />
+    <meta property="og:url" content="https://docs.dbatools.io/Get-DbatoolsError.html" />
+    <meta property="og:description" content="dbatools docs for Get-DbatoolsError" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaManagementObject" />
+    <meta name="twitter:text:title" content="dbatools docs:  Get-DbatoolsError" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbamanagementobject">Get-DbaManagementObject</h1>
+                    <h1 id="get-dbatoolserror">Get-DbatoolsError</h1>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Ben Miller (@DBAduck), <a href="http://dbaduck.com">http://dbaduck.com</a></td>
+<td>Chrissy LeMaire (@cl)</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,16 +474,16 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Mangaement Object versions installed on the machine.</p>
+<p>Returns detailed dbatools-related error information</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaManagementObject returns an object with the Version and the
-Add-Type Load Template for each version on the server.</p>
+<p>Returns detailed dbatools-related error information</p>
+<p>By default, it only returns the most recent error ($error[0])</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaManagementObject
-    [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
-    [[-Credential] &lt;PSCredential&gt;]
-    [[-VersionNumber] &lt;Int32&gt;]
-    [-EnableException]
+<pre><code>Get-DbatoolsError
+    [[-First] &lt;Int32&gt;]
+    [[-Last] &lt;Int32&gt;]
+    [[-Skip] &lt;Int32&gt;]
+    [-All]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -491,73 +491,20 @@ Add-Type Load Template for each version on the server.</p>
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaManagementObject
+<pre><code>PS C:\&gt; Get-DbatoolsError
 </code></pre>
-<p>Returns all versions of SMO on the computer<br></p>
+<p>Returns detailed error information for the most recent dbatools error<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaManagementObject -VersionNumber 13
+<pre><code>PS C:\&gt; Get-DbatoolsError -All
 </code></pre>
-<p>Returns just the version specified. If the version does not exist then it will return nothing.<br></p>
+<p>Returns detailed error information for all dbatools-related errors<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Get-DbatoolsError -Last 1
+</code></pre>
+<p>Returns the oldest dbatools-related error in the pipeline<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="computername">-ComputerName</h5>
-<p>The name of the Windows Server(s) you would like to check.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>$env:COMPUTERNAME</td>
-</tr>
-</tbody>
-</table>
-<h5 id="credential">-Credential</h5>
-<p>This command uses Windows credentials. This parameter allows you to connect remotely as a different user.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="versionnumber">-VersionNumber</h5>
-<p>This is the specific version number you are looking for. The function will look
-for that version only.<br></p>
+<h5 id="first">-First</h5>
+<p>Works like <code>Select-Object -First 1</code><br></p>
 <table>
 <thead>
 <tr>
@@ -584,10 +531,64 @@ for that version only.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
-Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<h5 id="last">-Last</h5>
+<p>Works like <code>Select-Object -Last 1</code><br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="skip">-Skip</h5>
+<p>Works like <code>Select-Object -Skip 1</code><br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="all">-All</h5>
+<p>Returns detailed information for all dbatools-related errors<br></p>
 <table>
 <thead>
 <tr>
@@ -615,9 +616,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Get-DbaManagementObject.ps1">Get-DbaManagementObject</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Get-DbatoolsError.ps1">Get-DbatoolsError</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Get-DbaManagementObject">Get-DbaManagementObject</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Get-DbatoolsError">Get-DbatoolsError</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

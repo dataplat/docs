@@ -488,6 +488,7 @@
     [[-ExcludeCategory] &lt;String[]&gt;]
     [-ExcludeDisabledJobs]
     [-IncludeExecution]
+    [[-Type] &lt;String[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -780,6 +781,38 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="type">-Type</h5>
+<p>The type of job: MultiServer or Local. Defaults to both MultiServer and Local.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>@(&quot;MultiServer&quot;, &quot;Local&quot;)</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>MultiServer,Local</td>
 </tr>
 </tbody>
 </table>

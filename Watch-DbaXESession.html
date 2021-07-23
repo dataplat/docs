@@ -480,22 +480,10 @@
 <p>Thanks to Dave Mason (@BeginTry) for some straightforward code samples <a href="https://itsalljustelectrons.blogspot.be/2017/01/SQL-Server-Extended-Event-Handling-Via-Powershell.html">https://itsalljustelectrons.blogspot.be/2017/01/SQL-Server-Extended-Event-Handling-Via-Powershell.html</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Watch-DbaXESession
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Session &lt;String&gt;]
-    [-Raw]
-    [-EnableException]
-    [&lt;CommonParameters&gt;]
-
-Watch-DbaXESession -SqlInstance &lt;DbaInstanceParameter&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Session &lt;String&gt;]
-    [-Raw]
-    [-EnableException]
-    [&lt;CommonParameters&gt;]
-
-Watch-DbaXESession
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Session &lt;String&gt;] -InputObject &lt;Session&gt;
+    [[-SqlInstance] &lt;DbaInstanceParameter&gt;]
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Session] &lt;String&gt;]
+    [[-InputObject] &lt;Session[]&gt;]
     [-Raw]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -516,7 +504,7 @@ Watch-DbaXESession
 <pre><code>PS C:\&gt; Get-DbaXESession -SqlInstance sql2017 -Session system_health | Start-DbaXESession | Watch-DbaXESession | Export-Csv -NoTypeInformation -Path C:\temp\system_health.csv
 </code></pre>
 <p>Exports live events to CSV. Ctrl-C may not not cancel out of this. The fastest way to do so is to stop the session.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2008 or higher.<br></p>
 <table>
@@ -533,11 +521,11 @@ Watch-DbaXESession
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>false</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -545,35 +533,6 @@ Watch-DbaXESession
 </tr>
 </tbody>
 </table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Accepts an XESession object returned by Get-DbaXESession.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -616,7 +575,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Name</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -632,8 +591,36 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Accepts an XESession object returned by Get-DbaXESession.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h5 id="raw">-Raw</h5>
-<p>If this switch is enabled, the Microsoft.SqlServer.XEvent.Linq.QueryableXEventData enumeration object is returned.<br></p>
+<p>If this switch is enabled, the enumeration object is returned.<br></p>
 <table>
 <thead>
 <tr>

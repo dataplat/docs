@@ -476,6 +476,7 @@
 <h2 id="syntax">Syntax</h2>
 <pre><code>Join-DbaPath
     [-Path] &lt;String&gt;
+    [-SqlInstance &lt;DbaInstanceParameter&gt;]
     [-Child &lt;String[]&gt;]
     [&lt;CommonParameters&gt;]
 
@@ -518,6 +519,34 @@ Returns 'C:/temp/Foo/Bar' on non-windows.<br></p>
 </tbody>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>Optional -- tests to see if destination SQL Server is Linux or Windows<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h5 id="child">-Child</h5>
 <p>Any number of child paths to add.<br></p>
 <table>

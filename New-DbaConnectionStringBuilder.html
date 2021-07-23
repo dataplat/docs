@@ -468,29 +468,30 @@
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows only</td>
+<td>Windows, Linux, macOS</td>
 </tr>
 </tbody>
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns a System.Data.SqlClient.SqlConnectionStringBuilder with the string specified</p>
+<p>Returns a Microsoft.Data.SqlClient.SqlConnectionStringBuilder with the string specified</p>
 <h2 id="description">Description</h2>
-<p>Creates a System.Data.SqlClient.SqlConnectionStringBuilder from a connection string.</p>
+<p>Creates a Microsoft.Data.SqlClient.SqlConnectionStringBuilder from a connection string.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaConnectionStringBuilder
     [[-ConnectionString] &lt;String[]&gt;]
     [[-ApplicationName] &lt;String&gt;]
     [[-DataSource] &lt;String&gt;]
+    [[-SqlCredential] &lt;PSCredential&gt;]
     [[-InitialCatalog] &lt;String&gt;]
-    [[-IntegratedSecurity] &lt;Nullable`1&gt;]
+    [-IntegratedSecurity]
     [[-UserName] &lt;String&gt;]
     [[-Password] &lt;String&gt;]
     [-MultipleActiveResultSets]
-    [[-ColumnEncryptionSetting] {Disabled | Enabled}]
+    [[-ColumnEncryptionSetting] &lt;String&gt;]
+    [-Legacy]
+    [-NonPooledConnection]
     [[-WorkstationId] &lt;String&gt;]
-    [-WhatIf]
-    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -564,7 +565,36 @@ Returns a connection string builder that can be used to connect to the local sql
 </tbody>
 </table>
 <h5 id="datasource">-DataSource</h5>
-<p>The Sql Server to connect to.<br></p>
+<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>SqlInstance</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Credential object used to connect to the SQL Server Instance as a different user. This can be a Windows or SQL Server account. Windows users are determined by the existence of a backslash, so if you
+are intending to use an alternative Windows connection instead of a SQL login, ensure it contains a backslash.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +633,7 @@ Returns a connection string builder that can be used to connect to the local sql
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Database</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -620,7 +650,7 @@ Returns a connection string builder that can be used to connect to the local sql
 </tbody>
 </table>
 <h5 id="integratedsecurity">-IntegratedSecurity</h5>
-<p>Set to true to use windows authentication.<br></p>
+<p>Sets to use windows authentication.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,12 +673,12 @@ Returns a connection string builder that can be used to connect to the local sql
 </tr>
 <tr>
 <td>Default Value</td>
-<td></td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
 <h5 id="username">-UserName</h5>
-<p>Sql User Name to connect with.<br></p>
+<p>Sql User Name to connect with. Consider using SqlCredential instead.<br></p>
 <table>
 <thead>
 <tr>
@@ -676,7 +706,7 @@ Returns a connection string builder that can be used to connect to the local sql
 </tbody>
 </table>
 <h5 id="password">-Password</h5>
-<p>Password to use to connect with.<br></p>
+<p>Password to use to connect with. Consider using SqlCredential instead.<br></p>
 <table>
 <thead>
 <tr>
@@ -755,7 +785,67 @@ Returns a connection string builder that can be used to connect to the local sql
 </tr>
 <tr>
 <td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
 <td>Enabled</td>
+</tr>
+</tbody>
+</table>
+<h5 id="legacy">-Legacy</h5>
+<p>Use this switch to create a connection string using System.Data.SqlClient instead of Microsoft.Data.SqlClient.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="nonpooledconnection">-NonPooledConnection</h5>
+<p>If this switch is enabled, a non-pooled connection will be requested.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
@@ -784,62 +874,6 @@ Returns a connection string builder that can be used to connect to the local sql
 <tr>
 <td>Default Value</td>
 <td>$env:COMPUTERNAME</td>
-</tr>
-</tbody>
-</table>
-<h5 id="whatif">-WhatIf</h5>
-<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>wi</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="confirm">-Confirm</h5>
-<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>cf</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
 </tr>
 </tbody>
 </table>

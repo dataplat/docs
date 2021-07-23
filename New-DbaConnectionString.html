@@ -508,6 +508,7 @@ and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlc
     [[-StatementTimeout] &lt;Int32&gt;]
     [-TrustServerCertificate]
     [[-WorkstationId] &lt;String&gt;]
+    [-Legacy]
     [[-AppendConnectionString] &lt;String&gt;]
     [-WhatIf]
     [-Confirm]
@@ -1262,6 +1263,34 @@ Valid values include CaptureSql, ExecuteAndCaptureSql and ExecuteSql.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="legacy">-Legacy</h5>
+<p>Use this switch to create a connection string using System.Data.SqlClient instead of Microsoft.Data.SqlClient.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
