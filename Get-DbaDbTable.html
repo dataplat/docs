@@ -485,6 +485,7 @@
     [[-ExcludeDatabase] &lt;String[]&gt;]
     [-IncludeSystemDBs]
     [[-Table] &lt;String[]&gt;]
+    [[-Schema] &lt;String[]&gt;]
     [[-InputObject] &lt;Database[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -502,18 +503,22 @@
 </code></pre>
 <p>Return only information on the table MyTable from the database MyDB<br></p>
 <h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance DEV01 -Database MyDB -Table MyTable -Schema MySchema
+</code></pre>
+<p>Return only information on the table MyTable from the database MyDB and only from the schema MySchema<br></p>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance DEV01 -Table MyTable
 </code></pre>
 <p>Returns information on table called MyTable if it exists in any database on the server, under any schema<br></p>
-<h5 id="example-4">Example:  4</h5>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance DEV01 -Table dbo.[First.Table]
 </code></pre>
 <p>Returns information on table called First.Table on schema dbo if it exists in any database on the server<br></p>
-<h5 id="example-5">Example:  5</h5>
+<h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; 'localhost','localhost\namedinstance' | Get-DbaDbTable -Database DBA -Table Commandlog
 </code></pre>
 <p>Returns information on the CommandLog table in the DBA database on both instances localhost and the named instance localhost\namedinstance<br></p>
-<h5 id="example-6">Example:  6</h5>
+<h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance DEV01 -Table &quot;[[DbName]]].[Schema.With.Dots].[`&quot;[Process]]`&quot;]&quot; -Verbose
 </code></pre>
 <p>For the instance Dev01 Returns information for a table named: &quot;[Process]&quot; in schema named: Schema.With.Dots in database named: [DbName]<br>
@@ -670,6 +675,34 @@ Using dbo.First.Table will try to find table named 'Table' on schema 'First' and
 The correct way to find table named 'First.Table' on schema 'dbo' is by passing dbo.[First.Table]
 Any actual usage of the ] must be escaped by duplicating the ] character.
 The correct way to find a table Name] in schema Schema.Name is by passing [Schema.Name].[Name]]]<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="schema">-Schema</h5>
+<p>Only return tables from the specified schema<br></p>
 <table>
 <thead>
 <tr>
