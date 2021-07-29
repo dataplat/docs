@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Chrissy LeMaire (@cl), netnerds.net</td>
+<td>Shawn Melton (@wsmelton), <a href="http://wsmelton.github.io">http://wsmelton.github.io</a></td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -480,6 +480,7 @@
 <h2 id="syntax">Syntax</h2>
 <pre><code>Update-Dbatools
     [-Development]
+    [-Cleanup]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -511,6 +512,34 @@
 <tr>
 <td>Alias</td>
 <td>dev,devbranch</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="cleanup">-Cleanup</h5>
+<p>If this switch is enabled, old versions of dbatools will be removed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>

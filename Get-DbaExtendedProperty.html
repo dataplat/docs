@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Set-DbaDbCompression</title>
+    <title>dbatools docs | Get-DbaExtendedProperty</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Set-DbaDbCompression">
+    <meta name="subtitle" content="Docs for Get-DbaExtendedProperty">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Set-DbaDbCompression" />
-    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaDbCompression.html" />
-    <meta property="og:description" content="dbatools docs for Set-DbaDbCompression" />
+    <meta property="og:title" content="dbatools docs:  Get-DbaExtendedProperty" />
+    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaExtendedProperty.html" />
+    <meta property="og:description" content="dbatools docs for Get-DbaExtendedProperty" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaDbCompression" />
+    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaExtendedProperty" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="set-dbadbcompression">Set-DbaDbCompression</h1>
+                    <h1 id="get-dbaextendedproperty">Get-DbaExtendedProperty</h1>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Jason Squires (@js_0505), jstexasdba@gmail.com</td>
+<td>Chrissy LeMaire (@cl), netnerds.net</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,27 +474,47 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets tables and indexes with preferred compression setting.</p>
+<p>Gets extended properties</p>
 <h2 id="description">Description</h2>
-<p>This function sets the appropriate compression recommendation, determined either by using the Tiger Team's query or set to the CompressionType parameter.</p>
-<p>Remember Uptime is critical for the Tiger Team query, the longer uptime, the more accurate the analysis is.
-You would probably be best if you utilized Get-DbaUptime first, before running this command.</p>
-<p>Set-DbaDbCompression script derived from GitHub and the tigertoolbox
-(<a href="https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains">https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains</a>)</p>
+<p>Gets extended properties</p>
+<p>This command works out of the box with databases but you can add or get extended properties from any object. Just pipe it in it'll grab the properties and print them out.</p>
+<p>You can get extended properties on all these different types of objects:</p>
+<p>Aggregate
+Assembly
+Column
+Constraint
+Contract
+Database
+Event Notification
+Filegroup
+Function
+Index
+Logical File Name
+Message Type
+Parameter
+Partition Function
+Partition Scheme
+Procedure
+Queue
+Remote Service Binding
+Route
+Rule
+Schema
+Service
+Synonym
+Table
+Trigger
+Type
+View
+Xml Schema Collection</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Set-DbaDbCompression
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+<pre><code>Get-DbaExtendedProperty
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;String[]&gt;]
-    [[-ExcludeDatabase] &lt;String[]&gt;]
-    [[-Table] &lt;String[]&gt;]
-    [[-CompressionType] &lt;String&gt;]
-    [[-MaxRunTime] &lt;Int32&gt;]
-    [[-PercentCompression] &lt;Int32&gt;]
-    [[-InputObject] &lt;Object&gt;]
+    [[-Name] &lt;String[]&gt;]
+    [[-InputObject] &lt;PSObject[]&gt;]
     [-EnableException]
-    [-WhatIf]
-    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -502,39 +522,28 @@ You would probably be best if you utilized Get-DbaUptime first, before running t
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Set-DbaDbCompression -SqlInstance localhost -MaxRunTime 60 -PercentCompression 25
+<pre><code>PS C:\&gt; Get-DbaExtendedProperty -SqlInstance sql2016
 </code></pre>
-<p>Set the compression run time to 60 minutes and will start the compression of tables/indexes that have a difference of 25% or higher between current and recommended.<br></p>
+<p>Gets all extended properties on all databases<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -Database DBName -CompressionType Page -Table table1, table2
+<pre><code>PS C:\&gt; Get-DbaExtendedProperty -SqlInstance Server1 -Database db1
 </code></pre>
-<p>Utilizes Page compression for tables table1 and table2 in DBName on ServerA with no time limit.<br></p>
+<p>Gets the extended properties for the db1 database<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -Database DBName -PercentCompression 25 | Out-GridView
+<pre><code>PS C:\&gt; Get-DbaExtendedProperty -SqlInstance Server1 -Database db1 -Name info1, info2
 </code></pre>
-<p>Will compress tables/indexes within the specified database that would show any % improvement with compression and with no time limit. The results will be piped into a nicely formatted GridView.<br></p>
+<p>Gets the info1 and info2 extended properties within the db1 database<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; $testCompression = Test-DbaDbCompression -SqlInstance ServerA -Database DBName
-PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -Database DBName -InputObject $testCompression
+<pre><code>PS C:\&gt; Get-DbaDbStoredProcedure -SqlInstance localhost -Database tempdb | Get-DbaExtendedProperty
 </code></pre>
-<p>Gets the compression suggestions from Test-DbaDbCompression into a variable, this can then be reviewed and passed into Set-DbaDbCompression.<br></p>
+<p>Get the extended properties for all stored procedures in the tempdb database<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; $cred = Get-Credential sqladmin
-PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -ExcludeDatabase Database -SqlCredential $cred -MaxRunTime 60 -PercentCompression 25
+<pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance localhost -Database mydb -Table mytable | Get-DbaExtendedProperty
 </code></pre>
-<p>Set the compression run time to 60 minutes and will start the compression of tables/indexes for all databases except the specified excluded database. Only objects that have a difference of 25% or <br>
-higher between current and recommended will be compressed.<br></p>
-<h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; $servers = 'Server1','Server2'
-PS C:\&gt; foreach ($svr in $servers) {
-&gt;&gt; Set-DbaDbCompression -SqlInstance $svr -MaxRunTime 60 -PercentCompression 25 | Export-Csv -Path C:\temp\CompressionAnalysisPAC.csv -Append
-&gt;&gt; }
-</code></pre>
-<p>Set the compression run time to 60 minutes and will start the compression of tables/indexes across all listed servers that have a difference of 25% or higher between current and recommended. Output <br>
-of command is exported to a csv.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<p>Get the extended properties for the mytable table in the mydb database<br></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
+<p>The target SQL Server instance<br></p>
 <table>
 <thead>
 <tr>
@@ -549,11 +558,11 @@ of command is exported to a csv.<br></p>
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>false</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -561,7 +570,6 @@ of command is exported to a csv.<br></p>
 </tr>
 </tbody>
 </table>
-<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -593,7 +601,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Get extended properties from specific database<br></p>
 <table>
 <thead>
 <tr>
@@ -620,8 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<h5 id="name">-Name</h5>
+<p>Get specific extended properties by name<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +640,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Property</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -645,128 +653,11 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="table">-Table</h5>
-<p>The table(s) to process. If unspecified, all tables will be processed.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="compressiontype">-CompressionType</h5>
-<p>Control the compression type applied. Default is 'Recommended' which uses the Tiger Team query to use the most appropriate setting per object. Other option is to compress all objects to either Row or
-Page.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>Recommended</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Recommended,Page,Row,None</td>
-</tr>
-</tbody>
-</table>
-<h5 id="maxruntime">-MaxRunTime</h5>
-<p>Will continue to alter tables and indexes for the given amount of minutes.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="percentcompression">-PercentCompression</h5>
-<p>Will only work on the tables/indexes that have the calculated savings at and higher for the given number provided.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
 </tr>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Takes the output of Test-DbaDbCompression as an object and applied compression based on those recommendations.<br></p>
+<p>Enables piping from Get-Dba* commands<br></p>
 <table>
 <thead>
 <tr>
@@ -785,7 +676,7 @@ Page.<br></p>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -823,66 +714,10 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tr>
 </tbody>
 </table>
-<h5 id="whatif">-WhatIf</h5>
-<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>wi</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="confirm">-Confirm</h5>
-<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>cf</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaDbCompression.ps1">Set-DbaDbCompression</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Get-DbaExtendedProperty.ps1">Get-DbaExtendedProperty</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaDbCompression">Set-DbaDbCompression</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Get-DbaExtendedProperty">Get-DbaExtendedProperty</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

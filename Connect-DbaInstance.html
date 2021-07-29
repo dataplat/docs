@@ -519,6 +519,7 @@ and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlc
     [[-Thumbprint] &lt;String&gt;]
     [[-Store] &lt;String&gt;]
     [[-AccessToken] &lt;String&gt;]
+    [-DedicatedAdminConnection]
     [-DisableException]
     [&lt;CommonParameters&gt;]
 
@@ -618,6 +619,16 @@ Note that the token is valid for only one hour and cannot be renewed automatical
 PS C:\&gt; Connect-DbaInstance -SqlInstance sample.database.windows.net -Accesstoken $token
 </code></pre>
 <p>Uses dbatools to generate the access token for an Azure SQL Database, then logs in using that AccessToken.<br></p>
+<h5 id="example-17">Example:  17</h5>
+<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance srv1 -DedicatedAdminConnection
+PS C:\&gt; $dbaProcess = Get-DbaProcess -SqlInstance $server -ExcludeSystemSpids
+PS C:\&gt; $killedProcess = $dbaProcess | Out-GridView -OutputMode Multiple | Stop-DbaProcess
+PS C:\&gt; $server.ConnectionContext.Disconnect()
+</code></pre>
+<p>Creates a dedicated admin connection (DAC) to the default instance on server srv1.<br>
+Receives all non-system processes from the instance using the DAC.<br>
+Opens a grid view to let the user select processes to be stopped.<br>
+Closes the connection.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
@@ -1560,6 +1571,36 @@ Note that the token is valid for only one hour and cannot be renewed automatical
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="dedicatedadminconnection">-DedicatedAdminConnection</h5>
+<p>Connects using &quot;ADMIN:&quot; to create a dedicated admin connection (DAC) as a non-pooled connection.
+If the instance is on a remote server, the remote access has to be enabled via &quot;Set-DbaSpConfigure -Name RemoteDacConnectionsEnabled -Value $true&quot; or &quot;sp_configure 'remote admin connections', 1&quot;.
+The connection will not be closed if the variable holding the Server SMO is going out of scope, so it is very important to call .ConnectionContext.Disconnect() to close the connection. See example.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

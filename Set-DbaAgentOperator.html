@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Set-DbaDbCompression</title>
+    <title>dbatools docs | Set-DbaAgentOperator</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Set-DbaDbCompression">
+    <meta name="subtitle" content="Docs for Set-DbaAgentOperator">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Set-DbaDbCompression" />
-    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaDbCompression.html" />
-    <meta property="og:description" content="dbatools docs for Set-DbaDbCompression" />
+    <meta property="og:title" content="dbatools docs:  Set-DbaAgentOperator" />
+    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaAgentOperator.html" />
+    <meta property="og:description" content="dbatools docs for Set-DbaAgentOperator" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaDbCompression" />
+    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaAgentOperator" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="set-dbadbcompression">Set-DbaDbCompression</h1>
+                    <h1 id="set-dbaagentoperator">Set-DbaAgentOperator</h1>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Jason Squires (@js_0505), jstexasdba@gmail.com</td>
+<td>Tracy Boggiano (@TracyBoggiano), databasesuperhero.com</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,24 +474,28 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets tables and indexes with preferred compression setting.</p>
+<p>Updates/modifies agent operators on an instance.</p>
 <h2 id="description">Description</h2>
-<p>This function sets the appropriate compression recommendation, determined either by using the Tiger Team's query or set to the CompressionType parameter.</p>
-<p>Remember Uptime is critical for the Tiger Team query, the longer uptime, the more accurate the analysis is.
-You would probably be best if you utilized Get-DbaUptime first, before running this command.</p>
-<p>Set-DbaDbCompression script derived from GitHub and the tigertoolbox
-(<a href="https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains">https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains</a>)</p>
+<p>Updates/modifies agent operators on an instance.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Set-DbaDbCompression
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+<pre><code>Set-DbaAgentOperator
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Database] &lt;String[]&gt;]
-    [[-ExcludeDatabase] &lt;String[]&gt;]
-    [[-Table] &lt;String[]&gt;]
-    [[-CompressionType] &lt;String&gt;]
-    [[-MaxRunTime] &lt;Int32&gt;]
-    [[-PercentCompression] &lt;Int32&gt;]
-    [[-InputObject] &lt;Object&gt;]
+    [[-Operator] &lt;String[]&gt;]
+    [[-Name] &lt;String&gt;]
+    [[-EmailAddress] &lt;String&gt;]
+    [[-NetSendAddress] &lt;String&gt;]
+    [[-PagerAddress] &lt;String&gt;]
+    [[-PagerDay] &lt;String&gt;]
+    [[-SaturdayStartTime] &lt;String&gt;]
+    [[-SaturdayEndTime] &lt;String&gt;]
+    [[-SundayStartTime] &lt;String&gt;]
+    [[-SundayEndTime] &lt;String&gt;]
+    [[-WeekdayStartTime] &lt;String&gt;]
+    [[-WeekdayEndTime] &lt;String&gt;]
+    [-IsFailsafeOperator]
+    [[-FailsafeNotificationMethod] &lt;String&gt;]
+    [[-InputObject] &lt;Operator[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -502,39 +506,16 @@ You would probably be best if you utilized Get-DbaUptime first, before running t
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Set-DbaDbCompression -SqlInstance localhost -MaxRunTime 60 -PercentCompression 25
-</code></pre>
-<p>Set the compression run time to 60 minutes and will start the compression of tables/indexes that have a difference of 25% or higher between current and recommended.<br></p>
+<p>PS:&gt;Set-DbaAgentOperator -SqlInstance sql01 -Operator DBA -EmailAddress operator@operator.com -PagerDay Everyday<br>
+This sets the operator named DBA with the above email address with default values to alerts everyday for all hours of the day.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -Database DBName -CompressionType Page -Table table1, table2
-</code></pre>
-<p>Utilizes Page compression for tables table1 and table2 in DBName on ServerA with no time limit.<br></p>
-<h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -Database DBName -PercentCompression 25 | Out-GridView
-</code></pre>
-<p>Will compress tables/indexes within the specified database that would show any % improvement with compression and with no time limit. The results will be piped into a nicely formatted GridView.<br></p>
-<h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; $testCompression = Test-DbaDbCompression -SqlInstance ServerA -Database DBName
-PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -Database DBName -InputObject $testCompression
-</code></pre>
-<p>Gets the compression suggestions from Test-DbaDbCompression into a variable, this can then be reviewed and passed into Set-DbaDbCompression.<br></p>
-<h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; $cred = Get-Credential sqladmin
-PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -ExcludeDatabase Database -SqlCredential $cred -MaxRunTime 60 -PercentCompression 25
-</code></pre>
-<p>Set the compression run time to 60 minutes and will start the compression of tables/indexes for all databases except the specified excluded database. Only objects that have a difference of 25% or <br>
-higher between current and recommended will be compressed.<br></p>
-<h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; $servers = 'Server1','Server2'
-PS C:\&gt; foreach ($svr in $servers) {
-&gt;&gt; Set-DbaDbCompression -SqlInstance $svr -MaxRunTime 60 -PercentCompression 25 | Export-Csv -Path C:\temp\CompressionAnalysisPAC.csv -Append
-&gt;&gt; }
-</code></pre>
-<p>Set the compression run time to 60 minutes and will start the compression of tables/indexes across all listed servers that have a difference of 25% or higher between current and recommended. Output <br>
-of command is exported to a csv.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<p>PS:&gt;Set-DbaAgentOperator -SqlInstance sql01 -Operator DBA -EmailAddress operator@operator.com -NetSendAddress dbauser1 -PagerAddress dbauser1@pager.dbatools.io -PagerDay Everyday -SaturdayStartTime <br>
+070000 -SaturdayEndTime 180000 -SundayStartTime 080000 -SundayEndTime 170000 -WeekdayStartTime 060000 -WeekdayEndTime 190000<br>
+Creates a new operator named DBA on the sql01 instance with email address operator@operator.com, net send address of dbauser1, pager address of dbauser1@pager.dbatools.io, page day as every day, <br>
+Saturday start time of 7am, Saturday end time of 6pm, Sunday start time of 8am, Sunday end time of 5pm, Weekday start time of 6am, and Weekday end time of 7pm.<br></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -549,11 +530,11 @@ of command is exported to a csv.<br></p>
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>false</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -561,7 +542,6 @@ of command is exported to a csv.<br></p>
 </tr>
 </tbody>
 </table>
-<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -592,8 +572,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto populated from the server. If unspecified, all databases will be processed.<br></p>
+<h5 id="operator">-Operator</h5>
+<p>Name of the operator in SQL Agent.<br></p>
 <table>
 <thead>
 <tr>
@@ -620,8 +600,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<h5 id="name">-Name</h5>
+<p>The new name of the agent operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -648,8 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="table">-Table</h5>
-<p>The table(s) to process. If unspecified, all tables will be processed.<br></p>
+<h5 id="emailaddress">-EmailAddress</h5>
+<p>The email address the SQL Agent will use to email alerts to the operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -676,9 +656,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="compressiontype">-CompressionType</h5>
-<p>Control the compression type applied. Default is 'Recommended' which uses the Tiger Team query to use the most appropriate setting per object. Other option is to compress all objects to either Row or
-Page.<br></p>
+<h5 id="netsendaddress">-NetSendAddress</h5>
+<p>The net send address the SQL Agent will use for the operator to net send alerts.<br></p>
 <table>
 <thead>
 <tr>
@@ -701,16 +680,74 @@ Page.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>Recommended</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pageraddress">-PagerAddress</h5>
+<p>The pager email address the SQL Agent will use to send alerts to the oeprator.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pagerday">-PagerDay</h5>
+<p>Defines what days the pager portion of the operator will be used. The default is 'Everyday'. Valid parameters
+are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', and
+'Saturday'.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Recommended,Page,Row,None</td>
+<td>EveryDay,Weekdays,Weekend,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday</td>
 </tr>
 </tbody>
 </table>
-<h5 id="maxruntime">-MaxRunTime</h5>
-<p>Will continue to alter tables and indexes for the given amount of minutes.<br></p>
+<h5 id="saturdaystarttime">-SaturdayStartTime</h5>
+<p>This a string that takes the Saturday Pager Start Time.<br></p>
 <table>
 <thead>
 <tr>
@@ -733,12 +770,12 @@ Page.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>0</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<h5 id="percentcompression">-PercentCompression</h5>
-<p>Will only work on the tables/indexes that have the calculated savings at and higher for the given number provided.<br></p>
+<h5 id="saturdayendtime">-SaturdayEndTime</h5>
+<p>This a string that takes the Saturday Pager End Time.<br></p>
 <table>
 <thead>
 <tr>
@@ -761,12 +798,181 @@ Page.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>0</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sundaystarttime">-SundayStartTime</h5>
+<p>This a string that takes the Sunday Pager Start Time.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sundayendtime">-SundayEndTime</h5>
+<p>This a string that takes the Sunday Pager End Time.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="weekdaystarttime">-WeekdayStartTime</h5>
+<p>This a string that takes the Weekdays Pager Start Time.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="weekdayendtime">-WeekdayEndTime</h5>
+<p>This a string that takes the Weekdays Pager End Time.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="isfailsafeoperator">-IsFailsafeOperator</h5>
+<p>If this switch is enabled, this operator will be your failsafe operator and replace the one that existed before.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="failsafenotificationmethod">-FailsafeNotificationMethod</h5>
+<p>Defines the notification method for the failsafe oeprator.  Value must be NotifyMail or NotifyPager.
+The default is NotifyEmail.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>NotifyEmail</td>
 </tr>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Takes the output of Test-DbaDbCompression as an object and applied compression based on those recommendations.<br></p>
+<p>SMO Server Objects (pipeline input from Connect-DbaInstance)<br></p>
 <table>
 <thead>
 <tr>
@@ -785,7 +991,7 @@ Page.<br></p>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -824,7 +1030,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="whatif">-WhatIf</h5>
-<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
 <table>
 <thead>
 <tr>
@@ -852,7 +1058,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
+<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
 <table>
 <thead>
 <tr>
@@ -880,9 +1086,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaDbCompression.ps1">Set-DbaDbCompression</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaAgentOperator.ps1">Set-DbaAgentOperator</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaDbCompression">Set-DbaDbCompression</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaAgentOperator">Set-DbaAgentOperator</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

@@ -481,8 +481,9 @@
 <pre><code>Get-DbaDbCompression
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Database] &lt;Object[]&gt;]
-    [[-ExcludeDatabase] &lt;Object[]&gt;]
+    [[-Database] &lt;String[]&gt;]
+    [[-ExcludeDatabase] &lt;String[]&gt;]
+    [[-Table] &lt;String[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -502,6 +503,10 @@
 <pre><code>PS C:\&gt; Get-DbaDbCompression -SqlInstance localhost -ExcludeDatabase TestDatabases
 </code></pre>
 <p>Returns objects size and current compression level for objects in all databases except the TestDatabase database.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Get-DbaDbCompression -SqlInstance localhost -ExcludeDatabase TestDatabases -Table table1, table2
+</code></pre>
+<p>Returns objects size and current compression level for table1 and table2 in all databases except the TestDatabase database.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
@@ -592,6 +597,34 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
 <p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="table">-Table</h5>
+<p>The table(s) to process. If unspecified, all tables will be processed.<br></p>
 <table>
 <thead>
 <tr>
