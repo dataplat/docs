@@ -623,7 +623,7 @@ PS C:\&gt; Connect-DbaInstance -SqlInstance sample.database.windows.net -Accesst
 <pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance srv1 -DedicatedAdminConnection
 PS C:\&gt; $dbaProcess = Get-DbaProcess -SqlInstance $server -ExcludeSystemSpids
 PS C:\&gt; $killedProcess = $dbaProcess | Out-GridView -OutputMode Multiple | Stop-DbaProcess
-PS C:\&gt; $server.ConnectionContext.Disconnect()
+PS C:\&gt; $server | Disconnect-DbaInstance
 </code></pre>
 <p>Creates a dedicated admin connection (DAC) to the default instance on server srv1.<br>
 Receives all non-system processes from the instance using the DAC.<br>

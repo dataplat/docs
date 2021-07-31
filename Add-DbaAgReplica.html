@@ -760,7 +760,11 @@ This parameter is only supported if the replica is added to just one instance.<b
 </tbody>
 </table>
 <h5 id="connectionmodeinsecondaryrole">-ConnectionModeInSecondaryRole</h5>
-<p>Specifies the connection intent mode of an Availability Replica in secondary role. AllowAllConnections by default.<br></p>
+<p>Specifies the connection modes of an Availability Replica in secondary role.
+Options include: AllowNoConnections, AllowReadIntentConnectionsOnly,  AllowAllConnections
+Defaults to AllowNoConnections.
+The default can be changed with:
+Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ConnectionModeInSecondaryRole' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
 <table>
 <thead>
 <tr>
@@ -783,11 +787,11 @@ This parameter is only supported if the replica is added to just one instance.<b
 </tr>
 <tr>
 <td>Default Value</td>
-<td>AllowAllConnections</td>
+<td>(Get-DbatoolsConfigValue -FullName 'AvailabilityGroups.Default.ConnectionModeInSecondaryRole' -Fallback 'AllowNoConnections')</td>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>AllowAllConnections,AllowNoConnections,AllowReadIntentConnectionsOnly</td>
+<td>AllowNoConnections,AllowReadIntentConnectionsOnly,AllowAllConnections</td>
 </tr>
 </tbody>
 </table>
