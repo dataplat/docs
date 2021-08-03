@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaDbUdf</title>
+    <title>dbatools docs | Set-DbaDefaultPath</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Get-DbaDbUdf">
+    <meta name="subtitle" content="Docs for Set-DbaDefaultPath">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaDbUdf" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaDbUdf.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaDbUdf" />
+    <meta property="og:title" content="dbatools docs:  Set-DbaDefaultPath" />
+    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaDefaultPath.html" />
+    <meta property="og:description" content="dbatools docs for Set-DbaDefaultPath" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaDbUdf" />
+    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaDefaultPath" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbadbudf">Get-DbaDbUdf</h1>
+                    <h1 id="set-dbadefaultpath">Set-DbaDefaultPath</h1>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Klaas Vandenberghe (@PowerDbaKlaas)</td>
+<td>Chrissy LeMaire (@cl), netnerds.net</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,21 +474,19 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database User Defined Functions</p>
+<p>Sets the default SQL Server paths for data, logs, and backups</p>
 <h2 id="description">Description</h2>
-<p>Gets database User Defined Functions</p>
+<p>Sets the default SQL Server paths for data, logs, and backups</p>
+<p>To change the error log location, use Set-DbaStartupParameter</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaDbUdf
+<pre><code>Set-DbaDefaultPath
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Database] &lt;Object[]&gt;]
-    [[-ExcludeDatabase] &lt;Object[]&gt;]
-    [-ExcludeSystemUdf]
-    [[-Schema] &lt;String[]&gt;]
-    [[-ExcludeSchema] &lt;String[]&gt;]
-    [[-Name] &lt;String[]&gt;]
-    [[-ExcludeName] &lt;String[]&gt;]
+    [[-Type] &lt;String[]&gt;]
+    [-Path] &lt;String&gt;
     [-EnableException]
+    [-WhatIf]
+    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -496,28 +494,16 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaDbUdf -SqlInstance sql2016
+<pre><code>PS C:\&gt; Set-DbaDefaultPath -SqlInstance sql01\sharepoint -Type Data, Backup -Path C:\mssql\sharepoint\data
 </code></pre>
-<p>Gets all database User Defined Functions<br></p>
+<p>Sets the data and backup default paths on sql01\sharepoint to C:\mssql\sharepoint\data<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaDbUdf -SqlInstance Server1 -Database db1
+<pre><code>PS C:\&gt; Set-DbaDefaultPath -SqlInstance sql01\sharepoint -Type Data, Log -Path C:\mssql\sharepoint\data -WhatIf
 </code></pre>
-<p>Gets the User Defined Functions for the db1 database<br></p>
-<h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaDbUdf -SqlInstance Server1 -ExcludeDatabase db1
-</code></pre>
-<p>Gets the User Defined Functions for all databases except db1<br></p>
-<h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Get-DbaDbUdf -SqlInstance Server1 -ExcludeSystemUdf
-</code></pre>
-<p>Gets the User Defined Functions for all databases that are not system objects (there can be 100+ system User Defined Functions in each DB)<br></p>
-<h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; 'Sql1','Sql2/sqlexpress' | Get-DbaDbUdf
-</code></pre>
-<p>Gets the User Defined Functions for the databases on Sql1 and Sql2/sqlexpress<br></p>
+<p>Shows what what happen if the command would have run<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances<br></p>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -536,7 +522,35 @@
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>true (ByPropertyName)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="path">-Path</h5>
+<p>The path on the destination SQL Server<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -575,8 +589,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="database">-Database</h5>
-<p>To get User Defined Functions from specific database(s)<br></p>
+<h5 id="type">-Type</h5>
+<p>The type of path to modify. Options include: Data, Log and Backup.<br></p>
 <table>
 <thead>
 <tr>
@@ -595,179 +609,15 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>
 <td></td>
 </tr>
-</tbody>
-</table>
-<h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server<br></p>
-<table>
-<thead>
 <tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="excludesystemudf">-ExcludeSystemUdf</h5>
-<p>This switch removes all system objects from the UDF collection<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="schema">-Schema</h5>
-<p>The schema(s) to process. If unspecified, all schemas will be processed.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="excludeschema">-ExcludeSchema</h5>
-<p>The schema(s) to exclude.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="name">-Name</h5>
-<p>The name(s) of the user defined functions to process. If unspecified, all user defined functions will be processed.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="excludename">-ExcludeName</h5>
-<p>The name(s) of the user defined functions to exclude.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
+<td>Accepted Values</td>
+<td>Data,Backup,Log</td>
 </tr>
 </tbody>
 </table>
@@ -801,10 +651,66 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tr>
 </tbody>
 </table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Get-DbaDbUdf.ps1">Get-DbaDbUdf</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaDefaultPath.ps1">Set-DbaDefaultPath</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Get-DbaDbUdf">Get-DbaDbUdf</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaDefaultPath">Set-DbaDefaultPath</a>.</p>
 
                 </div> <!-- rendered -->
             </div>
