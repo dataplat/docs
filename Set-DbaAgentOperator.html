@@ -494,7 +494,7 @@
     [[-WeekdayStartTime] &lt;String&gt;]
     [[-WeekdayEndTime] &lt;String&gt;]
     [-IsFailsafeOperator]
-    [[-FailsafeNotificationMethod] &lt;String&gt;]
+    [[-FailsafeNotificationMethod] &lt;String[]&gt;]
     [[-InputObject] &lt;Operator[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -685,7 +685,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="pageraddress">-PagerAddress</h5>
-<p>The pager email address the SQL Agent will use to send alerts to the oeprator.<br></p>
+<p>The pager email address the SQL Agent will use to send alerts to the operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -943,8 +943,10 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="failsafenotificationmethod">-FailsafeNotificationMethod</h5>
-<p>Defines the notification method for the failsafe oeprator.  Value must be NotifyMail or NotifyPager.
-The default is NotifyEmail.<br></p>
+<p>Defines the notification method(s) for the failsafe operator. The default is 'NotifyEmail'.
+Valid parameter values are 'None', 'NotifyEmail', 'Pager', 'NetSend', 'NotifyAll'.
+Values 'NotifyEmail', 'Pager', 'NetSend' can be specified in any combination.
+Values 'None' and 'NotifyAll' cannot be specified in conjunction with any other value.<br></p>
 <table>
 <thead>
 <tr>
@@ -968,6 +970,10 @@ The default is NotifyEmail.<br></p>
 <tr>
 <td>Default Value</td>
 <td>NotifyEmail</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>None,NotifyEmail,Pager,NetSend,NotifyAll</td>
 </tr>
 </tbody>
 </table>

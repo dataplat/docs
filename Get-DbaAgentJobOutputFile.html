@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Rob Sewell (<a href="https://sqldbawithabeard.com">https://sqldbawithabeard.com</a>) , Simone Bizzotto (@niphold)</td>
+<td>Rob Sewell (<a href="https://sqldbawithabeard.com">https://sqldbawithabeard.com</a>) , Simone Bizzotto (@niphlod)</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -508,23 +508,11 @@ on the SERVERNAME instance<br></p>
 <p>This will return the configured paths to the output files for each of the job step of the The Agent Job Job<br>
 on the SERVERNAME instance and SERVERNAME2<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; $Servers = 'SERVER','SERVER\INSTANCE1'
-</code></pre>
-<p>Get-DbaAgentJobOutputFile -SqlInstance $Servers -Job 'The Agent Job' -OpenFile<br>
-This will return the configured paths to the output files for each of the job step of the The Agent Job Job<br>
-on the SERVER instance and the SERVER\INSTANCE1 and open the files if they are available<br></p>
-<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Get-DbaAgentJobOutputFile -SqlInstance SERVERNAME  | Out-GridView
 </code></pre>
 <p>This will return the configured paths to the output files for each of the job step of all the Agent Jobs<br>
 on the SERVERNAME instance and Pipe them to Out-GridView<br></p>
-<h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; (Get-DbaAgentJobOutputFile -SqlInstance SERVERNAME | Out-GridView -PassThru).FileName | Invoke-Item
-</code></pre>
-<p>This will return the configured paths to the output files for each of the job step of all the Agent Jobs<br>
-on the SERVERNAME instance and Pipe them to Out-GridView and enable you to choose the output<br>
-file and open it<br></p>
-<h5 id="example-7">Example:  7</h5>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Get-DbaAgentJobOutputFile -SqlInstance SERVERNAME -Verbose
 </code></pre>
 <p>This will return the configured paths to the output files for each of the job step of all the Agent Jobs<br>
