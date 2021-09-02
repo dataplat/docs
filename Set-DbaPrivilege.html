@@ -476,7 +476,7 @@
 <h2 id="synopsis">Synopsis</h2>
 <p>Adds the SQL Service account to local privileges on one or more computers.</p>
 <h2 id="description">Description</h2>
-<p>Adds the SQL Service account to local privileges 'Lock Pages in Memory', 'Instant File Initialization', 'Logon as Batch' on one or more computers.</p>
+<p>Adds the SQL Service account to local privileges 'Lock Pages in Memory', 'Instant File Initialization', 'Logon as Batch', 'Logon as a service' on one or more computers.</p>
 <p>Requires Local Admin rights on destination computer(s).</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaPrivilege
@@ -504,7 +504,8 @@
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="type">-Type</h5>
 <p>Use this to choose the privilege(s) to which you want to add the SQL Service account.
-Accepts 'IFI', 'LPIM', 'BatchLogon', and/or 'SecAudit' for local privileges 'Instant File Initialization', 'Lock Pages in Memory', 'Logon as Batch', and 'Generate Security Audits'.<br></p>
+Accepts 'IFI', 'LPIM', 'BatchLogon','SecAudit' and/or 'ServiceLogon' for local privileges 'Instant File Initialization', 'Lock Pages in Memory', 'Logon as Batch','Generate Security Audits' and 'Logon
+as a service'.<br></p>
 <table>
 <thead>
 <tr>
@@ -531,7 +532,7 @@ Accepts 'IFI', 'LPIM', 'BatchLogon', and/or 'SecAudit' for local privileges 'Ins
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>IFI,LPIM,BatchLogon,SecAudit</td>
+<td>IFI,LPIM,BatchLogon,SecAudit,ServiceLogon</td>
 </tr>
 </tbody>
 </table>

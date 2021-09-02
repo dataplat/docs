@@ -493,6 +493,7 @@
     [[-SessionTimeout] &lt;Int32&gt;]
     [[-EndpointUrl] &lt;String&gt;]
     [[-ReadonlyRoutingConnectionUrl] &lt;String&gt;]
+    [[-ReadOnlyRoutingList] &lt;Object[]&gt;]
     [[-InputObject] &lt;AvailabilityReplica&gt;]
     [-EnableException]
     [-WhatIf]
@@ -511,6 +512,11 @@
 <pre><code>PS C:\&gt; Get-DbaAgReplica -SqlInstance sql2016 | Out-GridView -Passthru | Set-DbaAgReplica -BackupPriority 5000
 </code></pre>
 <p>Sets the backup priority to 5000 for the selected availability groups.<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Get-DbaAgReplica -SqlInstance sql2016 -Replica Replica1 |
+&gt;&gt; Set-DbaAgReplica -ReadOnlyRoutingList Replica2, Replica3
+</code></pre>
+<p>Equivalent to running &quot;ALTER AVAILABILITY GROUP... MODIFY REPLICA... (READ_ONLY_ROUTING_LIST = ('Replica2', 'Replica3'));&quot;<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.<br></p>
@@ -874,6 +880,34 @@ Manual requires you to create a backup of the database on the primary replica an
 </table>
 <h5 id="readonlyroutingconnectionurl">-ReadonlyRoutingConnectionUrl</h5>
 <p>Sets the read only routing connection url for the availability replica.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="readonlyroutinglist">-ReadOnlyRoutingList</h5>
+<p>Sets the read-only routing list for when this replica is in the primary role.<br></p>
 <table>
 <thead>
 <tr>
