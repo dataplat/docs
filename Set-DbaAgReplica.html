@@ -517,6 +517,12 @@
 &gt;&gt; Set-DbaAgReplica -ReadOnlyRoutingList Replica2, Replica3
 </code></pre>
 <p>Equivalent to running &quot;ALTER AVAILABILITY GROUP... MODIFY REPLICA... (READ_ONLY_ROUTING_LIST = ('Replica2', 'Replica3'));&quot;<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Get-DbaAgReplica -SqlInstance sql2016 -Replica Replica1 |
+&gt;&gt; Set-DbaAgReplica -ReadOnlyRoutingList @(,('Replica2','Replica3'));
+</code></pre>
+<p>Equivalent to running &quot;ALTER AVAILABILITY GROUP... MODIFY REPLICA... (READ_ONLY_ROUTING_LIST = (('Replica2', 'Replica3')));&quot; setting a load balanced routing list for when Replica1 is the primary <br>
+replica.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.<br></p>

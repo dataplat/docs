@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | New-DbaAvailabilityGroup</title>
+    <title>dbatools docs | Set-DbaResourceGovernor</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for New-DbaAvailabilityGroup">
+    <meta name="subtitle" content="Docs for Set-DbaResourceGovernor">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  New-DbaAvailabilityGroup" />
-    <meta property="og:url" content="https://docs.dbatools.io/New-DbaAvailabilityGroup.html" />
-    <meta property="og:description" content="dbatools docs for New-DbaAvailabilityGroup" />
+    <meta property="og:title" content="dbatools docs:  Set-DbaResourceGovernor" />
+    <meta property="og:url" content="https://docs.dbatools.io/Set-DbaResourceGovernor.html" />
+    <meta property="og:description" content="dbatools docs for Set-DbaResourceGovernor" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  New-DbaAvailabilityGroup" />
+    <meta name="twitter:text:title" content="dbatools docs:  Set-DbaResourceGovernor" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="new-dbaavailabilitygroup">New-DbaAvailabilityGroup</h1>
+                    <h1 id="set-dbaresourcegovernor">Set-DbaResourceGovernor</h1>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Chrissy LeMaire (@cl), netnerds.net</td>
+<td>John McCall (@lowlydba), <a href="https://www.lowlydba.com/">https://www.lowlydba.com/</a></td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,75 +474,19 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Automates the creation of availability groups.</p>
+<p>Sets the Resource Governor feature on the specified SQL Server to be enabled or disabled,
+along with specifying an optional classifier function.</p>
 <h2 id="description">Description</h2>
-<p>Automates the creation of availability groups.</p>
-<ul>
-<li>Checks prerequisites</li>
-<li>Creates Availability Group and adds primary replica</li>
-<li>Grants cluster permissions if necessary</li>
-<li>Adds secondary replica if supplied</li>
-<li>Adds databases if supplied
-<ul>
-<li>Performs backup/restore if seeding mode is manual</li>
-<li>Database has to be in full recovery mode (so at least one backup has been taken) if seeding mode is automatic</li>
-</ul>
-</li>
-<li>Adds listener to primary if supplied</li>
-<li>Joins secondaries to availability group</li>
-<li>Grants endpoint connect permissions to service accounts</li>
-<li>Grants CreateAnyDatabase permissions if seeding mode is automatic</li>
-<li>Returns Availability Group object from primary</li>
-</ul>
-<p>NOTES:</p>
-<ul>
-<li>If a backup / restore is performed, the backups will be left intact on the network share.</li>
-<li>If you're using SQL Server on Linux and a fully qualified domain name is required, please use the FQDN to create a proper Endpoint</li>
-</ul>
-<p>PLEASE NOTE THE CHANGED DEFAULTS:
-Starting with version 1.1.x we changed the defaults of the following parameters to have the same defaults
-as the T-SQL command &quot;CREATE AVAILABILITY GROUP&quot; and the wizard in SQL Server Management Studio:</p>
-<ul>
-<li>ClusterType from External to Wsfc (Windows Server Failover Cluster).</li>
-<li>FailureConditionLevel from OnServerDown (Level 1) to OnCriticalServerErrors (Level 3).</li>
-<li>ConnectionModeInSecondaryRole from AllowAllConnections (ALL) to AllowNoConnections (NO).
-To change these defaults we have introduced configuration parameters for all of them, see documentation of the parameters for details.</li>
-</ul>
-<p>Thanks for this, Thomas Stringer! <a href="https://blogs.technet.microsoft.com/heyscriptingguy/2013/04/29/set-up-an-alwayson-availability-group-with-powershell/">https://blogs.technet.microsoft.com/heyscriptingguy/2013/04/29/set-up-an-alwayson-availability-group-with-powershell/</a></p>
+<p>In order to utilize Resource Governor, it has to be enabled for an instance and
+have a classifier function specified. This function toggles the enabled status
+and sets the classifier function.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>New-DbaAvailabilityGroup
-    [[-Primary] &lt;DbaInstanceParameter&gt;]
-    [[-PrimarySqlCredential] &lt;PSCredential&gt;]
-    [[-Secondary] &lt;DbaInstanceParameter[]&gt;]
-    [[-SecondarySqlCredential] &lt;PSCredential&gt;]
-    [-Name] &lt;String&gt;
-    [-DtcSupport]
-    [[-ClusterType] &lt;String&gt;]
-    [[-AutomatedBackupPreference] &lt;String&gt;]
-    [[-FailureConditionLevel] &lt;String&gt;]
-    [[-HealthCheckTimeout] &lt;Int32&gt;]
-    [-Basic]
-    [-DatabaseHealthTrigger]
-    [-Passthru]
-    [[-Database] &lt;String[]&gt;]
-    [[-SharedPath] &lt;String&gt;]
-    [-UseLastBackup]
-    [-Force]
-    [[-AvailabilityMode] &lt;String&gt;]
-    [[-FailoverMode] &lt;String&gt;]
-    [[-BackupPriority] &lt;Int32&gt;]
-    [[-ConnectionModeInPrimaryRole] &lt;String&gt;]
-    [[-ConnectionModeInSecondaryRole] &lt;String&gt;]
-    [[-SeedingMode] &lt;String&gt;]
-    [[-Endpoint] &lt;String&gt;]
-    [[-EndpointUrl] &lt;String[]&gt;]
-    [[-ReadonlyRoutingConnectionUrl] &lt;String&gt;]
-    [[-Certificate] &lt;String&gt;]
-    [-ConfigureXESession]
-    [[-IPAddress] &lt;IPAddress[]&gt;]
-    [[-SubnetMask] &lt;IPAddress&gt;]
-    [[-Port] &lt;Int32&gt;]
-    [-Dhcp]
+<pre><code>Set-DbaResourceGovernor
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [[-Credential] &lt;PSCredential&gt;]
+    [-Enabled]
+    [-Disabled]
+    [[-ClassifierFunction] &lt;String&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -553,53 +497,24 @@ To change these defaults we have introduced configuration parameters for all of 
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql2016a -Name SharePoint
+<pre><code>PS C:\&gt; Set-DbaResourceGovernor -SqlInstance sql2016 -Enabled
 </code></pre>
-<p>Creates a new availability group on sql2016a named SharePoint<br></p>
+<p>Sets Resource Governor to enabled for the instance sql2016.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql2016a -Name SharePoint -Secondary sql2016b
+<pre><code>PS C:\&gt; Set-DbaResourceGovernor -SqlInstance sql2012\dev1 -Disabled
 </code></pre>
-<p>Creates a new availability group on sql2016a named SharePoint with a secondary replica, sql2016b<br></p>
+<p>Sets Resource Governor to disabled for the instance dev1 on sq2012.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql2016std -Name BAG1 -Basic -Confirm:$false
+<pre><code>PS C:\&gt; Set-DbaResourceGovernor -SqlInstance sql2012\dev1 -ClassifierFunction 'fnRGClassifier' -Enabled
 </code></pre>
-<p>Creates a basic availability group named BAG1 on sql2016std and does not confirm when setting up<br></p>
+<p>Sets Resource Governor to enabled for the instance dev1 on sq2012 and sets the classifier function to be 'fnRGClassifier'.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql2016b -Name AG1 -Dhcp -Database db1 -UseLastBackup
+<pre><code>PS C:\&gt; Set-DbaResourceGovernor -SqlInstance sql2012\dev1 -ClassifierFunction 'NULL' -Enabled
 </code></pre>
-<p>Creates an availability group on sql2016b with the name ag1. Uses the last backups available to add the database db1 to the AG.<br></p>
-<h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql2017 -Name SharePoint -ClusterType None -FailoverMode Manual
-</code></pre>
-<p>Creates a new availability group on sql2017 named SharePoint with a cluster type of none and a failover mode of manual<br></p>
-<h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql1 -Secondary sql2 -Name ag1 -Database pubs -ClusterType None -SeedingMode Automatic -FailoverMode Manual
-</code></pre>
-<p>Creates a new availability group with a primary replica on sql1 and a secondary on sql2. Automatically adds the database pubs.<br></p>
-<h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql1 -Secondary sql2 -Name ag1 -Database pubs -EndpointUrl 'TCP://sql1.specialnet.local:5022', 'TCP://sql2.specialnet.local:5022'
-</code></pre>
-<p>Creates a new availability group with a primary replica on sql1 and a secondary on sql2 with custom endpoint urls. Automatically adds the database pubs.<br></p>
-<h5 id="example-8">Example:  8</h5>
-<pre><code>PS C:\&gt; $cred = Get-Credential sqladmin
-PS C:\&gt; $params = @{
-&gt;&gt; Primary = &quot;sql1&quot;
-&gt;&gt; PrimarySqlCredential = $cred
-&gt;&gt; Secondary = &quot;sql2&quot;
-&gt;&gt; SecondarySqlCredential = $cred
-&gt;&gt; Name = &quot;test-ag&quot;
-&gt;&gt; Database = &quot;pubs&quot;
-&gt;&gt; ClusterType = &quot;None&quot;
-&gt;&gt; SeedingMode = &quot;Automatic&quot;
-&gt;&gt; FailoverMode = &quot;Manual&quot;
-&gt;&gt; Confirm = $false
-&gt;&gt; }
-PS C:\&gt; New-DbaAvailabilityGroup @params
-</code></pre>
-<p>This exact command was used to create an availability group on docker!<br></p>
+<p>Sets Resource Governor to enabled for the instance dev1 on sq2012 and sets the classifier function to be NULL.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
-<h5 id="name">-Name</h5>
-<p>The name of the Availability Group.<br></p>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -618,35 +533,6 @@ PS C:\&gt; New-DbaAvailabilityGroup @params
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="primary">-Primary</h5>
-<p>The primary SQL Server instance. Server version must be SQL Server version 2012 or higher.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
 <td>true (ByValue)</td>
 </tr>
 <tr>
@@ -655,10 +541,9 @@ PS C:\&gt; New-DbaAvailabilityGroup @params
 </tr>
 </tbody>
 </table>
-<h5 id="primarysqlcredential">-PrimarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance.<br></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="credential">-Credential</h5>
+<p>Credential object used to connect to the Windows server as a different user<br></p>
 <table>
 <thead>
 <tr>
@@ -685,66 +570,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="secondary">-Secondary</h5>
-<p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="secondarysqlcredential">-SecondarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="dtcsupport">-DtcSupport</h5>
-<p>Indicates whether the DtcSupport is enabled<br></p>
+<h5 id="enabled">-Enabled</h5>
+<p>Enables the Resource Governor.<br></p>
 <table>
 <thead>
 <tr>
@@ -771,149 +598,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="clustertype">-ClusterType</h5>
-<p>Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.
-Options include: Wsfc, External or None.
-Defaults to Wsfc (Windows Server Failover Cluster).
-The default can be changed with:
-Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>(Get-DbatoolsConfigValue -FullName 'AvailabilityGroups.Default.ClusterType' -Fallback 'Wsfc')</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Wsfc,External,None</td>
-</tr>
-</tbody>
-</table>
-<h5 id="automatedbackuppreference">-AutomatedBackupPreference</h5>
-<p>Specifies how replicas in the primary role are treated in the evaluation to pick the desired replica to perform a backup.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>Secondary</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>None,Primary,Secondary,SecondaryOnly</td>
-</tr>
-</tbody>
-</table>
-<h5 id="failureconditionlevel">-FailureConditionLevel</h5>
-<p>Specifies the different conditions that can trigger an automatic failover in Availability Group.
-Defaults to OnCriticalServerErrors (Level 3).
-From <a href="https://docs.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql</a>:
-Level 1 = OnServerDown
-Level 2 = OnServerUnresponsive
-Level 3 = OnCriticalServerErrors (the default in CREATE AVAILABILITY GROUP and in this command)
-Level 4 = OnModerateServerErrors
-Level 5 = OnAnyQualifiedFailureCondition
-The default can be changed with:
-Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.FailureConditionLevel' -Value 'On...' -Passthru | Register-DbatoolsConfig<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>(Get-DbatoolsConfigValue -FullName 'AvailabilityGroups.Default.FailureConditionLevel' -Fallback 'OnCriticalServerErrors')</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>OnAnyQualifiedFailureCondition,OnCriticalServerErrors,OnModerateServerErrors,OnServerDown,OnServerUnresponsive</td>
-</tr>
-</tbody>
-</table>
-<h5 id="healthchecktimeout">-HealthCheckTimeout</h5>
-<p>This setting used to specify the length of time, in milliseconds, that the SQL Server resource DLL should wait for information returned by the sp_server_diagnostics stored procedure before reporting
-the Always On Failover Cluster Instance (FCI) as unresponsive.
-Changes that are made to the timeout settings are effective immediately and do not require a restart of the SQL Server resource.
-Defaults to 30000 (30 seconds).<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>30000</td>
-</tr>
-</tbody>
-</table>
-<h5 id="basic">-Basic</h5>
-<p>Indicates whether the availability group is basic. Basic availability groups like pumpkin spice and uggs.
-<a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/basic-availability-groups-always-on-availability-groups">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/basic-availability-groups-always-on-availability-groups</a><br></p>
+<h5 id="disabled">-Disabled</h5>
+<p>Disables the Resource Governor.<br></p>
 <table>
 <thead>
 <tr>
@@ -940,64 +626,8 @@ Defaults to 30000 (30 seconds).<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="databasehealthtrigger">-DatabaseHealthTrigger</h5>
-<p>Indicates whether the availability group triggers the database health.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="passthru">-Passthru</h5>
-<p>Don't create the availability group, just pass thru an object that can be further customized before creation.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="database">-Database</h5>
-<p>The database or databases to add.<br></p>
+<h5 id="classifierfunction">-ClassifierFunction</h5>
+<p>Sets the classifier function for Resource Governor.<br></p>
 <table>
 <thead>
 <tr>
@@ -1021,545 +651,6 @@ Defaults to 30000 (30 seconds).<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="sharedpath">-SharedPath</h5>
-<p>The network share where the backups will be backed up and restored from.
-Each SQL Server service account must have access to this share.
-NOTE: If a backup / restore is performed, the backups will be left in tact on the network share.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="uselastbackup">-UseLastBackup</h5>
-<p>Use the last full and log backup of database. A log backup must be the last backup.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="force">-Force</h5>
-<p>Drop and recreate the database on remote servers using fresh backup.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="availabilitymode">-AvailabilityMode</h5>
-<p>Sets the availability mode of the availability group replica. Options are: AsynchronousCommit and SynchronousCommit. SynchronousCommit is default.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>SynchronousCommit</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>AsynchronousCommit,SynchronousCommit</td>
-</tr>
-</tbody>
-</table>
-<h5 id="failovermode">-FailoverMode</h5>
-<p>Sets the failover mode of the availability group replica. Options are Automatic, Manual and External. Automatic is default.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>Automatic</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Automatic,Manual,External</td>
-</tr>
-</tbody>
-</table>
-<h5 id="backuppriority">-BackupPriority</h5>
-<p>Sets the backup priority availability group replica. Default is 50.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>50</td>
-</tr>
-</tbody>
-</table>
-<h5 id="connectionmodeinprimaryrole">-ConnectionModeInPrimaryRole</h5>
-<p>Specifies the connection intent modes of an Availability Replica in primary role. AllowAllConnections by default.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>AllowAllConnections</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>AllowAllConnections,AllowReadWriteConnections</td>
-</tr>
-</tbody>
-</table>
-<h5 id="connectionmodeinsecondaryrole">-ConnectionModeInSecondaryRole</h5>
-<p>Specifies the connection modes of an Availability Replica in secondary role.
-Options include: AllowNoConnections (Alias: No), AllowReadIntentConnectionsOnly (Alias: Read-intent only),  AllowAllConnections (Alias: Yes)
-Defaults to AllowNoConnections.
-The default can be changed with:
-Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ConnectionModeInSecondaryRole' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>(Get-DbatoolsConfigValue -FullName 'AvailabilityGroups.Default.ConnectionModeInSecondaryRole' -Fallback 'AllowNoConnections')</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>AllowNoConnections,AllowReadIntentConnectionsOnly,AllowAllConnections,No,Read-intent only,Yes</td>
-</tr>
-</tbody>
-</table>
-<h5 id="seedingmode">-SeedingMode</h5>
-<p>Specifies how the secondary replica will be initially seeded.
-Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.
-Manual requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>Manual</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Automatic,Manual</td>
-</tr>
-</tbody>
-</table>
-<h5 id="endpoint">-Endpoint</h5>
-<p>By default, this command will attempt to find a DatabaseMirror endpoint. If one does not exist, it will create it.
-If an endpoint must be created, the name &quot;hadr_endpoint&quot; will be used. If an alternative is preferred, use Endpoint.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="endpointurl">-EndpointUrl</h5>
-<p>By default, the property Fqdn of Get-DbaEndpoint is used as EndpointUrl.
-Use EndpointUrl if different URLs are required due to special network configurations.
-EndpointUrl has to be an array of strings in format 'TCP://system-address:port', one entry for every instance.
-First entry for the primary instance, following entries for secondary instances in the order they show up in Secondary.
-See details regarding the format at: <a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica</a><br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="readonlyroutingconnectionurl">-ReadonlyRoutingConnectionUrl</h5>
-<p>Sets the read only routing connection url for the availability replica.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="certificate">-Certificate</h5>
-<p>Specifies that the endpoint is to authenticate the connection using the certificate specified by certificate_name to establish identity for authorization.
-The far endpoint must have a certificate with the public key matching the private key of the specified certificate.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="configurexesession">-ConfigureXESession</h5>
-<p>Configure the AlwaysOn_health extended events session to start automatically on every replica as the SSMS wizard would do.
-<a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/always-on-extended-events#BKMK_alwayson_health">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/always-on-extended-events#BKMK_alwayson_health</a><br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="ipaddress">-IPAddress</h5>
-<p>Sets the IP address of the availability group listener.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="subnetmask">-SubnetMask</h5>
-<p>Sets the subnet IP mask of the availability group listener.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>255.255.255.0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="port">-Port</h5>
-<p>Sets the number of the port used to communicate with the availability group.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>1433</td>
-</tr>
-</tbody>
-</table>
-<h5 id="dhcp">-Dhcp</h5>
-<p>Indicates whether the object is DHCP.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
 </tr>
 </tbody>
 </table>
@@ -1650,9 +741,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/New-DbaAvailabilityGroup.ps1">New-DbaAvailabilityGroup</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Set-DbaResourceGovernor.ps1">Set-DbaResourceGovernor</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#New-DbaAvailabilityGroup">New-DbaAvailabilityGroup</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Set-DbaResourceGovernor">Set-DbaResourceGovernor</a>.</p>
 
                 </div> <!-- rendered -->
             </div>
