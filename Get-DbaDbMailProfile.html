@@ -474,9 +474,9 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database mail profiles from SQL Server</p>
+<p>Gets database mail profile(s) from SQL Server</p>
 <h2 id="description">Description</h2>
-<p>Gets database mail profiles from SQL Server</p>
+<p>Gets database mail profile(s) from SQL Server</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbMailProfile
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -504,13 +504,18 @@
 </code></pre>
 <p>Returns the DBMail profiles on sql01\sharepoint then return a bunch more columns<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; $servers = &quot;sql2014&quot;,&quot;sql2016&quot;, &quot;sqlcluster\sharepoint&quot;
+<pre><code>PS C:\&gt; $servers = &quot;sql2014&quot;, &quot;sql2016&quot;, &quot;sqlcluster\sharepoint&quot;
 PS C:\&gt; $servers | Get-DbaDbMail | Get-DbaDbMailProfile
 </code></pre>
-<p>Returns the DBMail profiles for &quot;sql2014&quot;,&quot;sql2016&quot; and &quot;sqlcluster\sharepoint&quot;<br></p>
+<p>Returns the DBMail profiles for &quot;sql2014&quot;, &quot;sql2016&quot; and &quot;sqlcluster\sharepoint&quot;<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; $servers = &quot;sql2014&quot;, &quot;sql2016&quot;, &quot;sqlcluster\sharepoint&quot;
+PS C:\&gt; Get-DbaDbMailProfile -SqlInstance $servers
+</code></pre>
+<p>Returns the DBMail profiles for &quot;sql2014&quot;, &quot;sql2016&quot; and &quot;sqlcluster\sharepoint&quot;<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>TThe target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>

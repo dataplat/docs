@@ -495,31 +495,31 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Add-DbaServerRoleMember -SqlInstance server1 -Role dbcreator -Login login1
+<pre><code>PS C:\&gt; Add-DbaServerRoleMember -SqlInstance server1 -ServerRole dbcreator -Login login1
 </code></pre>
-<p>Adds login1 to the server-level role dbcreator on the instance server1<br></p>
+<p>Adds login1 to the dbcreator fixed server-level role on the instance server1.<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Add-DbaServerRoleMember -SqlInstance server1, sql2016 -ServerRole customrole -Login login1
 </code></pre>
-<p>Adds login1 in custom, server-level role customrole on the instance server1 and sql2016<br></p>
+<p>Adds login1 in customrole custom server-level role on the instance server1 and sql2016.<br></p>
 <h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; Add-DbaServerRoleMember -SqlInstance server1 -ServerRole customrole -Role dbcreator
 </code></pre>
-<p>Adds custom, server-level role customrole to dbcreator server-level fixed role.<br></p>
+<p>Adds customrole custom server-level role to dbcreator fixed server-level role.<br></p>
 <h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; $servers = Get-Content C:\servers.txt
 PS C:\&gt; $servers | Add-DbaServerRoleMember -ServerRole sysadmin -Login login1
 </code></pre>
-<p>Adds login1 to the sysadmin server-level role in every server in C:\servers.txt<br></p>
+<p>Adds login1 to the sysadmin fixed server-level role in every server in C:\servers.txt.<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Add-DbaServerRoleMember -SqlInstance localhost -ServerRole &quot;bulkadmin&quot;,&quot;dbcreator&quot; -Login login1
+<pre><code>PS C:\&gt; Add-DbaServerRoleMember -SqlInstance localhost -ServerRole bulkadmin, dbcreator -Login login1
 </code></pre>
-<p>Adds login1 on the server localhost to the server-level roles bulkadmin and dbcreator<br></p>
+<p>Adds login1 on the server localhost to the bulkadmin and dbcreator fixed server-level roles.<br></p>
 <h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; $roles = Get-DbaServerRole -SqlInstance localhost -ServerRole &quot;bulkadmin&quot;,&quot;dbcreator&quot;
+<pre><code>PS C:\&gt; $roles = Get-DbaServerRole -SqlInstance localhost -ServerRole bulkadmin, dbcreator
 PS C:\&gt; $roles | Add-DbaServerRoleMember -Login login1
 </code></pre>
-<p>Adds login1 on the server localhost to the server-level roles bulkadmin and dbcreator<br></p>
+<p>Adds login1 on the server localhost to the bulkadmin and dbcreator fixed server-level roles.<br></p>
 <h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; PS C:\ $logins = Get-Content C:\logins.txt
 </code></pre>

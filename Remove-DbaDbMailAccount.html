@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaDbMailAccount</title>
+    <title>dbatools docs | Remove-DbaDbMailAccount</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Get-DbaDbMailAccount">
+    <meta name="subtitle" content="Docs for Remove-DbaDbMailAccount">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaDbMailAccount" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaDbMailAccount.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaDbMailAccount" />
+    <meta property="og:title" content="dbatools docs:  Remove-DbaDbMailAccount" />
+    <meta property="og:url" content="https://docs.dbatools.io/Remove-DbaDbMailAccount.html" />
+    <meta property="og:description" content="dbatools docs for Remove-DbaDbMailAccount" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaDbMailAccount" />
+    <meta name="twitter:text:title" content="dbatools docs:  Remove-DbaDbMailAccount" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbadbmailaccount">Get-DbaDbMailAccount</h1>
+                    <h1 id="remove-dbadbmailaccount">Remove-DbaDbMailAccount</h1>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Chrissy LeMaire (@cl), netnerds.net</td>
+<td>Mikey Bronowski (@MikeyBronowski), <a href="https://bronowski.it">https://bronowski.it</a></td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,17 +474,26 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database mail account(s) from SQL Server.</p>
+<p>Removes database mail account(s).</p>
 <h2 id="description">Description</h2>
-<p>Gets database mail account(s) from SQL Server.</p>
+<p>Removes the database mail account(s) that have passed through the pipeline.
+If not used with a pipeline, Get-DbaDbMailAccount will be executed with the parameters provided
+and the returned database mail account(s) will be removed.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaDbMailAccount
-    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
-    [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Account] &lt;String[]&gt;]
-    [[-ExcludeAccount] &lt;String[]&gt;]
-    [[-InputObject] &lt;SqlMail[]&gt;]
+<pre><code>Remove-DbaDbMailAccount
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Account &lt;String[]&gt;]
+    [-ExcludeAccount &lt;String[]&gt;]
     [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+Remove-DbaDbMailAccount -InputObject &lt;MailAccount[]&gt;
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -492,23 +501,18 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaDbMailAccount -SqlInstance sql01\sharepoint
+<pre><code>PS C:\&gt; Remove-DbaDbMailAccount -SqlInstance localhost, localhost\namedinstance
 </code></pre>
-<p>Returns Database Mail accounts on sql01\sharepoint.<br></p>
+<p>Removes all database mail accounts on the localhost, localhost\namedinstance instances.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaDbMailAccount -SqlInstance sql01\sharepoint -Account 'The DBA Team'
+<pre><code>PS C:\&gt; Remove-DbaDbMailAccount -SqlInstance localhost -Name MyDatabaseMailAccount
 </code></pre>
-<p>Returns 'The DBA Team' Database Mail account from sql01\sharepoint.<br></p>
+<p>Removes MyDatabaseMailAccount database mail account on the localhost.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaDbMailAccount -SqlInstance sql01\sharepoint | Select-Object *
+<pre><code>PS C:\&gt; Get-DbaDbMailAccount -SqlInstance SRV1 | Out-GridView -Title 'Select database mail account(s) to drop' -OutputMode Multiple | Remove-DbaDbMailAccount
 </code></pre>
-<p>Returns the Database Mail accounts on sql01\sharepoint then return a bunch more columns.<br></p>
-<h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; $servers = sql2014, sql2016, sqlcluster\sharepoint
-PS C:\&gt; $servers | Get-DbaDbMail | Get-DbaDbMailAccount
-</code></pre>
-<p>Returns the Database Mail accounts for sql2014, sql2016 and sqlcluster\sharepoint.<br></p>
-<h3 id="optional-parameters">Optional Parameters</h3>
+<p>Using a pipeline this command gets all database mail accounts on SRV1, lets the user select those to remove and then removes the selected database mail accounts.<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
 <table>
@@ -525,7 +529,7 @@ PS C:\&gt; $servers | Get-DbaDbMail | Get-DbaDbMailAccount
 </tr>
 <tr>
 <td>Required</td>
-<td>False</td>
+<td>True</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -537,6 +541,35 @@ PS C:\&gt; $servers | Get-DbaDbMail | Get-DbaDbMailAccount
 </tr>
 </tbody>
 </table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Allows piping from Get-DbaDbMailAccount.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -568,7 +601,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="account">-Account</h5>
-<p>Specifies one or more account(s) to get. If unspecified, all accounts will be returned.<br></p>
+<p>Specifies one or more database mail account(s) to delete. If unspecified, all accounts will be removed.<br></p>
 <table>
 <thead>
 <tr>
@@ -596,7 +629,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeaccount">-ExcludeAccount</h5>
-<p>Specifies one or more account(s) to exclude.<br></p>
+<p>Specifies one or more database mail account(s) to exclude.<br></p>
 <table>
 <thead>
 <tr>
@@ -616,34 +649,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Pipeline</td>
 <td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Accepts pipeline input from Get-DbaDbMail.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -681,10 +686,67 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tr>
 </tbody>
 </table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts you for confirmation before executing any changing operations within the command.
+This is the default. Use -Confirm:$false to suppress these prompts.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Get-DbaDbMailAccount.ps1">Get-DbaDbMailAccount</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Remove-DbaDbMailAccount.ps1">Remove-DbaDbMailAccount</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Get-DbaDbMailAccount">Get-DbaDbMailAccount</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Remove-DbaDbMailAccount">Remove-DbaDbMailAccount</a>.</p>
 
                 </div> <!-- rendered -->
             </div>
