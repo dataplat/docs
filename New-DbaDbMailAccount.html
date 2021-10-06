@@ -481,7 +481,7 @@
 <pre><code>New-DbaDbMailAccount
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [-Name] &lt;String&gt;
+    [-Account] &lt;String&gt;
     [[-DisplayName] &lt;String&gt;]
     [[-Description] &lt;String&gt;]
     [-EmailAddress] &lt;String&gt;
@@ -498,9 +498,9 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; $account = New-DbaDbMailAccount -SqlInstance sql2017 -Name 'The DBA Team' -EmailAddress admin@ad.local -MailServer smtp.ad.local
+<pre><code>PS C:\&gt; $account = New-DbaDbMailAccount -SqlInstance sql2017 -Account 'The DBA Team' -EmailAddress admin@ad.local -MailServer smtp.ad.local
 </code></pre>
-<p>Creates a new db mail account with the email address admin@ad.local on sql2017 named &quot;The DBA Team&quot; using the smtp.ad.local mail server<br></p>
+<p>Creates a new database mail account with the email address admin@ad.local on sql2017 named &quot;The DBA Team&quot; using the smtp.ad.local mail server.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2008 or higher.<br></p>
@@ -530,8 +530,8 @@
 </tr>
 </tbody>
 </table>
-<h5 id="name">-Name</h5>
-<p>The Name of the account to be created.<br></p>
+<h5 id="account">-Account</h5>
+<p>The name of the account to be created.<br></p>
 <table>
 <thead>
 <tr>
@@ -542,7 +542,7 @@
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Name</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -641,7 +641,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>$Name</td>
+<td>$Account</td>
 </tr>
 </tbody>
 </table>
