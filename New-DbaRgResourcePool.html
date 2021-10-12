@@ -482,7 +482,9 @@ A resource pool represents a subset of the physical resources (memory, CPUs and 
 <pre><code>New-DbaRgResourcePool -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
     [-ResourcePool &lt;String[]&gt;]
-    [-Type &lt;String&gt;] -MaximumCpuPercentage &lt;Int32&gt; -MaximumMemoryPercentage &lt;Int32&gt;
+    [-Type &lt;String&gt;]
+    [-MaximumCpuPercentage &lt;Int32&gt;]
+    [-MaximumMemoryPercentage &lt;Int32&gt;]
     [-SkipReconfigure]
     [-Force]
     [-EnableException]
@@ -494,8 +496,11 @@ New-DbaRgResourcePool -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
     [-ResourcePool &lt;String[]&gt;]
     [-Type &lt;String&gt;]
-    [-MinimumCpuPercentage &lt;Int32&gt;] -MaximumCpuPercentage &lt;Int32&gt; -CapCpuPercentage &lt;Int32&gt;
-    [-MinimumMemoryPercentage &lt;Int32&gt;] -MaximumMemoryPercentage &lt;Int32&gt;
+    [-MinimumCpuPercentage &lt;Int32&gt;]
+    [-MaximumCpuPercentage &lt;Int32&gt;]
+    [-CapCpuPercentage &lt;Int32&gt;]
+    [-MinimumMemoryPercentage &lt;Int32&gt;]
+    [-MaximumMemoryPercentage &lt;Int32&gt;]
     [-MinimumIOPSPerVolume &lt;Int32&gt;]
     [-MaximumIOPSPerVolume &lt;Int32&gt;]
     [-SkipReconfigure]
@@ -508,7 +513,9 @@ New-DbaRgResourcePool -SqlInstance &lt;DbaInstanceParameter[]&gt;
 New-DbaRgResourcePool -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
     [-ResourcePool &lt;String[]&gt;]
-    [-Type &lt;String&gt;] -MaximumCpuPercentage &lt;Int32&gt; -MaximumMemoryPercentage &lt;Int32&gt;
+    [-Type &lt;String&gt;]
+    [-MaximumCpuPercentage &lt;Int32&gt;]
+    [-MaximumMemoryPercentage &lt;Int32&gt;]
     [-MaximumProcesses &lt;Int32&gt;]
     [-SkipReconfigure]
     [-Force]
@@ -557,91 +564,6 @@ until it is reconfigured.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="maximumcpupercentage">-MaximumCpuPercentage</h5>
-<p>Specifies the maximum average CPU bandwidth that all requests in resource pool will receive when there is CPU contention.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="capcpupercentage">-CapCpuPercentage</h5>
-<p>Specifies a hard cap on the CPU bandwidth that all requests in the resource pool will receive.
-Limits the maximum CPU bandwidth level to be the same as the specified value. Only for SQL Server 2012+<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="maximummemorypercentage">-MaximumMemoryPercentage</h5>
-<p>Specifies the total server memory that can be used by requests in this resource pool. value is an integer with a default setting of 100.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
 </tr>
 </tbody>
 </table>
@@ -762,6 +684,63 @@ Limits the maximum CPU bandwidth level to be the same as the specified value. On
 </tr>
 </tbody>
 </table>
+<h5 id="maximumcpupercentage">-MaximumCpuPercentage</h5>
+<p>Specifies the maximum average CPU bandwidth that all requests in resource pool will receive when there is CPU contention.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<h5 id="capcpupercentage">-CapCpuPercentage</h5>
+<p>Specifies a hard cap on the CPU bandwidth that all requests in the resource pool will receive.
+Limits the maximum CPU bandwidth level to be the same as the specified value. Only for SQL Server 2012+<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
 <h5 id="minimummemorypercentage">-MinimumMemoryPercentage</h5>
 <p>Specifies the minimum amount of memory reserved for this resource pool that can not be shared with other resource pools.<br></p>
 <table>
@@ -787,6 +766,34 @@ Limits the maximum CPU bandwidth level to be the same as the specified value. On
 <tr>
 <td>Default Value</td>
 <td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="maximummemorypercentage">-MaximumMemoryPercentage</h5>
+<p>Specifies the total server memory that can be used by requests in this resource pool. value is an integer with a default setting of 100.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>100</td>
 </tr>
 </tbody>
 </table>

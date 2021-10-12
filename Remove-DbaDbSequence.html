@@ -484,14 +484,15 @@ and the returned sequences will be removed.</p>
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String[]&gt;]
-    [-Name &lt;String[]&gt;]
+    [-Sequence &lt;String[]&gt;]
     [-Schema &lt;String[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
     [&lt;CommonParameters&gt;]
 
-Remove-DbaDbSequence -InputObject &lt;Sequence[]&gt;
+Remove-DbaDbSequence
+    [-SqlCredential &lt;PSCredential&gt;] -InputObject &lt;Sequence[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -502,7 +503,7 @@ Remove-DbaDbSequence -InputObject &lt;Sequence[]&gt;
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Remove-DbaDbSequence -SqlInstance sqldev01 -Database TestDB -Name TestSequence
+<pre><code>PS C:\&gt; Remove-DbaDbSequence -SqlInstance sqldev01 -Database TestDB -Sequence TestSequence
 </code></pre>
 <p>Removes the sequence TestSequence in the TestDB database on the sqldev01 instance.<br></p>
 <h5 id="example-2">Example:  2</h5>
@@ -625,7 +626,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="name">-Name</h5>
+<h5 id="sequence">-Sequence</h5>
 <p>The name(s) of the sequence(s).<br></p>
 <table>
 <thead>
@@ -637,7 +638,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Name</td>
 </tr>
 <tr>
 <td>Required</td>

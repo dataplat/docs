@@ -482,7 +482,7 @@
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;String[]&gt;]
-    [[-Name] &lt;String[]&gt;]
+    [[-Sequence] &lt;String[]&gt;]
     [[-Schema] &lt;String[]&gt;]
     [[-InputObject] &lt;Database[]&gt;]
     [-EnableException]
@@ -493,11 +493,11 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaDbSequence -SqlInstance sqldev01 -Database TestDB -Name TestSequence
+<pre><code>PS C:\&gt; Get-DbaDbSequence -SqlInstance sqldev01 -Database TestDB -Sequence TestSequence
 </code></pre>
 <p>Finds the sequence TestSequence in the TestDB database on the sqldev01 instance.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sqldev01 -Database TestDB | Get-DbaDbSequence -Name TestSequence -Schema TestSchema
+<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sqldev01 -Database TestDB | Get-DbaDbSequence -Sequence TestSequence -Schema TestSchema
 </code></pre>
 <p>Using a pipeline this command finds the sequence named TestSchema.TestSequence in the TestDB database on the sqldev01 instance.<br></p>
 <h5 id="example-3">Example:  3</h5>
@@ -509,7 +509,7 @@
 </code></pre>
 <p>Finds all the sequences in the db database on the localhost instance.<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Get-DbaDbSequence -SqlInstance localhost -Name seq
+<pre><code>PS C:\&gt; Get-DbaDbSequence -SqlInstance localhost -Sequence seq
 </code></pre>
 <p>Finds all the sequences named seq on the localhost instance.<br></p>
 <h5 id="example-6">Example:  6</h5>
@@ -604,7 +604,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="name">-Name</h5>
+<h5 id="sequence">-Sequence</h5>
 <p>The name of the sequence.<br></p>
 <table>
 <thead>
@@ -616,7 +616,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Name</td>
 </tr>
 <tr>
 <td>Required</td>

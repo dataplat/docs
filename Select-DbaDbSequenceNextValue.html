@@ -482,7 +482,7 @@
     [[-SqlInstance] &lt;DbaInstanceParameter&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;String&gt;]
-    [-Name] &lt;String&gt;
+    [-Sequence] &lt;String[]&gt;
     [[-Schema] &lt;String&gt;]
     [[-InputObject] &lt;Database&gt;]
     [-EnableException]
@@ -495,15 +495,15 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Select-DbaDbSequenceNextValue -SqlInstance sqldev01 -Database TestDB -Name TestSequence
+<pre><code>PS C:\&gt; Select-DbaDbSequenceNextValue -SqlInstance sqldev01 -Database TestDB -Sequence TestSequence
 </code></pre>
 <p>Selects the next value from the sequence TestSequence in the TestDB database on the sqldev01 instance.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sqldev01 -Database TestDB | Select-DbaDbSequenceNextValue -Name TestSequence -Schema TestSchema
+<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sqldev01 -Database TestDB | Select-DbaDbSequenceNextValue -Sequence TestSequence -Schema TestSchema
 </code></pre>
 <p>Using a pipeline this command selects the next value from the sequence TestSchema.TestSequence in the TestDB database on the sqldev01 instance.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
-<h5 id="name">-Name</h5>
+<h5 id="sequence">-Sequence</h5>
 <p>The name of the sequence.<br></p>
 <table>
 <thead>
@@ -515,7 +515,7 @@
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Name</td>
 </tr>
 <tr>
 <td>Required</td>

@@ -505,11 +505,11 @@ After the restore job check is performed the job is disabled to prevent the job 
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Invoke-DbaDbLogShipRecovery -SqlInstance server1
+<pre><code>PS C:\&gt; Invoke-DbaDbLogShipRecovery -SqlInstance server1 -Force
 </code></pre>
 <p>Recovers all the databases on the instance that are enabled for log shipping<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Invoke-DbaDbLogShipRecovery -SqlInstance server1 -SqlCredential $cred -Verbose
+<pre><code>PS C:\&gt; Invoke-DbaDbLogShipRecovery -SqlInstance server1 -SqlCredential $cred -Verbose -Force
 </code></pre>
 <p>Recovers all the databases on the instance that are enabled for log shipping using a credential<br></p>
 <h5 id="example-3">Example:  3</h5>
@@ -521,7 +521,7 @@ After the restore job check is performed the job is disabled to prevent the job 
 </code></pre>
 <p>Recovers the database db1, db2, db3, db4 to a normal status<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Invoke-DbaDbLogShipRecovery -SqlInstance server1 -WhatIf
+<pre><code>PS C:\&gt; Invoke-DbaDbLogShipRecovery -SqlInstance server1 -Force -WhatIf
 </code></pre>
 <p>Shows what would happen if the command were executed.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>

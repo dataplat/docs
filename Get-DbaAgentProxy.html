@@ -482,6 +482,7 @@
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Proxy] &lt;String[]&gt;]
+    [[-ExcludeProxy] &lt;String[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -558,7 +559,35 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="proxy">-Proxy</h5>
-<p>The proxy to process - this list is auto-populated from the server. If unspecified, all proxies will be processed.<br></p>
+<p>The name of the proxies to return. If null, will get all proxies from the server. Note - this parameter accepts wildcards.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludeproxy">-ExcludeProxy</h5>
+<p>The name of the proxies to exclude. If not provided, no proxies will be excluded. Note - this parameter accepts wildcards.<br></p>
 <table>
 <thead>
 <tr>
