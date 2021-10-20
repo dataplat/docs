@@ -518,7 +518,7 @@ and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlc
     [[-Tenant] &lt;String&gt;]
     [[-Thumbprint] &lt;String&gt;]
     [[-Store] &lt;String&gt;]
-    [[-AccessToken] &lt;String&gt;]
+    [[-AccessToken] &lt;PSObject&gt;]
     [-DedicatedAdminConnection]
     [-DisableException]
     [&lt;CommonParameters&gt;]
@@ -606,7 +606,7 @@ When connecting from a non-Azure workstation or an Azure VM without .NET 4.7.2 a
 <h5 id="example-15">Example:  15</h5>
 <pre><code>PS C:\&gt; $azureCredential = Get-Credential -Message 'Azure Credential'
 PS C:\&gt; $azureAccount = Connect-AzAccount -Credential $azureCredential
-PS C:\&gt; $azureToken = (Get-AzAccessToken -ResourceUrl https://database.windows.net).Token
+PS C:\&gt; $azureToken = Get-AzAccessToken -ResourceUrl https://database.windows.net
 PS C:\&gt; $azureInstance = &quot;YOURSERVER.database.windows.net&quot;
 PS C:\&gt; $azureDatabase = &quot;MYDATABASE&quot;
 PS C:\&gt; $server = Connect-DbaInstance -SqlInstance $azureInstance -Database $azureDatabase -AccessToken $azureToken
@@ -615,7 +615,7 @@ PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&qu
 <p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken.<br>
 Note that the token is valid for only one hour and cannot be renewed automatically.<br></p>
 <h5 id="example-16">Example:  16</h5>
-<pre><code>PS C:\&gt; $token = (New-DbaAzAccessToken -Type RenewableServicePrincipal -Subtype AzureSqlDb -Tenant $tenantid -Credential $cred).GetAccessToken()
+<pre><code>PS C:\&gt; $token = New-DbaAzAccessToken -Type RenewableServicePrincipal -Subtype AzureSqlDb -Tenant $tenantid -Credential $cred
 PS C:\&gt; Connect-DbaInstance -SqlInstance sample.database.windows.net -Accesstoken $token
 </code></pre>
 <p>Uses dbatools to generate the access token for an Azure SQL Database, then logs in using that AccessToken.<br></p>
@@ -1546,7 +1546,7 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </tbody>
 </table>
 <h5 id="accesstoken">-AccessToken</h5>
-<p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken, that has to be generated with Get-AzAccessToken.
+<p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken, that has to be generated with Get-AzAccessToken or New-DbaAzAccessToken.
 Note that the token is valid for only one hour and cannot be renewed automatically.<br></p>
 <table>
 <thead>
