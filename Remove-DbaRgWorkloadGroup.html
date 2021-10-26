@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaRgWorkloadGroup</title>
+    <title>dbatools docs | Remove-DbaRgWorkloadGroup</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Get-DbaRgWorkloadGroup">
+    <meta name="subtitle" content="Docs for Remove-DbaRgWorkloadGroup">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaRgWorkloadGroup" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaRgWorkloadGroup.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaRgWorkloadGroup" />
+    <meta property="og:title" content="dbatools docs:  Remove-DbaRgWorkloadGroup" />
+    <meta property="og:url" content="https://docs.dbatools.io/Remove-DbaRgWorkloadGroup.html" />
+    <meta property="og:description" content="dbatools docs for Remove-DbaRgWorkloadGroup" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaRgWorkloadGroup" />
+    <meta name="twitter:text:title" content="dbatools docs:  Remove-DbaRgWorkloadGroup" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbargworkloadgroup">Get-DbaRgWorkloadGroup</h1>
+                    <h1 id="remove-dbargworkloadgroup">Remove-DbaRgWorkloadGroup</h1>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Chrissy LeMaire (@cl), netnerds.net</td>
+<td>John McCall (@lowlydba), <a href="https://www.lowlydba.com/">https://www.lowlydba.com/</a></td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,15 +474,22 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets all Resource Governor workload group objects</p>
+<p>Removes a workload group from the Resource Governor on the specified SQL Server.</p>
 <h2 id="description">Description</h2>
-<p>Gets all Resource Governor workload group objects</p>
+<p>Removes a workload group from the Resource Governor on the specified SQL Server.
+A workload group represents a subset of the resources of an instance of the Database Engine.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaRgWorkloadGroup
+<pre><code>Remove-DbaRgWorkloadGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-InputObject] &lt;ResourcePool[]&gt;]
+    [[-WorkloadGroup] &lt;String[]&gt;]
+    [[-ResourcePool] &lt;String&gt;]
+    [[-ResourcePoolType] &lt;String&gt;]
+    [-SkipReconfigure]
+    [[-InputObject] &lt;WorkloadGroup[]&gt;]
     [-EnableException]
+    [-WhatIf]
+    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -490,16 +497,16 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaRgWorkloadGroup -SqlInstance sql2017
+<pre><code>PS C:\&gt; Remove-DbaRgResourcePool -SqlInstance sql2016 -WorkloadGroup &quot;groupAdmin&quot; -ResourcePool &quot;poolAdmin&quot; -ResourcePoolType Internal
 </code></pre>
-<p>Gets the workload groups on sql2017<br></p>
+<p>Removes a workload group named &quot;groupAdmin&quot; in the &quot;poolAdmin&quot; resource pool for the instance sql2016<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaResourceGovernor -SqlInstance sql2017 | Get-DbaRgResourcePool | Get-DbaRgWorkloadGroup
+<pre><code>PS C:\&gt; Remove-DbaRgResourcePool -SqlInstance sql2016 -WorkloadGroup &quot;groupAdmin&quot;
 </code></pre>
-<p>Gets the workload groups on sql2017<br></p>
+<p>Removes a workload group named &quot;groupAdmin&quot; in the default resource pool for the instance sql2016.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances<br></p>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -518,7 +525,7 @@
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>true (ByValue, ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -527,9 +534,35 @@
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credential object used to connect to the Windows server as a different user.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByPropertyName)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="workloadgroup">-WorkloadGroup</h5>
+<p>Name of the workload group to be removed.<br></p>
 <table>
 <thead>
 <tr>
@@ -556,8 +589,97 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
+<h5 id="resourcepool">-ResourcePool</h5>
+<p>Name of the resource pool the workload group is in.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>default</td>
+</tr>
+</tbody>
+</table>
+<h5 id="resourcepooltype">-ResourcePoolType</h5>
+<p>Internal or External.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Internal</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Internal,External</td>
+</tr>
+</tbody>
+</table>
+<h5 id="skipreconfigure">-SkipReconfigure</h5>
+<p>Resource Governor requires a reconfiguriation for workload group changes to take effect.
+Use this switch to skip issuing a reconfigure for the Resource Governor.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows input to be piped from Get-DbaRgResourcePool<br></p>
+<p>Allows input to be piped from Get-DbaRgWorkloadGroup.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,10 +736,66 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tr>
 </tbody>
 </table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Get-DbaRgWorkloadGroup.ps1">Get-DbaRgWorkloadGroup</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Remove-DbaRgWorkloadGroup.ps1">Remove-DbaRgWorkloadGroup</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Get-DbaRgWorkloadGroup">Get-DbaRgWorkloadGroup</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Remove-DbaRgWorkloadGroup">Remove-DbaRgWorkloadGroup</a>.</p>
 
                 </div> <!-- rendered -->
             </div>
