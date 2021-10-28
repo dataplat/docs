@@ -483,6 +483,7 @@
     [[-Path] &lt;String&gt;]
     [[-FilePath] &lt;String&gt;]
     [[-Architecture] &lt;String&gt;]
+    [[-Language] &lt;String&gt;]
     [[-InputObject] &lt;Object[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -507,6 +508,10 @@
 <pre><code>PS C:\&gt; Save-DbaKbUpdate -Name KB4057114 -Architecture All -Path C:\temp
 </code></pre>
 <p>Downloads the x64 version of KB4057114 and the x86 version of KB4057114 to C:\temp. This works for SQL Server or any other KB.<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Save-DbaKbUpdate -Name KB5003279 -Language enu -Path C:\temp
+</code></pre>
+<p>Downloads only the english version of KB5003279, which is the Service Pack 3 for SQL Server 2016, to C:\temp.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="name">-Name</h5>
 <p>The KB name or number. For example, KB4057119 or 4057119.<br></p>
@@ -621,6 +626,36 @@
 <tr>
 <td>Accepted Values</td>
 <td>x64,x86,ia64,All</td>
+</tr>
+</tbody>
+</table>
+<h5 id="language">-Language</h5>
+<p>Cumulative Updates come in one file for all languages, but Service Packs have a file for every language.
+If you want to download only a specific language, use this parameter.
+You have to use the three letter code that is part of the filename, e. g. &quot;enu&quot; for english or &quot;deu&quot; for german.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>
