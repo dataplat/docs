@@ -484,7 +484,7 @@
 <pre><code>Invoke-DbaWhoIsActive
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Database] &lt;Object&gt;]
+    [[-Database] &lt;String&gt;]
     [[-Filter] &lt;String&gt;]
     [[-FilterType] &lt;String&gt;]
     [[-NotFilter] &lt;String&gt;]
@@ -509,6 +509,7 @@
     [-ReturnSchema]
     [[-Schema] &lt;String&gt;]
     [-Help]
+    [[-As] &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -635,7 +636,7 @@ All other filter types support % or _ as wildcards<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td>As</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>
@@ -1339,6 +1340,39 @@ set that would be returned by using the same collection of the rest of the param
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="as">-As</h5>
+<p>Specifies output type. Valid options for this parameter are 'DataSet', 'DataTable', 'DataRow', 'PSObject'. Default is 'DataRow'.
+PSObject output introduces overhead but adds flexibility for working with results: <a href="https://forums.powershell.org/t/dealing-with-dbnull/2328/2">https://forums.powershell.org/t/dealing-with-dbnull/2328/2</a><br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>DataRow</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>DataSet,DataTable,DataRow,PSObject</td>
 </tr>
 </tbody>
 </table>
