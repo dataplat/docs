@@ -504,10 +504,16 @@
 </code></pre>
 <p>Pops up a dialog box asking which database on sqlserver2014a you want to install the procedure into. Connects to SQL Server using SQL Authentication.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Install-DbaWhoIsActive -SqlInstance sqlserver2014a -Database master -LocalFile c:\SQLAdmin\whoisactive_install.sql
+<pre><code>PS C:\&gt; Install-DbaWhoIsActive -SqlInstance sqlserver2014a -Database master -LocalFile c:\SQLAdmin\who_is_active.sql
 </code></pre>
-<p>Installs sp_WhoisActive to sqlserver2014a's master database from the local file whoisactive_install.sql<br></p>
+<p>Installs sp_WhoisActive to sqlserver2014a's master database from the local file who_is_active.sql.<br>
+You can download this file from <a href="https://github.com/amachanic/sp_whoisactive/blob/master/who_is_active.sql">https://github.com/amachanic/sp_whoisactive/blob/master/who_is_active.sql</a><br></p>
 <h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Install-DbaWhoIsActive -SqlInstance sqlserver2014a -Database master -LocalFile c:\SQLAdmin\sp_whoisactive-11.35.zip
+</code></pre>
+<p>Installs sp_WhoisActive to sqlserver2014a's master database from the local file sp_whoisactive-11.35.zip.<br>
+You can download this file from <a href="https://github.com/amachanic/sp_whoisactive/releases">https://github.com/amachanic/sp_whoisactive/releases</a><br></p>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; $instances = Get-DbaRegServer sqlserver
 PS C:\&gt; Install-DbaWhoIsActive -SqlInstance $instances -Database master
 </code></pre>
@@ -573,8 +579,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install sp_WhoisActive from. This can be either the zip file as distributed by the website or the expanded SQL script. If this parameter is not specified, the
-latest version will be downloaded and installed from <a href="https://whoisactive.com/">https://whoisactive.com/</a><br></p>
+<p>Specifies the path to a local file to install sp_WhoisActive from. This can be either the zip file as distributed by the website or the expanded SQL script.
+If this parameter is not specified, the latest version will be downloaded and installed from <a href="https://github.com/amachanic/sp_whoisactive/releases">https://github.com/amachanic/sp_whoisactive/releases</a><br></p>
 <table>
 <thead>
 <tr>
@@ -660,7 +666,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the sp_WhoisActive will be downloaded from the internet even if previously cached.<br></p>
+<p>If this switch is enabled, then sp_WhoisActive will be downloaded from the internet even if previously cached.<br></p>
 <table>
 <thead>
 <tr>
