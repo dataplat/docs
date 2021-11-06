@@ -533,6 +533,7 @@ it can be disabled by setting the dbatools configuration option 'commands.initia
     [[-SaveConfiguration] &lt;String&gt;]
     [-PerformVolumeMaintenanceTasks]
     [-Restart]
+    [-NoPendingRenameCheck]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -863,10 +864,10 @@ Consider setting the following configuration in your session if you want to omit
 </table>
 <h5 id="feature">-Feature</h5>
 <p>Features to install. Templates like &quot;Default&quot; and &quot;All&quot; can be used to setup a predefined set of components. Full list of features:
-Default
+Default: Engine, Replication, FullText, Tools
 All
 Engine
-Tools
+Tools: SSMS, BackwardsCompatibility, Connectivity
 Replication
 FullText
 DataQuality
@@ -880,11 +881,13 @@ IntegrationServices
 MasterDataServices
 PythonPackages
 RPackages
+BackwardsCompatibility
+Connectivity
 ReplayController
 ReplayClient
 SDK
 BIDS
-SSMS<br></p>
+SSMS: SSMS, ADV_SSMS<br></p>
 <table>
 <thead>
 <tr>
@@ -911,7 +914,7 @@ SSMS<br></p>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Default,All,Engine,Tools,Replication,FullText,DataQuality,PolyBase,MachineLearning,AnalysisServices,ReportingServices,ReportingForSharepoint,SharepointAddin,IntegrationServices,MasterDataServices,PythonPackages,RPackages,ReplayController,ReplayClient,SDK,BIDS,SSMS</td>
+<td>Default,All,Engine,Tools,Replication,FullText,DataQuality,PolyBase,MachineLearning,AnalysisServices,ReportingServices,ReportingForSharepoint,SharepointAddin,IntegrationServices,MasterDataServices,PythonPackages,RPackages,BackwardsCompatibility,Connectivity,ReplayController,ReplayClient,SDK,BIDS,SSMS</td>
 </tr>
 </tbody>
 </table>
@@ -1506,6 +1509,34 @@ If the PID is already built into the installation media, can be ignored.<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="nopendingrenamecheck">-NoPendingRenameCheck</h5>
+<p>Disables pending rename validation when checking for a pending reboot.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(Get-DbatoolsConfigValue -Name 'OS.PendingRename' -Fallback $false)</td>
 </tr>
 </tbody>
 </table>

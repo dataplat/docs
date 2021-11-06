@@ -514,6 +514,7 @@ it can be disabled by setting the dbatools configuration option 'commands.initia
     [-ExtractPath &lt;String&gt;]
     [-ArgumentList &lt;String[]&gt;]
     [-Download]
+    [-NoPendingRenameCheck]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -531,6 +532,7 @@ Update-DbaInstance
     [-ExtractPath &lt;String&gt;]
     [-ArgumentList &lt;String[]&gt;]
     [-Download]
+    [-NoPendingRenameCheck]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -1013,6 +1015,34 @@ If the Path is a network Path, the files would be downloaded straight to the net
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="nopendingrenamecheck">-NoPendingRenameCheck</h5>
+<p>Disables pending rename validation when checking for a pending reboot.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(Get-DbatoolsConfigValue -Name 'OS.PendingRename' -Fallback $false)</td>
 </tr>
 </tbody>
 </table>
