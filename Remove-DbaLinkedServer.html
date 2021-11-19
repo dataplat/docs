@@ -483,6 +483,7 @@
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-LinkedServer] &lt;String[]&gt;]
     [[-InputObject] &lt;Object[]&gt;]
+    [-Force]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -497,11 +498,15 @@
 </code></pre>
 <p>Removes the linked server &quot;linkedServer1&quot; from the sql01 instance.<br></p>
 <h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Remove-DbaLinkedServer -SqlInstance sql01 -LinkedServer linkedServer1 -Confirm:$false -Force
+</code></pre>
+<p>Removes the linked server &quot;linkedServer1&quot; and the associated linked server logins from the sql01 instance.<br></p>
+<h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; $linkedServer1 = Get-DbaLinkedServer -SqlInstance sql01 -LinkedServer linkedServer1
 PS C:\&gt; $linkedServer1 | Remove-DbaLinkedServer -Confirm:$false
 </code></pre>
 <p>Passes in a linked server via pipeline and removes it from the sql01 instance.<br></p>
-<h5 id="example-3">Example:  3</h5>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Connect-DbaInstance -SqlInstance sql01 | Remove-DbaLinkedServer -LinkedServer linkedServer1 -Confirm:$false
 </code></pre>
 <p>Removes the linked server &quot;linkedServer1&quot; from the sql01 instance, which is passed in via pipeline.<br></p>
@@ -618,6 +623,34 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>Drops the linked server login(s) associated with the linked server and then drops the linked server.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

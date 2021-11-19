@@ -560,7 +560,7 @@
 </table>
 <h5 id="outputtype">-OutputType</h5>
 <p>Defines what information is returned from the command.
-Options include: Full, ServerProtocols, TcpIpProperties or TcpIpAddresses. Full by default.
+Options include: Full, ServerProtocols, TcpIpProperties, TcpIpAddresses or Certificate. Full by default.
 Full returns one object per SqlInstance with information about the server protocols
 and nested objects with information about TCP/IP properties and TCP/IP addresses.
 ServerProtocols returns one object per SqlInstance with information about the server protocols only.
@@ -568,7 +568,8 @@ TcpIpProperties returns one object per SqlInstance with information about the TC
 TcpIpAddresses returns one object per SqlInstance and IP address.
 If the instance listens on all IP addresses (TcpIpProperties.ListenAll), only the information about the IPAll address is returned.
 Otherwise only information about the individual IP addresses is returned.
-For more details see: <a href="https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port">https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port</a><br></p>
+For more details see: <a href="https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port">https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port</a>
+Certificate returns one object per SqlInstance with information about the configured network certificate and whether encryption is enforced.<br></p>
 <table>
 <thead>
 <tr>
@@ -595,7 +596,7 @@ For more details see: <a href="https://docs.microsoft.com/en-us/sql/database-eng
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Full,ServerProtocols,TcpIpProperties,TcpIpAddresses</td>
+<td>Full,ServerProtocols,TcpIpProperties,TcpIpAddresses,Certificate</td>
 </tr>
 </tbody>
 </table>

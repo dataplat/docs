@@ -481,6 +481,7 @@ It uses the setting 'assets.sqlbuildreference' to fetch it.
 To see your current setting, use Get-DbatoolsConfigValue -Name 'assets.sqlbuildreference'</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Update-DbaBuildReference
+    [[-LocalFile] &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -492,7 +493,39 @@ To see your current setting, use Get-DbatoolsConfigValue -Name 'assets.sqlbuildr
 <pre><code>PS C:\&gt; Update-DbaBuildReference
 </code></pre>
 <p>Looks online if there is a newer version of the build reference<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Update-DbaBuildReference -LocalFile \\fileserver\Software\dbatools\dbatools-buildref-index.json
+</code></pre>
+<p>Uses the given file instead of downloading the file to update the build reference<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="localfile">-LocalFile</h5>
+<p>Specifies the path to a local file to install from instead of downloading from Github.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h5 id="enableexception">-EnableException</h5>
 <p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
 This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.

@@ -478,6 +478,16 @@
 <h2 id="description">Description</h2>
 <p>Download and extract software from Github to update the local cached version of that software.
 This command is run from inside of Install-Dba* and Update-Dba* commands to update the local cache if needed.</p>
+<p>In case you don't have internet access on the target computer, you can download the zip files from the following URLs
+at another computer, transfer them to the target computer or place them on a network share and then use -LocalFile
+to update the local cache:</p>
+<ul>
+<li>MaintenanceSolution: <a href="https://github.com/olahallengren/sql-server-maintenance-solution">https://github.com/olahallengren/sql-server-maintenance-solution</a></li>
+<li>FirstResponderKit: <a href="https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit/releases">https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit/releases</a></li>
+<li>DarlingData: <a href="https://github.com/erikdarlingdata/DarlingData">https://github.com/erikdarlingdata/DarlingData</a></li>
+<li>SQLWATCH: <a href="https://github.com/marcingminski/sqlwatch/releases">https://github.com/marcingminski/sqlwatch/releases</a></li>
+<li>WhoIsActive: <a href="https://github.com/amachanic/sp_whoisactive/releases">https://github.com/amachanic/sp_whoisactive/releases</a></li>
+</ul>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Save-DbaCommunitySoftware
     [[-Software] &lt;String&gt;]
@@ -498,6 +508,10 @@ This command is run from inside of Install-Dba* and Update-Dba* commands to upda
 <pre><code>PS C:\&gt; Save-DbaCommunitySoftware -Software MaintenanceSolution
 </code></pre>
 <p>Updates the local cache of Ola Hallengren's Solution objects.<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Save-DbaCommunitySoftware -Software FirstResponderKit -LocalFile \\fileserver\Software\SQL-Server-First-Responder-Kit-20211106.zip
+</code></pre>
+<p>Updates the local cache of the First Responder Kit based on the given file.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="software">-Software</h5>
 <p>Name of the software to download.
