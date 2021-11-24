@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaNetworkConfiguration</title>
+    <title>dbatools docs | Get-DbaLinkedServerLogin</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Get-DbaNetworkConfiguration">
+    <meta name="subtitle" content="Docs for Get-DbaLinkedServerLogin">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaNetworkConfiguration" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaNetworkConfiguration.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaNetworkConfiguration" />
+    <meta property="og:title" content="dbatools docs:  Get-DbaLinkedServerLogin" />
+    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaLinkedServerLogin.html" />
+    <meta property="og:description" content="dbatools docs for Get-DbaLinkedServerLogin" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaNetworkConfiguration" />
+    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaLinkedServerLogin" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbanetworkconfiguration">Get-DbaNetworkConfiguration</h1>
+                    <h1 id="get-dbalinkedserverlogin">Get-DbaLinkedServerLogin</h1>
 <table>
 <thead>
 <tr>
@@ -464,28 +464,30 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Andreas Jordan (@JordanOrdix), ordix.de</td>
+<td>Adam Lancaster <a href="https://github.com/lancasteradam">https://github.com/lancasteradam</a></td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows only</td>
+<td>Windows, Linux, macOS</td>
 </tr>
 </tbody>
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns the network configuration of a SQL Server instance as shown in SQL Server Configuration Manager.</p>
+<p>Obtains linked server login(s).</p>
 <h2 id="description">Description</h2>
-<p>Returns a PowerShell object with the network configuration of a SQL Server instance as shown in SQL Server Configuration Manager.</p>
-<p>As we get information from SQL WMI and also from the registry, we use PS Remoting to run the core code on the target machine.</p>
-<p>For a detailed explenation of the different properties see the documentation at:
-<a href="https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration">https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration</a></p>
+<p>Obtains linked server login(s).</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaNetworkConfiguration
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [[-Credential] &lt;PSCredential&gt;]
-    [[-OutputType] &lt;String&gt;]
+<pre><code>Get-DbaLinkedServerLogin
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-LinkedServer] &lt;String[]&gt;]
+    [[-LocalLogin] &lt;String[]&gt;]
+    [[-ExcludeLocalLogin] &lt;String[]&gt;]
+    [[-InputObject] &lt;Object[]&gt;]
     [-EnableException]
+    [-WhatIf]
+    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -493,16 +495,25 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaNetworkConfiguration -SqlInstance sqlserver2014a
+<pre><code>PS C:\&gt; Get-DbaLinkedServerLogin -SqlInstance sql01 -LinkedServer linkedServer1 -LocalLogin login1
 </code></pre>
-<p>Returns the network configuration for the default instance on sqlserver2014a.<br></p>
+<p>Gets the linked server login &quot;login1&quot; from the linked server &quot;linkedServer1&quot; on sql01.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaNetworkConfiguration -SqlInstance winserver\sqlexpress, sql2016 -OutputType ServerProtocols
+<pre><code>PS C:\&gt; Get-DbaLinkedServerLogin -SqlInstance sql01 -LinkedServer linkedServer1 -ExcludeLocalLogin login2
 </code></pre>
-<p>Returns information about the server protocols for the sqlexpress on winserver and the default instance on sql2016.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<p>Gets the linked server login(s) from the linked server &quot;linkedServer1&quot; on sql01 and excludes the login2 linked server login.<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; (Get-DbaLinkedServer -SqlInstance sql01 -LinkedServer linkedServer1) | Get-DbaLinkedServerLogin -LocalLogin login1
+</code></pre>
+<p>Gets the linked server login &quot;login1&quot; from the linked server &quot;linkedServer1&quot; on sql01 using a pipeline with the linked server passed in.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; (Connect-DbaInstance -SqlInstance sql01) | Get-DbaLinkedServerLogin -LinkedServer linkedServer1 -LocalLogin login1
+</code></pre>
+<p>Gets the linked server login &quot;login1&quot; from the linked server &quot;linkedServer1&quot; on sql01 using a pipeline with the instance passed in.<br></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function
+to be executed against multiple SQL Server instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -517,7 +528,149 @@
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="linkedserver">-LinkedServer</h5>
+<p>The name(s) of the linked server(s).<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="locallogin">-LocalLogin</h5>
+<p>The name(s) of the linked server login(s) to include.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludelocallogin">-ExcludeLocalLogin</h5>
+<p>The name(s) of the linked server login(s) to exclude<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Allows piping from Connect-DbaInstance and Get-DbaLinkedServer<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -526,77 +679,6 @@
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="credential">-Credential</h5>
-<p>Credential object used to connect to the Computer as a different user.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="outputtype">-OutputType</h5>
-<p>Defines what information is returned from the command.
-Options include: Full, ServerProtocols, TcpIpProperties, TcpIpAddresses or Certificate. Full by default.
-Full returns one object per SqlInstance with information about the server protocols
-and nested objects with information about TCP/IP properties and TCP/IP addresses.
-ServerProtocols returns one object per SqlInstance with information about the server protocols only.
-TcpIpProperties returns one object per SqlInstance with information about the TCP/IP protocol properties only.
-TcpIpAddresses returns one object per SqlInstance and IP address.
-If the instance listens on all IP addresses (TcpIpProperties.ListenAll), only the information about the IPAll address is returned.
-Otherwise only information about the individual IP addresses is returned.
-For more details see: <a href="https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port">https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port</a>
-Certificate returns one object per SqlInstance with information about the configured network certificate and whether encryption is enforced.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>Full</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Full,ServerProtocols,TcpIpProperties,TcpIpAddresses,Certificate</td>
 </tr>
 </tbody>
 </table>
@@ -630,10 +712,66 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tr>
 </tbody>
 </table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Get-DbaNetworkConfiguration.ps1">Get-DbaNetworkConfiguration</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Get-DbaLinkedServerLogin.ps1">Get-DbaLinkedServerLogin</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Get-DbaNetworkConfiguration">Get-DbaNetworkConfiguration</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Get-DbaLinkedServerLogin">Get-DbaLinkedServerLogin</a>.</p>
 
                 </div> <!-- rendered -->
             </div>
