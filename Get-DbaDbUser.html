@@ -484,6 +484,8 @@
     [[-Database] &lt;Object[]&gt;]
     [[-ExcludeDatabase] &lt;Object[]&gt;]
     [-ExcludeSystemUser]
+    [[-User] &lt;String[]&gt;]
+    [[-Login] &lt;String[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -511,6 +513,14 @@
 <pre><code>PS C:\&gt; 'Sql1','Sql2/sqlexpress' | Get-DbaDbUser
 </code></pre>
 <p>Gets the users for the databases on Sql1 and Sql2/sqlexpress<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Get-DbaDbUser -SqlInstance Server1 -Database db1 -User user1, user2
+</code></pre>
+<p>Gets the users 'user1' and 'user2' from the db1 database<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; Get-DbaDbUser -SqlInstance Server1 -Login login1, login2
+</code></pre>
+<p>Gets the users associated with the logins 'login1' and 'login2'<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances<br></p>
@@ -652,6 +662,62 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="user">-User</h5>
+<p>Specifies the name(s) of the user(s) to return.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="login">-Login</h5>
+<p>Specifies the name(s) of the login(s) to filter the user(s) returned.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

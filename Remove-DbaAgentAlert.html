@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | New-DbaDbUser</title>
+    <title>dbatools docs | Remove-DbaAgentAlert</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for New-DbaDbUser">
+    <meta name="subtitle" content="Docs for Remove-DbaAgentAlert">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  New-DbaDbUser" />
-    <meta property="og:url" content="https://docs.dbatools.io/New-DbaDbUser.html" />
-    <meta property="og:description" content="dbatools docs for New-DbaDbUser" />
+    <meta property="og:title" content="dbatools docs:  Remove-DbaAgentAlert" />
+    <meta property="og:url" content="https://docs.dbatools.io/Remove-DbaAgentAlert.html" />
+    <meta property="og:description" content="dbatools docs for Remove-DbaAgentAlert" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  New-DbaDbUser" />
+    <meta name="twitter:text:title" content="dbatools docs:  Remove-DbaAgentAlert" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -453,7 +453,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="new-dbadbuser">New-DbaDbUser</h1>
+                    <h1 id="remove-dbaagentalert">Remove-DbaAgentAlert</h1>
 <table>
 <thead>
 <tr>
@@ -464,7 +464,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Frank Henninger (@osiris687)</td>
+<td>Mikey Bronowski (@MikeyBronowski), <a href="https://bronowski.it">https://bronowski.it</a></td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -474,34 +474,23 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new user for the specified database.</p>
+<p>Removes SQL Agent agent alert(s).</p>
 <h2 id="description">Description</h2>
-<p>Creates a new user for a specified database with provided specifications.</p>
+<p>Removes the SQL Agent alert(s) that have passed through the pipeline.
+If not used with a pipeline, Get-DbaAgentAlert will be executed with the parameters provided
+and the returned SQL Agent alert(s) will be removed.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>New-DbaDbUser
+<pre><code>Remove-DbaAgentAlert
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;]
-    [-IncludeSystem]
-    [-Username &lt;String[]&gt;]
-    [-DefaultSchema &lt;String&gt;]
-    [-Force]
+    [-Alert &lt;String[]&gt;]
+    [-ExcludeAlert &lt;String[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
     [&lt;CommonParameters&gt;]
 
-New-DbaDbUser
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;]
-    [-IncludeSystem]
-    [-Login &lt;String&gt;]
-    [-Username &lt;String[]&gt;]
-    [-DefaultSchema &lt;String&gt;]
-    [-Force]
+Remove-DbaAgentAlert -InputObject &lt;Alert[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -512,24 +501,20 @@ New-DbaDbUser
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Login user1
+<pre><code>PS C:\&gt; Remove-DbaAgentAlert -SqlInstance localhost, localhost\namedinstance
 </code></pre>
-<p>Creates a new sql user with login named user1 in the specified database.<br></p>
+<p>Removes all SQL Agent alerts on the localhost, localhost\namedinstance instances.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Username user1
+<pre><code>PS C:\&gt; Remove-DbaAgentAlert -SqlInstance localhost -Alert MyDatabaseAlert
 </code></pre>
-<p>Creates a new sql user without login named user1 in the specified database.<br></p>
+<p>Removes MyDatabaseAlert SQL Agent alert on the localhost.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Login Login1 -Username user1
+<pre><code>PS C:\&gt; Get-DbaAgentAlert -SqlInstance SRV1 | Out-GridView -Title 'Select SQL Agent alert(s) to drop' -OutputMode Multiple | Remove-DbaAgentAlert
 </code></pre>
-<p>Creates a new sql user named user1 mapped to Login1 in the specified database.<br></p>
-<h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Login Login1 -Username user1 -DefaultSchema schema1
-</code></pre>
-<p>Creates a new sql user named user1 mapped to Login1 in the specified database and specifies the default schema to be schema1.<br></p>
+<p>Using a pipeline this command gets all SQL Agent alerts on SRV1, lets the user select those to remove and then removes the selected SQL Agent alerts.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. Defaults to the default instance on localhost.<br></p>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -549,6 +534,34 @@ New-DbaDbUser
 <tr>
 <td>Pipeline</td>
 <td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Allows piping from Get-DbaAgentAlert.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -587,8 +600,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<h5 id="alert">-Alert</h5>
+<p>Specifies one or more SQL Agent alert(s) to delete. If unspecified, all accounts will be removed.<br></p>
 <table>
 <thead>
 <tr>
@@ -615,8 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server. By default, system databases are excluded.<br></p>
+<h5 id="excludealert">-ExcludeAlert</h5>
+<p>Specifies one or more SQL Agent alert(s) to exclude.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,146 +653,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="includesystem">-IncludeSystem</h5>
-<p>If this switch is enabled, the user will be added to system databases.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="login">-Login</h5>
-<p>When specified, the user will be associated to this SQL login and have the same name as the Login.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="username">-Username</h5>
-<p>When specified, the user will have this name.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="defaultschema">-DefaultSchema</h5>
-<p>The default database schema for the user. If not specified this value will default to dbo.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>dbo</td>
-</tr>
-</tbody>
-</table>
-<h5 id="force">-Force</h5>
-<p>If user exists, drop and recreate.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
 </tr>
 </tbody>
 </table>
@@ -814,7 +687,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="whatif">-WhatIf</h5>
-<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
 <table>
 <thead>
 <tr>
@@ -842,7 +715,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
+<p>Prompts you for confirmation before executing any changing operations within the command.
+This is the default. Use -Confirm:$false to suppress these prompts.<br></p>
 <table>
 <thead>
 <tr>
@@ -870,9 +744,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/New-DbaDbUser.ps1">New-DbaDbUser</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Remove-DbaAgentAlert.ps1">Remove-DbaAgentAlert</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#New-DbaDbUser">New-DbaDbUser</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Remove-DbaAgentAlert">Remove-DbaAgentAlert</a>.</p>
 
                 </div> <!-- rendered -->
             </div>
