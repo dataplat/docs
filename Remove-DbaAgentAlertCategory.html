@@ -481,9 +481,14 @@ Insure that the category you want to remove is not used with any alerts. If an a
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgentAlertCategory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Category] &lt;String[]&gt;]
-    [-Force]
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Category &lt;String[]&gt;]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+Remove-DbaAgentAlertCategory -InputObject &lt;AlertCategory[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -505,9 +510,41 @@ Insure that the category you want to remove is not used with any alerts. If an a
 <pre><code>PS C:\&gt; Remove-DbaAgentAlertCategory -SqlInstance sql1, sql2, sql3 -Category Category1, Category2, Category3
 </code></pre>
 <p>Remove multiple alert categories from the multiple instances.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Get-DbaAgentAlertCategory -SqlInstance SRV1 | Out-GridView -Title 'Select SQL Agent alert category(-ies) to drop' -OutputMode Multiple | Remove-DbaAgentAlertCategory
+</code></pre>
+<p>Using a pipeline this command gets all SQL Agent alert category(-ies) on SRV1, lets the user select those to remove and then removes the selected SQL Agent alert category(-ies).<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Allows piping from Get-DbaAgentAlertCategory.<br></p>
 <table>
 <thead>
 <tr>
@@ -590,34 +627,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
 </tr>
 </tbody>
 </table>
