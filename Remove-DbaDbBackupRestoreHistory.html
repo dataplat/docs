@@ -502,12 +502,15 @@ SQL Server Maintenance Solution created by Ola Hallengren (<a href="https://ola.
 <pre><code>PS C:\&gt; Remove-DbaDbBackupRestoreHistory -SqlInstance sql2016
 </code></pre>
 <p>Prompts for confirmation then deletes backup and restore history on SQL Server sql2016 older than 30 days (default period)<br></p>
+<h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Remove-DbaDbBackupRestoreHistory -SqlInstance sql2016 -KeepDays 100 -Confirm:$false
 </code></pre>
 <p>Remove backup and restore history on SQL Server sql2016 older than 100 days. Does not prompt for confirmation.<br></p>
+<h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; Remove-DbaDbBackupRestoreHistory -SqlInstance sql2016 -Database db1
 </code></pre>
 <p>Prompts for confirmation then deletes all backup and restore history for database db1 on SQL Server sql2016<br></p>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sql2016 | Remove-DbaDbBackupRestoreHistory -WhatIf
 </code></pre>
 <p>Remove complete backup and restore history for all databases on SQL Server sql2016<br></p>

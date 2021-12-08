@@ -522,227 +522,528 @@ Returns the newly created file as a file object.<br></p>
 avoid naming conflicts with piped input.<br></p>
 <h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Invoke-DbaPfRelog -Path C:\temp\perfmon.blg -Destination C:\temp\a\b\c -Raw
+&gt;&gt; [Invoke-DbaPfRelog][21:21:35] relog &quot;C:\temp\perfmon.blg&quot; -f csv -o C:\temp\a\b\c
+&gt;&gt; Input
+
+#####&gt;&gt; 
+&gt;&gt; File(s):
+&gt;&gt; C:\temp\perfmon.blg (Binary)
+&gt;&gt; Begin:    1/13/2018 5:13:23
+&gt;&gt; End:      1/13/2018 14:29:55
+&gt;&gt; Samples:  2227
+&gt;&gt; 100.00%
+&gt;&gt; Output
+
+#####&gt;&gt; 
+&gt;&gt; File:     C:\temp\a\b\c.csv
+&gt;&gt; Begin:    1/13/2018 5:13:23
+&gt;&gt; End:      1/13/2018 14:29:55
+&gt;&gt; Samples:  2227
+&gt;&gt; The command completed successfully.
 </code></pre>
-<pre><code class="language-&lt;br&gt;">[Invoke-DbaPfRelog][21:21:35] relog &quot;C:\temp\perfmon.blg&quot; -f csv -o C:\temp\a\b\c&lt;br&gt;
-Input&lt;br&gt;
-
-#####
-File(s):&lt;br&gt;
-C:\temp\perfmon.blg (Binary)&lt;br&gt;
-Begin:    1/13/2018 5:13:23&lt;br&gt;
-End:      1/13/2018 14:29:55&lt;br&gt;
-Samples:  2227&lt;br&gt;
-100.00%&lt;br&gt;
-Output&lt;br&gt;
-
-#####
-File:     C:\temp\a\b\c.csv&lt;br&gt;
-Begin:    1/13/2018 5:13:23&lt;br&gt;
-End:      1/13/2018 14:29:55&lt;br&gt;
-Samples:  2227&lt;br&gt;
-The command completed successfully.&lt;br&gt;
-```&lt;br&gt;
-Creates the temp, a, and b directories if needed, then generates c.tsv (tab separated) from C:\temp\perfmon.blg then outputs the raw results of the relog command.&lt;br&gt;
-
-##### Example:  5 
+<p>Creates the temp, a, and b directories if needed, then generates c.tsv (tab separated) from C:\temp\perfmon.blg then outputs the raw results of the relog command.<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Invoke-DbaPfRelog -Path 'C:\temp\perflog with spaces.blg' -Destination C:\temp\a\b\c -Type csv -BeginTime ((Get-Date).AddDays(-30)) -EndTime ((Get-Date).AddDays(-1))
 </code></pre>
-<p>PS C:&gt; Invoke-DbaPfRelog -Path 'C:\temp\perflog with spaces.blg' -Destination C:\temp\a\b\c -Type csv -BeginTime ((Get-Date).AddDays(-30)) -EndTime ((Get-Date).AddDays(-1))</p>
-<pre><code>Creates the temp, a, and b directories if needed, then generates c.csv (comma separated) from C:\temp\perflog with spaces.blg', starts 30 days ago and ends one day ago.&lt;br&gt;
-
-##### Example:  6 
+<p>Creates the temp, a, and b directories if needed, then generates c.csv (comma separated) from C:\temp\perflog with spaces.blg', starts 30 days ago and ends one day ago.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; $servers | Get-DbaPfDataCollectorSet | Get-DbaPfDataCollector | Invoke-DbaPfRelog -Multithread -AllowClobber
 </code></pre>
-<p>PS C:&gt; $servers | Get-DbaPfDataCollectorSet | Get-DbaPfDataCollector | Invoke-DbaPfRelog -Multithread -AllowClobber</p>
-<pre><code>Relogs latest data files from all collectors within the servers listed in $servers.&lt;br&gt;
-
-##### Example:  7 
+<p>Relogs latest data files from all collectors within the servers listed in $servers.<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; Get-DbaPfDataCollector -Collector DataCollector01 | Invoke-DbaPfRelog -AllowClobber -AllTime
 </code></pre>
-<p>PS C:&gt; Get-DbaPfDataCollector -Collector DataCollector01 | Invoke-DbaPfRelog -AllowClobber -AllTime</p>
-<pre><code>Relogs all the log files from the DataCollector01 on the local computer and allows overwrite.&lt;br&gt;
-### Optional Parameters
-##### -Path
-Specifies the pathname of an existing performance counter log or performance counter path. You can specify multiple input files.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias | FullName |
-| Required | False |
-| Pipeline | true (ByPropertyName) |
-| Default Value |  |
-
-##### -Destination
-Specifies the pathname of the output file or SQL database where the counters will be written. Defaults to the same directory as the source.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -Type
-The output format. Defaults to tsv. Options include tsv, csv, bin, and sql.
+<p>Relogs all the log files from the DataCollector01 on the local computer and allows overwrite.<br></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="path">-Path</h5>
+<p>Specifies the pathname of an existing performance counter log or performance counter path. You can specify multiple input files.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>FullName</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByPropertyName)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="destination">-Destination</h5>
+<p>Specifies the pathname of the output file or SQL database where the counters will be written. Defaults to the same directory as the source.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="type">-Type</h5>
+<p>The output format. Defaults to tsv. Options include tsv, csv, bin, and sql.
 For a SQL database, the output file specifies the DSN!counter_log. You can specify the database location by using the ODBC manager to configure the DSN (Database System Name).
-For more information, read here: https://technet.microsoft.com/en-us/library/bb490958.aspx&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | tsv |
-| Accepted Values | tsv,csv,bin,sql |
-
-##### -Append
-If this switch is enabled, output will be appended to the specified file instead of overwriting. This option does not apply to SQL format where the default is always to append.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | False |
-
-##### -AllowClobber
-If this switch is enabled, the destination file will be overwritten if it exists.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | False |
-
-##### -PerformanceCounter
-Specifies the performance counter path to log.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -PerformanceCounterPath
-Specifies the pathname of the text file that lists the performance counters to be included in a relog file. Use this option to list counter paths in an input file, one per line. Default setting is 
-all counters in the original log file are relogged.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -Interval
-Specifies sample intervals in &quot;n&quot; records. Includes every nth data point in the relog file. Default is every data point.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | 0 |
-
-##### -BeginTime
-This is is Get-Date object and we format it for you.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -EndTime
-Specifies end time for copying last record from the input file. This is is Get-Date object and we format it for you.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -ConfigPath
-Specifies the pathname of the settings file that contains command-line parameters.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -Summary
-If this switch is enabled, the performance counters and time ranges of log files specified in the input file will be displayed.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | False |
-
-##### -InputObject
-Accepts the output of Get-DbaPfDataCollector and Get-DbaPfDataCollectorSet as input via the pipeline.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | true (ByValue) |
-| Default Value |  |
-
-##### -Multithread
-If this switch is enabled, processing will be done in parallel. This may speed up large batches or large files.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | False |
-
-##### -AllTime
-If this switch is enabled and a datacollector or datacollectorset is passed in via the pipeline, collects all logs, not just the latest.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | False |
-
-##### -Raw
-If this switch is enabled, the results of the DOS command instead of Get-ChildItem will be displayed. This does not run in parallel.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | False |
-
-##### -EnableException
-By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+For more information, read here: <a href="https://technet.microsoft.com/en-us/library/bb490958.aspx">https://technet.microsoft.com/en-us/library/bb490958.aspx</a><br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>tsv</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>tsv,csv,bin,sql</td>
+</tr>
+</tbody>
+</table>
+<h5 id="append">-Append</h5>
+<p>If this switch is enabled, output will be appended to the specified file instead of overwriting. This option does not apply to SQL format where the default is always to append.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="allowclobber">-AllowClobber</h5>
+<p>If this switch is enabled, the destination file will be overwritten if it exists.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="performancecounter">-PerformanceCounter</h5>
+<p>Specifies the performance counter path to log.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="performancecounterpath">-PerformanceCounterPath</h5>
+<p>Specifies the pathname of the text file that lists the performance counters to be included in a relog file. Use this option to list counter paths in an input file, one per line. Default setting is
+all counters in the original log file are relogged.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="interval">-Interval</h5>
+<p>Specifies sample intervals in &quot;n&quot; records. Includes every nth data point in the relog file. Default is every data point.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="begintime">-BeginTime</h5>
+<p>This is is Get-Date object and we format it for you.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="endtime">-EndTime</h5>
+<p>Specifies end time for copying last record from the input file. This is is Get-Date object and we format it for you.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="configpath">-ConfigPath</h5>
+<p>Specifies the pathname of the settings file that contains command-line parameters.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="summary">-Summary</h5>
+<p>If this switch is enabled, the performance counters and time ranges of log files specified in the input file will be displayed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Accepts the output of Get-DbaPfDataCollector and Get-DbaPfDataCollectorSet as input via the pipeline.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="multithread">-Multithread</h5>
+<p>If this switch is enabled, processing will be done in parallel. This may speed up large batches or large files.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="alltime">-AllTime</h5>
+<p>If this switch is enabled and a datacollector or datacollectorset is passed in via the pipeline, collects all logs, not just the latest.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="raw">-Raw</h5>
+<p>If this switch is enabled, the results of the DOS command instead of Get-ChildItem will be displayed. This does not run in parallel.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
 This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
-Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | False |
-
-
-
-&amp;nbsp;
-
-Want to see the source code for this command? Check out [Invoke-DbaPfRelog](https://github.com/sqlcollaborative/dbatools/blob/master/functions/Invoke-DbaPfRelog.ps1) on GitHub.
-&lt;br&gt;
-Want to see the Bill Of Health for this command? Check out [Invoke-DbaPfRelog](https://sqlcollaborative.github.io/boh#Invoke-DbaPfRelog).
-</code></pre>
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Invoke-DbaPfRelog.ps1">Invoke-DbaPfRelog</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Invoke-DbaPfRelog">Invoke-DbaPfRelog</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

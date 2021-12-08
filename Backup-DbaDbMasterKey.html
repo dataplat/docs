@@ -498,143 +498,334 @@
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; Backup-DbaDbMasterKey -SqlInstance server1\sql2016
+&gt;&gt; ComputerName : SERVER1
+&gt;&gt; InstanceName : SQL2016
+&gt;&gt; SqlInstance  : SERVER1\SQL2016
+&gt;&gt; Filename     : E:\MSSQL13.SQL2016\MSSQL\Backup\server1$sql2016-SMK-20170614162311.key
+&gt;&gt; Status       : Success
 </code></pre>
-<pre><code class="language-&lt;br&gt;">ComputerName : SERVER1&lt;br&gt;
-InstanceName : SQL2016&lt;br&gt;
-SqlInstance  : SERVER1\SQL2016&lt;br&gt;
-Database     : master&lt;br&gt;
-Filename     : E:\MSSQL13.SQL2016\MSSQL\Backup\server1$sql2016-master-20170614162311.key&lt;br&gt;
-Status       : Success&lt;br&gt;
-```&lt;br&gt;
-Prompts for export password, then logs into server1\sql2016 with Windows credentials then backs up all database keys to the default backup directory.&lt;br&gt;
-
-##### Example:  2 
+<p>Prompts for export password, then logs into server1\sql2016 with Windows credentials then backs up all database keys to the default backup directory.<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Backup-DbaDbMasterKey -SqlInstance Server1 -Database db1 -Path \\nas\sqlbackups\keys
 </code></pre>
-<p>PS C:&gt; Backup-DbaDbMasterKey -SqlInstance Server1 -Database db1 -Path \nas\sqlbackups\keys</p>
-<pre><code>Logs into sql2016 with Windows credentials then backs up db1's keys to the \\nas\sqlbackups\keys directory.&lt;br&gt;
-### Optional Parameters
-##### -SqlInstance
-The target SQL Server instance or instances.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -SqlCredential
-Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+<p>Logs into sql2016 with Windows credentials then backs up db1's keys to the \nas\sqlbackups\keys directory.<br></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -Credential
-Pass a credential object for the password&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -Database
-Backup master key from specific database(s).&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -ExcludeDatabase
-The database(s) to exclude - this list is auto-populated from the server.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -SecurePassword
-The password to encrypt the exported key. This must be a SecureString.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias | Password |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -Path
-The directory to export the key. If no path is specified, the default backup directory for the instance will be used.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -InputObject
-Database object piped in from Get-DbaDatabase&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | true (ByValue) |
-| Default Value |  |
-
-##### -EnableException
-By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="credential">-Credential</h5>
+<p>Pass a credential object for the password<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="database">-Database</h5>
+<p>Backup master key from specific database(s).<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludedatabase">-ExcludeDatabase</h5>
+<p>The database(s) to exclude - this list is auto-populated from the server.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="securepassword">-SecurePassword</h5>
+<p>The password to encrypt the exported key. This must be a SecureString.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>Password</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="path">-Path</h5>
+<p>The directory to export the key. If no path is specified, the default backup directory for the instance will be used.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Database object piped in from Get-DbaDatabase<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
 This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
-Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias |  |
-| Required | False |
-| Pipeline | false |
-| Default Value | False |
-
-##### -WhatIf
-Shows what would happen if the command were to run. No actions are actually performed.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias | wi |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-##### -Confirm
-Prompts you for confirmation before executing any changing operations within the command.&lt;br&gt;
-
-|  |  |
-| - | - |
-| Alias | cf |
-| Required | False |
-| Pipeline | false |
-| Default Value |  |
-
-
-
-&amp;nbsp;
-
-Want to see the source code for this command? Check out [Backup-DbaDbMasterKey](https://github.com/sqlcollaborative/dbatools/blob/master/functions/Backup-DbaDbMasterKey.ps1) on GitHub.
-&lt;br&gt;
-Want to see the Bill Of Health for this command? Check out [Backup-DbaDbMasterKey](https://sqlcollaborative.github.io/boh#Backup-DbaDbMasterKey).
-</code></pre>
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Backup-DbaDbMasterKey.ps1">Backup-DbaDbMasterKey</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Backup-DbaDbMasterKey">Backup-DbaDbMasterKey</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

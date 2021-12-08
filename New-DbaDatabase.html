@@ -478,10 +478,6 @@
 <h2 id="description">Description</h2>
 <p>This command creates a new database.</p>
 <p>It allows creation with multiple files, and sets all growth settings to be fixed size rather than percentage growth. The autogrowth settings are obtained from the modeldev file in the model database when not supplied as command line arguments.</p>
-<p>The generated database filenames take the form:</p>
-<p><db name>_PRIMARY
-<db name>_Log
-<db name>_MainData_1  (Secondary filegroup files)</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDatabase
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -533,9 +529,24 @@
 <p>Creates a database named nondefault and places data files in in the M:\data directory and log files in &quot;L:\Logs with spaces&quot;.<br>
 Creates a secondary group with 2 files in the Secondary filegroup.<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; New-DbaDatabase -SqlInstance sql1 -Name newDb -LogSize 32 -LogMaxSize 512 -PrimaryFilesize 64 -PrimaryFileMaxSize 512 -SecondaryFilesize 64 -SecondaryFileMaxSize 512 -LogGrowth 32
+<pre><code>PS C:\&gt; $databaseParams = @{
 </code></pre>
-<p>-PrimaryFileGrowth 64 -SecondaryFileGrowth 64<br>
+<p>SqlInstance             = &quot;sql1&quot;<br>
+Name                    = &quot;newDb&quot;<br>
+LogSize                 = 32<br>
+LogMaxSize              = 512<br>
+PrimaryFilesize         = 64<br>
+PrimaryFileMaxSize      = 512<br>
+SecondaryFilesize       = 64<br>
+SecondaryFileMaxSize    = 512<br>
+LogGrowth               = 32<br>
+PrimaryFileGrowth       = 64<br>
+SecondaryFileGrowth     = 64<br>
+DataFileSuffix          = &quot;_PRIMARY&quot;<br>
+LogFileSuffix           = &quot;_Log&quot;<br>
+SecondaryDataFileSuffix = &quot;_MainData&quot;<br>
+}<br>
+New-DbaDatabase @databaseParams<br>
 Creates a new database named newDb on the sql1 instance and sets the file sizes, max sizes, and growth as specified. The resulting filenames will take the form:<br>
 newDb_PRIMARY<br>
 newDb_Log<br>
@@ -1086,7 +1097,7 @@ Valid options are: Simple, Full, BulkLogged.<br></p>
 </tbody>
 </table>
 <h5 id="datafilesuffix">-DataFileSuffix</h5>
-<p>The data file suffix. Defaults to &quot;_PRIMARY&quot;<br></p>
+<p>The data file suffix.<br></p>
 <table>
 <thead>
 <tr>
@@ -1109,12 +1120,12 @@ Valid options are: Simple, Full, BulkLogged.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>_PRIMARY</td>
+<td></td>
 </tr>
 </tbody>
 </table>
 <h5 id="logfilesuffix">-LogFileSuffix</h5>
-<p>The log file suffix. Defaults to &quot;_Log&quot;<br></p>
+<p>The log file suffix. Defaults to &quot;_log&quot;<br></p>
 <table>
 <thead>
 <tr>
@@ -1137,12 +1148,12 @@ Valid options are: Simple, Full, BulkLogged.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>_Log</td>
+<td>_log</td>
 </tr>
 </tbody>
 </table>
 <h5 id="secondarydatafilesuffix">-SecondaryDataFileSuffix</h5>
-<p>The secondary data file suffix. Defaults to &quot;_MainData&quot;<br></p>
+<p>The secondary data file suffix.<br></p>
 <table>
 <thead>
 <tr>
@@ -1165,7 +1176,7 @@ Valid options are: Simple, Full, BulkLogged.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>_MainData</td>
+<td></td>
 </tr>
 </tbody>
 </table>

@@ -523,6 +523,8 @@ it can be disabled by setting the dbatools configuration option 'commands.initia
     [[-Port] &lt;Int32&gt;]
     [[-Throttle] &lt;Int32&gt;]
     [[-ProductID] &lt;String&gt;]
+    [[-AsCollation] &lt;String&gt;]
+    [[-SqlCollation] &lt;String&gt;]
     [[-EngineCredential] &lt;PSCredential&gt;]
     [[-AgentCredential] &lt;PSCredential&gt;]
     [[-ASCredential] &lt;PSCredential&gt;]
@@ -570,11 +572,10 @@ Perform volume maintenance tasks permission is granted. MyDomain\SvcSqlServer is
 <h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; $config = @{
 &gt;&gt; AGTSVCSTARTUPTYPE = &quot;Manual&quot;
-&gt;&gt; SQLCOLLATION = &quot;Latin1_General_CI_AS&quot;
 &gt;&gt; BROWSERSVCSTARTUPTYPE = &quot;Manual&quot;
 &gt;&gt; FILESTREAMLEVEL = 1
 &gt;&gt; }
-PS C:\&gt; Install-DbaInstance -SqlInstance localhost\v2017:1337 -Version 2017 -Configuration $config
+PS C:\&gt; Install-DbaInstance -SqlInstance localhost\v2017:1337 -Version 2017 -SqlCollation Latin1_General_CI_AS -Configuration $config
 </code></pre>
 <p>Run the installation locally with default settings overriding the value of specific configuration items.<br>
 Instance name will be defined as 'v2017'; TCP port will be changed to 1337 after installation.<br></p>
@@ -1217,6 +1218,65 @@ If the PID is already built into the installation media, can be ignored.<br></p>
 <tr>
 <td>Alias</td>
 <td>PID</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="ascollation">-AsCollation</h5>
+<p>Collation for the Analysis Service.
+Default value: Latin1_General_CI_AS<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sqlcollation">-SqlCollation</h5>
+<p>Collation for the Database Engine.
+The default depends on the Windows locale:
+<a href="https://docs.microsoft.com/en-us/sql/relational-databases/collations/collation-and-unicode-support#Server-level-collations">https://docs.microsoft.com/en-us/sql/relational-databases/collations/collation-and-unicode-support#Server-level-collations</a><br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>
