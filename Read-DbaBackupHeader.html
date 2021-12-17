@@ -246,6 +246,9 @@
                     }
                 }
             })
+            $(document).on('mouseenter', '#cmdlist', function (e) {
+                $('#search-ft').blur();
+            })
             $('#cmdlist').on('click', 'a', function (e) {
                 e.preventDefault();
                 window.location.href = $(this).find('span.CommandName').text()
