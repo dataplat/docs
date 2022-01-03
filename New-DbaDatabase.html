@@ -533,24 +533,24 @@
 Creates a secondary group with 2 files in the Secondary filegroup.<br></p>
 <h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; $databaseParams = @{
+&gt;&gt; SqlInstance             = &quot;sql1&quot;
+&gt;&gt; Name                    = &quot;newDb&quot;
+&gt;&gt; LogSize                 = 32
+&gt;&gt; LogMaxSize              = 512
+&gt;&gt; PrimaryFilesize         = 64
+&gt;&gt; PrimaryFileMaxSize      = 512
+&gt;&gt; SecondaryFilesize       = 64
+&gt;&gt; SecondaryFileMaxSize    = 512
+&gt;&gt; LogGrowth               = 32
+&gt;&gt; PrimaryFileGrowth       = 64
+&gt;&gt; SecondaryFileGrowth     = 64
+&gt;&gt; DataFileSuffix          = &quot;_PRIMARY&quot;
+&gt;&gt; LogFileSuffix           = &quot;_Log&quot;
+&gt;&gt; SecondaryDataFileSuffix = &quot;_MainData&quot;
+&gt;&gt; }
+&gt;&gt; New-DbaDatabase @databaseParams
 </code></pre>
-<p>SqlInstance             = &quot;sql1&quot;<br>
-Name                    = &quot;newDb&quot;<br>
-LogSize                 = 32<br>
-LogMaxSize              = 512<br>
-PrimaryFilesize         = 64<br>
-PrimaryFileMaxSize      = 512<br>
-SecondaryFilesize       = 64<br>
-SecondaryFileMaxSize    = 512<br>
-LogGrowth               = 32<br>
-PrimaryFileGrowth       = 64<br>
-SecondaryFileGrowth     = 64<br>
-DataFileSuffix          = &quot;_PRIMARY&quot;<br>
-LogFileSuffix           = &quot;_Log&quot;<br>
-SecondaryDataFileSuffix = &quot;_MainData&quot;<br>
-}<br>
-New-DbaDatabase @databaseParams<br>
-Creates a new database named newDb on the sql1 instance and sets the file sizes, max sizes, and growth as specified. The resulting filenames will take the form:<br>
+<p>Creates a new database named newDb on the sql1 instance and sets the file sizes, max sizes, and growth as specified. The resulting filenames will take the form:<br>
 newDb_PRIMARY<br>
 newDb_Log<br>
 newDb_MainData_1  (Secondary filegroup files)<br></p>
