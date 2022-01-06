@@ -500,19 +500,19 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaComputerCertificate
+<pre><code>PS C:\&gt; New-DbaComputerCertificateSigningRequest
 </code></pre>
 <p>Creates a computer certificate signing request for the local machine with the keylength of 1024.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaComputerCertificate -ComputerName Server1
+<pre><code>PS C:\&gt; New-DbaComputerCertificateSigningRequest -ComputerName Server1
 </code></pre>
 <p>Creates a computer certificate signing request for server1 with the keylength of 1024.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; New-DbaComputerCertificate -ComputerName sqla, sqlb -ClusterInstanceName sqlcluster -KeyLength 4096
+<pre><code>PS C:\&gt; New-DbaComputerCertificateSigningRequest -ComputerName sqla, sqlb -ClusterInstanceName sqlcluster -KeyLength 4096
 </code></pre>
 <p>Creates a computer certificate signing request for sqlcluster with the keylength of 4096.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; New-DbaComputerCertificate -ComputerName Server1 -WhatIf
+<pre><code>PS C:\&gt; New-DbaComputerCertificateSigningRequest -ComputerName Server1 -WhatIf
 </code></pre>
 <p>Shows what would happen if the command were run<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>

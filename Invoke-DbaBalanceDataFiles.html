@@ -487,7 +487,7 @@ If the server doesn't support it, it will rebuild the index offline. Be carefull
 <p>The tables must have a clustered index to be able to balance out the data.
 The function does NOT yet support heaps.</p>
 <p>The function will also check if the file groups are subject to balance out.
-A file group whould have at least have 2 data files and should be writable.
+A file group would have at least have 2 data files and should be writable.
 If a table is within such a file group it will be subject for processing. If not the table will be skipped.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaBalanceDataFiles
@@ -738,7 +738,7 @@ Use this with caution!!<br></p>
 </tbody>
 </table>
 <h5 id="whatif">-WhatIf</h5>
-<p>Shows what would happen if the command were to run<br></p>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
 <table>
 <thead>
 <tr>
@@ -766,10 +766,7 @@ Use this with caution!!<br></p>
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts for confirmation of every step. For example:
-The server does not support online rebuilds of indexes.
-Do you want to rebuild the indexes offline?
-[Y] Yes  [N] No   [?] Help (default is &quot;Y&quot;):<br></p>
+<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
 <table>
 <thead>
 <tr>
