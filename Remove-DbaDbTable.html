@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Add-DbaAgDatabase</title>
+    <title>dbatools docs | Remove-DbaDbTable</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Add-DbaAgDatabase">
+    <meta name="subtitle" content="Docs for Remove-DbaDbTable">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Add-DbaAgDatabase" />
-    <meta property="og:url" content="https://docs.dbatools.io/Add-DbaAgDatabase.html" />
-    <meta property="og:description" content="dbatools docs for Add-DbaAgDatabase" />
+    <meta property="og:title" content="dbatools docs:  Remove-DbaDbTable" />
+    <meta property="og:url" content="https://docs.dbatools.io/Remove-DbaDbTable.html" />
+    <meta property="og:description" content="dbatools docs for Remove-DbaDbTable" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Add-DbaAgDatabase" />
+    <meta name="twitter:text:title" content="dbatools docs:  Remove-DbaDbTable" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -456,7 +456,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="add-dbaagdatabase">Add-DbaAgDatabase</h1>
+                    <h1 id="remove-dbadbtable">Remove-DbaDbTable</h1>
 <table>
 <thead>
 <tr>
@@ -467,7 +467,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Chrissy LeMaire (@cl), netnerds.net , Andreas Jordan (@JordanOrdix), ordix.de</td>
+<td>Andreas Jordan (@JordanOrdix), ordix.de</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -477,48 +477,16 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Adds database(s) to an Availability Group on a SQL Server instance.</p>
+<p>Removes database table(s) from each database and SQL Server instance.</p>
 <h2 id="description">Description</h2>
-<p>Adds database(s) to an Availability Group on a SQL Server instance.</p>
-<p>After checking for prerequisites, the commands runs these five steps for every database:
-Step 1: Setting seeding mode if needed.
-If -SeedingMode is used and the current seeding mode of the replica is not in the desired mode, the seeding mode of the replica is changed.
-The seeding mode will not be changed back but stay in this mode.
-If the seeding mode is changed to Automatic, the necessary rights to create databases will be granted.
-Step 2: Running backup and restore if needed.
-Action is only taken for replicas with a desired seeding mode of Manual and where the database does not yet exist.
-If -UseLastBackup is used, the restore will be performed based on the backup history of the database.
-Otherwise a full and log backup will be taken at the primary and those will be restored at the replica.
-Step 3: Add the database to the Availability Group on the primary replica.
-This step is skipped, if the database is already part of the Availability Group.
-Step 4: Add the database to the Availability Group on the secondary replicas.
-This step is skipped for those replicas, where the database is already joined to the Availability Group.
-Step 5: Wait for the database to finish joining the Availability Group on the secondary replicas.</p>
-<p>Use Test-DbaAvailabilityGroup with -AddDatabase to test if all prerequisites are met.</p>
-<p>If you have special requirements for the setup for the database at the replicas,
-perform the backup and restore part with Backup-DbaDatabase and Restore-DbaDatabase in advance.
-Please make sure that the last log backup has been restored before running Add-DbaAgDatabase.</p>
+<p>Removes database table(s), with supported piping from Get-DbaDbTable.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Add-DbaAgDatabase
-    [-SqlInstance] &lt;DbaInstanceParameter&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -AvailabilityGroup &lt;String&gt; -Database &lt;String[]&gt;
-    [-Secondary &lt;DbaInstanceParameter[]&gt;]
-    [-SecondarySqlCredential &lt;PSCredential&gt;]
-    [-SeedingMode &lt;String&gt;]
-    [-SharedPath &lt;String&gt;]
-    [-UseLastBackup]
-    [-EnableException]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-Add-DbaAgDatabase
-    [-AvailabilityGroup] &lt;String&gt;
-    [-Secondary &lt;DbaInstanceParameter[]&gt;]
-    [-SecondarySqlCredential &lt;PSCredential&gt;] -InputObject &lt;Database[]&gt;
-    [-SeedingMode &lt;String&gt;]
-    [-SharedPath &lt;String&gt;]
-    [-UseLastBackup]
+<pre><code>Remove-DbaDbTable
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Database] &lt;String[]&gt;]
+    [[-Table] &lt;String[]&gt;]
+    [[-InputObject] &lt;Table[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -529,135 +497,43 @@ Add-DbaAgDatabase
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Add-DbaAgDatabase -SqlInstance sql2017a -AvailabilityGroup ag1 -Database db1, db2 -Confirm
+<pre><code>PS C:\&gt; Remove-DbaDbTable -SqlInstance localhost, sql2016 -Database db1, db2 -Table table1, table2, table3
 </code></pre>
-<p>Adds db1 and db2 to ag1 on sql2017a. Prompts for confirmation.<br></p>
+<p>Removes table1, table2, table3 from db1 and db2 on the local and sql2016 SQL Server instances.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sql2017a | Out-GridView -Passthru | Add-DbaAgDatabase -AvailabilityGroup ag1
+<pre><code>PS C:\&gt; $tables = Get-DbaDbTable -SqlInstance localhost, sql2016 -Database db1, db2 -Table table1, table2, table3
+PS C:\&gt; $tables | Remove-DbaDbTable
 </code></pre>
-<p>Adds selected databases from sql2017a to ag1<br></p>
-<h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaDbSharePoint -SqlInstance sqlcluster | Add-DbaAgDatabase -AvailabilityGroup SharePoint
-</code></pre>
-<p>Adds SharePoint databases as found in SharePoint_Config on sqlcluster to ag1 on sqlcluster<br></p>
-<h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Get-DbaDbSharePoint -SqlInstance sqlcluster -ConfigDatabase SharePoint_Config_2019 | Add-DbaAgDatabase -AvailabilityGroup SharePoint
-</code></pre>
-<p>Adds SharePoint databases as found in SharePoint_Config_2019 on sqlcluster to ag1 on sqlcluster<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
-<h5 id="sqlinstance">-SqlInstance</h5>
-<p>The primary replica of the Availability Group. Server version must be SQL Server version 2012 or higher.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>The name of the Availability Group where the databases will be added.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="database">-Database</h5>
-<p>The database(s) to add.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase, Get-DbaDbSharePoint and more.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>Removes table1, table2, table3 from db1 and db2 on the local and sql2016 SQL Server instances.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -688,9 +564,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="secondary">-Secondary</h5>
-<p>Not required - the command will figure this out. But use this parameter if secondary replicas listen on a non default port.
-This parameter can be used to only add the databases on specific secondary replicas.<br></p>
+<h5 id="database">-Database</h5>
+<p>The target database(s).<br></p>
 <table>
 <thead>
 <tr>
@@ -717,10 +592,8 @@ This parameter can be used to only add the databases on specific secondary repli
 </tr>
 </tbody>
 </table>
-<h5 id="secondarysqlcredential">-SecondarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance.<br></p>
+<h5 id="table">-Table</h5>
+<p>The name(s) of the table(s).<br></p>
 <table>
 <thead>
 <tr>
@@ -747,11 +620,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="seedingmode">-SeedingMode</h5>
-<p>Specifies how the secondary replica will be initially seeded.
-Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.
-Manual uses full and log backup to initially transfer the data to the secondary replica. The command skips this if the database is found in restoring state at the secondary replica.
-If not specified, the setting from the availability group replica will be used. Otherwise the setting will be updated.<br></p>
+<h5 id="inputobject">-InputObject</h5>
+<p>Allows piping from Get-DbaDbTable.<br></p>
 <table>
 <thead>
 <tr>
@@ -770,73 +640,11 @@ If not specified, the setting from the availability group replica will be used. 
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Automatic,Manual</td>
-</tr>
-</tbody>
-</table>
-<h5 id="sharedpath">-SharedPath</h5>
-<p>The network share where the backups will be backed up and restored from.
-Each SQL Server service account must have access to this share.
-NOTE: If a backup / restore is performed, the backups will be left in tact on the network share.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="uselastbackup">-UseLastBackup</h5>
-<p>Use the last full and log backup of the database. A log backup must be the last backup.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
 </tr>
 </tbody>
 </table>
@@ -899,7 +707,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<p>Prompts you for confirmation before executing any changing operations within the command.
+This is the default. Use -Confirm:$false to suppress these prompts.<br></p>
 <table>
 <thead>
 <tr>
@@ -927,9 +736,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Add-DbaAgDatabase.ps1">Add-DbaAgDatabase</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/sqlcollaborative/dbatools/blob/master/functions/Remove-DbaDbTable.ps1">Remove-DbaDbTable</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Add-DbaAgDatabase">Add-DbaAgDatabase</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Remove-DbaDbTable">Remove-DbaDbTable</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

@@ -482,7 +482,7 @@
 <p>Gets the computer certificates that is assigned to the SQL Server instance for enabling network encryption.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaNetworkCertificate
-    [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-Credential] &lt;PSCredential&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -492,16 +492,16 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaNetworkCertificate
+<pre><code>PS C:\&gt; Get-DbaNetworkCertificate -SqlInstance sql2016
 </code></pre>
-<p>Gets computer certificates on localhost that are candidates for using with SQL Server's network encryption<br></p>
+<p>Gets computer certificate for the standard instance on sql2016 that is being used for SQL Server network encryption<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaNetworkCertificate -ComputerName sql2016
+<pre><code>PS C:\&gt; Get-DbaNetworkCertificate -SqlInstance server1\sql2017
 </code></pre>
-<p>Gets computer certificates on sql2016 that are being used for SQL Server network encryption<br></p>
+<p>Gets computer certificate for the named instance sql2017 on server1 that is being used for SQL Server network encryption<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances. Defaults to localhost. If target is a cluster, you must specify the distinct nodes.<br></p>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances. Defaults to standard instance on localhost. If target is a cluster, you must specify the distinct nodes.<br></p>
 <table>
 <thead>
 <tr>
@@ -512,7 +512,7 @@
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>ComputerName</td>
 </tr>
 <tr>
 <td>Required</td>
