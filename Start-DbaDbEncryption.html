@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | New-DbaDbCertificate</title>
+    <title>dbatools docs | Start-DbaDbEncryption</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for New-DbaDbCertificate">
+    <meta name="subtitle" content="Docs for Start-DbaDbEncryption">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  New-DbaDbCertificate" />
-    <meta property="og:url" content="https://docs.dbatools.io/New-DbaDbCertificate.html" />
-    <meta property="og:description" content="dbatools docs for New-DbaDbCertificate" />
+    <meta property="og:title" content="dbatools docs:  Start-DbaDbEncryption" />
+    <meta property="og:url" content="https://docs.dbatools.io/Start-DbaDbEncryption.html" />
+    <meta property="og:description" content="dbatools docs for Start-DbaDbEncryption" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  New-DbaDbCertificate" />
+    <meta name="twitter:text:title" content="dbatools docs:  Start-DbaDbEncryption" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -450,7 +450,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="new-dbadbcertificate">New-DbaDbCertificate</h1>
+                    <h1 id="start-dbadbencryption">Start-DbaDbEncryption</h1>
 <table>
 <thead>
 <tr>
@@ -471,21 +471,33 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new database certificate</p>
+<p>Combo command that encrypts all instances on a database and backs up all keys and certs</p>
 <h2 id="description">Description</h2>
-<p>Creates a new database certificate. If no database is specified, the certificate will be created in master.</p>
+<p>Combo command that encrypts all instances on a database and backs up all keys and certs</p>
+<ul>
+<li>Ensures a database master key exists in the master database and backs it up</li>
+<li>Ensures a database certificate or asymmetric key exists in the master database and backs it up</li>
+<li>Creates a database master key in the target database and backs it up</li>
+<li>Creates a database certificate or asymmetric key in the target database and backs it up</li>
+<li>Creates a database encryption key in the target database and backs it up</li>
+<li>Enables database encryption on the target database and backs it up</li>
+</ul>
 <h2 id="syntax">Syntax</h2>
-<pre><code>New-DbaDbCertificate
+<pre><code>Start-DbaDbEncryption
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Name] &lt;String[]&gt;]
+    [[-EncryptorName] &lt;String&gt;]
+    [[-EncryptorType] &lt;String&gt;]
     [[-Database] &lt;String[]&gt;]
-    [[-Subject] &lt;String[]&gt;]
-    [[-StartDate] &lt;DateTime&gt;]
-    [[-ExpirationDate] &lt;DateTime&gt;]
-    [-ActiveForServiceBrokerDialog]
-    [[-SecurePassword] &lt;SecureString&gt;]
+    [-BackupPath] &lt;String&gt;
+    [-MasterKeySecurePassword] &lt;SecureString&gt;
+    [[-CertificateSubject] &lt;String&gt;]
+    [[-CertificateStartDate] &lt;DateTime&gt;]
+    [[-CertificateExpirationDate] &lt;DateTime&gt;]
+    [-CertificateActiveForServiceBrokerDialog]
+    [-BackupSecurePassword] &lt;SecureString&gt;
     [[-InputObject] &lt;Database[]&gt;]
+    [-AllUserDatabases]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -496,13 +508,107 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaDbCertificate -SqlInstance Server1
+<pre><code>PS C:\&gt; $masterkeypass = (Get-Credential justneedpassword).Password
+PS C:\&gt; $certbackuppass = (Get-Credential justneedpassword).Password
+PS C:\&gt; $params = @{
+&gt;&gt;      SqlInstance             = &quot;sql01&quot;
+&gt;&gt;      AllUserDatabases        = $true
+&gt;&gt;      MasterKeySecurePassword = $masterkeypass
+&gt;&gt;      BackupSecurePassword    = $certbackuppass
+&gt;&gt;      BackupPath              = &quot;C:\temp&quot;
+&gt;&gt;      EnableException         = $true
+&gt;&gt;  }
+PS C:\&gt; Start-DbaDbEncryption @params
 </code></pre>
-<p>You will be prompted to securely enter your password, then a certificate will be created in the master database on server1 if it does not exist.<br></p>
-<h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaDbCertificate -SqlInstance Server1 -Database db1 -Confirm:$false
-</code></pre>
-<p>Suppresses all prompts to install but prompts to securely enter your password and creates a certificate in the 'db1' database<br></p>
+<p>Prompts for two passwords (the username doesn't matter, this is just an easy &amp; secure way to get a secure password)<br>
+Then encrypts all user databases on sql01, creating master keys and certificates as needed, and backing all of them up to C:\temp, securing them with the password set in $certbackuppass<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="backuppath">-BackupPath</h5>
+<p>The path (accessible by and relative to the SQL Server) where master keys and certificates are backed up<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="masterkeysecurepassword">-MasterKeySecurePassword</h5>
+<p>A master service key will be created and backed up if one does not exist
+MasterKeySecurePassword is the secure string (password) used to create the key
+This parameter is required even if no master keys are made, as we won't know if master key creation will be required until each server is processed<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="backupsecurepassword">-BackupSecurePassword</h5>
+<p>This command will perform backups of all maskter keys and certificates. Use this parameter to set the backup password<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
@@ -562,8 +668,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="name">-Name</h5>
-<p>Optional name to create the certificate. Defaults to database name.<br></p>
+<h5 id="encryptorname">-EncryptorName</h5>
+<p>The name of the encryptor (Certificate or Asymmetric Key) in master that will be used. Tries to find one if one is not specified.
+In order to encrypt the database encryption key with an asymmetric key, you must use an asymmetric key that resides on an extensible key management provider.<br></p>
 <table>
 <thead>
 <tr>
@@ -587,11 +694,43 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="encryptortype">-EncryptorType</h5>
+<p>Type of Encryptor - either Asymmetric or Certificate<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Certificate</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>AsymmetricKey,Certificate</td>
 </tr>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where the certificate will be created. Defaults to master.<br></p>
+<p>The database or databases that will be encrypted<br></p>
 <table>
 <thead>
 <tr>
@@ -614,11 +753,11 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>master</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<h5 id="subject">-Subject</h5>
+<h5 id="certificatesubject">-CertificateSubject</h5>
 <p>Optional subject that will be used when creating all certificates<br></p>
 <table>
 <thead>
@@ -646,7 +785,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="startdate">-StartDate</h5>
+<h5 id="certificatestartdate">-CertificateStartDate</h5>
 <p>Optional start date that will be used when creating all certificates
 By default, certs will start immediately<br></p>
 <table>
@@ -675,7 +814,7 @@ By default, certs will start immediately<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="expirationdate">-ExpirationDate</h5>
+<h5 id="certificateexpirationdate">-CertificateExpirationDate</h5>
 <p>Optional expiration that will be used when creating all certificates
 By default, certs will last 5 years<br></p>
 <table>
@@ -700,11 +839,11 @@ By default, certs will last 5 years<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>$StartDate.AddYears(5)</td>
+<td>(Get-Date).AddYears(5)</td>
 </tr>
 </tbody>
 </table>
-<h5 id="activeforservicebrokerdialog">-ActiveForServiceBrokerDialog</h5>
+<h5 id="certificateactiveforservicebrokerdialog">-CertificateActiveForServiceBrokerDialog</h5>
 <p>Microsoft has not provided a description so we can only assume the cert is active for service broker dialog<br></p>
 <table>
 <thead>
@@ -729,34 +868,6 @@ By default, certs will last 5 years<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="securepassword">-SecurePassword</h5>
-<p>Optional password - if no password is supplied, the password will be protected by the master key<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>Password</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -785,6 +896,35 @@ By default, certs will last 5 years<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="alluserdatabases">-AllUserDatabases</h5>
+<p>Run command against all user databases
+This was added to emphasize that all user databases will be encrypted<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
@@ -875,9 +1015,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/New-DbaDbCertificate.ps1">New-DbaDbCertificate</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Start-DbaDbEncryption.ps1">Start-DbaDbEncryption</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#New-DbaDbCertificate">New-DbaDbCertificate</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Start-DbaDbEncryption">Start-DbaDbEncryption</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

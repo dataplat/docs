@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | New-DbaDbCertificate</title>
+    <title>dbatools docs | Remove-DbaDbEncryptionKey</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for New-DbaDbCertificate">
+    <meta name="subtitle" content="Docs for Remove-DbaDbEncryptionKey">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  New-DbaDbCertificate" />
-    <meta property="og:url" content="https://docs.dbatools.io/New-DbaDbCertificate.html" />
-    <meta property="og:description" content="dbatools docs for New-DbaDbCertificate" />
+    <meta property="og:title" content="dbatools docs:  Remove-DbaDbEncryptionKey" />
+    <meta property="og:url" content="https://docs.dbatools.io/Remove-DbaDbEncryptionKey.html" />
+    <meta property="og:description" content="dbatools docs for Remove-DbaDbEncryptionKey" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  New-DbaDbCertificate" />
+    <meta name="twitter:text:title" content="dbatools docs:  Remove-DbaDbEncryptionKey" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -450,7 +450,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="new-dbadbcertificate">New-DbaDbCertificate</h1>
+                    <h1 id="remove-dbadbencryptionkey">Remove-DbaDbEncryptionKey</h1>
 <table>
 <thead>
 <tr>
@@ -471,21 +471,15 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new database certificate</p>
+<p>Deletes specified database encryption key</p>
 <h2 id="description">Description</h2>
-<p>Creates a new database certificate. If no database is specified, the certificate will be created in master.</p>
+<p>Deletes specified database encryption key</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>New-DbaDbCertificate
+<pre><code>Remove-DbaDbEncryptionKey
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Name] &lt;String[]&gt;]
     [[-Database] &lt;String[]&gt;]
-    [[-Subject] &lt;String[]&gt;]
-    [[-StartDate] &lt;DateTime&gt;]
-    [[-ExpirationDate] &lt;DateTime&gt;]
-    [-ActiveForServiceBrokerDialog]
-    [[-SecurePassword] &lt;SecureString&gt;]
-    [[-InputObject] &lt;Database[]&gt;]
+    [[-InputObject] &lt;DatabaseEncryptionKey[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -496,16 +490,16 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaDbCertificate -SqlInstance Server1
+<pre><code>PS C:\&gt; Remove-DbaDbEncryptionKey -SqlInstance sql01 -Database test
 </code></pre>
-<p>You will be prompted to securely enter your password, then a certificate will be created in the master database on server1 if it does not exist.<br></p>
+<p>Removes the encryption key in the master database on sql01 if it exists.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaDbCertificate -SqlInstance Server1 -Database db1 -Confirm:$false
+<pre><code>PS C:\&gt; Remove-DbaDbEncryptionKey -SqlInstance sql01 -Database db1 -Confirm:$false
 </code></pre>
-<p>Suppresses all prompts to install but prompts to securely enter your password and creates a certificate in the 'db1' database<br></p>
+<p>Suppresses all prompts then removes the encryption key in the 'db1' database on sql01.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The SQL Server to create the encryption keys on.<br></p>
 <table>
 <thead>
 <tr>
@@ -562,36 +556,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="name">-Name</h5>
-<p>Optional name to create the certificate. Defaults to database name.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h5 id="database">-Database</h5>
-<p>The database where the certificate will be created. Defaults to master.<br></p>
+<p>The database where the encryption key will be removed.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,148 +569,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Alias</td>
 <td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>master</td>
-</tr>
-</tbody>
-</table>
-<h5 id="subject">-Subject</h5>
-<p>Optional subject that will be used when creating all certificates<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="startdate">-StartDate</h5>
-<p>Optional start date that will be used when creating all certificates
-By default, certs will start immediately<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>(Get-Date)</td>
-</tr>
-</tbody>
-</table>
-<h5 id="expirationdate">-ExpirationDate</h5>
-<p>Optional expiration that will be used when creating all certificates
-By default, certs will last 5 years<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>$StartDate.AddYears(5)</td>
-</tr>
-</tbody>
-</table>
-<h5 id="activeforservicebrokerdialog">-ActiveForServiceBrokerDialog</h5>
-<p>Microsoft has not provided a description so we can only assume the cert is active for service broker dialog<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="securepassword">-SecurePassword</h5>
-<p>Optional password - if no password is supplied, the password will be protected by the master key<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>Password</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -761,7 +585,7 @@ By default, certs will last 5 years<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Piped encryption key objects<br></p>
 <table>
 <thead>
 <tr>
@@ -875,9 +699,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/New-DbaDbCertificate.ps1">New-DbaDbCertificate</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Remove-DbaDbEncryptionKey.ps1">Remove-DbaDbEncryptionKey</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#New-DbaDbCertificate">New-DbaDbCertificate</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Remove-DbaDbEncryptionKey">Remove-DbaDbEncryptionKey</a>.</p>
 
                 </div> <!-- rendered -->
             </div>
