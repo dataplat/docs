@@ -479,6 +479,7 @@
     [-SqlInstance] &lt;DbaInstanceParameter&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
     [-Path] &lt;Object[]&gt;
+    [[-KeyFilePath] &lt;String[]&gt;]
     [[-EncryptionPassword] &lt;SecureString&gt;]
     [[-Database] &lt;String&gt;]
     [[-DecryptionPassword] &lt;SecureString&gt;]
@@ -562,6 +563,34 @@ PS C:\&gt; Restore-DbaDbCertificate -SqlInstance Server1 -Path \\Server1\Certifi
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
 For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="keyfilepath">-KeyFilePath</h5>
+<p>The Path the contains the private key file. If one is not specified, we will try to find it for you.<br></p>
 <table>
 <thead>
 <tr>

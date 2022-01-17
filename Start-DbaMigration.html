@@ -525,6 +525,7 @@ All startup procedures. Use -Exclude StartupProcedures to skip.</p>
     [-Continue]
     [-Force]
     [[-AzureCredential] &lt;String&gt;]
+    [[-MasterKeyPassword] &lt;SecureString&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -967,7 +968,8 @@ ServerAuditSpecifications
 CustomErrors
 DataCollector
 StartupProcedures
-AgentServerProperties<br></p>
+AgentServerProperties
+MasterCertificates<br></p>
 <table>
 <thead>
 <tr>
@@ -994,7 +996,7 @@ AgentServerProperties<br></p>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Databases,Logins,AgentServer,Credentials,LinkedServers,SpConfigure,CentralManagementServer,DatabaseMail,SysDbUserObjects,SystemTriggers,BackupDevices,Audits,Endpoints,ExtendedEvents,PolicyManagement,ResourceGovernor,ServerAuditSpecifications,CustomErrors,DataCollector,StartupProcedures,AgentServerProperties</td>
+<td>Databases,Logins,AgentServer,Credentials,LinkedServers,SpConfigure,CentralManagementServer,DatabaseMail,SysDbUserObjects,SystemTriggers,BackupDevices,Audits,Endpoints,ExtendedEvents,PolicyManagement,ResourceGovernor,ServerAuditSpecifications,CustomErrors,DataCollector,StartupProcedures,AgentServerProperties,MasterCertificates</td>
 </tr>
 </tbody>
 </table>
@@ -1227,6 +1229,34 @@ For other migration objects, it will just drop existing items and readd, if -for
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
 <p>Name of the AzureCredential if SharedPath is Azure page blob<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="masterkeypassword">-MasterKeyPassword</h5>
+<p>The password to encrypt a master key if one is required. This must be a SecureString.<br></p>
 <table>
 <thead>
 <tr>

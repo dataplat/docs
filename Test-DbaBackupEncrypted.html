@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Backup-DbaDbCertificate</title>
+    <title>dbatools docs | Test-DbaBackupEncrypted</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,14 +12,14 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ">
-    <meta name="subtitle" content="Docs for Backup-DbaDbCertificate">
+    <meta name="subtitle" content="Docs for Test-DbaBackupEncrypted">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Backup-DbaDbCertificate" />
-    <meta property="og:url" content="https://docs.dbatools.io/Backup-DbaDbCertificate.html" />
-    <meta property="og:description" content="dbatools docs for Backup-DbaDbCertificate" />
+    <meta property="og:title" content="dbatools docs:  Test-DbaBackupEncrypted" />
+    <meta property="og:url" content="https://docs.dbatools.io/Test-DbaBackupEncrypted.html" />
+    <meta property="og:description" content="dbatools docs for Test-DbaBackupEncrypted" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Backup-DbaDbCertificate" />
+    <meta name="twitter:text:title" content="dbatools docs:  Test-DbaBackupEncrypted" />
     <meta name="twitter:image" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" />
     <meta name="twitter:card" content="summary" />
 
@@ -450,7 +450,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="backup-dbadbcertificate">Backup-DbaDbCertificate</h1>
+                    <h1 id="test-dbabackupencrypted">Test-DbaBackupEncrypted</h1>
 <table>
 <thead>
 <tr>
@@ -461,7 +461,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Jess Pomfret (@jpomfret)</td>
+<td>Chrissy LeMaire (@cl), <a href="http://netnerds.net">http://netnerds.net</a></td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -471,45 +471,15 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports database certificates from SQL Server using SMO.</p>
+<p>Tests to see if a backup is encrypted</p>
 <h2 id="description">Description</h2>
-<p>Exports database certificates from SQL Server using SMO and outputs the .cer and .pvk files.</p>
+<p>Tests to see if a backup is encrypted</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Backup-DbaDbCertificate
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-EncryptionPassword &lt;SecureString&gt;]
-    [-DecryptionPassword &lt;SecureString&gt;]
-    [-Path &lt;FileInfo&gt;]
-    [-Suffix &lt;String&gt;]
+<pre><code>Test-DbaBackupEncrypted
+    [-SqlInstance] &lt;DbaInstanceParameter&gt;
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [-FilePath] &lt;String[]&gt;
     [-EnableException]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-Backup-DbaDbCertificate -SqlInstance &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Certificate &lt;Object[]&gt;]
-    [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;]
-    [-EncryptionPassword &lt;SecureString&gt;]
-    [-DecryptionPassword &lt;SecureString&gt;]
-    [-Path &lt;FileInfo&gt;]
-    [-Suffix &lt;String&gt;]
-    [-EnableException]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-Backup-DbaDbCertificate
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-EncryptionPassword &lt;SecureString&gt;]
-    [-DecryptionPassword &lt;SecureString&gt;]
-    [-Path &lt;FileInfo&gt;]
-    [-Suffix &lt;String&gt;]
-    [-InputObject &lt;Certificate[]&gt;]
-    [-EnableException]
-    [-WhatIf]
-    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -517,51 +487,16 @@ Backup-DbaDbCertificate
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1
+<pre><code>PS C:\&gt; Test-DbaBackupEncrypted -SqlInstance sql01 -Path /tmp/northwind.bak
 </code></pre>
-<p>Exports all the certificates on the specified SQL Server to the default data path for the instance.<br></p>
+<p>Test to see if /tmp/northwind.bak is encrypted<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; $cred = Get-Credential sqladmin
-PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1 -SqlCredential $cred
+<pre><code>PS C:\&gt; Get-ChildItem \\nas\sql\backups | Test-DbaBackupEncrypted -SqlInstance sql01
 </code></pre>
-<p>Connects using sqladmin credential and exports all the certificates on the specified SQL Server to the default data path for the instance.<br></p>
-<h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1 -Certificate Certificate1
-</code></pre>
-<p>Exports only the certificate named Certificate1 on the specified SQL Server to the default data path for the instance.<br></p>
-<h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1 -Database AdventureWorks
-</code></pre>
-<p>Exports only the certificates for AdventureWorks on the specified SQL Server to the default data path for the instance.<br></p>
-<h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1 -ExcludeDatabase AdventureWorks
-</code></pre>
-<p>Exports all certificates except those for AdventureWorks on the specified SQL Server to the default data path for the instance.<br></p>
-<h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1 -Path \\Server1\Certificates -EncryptionPassword (ConvertTo-SecureString -force -AsPlainText GoodPass1234!!)
-</code></pre>
-<p>Exports all the certificates and private keys on the specified SQL Server.<br></p>
-<h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; $EncryptionPassword = ConvertTo-SecureString -AsPlainText &quot;GoodPass1234!!&quot; -force
-PS C:\&gt; $DecryptionPassword = ConvertTo-SecureString -AsPlainText &quot;Password4567!!&quot; -force
-PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1 -EncryptionPassword $EncryptionPassword -DecryptionPassword $DecryptionPassword
-</code></pre>
-<p>Exports all the certificates on the specified SQL Server using the supplied DecryptionPassword, since an EncryptionPassword is specified private keys are also exported.<br></p>
-<h5 id="example-8">Example:  8</h5>
-<pre><code>PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1 -Path \\Server1\Certificates
-</code></pre>
-<p>Exports all certificates on the specified SQL Server to the specified path.<br></p>
-<h5 id="example-9">Example:  9</h5>
-<pre><code>PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1 -Suffix DbaTools
-</code></pre>
-<p>Exports all certificates on the specified SQL Server to the specified path, appends DbaTools to the end of the filenames.<br></p>
-<h5 id="example-10">Example:  10</h5>
-<pre><code>PS C:\&gt; Get-DbaDbCertificate -SqlInstance sql2016 | Backup-DbaDbCertificate
-</code></pre>
-<p>Exports all certificates found on sql2016 to the default data directory.<br></p>
+<p>Test to see if all of the backups in \nas\sql\backups are encrypted<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -581,6 +516,34 @@ PS C:\&gt; Backup-DbaDbCertificate -SqlInstance Server1 -EncryptionPassword $Enc
 <tr>
 <td>Pipeline</td>
 <td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filepath">-FilePath</h5>
+<p>The path to the backups<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>FullName</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -619,230 +582,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="certificate">-Certificate</h5>
-<p>Exports certificate that matches the name(s).<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="database">-Database</h5>
-<p>Exports the encryptor for specific database(s).<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Database(s) to skip when exporting encryptors.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="encryptionpassword">-EncryptionPassword</h5>
-<p>A string value that specifies the secure password to encrypt the private key.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="decryptionpassword">-DecryptionPassword</h5>
-<p>Secure string used to decrypt the private key.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="path">-Path</h5>
-<p>The path to output the files to. The path is relative to the SQL Server itself. If no path is specified, the default data directory will be used.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="suffix">-Suffix</h5>
-<p>The suffix of the filename of the exported certificate.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDbCertificate<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h5 id="enableexception">-EnableException</h5>
 <p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
 This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
@@ -873,66 +612,10 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tr>
 </tbody>
 </table>
-<h5 id="whatif">-WhatIf</h5>
-<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>wi</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="confirm">-Confirm</h5>
-<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>cf</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Backup-DbaDbCertificate.ps1">Backup-DbaDbCertificate</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Test-DbaBackupEncrypted.ps1">Test-DbaBackupEncrypted</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Backup-DbaDbCertificate">Backup-DbaDbCertificate</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://sqlcollaborative.github.io/boh#Test-DbaBackupEncrypted">Test-DbaBackupEncrypted</a>.</p>
 
                 </div> <!-- rendered -->
             </div>
