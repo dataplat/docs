@@ -588,6 +588,12 @@ PS C:\&gt; Invoke-DbaQuery -SqlInstance localhost -Database master -CommandType 
 PS C:\&gt; $output.Value
 </code></pre>
 <p>Creates an output parameter and uses it to invoke a stored procedure.<br></p>
+<h5 id="example-11">Example:  11</h5>
+<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance localhost -Database master -AlwaysEncrypted
+PS C:\&gt; $inputparamSSN = New-DbaSqlParameter -Direction Input -ParameterName &quot;@SSN&quot; -DbType AnsiStringFixedLength -Size 11 -SqlValue &quot;444-44-4444&quot; -ForceColumnEncryption
+PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query 'SELECT * FROM bar WHERE SSN_col = @SSN' -SqlParameter @inputparamSSN
+</code></pre>
+<p>Creates an input parameter using Always Encrypted<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="query">-Query</h5>
 <p>Specifies one or more queries to be run. The queries can be Transact-SQL, XQuery statements, or sqlcmd commands. Multiple queries in a single batch may be separated by a semicolon or a GO
