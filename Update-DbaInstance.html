@@ -486,15 +486,11 @@ The command will:</p>
 <li>Restart the computer (if -Restart is specified)</li>
 <li>Repeat for each consequent KB and computer</li>
 </ul>
-<p>The impact of this function is set to High, if you don't want to receive interactive prompts, set -Confirm to $false.
-Credentials are a required parameter for remote machines. Without specifying -Credential, the installation will fail due to lack of permissions.</p>
-<p>CredSSP is a recommended transport for running the updates remotely. Update-DbaInstance will attempt to reconfigure
-local and remote hosts to support CredSSP, which is why it is desirable to run this command in an elevated console at all times.
-CVE-2018-0886 security update is required for both local and remote hosts. If CredSSP connections are failing, make sure to
-apply recent security updates prior to doing anything else.</p>
-<p>When using CredSSP authentication, this function will configure CredSSP authentication for PowerShell Remoting sessions.
+<p>The impact of this function is set to High, if you don't want to receive interactive prompts, set -Confirm to $false.</p>
+<p>When using CredSSP authentication, this function will try to configure CredSSP authentication for PowerShell Remoting sessions.
 If this is not desired (e.g.: CredSSP authentication is managed externally, or is already configured appropriately,)
-it can be disabled by setting the dbatools configuration option 'commands.initialize-credssp.bypass' value to $true.</p>
+it can be disabled by setting the dbatools configuration option 'commands.initialize-credssp.bypass' value to $true.
+To be able to configure CredSSP, the command needs to be run in an elevated PowerShell session.</p>
 <p>Always backup databases and configurations prior to upgrade.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Update-DbaInstance
@@ -648,7 +644,9 @@ Does not prompt for confirmation.<br></p>
 </table>
 <h5 id="credential">-Credential</h5>
 <p>Windows Credential with permission to log on to the remote server.
-Must be specified for any remote connection if update Repository is located on a network folder.<br></p>
+Must be specified for any remote connection if update Repository is located on a network folder.
+Authentication will default to CredSSP if -Credential is used.
+For CredSSP see also additional information in DESCRIPTION.<br></p>
 <table>
 <thead>
 <tr>
@@ -892,11 +890,14 @@ Default: 50<br></p>
 </table>
 <h5 id="authentication">-Authentication</h5>
 <p>Chooses an authentication protocol for remote connections.
-If the protocol fails to establish a connection
+Allowed values: 'Default', 'Basic', 'Negotiate', 'NegotiateWithImplicitCredential', 'Credssp', 'Digest', 'Kerberos'.
+If the protocol fails to establish a connection and explicit -Credentials were used, a failback authentication method would be attempted that configures PSSessionConfiguration
+on the remote machine. This method, however, is considered insecure and would, therefore, prompt an additional confirmation when used.
 Defaults:</p>
 <ul>
 <li>CredSSP when -Credential is specified - due to the fact that repository Path is usually a network share and credentials need to be passed to the remote host to avoid the double-hop issue.</li>
-<li>Default when -Credential is not specified. Will likely fail if a network path is specified.<br></li>
+<li>Default when -Credential is not specified. Will likely fail if a network path is specified.
+For CredSSP see also additional information in DESCRIPTION.<br></li>
 </ul>
 <table>
 <thead>
@@ -920,7 +921,7 @@ Defaults:</p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>@('CredSSP', 'Default')[$null -eq $Credential]</td>
+<td>@('Credssp', 'Default')[$null -eq $Credential]</td>
 </tr>
 <tr>
 <td>Accepted Values</td>

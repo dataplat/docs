@@ -494,9 +494,10 @@ Some of the things this function will do for you:</p>
 </ul>
 <p>Note that the dowloaded installation media must be extracted and available to the server where the installation runs.
 NOTE: If no ProductID (PID) is found in the configuration files/parameters, Evaluation version is going to be installed.</p>
-<p>When using CredSSP authentication, this function will configure CredSSP authentication for PowerShell Remoting sessions.
+<p>When using CredSSP authentication, this function will try to configure CredSSP authentication for PowerShell Remoting sessions.
 If this is not desired (e.g.: CredSSP authentication is managed externally, or is already configured appropriately,)
-it can be disabled by setting the dbatools configuration option 'commands.initialize-credssp.bypass' value to $true.</p>
+it can be disabled by setting the dbatools configuration option 'commands.initialize-credssp.bypass' value to $true.
+To be able to configure CredSSP, the command needs to be run in an elevated PowerShell session.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaInstance
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -702,7 +703,10 @@ You can also define instance name and port using -InstanceName and -Port paramet
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Used when executing installs against remote servers<br></p>
+<p>Windows Credential with permission to log on to the remote server.
+Must be specified for any remote connection if SQL Server installation media is located on a network folder.
+Authentication will default to CredSSP if -Credential is used.
+For CredSSP see also additional information in DESCRIPTION.<br></p>
 <table>
 <thead>
 <tr>
@@ -731,12 +735,14 @@ You can also define instance name and port using -InstanceName and -Port paramet
 </table>
 <h5 id="authentication">-Authentication</h5>
 <p>Chooses an authentication protocol for remote connections.
-Allowed values: 'Default', 'Basic', 'Negotiate', 'NegotiateWithImplicitCredential', 'Credssp', 'Digest', 'Kerberos'
-If the protocol fails to establish a connection
+Allowed values: 'Default', 'Basic', 'Negotiate', 'NegotiateWithImplicitCredential', 'Credssp', 'Digest', 'Kerberos'.
+If the protocol fails to establish a connection and explicit -Credentials were used, a failback authentication method would be attempted that configures PSSessionConfiguration
+on the remote machine. This method, however, is considered insecure and would, therefore, prompt an additional confirmation when used.
 Defaults:</p>
 <ul>
 <li>CredSSP when -Credential is specified - due to the fact that repository Path is usually a network share and credentials need to be passed to the remote host to avoid the double-hop issue.</li>
-<li>Default when -Credential is not specified. Will likely fail if a network path is specified.<br></li>
+<li>Default when -Credential is not specified. Will likely fail if a network path is specified.
+For CredSSP see also additional information in DESCRIPTION.<br></li>
 </ul>
 <table>
 <thead>
@@ -760,7 +766,7 @@ Defaults:</p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>Credssp</td>
+<td>@('Credssp', 'Default')[$null -eq $Credential]</td>
 </tr>
 <tr>
 <td>Accepted Values</td>
