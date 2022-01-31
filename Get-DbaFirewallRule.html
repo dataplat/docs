@@ -576,6 +576,7 @@ The value &quot;AllInstance&quot; only uses the computer name part of SqlInstanc
 Valid values are:
 Engine - for the SQL Server instance
 Browser - for the SQL Server Browser
+DAC - for the dedicated admin connection (DAC)
 AllInstance - for all firewall rules on the target computer related to SQL Server
 If this parameter is not used, the firewall rule for the SQL Server instance will be returned
 and in case the instance is listening on a port other than 1433,
@@ -606,7 +607,7 @@ also the firewall rule for the SQL Server Browser will be returned.<br></p>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Engine,Browser,AllInstance</td>
+<td>Engine,Browser,DAC,AllInstance</td>
 </tr>
 </tbody>
 </table>

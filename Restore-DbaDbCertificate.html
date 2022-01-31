@@ -482,6 +482,7 @@
     [[-KeyFilePath] &lt;String[]&gt;]
     [[-EncryptionPassword] &lt;SecureString&gt;]
     [[-Database] &lt;String&gt;]
+    [[-Name] &lt;String&gt;]
     [[-DecryptionPassword] &lt;SecureString&gt;]
     [-EnableException]
     [-WhatIf]
@@ -673,6 +674,34 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
+<h5 id="name">-Name</h5>
+<p>The optional name for the certificate, otherwise, it will be guessed from the certificate file name.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h5 id="decryptionpassword">-DecryptionPassword</h5>
 <p>Secure string used to decrypt the private key.<br></p>
 <table>
@@ -697,7 +726,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>(Read-Host &quot;Password&quot; -AsSecureString)</td>
+<td>(Read-Host &quot;Decryption password&quot; -AsSecureString)</td>
 </tr>
 </tbody>
 </table>

@@ -499,6 +499,16 @@ Enabled     = 'True'
 Direction   = 'Inbound'
 Protocol    = 'UDP'
 LocalPort   = '1434'</p>
+<p>The firewall rule for the dedicated admin connection (DAC) will have the following configuration (parameters for New-NetFirewallRule):
+DisplayName = 'SQL Server default instance (DAC)' or 'SQL Server instance <InstanceName> (DAC)'
+Name        = 'SQL Server default instance (DAC)' or 'SQL Server instance <InstanceName> (DAC)'
+Group       = 'SQL Server'
+Enabled     = 'True'
+Direction   = 'Inbound'
+Protocol    = 'TCP'
+LocalPort   = '<Port>' (typically 1434 for a default instance, but will be fetched from ERRORLOG)
+The firewall rule for the DAC will only be created if the DAC is configured for listening remotely.
+Use <code>Set-DbaSpConfigure -SqlInstance SRV1 -Name RemoteDacConnectionsEnabled -Value 1</code> to enable remote DAC before running this command.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaFirewallRule
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -591,9 +601,11 @@ but configures the firewall rule for the domain profile only.<br></p>
 Valid values are:
 Engine - for the SQL Server instance
 Browser - for the SQL Server Browser
-If this parameter is not used, the firewall rule for the SQL Server instance will be created
-and in case the instance is listening on a port other than 1433,
-also the firewall rule for the SQL Server Browser will be created if not already in place.<br></p>
+DAC - for the dedicated admin connection (DAC)
+If this parameter is not used:
+The firewall rule for the SQL Server instance will be created.
+In case the instance is listening on a port other than 1433, also the firewall rule for the SQL Server Browser will be created if not already in place.
+In case the DAC is configured for listening remotely, also the firewall rule for the DAC will be created.<br></p>
 <table>
 <thead>
 <tr>
@@ -620,7 +632,7 @@ also the firewall rule for the SQL Server Browser will be created if not already
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Engine,Browser</td>
+<td>Engine,Browser,DAC</td>
 </tr>
 </tbody>
 </table>
