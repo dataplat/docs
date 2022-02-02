@@ -573,14 +573,16 @@ The value &quot;AllInstance&quot; only uses the computer name part of SqlInstanc
 </table>
 <h5 id="type">-Type</h5>
 <p>Returns firewall rules for the given type(s).
-Valid values are:
-Engine - for the SQL Server instance
-Browser - for the SQL Server Browser
-DAC - for the dedicated admin connection (DAC)
-AllInstance - for all firewall rules on the target computer related to SQL Server
+Valid values are:</p>
+<ul>
+<li>Engine - for the SQL Server instance</li>
+<li>Browser - for the SQL Server Browser</li>
+<li>DAC - for the dedicated admin connection (DAC)</li>
+<li>AllInstance - for all firewall rules on the target computer related to SQL Server
 If this parameter is not used, the firewall rule for the SQL Server instance will be returned
 and in case the instance is listening on a port other than 1433,
-also the firewall rule for the SQL Server Browser will be returned.<br></p>
+also the firewall rule for the SQL Server Browser will be returned.<br></li>
+</ul>
 <table>
 <thead>
 <tr>

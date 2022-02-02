@@ -482,32 +482,35 @@ The names and the group for all rules are fixed to be able to get them back with
 <p>The functionality is currently limited. Help to extend the functionality is welcome.</p>
 <p>As long as you can read this note here, there may be breaking changes in future versions.
 So please review your scripts using this command after updating dbatools.</p>
-<p>The firewall rule for the instance itself will have the following configuration (parameters for New-NetFirewallRule):
-DisplayName = 'SQL Server default instance' or 'SQL Server instance <InstanceName>'
-Name        = 'SQL Server default instance' or 'SQL Server instance <InstanceName>'
+<p>The firewall rule for the instance itself will have the following configuration (parameters for New-NetFirewallRule):</p>
+<pre><code>DisplayName = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'
+Name        = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'
 Group       = 'SQL Server'
 Enabled     = 'True'
 Direction   = 'Inbound'
 Protocol    = 'TCP'
-LocalPort   = '<Port>' (for instances with static port)
-Program     = '&lt;Path ending with MSSQL\Binn\sqlservr.exe&gt;' (for instances with dynamic port)</p>
-<p>The firewall rule for the SQL Server Browser will have the following configuration (parameters for New-NetFirewallRule):
-DisplayName = 'SQL Server Browser'
+LocalPort   = '&lt;Port&gt;' (for instances with static port)
+Program     = '&lt;Path ending with MSSQL\Binn\sqlservr.exe&gt;' (for instances with dynamic port)
+</code></pre>
+<p>The firewall rule for the SQL Server Browser will have the following configuration (parameters for New-NetFirewallRule):</p>
+<pre><code>DisplayName = 'SQL Server Browser'
 Name        = 'SQL Server Browser'
 Group       = 'SQL Server'
 Enabled     = 'True'
 Direction   = 'Inbound'
 Protocol    = 'UDP'
-LocalPort   = '1434'</p>
-<p>The firewall rule for the dedicated admin connection (DAC) will have the following configuration (parameters for New-NetFirewallRule):
-DisplayName = 'SQL Server default instance (DAC)' or 'SQL Server instance <InstanceName> (DAC)'
-Name        = 'SQL Server default instance (DAC)' or 'SQL Server instance <InstanceName> (DAC)'
+LocalPort   = '1434'
+</code></pre>
+<p>The firewall rule for the dedicated admin connection (DAC) will have the following configuration (parameters for New-NetFirewallRule):</p>
+<pre><code>DisplayName = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'
+Name        = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'
 Group       = 'SQL Server'
 Enabled     = 'True'
 Direction   = 'Inbound'
 Protocol    = 'TCP'
-LocalPort   = '<Port>' (typically 1434 for a default instance, but will be fetched from ERRORLOG)
-The firewall rule for the DAC will only be created if the DAC is configured for listening remotely.
+LocalPort   = '&lt;Port&gt;' (typically 1434 for a default instance, but will be fetched from ERRORLOG)
+</code></pre>
+<p>The firewall rule for the DAC will only be created if the DAC is configured for listening remotely.
 Use <code>Set-DbaSpConfigure -SqlInstance SRV1 -Name RemoteDacConnectionsEnabled -Value 1</code> to enable remote DAC before running this command.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaFirewallRule
@@ -598,14 +601,16 @@ but configures the firewall rule for the domain profile only.<br></p>
 </table>
 <h5 id="type">-Type</h5>
 <p>Creates firewall rules for the given type(s).
-Valid values are:
-Engine - for the SQL Server instance
-Browser - for the SQL Server Browser
-DAC - for the dedicated admin connection (DAC)
-If this parameter is not used:
-The firewall rule for the SQL Server instance will be created.
-In case the instance is listening on a port other than 1433, also the firewall rule for the SQL Server Browser will be created if not already in place.
-In case the DAC is configured for listening remotely, also the firewall rule for the DAC will be created.<br></p>
+Valid values are:</p>
+<ul>
+<li>Engine - for the SQL Server instance</li>
+<li>Browser - for the SQL Server Browser</li>
+<li>DAC - for the dedicated admin connection (DAC)
+If this parameter is not used:</li>
+<li>The firewall rule for the SQL Server instance will be created.</li>
+<li>In case the instance is listening on a port other than 1433, also the firewall rule for the SQL Server Browser will be created if not already in place.</li>
+<li>In case the DAC is configured for listening remotely, also the firewall rule for the DAC will be created.<br></li>
+</ul>
 <table>
 <thead>
 <tr>
