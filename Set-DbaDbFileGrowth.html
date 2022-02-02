@@ -483,6 +483,7 @@
     [[-Database] &lt;String[]&gt;]
     [[-GrowthType] &lt;String&gt;]
     [[-Growth] &lt;Int32&gt;]
+    [[-FileType] &lt;String&gt;]
     [[-InputObject] &lt;Database[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -509,6 +510,10 @@
 <pre><code>PS C:\&gt; Set-DbaDbFileGrowth -SqlInstance sql2017, sql2016, sql2012 -Database test -WhatIf
 </code></pre>
 <p>Shows what would happen if the command were executed<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Set-DbaDbFileGrowth -SqlInstance sql2017 -Database test -GrowthType GB -Growth 1 -FileType Data
+</code></pre>
+<p>Sets growth to 1GB for only data files for database test<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
@@ -653,6 +658,38 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td>64</td>
+</tr>
+</tbody>
+</table>
+<h5 id="filetype">-FileType</h5>
+<p>Apply changes to only DATA, LOG or ALL files<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>All</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>All,Data,Log</td>
 </tr>
 </tbody>
 </table>
