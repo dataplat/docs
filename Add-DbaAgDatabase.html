@@ -515,6 +515,7 @@ Please make sure that the last log backup has been restored before running Add-D
     [-SeedingMode &lt;String&gt;]
     [-SharedPath &lt;String&gt;]
     [-UseLastBackup]
+    [-AdvancedBackupParams &lt;Hashtable&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -527,6 +528,7 @@ Add-DbaAgDatabase
     [-SeedingMode &lt;String&gt;]
     [-SharedPath &lt;String&gt;]
     [-UseLastBackup]
+    [-AdvancedBackupParams &lt;Hashtable&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -552,6 +554,11 @@ Add-DbaAgDatabase
 <pre><code>PS C:\&gt; Get-DbaDbSharePoint -SqlInstance sqlcluster -ConfigDatabase SharePoint_Config_2019 | Add-DbaAgDatabase -AvailabilityGroup SharePoint
 </code></pre>
 <p>Adds SharePoint databases as found in SharePoint_Config_2019 on sqlcluster to ag1 on sqlcluster<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Add-DbaAgDatabase -SqlInstance sql2017a -AvailabilityGroup ag1 -Database db1 -Secondary sql2017b -SeedingMode Manual -SharedPath \\FS\Backup -AdvancedBackupParams @{ CompressBackup = $true ;
+</code></pre>
+<p>FileCount = 3 }<br>
+Adds db1 to ag1 on sql2017a and sql2017b. Uses compression and three files while taking the backups.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The primary replica of the Availability Group. Server version must be SQL Server version 2012 or higher.<br></p>
@@ -845,6 +852,34 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="advancedbackupparams">-AdvancedBackupParams</h5>
+<p>Provide additional parameters to the backup command as a hashtable.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>
