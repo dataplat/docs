@@ -512,10 +512,7 @@ and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlc
     [[-AppendConnectionString] &lt;String&gt;]
     [-SqlConnectionOnly]
     [[-AzureDomain] &lt;String&gt;]
-    [[-AuthenticationType] &lt;String&gt;]
     [[-Tenant] &lt;String&gt;]
-    [[-Thumbprint] &lt;String&gt;]
-    [[-Store] &lt;String&gt;]
     [[-AccessToken] &lt;PSObject&gt;]
     [-DedicatedAdminConnection]
     [-DisableException]
@@ -1452,38 +1449,6 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </tr>
 </tbody>
 </table>
-<h5 id="authenticationtype">-AuthenticationType</h5>
-<p>Not used in the current version.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>Auto</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Auto,AD Universal with MFA Support</td>
-</tr>
-</tbody>
-</table>
 <h5 id="tenant">-Tenant</h5>
 <p>The TenantId for an Azure Instance<br></p>
 <table>
@@ -1509,66 +1474,6 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 <tr>
 <td>Default Value</td>
 <td>(Get-DbatoolsConfigValue -FullName 'azure.tenantid')</td>
-</tr>
-</tbody>
-</table>
-<h5 id="thumbprint">-Thumbprint</h5>
-<p>Not used in the current version.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>(Get-DbatoolsConfigValue -FullName 'azure.certificate.thumbprint')</td>
-</tr>
-</tbody>
-</table>
-<h5 id="store">-Store</h5>
-<p>Not used in the current version.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>(Get-DbatoolsConfigValue -FullName 'azure.certificate.store')</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>CurrentUser,LocalMachine</td>
 </tr>
 </tbody>
 </table>
