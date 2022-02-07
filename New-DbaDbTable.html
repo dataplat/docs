@@ -553,15 +553,23 @@ PS C:\&gt; New-DbaDbTable -SqlInstance sql2017 -Database tempdb -Name testtable 
 </code></pre>
 <p>Creates a new table on sql2017 in tempdb with the name testtable and one column<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; $col = @{
-&gt;&gt; Name      = 'Id'
-&gt;&gt; Type      = 'varchar'
-&gt;&gt; MaxLength = 36
-&gt;&gt; DefaultEx = 'NEWID()'
+<pre><code>PS C:\&gt; $cols = @( )
+&gt;&gt; $cols += @{
+&gt;&gt;     Name              = 'Id'
+&gt;&gt;     Type              = 'varchar'
+&gt;&gt;     MaxLength         = 36
+&gt;&gt;     DefaultExpression = 'NEWID()'
 &gt;&gt; }
-PS C:\&gt; New-DbaDbTable -SqlInstance sql2017 -Database tempdb -Name testtable -ColumnMap $col
+&gt;&gt; $cols += @{
+&gt;&gt;     Name          = 'Since'
+&gt;&gt;     Type          = 'datetime2'
+&gt;&gt;     DefaultString = '2021-12-31'
+&gt;&gt; }
+PS C:\&gt; New-DbaDbTable -SqlInstance sql2017 -Database tempdb -Name testtable -ColumnMap $cols
 </code></pre>
-<p>Creates a new table on sql2017 in tempdb with the name testtable and one column. Uses &quot;DefaultEx&quot; to interpret the value as an expression and not as a string.<br></p>
+<p>Creates a new table on sql2017 in tempdb with the name testtable and two columns.<br>
+Uses &quot;DefaultExpression&quot; to interpret the value &quot;NEWID()&quot; as an expression regardless of the data type of the column.<br>
+Uses &quot;DefaultString&quot; to interpret the value &quot;2021-12-31&quot; as a string regardless of the data type of the column.<br></p>
 <h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; # Create collection
 &gt;&gt; $cols = @()
