@@ -484,6 +484,7 @@
     [[-Since] &lt;DateTime&gt;]
     [-Force]
     [-Last]
+    [[-RestoreType] &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -512,6 +513,10 @@ PS C:\&gt; Get-DbaDbRestoreHistory -SqlInstance sql2014 -Database AdventureWorks
 <pre><code>PS C:\&gt; Get-DbaRegServer -SqlInstance sql2016 | Get-DbaDbRestoreHistory
 </code></pre>
 <p>Returns database restore information for every database on every server listed in the Central Management Server on sql2016.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Get-DbaDbRestoreHistory -SqlInstance sql2016 -RestoreType Log
+</code></pre>
+<p>Returns log restore information for every database on the sql2016 instance.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>Specifies the SQL Server instance(s) to operate on. Requires SQL Server 2005 or higher.<br></p>
@@ -709,6 +714,39 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="restoretype">-RestoreType</h5>
+<p>Return the history for a specific type of restore. The possible values are 'Database', 'File', 'Filegroup', 'Differential', 'Log', 'Verifyonly', 'Revert'. This is an optional parameter so there is no
+default value.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Database,File,Filegroup,Differential,Log,Verifyonly,Revert</td>
 </tr>
 </tbody>
 </table>

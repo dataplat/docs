@@ -461,7 +461,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Brandon Abshire, netnerds.net</td>
+<td>Brandon Abshire, netnerds.net , Josh Smith</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -485,6 +485,7 @@
     [-ExcludeSystemDatabase]
     [-IncludePublicGuest]
     [-IncludeSystemObjects]
+    [-ExcludeSecurables]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -679,6 +680,34 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </table>
 <h5 id="includesystemobjects">-IncludeSystemObjects</h5>
 <p>Allows you to include output on sys schema objects.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludesecurables">-ExcludeSecurables</h5>
+<p>Allows you to exclude object-level permissions from the output, and only return role permission(s).<br></p>
 <table>
 <thead>
 <tr>
