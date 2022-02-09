@@ -479,6 +479,7 @@
 <pre><code>Stop-DbaService
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
     [-InstanceName &lt;String[]&gt;]
+    [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
     [-Type &lt;String[]&gt;]
     [-Timeout &lt;Int32&gt;]
     [-Credential &lt;PSCredential&gt;]
@@ -594,6 +595,35 @@ Stop-DbaService
 <tr>
 <td>Alias</td>
 <td>Instance</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>Use a combination of computername and instancename to get the SQL Server related services for specific instances on specific computers.
+Parameters ComputerName and InstanceName will be ignored if SqlInstance is used.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>
