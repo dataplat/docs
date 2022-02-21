@@ -2097,8 +2097,8 @@ The default is 1 or Windows.<br></p>
 </table>
 <h5 id="restoredatafolder">-RestoreDataFolder</h5>
 <p>Folder to be used to restore the database data files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.
-If the parameter is not set the default data folder of the secondary instance will be used including the name of the database.
-If the folder is set but doesn't exist the default data folder of the secondary instance will be used including the name of the database.<br></p>
+If the parameter is not set the default data folder of the secondary instance will be used.
+If the folder is set but doesn't exist we will try to create the folder.<br></p>
 <table>
 <thead>
 <tr>
@@ -2128,7 +2128,7 @@ If the folder is set but doesn't exist the default data folder of the secondary 
 <h5 id="restorelogfolder">-RestoreLogFolder</h5>
 <p>Folder to be used to restore the database log files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.
 If the parameter is not set the default transaction log folder of the secondary instance will be used.
-If the folder is set but doesn't exist the default transaction log folder of the secondary instance will be used.<br></p>
+If the folder is set but doesn't exist we will try to create the folder.<br></p>
 <table>
 <thead>
 <tr>

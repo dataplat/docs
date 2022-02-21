@@ -471,9 +471,9 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Take a database and upgrades it to compatibility of the SQL Instance its hosted on. Based on <a href="https://thomaslarock.com/2014/06/upgrading-to-sql-server-2014-a-dozen-things-to-check/">https://thomaslarock.com/2014/06/upgrading-to-sql-server-2014-a-dozen-things-to-check/</a></p>
+<p>Take a database and upgrades it to compatibility of the SQL Instance its hosted on and updates the target recovery time to the new default of 60 seconds. Based on <a href="https://thomaslarock.com/2014/06/upgrading-to-sql-server-2014-a-dozen-things-to-check/">https://thomaslarock.com/2014/06/upgrading-to-sql-server-2014-a-dozen-things-to-check/</a></p>
 <h2 id="description">Description</h2>
-<p>Updates compatibility level, then runs CHECKDB with data_purity, DBCC updateusage, sp_updatestats and finally sp_refreshview against all user views.</p>
+<p>Updates compatibility level and target recovery time, then runs CHECKDB with data_purity, DBCC updateusage, sp_updatestats and finally sp_refreshview against all user views.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbUpgrade
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -501,6 +501,7 @@
 </code></pre>
 <p>Runs the below processes against the databases<br>
 -- Puts compatibility of database to level of SQL Instance<br>
+-- Changes the target recovery time to the new default of 60 seconds (for SQL Server 2016 and newer)<br>
 -- Runs CHECKDB DATA_PURITY<br>
 -- Runs DBCC UPDATESUSAGE<br>
 -- Updates all users statistics<br>
@@ -577,7 +578,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is autopopulated from the server. If unspecified, all databases will be processed.<br></p>
+<p>The database(s) to process - this list is autopopulated from the server. If unspecified, you have to use -ExcludeDatabase to exclude some user databases or -AllUserDatabases to process all user
+databases.<br></p>
 <table>
 <thead>
 <tr>

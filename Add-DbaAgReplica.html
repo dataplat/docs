@@ -480,6 +480,7 @@
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Name] &lt;String&gt;]
+    [[-ClusterType] &lt;String&gt;]
     [[-AvailabilityMode] &lt;String&gt;]
     [[-FailoverMode] &lt;String&gt;]
     [[-BackupPriority] &lt;Int32&gt;]
@@ -629,6 +630,42 @@ This parameter is only supported if the replica is added to just one instance.<b
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="clustertype">-ClusterType</h5>
+<p>Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.
+Options include: Wsfc, External or None.
+Defaults to Wsfc (Windows Server Failover Cluster).
+The default can be changed with:
+Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(Get-DbatoolsConfigValue -FullName 'AvailabilityGroups.Default.ClusterType' -Fallback 'Wsfc')</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Wsfc,External,None</td>
 </tr>
 </tbody>
 </table>
