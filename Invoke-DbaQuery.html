@@ -489,6 +489,7 @@ It was designed to be more convenient to use in a pipeline and to behave in a wa
     [-MessagesToOutput]
     [-InputObject &lt;Database[]&gt;]
     [-ReadOnly]
+    [-NoExec]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -504,6 +505,7 @@ Invoke-DbaQuery
     [-MessagesToOutput]
     [-InputObject &lt;Database[]&gt;]
     [-ReadOnly]
+    [-NoExec]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -519,6 +521,7 @@ Invoke-DbaQuery
     [-MessagesToOutput]
     [-InputObject &lt;Database[]&gt;]
     [-ReadOnly]
+    [-NoExec]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -971,6 +974,34 @@ Default is 'Text'. Further information: <a href="https://docs.microsoft.com/en-u
 </table>
 <h5 id="readonly">-ReadOnly</h5>
 <p>Execute the query with ReadOnly application intent.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="noexec">-NoExec</h5>
+<p>Use this switch to prepend SET NOEXEC ON and append SET NOEXEC OFF to each statement, useful for checking query formal errors<br></p>
 <table>
 <thead>
 <tr>
