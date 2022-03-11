@@ -490,6 +490,7 @@ support for this can be done via the RestartService parameter.</p>
     [-DisableProtocol &lt;String&gt;]
     [-DynamicPortForIPAll]
     [-StaticPortForIPAll &lt;Int32[]&gt;]
+    [-IpAddress &lt;String[]&gt;]
     [-RestartService]
     [-EnableException]
     [-WhatIf]
@@ -525,6 +526,11 @@ PS C:\&gt; $netConf | Set-DbaNetworkConfiguration -RestartService -Confirm:$fals
 </code></pre>
 <p>Changes the value of the KeepAlive property for the default instance on sqlserver2014a and restarts the service.<br>
 Does not prompt for confirmation.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Set-DbaNetworkConfiguration -SqlInstance sql2016\test -IpAddress 192.168.3.41:1433 -RestartService
+</code></pre>
+<p>Ensures that the TCP/IP network protocol is enabled and configured to only listen on port 1433 of IP address 192.168.3.41.<br>
+Restarts the service if needed.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
@@ -711,6 +717,36 @@ Will reset the last used dynamic port if already set.<br></p>
 <p>Configures the instance to listen on one or more static ports for all IP addresses.
 Will enable the TCP/IP protocol if needed.
 Will set TcpIpProperties.ListenAll to $true if needed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="ipaddress">-IpAddress</h5>
+<p>Configures the instance to listen on specific IP addresses only. Listening on all other IP addresses will be disabled.
+Takes an array of string with either the IP address (for listening on a dynamic port) or IP address and port seperated by &quot;:&quot;.
+IPv6 addresses must be enclosed in square brackets, e.g. [2001:db8:4006:812<span>200e] or [2001:db8:4006:812</span>200e]:1433 to be able to identify the port.<br></p>
 <table>
 <thead>
 <tr>

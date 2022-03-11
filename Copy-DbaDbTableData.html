@@ -553,16 +553,15 @@ Keeps identity columns and Nulls, truncates the destination and processes in Bat
 &gt;&gt; Destination = 'server1'
 &gt;&gt; Database = 'AdventureWorks2017'
 &gt;&gt; DestinationDatabase = 'AdventureWorks2017'
-&gt;&gt; Table = '[AdventureWorks2017].[Person].[EmailPromotion]'
+&gt;&gt; DestinationTable = '[AdventureWorks2017].[Person].[EmailPromotion]'
 &gt;&gt; BatchSize = 10000
 &gt;&gt; Query = &quot;SELECT * FROM [OtherDb].[Person].[Person] where EmailPromotion = 1&quot;
 &gt;&gt; }
 &gt;&gt;
 PS C:\&gt; Copy-DbaDbTableData @params
 </code></pre>
-<p>Copies data returned from the query on server1 into the AdventureWorks2017 on server1, using a 4-part name for the -Table parameter.<br>
-See the -Query param documentation for more details.<br>
-Copy is processed in BatchSize of 10000 rows.<br></p>
+<p>Copies data returned from the query on server1 into the AdventureWorks2017 on server1, using a 4-part name for the DestinationTableTable parameter. Copy is processed in BatchSize of 10000 rows.<br>
+See the Query param documentation for more details.<br></p>
 <h5 id="example-8">Example:  8</h5>
 <pre><code>PS C:\&gt; Copy-DbaDbTableData -SqlInstance sql1 -Database tempdb -View [tempdb].[dbo].[vw1] -DestinationTable [SampleDb].[SampleSchema].[SampleTable] -AutoCreateTable
 </code></pre>
