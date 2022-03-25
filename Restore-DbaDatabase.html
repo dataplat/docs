@@ -697,10 +697,9 @@ PS C:\&gt; Get-ChildItem \\nas\db\backups\test | Restore-DbaDatabase -SqlInstanc
 </code></pre>
 <p>Restores test to sql2019 using the file structure built from the existing database on sql2016<br></p>
 <h5 id="example-17">Example:  17</h5>
-<pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1 -Path \\ServerName\ShareName\File -DatabaseName database -DatabaseName database -StopMark OvernightStart -StopBefore -StopAfterDate Get-Date('21:00
+<pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1 -Path \\ServerName\ShareName\File -DatabaseName database -StopMark OvernightStart -StopBefore -StopAfterDate Get-Date('21:00 10/05/2020')
 </code></pre>
-<p>10/05/2020')<br>
-Restores the backups from \ServerName\ShareName\File as database, stops before the first 'OvernightStart' mark that occurs after '21:00 10/05/2020'.<br>
+<p>Restores the backups from \ServerName\ShareName\File as database, stops before the first 'OvernightStart' mark that occurs after '21:00 10/05/2020'.<br>
 Note that Date time needs to be specified in your local SQL Server culture<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
