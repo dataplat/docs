@@ -483,7 +483,7 @@ SQL Azure DB is not supported.</p>
     [[-SecurePassword] &lt;Object&gt;]
     [[-DefaultDatabase] &lt;String&gt;]
     [-Unlock]
-    [-MustChange]
+    [-PasswordMustChange]
     [[-NewName] &lt;String&gt;]
     [-Disable]
     [-Enable]
@@ -507,7 +507,7 @@ SQL Azure DB is not supported.</p>
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; $SecurePassword = ConvertTo-SecureString &quot;PlainTextPassword&quot; -AsPlainText -Force
 PS C:\&gt; $cred = New-Object System.Management.Automation.PSCredential (&quot;username&quot;, $SecurePassword)
-PS C:\&gt; Set-DbaLogin -SqlInstance sql1 -Login login1 -SecurePassword $cred -Unlock -MustChange
+PS C:\&gt; Set-DbaLogin -SqlInstance sql1 -Login login1 -SecurePassword $cred -Unlock -PasswordMustChange
 </code></pre>
 <p>Set the new password for login1 using a credential, unlock the account and set the option<br>
 that the user must change password at next logon.<br></p>
@@ -736,7 +736,7 @@ The default is false.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="mustchange">-MustChange</h5>
+<h5 id="passwordmustchange">-PasswordMustChange</h5>
 <p>Does the user need to change his/her password. This will only be used in conjunction with the -SecurePassword parameter.
 It is required that the login have both PasswordPolicyEnforced (check_policy) and PasswordExpirationEnabled (check_expiration) enabled for the login. See the Microsoft documentation for ALTER LOGIN
 for more details.
@@ -751,7 +751,7 @@ The default is false.<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>MustChange</td>
 </tr>
 <tr>
 <td>Required</td>
