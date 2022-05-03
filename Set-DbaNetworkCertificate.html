@@ -483,6 +483,7 @@
 <pre><code>Set-DbaNetworkCertificate
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
     [-Credential &lt;PSCredential&gt;]
+    [-RestartService]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -491,6 +492,7 @@
 Set-DbaNetworkCertificate
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
     [-Credential &lt;PSCredential&gt;] -Certificate &lt;X509Certificate2&gt;
+    [-RestartService]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -499,6 +501,7 @@ Set-DbaNetworkCertificate
 Set-DbaNetworkCertificate
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
     [-Credential &lt;PSCredential&gt;] -Thumbprint &lt;String&gt;
+    [-RestartService]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -627,6 +630,35 @@ Set-DbaNetworkCertificate
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="restartservice">-RestartService</h5>
+<p>Every change to the network certificate needs a service restart to take effect.
+This switch will force a restart of the service.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
