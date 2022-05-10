@@ -494,6 +494,7 @@
     [[-ReadonlyRoutingConnectionUrl] &lt;String&gt;]
     [[-Certificate] &lt;String&gt;]
     [-ConfigureXESession]
+    [[-SessionTimeout] &lt;Int32&gt;]
     [-InputObject] &lt;AvailabilityGroup&gt;
     [-EnableException]
     [-WhatIf]
@@ -1065,6 +1066,34 @@ The far endpoint must have a certificate with the public key matching the privat
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="sessiontimeout">-SessionTimeout</h5>
+<p>How many seconds an availability replica waits for a ping response from a connected replica before considering the connection to have failed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
 </tr>
 </tbody>
 </table>
