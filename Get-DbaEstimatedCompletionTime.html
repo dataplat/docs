@@ -489,6 +489,7 @@ RESTORE DATABASE
 ROLLBACK
 TDE ENCRYPTION</p>
 <p>For additional information, check out <a href="https://blogs.sentryone.com/loriedwards/patience-dm-exec-requests/">https://blogs.sentryone.com/loriedwards/patience-dm-exec-requests/</a> and <a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-requests-transact-sql">https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-requests-transact-sql</a></p>
+<p>The command will only return queries that provide estimated completion time, all other running queries will be filtered out.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaEstimatedCompletionTime
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

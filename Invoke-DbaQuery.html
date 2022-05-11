@@ -558,16 +558,15 @@ The inserted text will always be treated as string content, and not as a referen
 </code></pre>
 <p>Executes a query with ReadOnly application intent on aglistener1.<br></p>
 <h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance &quot;server1&quot; -Database tempdb -Query &quot;Example_SP&quot; -SqlParameter @{ Name = &quot;Maria&quot; } -CommandType StoredProcedure
+<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance server1 -Database tempdb -Query Example_SP -SqlParameter @{ Name = &quot;Maria&quot; } -CommandType StoredProcedure
 </code></pre>
 <p>Executes a stored procedure Example_SP using SQL Parameters<br></p>
 <h5 id="example-8">Example:  8</h5>
-<pre><code>PS C:\&gt; $QueryParameters = @{
-</code></pre>
-<p>&quot;StartDate&quot; = $startdate;<br>
-&quot;EndDate&quot; = $enddate;<br>
-};<br></p>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance &quot;server1&quot; -Database tempdb -Query &quot;Example_SP&quot; -SqlParameter $QueryParameters -CommandType StoredProcedure
+<pre><code>PS C:\&gt; $queryParameters = @{
+&gt;&gt;     StartDate = $startdate
+&gt;&gt;     EndDate   = $enddate
+&gt;&gt; }
+PS C:\&gt; Invoke-DbaQuery -SqlInstance server1 -Database tempdb -Query Example_SP -SqlParameter $queryParameters -CommandType StoredProcedure
 </code></pre>
 <p>Executes a stored procedure Example_SP using multiple SQL Parameters<br></p>
 <h5 id="example-9">Example:  9</h5>
