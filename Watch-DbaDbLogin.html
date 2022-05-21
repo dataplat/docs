@@ -479,10 +479,10 @@
 <p>The inputs for this command are either a Central Management Server (registered server repository), a flat file of server names, or to use pipeline input via Connect-DbaInstance. See the examples for more information.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Watch-DbaDbLogin
-    [-SqlInstance] &lt;DbaInstanceParameter&gt;
+    [[-SqlInstance] &lt;DbaInstanceParameter&gt;]
+    [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;Object&gt;]
     [[-Table] &lt;String&gt;]
-    [[-SqlCredential] &lt;PSCredential&gt;]
     [[-SqlCms] &lt;String&gt;]
     [[-ServersFromFile] &lt;String&gt;]
     [[-InputObject] &lt;Server[]&gt;]
@@ -516,7 +516,7 @@ PS C:\&gt; $instance1, $instance2 | Watch-DbaDbLogin -SqlInstance sqltest01 -Dat
 <p>Pre-connects two instances sqldev01 and sqldev02 and then using pipelining sends them to Watch-DbaDbLogin to enumerate processes and gather login info. The resulting gathered info is stored to the <br>
 DbaTools-WatchDbLogins table in the CentralAudit database on the sqltest01 instance.<br>
 Note: This is the method to use if the instances have different credentials than the instance used to store the watch data.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The SQL Server that stores the Watch database.<br></p>
 <table>
@@ -533,7 +533,7 @@ Note: This is the method to use if the instances have different credentials than
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -545,7 +545,36 @@ Note: This is the method to use if the instances have different credentials than
 </tr>
 </tbody>
 </table>
-<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h5 id="database">-Database</h5>
 <p>The name of the Watch database.<br></p>
 <table>
@@ -599,36 +628,6 @@ Note: This is the method to use if the instances have different credentials than
 <tr>
 <td>Default Value</td>
 <td>DbaTools-WatchDbLogins</td>
-</tr>
-</tbody>
-</table>
-<h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
 </tr>
 </tbody>
 </table>

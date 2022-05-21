@@ -483,6 +483,7 @@
     [[-Path] &lt;String&gt;]
     [[-Store] &lt;String&gt;]
     [[-Folder] &lt;String&gt;]
+    [[-Flag] &lt;String[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -500,6 +501,14 @@
 <pre><code>PS C:\&gt; Add-DbaComputerCertificate -Path C:\temp\cert.cer
 </code></pre>
 <p>Adds the local C:\temp\cert.cer to the local computer's LocalMachine\My (Personal) certificate store.<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Add-DbaComputerCertificate -Path C:\temp\cert.cer
+</code></pre>
+<p>Adds the local C:\temp\cert.cer to the local computer's LocalMachine\My (Personal) certificate store.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Add-DbaComputerCertificate -ComputerName sql01 -Path C:\temp\sql01.pfx -Confirm:$false -Flag NonExportable
+</code></pre>
+<p>Adds the local C:\temp\sql01.pfx to sql01's LocalMachine\My (Personal) certificate store and marks the private key as non-exportable. Skips confirmation prompt.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
 <p>The target SQL Server instance or instances. Defaults to localhost.<br></p>
@@ -694,6 +703,50 @@
 <tr>
 <td>Default Value</td>
 <td>My</td>
+</tr>
+</tbody>
+</table>
+<h5 id="flag">-Flag</h5>
+<p>Defines where and how to import the private key of an X.509 certificate.
+Defaults to: Exportable, PersistKeySet
+EphemeralKeySet
+The key associated with a PFX file is created in memory and not persisted on disk when importing a certificate.
+Exportable
+Imported keys are marked as exportable.
+NonExportable
+Expliictly mark keys as nonexportable.
+PersistKeySet
+The key associated with a PFX file is persisted when importing a certificate.
+UserProtected
+Notify the user through a dialog box or other method that the key is accessed. The Cryptographic Service Provider (CSP) in use defines the precise behavior. NOTE: This can only be used when you
+add a certificate to localhost, as it causes a prompt to appear.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>@(&quot;Exportable&quot;, &quot;PersistKeySet&quot;)</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>EphemeralKeySet,Exportable,PersistKeySet,UserProtected,NonExportable</td>
 </tr>
 </tbody>
 </table>

@@ -573,6 +573,10 @@ Migrates Mydb from instance sql2014 to AzureDb on the specified Azure SQL Manage
 <pre><code>PS C:\&gt; Copy-DbaDatabase -Source sql2014a -Destination sqlcluster -BackupRestore -SharedPath \\FS\Backup -AdvancedBackupParams @{ CompressBackup = $true }
 </code></pre>
 <p>Migrates all user databases to sqlcluster. Uses the parameter CompressBackup with the backup command to save some space on the shared path.<br></p>
+<h5 id="example-8">Example:  8</h5>
+<pre><code>PS C:\&gt; Copy-DbaDatabase -Source sqlcs -Destination sqlcs -Database t -DetachAttach -NewName t_copy -Reattach
+</code></pre>
+<p>Copies database t from sqlcs to the same server (sqlcs) using the detach/copy/attach method. The new database will be named t_copy and the original database will be reattached.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="destination">-Destination</h5>
 <p>Destination SQL Server. You may specify multiple servers.
