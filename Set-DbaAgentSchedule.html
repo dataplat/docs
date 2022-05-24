@@ -268,7 +268,7 @@
                     if (cmdlist.filtered) {
                         cmdlist.filter();
                     }
-                    cmdlist.search(searchString, ['CommandName', 'Alias', 'Description', 'Examples', 'Params']);
+                    cmdlist.search(searchString, ['CommandName', 'Alias', 'Description', 'Synopsis', 'Examples', 'Params']);
                 } else if (searchString.startsWith("tag:")) {
                     searchString = searchString.substring(4).trim();
                     if (cmdlist.searched) {
@@ -796,7 +796,7 @@ If force is used the default will be 1.<br></p>
 </table>
 <h5 id="frequencysubdaytype">-FrequencySubdayType</h5>
 <p>Specifies the units for the subday FrequencyInterval.
-Allowed values are 1, &quot;Time&quot;, 2, &quot;Seconds&quot;, 4, &quot;Minutes&quot;, 8 or &quot;Hours&quot;<br></p>
+Allowed values are 1, 'Once', 'Time', 2, 'Seconds', 'Second', 4, 'Minutes', 'Minute', 8, 'Hours', 'Hour'<br></p>
 <table>
 <thead>
 <tr>
@@ -823,7 +823,7 @@ Allowed values are 1, &quot;Time&quot;, 2, &quot;Seconds&quot;, 4, &quot;Minutes
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>1,Time,2,Seconds,4,Minutes,8,Hours</td>
+<td>1,Once,Time,2,Seconds,Second,4,Minutes,Minute,8,Hours,Hour</td>
 </tr>
 </tbody>
 </table>

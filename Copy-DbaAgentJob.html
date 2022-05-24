@@ -268,7 +268,7 @@
                     if (cmdlist.filtered) {
                         cmdlist.filter();
                     }
-                    cmdlist.search(searchString, ['CommandName', 'Alias', 'Description', 'Examples', 'Params']);
+                    cmdlist.search(searchString, ['CommandName', 'Alias', 'Description', 'Synopsis', 'Examples', 'Params']);
                 } else if (searchString.startsWith("tag:")) {
                     searchString = searchString.substring(4).trim();
                     if (cmdlist.searched) {
