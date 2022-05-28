@@ -495,30 +495,30 @@
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Install-DbaMultiTool -SqlInstance server1 -Database master
+<pre><code>PS C:\&gt; Install-DbaMultiTool -SqlInstance server1 -Database main
 </code></pre>
-<p>Logs into server1 with Windows authentication and then installs the DBA MultiTool in the master database.<br></p>
+<p>Logs into server1 with Windows authentication and then installs the DBA MultiTool in the main database.<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Install-DbaMultiTool -SqlInstance server1\instance1 -Database DBA
 </code></pre>
 <p>Logs into server1\instance1 with Windows authentication and then installs the DBA MultiTool in the DBA database.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Install-DbaMultiTool -SqlInstance server1\instance1 -Database master -SqlCredential $cred
+<pre><code>PS C:\&gt; Install-DbaMultiTool -SqlInstance server1\instance1 -Database main -SqlCredential $cred
 </code></pre>
-<p>Logs into server1\instance1 with SQL authentication and then installs the DBA MultiTool in the master database.<br></p>
+<p>Logs into server1\instance1 with SQL authentication and then installs the DBA MultiTool in the main database.<br></p>
 <h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Install-DbaMultiTool -SqlInstance sql2016\standardrtm, sql2016\sqlexpress, sql2014
 </code></pre>
-<p>Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs the DBA MultiTool in the master database.<br></p>
+<p>Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs the DBA MultiTool in the main database.<br></p>
 <h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; $servers = &quot;sql2016\standardrtm&quot;, &quot;sql2016\sqlexpress&quot;, &quot;sql2014&quot;
 PS C:\&gt; $servers | Install-DbaMultiTool
 </code></pre>
-<p>Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs the DBA MultiTool in the master database.<br></p>
+<p>Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs the DBA MultiTool in the main database.<br></p>
 <h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; Install-DbaMultiTool -SqlInstance sql2016 -Branch development
 </code></pre>
-<p>Installs the development branch version of the DBA MultiTool in the master database on sql2016 instance.<br></p>
+<p>Installs the development branch version of the DBA MultiTool in the main database on sql2016 instance.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
@@ -582,7 +582,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <h5 id="branch">-Branch</h5>
 <p>Specifies an alternate branch of the DBA MultiTool to install.
 Allowed values:
-master (default)
+main (default)
 development<br></p>
 <table>
 <thead>
@@ -606,11 +606,11 @@ development<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>master</td>
+<td>main</td>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>master,development</td>
+<td>main,development</td>
 </tr>
 </tbody>
 </table>
