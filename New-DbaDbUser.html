@@ -461,7 +461,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Frank Henninger (@osiris687)</td>
+<td>Frank Henninger (@osiris687) , Andreas Jordan (@JordanOrdix), ordix.de</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -478,25 +478,11 @@
 <pre><code>New-DbaDbUser
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;]
-    [-IncludeSystem]
-    [-Username &lt;String[]&gt;]
-    [-DefaultSchema &lt;String&gt;]
-    [-Force]
-    [-EnableException]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-New-DbaDbUser
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;]
+    [-Database &lt;String[]&gt;]
+    [-ExcludeDatabase &lt;String[]&gt;]
     [-IncludeSystem]
     [-Login &lt;String&gt;]
-    [-Username &lt;String[]&gt;]
+    [-Username &lt;String&gt;]
     [-DefaultSchema &lt;String&gt;]
     [-Force]
     [-EnableException]
@@ -585,7 +571,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all user databases will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -641,7 +627,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystem">-IncludeSystem</h5>
-<p>If this switch is enabled, the user will be added to system databases.<br></p>
+<p>If this switch is enabled, the user will be added to system databases. This switch will be ignored if -Database is used.<br></p>
 <table>
 <thead>
 <tr>
@@ -720,7 +706,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td></td>
+<td>$Login</td>
 </tr>
 </tbody>
 </table>
