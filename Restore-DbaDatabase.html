@@ -471,13 +471,13 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Restores a SQL Server Database from a set of backup files</p>
+<p>Restores a SQL Server Database from a set of backup files.</p>
 <h2 id="description">Description</h2>
 <p>Upon being passed a list of potential backups files this command will scan the files, select those that contain SQL Server
 backup sets. It will then filter those files down to a set that can perform the requested restore, checking that we have a
 full restore chain to the point in time requested by the caller.</p>
 <p>The function defaults to working on a remote instance. This means that all paths passed in must be relative to the remote instance.
-XpDirTree will be used to perform the file scans</p>
+XpDirTree will be used to perform the file scans.</p>
 <p>Various means can be used to pass in a list of files to be considered. The default is to recursively scan the folder
 passed in.</p>
 <h2 id="syntax">Syntax</h2>
@@ -732,10 +732,10 @@ Note that Date time needs to be specified in your local SQL Server culture<br></
 </table>
 <h5 id="path">-Path</h5>
 <p>Path to SQL Server backup files.
-Paths passed in as strings will be scanned using the desired method, default is a recursive folder scan
-Accepts multiple paths separated by ','
+Paths passed in as strings will be scanned using the desired method, default is a recursive folder scan.
+Accepts multiple paths separated by ','.
 Or it can consist of FileInfo objects, such as the output of Get-ChildItem or Get-Item. This allows you to work with
-your own file structures as needed<br></p>
+your own file structures as needed.<br></p>
 <table>
 <thead>
 <tr>
@@ -765,7 +765,7 @@ your own file structures as needed<br></p>
 <h5 id="pagerestore">-PageRestore</h5>
 <p>Passes in an object from Get-DbaSuspectPages containing suspect pages from a single database.
 Setting this Parameter will cause an Online Page restore if the target Instance is Enterprise Edition, or offline if not.
-This will involve taking a tail log backup, so you must check your restore chain once it has completed<br></p>
+This will involve taking a tail log backup, so you must check your restore chain once it has completed.<br></p>
 <table>
 <thead>
 <tr>
@@ -793,7 +793,7 @@ This will involve taking a tail log backup, so you must check your restore chain
 </tbody>
 </table>
 <h5 id="pagerestoretailfolder">-PageRestoreTailFolder</h5>
-<p>This parameter passes in a location for the tail log backup required for page level restore<br></p>
+<p>This parameter passes in a location for the tail log backup required for page level restore.<br></p>
 <table>
 <thead>
 <tr>
@@ -853,7 +853,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </table>
 <h5 id="databasename">-DatabaseName</h5>
 <p>Name to restore the database under.
-Only works with a single database restore. If multiple database are found in the provided paths then we will exit<br></p>
+Only works with a single database restore. If multiple database are found in the provided paths then we will exit.<br></p>
 <table>
 <thead>
 <tr>
@@ -882,7 +882,7 @@ Only works with a single database restore. If multiple database are found in the
 </table>
 <h5 id="destinationdatadirectory">-DestinationDataDirectory</h5>
 <p>Path to restore the SQL Server backups to on the target instance.
-If only this parameter is specified, then all database files (data and log) will be restored to this location<br></p>
+If only this parameter is specified, then all database files (data and log) will be restored to this location.<br></p>
 <table>
 <thead>
 <tr>
@@ -939,8 +939,8 @@ This parameter can only be specified alongside DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="destinationfilestreamdirectory">-DestinationFileStreamDirectory</h5>
-<p>Path to restore FileStream data to
-This parameter can only be specified alongside DestinationDataDirectory<br></p>
+<p>Path to restore FileStream data to.
+This parameter can only be specified alongside DestinationDataDirectory.<br></p>
 <table>
 <thead>
 <tr>
@@ -968,7 +968,7 @@ This parameter can only be specified alongside DestinationDataDirectory<br></p>
 </tbody>
 </table>
 <h5 id="restoretime">-RestoreTime</h5>
-<p>Specify a DateTime object to which you want the database restored to. Default is to the latest point  available in the specified backups<br></p>
+<p>Specify a DateTime object to which you want the database restored to. Default is to the latest point available in the specified backups.<br></p>
 <table>
 <thead>
 <tr>
@@ -996,7 +996,7 @@ This parameter can only be specified alongside DestinationDataDirectory<br></p>
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>Indicates if the databases should be recovered after last restore. Default is to recover<br></p>
+<p>Indicates if the databases should be recovered after last restore. Default is to recover.<br></p>
 <table>
 <thead>
 <tr>
@@ -1052,7 +1052,7 @@ This parameter can only be specified alongside DestinationDataDirectory<br></p>
 </tbody>
 </table>
 <h5 id="keepreplication">-KeepReplication</h5>
-<p>Indicates whether replication configuration should be restored as part of the database restore operation<br></p>
+<p>Indicates whether replication configuration should be restored as part of the database restore operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1080,8 +1080,8 @@ This parameter can only be specified alongside DestinationDataDirectory<br></p>
 </tbody>
 </table>
 <h5 id="xpdirtree">-XpDirTree</h5>
-<p>Switch that indicated file scanning should be performed by the SQL Server instance using xp_dirtree
-This will scan recursively from the passed in path
+<p>Switch that indicated file scanning should be performed by the SQL Server instance using xp_dirtree.
+This will scan recursively from the passed in path.
 You must have sysadmin role membership on the instance for this to work.<br></p>
 <table>
 <thead>
@@ -1110,7 +1110,7 @@ You must have sysadmin role membership on the instance for this to work.<br></p>
 </tbody>
 </table>
 <h5 id="noxpdirrecurse">-NoXpDirRecurse</h5>
-<p>If specified, prevents the XpDirTree process from recursing (its default behaviour)<br></p>
+<p>If specified, prevents the XpDirTree process from recursing (its default behaviour).<br></p>
 <table>
 <thead>
 <tr>
@@ -1138,7 +1138,7 @@ You must have sysadmin role membership on the instance for this to work.<br></p>
 </tbody>
 </table>
 <h5 id="outputscriptonly">-OutputScriptOnly</h5>
-<p>Switch indicates that ONLY T-SQL scripts should be generated, no restore takes place
+<p>Switch indicates that ONLY T-SQL scripts should be generated, no restore takes place.
 Due to the limitations of SMO, this switch cannot be combined with VeriyOnly, and a warning will be raised if it is.<br></p>
 <table>
 <thead>
@@ -1197,8 +1197,8 @@ Due to the limitations of SMO, this switch cannot be combined with OutputScriptO
 </table>
 <h5 id="maintenancesolutionbackup">-MaintenanceSolutionBackup</h5>
 <p>Switch to indicate the backup files are in a folder structure as created by Ola Hallengreen's maintenance scripts.
-This switch enables a faster check for suitable backups. Other options require all files to be read first to ensure we have an anchoring full backup. Because we can rely on specific locations for
-backups performed with OlaHallengren's backup solution, we can rely on file locations.<br></p>
+This switch enables a faster check for suitable backups. Other options require all files to be read first to ensure we have an anchoring full backup.
+Because we can rely on specific locations for backups performed with OlaHallengren's backup solution, we can rely on file locations.<br></p>
 <table>
 <thead>
 <tr>
@@ -1228,8 +1228,8 @@ backups performed with OlaHallengren's backup solution, we can rely on file loca
 <h5 id="filemapping">-FileMapping</h5>
 <p>A hashtable that can be used to move specific files to a location.
 <code>$FileMapping = @{'DataFile1'='c:\restoredfiles\Datafile1.mdf';'DataFile3'='d:\DataFile3.mdf'}</code>
-And files not specified in the mapping will be restored to their original location
-This Parameter is exclusive with DestinationDataDirectory<br></p>
+And files not specified in the mapping will be restored to their original location.
+This Parameter is exclusive with DestinationDataDirectory.<br></p>
 <table>
 <thead>
 <tr>
@@ -1257,7 +1257,7 @@ This Parameter is exclusive with DestinationDataDirectory<br></p>
 </tbody>
 </table>
 <h5 id="ignorelogbackup">-IgnoreLogBackup</h5>
-<p>This switch tells the function to ignore transaction log backups. The process will restore to the latest full or differential backup point only<br></p>
+<p>This switch tells the function to ignore transaction log backups. The process will restore to the latest full or differential backup point only.<br></p>
 <table>
 <thead>
 <tr>
@@ -1285,7 +1285,7 @@ This Parameter is exclusive with DestinationDataDirectory<br></p>
 </tbody>
 </table>
 <h5 id="ignorediffbackup">-IgnoreDiffBackup</h5>
-<p>This switch tells the function to ignore differential backups. The process will restore to the latest full and onwards with transaction log backups only<br></p>
+<p>This switch tells the function to ignore differential backups. The process will restore to the latest full and onwards with transaction log backups only.<br></p>
 <table>
 <thead>
 <tr>
@@ -1313,7 +1313,7 @@ This Parameter is exclusive with DestinationDataDirectory<br></p>
 </tbody>
 </table>
 <h5 id="usedestinationdefaultdirectories">-UseDestinationDefaultDirectories</h5>
-<p>Switch that tells the restore to use the default Data and Log locations on the target server. If they don't exist, the function will try to create them<br></p>
+<p>Switch that tells the restore to use the default Data and Log locations on the target server. If they don't exist, the function will try to create them.<br></p>
 <table>
 <thead>
 <tr>
@@ -1342,7 +1342,7 @@ This Parameter is exclusive with DestinationDataDirectory<br></p>
 </table>
 <h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
 <p>By default, databases will be migrated to the destination Sql Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure.
-The same structure on the SOURCE will be kept exactly, so consider this if you're migrating between different versions and use part of Microsoft's default Sql structure (MSSql12.INSTANCE, etc)
+The same structure on the SOURCE will be kept exactly, so consider this if you're migrating between different versions and use part of Microsoft's default Sql structure (MSSql12.INSTANCE, etc).
 *Note, to reuse destination folder structure, specify -WithReplace<br></p>
 <table>
 <thead>
@@ -1371,8 +1371,9 @@ The same structure on the SOURCE will be kept exactly, so consider this if you'r
 </tbody>
 </table>
 <h5 id="destinationfileprefix">-DestinationFilePrefix</h5>
-<p>This value will be prefixed to ALL restored files (log and data). This is just a simple string prefix. If you want to perform more complex rename operations then please use the FileMapping parameter
-This will apply to all file move options, except for FileMapping<br></p>
+<p>This value will be prefixed to ALL restored files (log and data). This is just a simple string prefix.
+If you want to perform more complex rename operations then please use the FileMapping parameter.
+This will apply to all file move options, except for FileMapping.<br></p>
 <table>
 <thead>
 <tr>
@@ -1400,7 +1401,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="restoreddatabasenameprefix">-RestoredDatabaseNamePrefix</h5>
-<p>A string which will be prefixed to the start of the restore Database's Name
+<p>A string which will be prefixed to the start of the restore Database's Name.
 Useful if restoring a copy to the same sql server for testing.<br></p>
 <table>
 <thead>
@@ -1430,8 +1431,8 @@ Useful if restoring a copy to the same sql server for testing.<br></p>
 </table>
 <h5 id="trustdbbackuphistory">-TrustDbBackupHistory</h5>
 <p>This switch can be used when piping the output of Get-DbaDbBackupHistory or Backup-DbaDatabase into this command.
-It allows the user to say that they trust that the output from those commands is correct, and skips the file header read portion of the process. This means a faster process, but at the risk of not
-knowing till halfway through the restore that something is wrong with a file.<br></p>
+It allows the user to say that they trust that the output from those commands is correct, and skips the file header read portion of the process.
+This means a faster process, but at the risk of not knowing till halfway through the restore that something is wrong with a file.<br></p>
 <table>
 <thead>
 <tr>
@@ -1459,7 +1460,7 @@ knowing till halfway through the restore that something is wrong with a file.<br
 </tbody>
 </table>
 <h5 id="maxtransfersize">-MaxTransferSize</h5>
-<p>Parameter to set the unit of transfer. Values must be a multiple by 64kb<br></p>
+<p>Parameter to set the unit of transfer. Values must be a multiple by 64kb.<br></p>
 <table>
 <thead>
 <tr>
@@ -1487,9 +1488,9 @@ knowing till halfway through the restore that something is wrong with a file.<br
 </tbody>
 </table>
 <h5 id="blocksize">-BlockSize</h5>
-<p>Specifies the block size to use. Must be one of 0.5kb,1kb,2kb,4kb,8kb,16kb,32kb or 64kb
-Can be specified in bytes
-Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
+<p>Specifies the block size to use. Must be one of 0.5kb,1kb,2kb,4kb,8kb,16kb,32kb or 64kb.
+Can be specified in bytes.
+Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail.<br></p>
 <table>
 <thead>
 <tr>
@@ -1518,7 +1519,7 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </table>
 <h5 id="buffercount">-BufferCount</h5>
 <p>Number of I/O buffers to use to perform the operation.
-Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
+Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail.<br></p>
 <table>
 <thead>
 <tr>
@@ -1546,7 +1547,7 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="directoryrecurse">-DirectoryRecurse</h5>
-<p>If specified the specified directory will be recursed into (overriding the default behaviour)<br></p>
+<p>If specified the specified directory will be recursed into (overriding the default behaviour).<br></p>
 <table>
 <thead>
 <tr>
@@ -1605,7 +1606,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </table>
 <h5 id="standbydirectory">-StandbyDirectory</h5>
 <p>If a directory is specified the database(s) will be restored into a standby state, with the standby file placed into this directory (which must exist, and be writable by the target Sql Server
-instance)<br></p>
+instance).<br></p>
 <table>
 <thead>
 <tr>
@@ -1633,7 +1634,7 @@ instance)<br></p>
 </tbody>
 </table>
 <h5 id="continue">-Continue</h5>
-<p>If specified we will to attempt to recover more transaction log backups onto  database(s) in Recovering or Standby states<br></p>
+<p>If specified we will to attempt to recover more transaction log backups onto database(s) in Recovering or Standby states.<br></p>
 <table>
 <thead>
 <tr>
@@ -1661,7 +1662,7 @@ instance)<br></p>
 </tbody>
 </table>
 <h5 id="executeas">-ExecuteAs</h5>
-<p>If value provided the restore will be executed under this login's context. The login must exist, and have the relevant permissions to perform the restore<br></p>
+<p>If value provided the restore will be executed under this login's context. The login must exist, and have the relevant permissions to perform the restore.<br></p>
 <table>
 <thead>
 <tr>
@@ -1689,8 +1690,8 @@ instance)<br></p>
 </tbody>
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
-<p>The name of the SQL Server credential to be used if restoring from an Azure hosted backup using Storage Access Keys
-If a backup path beginning http is passed in and this parameter is not specified then if a credential with a name matching the URL<br></p>
+<p>The name of the SQL Server credential to be used if restoring from an Azure hosted backup using Storage Access Keys.
+If a backup path beginning http is passed in and this parameter is not specified then if a credential with a name matching the URL.<br></p>
 <table>
 <thead>
 <tr>
@@ -1718,7 +1719,7 @@ If a backup path beginning http is passed in and this parameter is not specified
 </tbody>
 </table>
 <h5 id="replacedbnameinfile">-ReplaceDbNameInFile</h5>
-<p>If switch set and occurrence of the original database's name in a data or log file will be replace with the name specified in the DatabaseName parameter<br></p>
+<p>If specified any occurrence of the original database's name in a data or log file will be replaced with the name specified in the DatabaseName parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -1746,8 +1747,9 @@ If a backup path beginning http is passed in and this parameter is not specified
 </tbody>
 </table>
 <h5 id="destinationfilesuffix">-DestinationFileSuffix</h5>
-<p>This value will be suffixed to ALL restored files (log and data). This is just a simple string suffix. If you want to perform more complex rename operations then please use the FileMapping parameter
-This will apply to all file move options, except for FileMapping<br></p>
+<p>This value will be suffixed to ALL restored files (log and data). This is just a simple string suffix.
+If you want to perform more complex rename operations then please use the FileMapping parameter.
+This will apply to all file move options, except for FileMapping.<br></p>
 <table>
 <thead>
 <tr>
@@ -1775,7 +1777,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="recover">-Recover</h5>
-<p>If set will perform recovery on the indicated database<br></p>
+<p>If set will perform recovery on the indicated database.<br></p>
 <table>
 <thead>
 <tr>
@@ -1803,7 +1805,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="keepcdc">-KeepCDC</h5>
-<p>Indicates whether CDC information should be restored as part of the database<br></p>
+<p>Indicates whether CDC information should be restored as part of the database.<br></p>
 <table>
 <thead>
 <tr>
@@ -1831,7 +1833,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="getbackupinformation">-GetBackupInformation</h5>
-<p>Passing a string value into this parameter will cause a global variable to be created holding the output of Get-DbaBackupInformation<br></p>
+<p>Passing a string value into this parameter will cause a global variable to be created holding the output of Get-DbaBackupInformation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1859,7 +1861,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="stopaftergetbackupinformation">-StopAfterGetBackupInformation</h5>
-<p>Switch which will cause the function to exit after returning GetBackupInformation<br></p>
+<p>Switch which will cause the function to exit after returning GetBackupInformation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1887,7 +1889,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="selectbackupinformation">-SelectBackupInformation</h5>
-<p>Passing a string value into this parameter will cause a global variable to be created holding the output of Select-DbaBackupInformation<br></p>
+<p>Passing a string value into this parameter will cause a global variable to be created holding the output of Select-DbaBackupInformation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1915,7 +1917,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="stopafterselectbackupinformation">-StopAfterSelectBackupInformation</h5>
-<p>Switch which will cause the function to exit after returning SelectBackupInformation<br></p>
+<p>Switch which will cause the function to exit after returning SelectBackupInformation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1943,7 +1945,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="formatbackupinformation">-FormatBackupInformation</h5>
-<p>Passing a string value into this parameter will cause a global variable to be created holding the output of Format-DbaBackupInformation<br></p>
+<p>Passing a string value into this parameter will cause a global variable to be created holding the output of Format-DbaBackupInformation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1971,7 +1973,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="stopafterformatbackupinformation">-StopAfterFormatBackupInformation</h5>
-<p>Switch which will cause the function to exit after returning FormatBackupInformation<br></p>
+<p>Switch which will cause the function to exit after returning FormatBackupInformation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1999,7 +2001,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="testbackupinformation">-TestBackupInformation</h5>
-<p>Passing a string value into this parameter will cause a global variable to be created holding the output of Test-DbaBackupInformation<br></p>
+<p>Passing a string value into this parameter will cause a global variable to be created holding the output of Test-DbaBackupInformation.<br></p>
 <table>
 <thead>
 <tr>
@@ -2027,7 +2029,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="stopaftertestbackupinformation">-StopAfterTestBackupInformation</h5>
-<p>Switch which will cause the function to exit after returning TestBackupInformation<br></p>
+<p>Switch which will cause the function to exit after returning TestBackupInformation.<br></p>
 <table>
 <thead>
 <tr>
@@ -2084,7 +2086,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </table>
 <h5 id="stopmark">-StopMark</h5>
 <p>Marked point in the transaction log to stop the restore at (Mark is created via BEGIN TRANSACTION
-(<a href="https://docs.microsoft.com/en-us/sql/t-sql/language-elements/begin-transaction-transact-sql?view=sql-server-ver15">https://docs.microsoft.com/en-us/sql/t-sql/language-elements/begin-transaction-transact-sql?view=sql-server-ver15</a>))<br></p>
+(<a href="https://docs.microsoft.com/en-us/sql/t-sql/language-elements/begin-transaction-transact-sql?view=sql-server-ver15">https://docs.microsoft.com/en-us/sql/t-sql/language-elements/begin-transaction-transact-sql?view=sql-server-ver15</a>)).<br></p>
 <table>
 <thead>
 <tr>
@@ -2112,7 +2114,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="stopafterdate">-StopAfterDate</h5>
-<p>By default the restore will stop at the first occurence of StopMark found in the chain, passing a datetime where will cause it to stop the first StopMark atfer that datetime<br></p>
+<p>By default the restore will stop at the first occurence of StopMark found in the chain, passing a datetime where will cause it to stop the first StopMark atfer that datetime.<br></p>
 <table>
 <thead>
 <tr>
@@ -2140,7 +2142,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="statementtimeout">-StatementTimeout</h5>
-<p>Timeout in minutes. Defaults to infinity (restores can take a while.)<br></p>
+<p>Timeout in minutes. Defaults to infinity (restores can take a while).<br></p>
 <table>
 <thead>
 <tr>
@@ -2168,7 +2170,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="whatif">-WhatIf</h5>
-<p>Shows what would happen if the command would execute, but does not actually perform the command<br></p>
+<p>Shows what would happen if the command would execute, but does not actually perform the command.<br></p>
 <table>
 <thead>
 <tr>
@@ -2196,7 +2198,7 @@ This will apply to all file move options, except for FileMapping<br></p>
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts to confirm certain actions<br></p>
+<p>Prompts to confirm certain actions.<br></p>
 <table>
 <thead>
 <tr>
