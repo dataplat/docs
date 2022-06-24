@@ -481,6 +481,7 @@
     [[-Credential] &lt;PSCredential&gt;]
     [-Port] &lt;Int32&gt;
     [[-IpAddress] &lt;IPAddress[]&gt;]
+    [-Force]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -499,9 +500,9 @@
 </code></pre>
 <p>Sets the port number 1433 for IP 192.168.1.22 on the sqlexpress instance on winserver. Does not prompt for confirmation.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Set-DbaTcpPort -SqlInstance sql2017, sql2019 -port 1337 -Credential ad\dba
+<pre><code>PS C:\&gt; Set-DbaTcpPort -SqlInstance sql2017, sql2019 -port 1337 -Credential ad\dba -Force
 </code></pre>
-<p>Sets the port number 1337 for all IP Addresses on SqlInstance sql2017 and sql2019 using the credentials for ad\dba. Prompts for confirmation.<br></p>
+<p>Sets the port number 1337 for all IP Addresses on SqlInstance sql2017 and sql2019 using the credentials for ad\dba. Prompts for confirmation. Restarts the service.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
@@ -613,6 +614,34 @@
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>Will restart SQL Server and SQL Server Agent service to apply the change.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
