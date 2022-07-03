@@ -481,6 +481,8 @@
     [[-Database] &lt;Object[]&gt;]
     [[-ExcludeDatabase] &lt;Object[]&gt;]
     [-ExcludeSystemSp]
+    [[-Name] &lt;String[]&gt;]
+    [[-Schema] &lt;String[]&gt;]
     [[-InputObject] &lt;Database[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -513,6 +515,22 @@
 <pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance Server1 -ExcludeSystem | Get-DbaDbStoredProcedure
 </code></pre>
 <p>Pipe the databases from Get-DbaDatabase into Get-DbaDbStoredProcedure<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; Get-DbaDbStoredProcedure -SqlInstance Server1 -Database db1 -Name schema1.proc1
+</code></pre>
+<p>Gets the Stored Procedure proc1 in the schema1 schema in the db1 database<br></p>
+<h5 id="example-8">Example:  8</h5>
+<pre><code>PS C:\&gt; Get-DbaDbStoredProcedure -SqlInstance Server1 -Name db1.schema1.proc1
+</code></pre>
+<p>Gets the Stored Procedure proc1 in the schema1 schema in the db1 database<br></p>
+<h5 id="example-9">Example:  9</h5>
+<pre><code>PS C:\&gt; Get-DbaDbStoredProcedure -SqlInstance Server1 -Database db1 -Name proc1
+</code></pre>
+<p>Gets the Stored Procedure proc1 in the db1 database<br></p>
+<h5 id="example-10">Example:  10</h5>
+<pre><code>PS C:\&gt; Get-DbaDbStoredProcedure -SqlInstance Server1 -Database db1 -Schema schema1
+</code></pre>
+<p>Gets the Stored Procedures in schema1 for the db1 database<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances<br></p>
@@ -653,6 +671,62 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="name">-Name</h5>
+<p>Name(s) of the stored procedure(s) to return. It is possible to specify two-part names such as schemaname.procname and three-part names such as dbname.schemaname.procname.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="schema">-Schema</h5>
+<p>Only return procedures from the specified schema.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>
