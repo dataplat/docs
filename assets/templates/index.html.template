@@ -259,8 +259,8 @@
                 }
                 rtn.push('')
                 rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/sqlcollaborative/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://sqlcollaborative.github.io/boh#' + doc_to_render.CommandName + ').')
+                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/dataplat/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
+                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://dataplat.github.io/boh#' + doc_to_render.CommandName + ').')
                 rtn.push('')
                 return _.join(rtn, '\n')
             }
@@ -595,7 +595,7 @@
                     </div>
                     <h4>Welcome</h4>-->
                     <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
+                        <a href="https://github.com/dataplat/docs/issues">GitHub repository</a>.</p>
                     <p>Search on the left and click on a command to show the related help.</p>
                     <div id="canvas" class="canvas"></div>
                 </div>
