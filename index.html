@@ -331,7 +331,7 @@
                             }
                             cloudlist[el] += 1
                         })
-                    } else if (!_.isUndefined(el.Tags)){
+                    } else if (!_.isUndefined(el.Tags)) {
                         if (!_.has(cloudlist, el.Tags)) {
                             cloudlist[el.Tags] = 0
                         }
@@ -522,21 +522,14 @@
                     <a class="nav-link" href="https://dbatools.io/download/">download</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/getting-started/">get started</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="https://dbatools.io/commands/">commands</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/team/">team</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://dbatools.io/slack">find us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/builds">build ref</a>
+                    <a class="nav-link" href="https://dbatools.io/book">dbatools book</a>
                 </li>
-                
             </ul>
             <div class="p-2 flex-shrink-0 bd-highlight invisible">cl said "add this much | |"</div>
         </div>
@@ -602,7 +595,8 @@
                     </div>
                     <h4>Welcome</h4>-->
                     <p>This is our new auto-generated docs site. Please report any issues or requests to our
-                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.</p>
+                        <a href="https://github.com/sqlcollaborative/docs/issues">GitHub repository</a>.
+                    </p>
                     <p>Search on the left and click on a command to show the related help.</p>
                     <div id="canvas" class="canvas"></div>
                 </div>

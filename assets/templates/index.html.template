@@ -522,21 +522,14 @@
                     <a class="nav-link" href="https://dbatools.io/download/">download</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/getting-started/">get started</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="https://dbatools.io/commands/">commands</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/team/">team</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://dbatools.io/slack">find us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="https://dbatools.io/builds">build ref</a>
+                    <a class="nav-link" href="https://dbatools.io/book">dbatools book</a>
                 </li>
-                
             </ul>
             <div class="p-2 flex-shrink-0 bd-highlight invisible">cl said "add this much | |"</div>
         </div>
