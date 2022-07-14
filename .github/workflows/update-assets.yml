@@ -16,7 +16,7 @@ jobs:
         working-directory: assets
         shell: pwsh
         run: |
-          curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/dbatools.psd1
+          curl -O https://raw.githubusercontent.com/dataplat/dbatools/master/dbatools.psd1
           $modData = Import-PowerShellDataFile dbatools.psd1
           $ext = Get-Content .\external.json | ConvertFrom-Json
           echo "Module version: $($modData.ModuleVersion)"
@@ -31,7 +31,7 @@ jobs:
         working-directory: assets
         shell: pwsh
         run: |
-          curl -O https://raw.githubusercontent.com/sqlcollaborative/dbatools/master/bin/dbatools-index.json
+          curl -O https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
           $OutputFolder = (Get-Location).Path
           Write-Host "running in $OutputFolder"
           Get-ChildItem $OutputFolder 
