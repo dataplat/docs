@@ -184,10 +184,10 @@ $initScript = {
         if ($PSVersionTable.PSVersion.Major -lt 7) {
             $HTMLFragmentContent = ($MDContent -Join "`n" | Convert-MarkdownToHTMLFragment).HtmlFragment
         } else {
-            $HTMLFragmentContent = ($MDContent -Join "`n" |  ConvertFrom-Markdown).Html
+            $HTMLFragmentContent = ($MDContent -Join "`n" | ConvertFrom-Markdown).Html
         }
         $page_template_static = $page_template_static.Replace('$____RENDERED____$', $HTMLFragmentContent)
-        $page_template_static | Out-File (Join-Path $OutputFolder "$($doc_to_render.Name).html") -Encoding UTF8
+        $page_template_static | Out-File (Join-Path $OutputFolder "$($doc_to_render.Name).html") -Encoding Unicode
     }
 }
 
