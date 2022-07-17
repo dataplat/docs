@@ -27,6 +27,7 @@ $initScript = {
         $null = $rtn.Add("# $($doc_to_render.CommandName)" )
         if ($doc_to_render.Author -or $doc_to_render.Availability) {
             $doc_to_render.Author = $doc_to_render.Author.Replace("ClÃ¡udio Silva", "Claudio Silva")
+            $doc_to_render.Author = $doc_to_render.Author.Replace("Cláudio Silva", "Claudio Silva")
             $null = $rtn.Add('|  |  |')
             $null = $rtn.Add('| - | - |')
             if ($doc_to_render.Author) {
