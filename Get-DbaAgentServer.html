@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  Get-DbaAgentServer" />
-    
+
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaAgentServer.png">
     <meta name="twitter:card" content="summary_large_image">
-    
+
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  Get-DbaAgentServer">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-                
+
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -209,7 +209,7 @@
                             }
                             cloudlist[el] += 1
                         })
-                    } else if (!_.isUndefined(el.Tags)){
+                    } else if (!_.isUndefined(el.Tags)) {
                         if (!_.has(cloudlist, el.Tags)) {
                             cloudlist[el.Tags] = 0
                         }
@@ -455,142 +455,153 @@
                 </div>
                 <div id="rendered">
                     <h1 id="get-dbaagentserver">Get-DbaAgentServer</h1>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Author</strong></td>
-<td>ClÃ¡udio Silva (@claudioessilva), claudioessilva.eu</td>
-</tr>
-<tr>
-<td><strong>Availability</strong></td>
-<td>Windows, Linux, macOS</td>
-</tr>
-</tbody>
-</table>
-<p> </p>
-<h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Agent Server information for each instance(s) of SQL Server.</p>
-<h2 id="description">Description</h2>
-<p>The Get-DbaAgentServer returns connected SMO object for SQL Agent Server information for each instance(s) of SQL Server.</p>
-<h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaAgentServer
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Author</strong></td>
+                                <td>Claudio Silva (@claudioessilva), claudioessilva.eu</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Availability</strong></td>
+                                <td>Windows, Linux, macOS</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p> </p>
+                    <h2 id="synopsis">Synopsis</h2>
+                    <p>Gets SQL Agent Server information for each instance(s) of SQL Server.</p>
+                    <h2 id="description">Description</h2>
+                    <p>The Get-DbaAgentServer returns connected SMO object for SQL Agent Server information for each
+                        instance(s) of SQL Server.</p>
+                    <h2 id="syntax">Syntax</h2>
+                    <pre><code>Get-DbaAgentServer
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
-<p> </p>
-<h2 id="examples">Examples</h2>
-<p> </p>
-<h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaAgentServer -SqlInstance localhost
+                    <p> </p>
+                    <h2 id="examples">Examples</h2>
+                    <p> </p>
+                    <h5 id="example-1">Example: 1</h5>
+                    <pre><code>PS C:\&gt; Get-DbaAgentServer -SqlInstance localhost
 </code></pre>
-<p>Returns SQL Agent Server on the local default SQL Server instance<br></p>
-<h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaAgentServer -SqlInstance localhost, sql2016
+                    <p>Returns SQL Agent Server on the local default SQL Server instance<br></p>
+                    <h5 id="example-2">Example: 2</h5>
+                    <pre><code>PS C:\&gt; Get-DbaAgentServer -SqlInstance localhost, sql2016
 </code></pre>
-<p>Returns SQL Agent Servers for the localhost and sql2016 SQL Server instances<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
-<h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
-Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Get-DbaAgentServer.ps1">Get-DbaAgentServer</a> on GitHub.
-<br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentServer">Get-DbaAgentServer</a>.</p>
+                    <p>Returns SQL Agent Servers for the localhost and sql2016 SQL Server instances<br></p>
+                    <h3 id="required-parameters">Required Parameters</h3>
+                    <h5 id="sqlinstance">-SqlInstance</h5>
+                    <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input
+                        to allow the function to be executed against multiple SQL Server instances.<br></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alias</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Required</td>
+                                <td>True</td>
+                            </tr>
+                            <tr>
+                                <td>Pipeline</td>
+                                <td>true (ByValue)</td>
+                            </tr>
+                            <tr>
+                                <td>Default Value</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h3 id="optional-parameters">Optional Parameters</h3>
+                    <h5 id="sqlcredential">-SqlCredential</h5>
+                    <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials
+                        (Get-Credential).
+                        Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active
+                        Directory - Integrated are all supported.
+                        For MFA support, please use Connect-DbaInstance.<br></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alias</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Required</td>
+                                <td>False</td>
+                            </tr>
+                            <tr>
+                                <td>Pipeline</td>
+                                <td>false</td>
+                            </tr>
+                            <tr>
+                                <td>Default Value</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5 id="enableexception">-EnableException</h5>
+                    <p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly
+                        warning message.
+                        This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because
+                        it basically disables advanced scripting.
+                        Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch
+                        exceptions with your own try/catch.<br></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alias</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Required</td>
+                                <td>False</td>
+                            </tr>
+                            <tr>
+                                <td>Pipeline</td>
+                                <td>false</td>
+                            </tr>
+                            <tr>
+                                <td>Default Value</td>
+                                <td>False</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p> </p>
+                    <p>Want to see the source code for this command? Check out <a
+                            href="https://github.com/dataplat/dbatools/blob/master/functions/Get-DbaAgentServer.ps1">Get-DbaAgentServer</a>
+                        on GitHub.
+                        <br>
+                        Want to see the Bill Of Health for this command? Check out <a
+                            href="https://dataplat.github.io/boh#Get-DbaAgentServer">Get-DbaAgentServer</a>.
+                    </p>
 
                 </div> <!-- rendered -->
             </div>
