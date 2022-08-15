@@ -487,6 +487,7 @@ for more information</p>
     [[-Type] &lt;String&gt;]
     [-Action] &lt;String&gt;
     [[-PublishXml] &lt;String&gt;]
+    [[-Property] &lt;Hashtable&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -504,6 +505,11 @@ PS C:\&gt; Export-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $opt
 </code></pre>
 <p>Uses DacOption object to set the CommandTimeout to 0 then extracts the dacpac for SharePoint_Config on sql2016 to C:\temp\SharePoint_Config.dacpac including all table data.<br></p>
 <h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; $options = New-DbaDacOption -Type Dacpac -Action Export -Property @{ExtractAllTableData=$true;CommandTimeout=0}
+PS C:\&gt; Export-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $options
+</code></pre>
+<p>Creates a pre-initialized DacOption object and uses it to extrac a DacPac from the database.<br></p>
+<h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; $options = New-DbaDacOption -Type Dacpac -Action Publish
 PS C:\&gt; $options.DeployOptions.DropObjectsNotInSource = $true
 PS C:\&gt; Publish-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $options -Path c:\temp\db.dacpac
@@ -577,6 +583,37 @@ PS C:\&gt; Publish-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $op
 </table>
 <h5 id="publishxml">-PublishXml</h5>
 <p>Specifies the publish profile which will include options and sqlCmdVariables.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="property">-Property</h5>
+<p DeployOptions="@{ConnectionTimeout=5">A Hashtable that would be used to initialize Options object properties.
+If you want to specify DeployOptions parameters, which is a property of the options object,
+add the DeployOptions key with an appropriate hashtable as a value:
+@}<br></p>
 <table>
 <thead>
 <tr>

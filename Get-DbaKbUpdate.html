@@ -484,6 +484,7 @@
 <pre><code>Get-DbaKbUpdate
     [-Name] &lt;String[]&gt;
     [-Simple]
+    [[-Language] &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -503,6 +504,15 @@
 <pre><code>PS C:\&gt; Get-DbaKbUpdate -Name KB4057119, 4057114 -Simple
 </code></pre>
 <p>A lil faster. Returns, at the very least: Title, Architecture, Language, Hotfix, UpdateId and Link<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Get-DbaKbUpdate -Name KB4057119 -Language ja
+</code></pre>
+<p>Gets detailed information about KB4057119 in Japanese. This works for SQL Server or any other KB.<br>
+(Link property includes the links for Japanese version of SQL Server if the KB was Service Pack)<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Get-DbaKbUpdate -Name KB4057119 -Language ja | Save-DbaKbUpdate
+</code></pre>
+<p>Downloads Japanese version of KB4057119.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="name">-Name</h5>
 <p>The KB name or number. For example, KB4057119 or 4057119.<br></p>
@@ -558,6 +568,36 @@
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="language">-Language</h5>
+<p>Cumulative Updates come in one file for all languages, but Service Packs have a file for every language.
+If you want to get only a specific language, use this parameter.
+You you can press tab for auto-complete or use the two letter code that is used for Accept-Language HTTP header, e. g. &quot;en&quot; for English or &quot;de&quot; for German.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>
