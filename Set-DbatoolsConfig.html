@@ -464,6 +464,10 @@
 </thead>
 <tbody>
 <tr>
+<td><strong>Author</strong></td>
+<td>Friedrich Weinmann (@FredWeinmann)</td>
+</tr>
+<tr>
 <td><strong>Availability</strong></td>
 <td>Windows, Linux, macOS</td>
 </tr>
@@ -471,23 +475,70 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set-DbatoolsConfig <a href="#fullname">-FullName</a> <string> [<a href="#value">-Value</a> <Object>] [-Description <string>] [-Validation <string>] [-Handler <scriptblock>] <a href="#hidden">-Hidden</a> <a href="#default">-Default</a> <a href="#initialize">-Initialize</a> <a href="#simpleexport">-SimpleExport</a> <a href="#moduleexport">-ModuleExport</a> <a href="#disablevalidation">-DisableValidation</a> <a href="#disablehandler">-DisableHandler</a> <a href="#passthru">-PassThru</a> <a href="#register">-Register</a> <a href="#enableexception">-EnableException</a> [<CommonParameters>]</p>
-<p>Set-DbatoolsConfig <a href="#fullname">-FullName</a> <string> -PersistedValue <string> [-PersistedType <ConfigurationValueType>] [-Description <string>] [-Validation <string>] [-Handler <scriptblock>] <a href="#hidden">-Hidden</a> <a href="#default">-Default</a> <a href="#initialize">-Initialize</a> <a href="#simpleexport">-SimpleExport</a> <a href="#moduleexport">-ModuleExport</a> <a href="#disablevalidation">-DisableValidation</a> <a href="#disablehandler">-DisableHandler</a> <a href="#passthru">-PassThru</a> <a href="#register">-Register</a> <a href="#enableexception">-EnableException</a> [<CommonParameters>]</p>
-<p>Set-DbatoolsConfig [<a href="#module">-Module</a> <string>] <a href="#name">-Name</a> <string> [<a href="#value">-Value</a> <Object>] [-Description <string>] [-Validation <string>] [-Handler <scriptblock>] <a href="#hidden">-Hidden</a> <a href="#default">-Default</a> <a href="#initialize">-Initialize</a> <a href="#simpleexport">-SimpleExport</a> <a href="#moduleexport">-ModuleExport</a> <a href="#disablevalidation">-DisableValidation</a> <a href="#disablehandler">-DisableHandler</a> <a href="#passthru">-PassThru</a> <a href="#register">-Register</a> <a href="#enableexception">-EnableException</a> [<CommonParameters>]</p>
+<p>Sets configuration entries.</p>
 <h2 id="description">Description</h2>
+<p>This function creates or changes configuration values. These can be used to provide dynamic configuration information outside the PowerShell variable system.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Set-DbatoolsConfigsyntaxItem                                                                                                                                                                                                                                                                                                                                ----------                                                                                                                                                                                                                                                                                                                                {@{name=
+<pre><code>Set-DbatoolsConfig -FullName &lt;String&gt;
+    [-Value &lt;Object&gt;]
+    [-Description &lt;String&gt;]
+    [-Validation &lt;String&gt;]
+    [-Handler &lt;ScriptBlock&gt;]           
+    [-Hidden]
+    [-Default]
+    [-Initialize]
+    [-DisableValidation]
+    [-DisableHandler]
+    [-EnableException]
+    [-SimpleExport]
+    [-ModuleExport]           
+    [-PassThru]
+    [-AllowDelete]
+    [&lt;CommonParameters&gt;]            
 
-Set-DbatoolsConfig; CommonParameters=True; WorkflowCommonParameters=False; parameter=System.Object[]}, @{name=
+Set-DbatoolsConfig -FullName &lt;String&gt;
+    [-Description &lt;String&gt;]
+    [-Validation &lt;String&gt;]
+    [-Handler &lt;ScriptBlock&gt;]
+    [-Hidden]           
+    [-Default]
+    [-Initialize]
+    [-DisableValidation]
+    [-DisableHandler]
+    [-EnableException] -PersistedValue &lt;String&gt;
+    [-PersistedType            &lt;ConfigurationValueType&gt;]
+    [-SimpleExport]
+    [-ModuleExport]
+    [-PassThru]
+    [-AllowDelete]
+    [&lt;CommonParameters&gt;]            
 
-Set-DbatoolsConfig; CommonParameters=True; WorkflowCommonParameters=False; parameter=System.Object[]}, @{name=
-
-Set-DbatoolsConfig; CommonParameters=True; WorkflowCommonParameters=False; parameter=System.Object[]}}
+Set-DbatoolsConfig -Name &lt;String&gt;
+    [-Module &lt;String&gt;]
+    [-Value &lt;Object&gt;]
+    [-Description &lt;String&gt;]
+    [-Validation &lt;String&gt;]
+    [-Handler            &lt;ScriptBlock&gt;]
+    [-Hidden]
+    [-Default]
+    [-Initialize]
+    [-DisableValidation]
+    [-DisableHandler]
+    [-EnableException]
+    [-SimpleExport]           
+    [-ModuleExport]
+    [-PassThru]
+    [-AllowDelete]
+    [&lt;CommonParameters&gt;]
 
 </code></pre>
 <p> </p>
 <h2 id="examples">Examples</h2>
 <p> </p>
+<h5 id="example-1-simple">Example 1: Simple</h5>
+<pre><code>        C:\PS&gt; Set-DbatoolsConfig -FullName Path.DbatoolsData -Value E:\temp\dbatools&lt;br&gt;
+        Updates the configuration entry for Path.DbatoolsData to E:\temp\dbatools&lt;br&gt;
+</code></pre>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="fullname">-FullName</h5>
 <br>

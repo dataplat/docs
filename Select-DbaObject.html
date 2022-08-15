@@ -464,6 +464,10 @@
 </thead>
 <tbody>
 <tr>
+<td><strong>Author</strong></td>
+<td>Friedrich Weinmann (@FredWeinmann)</td>
+</tr>
+<tr>
 <td><strong>Availability</strong></td>
 <td>Windows, Linux, macOS</td>
 </tr>
@@ -471,23 +475,95 @@
 </table>
 <p> </p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Select-DbaObject [<a href="#property">-Property</a> &lt;DbaSelectParameter[]&gt;] [<a href="#alias">-Alias</a> &lt;SelectAliasParameter[]&gt;] [<a href="#scriptproperty">-ScriptProperty</a> &lt;SelectScriptPropertyParameter[]&gt;] [<a href="#scriptmethod">-ScriptMethod</a> &lt;SelectScriptMethodParameter[]&gt;] [-InputObject <psobject>] [-ExcludeProperty &lt;string[]&gt;] [-ExpandProperty <string>] <a href="#unique">-Unique</a> [-Last <int>] [-First <int>] [-Skip <int>] <a href="#wait">-Wait</a> [-ShowProperty &lt;string[]&gt;] [-ShowExcludeProperty &lt;string[]&gt;] [-TypeName <string>] <a href="#keepinputobject">-KeepInputObject</a> [<CommonParameters>]</p>
-<p>Select-DbaObject [<a href="#property">-Property</a> &lt;DbaSelectParameter[]&gt;] [<a href="#alias">-Alias</a> &lt;SelectAliasParameter[]&gt;] [<a href="#scriptproperty">-ScriptProperty</a> &lt;SelectScriptPropertyParameter[]&gt;] [<a href="#scriptmethod">-ScriptMethod</a> &lt;SelectScriptMethodParameter[]&gt;] [-InputObject <psobject>] [-ExcludeProperty &lt;string[]&gt;] [-ExpandProperty <string>] <a href="#unique">-Unique</a> [-SkipLast <int>] [-ShowProperty &lt;string[]&gt;] [-ShowExcludeProperty &lt;string[]&gt;] [-TypeName <string>] <a href="#keepinputobject">-KeepInputObject</a> [<CommonParameters>]</p>
-<p>Select-DbaObject [-InputObject <psobject>] <a href="#unique">-Unique</a> <a href="#wait">-Wait</a> [-Index &lt;int[]&gt;] [-ShowProperty &lt;string[]&gt;] [-ShowExcludeProperty &lt;string[]&gt;] [-TypeName <string>] <a href="#keepinputobject">-KeepInputObject</a> [<CommonParameters>]</p>
+<p>Wrapper around Select-Object, extends property parameter.</p>
 <h2 id="description">Description</h2>
+<p>Wrapper around Select-Object, extends property parameter.</p>
+<pre><code>        This function allows specifying in-line transformation of the properties specified without needing to use complex hashtables.
+        For example, renaming a property becomes as simple as 'Length as Size'
+
+        Also supported:
+
+        - Specifying a typename
+
+        - Picking the default display properties
+
+        - Adding to an existing object without destroying its type
+
+        See the description of the Property parameter for an exhaustive list of legal notations for in-line transformations.
+</code></pre>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Select-DbaObjectsyntaxItem                                                                                                                                                                                                                                                                                                                          ----------                                                                                                                                                                                                                                                                                                                          {@{name=
+<pre><code>Select-DbaObject
+    [-Property &lt;DbaSelectParameter[]&gt;]
+    [-Alias &lt;SelectAliasParameter[]&gt;]
+    [-ScriptProperty &lt;SelectScriptPropertyParameter[]&gt;]
+    [-ScriptMethod &lt;SelectScriptMethodParameter[]&gt;]
+    [-InputObject ]
+    [-ExcludeProperty &lt;string[]&gt;]
+    [-ExpandProperty ] -Unique
+    [-Last ]
+    [-First ]
+    [-Skip ] -Wait
+    [-ShowProperty &lt;string[]&gt;]
+    [-ShowExcludeProperty &lt;string[]&gt;]
+    [-TypeName ] -KeepInputObject
+    []            
 
-Select-DbaObject; CommonParameters=True; WorkflowCommonParameters=False; parameter=System.Object[]}, @{name=
+Select-DbaObject
+    [-Property &lt;DbaSelectParameter[]&gt;]
+    [-Alias &lt;SelectAliasParameter[]&gt;]
+    [-ScriptProperty &lt;SelectScriptPropertyParameter[]&gt;]
+    [-ScriptMethod &lt;SelectScriptMethodParameter[]&gt;]
+    [-InputObject ]
+    [-ExcludeProperty &lt;string[]&gt;]
+    [-ExpandProperty ] -Unique
+    [-SkipLast ]
+    [-ShowProperty &lt;string[]&gt;]
+    [-ShowExcludeProperty &lt;string[]&gt;]
+    [-TypeName ] -KeepInputObject
+    []            
 
-Select-DbaObject; CommonParameters=True; WorkflowCommonParameters=False; parameter=System.Object[]}, @{name=
-
-Select-DbaObject; CommonParameters=True; WorkflowCommonParameters=False; parameter=System.Object[]}}
+Select-DbaObject
+    [-InputObject ] -Unique -Wait
+    [-Index &lt;int[]&gt;]
+    [-ShowProperty &lt;string[]&gt;]
+    [-ShowExcludeProperty &lt;string[]&gt;]
+    [-TypeName ] -KeepInputObject
+    []
 
 </code></pre>
 <p> </p>
 <h2 id="examples">Examples</h2>
 <p> </p>
+<h5 id="example-1-renaming-a-property">Example 1: Renaming a property</h5>
+<pre><code>        Get-ChildItem | Select-DbaObject Name, &quot;Length as Size&quot;&lt;br&gt;
+        Selects the properties Name and Length, renaming Length to Size in the process.&lt;br&gt;
+</code></pre>
+<h5 id="example-2-converting-type">Example 2: Converting type</h5>
+<pre><code>        Import-Csv .\file.csv | Select-DbaObject Name, &quot;Length as Size to DbaSize&quot;&lt;br&gt;
+        Selects the properties Name and Length, renaming Length to Size and converting it to [DbaSize] (a userfriendly representation of&lt;br&gt;
+        size numbers contained in the dbatools module)&lt;br&gt;
+</code></pre>
+<h5 id="example-3-selecting-from-another-object-1">Example 3: Selecting from another object 1</h5>
+<pre><code>        $obj = [PSCustomObject]@{ Name = &quot;Foo&quot; }&lt;br&gt;
+        Get-ChildItem | Select-DbaObject FullName, Length, &quot;Name from obj&quot;&lt;br&gt;
+        Selects the properties FullName and Length from the input and the Name property from the object stored in $obj&lt;br&gt;
+</code></pre>
+<h5 id="example-4-selecting-from-another-object-2">Example 4: Selecting from another object 2</h5>
+<pre><code>        $list = @()&lt;br&gt;
+        $list += [PSCustomObject]@{ Type = &quot;Foo&quot;; ID = 1 }&lt;br&gt;
+        $list += [PSCustomObject]@{ Type = &quot;Bar&quot;; ID = 2 }&lt;br&gt;
+        $obj | Select-DbaObject Name, &quot;ID from list WHERE Type = Name&quot;&lt;br&gt;
+        This allows you to LEFT JOIN contents of another variable. Note that it can only do simple property-matching at this point.&lt;br&gt;
+        It will select Name from the objects stored in $obj, and for each of those the ID Property on any object in $list that has a&lt;br&gt;
+        Type property of equal value as Name on the input.&lt;br&gt;
+</code></pre>
+<h5 id="example-5-naming-and-styling">Example 5: Naming and styling</h5>
+<pre><code>        Get-ChildItem | Select-DbaObject Name, Length, FullName, Used, LastWriteTime, Mode -TypeName MyType -ShowExcludeProperty Mode,&lt;br&gt;
+        Used&lt;br&gt;
+        Lists all items in the current path, selects the properties specified (whether they exist or not) , then ...&lt;br&gt;
+        - Sets the name to &quot;MyType&quot;&lt;br&gt;
+        - Hides the properties &quot;Mode&quot; and &quot;Used&quot; from the default display set, causing them to be hidden from default view&lt;br&gt;
+</code></pre>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="alias">-Alias</h5>
 <br>
