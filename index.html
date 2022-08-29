@@ -153,6 +153,10 @@
                     rtn.push('*Aliases : ' + doc_to_render.Alias + '*')
                     rtn.push('')
                 }
+                rtn.push('\n&nbsp;\n')
+                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/dataplat/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
+                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://dataplat.github.io/boh#' + doc_to_render.CommandName + ').')
+                rtn.push('')
                 rtn.push('## Synopsis')
                 rtn.push(doc_to_render.Synopsis)
                 rtn.push('')
@@ -259,14 +263,12 @@
                 }
                 rtn.push('')
                 rtn.push('\n&nbsp;\n')
-                rtn.push('Want to see the source code for this command? Check out [' + doc_to_render.CommandName + '](https://github.com/dataplat/dbatools/blob/master/functions/' + doc_to_render.CommandName + '.ps1) on GitHub.')
-                rtn.push('Want to see the Bill Of Health for this command? Check out [' + doc_to_render.CommandName + '](https://dataplat.github.io/boh#' + doc_to_render.CommandName + ').')
                 rtn.push('')
                 return _.join(rtn, '\n')
             }
             function render_doc(doc_to_render, examples_mode) {
                 var md_text = prepare_md(doc_to_render, examples_mode)
-                var rendered = marked(md_text, {
+                var rendered = marked.parse(md_text, {
                     breaks: true,
                     gfm: true,
                     tables: true
@@ -383,9 +385,11 @@
                 $('#search-ft').blur();
             })
             $('#cmdlist').on('click', 'a', function (e) {
+                $(this).attr('href', $(this).find('span.CommandName').text());
+                /*
                 e.preventDefault();
                 window.location.href = $(this).find('span.CommandName').text()
-                /*
+                ---
                 window.location.hash = '#' + $(this).find('span.CommandName').text();
                 $('#cmdlist').find('a.active').removeClass('active')
                 $(this).addClass('active')
@@ -473,7 +477,7 @@
                         }
                     }
                     if (topublish == -1) {
-                        $('#rendered').html(marked('### 404 Function not found \n (while searching for ' + hash + '). Please visit dbatools.io/commands for an updated index of current commands.'));
+                        $('#rendered').html(marked.parse('### 404 Function not found \n (while searching for ' + hash + '). Please visit dbatools.io/commands for an updated index of current commands.'));
                     } else {
                         var doc_to_render = indexhelp[topublish]
                         render_doc(doc_to_render, 'new')

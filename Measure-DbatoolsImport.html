@@ -261,9 +261,11 @@
                 $('#search-ft').blur();
             })
             $('#cmdlist').on('click', 'a', function (e) {
+                $(this).attr('href', $(this).find('span.CommandName').text());
+                /*
                 e.preventDefault();
                 window.location.href = $(this).find('span.CommandName').text()
-                /*
+                ---
                 window.location.hash = '#' + $(this).find('span.CommandName').text();
                 $('#cmdlist').find('a.active').removeClass('active')
                 $(this).addClass('active')
@@ -350,7 +352,7 @@
                         }
                     }
                     if (topublish == -1) {
-                        $('#rendered').html(marked('### 404 Function not found \n (while searching for ' + hash + '). Please visit dbatools.io/commands for an updated index of current commands.'));
+                        $('#rendered').html(marked.parse('### 404 Function not found \n (while searching for ' + hash + '). Please visit dbatools.io/commands for an updated index of current commands.'));
                     } else {
                         var doc_to_render = indexhelp[topublish]
                         render_doc(doc_to_render, 'new')
@@ -474,6 +476,10 @@
 </tbody>
 </table>
 <p> </p>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Measure-DbatoolsImport.ps1">Measure-DbatoolsImport</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Measure-DbatoolsImport">Measure-DbatoolsImport</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
 <p>Displays the import load times of the dbatools PowerShell module</p>
 <h2 id="description">Description</h2>
@@ -496,9 +502,6 @@ PS C:\&gt; Measure-DbatoolsImport
 </code></pre>
 <p>Displays the import load times of the dbatools PowerShell module<br></p>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Measure-DbatoolsImport.ps1">Measure-DbatoolsImport</a> on GitHub.
-<br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Measure-DbatoolsImport">Measure-DbatoolsImport</a>.</p>
 
                 </div> <!-- rendered -->
             </div>

@@ -261,9 +261,11 @@
                 $('#search-ft').blur();
             })
             $('#cmdlist').on('click', 'a', function (e) {
+                $(this).attr('href', $(this).find('span.CommandName').text());
+                /*
                 e.preventDefault();
                 window.location.href = $(this).find('span.CommandName').text()
-                /*
+                ---
                 window.location.hash = '#' + $(this).find('span.CommandName').text();
                 $('#cmdlist').find('a.active').removeClass('active')
                 $(this).addClass('active')
@@ -350,7 +352,7 @@
                         }
                     }
                     if (topublish == -1) {
-                        $('#rendered').html(marked('### 404 Function not found \n (while searching for ' + hash + '). Please visit dbatools.io/commands for an updated index of current commands.'));
+                        $('#rendered').html(marked.parse('### 404 Function not found \n (while searching for ' + hash + '). Please visit dbatools.io/commands for an updated index of current commands.'));
                     } else {
                         var doc_to_render = indexhelp[topublish]
                         render_doc(doc_to_render, 'new')
@@ -474,6 +476,10 @@
 </tbody>
 </table>
 <p> </p>
+<p> </p>
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Get-DbaDbSnapshot.ps1">Get-DbaDbSnapshot</a> on GitHub.
+<br>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbSnapshot">Get-DbaDbSnapshot</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
 <p>Get database snapshots with details</p>
 <h2 id="description">Description</h2>
@@ -708,9 +714,6 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Get-DbaDbSnapshot.ps1">Get-DbaDbSnapshot</a> on GitHub.
-<br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbSnapshot">Get-DbaDbSnapshot</a>.</p>
 
                 </div> <!-- rendered -->
             </div>
