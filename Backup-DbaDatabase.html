@@ -515,6 +515,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-OutputScriptOnly]
     [-EncryptionAlgorithm &lt;String&gt;]
     [-EncryptionCertificate &lt;String&gt;]
+    [-Description &lt;String&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -550,6 +551,7 @@ Backup-DbaDatabase -SqlInstance &lt;DbaInstanceParameter&gt;
     [-OutputScriptOnly]
     [-EncryptionAlgorithm &lt;String&gt;]
     [-EncryptionCertificate &lt;String&gt;]
+    [-Description &lt;String&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -585,6 +587,7 @@ Backup-DbaDatabase
     [-OutputScriptOnly]
     [-EncryptionAlgorithm &lt;String&gt;]
     [-EncryptionCertificate &lt;String&gt;]
+    [-Description &lt;String&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -1513,6 +1516,34 @@ Must specify one of EncryptionCertificate or EncryptionKey as well.<br></p>
 <h5 id="encryptioncertificate">-EncryptionCertificate</h5>
 <p>The name of the certificate to be used to encrypt the backups. The existence of the certificate will be checked, and will not proceed if it does not exist
 Is mutually exclusive with the EncryptionKey option<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="description-1">-Description</h5>
+<p>The text describing the backup set like in BACKUP ... WITH DESCRITION = ''.<br></p>
 <table>
 <thead>
 <tr>
