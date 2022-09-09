@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Export-DbaBinaryFile</title>
+    <title>dbatools docs | Get-DbaBinaryFileTable</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,24 +12,24 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ,powershell,sql server,devops,json">
-    <meta name="subtitle" content="Docs for Export-DbaBinaryFile">
+    <meta name="subtitle" content="Docs for Get-DbaBinaryFileTable">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Export-DbaBinaryFile" />
-    <meta property="og:url" content="https://docs.dbatools.io/Export-DbaBinaryFile.html" />
-    <meta property="og:description" content="dbatools docs for Export-DbaBinaryFile" />
+    <meta property="og:title" content="dbatools docs:  Get-DbaBinaryFileTable" />
+    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaBinaryFileTable.html" />
+    <meta property="og:description" content="dbatools docs for Get-DbaBinaryFileTable" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Export-DbaBinaryFile" />
+    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaBinaryFileTable" />
     
-    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Export-DbaBinaryFile.png">
+    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaBinaryFileTable.png">
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name=twitter:creator content="@psdbatools">
-    <meta name=twitter:title content="dbatools docs:  Export-DbaBinaryFile">
+    <meta name=twitter:title content="dbatools docs:  Get-DbaBinaryFileTable">
     <meta property="twitter:site" content="@psdbatools" />
 
-    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Export-DbaBinaryFile.png">
-    <link rel=canonical href="https://docs.dbatools.io/Export-DbaBinaryFile.html" />
+    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaBinaryFileTable.png">
+    <link rel=canonical href="https://docs.dbatools.io/Get-DbaBinaryFileTable.html" />
     <link rel=alternate type=application/json
         href=https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
         title="dbatools documentation">
@@ -456,7 +456,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="export-dbabinaryfile">Export-DbaBinaryFile</h1>
+                    <h1 id="get-dbabinaryfiletable">Get-DbaBinaryFileTable</h1>
 <table>
 <thead>
 <tr>
@@ -477,30 +477,22 @@
 </table>
 <p> </p>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Export-DbaBinaryFile.ps1">Export-DbaBinaryFile</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/functions/Get-DbaBinaryFileTable.ps1">Get-DbaBinaryFileTable</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaBinaryFile">Export-DbaBinaryFile</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaBinaryFileTable">Get-DbaBinaryFileTable</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports binary files from SQL Server</p>
+<p>Gets a table with binary columns which can be used with Export-DbaBinaryFile and Import-DbaBinaryFile.</p>
 <h2 id="description">Description</h2>
-<p>Exports binary files from SQL Server</p>
-<p>If specific filename and binary columns aren't specified, the command will guess based on the datatype (binary/image) for the binary column and a match for &quot;name&quot; as the filename column.</p>
+<p>Gets a table with binary columns which can be used with Export-DbaBinaryFile and Import-DbaBinaryFile.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Export-DbaBinaryFile
+<pre><code>Get-DbaBinaryFileTable
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;String[]&gt;]
     [[-Table] &lt;String[]&gt;]
     [[-Schema] &lt;String[]&gt;]
-    [[-FileNameColumn] &lt;String&gt;]
-    [[-BinaryColumn] &lt;String&gt;]
-    [[-Path] &lt;String&gt;]
-    [[-Query] &lt;String&gt;]
-    [[-FilePath] &lt;String&gt;]
     [[-InputObject] &lt;Table[]&gt;]
     [-EnableException]
-    [-WhatIf]
-    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -508,23 +500,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Export-DbaBinaryFile -SqlInstance sqlcs -Database test -Path C:\temp\exports
+<pre><code>PS C:\&gt; Get-DbaBinaryFileTable -SqlInstance sqlcs -Database test
 </code></pre>
-<p>Exports all binary files from the test database on sqlcs to C:\temp\exports. Guesses the columns based on datatype and column name.<br></p>
+<p>Returns a table with binary columns which can be used with Export-DbaBinaryFile and Import-DbaBinaryFile.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Export-DbaBinaryFile -SqlInstance sqlcs -Database employees -Table photos  -Path C:\temp\exports
-</code></pre>
-<p>Exports all binary files from the photos table in the employees database on sqlcs to C:\temp\exports. Guesses the columns based on datatype and column name.<br></p>
-<h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Export-DbaBinaryFile -SqlInstance sqlcs -Database employees -Table photos -FileNameColumn fname -BinaryColumn data -Path C:\temp\exports
-</code></pre>
-<p>Exports all binary files from the photos table in the employees database on sqlcs to C:\temp\exports. Uses the fname and data columns for the filename and binary data.<br></p>
-<h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Export-DbaBinaryFile -SqlInstance sqlcs -Database employees -Table photos -Query &quot;SELECT [FileName], [Data] FROM [employees].[dbo].[photos] WHERE FirstName = 'Potato' and LastName =
-</code></pre>
-<p>'Qualitee'&quot; -FilePath C:\temp\PotatoQualitee.jpg<br>
-Exports the binary file from the photos table in the employees database on sqlcs to C:\temp\PotatoQualitee.jpg. Uses the query to determine the filename and binary data.<br></p>
-<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Get-DbaBinaryFileTable -SqlInstance sqlcs -Database test | Out-GridView -Passthru | Export-DbaBinaryFile -Path C:\temp
 </code></pre>
 <p>Allows you to pick tables with columns to be exported by Export-DbaBinaryFile<br></p>
@@ -676,149 +655,8 @@ The correct way to find a table Name] in schema Schema.Name is by passing [Schem
 </tr>
 </tbody>
 </table>
-<h5 id="filenamecolumn">-FileNameColumn</h5>
-<p>The column name that contains the filename. If not specified, we'll try out best to figure it out.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="binarycolumn">-BinaryColumn</h5>
-<p>The column name that contains the binary data. If not specified, we'll try out best to figure it out.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="path">-Path</h5>
-<p>Specifies the directory where files will be exported.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="query">-Query</h5>
-<p>Allows you to specify a custom query to use to return the data. If not specified, we'll try out best to figure it out.
-Example query: &quot;SELECT [fn], [data] FROM tempdb.dbo.files&quot;<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="filepath">-FilePath</h5>
-<p>The specific filename of the output file. If not specified, the filename will use the filename column to determine the filename.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>OutFile,FileName</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Table objects to be piped in from Get-DbaDbTable or Get-DbaBinaryFileTable<br></p>
+<p>Table objects to be piped in from Get-DbaDbTable<br></p>
 <table>
 <thead>
 <tr>
@@ -872,62 +710,6 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 <tr>
 <td>Default Value</td>
 <td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="whatif">-WhatIf</h5>
-<p>Shows what would happen if the command were to run. No actions are actually performed<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>wi</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="confirm">-Confirm</h5>
-<p>Prompts you for confirmation before executing any changing operations within the command<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>cf</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
 </tr>
 </tbody>
 </table>

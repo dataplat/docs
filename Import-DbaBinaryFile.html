@@ -489,14 +489,16 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>Import-DbaBinaryFile
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [-Database] &lt;String&gt;
-    [-Table] &lt;String&gt;
+    [[-Database] &lt;String&gt;]
+    [[-Table] &lt;String&gt;]
     [[-Schema] &lt;String&gt;]
     [[-Statement] &lt;String&gt;]
     [[-FileNameColumn] &lt;String&gt;]
     [[-BinaryColumn] &lt;String&gt;]
     [-NoFileNameColumn]
-    [-FilePath] &lt;FileInfo[]&gt;
+    [[-InputObject] &lt;Table[]&gt;]
+    [[-FilePath] &lt;FileInfo[]&gt;]
+    [[-Path] &lt;FileInfo[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -518,96 +520,6 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; Import-DbaBinaryFile -SqlInstance sqlcs -Database tempdb -Table BunchOFiles -FilePath C:\azure\adalsql.msi -FileNameColumn fname -BinaryColumn data
 </code></pre>
 <p>Imports the file adalsql.msi into the BunchOFiles table in the tempdb database on sqlcs. Uses the fname and data columns for the filename and binary data.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
-<h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="table">-Table</h5>
-<p>Define a specific table you would like to upload to. You can specify up to three-part name like db.sch.tbl.
-If the object has special characters please wrap them in square brackets [ ].
-Using dbo.First.Table will try to find table named 'Table' on schema 'First' and database 'dbo'.
-The correct way to find table named 'First.Table' on schema 'dbo' is by passing dbo.[First.Table]
-Any actual usage of the ] must be escaped by duplicating the ] character.
-The correct way to find a table Name] in schema Schema.Name is by passing [Schema.Name].[Name]]]<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file. Accepts pipeline input from Get-ChildItem.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input.<br></p>
@@ -641,6 +553,67 @@ The correct way to find a table Name] in schema Schema.Name is by passing [Schem
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
 For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="database">-Database</h5>
+<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="table">-Table</h5>
+<p>Define a specific table you would like to upload to. You can specify up to three-part name like db.sch.tbl.
+If the object has special characters please wrap them in square brackets [ ].
+Using dbo.First.Table will try to find table named 'Table' on schema 'First' and database 'dbo'.
+The correct way to find table named 'First.Table' on schema 'dbo' is by passing dbo.[First.Table]
+Any actual usage of the ] must be escaped by duplicating the ] character.
+The correct way to find a table Name] in schema Schema.Name is by passing [Schema.Name].[Name]]]<br></p>
 <table>
 <thead>
 <tr>
@@ -807,6 +780,90 @@ must use @FileName.<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Table objects to be piped in from Get-DbaDbTable or Get-DbaBinaryFileTable<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filepath">-FilePath</h5>
+<p>Specifies the full file path of the output file. Accepts pipeline input from Get-ChildItem.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>FullName</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByPropertyName)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="path">-Path</h5>
+<p>A directory full of files to import.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>
