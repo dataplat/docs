@@ -543,7 +543,7 @@ PS C:\&gt; Write-DbaDbTableData -SqlInstance sql2014 -InputObject $DataTable -Da
 </code></pre>
 <p>Performs a bulk insert of all the data in customers.csv into mydb.dbo.customers. Because Schema was not specified, dbo was used. NULL values in the destination table will be preserved.<br></p>
 <h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; $passwd = ConvertTo-SecureString &quot;P@ssw0rd&quot; -AsPlainText -Force
+<pre><code>PS C:\&gt; $passwd = (Get-Credential NoUsernameNeeded).Password
 PS C:\&gt; $AzureCredential = New-Object System.Management.Automation.PSCredential(&quot;AzureAccount&quot;),$passwd)
 PS C:\&gt; $DataTable = Import-Csv C:\temp\customers.csv
 PS C:\&gt; Write-DbaDbTableData -SqlInstance AzureDB.database.windows.net -InputObject $DataTable -Database mydb -Table customers -KeepNulls -SqlCredential $AzureCredential -BulkCopyTimeOut 300
