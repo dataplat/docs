@@ -501,7 +501,7 @@ The backup destination needs to be shared and have the share privileges of FULL 
 <p>** NTFS permissions
 The backup destination must have at least read/write permissions for the primary instance agent account.
 The backup destination must have at least read permissions for the secondary instance agent account.
-The copy destination must have at least read/write permission for the secondary instance agent acount.</p>
+The copy destination must have at least read/write permission for the secondary instance agent account.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbLogShipping
     [-SourceSqlInstance] &lt;DbaInstanceParameter&gt;
@@ -608,7 +608,7 @@ The copy destination must have at least read/write permission for the secondary 
 &gt;&gt; GenerateFullBackup = $true
 &gt;&gt; RestoreScheduleFrequencyType = 'daily'
 &gt;&gt; RestoreScheduleFrequencyInterval = 1
-&gt;&gt; SecondaryDatabaseSuffix = 'DR'
+&gt;&gt; SecondaryDatabaseSuffix = 'LS'
 &gt;&gt; CopyDestinationFolder = '\\sql2\logshippingdest'
 &gt;&gt; Force = $true
 &gt;&gt; }
