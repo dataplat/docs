@@ -494,6 +494,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Login &lt;String&gt;]
     [-Username &lt;String&gt;]
     [-DefaultSchema &lt;String&gt;]
+    [-ExternalProvider]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -520,6 +521,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Login Login1 -Username user1 -DefaultSchema schema1
 </code></pre>
 <p>Creates a new sql user named user1 mapped to Login1 in the specified database and specifies the default schema to be schema1.<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Username &quot;claudio@********.onmicrosoft.com&quot; -ExternalProvider
+</code></pre>
+<p>Creates a new sql user named 'claudio@********.onmicrosoft.com' mapped to Azure Active Directory (AAD) in the specified database.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Defaults to the default instance on localhost.<br></p>
@@ -745,6 +750,35 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td>dbo</td>
+</tr>
+</tbody>
+</table>
+<h5 id="externalprovider">-ExternalProvider</h5>
+<p>Specifies that the user is for Azure AD Authentication.
+Equivalent to T-SQL: 'CREATE USER [claudio@********.onmicrosoft.com] FROM EXTERNAL PROVIDER`<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

@@ -593,7 +593,7 @@ PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&qu
 ConnectionString is an alias of SqlInstance, so you can use -SqlInstance $connstring as well.<br></p>
 <h5 id="example-13">Example:  13</h5>
 <pre><code>PS C:\&gt; $cred = Get-Credential guid-app-id-here # appid for username, clientsecret for password
-PS C:\&gt; $server = Connect-DbaInstance -SqlInstance psdbatools.database.windows.net -Database abc -SqCredential $cred -Tenant guidheremaybename
+PS C:\&gt; $server = Connect-DbaInstance -SqlInstance psdbatools.database.windows.net -Database abc -SqlCredential $cred -Tenant guidheremaybename
 PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&quot;
 </code></pre>
 <p>When connecting from a non-Azure workstation, logs into Azure using Universal with MFA Support with a username and password, then performs a sample query.<br>
@@ -1346,7 +1346,7 @@ If you want to change this to 10 minutes, use: Set-DbatoolsConfig -FullName 'sql
 </table>
 <h5 id="alwaysencrypted">-AlwaysEncrypted</h5>
 <p>Sets &quot;Column Encryption Setting=enabled&quot; on the connection so you can work with Always Encrypted values.
-For more informations, see <a href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider">https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider</a><br></p>
+For more information, see <a href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider">https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider</a><br></p>
 <table>
 <thead>
 <tr>
