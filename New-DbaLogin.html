@@ -502,6 +502,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Disabled]
     [-DenyWindowsLogin]
     [-NewSid]
+    [-ExternalProvider]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -520,6 +521,7 @@ New-DbaLogin
     [-Disabled]
     [-DenyWindowsLogin]
     [-NewSid]
+    [-ExternalProvider]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -538,6 +540,7 @@ New-DbaLogin
     [-Disabled]
     [-DenyWindowsLogin]
     [-NewSid]
+    [-ExternalProvider]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -560,6 +563,7 @@ New-DbaLogin
     [-Disabled]
     [-DenyWindowsLogin]
     [-NewSid]
+    [-ExternalProvider]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -597,6 +601,10 @@ and will be created in a disabled state.<br></p>
 <pre><code>PS C:\&gt; New-DbaLogin -SqlInstance sql1 -Login domain\user1, domain\user2 -DenyWindowsLogin
 </code></pre>
 <p>Creates two new Windows Authentication backed login on sql1. The logins would be denied from logging in.<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; New-DbaLogin -SqlInstance sql1 -Login &quot;claudio@********.onmicrosoft.com&quot; -ExternalProvider
+</code></pre>
+<p>Creates a new login named 'claudio@********.onmicrosoft.com' mapped to Azure Active Directory (AAD).<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server(s)<br></p>
@@ -1108,6 +1116,35 @@ When specified will enforce PasswordExpirationEnabled and PasswordPolicyEnforced
 </table>
 <h5 id="newsid">-NewSid</h5>
 <p>Ignore sids from the piped login object to generate new sids on the server. Useful when copying login onto the same server<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="externalprovider">-ExternalProvider</h5>
+<p>Specifies that the login is for Azure AD Authentication.
+Equivalent to T-SQL: 'CREATE LOGIN [claudio@********.onmicrosoft.com] FROM EXTERNAL PROVIDER`<br></p>
 <table>
 <thead>
 <tr>
