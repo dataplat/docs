@@ -744,38 +744,52 @@ See the '-ScanType' parameter documentation on affected scans.<br></p>
 <p>The scans are the individual methods used to retrieve information about the scanned computer and any potentially installed instances.
 This parameter is optional, by default all scans except for establishing an actual SQL connection are performed.
 Scans can be specified in any arbitrary combination, however at least one instance detecting scan needs to be specified in order for data to be returned.
-Scans:
+Scans:</p>
 Browser</p>
 <ul>
 <li>Tries discovering all instances via the browser service</li>
-<li>This scan detects instances.
-SQLService</li>
+<li>This scan detects instances.</li>
+</ul>
+SQLService</p>
+<ul>
 <li>Tries listing all SQL Services using CIM/WMI</li>
 <li>This scan uses credentials specified in the '-Credential' parameter if any.</li>
 <li>This scan detects instances.</li>
-<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).
-SPN</li>
+<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).</li>
+</ul>
+SPN</p>
+<ul>
 <li>Tries looking up the Service Principal Names for each instance</li>
 <li>Will use the nearest Domain Controller by default</li>
 <li>Target a specific domain controller using the '-DomainController' parameter</li>
-<li>If using the '-DomainController' parameter, use the '-Credential' parameter to specify the credentials used to connect
-TCPPort</li>
+<li>If using the '-DomainController' parameter, use the '-Credential' parameter to specify the credentials used to connect</li>
+</ul>
+TCPPort</p>
+<ul>
 <li>Tries connecting to the TCP Ports.</li>
 <li>By default, port 1433 is connected to.</li>
 <li>The parameter '-TCPPort' can be used to provide a list of port numbers to scan.</li>
 <li>This scan detects possible instances. Since other services might bind to a given port, this is not the most reliable test.</li>
-<li>This scan is also used to validate found SPNs if both scans are used in combination
-DNSResolve</li>
-<li>Tries resolving the computername in DNS
-Ping</li>
-<li>Tries pinging the computer. Failure will NOT terminate scans.
-SqlConnect</li>
+<li>This scan is also used to validate found SPNs if both scans are used in combination</li>
+</ul>
+DNSResolve</p>
+<ul>
+<li>Tries resolving the computername in DNS</li>
+</ul>
+Ping</p>
+<ul>
+<li>Tries pinging the computer. Failure will NOT terminate scans.</li>
+</ul>
+SqlConnect</p>
+<ul>
 <li>Tries to establish a SQL connection to the server</li>
 <li>Uses windows credentials by default</li>
 <li>Specify custom credentials using the '-SqlCredential' parameter</li>
 <li>This scan is not used by default</li>
-<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).
-All</li>
+<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).</li>
+</ul>
+All</p>
+<ul>
 <li>All of the above<br></li>
 </ul>
 <table>
