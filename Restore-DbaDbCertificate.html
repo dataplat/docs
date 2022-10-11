@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>Restore-DbaDbCertificate
     [-SqlInstance] &lt;DbaInstanceParameter&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [-Path] &lt;Object[]&gt;
+    [-Path] &lt;String[]&gt;
     [[-KeyFilePath] &lt;String[]&gt;]
     [[-EncryptionPassword] &lt;SecureString&gt;]
     [[-Database] &lt;String&gt;]
@@ -553,7 +553,7 @@ PS C:\&gt; Restore-DbaDbCertificate -SqlInstance Server1 -Path \\Server1\Certifi
 <tbody>
 <tr>
 <td>Alias</td>
-<td>FullName</td>
+<td>FullName,ExportPath</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -561,7 +561,7 @@ PS C:\&gt; Restore-DbaDbCertificate -SqlInstance Server1 -Path \\Server1\Certifi
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>true (ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -612,7 +612,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Key</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -620,7 +620,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>

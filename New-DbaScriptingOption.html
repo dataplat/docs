@@ -496,10 +496,12 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; $options = New-DbaScriptingOption
 PS C:\&gt; $options.ScriptDrops = $false
-PS C:\&gt; $options.WithDependencies = $true
+PS C:\&gt; $options.WithDependencies = $false
+PS C:\&gt; $options.AgentAlertJob = $true
+PS C:\&gt; $options.AgentNotify = $true
 PS C:\&gt; Get-DbaAgentJob -SqlInstance sql2016 | Export-DbaScript -ScriptingOptionObject $options
 </code></pre>
-<p>Exports Agent Jobs with the Scripting Options ScriptDrops set to $false and WithDependencies set to true<br></p>
+<p>Exports Agent Jobs with the Scripting Options ScriptDrops/WithDependencies set to $false and AgentAlertJob/AgentNotify set to true<br></p>
 <p> </p>
 
                 </div> <!-- rendered -->

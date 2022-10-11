@@ -486,7 +486,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Tests to see if a backup is encrypted</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaBackupEncrypted
-    [-SqlInstance] &lt;DbaInstanceParameter&gt;
+    [[-SqlInstance] &lt;DbaInstanceParameter&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
     [-FilePath] &lt;String[]&gt;
     [-EnableException]
@@ -505,6 +505,35 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Test to see if all of the backups in \nas\sql\backups are encrypted<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
+<h5 id="filepath">-FilePath</h5>
+<p>The path to the backups<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>FullName,Path</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByPropertyName)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
 <table>
@@ -521,11 +550,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByPropertyName)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -533,35 +562,6 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tr>
 </tbody>
 </table>
-<h5 id="filepath">-FilePath</h5>
-<p>The path to the backups<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>FullName</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
