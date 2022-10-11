@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <ul>
 <li>Verifies that a mirror is possible</li>
 <li>Sets the recovery model to Full if needed</li>
-<li>If the database does not exist on mirror or witness, a backup/restore is performed</li>
+<li>If the database does not exist on mirror, a backup/restore is performed</li>
 <li>Sets up endpoints if necessary</li>
 <li>Creates a login and grants permissions to service accounts if needed</li>
 <li>Starts endpoints if needed</li>
@@ -552,7 +552,7 @@ PS C:\&gt; Invoke-DbaDbMirroring @params
 <p>Performs a bunch of checks to ensure the pubs database on sql2017a<br>
 can be mirrored from sql2017a to sql2017b. Logs in to sql2019 and sql2017a<br>
 using Windows credentials and sql2017b using a SQL credential.<br>
-Drops existing pubs database on Mirror and Witness and restores them with<br>
+Drops existing pubs database on Mirror and restores it with<br>
 a fresh backup.<br>
 Does all the things in the description, does not prompt for confirmation.<br></p>
 <h5 id="example-3">Example:  3</h5>
