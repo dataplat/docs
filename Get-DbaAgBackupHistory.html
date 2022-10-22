@@ -504,6 +504,7 @@ For detailed examples of the various parameters see the documentation of Get-Dba
     [-LastLsn &lt;BigInteger&gt;]
     [-IncludeMirror]
     [-Type &lt;String[]&gt;]
+    [-LsnSort &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -524,6 +525,7 @@ Get-DbaAgBackupHistory -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-LastLsn &lt;BigInteger&gt;]
     [-IncludeMirror]
     [-Type &lt;String[]&gt;]
+    [-LsnSort &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -1068,6 +1070,38 @@ backups will be returned unless one of the -Last* switches is enabled.<br></p>
 <tr>
 <td>Accepted Values</td>
 <td>Full,Log,Differential,File,Differential File,Partial Full,Partial Differential</td>
+</tr>
+</tbody>
+</table>
+<h5 id="lsnsort">-LsnSort</h5>
+<p>Specifies which of the returned LSN values you would like to use for sorting when using the LastFull, LastDiff and LastLog parameters.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>FirstLsn</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>FirstLsn,DatabaseBackupLsn,LastLsn</td>
 </tr>
 </tbody>
 </table>
