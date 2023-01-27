@@ -17,7 +17,7 @@ jobs:
         shell: pwsh
         run: |
           curl -O https://raw.githubusercontent.com/dataplat/dbatools/master/dbatools.psd1
-          $modData = Import-PowerShellDataFile dbatools.psd1
+          $modData = Invoke-Expression -Command (Get-Content dbatools.psd1 -Raw)
           $ext = Get-Content .\external.json | ConvertFrom-Json
           echo "Module version: $($modData.ModuleVersion)"
           echo "External version: $($ext.Version)"
