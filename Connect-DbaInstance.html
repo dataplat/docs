@@ -260,7 +260,12 @@
             $(document).on('mouseenter', '#cmdlist', function (e) {
                 $('#search-ft').blur();
             })
-            $('#cmdlist').on('click', 'a', function (e) {
+            cmdlist.on('updated', function() {
+                $('#cmdlist a').each(function(i, el) {
+                    $(el).attr('href', $(el).find('span.CommandName').text())
+                })
+            })
+            $('#cmdlist').on('mouseenter', 'a', function (e) {
                 $(this).attr('href', $(this).find('span.CommandName').text());
                 /*
                 e.preventDefault();
@@ -865,7 +870,7 @@ When opening a connection to a Azure SQL Database, set the connection timeout to
 </tr>
 <tr>
 <td>Default Value</td>
-<td>([Sqlcollaborative.Dbatools.Connection.ConnectionHost]::SqlConnectionTimeout)</td>
+<td>([Dataplat.Dbatools.Connection.ConnectionHost]::SqlConnectionTimeout)</td>
 </tr>
 </tbody>
 </table>
