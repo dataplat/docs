@@ -16,10 +16,11 @@ jobs:
         working-directory: assets
         shell: pwsh
         run: |
-          #curl -O https://raw.githubusercontent.com/dataplat/dbatools/master/dbatools.psd1
-          #$modData = Invoke-Expression -Command (Get-Content dbatools.psd1 -Raw)
-          #$moduleversion = $modData.ModuleVersion
-          # Get it right from the PS Source instead
+          # curl -O https://raw.githubusercontent.com/dataplat/dbatools/master/dbatools.psd1
+          # $modData = Invoke-Expression -Command (Get-Content dbatools.psd1 -Raw)
+          # $moduleversion = $modData.ModuleVersion
+          # Get it right from the PS Source instead while 2.0 is still in preview
+          
           $moduleversion = (Find-Module dbatools).Version
           $ext = Get-Content .\external.json | ConvertFrom-Json
           echo "Module version: $moduleversion"
@@ -28,7 +29,7 @@ jobs:
             $ext.Version = $moduleversion
             $ext | ConvertTo-Json | Out-File ./external.json
           }
-          Remove-Item ./dbatools.psd1 -Force
+          # Remove-Item ./dbatools.psd1 -Force
 
       - name: "Build docs"
         working-directory: assets
