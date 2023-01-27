@@ -16,13 +16,16 @@ jobs:
         working-directory: assets
         shell: pwsh
         run: |
-          curl -O https://raw.githubusercontent.com/dataplat/dbatools/master/dbatools.psd1
-          $modData = Invoke-Expression -Command (Get-Content dbatools.psd1 -Raw)
+          #curl -O https://raw.githubusercontent.com/dataplat/dbatools/master/dbatools.psd1
+          #$modData = Invoke-Expression -Command (Get-Content dbatools.psd1 -Raw)
+          #$moduleversion = $modData.ModuleVersion
+          # Get it right from the PS Source instead
+          $moduleversion = (Find-Module dbatools).Version
           $ext = Get-Content .\external.json | ConvertFrom-Json
-          echo "Module version: $($modData.ModuleVersion)"
+          echo "Module version: $moduleversion"
           echo "External version: $($ext.Version)"
-          if ($ext.Version -ne $modData.ModuleVersion) {
-            $ext.Version = $modData.ModuleVersion
+          if ($ext.Version -ne $moduleversion) {
+            $ext.Version = $moduleversion
             $ext | ConvertTo-Json | Out-File ./external.json
           }
           Remove-Item ./dbatools.psd1 -Force
