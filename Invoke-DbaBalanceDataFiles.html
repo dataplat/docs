@@ -498,6 +498,7 @@ The function does NOT yet support heaps.</p>
 <p>The function will also check if the file groups are subject to balance out.
 A file group would have at least have 2 data files and should be writable.
 If a table is within such a file group it will be subject for processing. If not the table will be skipped.</p>
+<p>Note: this command does not perform a disk space check for non-Windows machines so make sure you have enough space on the disk.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaBalanceDataFiles
     [-SqlCredential &lt;PSCredential&gt;]

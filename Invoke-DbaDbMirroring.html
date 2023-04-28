@@ -510,6 +510,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-Witness] &lt;DbaInstanceParameter&gt;]
     [[-WitnessSqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;String[]&gt;]
+    [[-EndpointEncryption] &lt;String&gt;]
+    [[-EncryptionAlgorithm] &lt;String&gt;]
     [[-SharedPath] &lt;String&gt;]
     [[-InputObject] &lt;Database[]&gt;]
     [-UseLastBackup]
@@ -772,6 +774,79 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="endpointencryption">-EndpointEncryption</h5>
+<p>Used to specify the state of encryption on the endpoint. Defaults to required.
+Disabled
+Required
+Supported<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Disabled,Required,Supported</td>
+</tr>
+</tbody>
+</table>
+<h5 id="encryptionalgorithm">-EncryptionAlgorithm</h5>
+<p>Specifies an encryption algorithm used on an endpoint. Defaults to Aes.
+Options are:
+AesRC4
+Aes
+None
+RC4
+RC4Aes<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Aes</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Aes,AesRC4,None,RC4,RC4Aes</td>
 </tr>
 </tbody>
 </table>

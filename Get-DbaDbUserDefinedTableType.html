@@ -495,6 +495,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;Object[]&gt;]
     [[-ExcludeDatabase] &lt;Object[]&gt;]
+    [[-Type] &lt;String[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -505,11 +506,15 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; Get-DbaDbUserDefinedTableType -SqlInstance sql2016
 </code></pre>
-<p>Gets all database Stored Procedures<br></p>
+<p>Gets all database user defined table types in all the databases<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Get-DbaDbUserDefinedTableType -SqlInstance Server1 -Database db1
 </code></pre>
-<p>Gets the Stored Procedures for the db1 database<br></p>
+<p>Gets all the user defined table types for the db1 database<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Get-DbaDbUserDefinedTableType -SqlInstance Server1 -Database db1 -Type type1
+</code></pre>
+<p>Gets type1 user defined table type from db1 database<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances<br></p>
@@ -599,6 +604,34 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
 <p>The database(s) to exclude - this list is auto populated from the server<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="type">-Type</h5>
+<p>[OPTIONAL] When provided, the output will be filtered to return only the types given otherwise returns all the table types.<br></p>
 <table>
 <thead>
 <tr>

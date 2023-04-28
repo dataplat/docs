@@ -494,8 +494,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;String[]&gt;]
-    [[-Compatibility] {Version60 | Version65 | Version70 | Version80 | Version90 | Version100 | Version110 | Version120 | Version130 | Version140 | Version150}]
-    [[-TargetCompatibility] &lt;Int32&gt;]
+    [[-Compatibility] {Version60 | Version65 | Version70 | Version80 | Version90 | Version100 | Version110 | Version120 | Version130 | Version140 | Version150 | Version160}]
     [[-InputObject] &lt;Database[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -507,17 +506,17 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Set-DbaDbCompatibility -SqlInstance localhost\sql2017
+<pre><code>PS C:\&gt; Set-DbaDbCompatibility -SqlInstance sql2017a
 </code></pre>
-<p>Changes database compatibility level for all user databases on server localhost\sql2017 that have a Compatibility level that do not match<br></p>
+<p>Changes database compatibility level for all user databases on server sql2017a that have a Compatibility level that do not match<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Set-DbaDbCompatibility -SqlInstance localhost\sql2017 -TargetCompatibility 12
+<pre><code>PS C:\&gt; Set-DbaDbCompatibility -SqlInstance sql2019a -Compatibility Version150
 </code></pre>
-<p>Changes database compatibility level for all user databases on server localhost\sql2017 to Version120<br></p>
+<p>Changes database compatibility level for all user databases on server sql2019a to Version150<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Set-DbaDbCompatibility -SqlInstance localhost\sql2017 -Database Test -TargetCompatibility 12
+<pre><code>PS C:\&gt; Set-DbaDbCompatibility -SqlInstance sql2022b -Database Test -Compatibility Version160
 </code></pre>
-<p>Changes database compatibility level for database Test on server localhost\sql2017 to Version 120<br></p>
+<p>Changes database compatibility level for database Test on server sql2022b to Version160<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
@@ -607,13 +606,7 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </table>
 <h5 id="compatibility">-Compatibility</h5>
 <p>The target compatibility level version. Same format as returned by Get-DbaDbCompatibility
-Version90 = SQL Server 2005
-Version100 = SQL Server 2008
-Version110 = SQL Server 2012
-Version120 = SQL Server 2014
-Version130 = SQL Server 2016
-Version140 = SQL Server 2017
-Version150 = SQL Server 2019<br></p>
+Availability values: <a href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.sqlserver.management.smo.compatibilitylevel">https://learn.microsoft.com/en-us/dotnet/api/microsoft.sqlserver.management.smo.compatibilitylevel</a><br></p>
 <table>
 <thead>
 <tr>
@@ -637,46 +630,6 @@ Version150 = SQL Server 2019<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="targetcompatibility">-TargetCompatibility</h5>
-<p>Deprecated parameter. Please use Compatibility instead.
-The target compatibility level version. This is an int and follows Microsoft's versioning:
-9 = SQL Server 2005
-10 = SQL Server 2008
-11 = SQL Server 2012
-12 = SQL Server 2014
-13 = SQL Server 2016
-14 = SQL Server 2017
-15 = SQL Server 2019<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>9,10,11,12,13,14,15</td>
 </tr>
 </tbody>
 </table>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaNetworkActivity</title>
+    <title>dbatools docs | New-DbaAgentAlert</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,24 +12,24 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ,powershell,sql server,devops,json">
-    <meta name="subtitle" content="Docs for Get-DbaNetworkActivity">
+    <meta name="subtitle" content="Docs for New-DbaAgentAlert">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaNetworkActivity" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaNetworkActivity.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaNetworkActivity" />
+    <meta property="og:title" content="dbatools docs:  New-DbaAgentAlert" />
+    <meta property="og:url" content="https://docs.dbatools.io/New-DbaAgentAlert.html" />
+    <meta property="og:description" content="dbatools docs for New-DbaAgentAlert" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaNetworkActivity" />
+    <meta name="twitter:text:title" content="dbatools docs:  New-DbaAgentAlert" />
     
-    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaNetworkActivity.png">
+    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/New-DbaAgentAlert.png">
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name=twitter:creator content="@psdbatools">
-    <meta name=twitter:title content="dbatools docs:  Get-DbaNetworkActivity">
+    <meta name=twitter:title content="dbatools docs:  New-DbaAgentAlert">
     <meta property="twitter:site" content="@psdbatools" />
 
-    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaNetworkActivity.png">
-    <link rel=canonical href="https://docs.dbatools.io/Get-DbaNetworkActivity.html" />
+    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/New-DbaAgentAlert.png">
+    <link rel=canonical href="https://docs.dbatools.io/New-DbaAgentAlert.html" />
     <link rel=alternate type=application/json
         href=https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
         title="dbatools documentation">
@@ -461,7 +461,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbanetworkactivity">Get-DbaNetworkActivity</h1>
+                    <h1 id="new-dbaagentalert">New-DbaAgentAlert</h1>
 <table>
 <thead>
 <tr>
@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Klaas Vandenberghe (@PowerDBAKlaas)</td>
+<td>Chrissy LeMaire (@cl), netnerds.net</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -482,20 +482,36 @@
 </table>
 <p> </p>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Get-DbaNetworkActivity.ps1">Get-DbaNetworkActivity</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/New-DbaAgentAlert.ps1">New-DbaAgentAlert</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaNetworkActivity">Get-DbaNetworkActivity</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAgentAlert">New-DbaAgentAlert</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the Current traffic on every Network Interface on a computer.</p>
+<p>Creates a new SQL Server Agent alert</p>
 <h2 id="description">Description</h2>
-<p>Gets the Current traffic on every Network Interface on a computer.
-See <a href="https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx</a></p>
-<p>Requires Local Admin rights on destination computer(s).</p>
+<p>Creates a new SQL Server Agent alert</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaNetworkActivity
-    [[-ComputerName] &lt;String[]&gt;]
-    [[-Credential] &lt;PSCredential&gt;]
+<pre><code>New-DbaAgentAlert
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [-Alert] &lt;String&gt;
+    [[-Category] &lt;String&gt;]
+    [[-Database] &lt;String&gt;]
+    [[-Operator] &lt;String[]&gt;]
+    [[-DelayBetweenResponses] &lt;Int32&gt;]
+    [-Disabled]
+    [[-EventDescriptionKeyword] &lt;String&gt;]
+    [[-EventSource] &lt;String&gt;]
+    [[-JobId] &lt;String&gt;]
+    [[-Severity] &lt;Int32&gt;]
+    [[-MessageId] &lt;Int32&gt;]
+    [[-NotificationMessage] &lt;String&gt;]
+    [[-PerformanceCondition] &lt;String&gt;]
+    [[-WmiEventNamespace] &lt;String&gt;]
+    [[-WmiEventQuery] &lt;String&gt;]
+    [[-NotifyMethod] &lt;String&gt;]
     [-EnableException]
+    [-WhatIf]
+    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -503,20 +519,21 @@ See <a href="https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx">ht
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaNetworkActivity -ComputerName sqlserver2014a
+<pre><code>PS C:\&gt; $parms = @{
 </code></pre>
-<p>Gets the Current traffic on every Network Interface on computer sqlserver2014a.<br></p>
-<h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; 'sql1','sql2','sql3' | Get-DbaNetworkActivity
+<p>SqlInstance           = &quot;sql01&quot;<br>
+Severity              = 18<br>
+Alert                 = &quot;Severity 018 - Nonfatal Internal Error&quot;<br>
+DelayBetweenResponses = 60<br>
+NotifyMethod          = &quot;NotifyEmail&quot;<br>
+}<br></p>
+<pre><code>PS C:\&gt; $alert = New-DbaAgentAlert @parms
 </code></pre>
-<p>Gets the Current traffic on every Network Interface on computers sql1, sql2 and sql3.<br></p>
-<h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaNetworkActivity -ComputerName sql1,sql2
-</code></pre>
-<p>Gets the Current traffic on every Network Interface on computers sql1 and sql2.<br></p>
-<h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>Creates a new alert for severity 18 with the name Severity 018 - Nonfatal Internal Error.<br>
+It will send an email to the default operator and wait 60 seconds before sending another email.<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances<br></p>
 <table>
 <thead>
 <tr>
@@ -527,11 +544,11 @@ See <a href="https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx">ht
 <tbody>
 <tr>
 <td>Alias</td>
-<td>cn,host,Server</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>
-<td>False</td>
+<td>True</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -539,12 +556,43 @@ See <a href="https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx">ht
 </tr>
 <tr>
 <td>Default Value</td>
-<td>$env:COMPUTERNAME</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<h5 id="credential">-Credential</h5>
-<p>Credential object used to connect to the computer as a different user.<br></p>
+<h5 id="alert">-Alert</h5>
+<p>The name of the alert to create<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
 <tr>
@@ -568,6 +616,432 @@ See <a href="https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx">ht
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="category">-Category</h5>
+<p>The name of the category for the alert<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="database">-Database</h5>
+<p>The name of the database to which the alert applies<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="operator">-Operator</h5>
+<p>The name of the operator to use in the alert<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="delaybetweenresponses">-DelayBetweenResponses</h5>
+<p>The delay (in seconds) between responses to the alert<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>60</td>
+</tr>
+</tbody>
+</table>
+<h5 id="disabled">-Disabled</h5>
+<p>Whether the alert is disabled<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="eventdescriptionkeyword">-EventDescriptionKeyword</h5>
+<p>The keyword to search for in the event description<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="eventsource">-EventSource</h5>
+<p>The source of the event<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="jobid">-JobId</h5>
+<p>The GUID ID of the job to execute when the alert is triggered<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>00000000-0000-0000-0000-000000000000</td>
+</tr>
+</tbody>
+</table>
+<h5 id="severity">-Severity</h5>
+<p>The severity level for the alert. Valid values are 0-25<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="messageid">-MessageId</h5>
+<p>The message ID for the alert<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="notificationmessage">-NotificationMessage</h5>
+<p>The message to send when the alert is triggered<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="performancecondition">-PerformanceCondition</h5>
+<p>The performance condition for the alert<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="wmieventnamespace">-WmiEventNamespace</h5>
+<p>The namespace of the WMI event to use in the alert<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="wmieventquery">-WmiEventQuery</h5>
+<p>The WMI query to use in the alert<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="notifymethod">-NotifyMethod</h5>
+<p>The method to use to notify the user of the alert. Valid values are 'None', 'NotifyEmail', 'Pager', 'NetSend', 'NotifyAll'. It is NotifyAll by default.
+The Pager and net send options will be removed from SQL Server Agent in a future version of Microsoft SQL Server.
+Avoid using these features in new development work, and plan to modify applications that currently use these features.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>NotifyAll</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>None,NotifyEmail,Pager,NetSend,NotifyAll</td>
 </tr>
 </tbody>
 </table>
@@ -598,6 +1072,62 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="whatif">-WhatIf</h5>
+<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

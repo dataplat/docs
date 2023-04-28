@@ -522,6 +522,11 @@ Register-DbatoolsConfig
 <pre><code>PS C:\&gt; Register-DbatoolsConfig -Module Message -Scope SystemMandatory
 </code></pre>
 <p>Retrieves all configuration items of the module Message, then registers them in registry to enforce them for all users on the current system.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Set-DbatoolsConfig -FullName sql.connection.trustcert -Value $true -PassThru | Register-DbatoolsConfig
+</code></pre>
+<p>Set the &quot;sql.connection.trustcert&quot; configuration to be $true, and then use the -PassThru parameter<br>
+to be able to pipe the output and register them in registry for the current user.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="module">-Module</h5>
 <p>The name of the module, whose settings should be written to registry.<br></p>

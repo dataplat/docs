@@ -491,7 +491,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>This command replays events from Read-DbaXEFile. It is simplistic in its approach.</p>
 <ul>
 <li>Writes all queries to a temp sql file</li>
-<li>Executes temp file using . $sqlcmd so that batches are executed properly</li>
+<li>Executes temp file using sqlcmd so that batches are executed properly</li>
 <li>Deletes temp file</li>
 </ul>
 <h2 id="syntax">Syntax</h2>
@@ -666,7 +666,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="raw">-Raw</h5>
-<p>By dafault, the results of . $sqlcmd are collected, cleaned up and displayed. If you'd like to see all results immeidately, use Raw.<br></p>
+<p>By dafault, the results of sqlcmd are collected, cleaned up and displayed. If you'd like to see all results immeidately, use Raw.<br></p>
 <table>
 <thead>
 <tr>

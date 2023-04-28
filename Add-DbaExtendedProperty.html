@@ -536,22 +536,14 @@ Xml Schema Collection</p>
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Add-DbaExtendedProperty -SqlInstance sql2016
-</code></pre>
-<p>Gets all extended properties on all databases<br></p>
-<h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Add-DbaExtendedProperty -SqlInstance Server1 -Database db1
-</code></pre>
-<p>Gets the extended properties for the db1 database<br></p>
-<h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; Add-DbaExtendedProperty -SqlInstance Server1 -Database db1 -Name version -Value &quot;1.0.0&quot;
 </code></pre>
 <p>Sets the version extended property for the db1 database to 1.0.0<br></p>
-<h5 id="example-4">Example:  4</h5>
+<h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Get-DbaDbStoredProcedure -SqlInstance localhost -Database tempdb | Add-DbaExtendedProperty -Name SPVersion -Value 10.2
 </code></pre>
 <p>Creates an extended property for all stored procedures in the tempdb database named SPVersion with a value of 10.2<br></p>
-<h5 id="example-5">Example:  5</h5>
+<h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance localhost -Database mydb -Table mytable | Add-DbaExtendedProperty -Name MyExtendedProperty -Value &quot;This is a test&quot;
 </code></pre>
 <p>Creates an extended property named MyExtendedProperty for the mytable table in the mydb, with a value of &quot;This is a test&quot;<br></p>

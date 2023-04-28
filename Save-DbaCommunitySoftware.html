@@ -489,7 +489,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Download and extract software from Github to update the local cached version of that software.</p>
 <h2 id="description">Description</h2>
 <p>Download and extract software from Github to update the local cached version of that software.
-This command is run from inside of Install-Dba* and Update-Dba* commands to update the local cache if needed.</p>
+This command is run from inside of Install-Dba*, Update-Dba*, Invoke-DbaAzSqlDbTip commands to update the local cache if needed.</p>
 <p>In case you don't have internet access on the target computer, you can download the zip files from the following URLs
 at another computer, transfer them to the target computer or place them on a network share and then use -LocalFile
 to update the local cache:</p>
@@ -500,6 +500,7 @@ to update the local cache:</p>
 <li>SQLWATCH: <a href="https://github.com/marcingminski/sqlwatch/releases">https://github.com/marcingminski/sqlwatch/releases</a></li>
 <li>WhoIsActive: <a href="https://github.com/amachanic/sp_whoisactive/releases">https://github.com/amachanic/sp_whoisactive/releases</a></li>
 <li>DbaMultiTool: <a href="https://github.com/LowlyDBA/dba-multitool/releases">https://github.com/LowlyDBA/dba-multitool/releases</a></li>
+<li>AzSqlTips: <a href="https://github.com/microsoft/azure-sql-tips/releases/">https://github.com/microsoft/azure-sql-tips/releases/</a></li>
 </ul>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Save-DbaCommunitySoftware
@@ -535,7 +536,8 @@ Options include:</p>
 <li>DarlingData: Erik Darling's stored procedures (<a href="https://www.erikdarlingdata.com">https://www.erikdarlingdata.com</a>)</li>
 <li>SQLWATCH: SQL Server Monitoring Solution created by Marcin Gminski (<a href="https://sqlwatch.io/">https://sqlwatch.io/</a>)</li>
 <li>WhoIsActive: Adam Machanic's comprehensive activity monitoring stored procedure sp_WhoIsActive (<a href="https://github.com/amachanic/sp_whoisactive">https://github.com/amachanic/sp_whoisactive</a>)</li>
-<li>DbaMultiTool: John McCall's T-SQL scripts for the long haul: optimizing storage, on-the-fly documentation, and general administrative needs (<a href="https://dba-multitool.org">https://dba-multitool.org</a>)<br></li>
+<li>DbaMultiTool: John McCall's T-SQL scripts for the long haul: optimizing storage, on-the-fly documentation, and general administrative needs (<a href="https://dba-multitool.org">https://dba-multitool.org</a>)</li>
+<li>AzSqlTips: Azure SQL PM team scripts to review Azure SQL Database design, health and performance.<br></li>
 </ul>
 <table>
 <thead>
@@ -563,7 +565,7 @@ Options include:</p>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>MaintenanceSolution,FirstResponderKit,DarlingData,SQLWATCH,WhoIsActive,DbaMultiTool</td>
+<td>MaintenanceSolution,FirstResponderKit,DarlingData,SQLWATCH,WhoIsActive,DbaMultiTool,AzSqlTips</td>
 </tr>
 </tbody>
 </table>

@@ -504,7 +504,7 @@ and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlc
     [[-ClientName] &lt;String&gt;]
     [[-ConnectTimeout] &lt;Int32&gt;]
     [[-Database] &lt;String&gt;]
-    [-EncryptConnection]
+    [[-EncryptConnection] &lt;String&gt;]
     [[-FailoverPartner] &lt;String&gt;]
     [-IsActiveDirectoryUniversalAuth]
     [[-LockTimeout] &lt;Int32&gt;]
@@ -808,7 +808,8 @@ When opening a connection to a Azure SQL Database, set the connection timeout to
 </tbody>
 </table>
 <h5 id="encryptconnection">-EncryptConnection</h5>
-<p>When true, SQL Server uses SSL encryption for all data sent between the client and server if the server has a certificate installed. Recognized values are true, false, yes, and no. For more
+<p>Valid options are: 'Mandatory', 'Optional', 'Strict'
+When true, SQL Server uses SSL encryption for all data sent between the client and server if the server has a certificate installed. Recognized values are true, false, yes, and no. For more
 information, see Connection String Syntax.
 Beginning in .NET Framework 4.5, when TrustServerCertificate is false and Encrypt is true, the server name (or IP address) in a SQL Server SSL certificate must exactly match the server name (or IP
 address) specified in the connection string. Otherwise, the connection attempt will fail. For information about support for certificates whose subject starts with a wildcard character (*), see
@@ -835,7 +836,11 @@ Accepted wildcards used by server certificates for server authentication.<br></p
 </tr>
 <tr>
 <td>Default Value</td>
-<td>False</td>
+<td>(Get-DbatoolsConfigValue -FullName 'sql.connection.encrypt')</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Mandatory,Optional,Strict,True,False</td>
 </tr>
 </tbody>
 </table>
@@ -1246,7 +1251,7 @@ Valid values include CaptureSql, ExecuteAndCaptureSql and ExecuteSql.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>False</td>
+<td>(Get-DbatoolsConfigValue -FullName 'sql.connection.trustcert')</td>
 </tr>
 </tbody>
 </table>

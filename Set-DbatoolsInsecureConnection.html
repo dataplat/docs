@@ -4,32 +4,32 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaNetworkActivity</title>
+    <title>dbatools docs | Set-DbatoolsInsecureConnection</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
     <meta name="msapplication-TileImage" content="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
-    <meta name="keywords" content="dbatools, ,powershell,sql server,devops,json">
-    <meta name="subtitle" content="Docs for Get-DbaNetworkActivity">
+    <meta name="keywords" content="dbatools,powershell,sql server,devops,json">
+    <meta name="subtitle" content="Docs for Set-DbatoolsInsecureConnection">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaNetworkActivity" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaNetworkActivity.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaNetworkActivity" />
+    <meta property="og:title" content="dbatools docs:  Set-DbatoolsInsecureConnection" />
+    <meta property="og:url" content="https://docs.dbatools.io/Set-DbatoolsInsecureConnection.html" />
+    <meta property="og:description" content="dbatools docs for Set-DbatoolsInsecureConnection" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaNetworkActivity" />
+    <meta name="twitter:text:title" content="dbatools docs:  Set-DbatoolsInsecureConnection" />
     
-    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaNetworkActivity.png">
+    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Set-DbatoolsInsecureConnection.png">
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name=twitter:creator content="@psdbatools">
-    <meta name=twitter:title content="dbatools docs:  Get-DbaNetworkActivity">
+    <meta name=twitter:title content="dbatools docs:  Set-DbatoolsInsecureConnection">
     <meta property="twitter:site" content="@psdbatools" />
 
-    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaNetworkActivity.png">
-    <link rel=canonical href="https://docs.dbatools.io/Get-DbaNetworkActivity.html" />
+    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Set-DbatoolsInsecureConnection.png">
+    <link rel=canonical href="https://docs.dbatools.io/Set-DbatoolsInsecureConnection.html" />
     <link rel=alternate type=application/json
         href=https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
         title="dbatools documentation">
@@ -461,7 +461,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbanetworkactivity">Get-DbaNetworkActivity</h1>
+                    <h1 id="set-dbatoolsinsecureconnection">Set-DbatoolsInsecureConnection</h1>
 <table>
 <thead>
 <tr>
@@ -470,10 +470,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><strong>Author</strong></td>
-<td>Klaas Vandenberghe (@PowerDBAKlaas)</td>
-</tr>
 <tr>
 <td><strong>Availability</strong></td>
 <td>Windows, Linux, macOS</td>
@@ -482,20 +478,22 @@
 </table>
 <p> </p>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Get-DbaNetworkActivity.ps1">Get-DbaNetworkActivity</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Set-DbatoolsInsecureConnection.ps1">Set-DbatoolsInsecureConnection</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaNetworkActivity">Get-DbaNetworkActivity</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbatoolsInsecureConnection">Set-DbatoolsInsecureConnection</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the Current traffic on every Network Interface on a computer.</p>
+<p>Sets the default connection settings to trust all server certificates and not require an encrypted connection.</p>
 <h2 id="description">Description</h2>
-<p>Gets the Current traffic on every Network Interface on a computer.
-See <a href="https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx</a></p>
-<p>Requires Local Admin rights on destination computer(s).</p>
+<p>Microsoft changed the default connection settings in the SQL Server connection libraries
+to require an encrypted connection and not trust all server certificates.</p>
+<p>This command reverts those defaults and sets the default connection settings to trust all server
+certificates and not require encrypted connections.</p>
+<p>You can read more here: <a href="https://dbatools.io/newdefaults">https://dbatools.io/newdefaults</a></p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaNetworkActivity
-    [[-ComputerName] &lt;String[]&gt;]
-    [[-Credential] &lt;PSCredential&gt;]
-    [-EnableException]
+<pre><code>Set-DbatoolsInsecureConnection
+    [-SessionOnly]
+    [[-Scope] {UserDefault | UserMandatory | SystemDefault | SystemMandatory | FileUserLocal | FileUserShared | FileSystem}]
+    [-Register]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -503,48 +501,17 @@ See <a href="https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx">ht
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaNetworkActivity -ComputerName sqlserver2014a
+<pre><code>PS C:\&gt; Set-DbatoolsInsecureConnection
 </code></pre>
-<p>Gets the Current traffic on every Network Interface on computer sqlserver2014a.<br></p>
+<p>Sets the default connection settings to trust all server certificates and not require encrypted connections.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; 'sql1','sql2','sql3' | Get-DbaNetworkActivity
+<pre><code>PS C:\&gt; Set-DbatoolsInsecureConnection -SessionOnly
 </code></pre>
-<p>Gets the Current traffic on every Network Interface on computers sql1, sql2 and sql3.<br></p>
-<h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaNetworkActivity -ComputerName sql1,sql2
-</code></pre>
-<p>Gets the Current traffic on every Network Interface on computers sql1 and sql2.<br></p>
+<p>Sets the default connection settings to trust all server certificates and not require encrypted connections.<br>
+Does not persist across sessions so the default will return if you close and reopen PowerShell.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>cn,host,Server</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>$env:COMPUTERNAME</td>
-</tr>
-</tbody>
-</table>
-<h5 id="credential">-Credential</h5>
-<p>Credential object used to connect to the computer as a different user.<br></p>
+<h5 id="sessiononly">-SessionOnly</h5>
+<p>Does not persist across sessions so the default will return if you close and reopen PowerShell.<br></p>
 <table>
 <thead>
 <tr>
@@ -567,14 +534,41 @@ See <a href="https://msdn.microsoft.com/en-us/library/aa394293(v=vs.85).aspx">ht
 </tr>
 <tr>
 <td>Default Value</td>
-<td></td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
-<h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
-Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<h5 id="scope">-Scope</h5>
+<p>The configuration scope it should be registered under. Defaults to UserDefault.
+Configuration scopes are the default locations configurations are being stored at.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>UserDefault</td>
+</tr>
+</tbody>
+</table>
+<h5 id="register">-Register</h5>
+<p>Deprecated.<br></p>
 <table>
 <thead>
 <tr>

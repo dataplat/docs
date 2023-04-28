@@ -498,7 +498,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Database &lt;Object[]&gt;]
     [-ExcludeDatabase &lt;Object[]&gt;]
     [-IncludeCopyOnly]
-    [-Since &lt;DateTime&gt;]
+    [-Since &lt;PSObject&gt;]
     [-RecoveryFork &lt;String&gt;]
     [-Last]
     [-LastFull]
@@ -511,6 +511,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Type &lt;String[]&gt;]
     [-AgCheck]
     [-IgnoreDiffBackup]
+    [-LsnSort &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -520,7 +521,7 @@ Get-DbaDbBackupHistory -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-ExcludeDatabase &lt;Object[]&gt;]
     [-IncludeCopyOnly]
     [-Force]
-    [-Since &lt;DateTime&gt;]
+    [-Since &lt;PSObject&gt;]
     [-RecoveryFork &lt;String&gt;]
     [-Last]
     [-LastFull]
@@ -533,6 +534,7 @@ Get-DbaDbBackupHistory -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-Type &lt;String[]&gt;]
     [-AgCheck]
     [-IgnoreDiffBackup]
+    [-LsnSort &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -762,7 +764,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="since">-Since</h5>
-<p>Specifies a DateTime object to use as the starting point for the search for backups.<br></p>
+<p>Specifies a starting point for the search for backups. If a DateTime object is passed, that will be used. If a TimeSpan object is passed, that will be added to Get-Date and the resulting value will
+be used.<br></p>
 <table>
 <thead>
 <tr>
@@ -1128,6 +1131,38 @@ backups will be returned unless one of the -Last* switches is enabled.<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="lsnsort">-LsnSort</h5>
+<p>Specifies which of the returned LSN values you would like to use for sorting when using the LastFull, LastDiff and LastLog parameters.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>LastLsn</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>FirstLsn,DatabaseBackupLsn,LastLsn</td>
 </tr>
 </tbody>
 </table>

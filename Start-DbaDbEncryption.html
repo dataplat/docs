@@ -511,6 +511,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-BackupSecurePassword] &lt;SecureString&gt;
     [[-InputObject] &lt;Database[]&gt;]
     [-AllUserDatabases]
+    [-Force]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -682,7 +683,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="encryptorname">-EncryptorName</h5>
-<p>The name of the encryptor (Certificate or Asymmetric Key) in master that will be used. Tries to find one if one is not specified.
+<p>The name of the encryptor (Certificate or Asymmetric Key) in master that will be used. Tries to find one if one is not specified. If certificate does not exist and -Force is specified, one will be
+created with the given Encryptor Name.
 In order to encrypt the database encryption key with an asymmetric key, you must use an asymmetric key that resides on an extensible key management provider.<br></p>
 <table>
 <thead>
@@ -694,7 +696,7 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Certificate,CertificateName</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -915,6 +917,34 @@ By default, certs will last 5 years<br></p>
 <h5 id="alluserdatabases">-AllUserDatabases</h5>
 <p>Run command against all user databases
 This was added to emphasize that all user databases will be encrypted<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>If EncryptorName is specified and certificate does not exist, one will be created with the given Encryptor Name.<br></p>
 <table>
 <thead>
 <tr>

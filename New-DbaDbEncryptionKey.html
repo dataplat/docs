@@ -620,7 +620,7 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Certificate,CertificateName</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -731,7 +731,8 @@ Options are: &quot;Aes128&quot;, &quot;Aes192&quot;, &quot;Aes256&quot;, &quot;T
 </table>
 <h5 id="force">-Force</h5>
 <p>When a certificate encryptor is used, this command will refuse to create an encryption key for a certificate that has not been backed up
-Use Force to create an encryption key even though the specified cert has not been backed up<br></p>
+Use Force to create an encryption key even though the specified cert has not been backed up
+Also, if EncryptorName is specified and the certificate does not exist, it will be created when Force is specified<br></p>
 <table>
 <thead>
 <tr>

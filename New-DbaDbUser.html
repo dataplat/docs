@@ -495,11 +495,48 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String[]&gt;]
     [-ExcludeDatabase &lt;String[]&gt;]
-    [-IncludeSystem]
-    [-Login &lt;String&gt;]
+    [-IncludeSystem] -Login &lt;String&gt;
     [-Username &lt;String&gt;]
     [-DefaultSchema &lt;String&gt;]
-    [-ExternalProvider]
+    [-Force]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+New-DbaDbUser
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Database &lt;String[]&gt;]
+    [-ExcludeDatabase &lt;String[]&gt;]
+    [-IncludeSystem] -Username &lt;String&gt;
+    [-DefaultSchema &lt;String&gt;] -ExternalProvider
+    [-Force]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+New-DbaDbUser
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Database &lt;String[]&gt;]
+    [-ExcludeDatabase &lt;String[]&gt;]
+    [-IncludeSystem] -Username &lt;String&gt;
+    [-DefaultSchema &lt;String&gt;] -Password &lt;SecureString&gt;
+    [-Force]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+New-DbaDbUser
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Database &lt;String[]&gt;]
+    [-ExcludeDatabase &lt;String[]&gt;]
+    [-IncludeSystem] -Username &lt;String&gt;
+    [-DefaultSchema &lt;String&gt;]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -530,6 +567,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Username &quot;claudio@********.onmicrosoft.com&quot; -ExternalProvider
 </code></pre>
 <p>Creates a new sql user named 'claudio@********.onmicrosoft.com' mapped to Azure Active Directory (AAD) in the specified database.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Username user1 -Password (ConvertTo-SecureString -String &quot;DBATools&quot; -AsPlainText)
+</code></pre>
+<p>Creates a new cointained sql user named user1 in the database given database with the password specified.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Defaults to the default instance on localhost.<br></p>
@@ -556,6 +597,91 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="login">-Login</h5>
+<p>When specified, the user will be associated to this SQL login and have the same name as the Login.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="password">-Password</h5>
+<p>When specified, the user will be created as a contained user. Standalone databases partial containment should be turned on to succeed. By default, in Azure SQL databases this is turned on.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="externalprovider">-ExternalProvider</h5>
+<p>Specifies that the user is for Azure AD Authentication.
+Equivalent to T-SQL: 'CREATE USER [claudio@********.onmicrosoft.com] FROM EXTERNAL PROVIDER`<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
@@ -674,34 +800,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="login">-Login</h5>
-<p>When specified, the user will be associated to this SQL login and have the same name as the Login.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h5 id="username">-Username</h5>
 <p>When specified, the user will have this name.<br></p>
 <table>
@@ -726,7 +824,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>$Login</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -755,35 +853,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td>dbo</td>
-</tr>
-</tbody>
-</table>
-<h5 id="externalprovider">-ExternalProvider</h5>
-<p>Specifies that the user is for Azure AD Authentication.
-Equivalent to T-SQL: 'CREATE USER [claudio@********.onmicrosoft.com] FROM EXTERNAL PROVIDER`<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
 </tr>
 </tbody>
 </table>
