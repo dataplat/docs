@@ -492,6 +492,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>The entire import is performed within a transaction, so if a failure occurs or the script is aborted, no changes will persist.</p>
 <p>If the table or view specified does not exist and -AutoCreateTable, it will be automatically created using slow and inefficient but accommodating data types.</p>
 <p>This importer supports fields spanning multiple lines. The only restriction is that they must be quoted, otherwise it would not be possible to distinguish between malformed data and multi-line values.</p>
+<p>Able to read gzip compressed CSV files if the filename ends with &quot;.csv.gz&quot;</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Import-DbaCsv
     [[-Path] &lt;Object[]&gt;]
