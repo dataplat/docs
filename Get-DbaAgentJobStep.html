@@ -491,10 +491,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>The Get-DbaAgentJobStep returns connected SMO object for SQL Agent Job Step for each instance(s) of SQL Server.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentJobStep
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Job] &lt;Object[]&gt;]
-    [[-ExcludeJob] &lt;Object[]&gt;]
+    [[-Job] &lt;String[]&gt;]
+    [[-ExcludeJob] &lt;String[]&gt;]
+    [[-InputObject] &lt;Job[]&gt;]
     [-ExcludeDisabledJobs]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -527,7 +528,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; $servers | Get-DbaAgentJobStep
 </code></pre>
 <p>Find all of your Job Steps from SQL Server instances in the $servers collection<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
 <table>
@@ -544,7 +545,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -556,7 +557,6 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tr>
 </tbody>
 </table>
-<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -636,6 +636,34 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Pipeline</td>
 <td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Job objects to process. This can be piped from Get-DbaAgentJob.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>

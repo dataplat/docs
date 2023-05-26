@@ -513,10 +513,6 @@ In this case you have to completely reinstall the SQL Server Maintenance Solutio
 <pre><code>PS C:\&gt; Update-DbaMaintenanceSolution -SqlInstance RES14224 -Database DBA
 </code></pre>
 <p>Updates Ola Hallengren's Solution objects on RES14224 in the DBA database.<br></p>
-<h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Install-DbaMaintenanceSolution -SqlInstance RES14224 -Database DBA -Solution Backup
-</code></pre>
-<p>This will update the stored procedure DatabaseBackup only, even if other parts of the solution are also installed.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance onto which the Maintenance Solution will be updated.<br></p>

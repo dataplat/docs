@@ -528,7 +528,11 @@ If the job parameter is not supplied the schedule will not be attached to a job.
 <h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; New-DbaAgentSchedule -SqlInstance sstad-pc -Schedule MonthlyTest -FrequencyType Monthly -FrequencyInterval 10 -FrequencyRecurrenceFactor 1 -Force
 </code></pre>
-<p>Create a schedule with a monhtly frequency occuring every 10th of the month. It assumes default values for the start date, start time, end date and end time due to -Force.<br></p>
+<p>Create a schedule with a monthly frequency occuring every 10th of the month. It assumes default values for the start date, start time, end date and end time due to -Force.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; New-DbaAgentSchedule -SqlInstance sstad-pc -Schedule RunWeekly -FrequencyType Weekly -FrequencyInterval Sunday -StartTime 010000 -Force
+</code></pre>
+<p>Create a schedule that will run jobs once a week on Sunday @ 1:00AM<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>

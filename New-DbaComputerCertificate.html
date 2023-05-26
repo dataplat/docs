@@ -544,10 +544,6 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 <pre><code>PS C:\&gt; New-DbaComputerCertificate -SelfSigned
 </code></pre>
 <p>Creates a self-signed certificate<br></p>
-<h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; Add-DbaComputerCertificate -ComputerName sql01 -Path C:\temp\sql01.pfx -Confirm:$false -Flag NonExportable
-</code></pre>
-<p>Adds the local C:\temp\sql01.pfx to sql01's LocalMachine\My (Personal) certificate store and marks the private key as non-exportable. Skips confirmation prompt.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
 <p>The target SQL Server instance or instances. Defaults to localhost. If target is a cluster, you must also specify ClusterInstanceName (see below)<br></p>

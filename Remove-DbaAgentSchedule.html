@@ -493,18 +493,12 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 and the returned schedules will be removed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgentSchedule
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Schedule &lt;String[]&gt;]
-    [-ScheduleUid &lt;String[]&gt;]
-    [-Id &lt;Int32[]&gt;]
-    [-EnableException]
-    [-Force]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-Remove-DbaAgentSchedule -InputObject &lt;ScheduleBase[]&gt;
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Schedule] &lt;String[]&gt;]
+    [[-ScheduleUid] &lt;String[]&gt;]
+    [[-Id] &lt;Int32[]&gt;]
+    [[-InputObject] &lt;ScheduleBase[]&gt;]
     [-EnableException]
     [-Force]
     [-WhatIf]
@@ -539,7 +533,7 @@ Remove-DbaAgentSchedule -InputObject &lt;ScheduleBase[]&gt;
 <pre><code>PS C:\&gt; Remove-DbaAgentSchedule -SqlInstance sql1, sql2, sql3 -ScheduleUid 'bf57fa7e-7720-4936-85a0-87d279db7eb7'
 </code></pre>
 <p>Remove the schedules using the schedule uid.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
 <table>
@@ -556,7 +550,7 @@ Remove-DbaAgentSchedule -InputObject &lt;ScheduleBase[]&gt;
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -568,35 +562,6 @@ Remove-DbaAgentSchedule -InputObject &lt;ScheduleBase[]&gt;
 </tr>
 </tbody>
 </table>
-<h5 id="inputobject">-InputObject</h5>
-<p>A collection of schedules (such as returned by Get-DbaAgentSchedule), to be removed.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -705,6 +670,34 @@ Please note that there can be several schedules with the same name. These differ
 <tr>
 <td>Pipeline</td>
 <td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>A collection of schedules (such as returned by Get-DbaAgentSchedule), to be removed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>

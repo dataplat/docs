@@ -533,10 +533,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance DEV01 -Table &quot;[[DbName]]].[Schema.With.Dots].[`&quot;[Process]]`&quot;]&quot; -Verbose
 </code></pre>
-<p>For the instance Dev01 Returns information for a table named: &quot;[Process]&quot; in schema named: Schema.With.Dots in database named: [DbName]<br>
-The Table name, Schema name and Database name must be wrapped in square brackets [ ]<br>
-Special charcters like &quot; must be escaped by a ` charcter.<br>
-In addition any actual instance of the ] character must be escaped by being duplicated.<br></p>
+<p>Return table information for instance Dev01 and table Process with special characters in the schema name<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input.<br></p>
@@ -681,9 +678,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>Define a specific table you would like to query. You can specify up to three-part name like db.sch.tbl.
-If the object has special characters please wrap them in square brackets [ ].
-Using dbo.First.Table will try to find table named 'Table' on schema 'First' and database 'dbo'.
+<p>Define a specific table you would like to query. You can specify up to three-part name such as db.sch.tbl.
+If the object has special characters wrap them in square brackets [ ].
 The correct way to find table named 'First.Table' on schema 'dbo' is by passing dbo.[First.Table]
 Any actual usage of the ] must be escaped by duplicating the ] character.
 The correct way to find a table Name] in schema Schema.Name is by passing [Schema.Name].[Name]]]<br></p>
