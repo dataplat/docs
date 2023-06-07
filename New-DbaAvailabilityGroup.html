@@ -548,7 +548,6 @@ To change these defaults we have introduced configuration parameters for all of 
     [[-SeedingMode] &lt;String&gt;]
     [[-Endpoint] &lt;String&gt;]
     [[-EndpointUrl] &lt;String[]&gt;]
-    [[-ReadonlyRoutingConnectionUrl] &lt;String&gt;]
     [[-Certificate] &lt;String&gt;]
     [-ConfigureXESession]
     [[-IPAddress] &lt;IPAddress[]&gt;]
@@ -1351,34 +1350,6 @@ Use EndpointUrl if different URLs are required due to special network configurat
 EndpointUrl has to be an array of strings in format 'TCP://system-address:port', one entry for every instance.
 First entry for the primary instance, following entries for secondary instances in the order they show up in Secondary.
 See details regarding the format at: <a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica</a><br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="readonlyroutingconnectionurl">-ReadonlyRoutingConnectionUrl</h5>
-<p>Sets the read only routing connection url for the availability replica.<br></p>
 <table>
 <thead>
 <tr>

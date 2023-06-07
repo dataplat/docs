@@ -493,7 +493,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>Get-DbaDbAssembly
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Database] &lt;Object[]&gt;]
+    [[-Database] &lt;String[]&gt;]
     [[-Name] &lt;String[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -576,7 +576,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specify a Database to be checked for assembly. If not specified, all databases in the specified Instance(s) will be checked<br></p>
+<p>The database(s) to process. If unspecified, all accessible databases will be processed.<br></p>
 <table>
 <thead>
 <tr>

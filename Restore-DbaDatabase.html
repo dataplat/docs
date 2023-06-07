@@ -679,10 +679,10 @@ PS C:\&gt; Restore-DbaDatabase -SqlInstance server\instance1 -Recover -DatabaseN
 </code></pre>
 <p>In this example we restore example1 database with no recovery, and then the second call is to set the database to recovery.<br></p>
 <h5 id="example-12">Example:  12</h5>
-<pre><code>PS C:\&gt; Get-DbaDbBackupHistory - SqlInstance server\instance1 -Database ProdFinance -Last | Restore-DbaDatabase -PageRestore
-PS C:\&gt; $SuspectPage -PageRestoreTailFolder c:\temp -TrustDbBackupHistory
+<pre><code>PS C:\&gt; $SuspectPage = Get-DbaSuspectPage -SqlInstance server\instance1 -Database ProdFinance
+PS C:\&gt; Get-DbaDbBackupHistory -SqlInstance server\instance1 -Database ProdFinance -Last | Restore-DbaDatabase -PageRestore $SuspectPage -PageRestoreTailFolder c:\temp -TrustDbBackupHistory
 </code></pre>
-<p>Gets a list of Suspect Pages using Get-DbaSuspectPage. The uses Get-DbaDbBackupHistory and Restore-DbaDatabase to perform a restore of the suspect pages and bring them up to date<br>
+<p>Gets a list of Suspect Pages using Get-DbaSuspectPage. Then uses Get-DbaDbBackupHistory and Restore-DbaDatabase to perform a restore of the suspect pages and bring them up to date<br>
 If server\instance1 is Enterprise edition this will be done online, if not it will be performed offline<br></p>
 <h5 id="example-13">Example:  13</h5>
 <pre><code>PS C:\&gt; $BackupHistory = Get-DbaBackupInformation -SqlInstance sql2005 -Path \\backups\sql2000\ProdDb
