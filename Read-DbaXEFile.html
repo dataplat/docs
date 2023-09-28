@@ -489,6 +489,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Read XEvents from a *.xel or *.xem file.</p>
 <h2 id="description">Description</h2>
 <p>Read XEvents from a *.xel or *.xem file.</p>
+<p>The file that the XESession is currently writing to can not be accessed and will be skipped using pipeline input from Get-DbaXESession.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Read-DbaXEFile
     [-Path] &lt;Object[]&gt;
@@ -509,12 +510,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Returns events from all .xel files in C:\temp\xe.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaXESession -SqlInstance sql2014 -Session deadlocks | Read-DbaXEFile
+<pre><code>PS C:\&gt; Get-DbaXESession -SqlInstance sql2019 -Session deadlocks | Read-DbaXEFile
 </code></pre>
 <p>Reads remote XEvents by accessing the file over the admin UNC share.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>The path to the *.xem or *.xem file. This is relative to the computer executing the command. UNC paths are supported.<br></p>
+<p>The path to the *.xem or *.xem file. This is relative to the computer executing the command. UNC paths are supported.
+Piping from Get-DbaXESession is also supported.<br></p>
 <table>
 <thead>
 <tr>
@@ -543,7 +545,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="raw">-Raw</h5>
-<p>If this switch is enabled, the Microsoft.SqlServer.XEvent.Linq.PublishedEvent enumeration object will be returned.<br></p>
+<p>If this switch is enabled, an array of Microsoft.SqlServer.XEvent.XELite.XEvent objects will be returned.<br></p>
 <table>
 <thead>
 <tr>

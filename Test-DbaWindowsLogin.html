@@ -491,12 +491,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>The purpose of this function is to find SQL Server logins that are used by active directory users that are either disabled or removed from the domain. It allows you to keep your logins accurate and up to date by removing accounts that are no longer needed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaWindowsLogin
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Login] &lt;Object[]&gt;]
-    [[-ExcludeLogin] &lt;Object[]&gt;]
+    [[-Login] &lt;String[]&gt;]
+    [[-ExcludeLogin] &lt;String[]&gt;]
     [[-FilterBy] &lt;String&gt;]
     [[-IgnoreDomains] &lt;String[]&gt;]
+    [[-InputObject] &lt;Login[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -516,7 +517,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; Test-DbaWindowsLogin -SqlInstance Dev01 -IgnoreDomains testdomain
 </code></pre>
 <p>Tests all Domain logins excluding any that are from the testdomain<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Get-DbaLogin -SqlInstance Dev01 -Login DOMAIN\User | Test-DbaWindowsLogin
+</code></pre>
+<p>Tests only the login returned by Get-DbaLogin<br></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The SQL Server instance you're checking logins on. You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br></p>
 <table>
@@ -533,7 +538,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -545,7 +550,6 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tr>
 </tbody>
 </table>
-<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
@@ -685,6 +689,34 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Pipeline</td>
 <td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Allows piping from Get-DbaLogin.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>

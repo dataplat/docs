@@ -496,6 +496,11 @@ SSAS and SSIS are included.</p>
 <pre><code>Get-DbaMemoryUsage
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
     [[-Credential] &lt;PSCredential&gt;]
+    [[-MemoryCounterRegex] &lt;String&gt;]
+    [[-PlanCounterRegex] &lt;String&gt;]
+    [[-BufferCounterRegex] &lt;String&gt;]
+    [[-SSASCounterRegex] &lt;String&gt;]
+    [[-SSISCounterRegex] &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -571,6 +576,241 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="memorycounterregex">-MemoryCounterRegex</h5>
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>sql</em>:Memory Manager*' to display relevant Memory Manager counters.
+Default: '(Total Server Memory |Target Server Memory |Connection Memory |Lock Memory |SQL Cache Memory |Optimizer Memory |Granted Workspace Memory |Cursor memory usage|Maximum Workspace)'
+The default works for English language systems and has to be adapted for other languages.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(Total Server Memory</td>
+<td>Target Server Memory</td>
+<td>Connection Memory</td>
+<td>Lock Memory</td>
+<td>SQL Cache Memory</td>
+<td>Optimizer Memory</td>
+<td>Granted Workspace Memory</td>
+<td>Cursor memory usage</td>
+<td>Maximum Workspace)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="plancounterregex">-PlanCounterRegex</h5>
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>sql</em>:Plan Cache*' to display relevant Plan Cache counters.
+Default: '(cache pages|procedure plan|ad hoc sql plan|prepared SQL Plan)'
+The default works for English language systems and has to be adapted for other languages.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(cache pages</td>
+<td>procedure plan</td>
+<td>ad hoc sql plan</td>
+<td>prepared SQL Plan)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="buffercounterregex">-BufferCounterRegex</h5>
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>Buffer Manager</em>' to display relevant Buffer Manager counters.
+Default: '(Free pages|Reserved pages|Stolen pages|Total pages|Database pages|target pages|extension .* pages)'
+The default works for English language systems and has to be adapted for other languages.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(Free pages</td>
+<td>Reserved pages</td>
+<td>Stolen pages</td>
+<td>Total pages</td>
+<td>Database pages</td>
+<td>target pages</td>
+<td>extension .* pages)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="ssascounterregex">-SSASCounterRegex</h5>
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set 'MSAS*:Memory' to display relevant SSAS counters.
+Default: '(\memory )'
+The default works for English language systems and has to be adapted for other languages.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(\memory )</td>
+</tr>
+</tbody>
+</table>
+<h5 id="ssiscounterregex">-SSISCounterRegex</h5>
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>SSIS</em>' to display relevant SSIS counters.
+Default: '(memory)'
+The default works for English language systems and has to be adapted for other languages.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(memory)</td>
 </tr>
 </tbody>
 </table>

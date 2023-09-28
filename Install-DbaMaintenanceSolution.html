@@ -516,13 +516,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Install-DbaMaintenanceSolution -SqlInstance RES14224 -Database DBA -CleanupTime 72
+<pre><code>PS C:\&gt; Install-DbaMaintenanceSolution -SqlInstance RES14224 -Database DBA -InstallJobs -CleanupTime 72
 </code></pre>
 <p>Installs Ola Hallengren's Solution objects on RES14224 in the DBA database.<br>
 Backups will default to the default Backup Directory.<br>
 If the Maintenance Solution already exists, the script will be halted.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Install-DbaMaintenanceSolution -SqlInstance RES14224 -Database DBA -BackupLocation &quot;Z:\SQLBackup&quot; -CleanupTime 72
+<pre><code>PS C:\&gt; Install-DbaMaintenanceSolution -SqlInstance RES14224 -Database DBA -InstallJobs -BackupLocation &quot;Z:\SQLBackup&quot; -CleanupTime 72
 </code></pre>
 <p>This will create the Ola Hallengren's Solution objects. Existing objects are not affected in any way.<br></p>
 <h5 id="example-3">Example:  3</h5>
@@ -540,7 +540,7 @@ If the Maintenance Solution already exists, the script will be halted.<br></p>
 </code></pre>
 <p>Installs Maintenance Solution to myserver in database. Adds Agent Jobs, and if any currently exist, they'll be replaced.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Install-DbaMaintenanceSolution -SqlInstance RES14224 -Database DBA -BackupLocation &quot;Z:\SQLBackup&quot; -CleanupTime 72 -ReplaceExisting
+<pre><code>PS C:\&gt; Install-DbaMaintenanceSolution -SqlInstance RES14224 -Database DBA -InstallJobs -BackupLocation &quot;Z:\SQLBackup&quot; -CleanupTime 72 -ReplaceExisting
 </code></pre>
 <p>This will drop and then recreate the Ola Hallengren's Solution objects<br>
 The cleanup script will drop and recreate:<br></p>

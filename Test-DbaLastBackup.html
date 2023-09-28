@@ -576,7 +576,7 @@ restore will be dropped.<br></p>
 </code></pre>
 <p>Determines the last full backup for ALL databases, attempts to restore all databases (with a different name and file structure).<br>
 The Restore will use more memory for reading the backup files. Do not set these values to high or you can get an Out of Memory error!!!<br>
-When running the restore with these additional parameters and there is other server activity it could affect server OLTP performance. Please use with causion.<br>
+When running the restore with these additional parameters and there is other server activity it could affect server OLTP performance. Please use with caution.<br>
 Prior to running, you should check memory and server resources before configure it to run automatically.<br>
 More information:<br>
 <a href="https://www.mssqltips.com/sqlservertip/4935/optimize-sql-server-database-restore-performance/">https://www.mssqltips.com/sqlservertip/4935/optimize-sql-server-database-restore-performance/</a><br></p>
@@ -1182,7 +1182,7 @@ to custom integers for your own DeviceTypes.<br></p>
 </table>
 <h5 id="maxtransfersize">-MaxTransferSize</h5>
 <p>Parameter to set the unit of transfer. Values must be a multiple of 64kb and a max of 4GB
-Parameter is used as passtrough for Restore-DbaDatabase.<br></p>
+Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 <table>
 <thead>
 <tr>
@@ -1211,8 +1211,8 @@ Parameter is used as passtrough for Restore-DbaDatabase.<br></p>
 </table>
 <h5 id="buffercount">-BufferCount</h5>
 <p>Number of I/O buffers to use to perform the operation.
-Refererence: <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options">https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options</a>
-Parameter is used as passtrough for Restore-DbaDatabase.<br></p>
+Reference: <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options">https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options</a>
+Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 <table>
 <thead>
 <tr>
@@ -1240,7 +1240,7 @@ Parameter is used as passtrough for Restore-DbaDatabase.<br></p>
 </tbody>
 </table>
 <h5 id="ignorediffbackup">-IgnoreDiffBackup</h5>
-<p>If this switch is enabled, differential backuys will be ignored. The restore will only use Full and Log backups, so will take longer to complete<br></p>
+<p>If this switch is enabled, differential backups will be ignored. The restore will only use Full and Log backups, so will take longer to complete<br></p>
 <table>
 <thead>
 <tr>

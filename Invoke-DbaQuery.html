@@ -586,11 +586,11 @@ PS C:\&gt; Invoke-DbaQuery -SqlInstance server1 -Database tempdb -Query Example_
 <p>Executes a stored procedure Example_SP using multiple SQL Parameters<br></p>
 <h5 id="example-9">Example:  9</h5>
 <pre><code>PS C:\&gt; $inparam = @()
-PS C:\&gt; $inparam += [pscustomobject]@{
+PS C:\&gt; $inparam += [PSCustomObject]@{
 &gt;&gt;     somestring = 'string1'
 &gt;&gt;     somedate = '2021-07-15T01:02:00'
 &gt;&gt; }
-PS C:\&gt; $inparam += [pscustomobject]@{
+PS C:\&gt; $inparam += [PSCustomObject]@{
 &gt;&gt;     somestring = 'string2'
 &gt;&gt;     somedate = '2021-07-15T02:03:00'
 &gt;&gt; }

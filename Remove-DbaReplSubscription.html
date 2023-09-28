@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaDbMailConfig</title>
+    <title>dbatools docs | Remove-DbaReplSubscription</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,24 +12,24 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ,powershell,sql server,devops,json">
-    <meta name="subtitle" content="Docs for Get-DbaDbMailConfig">
+    <meta name="subtitle" content="Docs for Remove-DbaReplSubscription">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaDbMailConfig" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaDbMailConfig.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaDbMailConfig" />
+    <meta property="og:title" content="dbatools docs:  Remove-DbaReplSubscription" />
+    <meta property="og:url" content="https://docs.dbatools.io/Remove-DbaReplSubscription.html" />
+    <meta property="og:description" content="dbatools docs for Remove-DbaReplSubscription" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaDbMailConfig" />
+    <meta name="twitter:text:title" content="dbatools docs:  Remove-DbaReplSubscription" />
     
-    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaDbMailConfig.png">
+    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Remove-DbaReplSubscription.png">
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name=twitter:creator content="@psdbatools">
-    <meta name=twitter:title content="dbatools docs:  Get-DbaDbMailConfig">
+    <meta name=twitter:title content="dbatools docs:  Remove-DbaReplSubscription">
     <meta property="twitter:site" content="@psdbatools" />
 
-    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaDbMailConfig.png">
-    <link rel=canonical href="https://docs.dbatools.io/Get-DbaDbMailConfig.html" />
+    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Remove-DbaReplSubscription.png">
+    <link rel=canonical href="https://docs.dbatools.io/Remove-DbaReplSubscription.html" />
     <link rel=alternate type=application/json
         href=https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
         title="dbatools documentation">
@@ -461,7 +461,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbadbmailconfig">Get-DbaDbMailConfig</h1>
+                    <h1 id="remove-dbareplsubscription">Remove-DbaReplSubscription</h1>
 <table>
 <thead>
 <tr>
@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Chrissy LeMaire (@cl), netnerds.net</td>
+<td>Jess Pomfret (@jpomfret), jesspomfret.com</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -482,20 +482,27 @@
 </table>
 <p> </p>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Get-DbaDbMailConfig.ps1">Get-DbaDbMailConfig</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Remove-DbaReplSubscription.ps1">Remove-DbaReplSubscription</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbMailConfig">Get-DbaDbMailConfig</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaReplSubscription">Remove-DbaReplSubscription</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database mail configs from SQL Server</p>
+<p>Removes a subscription \for the target SQL instances.</p>
 <h2 id="description">Description</h2>
-<p>Gets database mail configs from SQL Server</p>
+<p>Removes a subscription for the target SQL instances.</p>
+<p><a href="https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-push-subscription?view=sql-server-ver16">https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-push-subscription?view=sql-server-ver16</a>
+<a href="https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-pull-subscription?view=sql-server-ver16">https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-pull-subscription?view=sql-server-ver16</a></p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaDbMailConfig
-    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+<pre><code>Remove-DbaReplSubscription
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Name] &lt;String[]&gt;]
-    [[-InputObject] &lt;SqlMail[]&gt;]
+    [-Database] &lt;String&gt;
+    [-PublicationName] &lt;String&gt;
+    [-SubscriberSqlInstance] &lt;DbaInstanceParameter&gt;
+    [[-SubscriberSqlCredential] &lt;PSCredential&gt;]
+    [-SubscriptionDatabase] &lt;String&gt;
     [-EnableException]
+    [-WhatIf]
+    [-Confirm]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -503,25 +510,20 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaDbMailConfig -SqlInstance sql01\sharepoint
+<pre><code>PS C:\&gt; $sub = @{
 </code></pre>
-<p>Returns DBMail configs on sql01\sharepoint<br></p>
-<h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaDbMailConfig -SqlInstance sql01\sharepoint -Name ProhibitedExtensions
+<p>SqlInstance           = 'mssql1'<br>
+Database              = 'pubs'<br>
+PublicationName       = 'testPub'<br>
+SubscriberSqlInstance = 'mssql2'<br>
+SubscriptionDatabase  = 'pubs'<br>
+}<br></p>
+<pre><code>PS C:\&gt; Remove-DbaReplSubscription @sub
 </code></pre>
-<p>Returns the ProhibitedExtensions configuration on sql01\sharepoint<br></p>
-<h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaDbMailConfig -SqlInstance sql01\sharepoint | Select-Object *
-</code></pre>
-<p>Returns the DBMail configs on sql01\sharepoint then return a bunch more columns<br></p>
-<h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; $servers = &quot;sql2014&quot;,&quot;sql2016&quot;, &quot;sqlcluster\sharepoint&quot;
-PS C:\&gt; $servers | Get-DbaDbMail | Get-DbaDbMailConfig
-</code></pre>
-<p>Returns the DBMail configs for &quot;sql2014&quot;,&quot;sql2016&quot; and &quot;sqlcluster\sharepoint&quot;<br></p>
-<h3 id="optional-parameters">Optional Parameters</h3>
+<p>Removes a subscription for the testPub publication on mssql2.pubs.<br></p>
+<h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target publisher SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -536,7 +538,35 @@ PS C:\&gt; $servers | Get-DbaDbMail | Get-DbaDbMailConfig
 </tr>
 <tr>
 <td>Required</td>
-<td>False</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="database">-Database</h5>
+<p>The database where the publication is located.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -548,8 +578,93 @@ PS C:\&gt; $servers | Get-DbaDbMail | Get-DbaDbMailConfig
 </tr>
 </tbody>
 </table>
+<h5 id="publicationname">-PublicationName</h5>
+<p>The name of the publication.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="subscribersqlinstance">-SubscriberSqlInstance</h5>
+<p>The subscriber SQL Server instance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="subscriptiondatabase">-SubscriptionDatabase</h5>
+<p>The database where the subscription is located.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+<p>Login to the target publisher instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
@@ -578,8 +693,10 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="name">-Name</h5>
-<p>Specifies one or more config(s) to get. If unspecified, all configs will be returned.<br></p>
+<h5 id="subscribersqlcredential">-SubscriberSqlCredential</h5>
+<p>Login to the subscriber instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
 <tr>
@@ -590,7 +707,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td>Config,ConfigName</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>
@@ -599,34 +716,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Pipeline</td>
 <td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Accepts pipeline input from Get-DbaDbMail<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -661,6 +750,62 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="whatif">-WhatIf</h5>
+<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>wi</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="confirm">-Confirm</h5>
+<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>cf</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

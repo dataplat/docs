@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Get-DbaDbMailConfig</title>
+    <title>dbatools docs | Get-DbaReplArticle</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,24 +12,24 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ,powershell,sql server,devops,json">
-    <meta name="subtitle" content="Docs for Get-DbaDbMailConfig">
+    <meta name="subtitle" content="Docs for Get-DbaReplArticle">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Get-DbaDbMailConfig" />
-    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaDbMailConfig.html" />
-    <meta property="og:description" content="dbatools docs for Get-DbaDbMailConfig" />
+    <meta property="og:title" content="dbatools docs:  Get-DbaReplArticle" />
+    <meta property="og:url" content="https://docs.dbatools.io/Get-DbaReplArticle.html" />
+    <meta property="og:description" content="dbatools docs for Get-DbaReplArticle" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaDbMailConfig" />
+    <meta name="twitter:text:title" content="dbatools docs:  Get-DbaReplArticle" />
     
-    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaDbMailConfig.png">
+    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaReplArticle.png">
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name=twitter:creator content="@psdbatools">
-    <meta name=twitter:title content="dbatools docs:  Get-DbaDbMailConfig">
+    <meta name=twitter:title content="dbatools docs:  Get-DbaReplArticle">
     <meta property="twitter:site" content="@psdbatools" />
 
-    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaDbMailConfig.png">
-    <link rel=canonical href="https://docs.dbatools.io/Get-DbaDbMailConfig.html" />
+    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Get-DbaReplArticle.png">
+    <link rel=canonical href="https://docs.dbatools.io/Get-DbaReplArticle.html" />
     <link rel=alternate type=application/json
         href=https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
         title="dbatools documentation">
@@ -461,7 +461,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="get-dbadbmailconfig">Get-DbaDbMailConfig</h1>
+                    <h1 id="get-dbareplarticle">Get-DbaReplArticle</h1>
 <table>
 <thead>
 <tr>
@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Chrissy LeMaire (@cl), netnerds.net</td>
+<td>ClÃ¡udio Silva (@claudioessilva), claudioessilva.eu</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -482,19 +482,22 @@
 </table>
 <p> </p>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Get-DbaDbMailConfig.ps1">Get-DbaDbMailConfig</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Get-DbaReplArticle.ps1">Get-DbaReplArticle</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbMailConfig">Get-DbaDbMailConfig</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaReplArticle">Get-DbaReplArticle</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database mail configs from SQL Server</p>
+<p>Gets the information about publication articles.</p>
 <h2 id="description">Description</h2>
-<p>Gets database mail configs from SQL Server</p>
+<p>This function locates and enumerates articles' information.</p>
+<p>Can specify a database, publication or article name.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Get-DbaDbMailConfig
+<pre><code>Get-DbaReplArticle
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Database] &lt;Object[]&gt;]
+    [[-Publication] &lt;Object[]&gt;]
+    [[-Schema] &lt;String[]&gt;]
     [[-Name] &lt;String[]&gt;]
-    [[-InputObject] &lt;SqlMail[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -503,22 +506,25 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaDbMailConfig -SqlInstance sql01\sharepoint
+<pre><code>PS C:\&gt; Get-DbaReplArticle -SqlInstance mssql1
 </code></pre>
-<p>Returns DBMail configs on sql01\sharepoint<br></p>
+<p>Retrieve information of all articles from all publications on all databases for server mssql1.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaDbMailConfig -SqlInstance sql01\sharepoint -Name ProhibitedExtensions
+<pre><code>PS C:\&gt; Get-DbaReplArticle -SqlInstance mssql1 -Database pubs
 </code></pre>
-<p>Returns the ProhibitedExtensions configuration on sql01\sharepoint<br></p>
+<p>Retrieve information of all articles from all publications on 'pubs' database for server mssql1.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaDbMailConfig -SqlInstance sql01\sharepoint | Select-Object *
+<pre><code>PS C:\&gt; Get-DbaReplArticle -SqlInstance mssql1 -Database pubs -Publication PubName
 </code></pre>
-<p>Returns the DBMail configs on sql01\sharepoint then return a bunch more columns<br></p>
+<p>Retrieve information of all articles from 'PubName' on 'pubs' database for server mssql1.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; $servers = &quot;sql2014&quot;,&quot;sql2016&quot;, &quot;sqlcluster\sharepoint&quot;
-PS C:\&gt; $servers | Get-DbaDbMail | Get-DbaDbMailConfig
+<pre><code>PS C:\&gt; Get-DbaReplArticle -SqlInstance mssql1 -Database pubs -Schema sales
 </code></pre>
-<p>Returns the DBMail configs for &quot;sql2014&quot;,&quot;sql2016&quot; and &quot;sqlcluster\sharepoint&quot;<br></p>
+<p>Retrieve information of articles in the 'sales' schema on 'pubs' database for server mssql1.<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Get-DbaReplArticle -SqlInstance mssql1 -Database pubs -Publication PubName -Name sales
+</code></pre>
+<p>Retrieve information of 'sales' article from 'PubName' on 'pubs' database for server mssql1.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>
@@ -540,7 +546,7 @@ PS C:\&gt; $servers | Get-DbaDbMail | Get-DbaDbMailConfig
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -578,8 +584,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="name">-Name</h5>
-<p>Specifies one or more config(s) to get. If unspecified, all configs will be returned.<br></p>
+<h5 id="database">-Database</h5>
+<p>Specifies one or more database(s) to process. If unspecified, all databases will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -590,7 +596,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td>Config,ConfigName</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>
@@ -606,8 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Accepts pipeline input from Get-DbaDbMail<br></p>
+<h5 id="publication">-Publication</h5>
+<p>Specifies one or more publication(s) to process. If unspecified, all publications will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,7 +632,63 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="schema">-Schema</h5>
+<p>Specifies one or more schema(s) to process. If unspecified, all schemas will be processed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="name">-Name</h5>
+<p>Specify the name of one or more article(s) to process. If unspecified, all articles will be processed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
 </tr>
 <tr>
 <td>Default Value</td>

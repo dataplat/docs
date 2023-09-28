@@ -624,7 +624,7 @@ When using -DetachAttach with multiple servers, -Reattach must be specified.<br>
 </tbody>
 </table>
 <h5 id="backuprestore">-BackupRestore</h5>
-<p>If this switch is enabled, the copy-only backup and restore method will be used to migrate the database(s). This method requires that you specify -SharedPath in a valid UNC format (\server\share).
+<p>If this switch is enabled, the copy-only backup and restore method will be used to migrate the database(s). This method requires that you specify either -SharedPath or -UseLastBackup.
 Backups will be immediately deleted after use unless -NoBackupCleanup is specified.<br></p>
 <table>
 <thead>
