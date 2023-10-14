@@ -513,6 +513,7 @@ This function prevents that by streaming a copy of the data in the most speedy a
     [-Truncate]
     [[-BulkCopyTimeout] &lt;Int32&gt;]
     [[-CommandTimeout] &lt;Int32&gt;]
+    [-UseDefaultFileGroup]
     [[-InputObject] &lt;TableViewBase[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -1182,6 +1183,36 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 <tr>
 <td>Default Value</td>
 <td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="usedefaultfilegroup">-UseDefaultFileGroup</h5>
+<p>By default, this command will use a filegroup of the same name between
+source and target. Use this flag if you'd instead like to use the
+default filegroup in the target database.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
