@@ -498,6 +498,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-Role] &lt;String&gt;]
     [[-EndpointEncryption] &lt;String&gt;]
     [[-EncryptionAlgorithm] &lt;String&gt;]
+    [[-AuthenticationOrder] &lt;String&gt;]
     [[-Certificate] &lt;String&gt;]
     [[-IPAddress] &lt;IPAddress&gt;]
     [[-Port] &lt;Int32&gt;]
@@ -778,6 +779,49 @@ RC4Aes<br></p>
 <tr>
 <td>Accepted Values</td>
 <td>Aes,AesRC4,None,RC4,RC4Aes</td>
+</tr>
+</tbody>
+</table>
+<h5 id="authenticationorder">-AuthenticationOrder</h5>
+<p>The type of connection authentication required for connections to this endpoint. Defaults to Negotiate.
+Options are:
+Certificate
+CertificateKerberos
+CertificateNegotiate
+CertificateNtlm
+Kerberos
+KerberosCertificate
+Negotiate
+NegotiateCertificate
+Ntlm
+NtlmCertificate<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Negotiate</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Certificate,CertificateKerberos,CertificateNegotiate,CertificateNtlm,Kerberos,KerberosCertificate,Negotiate,NegotiateCertificate,Ntlm,NtlmCertificate</td>
 </tr>
 </tbody>
 </table>

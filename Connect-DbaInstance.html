@@ -506,7 +506,7 @@ and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlc
     [[-BatchSeparator] &lt;String&gt;]
     [[-ClientName] &lt;String&gt;]
     [[-ConnectTimeout] &lt;Int32&gt;]
-    [[-EncryptConnection] &lt;String&gt;]
+    [-EncryptConnection]
     [[-FailoverPartner] &lt;String&gt;]
     [[-LockTimeout] &lt;Int32&gt;]
     [[-MaxPoolSize] &lt;Int32&gt;]
@@ -874,10 +874,9 @@ When opening a connection to a Azure SQL Database, set the connection timeout to
 </tbody>
 </table>
 <h5 id="encryptconnection">-EncryptConnection</h5>
-<p>If this switch is enabled, SQL Server uses SSL encryption for all data sent between the client and server if the server has a certificate installed.
-For more information, see Connection String Syntax. <a href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/connection-string-syntax">https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/connection-string-syntax</a>
-Beginning in .NET Framework 4.5, when TrustServerCertificate is false and Encrypt is true, the server name (or IP address) in a SQL Server SSL certificate must exactly match the server name (or IP
-address) specified in the connection string. Otherwise, the connection attempt will fail. For information about support for certificates whose subject starts with a wildcard character (*), see
+<p>If this switch is enabled, SQL Server uses SSL encryption for all data sent between the client and server.
+Beginning in .NET Framework 4.5, when TrustServerCertificate is false and EncryptConnection is true, the server name (or IP address) in a SQL Server SSL certificate must exactly match the server name
+(or IP address) specified in the connection string. Otherwise, the connection attempt will fail. For information about support for certificates whose subject starts with a wildcard character (*), see
 Accepted wildcards used by server certificates for server authentication. <a href="https://support.microsoft.com/en-us/help/258858/accepted-wildcards-used-by-server-certificates-for-server-authenticati">https://support.microsoft.com/en-us/help/258858/accepted-wildcards-used-by-server-certificates-for-server-authenticati</a><br></p>
 <table>
 <thead>
