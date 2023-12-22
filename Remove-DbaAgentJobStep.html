@@ -494,7 +494,6 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-SqlCredential] &lt;PSCredential&gt;]
     [-Job] &lt;Object[]&gt;
     [-StepName] &lt;String&gt;
-    [[-Mode] {Strict | Lazy | Report}]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -633,37 +632,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="mode">-Mode</h5>
-<p>Default: Strict
-How strict does the command take lesser issues?
-Strict: Interrupt if the configuration already has the same value as the one specified.
-Lazy:   Silently skip over instances that already have this configuration at the specified value.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>(Get-DbatoolsConfigValue -Name 'message.mode.default' -Fallback &quot;Strict&quot;)</td>
 </tr>
 </tbody>
 </table>

@@ -495,7 +495,6 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-Job] &lt;Object[]&gt;]
     [-KeepHistory]
     [-KeepUnusedSchedule]
-    [[-Mode] {Strict | Lazy | Report}]
     [[-InputObject] &lt;Job[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -663,37 +662,6 @@ By default the unused schedule is deleted.<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="mode">-Mode</h5>
-<p>Default: Strict
-How strict does the command take lesser issues?
-Strict: Interrupt if the job specified doesn't exist.
-Lazy:   Silently skip over jobs that don't exist.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>(Get-DbatoolsConfigValue -FullName 'message.mode.default' -Fallback &quot;Strict&quot;)</td>
 </tr>
 </tbody>
 </table>
