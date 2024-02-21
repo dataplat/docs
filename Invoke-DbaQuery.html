@@ -594,8 +594,8 @@ PS C:\&gt; $inparam += [PSCustomObject]@{
 &gt;&gt;     somedate = '2021-07-15T02:03:00'
 &gt;&gt; }
 &gt;&gt; $inparamAsDataTable = ConvertTo-DbaDataTable -InputObject $inparam
-PS C:\&gt; New-DbaSqlParameter -SqlDbType structured -Value $inparamAsDataTable -TypeName 'dbatools_tabletype'
-PS C:\&gt; Invoke-DbaQuery -SqlInstance localhost -Database master -CommandType StoredProcedure -Query my_proc -SqlParameter $inparamAsDataTable
+PS C:\&gt; $inparamAsSQLParameter = New-DbaSqlParameter -SqlDbType structured -Value $inparamAsDataTable -TypeName 'dbatools_tabletype'
+PS C:\&gt; Invoke-DbaQuery -SqlInstance localhost -Database master -CommandType StoredProcedure -Query my_proc -SqlParameter $inparamAsSQLParameter
 </code></pre>
 <p>Creates an TVP input parameter and uses it to invoke a stored procedure.<br></p>
 <h5 id="example-10">Example:  10</h5>
