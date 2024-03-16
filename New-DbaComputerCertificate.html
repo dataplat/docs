@@ -513,6 +513,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-Dns] &lt;String[]&gt;]
     [-SelfSigned]
     [-EnableException]
+    [[-HashAlgorithm] &lt;String&gt;]
+    [[-MonthsValid] &lt;Int32&gt;]
     [-WhatIf]
     [-Confirm]
     [&lt;CommonParameters&gt;]
@@ -543,6 +545,10 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 <pre><code>PS C:\&gt; New-DbaComputerCertificate -SelfSigned
 </code></pre>
 <p>Creates a self-signed certificate<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; New-DbaComputerCertificate -SelfSigned -HashAlgorithm Sha256 -MonthsValid 60
+</code></pre>
+<p>Creates a self-signed certificate using the SHA256 hashing algorithm that does not expire for 5 years<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
 <p>The target SQL Server instance or instances. Defaults to localhost. If target is a cluster, you must also specify ClusterInstanceName (see below)<br></p>
@@ -979,6 +985,66 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="hashalgorithm">-HashAlgorithm</h5>
+<p>Specifies hashing algorithm for self-signed certificate.  Must be one of the values Sha256, sha384, sha512, sha1, md5, md4, md2.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>sha1</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Sha256,sha384,sha512,sha1,md5,md4,md2</td>
+</tr>
+</tbody>
+</table>
+<h5 id="monthsvalid">-MonthsValid</h5>
+<p>Allows you to specify the number of months a self-signed certificate will be valid for.  e.g a value of 60 will generate a certificate vaild until 5 years (60 months) time.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>12</td>
 </tr>
 </tbody>
 </table>

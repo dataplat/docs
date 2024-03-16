@@ -512,7 +512,7 @@ Options include changing restore paths, backup paths, database name and many oth
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; $History | Format-DbaBackupInformation -ReplaceDatabaseName NewDb
+<pre><code>PS C:\&gt; $History | Format-DbaBackupInformation -ReplaceDatabaseName NewDb -ReplaceDbNameInFile
 </code></pre>
 <p>Changes as database name references to NewDb, both in the database name and any restore paths. Note, this will fail if the BackupHistory object contains backups for more than 1 database<br></p>
 <h5 id="example-2">Example:  2</h5>

@@ -488,6 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Get the Query Store configuration for Query Store enabled databases.</p>
 <h2 id="description">Description</h2>
 <p>Retrieves and returns the Query Store configuration for every database that has the Query Store feature enabled.</p>
+<p>Due to SMO limitations, the model database is not checked.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbQueryStoreOption
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -546,7 +547,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>SqlLogin to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance..<br></p>
+For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
 <tr>
