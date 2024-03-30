@@ -633,27 +633,34 @@ Supports any combination of:</p>
 <li>Service Principal Name lookup ('DomainSPN'; from Active Directory)</li>
 <li>SQL Instance Enumeration ('DataSourceEnumeration'; same as SSMS uses)</li>
 <li>IP Address range ('IPRange'; all IP Addresses will be scanned)</li>
-<li>Domain Server lookup ('DomainServer'; from Active Directory)
-SPN Lookup:
-The function tries to connect active directory to look up all computers with registered SQL Instances.
+<li>Domain Server lookup ('DomainServer'; from Active Directory)</li>
+</ul>
+<hr />
+<ul>
+<li><p>SPN Lookup</p>
+<p>The function tries to connect active directory to look up all computers with registered SQL Instances.
 Not all instances need to be registered properly, making this not 100% reliable.
 By default, your nearest Domain Controller is contacted for this scan.
 However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.
-If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.
-SQL Instance Enumeration:
-This uses the default UDP Broadcast based instance enumeration used by SSMS to detect instances.
+If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.</p>
+</li>
+<li><p>SQL Instance Enumeration</p>
+<p>This uses the default UDP Broadcast based instance enumeration used by SSMS to detect instances.
 Note that the result from this is not used in the actual scan, but only to compile a list of computers to scan.
-To enable the same results for the scan, ensure that the 'Browser' scan is enabled.
-IP Address range:
-This 'Discovery' uses a range of IPAddresses and simply passes them on to be tested.
+To enable the same results for the scan, ensure that the 'Browser' scan is enabled.</p>
+</li>
+<li><p>IP Address range:</p>
+<p>This 'Discovery' uses a range of IPAddresses and simply passes them on to be tested.
 See the 'Description' part of help on security issues of network scanning.
 By default, it will enumerate all ethernet network adapters on the local computer and scan the entire subnet they are on.
-By using the '-IpAddress' parameter, custom network ranges can be specified.
-Domain Server:
-This will discover every single computer in Active Directory that is a Windows Server and enabled.
+By using the '-IpAddress' parameter, custom network ranges can be specified.</p>
+</li>
+<li><p>Domain Server:</p>
+<p>This will discover every single computer in Active Directory that is a Windows Server and enabled.
 By default, your nearest Domain Controller is contacted for this scan.
 However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.
-If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.<br></li>
+If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.<br></p>
+</li>
 </ul>
 <table>
 <thead>
@@ -748,39 +755,63 @@ See the '-ScanType' parameter documentation on affected scans.<br></p>
 <p>The scans are the individual methods used to retrieve information about the scanned computer and any potentially installed instances.
 This parameter is optional, by default all scans except for establishing an actual SQL connection are performed.
 Scans can be specified in any arbitrary combination, however at least one instance detecting scan needs to be specified in order for data to be returned.
-Scans:
-Browser</p>
+Scans:</p>
+<ul>
+<li>Browser
 <ul>
 <li>Tries discovering all instances via the browser service</li>
-<li>This scan detects instances.
-SQLService</li>
+<li>This scan detects instances.</li>
+</ul>
+</li>
+<li>SQLService
+<ul>
 <li>Tries listing all SQL Services using CIM/WMI</li>
 <li>This scan uses credentials specified in the '-Credential' parameter if any.</li>
 <li>This scan detects instances.</li>
-<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).
-SPN</li>
+<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).</li>
+</ul>
+</li>
+<li>SPN
+<ul>
 <li>Tries looking up the Service Principal Names for each instance</li>
 <li>Will use the nearest Domain Controller by default</li>
 <li>Target a specific domain controller using the '-DomainController' parameter</li>
-<li>If using the '-DomainController' parameter, use the '-Credential' parameter to specify the credentials used to connect
-TCPPort</li>
+<li>If using the '-DomainController' parameter, use the '-Credential' parameter to specify the credentials used to connect</li>
+</ul>
+</li>
+<li>TCPPort
+<ul>
 <li>Tries connecting to the TCP Ports.</li>
 <li>By default, port 1433 is connected to.</li>
 <li>The parameter '-TCPPort' can be used to provide a list of port numbers to scan.</li>
 <li>This scan detects possible instances. Since other services might bind to a given port, this is not the most reliable test.</li>
-<li>This scan is also used to validate found SPNs if both scans are used in combination
-DNSResolve</li>
-<li>Tries resolving the computername in DNS
-Ping</li>
-<li>Tries pinging the computer. Failure will NOT terminate scans.
-SqlConnect</li>
+<li>This scan is also used to validate found SPNs if both scans are used in combination</li>
+</ul>
+</li>
+<li>DNSResolve
+<ul>
+<li>Tries resolving the computername in DNS</li>
+</ul>
+</li>
+<li>Ping
+<ul>
+<li>Tries pinging the computer. Failure will NOT terminate scans.</li>
+</ul>
+</li>
+<li>SqlConnect
+<ul>
 <li>Tries to establish a SQL connection to the server</li>
 <li>Uses windows credentials by default</li>
 <li>Specify custom credentials using the '-SqlCredential' parameter</li>
 <li>This scan is not used by default</li>
-<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).
-All</li>
+<li>Success in this scan guarantees high confidence (See parameter '-MinimumConfidence' for details).</li>
+</ul>
+</li>
+<li>All
+<ul>
 <li>All of the above<br></li>
+</ul>
+</li>
 </ul>
 <table>
 <thead>

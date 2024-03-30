@@ -513,28 +513,25 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Adds the TableToRepl table to the PubFromPosh publication from mssql1.Northwind<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; $article = @{
-</code></pre>
-<p>SqlInstance           = &quot;mssql1&quot;<br>
-Database              = &quot;pubs&quot;<br>
-Publication           = &quot;testPub&quot;<br>
-Name                  = &quot;publishers&quot;<br>
-Filter                = &quot;city = 'seattle'&quot;<br>
-}<br></p>
-<pre><code>PS C:\&gt; Add-DbaReplArticle @article -EnableException
+&gt;&gt; SqlInstance           = &quot;mssql1&quot;
+&gt;&gt; Database              = &quot;pubs&quot;
+&gt;&gt; Publication           = &quot;testPub&quot;
+&gt;&gt; Name                  = &quot;publishers&quot;
+&gt;&gt; Filter                = &quot;city = 'seattle'&quot;
+&gt;&gt; }
+PS C:\&gt; Add-DbaReplArticle @article -EnableException
 </code></pre>
 <p>Adds the publishers table to the TestPub publication from mssql1.Pubs with a horizontal filter of only rows where city = 'seattle.<br></p>
 <h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; $cso = New-DbaReplCreationScriptOptions -Options NonClusteredIndexes, Statistics
 PS C:\&gt; $article = @{
-</code></pre>
-<pre><code>        SqlInstance           = 'mssql1'&lt;br&gt;
-        Database              = 'pubs'&lt;br&gt;
-        Publication           = 'testPub'&lt;br&gt;
-        Name                  = 'stores'&lt;br&gt;
-        CreationScriptOptions = $cso&lt;br&gt;
-    }&lt;br&gt;
-</code></pre>
-<pre><code>PS C:\&gt; Add-DbaReplArticle @article -EnableException
+&gt;&gt; SqlInstance           = 'mssql1'
+&gt;&gt; Database              = 'pubs'
+&gt;&gt; Publication           = 'testPub'
+&gt;&gt; Name                  = 'stores'
+&gt;&gt; CreationScriptOptions = $cso
+&gt;&gt; }
+PS C:\&gt; Add-DbaReplArticle @article -EnableException
 </code></pre>
 <p>Adds the stores table to the testPub publication from mssql1.pubs with the NonClusteredIndexes and Statistics options set<br>
 includes default options.<br></p>

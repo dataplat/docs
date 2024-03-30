@@ -510,14 +510,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; $sub = @{
-</code></pre>
-<p>SqlInstance           = 'mssql1'<br>
-Database              = 'pubs'<br>
-PublicationName       = 'testPub'<br>
-SubscriberSqlInstance = 'mssql2'<br>
-SubscriptionDatabase  = 'pubs'<br>
-}<br></p>
-<pre><code>PS C:\&gt; Remove-DbaReplSubscription @sub
+&gt;&gt; SqlInstance           = 'mssql1'
+&gt;&gt; Database              = 'pubs'
+&gt;&gt; PublicationName       = 'testPub'
+&gt;&gt; SubscriberSqlInstance = 'mssql2'
+&gt;&gt; SubscriptionDatabase  = 'pubs'
+&gt;&gt; }
+PS C:\&gt; Remove-DbaReplSubscription @sub
 </code></pre>
 <p>Removes a subscription for the testPub publication on mssql2.pubs.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>

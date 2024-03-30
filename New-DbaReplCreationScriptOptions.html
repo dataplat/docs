@@ -502,28 +502,26 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; $cso = New-DbaReplCreationScriptOptions -Options NonClusteredIndexes, Statistics
 PS C:\&gt; $article = @{
-</code></pre>
-<pre><code>        SqlInstance           = 'mssql1'&lt;br&gt;
-        Database              = 'pubs'&lt;br&gt;
-        PublicationName       = 'testPub'&lt;br&gt;
-        Name                  = 'stores'&lt;br&gt;
-        CreationScriptOptions = $cso&lt;br&gt;
-    }&lt;br&gt;
-    Add-DbaReplArticle @article -EnableException&lt;br&gt;
+&gt;&gt; SqlInstance           = 'mssql1'
+&gt;&gt; Database              = 'pubs'
+&gt;&gt; PublicationName       = 'testPub'
+&gt;&gt; Name                  = 'stores'
+&gt;&gt; CreationScriptOptions = $cso
+&gt;&gt; }
+PS C:\&gt; Add-DbaReplArticle @article -EnableException
 </code></pre>
 <p>Adds the stores table to the testPub publication from mssql1.pubs with the NonClusteredIndexes and Statistics options set<br>
 includes default options.<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; $cso = New-DbaReplCreationScriptOptions -Options ClusteredIndexes, Identity -NoDefaults
 PS C:\&gt; $article = @{
-</code></pre>
-<pre><code>        SqlInstance           = 'mssql1'&lt;br&gt;
-        Database              = 'pubs'&lt;br&gt;
-        PublicationName       = 'testPub'&lt;br&gt;
-        Name                  = 'stores'&lt;br&gt;
-        CreationScriptOptions = $cso&lt;br&gt;
-    }&lt;br&gt;
-    Add-DbaReplArticle @article -EnableException&lt;br&gt;
+&gt;&gt; SqlInstance           = 'mssql1'
+&gt;&gt; Database              = 'pubs'
+&gt;&gt; PublicationName       = 'testPub'
+&gt;&gt; Name                  = 'stores'
+&gt;&gt; CreationScriptOptions = $cso
+&gt;&gt; }
+PS C:\&gt; Add-DbaReplArticle @article -EnableException
 </code></pre>
 <p>Adds the stores table to the testPub publication from mssql1.pubs with the ClusteredIndexes and Identity options set, excludes default options.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>

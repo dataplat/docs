@@ -569,10 +569,21 @@ Add-DbaAgDatabase
 </code></pre>
 <p>Adds SharePoint databases as found in SharePoint_Config_2019 on sqlcluster to ag1 on sqlcluster<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Add-DbaAgDatabase -SqlInstance sql2017a -AvailabilityGroup ag1 -Database db1 -Secondary sql2017b -SeedingMode Manual -SharedPath \\FS\Backup -AdvancedBackupParams @{ CompressBackup = $true ;
+<pre><code>PS C:\&gt; $adv_param = @{
+&gt;&gt;    CompressBackup = $true
+&gt;&gt;    FileCount = 3
+&gt;&gt; }
+PS C:\&gt; $splat = @{
+&gt;&gt;   SqlInstance = 'sql2017a'
+&gt;&gt;   AvailabilityGroup = 'ag1'
+&gt;&gt;   Database = 'db1'
+&gt;&gt;   Secondary = 'sql2017b'
+&gt;&gt;   SeedingMode = 'Manual'
+&gt;&gt;   SharedPath = '\\FS\Backup'
+&gt;&gt; }
+PS C:\&gt; Add-DbaAgDatabase @splat -AdvancedBackupParams $adv_param
 </code></pre>
-<p>FileCount = 3 }<br>
-Adds db1 to ag1 on sql2017a and sql2017b. Uses compression and three files while taking the backups.<br></p>
+<p>Adds db1 to ag1 on sql2017a and sql2017b. Uses compression and three files while taking the backups.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The primary replica of the Availability Group. Server version must be SQL Server version 2012 or higher.<br></p>
