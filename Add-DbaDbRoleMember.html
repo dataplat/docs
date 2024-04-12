@@ -494,7 +494,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;String[]&gt;]
     [[-Role] &lt;String[]&gt;]
-    [-User] &lt;String[]&gt;
+    [-Member] &lt;String[]&gt;
     [[-InputObject] &lt;Object[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -506,30 +506,30 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Add-DbaDbRoleMember -SqlInstance localhost -Database mydb -Role db_owner -User user1
+<pre><code>PS C:\&gt; Add-DbaDbRoleMember -SqlInstance localhost -Database mydb -Role db_owner -Member user1
 </code></pre>
 <p>Adds user1 to the role db_owner in the database mydb on the local default SQL Server instance<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Add-DbaDbRoleMember -SqlInstance localhost, sql2016 -Role SqlAgentOperatorRole -User user1 -Database msdb
+<pre><code>PS C:\&gt; Add-DbaDbRoleMember -SqlInstance localhost, sql2016 -Role SqlAgentOperatorRole -Member user1 -Database msdb
 </code></pre>
 <p>Adds user1 in servers localhost and sql2016 in the msdb database to the SqlAgentOperatorRole<br></p>
 <h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; $servers = Get-Content C:\servers.txt
-PS C:\&gt; $servers | Add-DbaDbRoleMember -Role SqlAgentOperatorRole -User user1 -Database msdb
+PS C:\&gt; $servers | Add-DbaDbRoleMember -Role SqlAgentOperatorRole -Member user1 -Database msdb
 </code></pre>
 <p>Adds user1 to the SqlAgentOperatorROle in the msdb database in every server in C:\servers.txt<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Add-DbaDbRoleMember -SqlInstance localhost -Role &quot;db_datareader&quot;,&quot;db_datawriter&quot; -User user1 -Database DEMODB
+<pre><code>PS C:\&gt; Add-DbaDbRoleMember -SqlInstance localhost -Role &quot;db_datareader&quot;,&quot;db_datawriter&quot; -Member user1 -Database DEMODB
 </code></pre>
 <p>Adds user1 in the database DEMODB on the server localhost to the roles db_datareader and db_datawriter<br></p>
 <h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; $roles = Get-DbaDbRole -SqlInstance localhost -Role &quot;db_datareader&quot;,&quot;db_datawriter&quot; -Database DEMODB
-PS C:\&gt; $roles | Add-DbaDbRoleMember -User user1
+PS C:\&gt; $roles | Add-DbaDbRoleMember -Member user1
 </code></pre>
 <p>Adds user1 in the database DEMODB on the server localhost to the roles db_datareader and db_datawriter<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
-<h5 id="user">-User</h5>
-<p>The user(s) to add to role(s) specified.<br></p>
+<h5 id="member">-Member</h5>
+<p>The member(s) (user or role) to add to the Roles specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -540,7 +540,7 @@ PS C:\&gt; $roles | Add-DbaDbRoleMember -User user1
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>User</td>
 </tr>
 <tr>
 <td>Required</td>
