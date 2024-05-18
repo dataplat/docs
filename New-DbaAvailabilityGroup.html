@@ -527,6 +527,8 @@ To change these defaults we have introduced configuration parameters for all of 
     [[-Secondary] &lt;DbaInstanceParameter[]&gt;]
     [[-SecondarySqlCredential] &lt;PSCredential&gt;]
     [-Name] &lt;String&gt;
+    [-IsContained]
+    [-ReuseSystemDatabases]
     [-DtcSupport]
     [[-ClusterType] &lt;String&gt;]
     [[-AutomatedBackupPreference] &lt;String&gt;]
@@ -575,22 +577,26 @@ To change these defaults we have introduced configuration parameters for all of 
 </code></pre>
 <p>Creates a basic availability group named BAG1 on sql2016std and does not confirm when setting up<br></p>
 <h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql2022n01 -Secondary sql2022n02 -Name AgContained -IsContained
+</code></pre>
+<p>Creates a contained availability group named AgContained on nodes sql2022n01 and sql2022n02<br></p>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql2016b -Name AG1 -Dhcp -Database db1 -UseLastBackup
 </code></pre>
 <p>Creates an availability group on sql2016b with the name ag1. Uses the last backups available to add the database db1 to the AG.<br></p>
-<h5 id="example-5">Example:  5</h5>
+<h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql2017 -Name SharePoint -ClusterType None -FailoverMode Manual
 </code></pre>
 <p>Creates a new availability group on sql2017 named SharePoint with a cluster type of none and a failover mode of manual<br></p>
-<h5 id="example-6">Example:  6</h5>
+<h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql1 -Secondary sql2 -Name ag1 -Database pubs -ClusterType None -SeedingMode Automatic -FailoverMode Manual
 </code></pre>
 <p>Creates a new availability group with a primary replica on sql1 and a secondary on sql2. Automatically adds the database pubs.<br></p>
-<h5 id="example-7">Example:  7</h5>
+<h5 id="example-8">Example:  8</h5>
 <pre><code>PS C:\&gt; New-DbaAvailabilityGroup -Primary sql1 -Secondary sql2 -Name ag1 -Database pubs -EndpointUrl 'TCP://sql1.specialnet.local:5022', 'TCP://sql2.specialnet.local:5022'
 </code></pre>
 <p>Creates a new availability group with a primary replica on sql1 and a secondary on sql2 with custom endpoint urls. Automatically adds the database pubs.<br></p>
-<h5 id="example-8">Example:  8</h5>
+<h5 id="example-9">Example:  9</h5>
 <pre><code>PS C:\&gt; $cred = Get-Credential sqladmin
 PS C:\&gt; $params = @{
 &gt;&gt; Primary = &quot;sql1&quot;
@@ -750,6 +756,63 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="iscontained">-IsContained</h5>
+<p>Builds the Availability Group as contained. Only supported in SQL Server 2022 or higher.
+<a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/contained-availability-groups-overview">https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/contained-availability-groups-overview</a><br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="reusesystemdatabases">-ReuseSystemDatabases</h5>
+<p>Used when rebuilding an availability group with the same name, where system databases already exist for the contained availability group.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

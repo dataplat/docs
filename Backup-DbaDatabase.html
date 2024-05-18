@@ -497,6 +497,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-FilePath &lt;String&gt;]
     [-IncrementPrefix]
     [-ReplaceInName]
+    [-NoAppendDbNameInPath]
     [-CopyOnly]
     [-Type &lt;String&gt;]
     [-CreateFolder]
@@ -533,6 +534,7 @@ Backup-DbaDatabase -SqlInstance &lt;DbaInstanceParameter&gt;
     [-FilePath &lt;String&gt;]
     [-IncrementPrefix]
     [-ReplaceInName]
+    [-NoAppendDbNameInPath]
     [-CopyOnly]
     [-Type &lt;String&gt;]
     [-CreateFolder]
@@ -569,6 +571,7 @@ Backup-DbaDatabase
     [-FilePath &lt;String&gt;]
     [-IncrementPrefix]
     [-ReplaceInName]
+    [-NoAppendDbNameInPath]
     [-CopyOnly]
     [-Type &lt;String&gt;] -InputObject &lt;Object[]&gt;
     [-CreateFolder]
@@ -882,6 +885,34 @@ servername - will be replaced with the server name
 dbname - will be replaced with the database name
 timestamp - will be replaced with the timestamp (either the default, or the format provided)
 backuptype - will be replaced with Full, Log or Differential as appropriate<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="noappenddbnameinpath">-NoAppendDbNameInPath</h5>
+<p>A switch that will prevent to systematically appended dbname to the path when creating the backup file path<br></p>
 <table>
 <thead>
 <tr>
