@@ -51,7 +51,10 @@ $initScript = {
         $null = $rtn.Add($doc_to_render.Synopsis.Replace("`n", "  `n"))
         $null = $rtn.Add('')
         $null = $rtn.Add('## Description')
-        $null = $rtn.Add($doc_to_render.Description.Replace("`n", "  `n"))
+        if ($doc_to_render.Description)
+        {
+            $null = $rtn.Add($doc_to_render.Description.Replace("`n", "  `n"))
+        }
         $null = $rtn.Add('')
         if ($doc_to_render.Syntax) {
             $null = $rtn.Add('## Syntax')
@@ -281,14 +284,24 @@ Write-Host "Starting $maxConcurrentJobs Jobs"
 $whatever = Split-ArrayInParts -array $idx -parts $maxConcurrentJobs
 $jobs = @()
 Write-Host "Creating docs pages"
-foreach ($piece in $whatever) {
-    $jobs += Start-Job -InitializationScript $initScript -ScriptBlock {
-        foreach ($p in $Args) {
-            Set-DbadocsPage -doc_to_render $p -OutputFolder $using:OutputFolder -ContentFolder $using:ContentFolder
-        }
-    } -ArgumentList $piece
+if ($false)
+{
+    foreach ($piece in $whatever) {
+        $jobs += Start-Job -InitializationScript $initScript -ScriptBlock {
+            foreach ($p in $Args) {
+                Set-DbadocsPage -doc_to_render $p -OutputFolder $using:OutputFolder -ContentFolder $using:ContentFolder
+            }
+        } -ArgumentList $piece
+    }
+    $null = $jobs | Wait-Job #-Timeout 120
+    $null = $jobs | Receive-Job
+} else {
+    Invoke-Command -ScriptBlock $initScript -NoNewScope
+    foreach($p in $idx)
+    {
+        Write-Host "...$($p.Name)"
+        Set-DbadocsPage -doc_to_render $p -OutputFolder $OutputFolder -ContentFolder $ContentFolder
+    }
 }
-$null = $jobs | Wait-Job #-Timeout 120
-$null = $jobs | Receive-Job
 Get-ChildItem $OutputFolder
 Write-Host "Done: elapsed $($sw.ElapsedMilliseconds) ms"
