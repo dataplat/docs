@@ -48,10 +48,10 @@ $initScript = {
         $null = $rtn.Add("<br>")
         $null = $rtn.Add('Want to see the Bill Of Health for this command? Check out [' + $doc_to_render.CommandName + '](https://dataplat.github.io/boh#' + $doc_to_render.CommandName + ').')
         $null = $rtn.Add('## Synopsis')
-        $null = $rtn.Add($doc_to_render.Synopsis)
+        $null = $rtn.Add($doc_to_render.Synopsis.Replace("`n", "  `n"))
         $null = $rtn.Add('')
         $null = $rtn.Add('## Description')
-        $null = $rtn.Add($doc_to_render.Description)
+        $null = $rtn.Add($doc_to_render.Description.Replace("`n", "  `n"))
         $null = $rtn.Add('')
         if ($doc_to_render.Syntax) {
             $null = $rtn.Add('## Syntax')
@@ -65,13 +65,23 @@ $initScript = {
             foreach ($syntax in $splitted_paramsets) {
                 $x = 0
                 foreach ($val in ($syntax.Replace("`r", '').Replace("`n", '') -split ' \[')) {
-                    if ($x -eq 0) {
-                        $null = $rtn.Add($val)
-                    } else {
-                        $null = $rtn.Add('    [' + $val.replace("`n", '').replace("`n", ''))
+                if ($x -eq 0) {
+                    $null = $rtn.Add($val)
+                } else {
+                    $xx = 0
+                    foreach($subparam in ($val -split ' -'))
+                    {
+                        if ($xx -eq 0)
+                        {
+                            $null = $rtn.Add('    [' + $subparam.replace("`n", '').replace("`n", ''))
+                        } else {
+                            $null = $rtn.Add('    -' + $subparam.replace("`n", '').replace("`n", ''))
+                        }
+                        $xx += 1
                     }
-                    $x += 1
                 }
+                $x += 1
+            }
                 $null = $rtn.Add('')
             }
 
@@ -99,7 +109,7 @@ $initScript = {
                     $inside = 0
                     $null = $rtn.Add('```')
                 }
-                $null = $rtn.Add("$row<br>")
+                $null = $rtn.Add("$($row.Replace("`n", "  `n"))<br>")
             }
         }
         if ($inside -eq 1) {
@@ -121,7 +131,7 @@ $initScript = {
                     $null = $rtn.Add('### Required Parameters')
                 }
                 $null = $rtn.Add('##### -' + $el[0])
-                $null = $rtn.Add($el[1] + '<br>')
+                $null = $rtn.Add($el[1].Replace("`r", "").Replace("`n", "  `n") + ' <br>')
                 $null = $rtn.Add('')
                 $null = $rtn.Add('|  |  |')
                 $null = $rtn.Add('| - | - |')
@@ -148,7 +158,7 @@ $initScript = {
                 }
 
                 $null = $rtn.Add('##### -' + $el[0])
-                $null = $rtn.Add($el[1] + '<br>')
+                $null = $rtn.Add($el[1].Replace("`r", "").Replace("`n", "  `n") + '<br>')
                 $null = $rtn.Add('')
                 $null = $rtn.Add('|  |  |')
                 $null = $rtn.Add('| - | - |')
