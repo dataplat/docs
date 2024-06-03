@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentJobOutputFile">Get-DbaAgentJobOutputFile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns the Output File for each step of one or many agent job with the Job Names provided dynamically if
+<p>Returns the Output File for each step of one or many agent job with the Job Names provided dynamically if<br />
 required for one or more SQL Instances</p>
 <h2 id="description">Description</h2>
-<p>This function returns for one or more SQL Instances the output file value for each step of one or many agent job with the Job Names
+<p>This function returns for one or more SQL Instances the output file value for each step of one or many agent job with the Job Names<br />
 provided dynamically. It will not return anything if there is no Output File</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentJobOutputFile
@@ -530,7 +530,7 @@ on the SERVERNAME instance and Pipe them to Out-GridView<br></p>
 on the SERVERNAME instance and also show the job steps without an output file<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
+<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -559,9 +559,9 @@ on the SERVERNAME instance and also show the job steps without an output file<br
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance. be it Windows or SQL Server. Windows users are determined by the existence of a backslash, so if you are intending to use an alternative Windows
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
+For MFA support, please use Connect-DbaInstance. be it Windows or SQL Server. Windows users are determined by the existence of a backslash, so if you are intending to use an alternative Windows<br />
 connection instead of a SQL login, ensure it contains a backslash.<br></p>
 <table>
 <thead>
@@ -646,8 +646,8 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

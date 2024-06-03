@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Sets a resource pool for use by the Resource Governor on the specified SQL Server.</p>
 <h2 id="description">Description</h2>
-<p>Sets a resource pool for use by the Resource Governor on the specified SQL Server.
+<p>Sets a resource pool for use by the Resource Governor on the specified SQL Server.<br />
 A resource pool represents a subset of the physical resources (memory, CPUs and IO) of an instance of the Database Engine.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaRgResourcePool
@@ -741,7 +741,7 @@ for the instance sql2016 by piping output from Get-DbaRgResourcePool.<br></p>
 </tbody>
 </table>
 <h5 id="capcpupercentage">-CapCpuPercentage</h5>
-<p>Specifies a hard cap on the CPU bandwidth that all requests in the resource pool will receive.
+<p>Specifies a hard cap on the CPU bandwidth that all requests in the resource pool will receive.<br />
 Limits the maximum CPU bandwidth level to be the same as the specified value. Only for SQL Server 2012+<br></p>
 <table>
 <thead>
@@ -882,7 +882,7 @@ Limits the maximum CPU bandwidth level to be the same as the specified value. On
 </tbody>
 </table>
 <h5 id="maximumprocesses">-MaximumProcesses</h5>
-<p>Specifies the maximum number of processes allowed for the external resource pool.
+<p>Specifies the maximum number of processes allowed for the external resource pool.<br />
 Specify 0 to set an unlimited threshold for the pool, which is thereafter bound only by computer resources.<br></p>
 <table>
 <thead>
@@ -911,7 +911,7 @@ Specify 0 to set an unlimited threshold for the pool, which is thereafter bound 
 </tbody>
 </table>
 <h5 id="skipreconfigure">-SkipReconfigure</h5>
-<p>Resource Governor requires a reconfiguriation for resource pool changes to take effect.
+<p>Resource Governor requires a reconfiguriation for resource pool changes to take effect.<br />
 Use this switch to skip issuing a reconfigure for the Resource Governor.<br></p>
 <table>
 <thead>
@@ -968,8 +968,8 @@ Use this switch to skip issuing a reconfigure for the Resource Governor.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

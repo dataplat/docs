@@ -551,8 +551,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -693,7 +693,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="keysource">-KeySource</h5>
-<p>The path to the Executable, File or Assembly to be passed in.
+<p>The path to the Executable, File or Assembly to be passed in.<br />
 The path is parsed by the SQL Server instance, so needs to be visible to the instance<br></p>
 <table>
 <thead>
@@ -722,7 +722,7 @@ The path is parsed by the SQL Server instance, so needs to be visible to the ins
 </tbody>
 </table>
 <h5 id="keysourcetype">-KeySourceType</h5>
-<p>The source of external keys loaded in, can be one of Executable, File or Assembly
+<p>The source of external keys loaded in, can be one of Executable, File or Assembly<br />
 We do not currently support Provider<br></p>
 <table>
 <thead>
@@ -783,7 +783,7 @@ We do not currently support Provider<br></p>
 </tbody>
 </table>
 <h5 id="algorithm">-Algorithm</h5>
-<p>The algorithm used to generate the key. Can be one of RSA512, RSA1024, RSA1024, RSA2048, RSA3072 or RSA4096. If not specified RSA2048 is the default
+<p>The algorithm used to generate the key. Can be one of RSA512, RSA1024, RSA1024, RSA2048, RSA3072 or RSA4096. If not specified RSA2048 is the default<br />
 This value will be ignored when KeySource is supplied, as the algorithm is embedded in the KeySource<br></p>
 <table>
 <thead>
@@ -816,8 +816,8 @@ This value will be ignored when KeySource is supplied, as the algorithm is embed
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

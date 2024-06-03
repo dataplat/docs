@@ -490,8 +490,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Builds or extracts a SQL Server Connection String. Note that dbatools-style syntax is used.</p>
 <p>So you do not need to specify &quot;Data Source&quot;, you can just specify -SqlInstance and -SqlCredential and we'll handle it for you.</p>
 <p>This is the simplified PowerShell approach to connection string building. See examples for more info.</p>
-<p>See <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx</a>
-and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx</a>
+<p>See <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx</a><br />
+and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx</a><br />
 and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaConnectionString
@@ -572,7 +572,7 @@ connection&quot;.<br></p>
 <p>Creates a connection string with ReadOnly ApplicationIntent.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -601,9 +601,9 @@ connection&quot;.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="credential">-Credential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
-For MFA support, please use Connect-DbaInstance. be it Windows or SQL Server. Windows users are determined by the existence of a backslash, so if you are intending to use an alternative Windows
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
+For MFA support, please use Connect-DbaInstance. be it Windows or SQL Server. Windows users are determined by the existence of a backslash, so if you are intending to use an alternative Windows<br />
 connection instead of a SQL login, ensure it contains a backslash.<br></p>
 <table>
 <thead>
@@ -720,7 +720,7 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="clientname">-ClientName</h5>
-<p>By default, this command sets the client's ApplicationName property to &quot;dbatools PowerShell module - dbatools.io&quot;. If you're doing anything that requires profiling, you can look for this client name.
+<p>By default, this command sets the client's ApplicationName property to &quot;dbatools PowerShell module - dbatools.io&quot;. If you're doing anything that requires profiling, you can look for this client name.<br />
 Using -ClientName allows you to set your own custom client application name.<br></p>
 <table>
 <thead>
@@ -749,8 +749,8 @@ Using -ClientName allows you to set your own custom client application name.<br>
 </tbody>
 </table>
 <h5 id="connecttimeout">-ConnectTimeout</h5>
-<p>The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error.
-Valid values are greater than or equal to 0 and less than or equal to 2147483647.
+<p>The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error.<br />
+Valid values are greater than or equal to 0 and less than or equal to 2147483647.<br />
 When opening a connection to a Azure SQL Database, set the connection timeout to 30 seconds.<br></p>
 <table>
 <thead>
@@ -807,11 +807,11 @@ When opening a connection to a Azure SQL Database, set the connection timeout to
 </tbody>
 </table>
 <h5 id="encryptconnection">-EncryptConnection</h5>
-<p>Valid options are: 'Mandatory', 'Optional', 'Strict'
-When true, SQL Server uses SSL encryption for all data sent between the client and server if the server has a certificate installed. Recognized values are true, false, yes, and no. For more
-information, see Connection String Syntax.
-Beginning in .NET Framework 4.5, when TrustServerCertificate is false and Encrypt is true, the server name (or IP address) in a SQL Server SSL certificate must exactly match the server name (or IP
-address) specified in the connection string. Otherwise, the connection attempt will fail. For information about support for certificates whose subject starts with a wildcard character (*), see
+<p>Valid options are: 'Mandatory', 'Optional', 'Strict'<br />
+When true, SQL Server uses SSL encryption for all data sent between the client and server if the server has a certificate installed. Recognized values are true, false, yes, and no. For more<br />
+information, see Connection String Syntax.<br />
+Beginning in .NET Framework 4.5, when TrustServerCertificate is false and Encrypt is true, the server name (or IP address) in a SQL Server SSL certificate must exactly match the server name (or IP<br />
+address) specified in the connection string. Otherwise, the connection attempt will fail. For information about support for certificates whose subject starts with a wildcard character (*), see<br />
 Accepted wildcards used by server certificates for server authentication.<br></p>
 <table>
 <thead>
@@ -844,12 +844,12 @@ Accepted wildcards used by server certificates for server authentication.<br></p
 </tbody>
 </table>
 <h5 id="failoverpartner">-FailoverPartner</h5>
-<p>The name of the failover partner server where database mirroring is configured.
-If the value of this key is &quot;&quot;, then Initial Catalog must be present, and its value must not be &quot;&quot;.
-The server name can be 128 characters or less.
-If you specify a failover partner but the failover partner server is not configured for database mirroring and the primary server (specified with the Server keyword) is not available, then the
-connection will fail.
-If you specify a failover partner and the primary server is not configured for database mirroring, the connection to the primary server (specified with the Server keyword) will succeed if the primary
+<p>The name of the failover partner server where database mirroring is configured.<br />
+If the value of this key is &quot;&quot;, then Initial Catalog must be present, and its value must not be &quot;&quot;.<br />
+The server name can be 128 characters or less.<br />
+If you specify a failover partner but the failover partner server is not configured for database mirroring and the primary server (specified with the Server keyword) is not available, then the<br />
+connection will fail.<br />
+If you specify a failover partner and the primary server is not configured for database mirroring, the connection to the primary server (specified with the Server keyword) will succeed if the primary<br />
 server is available.<br></p>
 <table>
 <thead>
@@ -990,7 +990,7 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="multipleactiveresultsets">-MultipleActiveResultSets</h5>
-<p>When used, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on
+<p>When used, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on<br />
 that connection.<br></p>
 <table>
 <thead>
@@ -1019,7 +1019,7 @@ that connection.<br></p>
 </tbody>
 </table>
 <h5 id="multisubnetfailover">-MultiSubnetFailover</h5>
-<p>If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover provides faster detection of and connection to the (currently) active
+<p>If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover provides faster detection of and connection to the (currently) active<br />
 server. For more information about SqlClient support for Always On Availability Groups<br></p>
 <table>
 <thead>
@@ -1136,8 +1136,8 @@ server. For more information about SqlClient support for Always On Availability 
 </tbody>
 </table>
 <h5 id="pooledconnectionlifetime">-PooledConnectionLifetime</h5>
-<p>When a connection is returned to the pool, its creation time is compared with the current time, and the connection is destroyed if that time span (in seconds) exceeds the value specified by
-Connection Lifetime. This is useful in clustered configurations to force load balancing between a running server and a server just brought online.
+<p>When a connection is returned to the pool, its creation time is compared with the current time, and the connection is destroyed if that time span (in seconds) exceeds the value specified by<br />
+Connection Lifetime. This is useful in clustered configurations to force load balancing between a running server and a server just brought online.<br />
 A value of zero (0) causes pooled connections to have the maximum connection timeout.<br></p>
 <table>
 <thead>
@@ -1166,7 +1166,7 @@ A value of zero (0) causes pooled connections to have the maximum connection tim
 </tbody>
 </table>
 <h5 id="sqlexecutionmodes">-SqlExecutionModes</h5>
-<p>The SqlExecutionModes enumeration contains values that are used to specify whether the commands sent to the referenced connection to the server are executed immediately or saved in a buffer.
+<p>The SqlExecutionModes enumeration contains values that are used to specify whether the commands sent to the referenced connection to the server are executed immediately or saved in a buffer.<br />
 Valid values include CaptureSql, ExecuteAndCaptureSql and ExecuteSql.<br></p>
 <table>
 <thead>

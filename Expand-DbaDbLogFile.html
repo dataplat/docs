@@ -488,35 +488,35 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>This command will help you to automatically grow your transaction log file in a responsible way (preventing the generation of too many VLFs).</p>
 <h2 id="description">Description</h2>
 <p>As you may already know, having a transaction log file with too many Virtual Log Files (VLFs) can hurt your database performance in many ways.</p>
-<p>Example:
+<p>Example:<br />
 Too many VLFs can cause transaction log backups to slow down and can also slow down database recovery and, in extreme cases, even impact insert/update/delete performance.</p>
-<p>References:
-<a href="http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/">http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/</a>
-<a href="http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx">http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx</a>
+<p>References:<br />
+<a href="http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/">http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/</a><br />
+<a href="http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx">http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx</a><br />
 <a href="http://www.brentozar.com/blitz/high-virtual-log-file-vlf-count/">http://www.brentozar.com/blitz/high-virtual-log-file-vlf-count/</a></p>
 <p>In order to get rid of this fragmentation we need to grow the file taking the following into consideration:</p>
 <ul>
 <li>How many VLFs are created when we perform a grow operation or when an auto-grow is invoked?</li>
 </ul>
 <p>Note: In SQL Server 2014 this algorithm has changed (<a href="http://www.sqlskills.com/blogs/paul/important-change-vlf-creation-algorithm-sql-server-2014/">http://www.sqlskills.com/blogs/paul/important-change-vlf-creation-algorithm-sql-server-2014/</a>)</p>
-<p>Attention:
-We are growing in MB instead of GB because of known issue prior to SQL 2012:
-More detail here:
-<a href="http://www.sqlskills.com/BLOGS/PAUL/post/Bug-log-file-growth-broken-for-multiples-of-4GB.aspx">http://www.sqlskills.com/BLOGS/PAUL/post/Bug-log-file-growth-broken-for-multiples-of-4GB.aspx</a>
-and
-<a href="http://connect.microsoft.com/SqlInstance/feedback/details/481594/log-growth-not-working-properly-with-specific-growth-sizes-vlfs-also-not-created-appropriately">http://connect.microsoft.com/SqlInstance/feedback/details/481594/log-growth-not-working-properly-with-specific-growth-sizes-vlfs-also-not-created-appropriately</a>
-or
+<p>Attention:<br />
+We are growing in MB instead of GB because of known issue prior to SQL 2012:<br />
+More detail here:<br />
+<a href="http://www.sqlskills.com/BLOGS/PAUL/post/Bug-log-file-growth-broken-for-multiples-of-4GB.aspx">http://www.sqlskills.com/BLOGS/PAUL/post/Bug-log-file-growth-broken-for-multiples-of-4GB.aspx</a><br />
+and<br />
+<a href="http://connect.microsoft.com/SqlInstance/feedback/details/481594/log-growth-not-working-properly-with-specific-growth-sizes-vlfs-also-not-created-appropriately">http://connect.microsoft.com/SqlInstance/feedback/details/481594/log-growth-not-working-properly-with-specific-growth-sizes-vlfs-also-not-created-appropriately</a><br />
+or<br />
 <a href="https://connect.microsoft.com/SqlInstance/feedback/details/357502/transaction-log-file-size-will-not-grow-exactly-4gb-when-filegrowth-4gb">https://connect.microsoft.com/SqlInstance/feedback/details/357502/transaction-log-file-size-will-not-grow-exactly-4gb-when-filegrowth-4gb</a></p>
-<p>Understanding related problems:
-<a href="http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/">http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/</a>
-<a href="http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx">http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx</a>
+<p>Understanding related problems:<br />
+<a href="http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/">http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/</a><br />
+<a href="http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx">http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx</a><br />
 <a href="http://www.brentozar.com/blitz/high-virtual-log-file-vlf-count/">http://www.brentozar.com/blitz/high-virtual-log-file-vlf-count/</a></p>
-<p>Known bug before SQL Server 2012
-<a href="http://www.sqlskills.com/BLOGS/PAUL/post/Bug-log-file-growth-broken-for-multiples-of-4GB.aspx">http://www.sqlskills.com/BLOGS/PAUL/post/Bug-log-file-growth-broken-for-multiples-of-4GB.aspx</a>
-<a href="http://connect.microsoft.com/SqlInstance/feedback/details/481594/log-growth-not-working-properly-with-specific-growth-sizes-vlfs-also-not-created-appropriately">http://connect.microsoft.com/SqlInstance/feedback/details/481594/log-growth-not-working-properly-with-specific-growth-sizes-vlfs-also-not-created-appropriately</a>
+<p>Known bug before SQL Server 2012<br />
+<a href="http://www.sqlskills.com/BLOGS/PAUL/post/Bug-log-file-growth-broken-for-multiples-of-4GB.aspx">http://www.sqlskills.com/BLOGS/PAUL/post/Bug-log-file-growth-broken-for-multiples-of-4GB.aspx</a><br />
+<a href="http://connect.microsoft.com/SqlInstance/feedback/details/481594/log-growth-not-working-properly-with-specific-growth-sizes-vlfs-also-not-created-appropriately">http://connect.microsoft.com/SqlInstance/feedback/details/481594/log-growth-not-working-properly-with-specific-growth-sizes-vlfs-also-not-created-appropriately</a><br />
 <a href="https://connect.microsoft.com/SqlInstance/feedback/details/357502/transaction-log-file-size-will-not-grow-exactly-4gb-when-filegrowth-4gb">https://connect.microsoft.com/SqlInstance/feedback/details/357502/transaction-log-file-size-will-not-grow-exactly-4gb-when-filegrowth-4gb</a></p>
-<p>How it works?
-The transaction log will grow in chunks until it reaches the desired size.
+<p>How it works?<br />
+The transaction log will grow in chunks until it reaches the desired size.<br />
 Example: If you have a log file with 8192MB and you say that the target size is 81920MB (80GB) it will grow in chunks of 8192MB until it reaches 81920MB. 8192 -&gt; 16384 -&gt; 24576 ... 73728 -&gt; 81920</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Expand-DbaDbLogFile
@@ -577,7 +577,7 @@ Expand-DbaDbLogFile
 R:\MSSQL\Backup for the required backups.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +605,7 @@ R:\MSSQL\Backup for the required backups.<br></p>
 </tbody>
 </table>
 <h5 id="targetlogsize">-TargetLogSize</h5>
-<p>Specifies the target size of the transaction log file in megabytes.<br></p>
+<p>Specifies the target size of the transaction log file in megabytes. <br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +633,7 @@ R:\MSSQL\Backup for the required backups.<br></p>
 </tbody>
 </table>
 <h5 id="shrinklogfile">-ShrinkLogFile</h5>
-<p>If this switch is enabled, your transaction log files will be shrunk.<br></p>
+<p>If this switch is enabled, your transaction log files will be shrunk. <br></p>
 <table>
 <thead>
 <tr>
@@ -661,7 +661,7 @@ R:\MSSQL\Backup for the required backups.<br></p>
 </tbody>
 </table>
 <h5 id="shrinksize">-ShrinkSize</h5>
-<p>Specifies the target size of the transaction log file for the shrink operation in megabytes.<br></p>
+<p>Specifies the target size of the transaction log file for the shrink operation in megabytes. <br></p>
 <table>
 <thead>
 <tr>
@@ -690,8 +690,8 @@ R:\MSSQL\Backup for the required backups.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -776,7 +776,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="incrementsize">-IncrementSize</h5>
-<p>Specifies the amount the transaction log should grow in megabytes. If this value differs from the suggested value based on your TargetLogSize, you will be prompted to confirm your choice.
+<p>Specifies the amount the transaction log should grow in megabytes. If this value differs from the suggested value based on your TargetLogSize, you will be prompted to confirm your choice.<br />
 This value will be calculated if not specified.<br></p>
 <table>
 <thead>
@@ -805,7 +805,7 @@ This value will be calculated if not specified.<br></p>
 </tbody>
 </table>
 <h5 id="logfileid">-LogFileId</h5>
-<p>Specifies the file number(s) of additional transaction log files to grow.
+<p>Specifies the file number(s) of additional transaction log files to grow.<br />
 If this value is not specified, only the first transaction log file will be processed.<br></p>
 <table>
 <thead>
@@ -834,7 +834,7 @@ If this value is not specified, only the first transaction log file will be proc
 </tbody>
 </table>
 <h5 id="backupdirectory">-BackupDirectory</h5>
-<p>Specifies the location of your backups. Backups must be performed to shrink the transaction log.
+<p>Specifies the location of your backups. Backups must be performed to shrink the transaction log.<br />
 If this value is not specified, the SQL Server instance's default backup directory will be used.<br></p>
 <table>
 <thead>
@@ -863,7 +863,7 @@ If this value is not specified, the SQL Server instance's default backup directo
 </tbody>
 </table>
 <h5 id="excludediskspacevalidation">-ExcludeDiskSpaceValidation</h5>
-<p>If this switch is enabled, the validation for enough disk space using Get-DbaDiskSpace command will be skipped.
+<p>If this switch is enabled, the validation for enough disk space using Get-DbaDiskSpace command will be skipped.<br />
 This can be useful when you know that you have enough space to grow your TLog but you don't have PowerShell Remoting enabled to validate it.<br></p>
 <table>
 <thead>
@@ -892,8 +892,8 @@ This can be useful when you know that you have enough space to grow your TLog bu
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

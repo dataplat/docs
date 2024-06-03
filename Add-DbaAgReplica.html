@@ -533,7 +533,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Adds sql2017b to the SharePoint availability group on sql2017a with a custom endpoint URL.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.<br></p>
+<p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -561,7 +561,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAvailabilityGroup.<br></p>
+<p>Enables piping from Get-DbaAvailabilityGroup. <br></p>
 <table>
 <thead>
 <tr>
@@ -590,8 +590,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instances using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instances using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -620,7 +620,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the replica. Defaults to the SQL Server instance name.
+<p>The name of the replica. Defaults to the SQL Server instance name.<br />
 This parameter is only supported if the replica is added to just one instance.<br></p>
 <table>
 <thead>
@@ -649,10 +649,10 @@ This parameter is only supported if the replica is added to just one instance.<b
 </tbody>
 </table>
 <h5 id="clustertype">-ClusterType</h5>
-<p>Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.
-Options include: Wsfc, External or None.
-Defaults to Wsfc (Windows Server Failover Cluster).
-The default can be changed with:
+<p>Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.<br />
+Options include: Wsfc, External or None.<br />
+Defaults to Wsfc (Windows Server Failover Cluster).<br />
+The default can be changed with:<br />
 Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
 <table>
 <thead>
@@ -809,10 +809,10 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '..
 </tbody>
 </table>
 <h5 id="connectionmodeinsecondaryrole">-ConnectionModeInSecondaryRole</h5>
-<p>Specifies the connection modes of an Availability Replica in secondary role.
-Options include: AllowNoConnections, AllowReadIntentConnectionsOnly,  AllowAllConnections
-Defaults to AllowNoConnections.
-The default can be changed with:
+<p>Specifies the connection modes of an Availability Replica in secondary role.<br />
+Options include: AllowNoConnections, AllowReadIntentConnectionsOnly,  AllowAllConnections<br />
+Defaults to AllowNoConnections.<br />
+The default can be changed with:<br />
 Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ConnectionModeInSecondaryRole' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
 <table>
 <thead>
@@ -845,8 +845,8 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ConnectionModeInSeconda
 </tbody>
 </table>
 <h5 id="seedingmode">-SeedingMode</h5>
-<p>Specifies how the secondary replica will be initially seeded.
-Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.
+<p>Specifies how the secondary replica will be initially seeded.<br />
+Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.<br />
 Manual requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica.<br></p>
 <table>
 <thead>
@@ -879,7 +879,7 @@ Manual requires you to create a backup of the database on the primary replica an
 </tbody>
 </table>
 <h5 id="endpoint">-Endpoint</h5>
-<p>By default, this command will attempt to find a DatabaseMirror endpoint. If one does not exist, it will create it.
+<p>By default, this command will attempt to find a DatabaseMirror endpoint. If one does not exist, it will create it.<br />
 If an endpoint must be created, the name &quot;hadr_endpoint&quot; will be used. If an alternative is preferred, use Endpoint.<br></p>
 <table>
 <thead>
@@ -908,10 +908,10 @@ If an endpoint must be created, the name &quot;hadr_endpoint&quot; will be used.
 </tbody>
 </table>
 <h5 id="endpointurl">-EndpointUrl</h5>
-<p>By default, the property Fqdn of Get-DbaEndpoint is used as EndpointUrl.
-Use EndpointUrl if a different URL is required due to special network configurations.
-EndpointUrl has to be an array of strings in format 'TCP://system-address:port', one entry for every instance.
-See details at: <a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica</a>
+<p>By default, the property Fqdn of Get-DbaEndpoint is used as EndpointUrl.<br />
+Use EndpointUrl if a different URL is required due to special network configurations.<br />
+EndpointUrl has to be an array of strings in format 'TCP://system-address:port', one entry for every instance.<br />
+See details at: <a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica</a><br />
 If an endpoint must be created, EndpointUrl will be used for configuration, if system-address is an ipv4 address.<br></p>
 <table>
 <thead>
@@ -968,7 +968,7 @@ If an endpoint must be created, EndpointUrl will be used for configuration, if s
 </tbody>
 </table>
 <h5 id="readonlyroutinglist">-ReadOnlyRoutingList</h5>
-<p>Sets the read only routing ordered list of replica server names to use when redirecting read-only connections through this availability replica.
+<p>Sets the read only routing ordered list of replica server names to use when redirecting read-only connections through this availability replica.<br />
 This parameter is only supported if the replica is added to just one instance.<br></p>
 <table>
 <thead>
@@ -997,7 +997,7 @@ This parameter is only supported if the replica is added to just one instance.<b
 </tbody>
 </table>
 <h5 id="readonlyroutingconnectionurl">-ReadonlyRoutingConnectionUrl</h5>
-<p>Sets the read only routing connection url for the availability replica.
+<p>Sets the read only routing connection url for the availability replica.<br />
 This parameter is only supported if the replica is added to just one instance.<br></p>
 <table>
 <thead>
@@ -1026,7 +1026,7 @@ This parameter is only supported if the replica is added to just one instance.<b
 </tbody>
 </table>
 <h5 id="certificate">-Certificate</h5>
-<p>Specifies that the endpoint is to authenticate the connection using the certificate specified by certificate_name to establish identity for authorization.
+<p>Specifies that the endpoint is to authenticate the connection using the certificate specified by certificate_name to establish identity for authorization.<br />
 The far endpoint must have a certificate with the public key matching the private key of the specified certificate.<br></p>
 <table>
 <thead>
@@ -1055,7 +1055,7 @@ The far endpoint must have a certificate with the public key matching the privat
 </tbody>
 </table>
 <h5 id="configurexesession">-ConfigureXESession</h5>
-<p>Configure the AlwaysOn_health extended events session to start automatically as the SSMS wizard would do.
+<p>Configure the AlwaysOn_health extended events session to start automatically as the SSMS wizard would do.<br />
 <a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/always-on-extended-events#BKMK_alwayson_health">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/always-on-extended-events#BKMK_alwayson_health</a><br></p>
 <table>
 <thead>
@@ -1112,8 +1112,8 @@ The far endpoint must have a certificate with the public key matching the privat
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

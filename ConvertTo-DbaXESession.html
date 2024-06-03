@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Uses a slightly modified version of sp_SQLskills_ConvertTraceToExtendedEvents.sql to convert Traces to Extended Events.</p>
 <h2 id="description">Description</h2>
 <p>Uses a slightly modified version of sp_SQLskills_ConvertTraceToExtendedEvents.sql to convert Traces to Extended Events.</p>
-<p>T-SQL code by: Jonathan M. Kehayias, SQLskills.com. T-SQL can be found in this module directory and at
+<p>T-SQL code by: Jonathan M. Kehayias, SQLskills.com. T-SQL can be found in this module directory and at<br />
 <a href="https://www.sqlskills.com/blogs/jonathan/converting-sql-trace-to-extended-events-in-sql-server-2012/">https://www.sqlskills.com/blogs/jonathan/converting-sql-trace-to-extended-events-in-sql-server-2012/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>ConvertTo-DbaXESession
@@ -516,7 +516,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Converts trace ID 1 on sql2014 to an Extended Event and outputs the resulting T-SQL.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Specifies a Trace object output by Get-DbaTrace.<br></p>
+<p>Specifies a Trace object output by Get-DbaTrace. <br></p>
 <table>
 <thead>
 <tr>
@@ -544,7 +544,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the Trace to convert. If the name exists, characters will be appended to it.<br></p>
+<p>The name of the Trace to convert. If the name exists, characters will be appended to it. <br></p>
 <table>
 <thead>
 <tr>
@@ -601,8 +601,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

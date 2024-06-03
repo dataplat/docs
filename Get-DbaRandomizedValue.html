@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>This function will generate a random value for a specific data type or bogus type and subtype</p>
 <h2 id="description">Description</h2>
-<p>Generates a random value based on the assigned sql data type or bogus type with sub type.
+<p>Generates a random value based on the assigned sql data type or bogus type with sub type.<br />
 It supports a wide range of sql data types and an entire dictionary of various random values.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaRandomizedValue
@@ -532,8 +532,8 @@ It supports a wide range of sql data types and an entire dictionary of various r
 <p>Generates a random phonenumber like &quot;(123) 4567890&quot;<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="datatype">-DataType</h5>
-<p>The target SQL Server instance or instances.
-Supported data types are bigint, bit, bool, char, date, datetime, datetime2, decimal, int, float, guid, money, numeric, nchar, ntext, nvarchar, real, smalldatetime, smallint, text, time, tinyint,
+<p>The target SQL Server instance or instances.<br />
+Supported data types are bigint, bit, bool, char, date, datetime, datetime2, decimal, int, float, guid, money, numeric, nchar, ntext, nvarchar, real, smalldatetime, smallint, text, time, tinyint,<br />
 uniqueidentifier, userdefineddatatype, varchar<br></p>
 <table>
 <thead>
@@ -562,7 +562,7 @@ uniqueidentifier, userdefineddatatype, varchar<br></p>
 </tbody>
 </table>
 <h5 id="randomizertype">-RandomizerType</h5>
-<p>Bogus type to use.
+<p>Bogus type to use.<br />
 Supported types are Address, Commerce, Company, Database, Date, Finance, Hacker, Hashids, Image, Internet, Lorem, Name, Person, Phone, Random, Rant, System<br></p>
 <table>
 <thead>
@@ -815,7 +815,7 @@ Supported types are Address, Commerce, Company, Database, Date, Finance, Hacker,
 </tbody>
 </table>
 <h5 id="value">-Value</h5>
-<p>This is the value that needs to be used for several possible transformations.
+<p>This is the value that needs to be used for several possible transformations.<br />
 One example is the subtype &quot;Shuffling&quot; where the value will be shuffled.<br></p>
 <table>
 <thead>
@@ -872,8 +872,8 @@ One example is the subtype &quot;Shuffling&quot; where the value will be shuffle
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

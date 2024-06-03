@@ -539,7 +539,7 @@ This exists to ignore the Script Analyzer rule for Start-Runspace<br></p>
 </tbody>
 </table>
 <h5 id="start">-Start</h5>
-<p>Default: 1970
+<p>Default: 1970<br />
 Retrieve all events starting from this timestamp.<br></p>
 <table>
 <thead>
@@ -568,7 +568,7 @@ Retrieve all events starting from this timestamp.<br></p>
 </tbody>
 </table>
 <h5 id="end">-End</h5>
-<p>Default: Now
+<p>Default: Now<br />
 Retrieve all events that happened before this timestamp<br></p>
 <table>
 <thead>
@@ -625,8 +625,8 @@ Retrieve all events that happened before this timestamp<br></p>
 </tbody>
 </table>
 <h5 id="maxthreads">-MaxThreads</h5>
-<p>Default: Unlimited
-The maximum number of parallel threads used on the local computer.
+<p>Default: Unlimited<br />
+The maximum number of parallel threads used on the local computer.<br />
 Given that those will mostly be waiting for the remote system, there is usually no need to limit this.<br></p>
 <table>
 <thead>
@@ -655,9 +655,9 @@ Given that those will mostly be waiting for the remote system, there is usually 
 </tbody>
 </table>
 <h5 id="maxremotethreads">-MaxRemoteThreads</h5>
-<p>Default: 2
-The maximum number of parallel threads that are executed on the target sql server.
-These processes will cause considerable CPU load, so a low limit is advisable in most scenarios.
+<p>Default: 2<br />
+The maximum number of parallel threads that are executed on the target sql server.<br />
+These processes will cause considerable CPU load, so a low limit is advisable in most scenarios.<br />
 Any value lower than 1 disables the limit<br></p>
 <table>
 <thead>
@@ -686,8 +686,8 @@ Any value lower than 1 disables the limit<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

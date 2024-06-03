@@ -523,7 +523,7 @@ migrating instance is &quot;sqlcluster&quot;, it will be switched to &quot;sqlse
 If SwitchServerName is not specified, &quot;sqlcluster&quot; will be skipped.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br></p>
+<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -551,7 +551,7 @@ If SwitchServerName is not specified, &quot;sqlcluster&quot; will be skipped.<br
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher.<br></p>
+<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -580,8 +580,8 @@ If SwitchServerName is not specified, &quot;sqlcluster&quot; will be skipped.<br
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -610,8 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -640,7 +640,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="group">-Group</h5>
-<p>This is an auto-populated array that contains your Central Management Server top-level groups on Source. You can specify one, many or none.
+<p>This is an auto-populated array that contains your Central Management Server top-level groups on Source. You can specify one, many or none.<br />
 If Group is not specified, all groups in your Central Management Server will be copied.<br></p>
 <table>
 <thead>
@@ -669,7 +669,7 @@ If Group is not specified, all groups in your Central Management Server will be 
 </tbody>
 </table>
 <h5 id="switchservername">-SwitchServerName</h5>
-<p>If this switch is enabled, all instance names will be changed from Source to Destination.
+<p>If this switch is enabled, all instance names will be changed from Source to Destination.<br />
 Central Management Server does not allow you to add a shared registered server with the same name as the Configuration Server.<br></p>
 <table>
 <thead>
@@ -726,8 +726,8 @@ Central Management Server does not allow you to add a shared registered server w
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -490,7 +490,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Verifies that your non-dynamic disks are aligned according to physical constraints.</p>
 <p>Returns one row per computer, partition and stripe size with.</p>
 <p>Please refer to your storage vendor best practices before following any advice below.</p>
-<p>By default issues with disk alignment should be resolved by a new installation of Windows Server 2008, Windows Vista, or later operating systems, but verifying disk alignment continues to be recommended as a best practice.
+<p>By default issues with disk alignment should be resolved by a new installation of Windows Server 2008, Windows Vista, or later operating systems, but verifying disk alignment continues to be recommended as a best practice.<br />
 While some versions of Windows use different starting alignments, if you are starting anew 1MB is generally the best practice offset for current operating systems (because it ensures that the partition offset % common stripe unit sizes == 0 )</p>
 <p>Caveats:</p>
 <ul>
@@ -521,7 +521,7 @@ While some versions of Windows use different starting alignments, if you are sta
 <p>Tests the disk alignment of multiple servers<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer or computers.<br></p>
+<p>The target computer or computers. <br></p>
 <table>
 <thead>
 <tr>
@@ -550,7 +550,7 @@ While some versions of Windows use different starting alignments, if you are sta
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="credential">-Credential</h5>
-<p>Specifies an alternate Windows account to use when enumerating drives on the server. May require Administrator privileges. To use:
+<p>Specifies an alternate Windows account to use when enumerating drives on the server. May require Administrator privileges. To use:<br />
 $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br></p>
 <table>
 <thead>
@@ -579,8 +579,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -637,8 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

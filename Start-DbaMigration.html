@@ -490,25 +490,25 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>For more granular control, please use Exclude or use the other functions available within the dbatools module.</p>
 <h2 id="description">Description</h2>
 <p>Start-DbaMigration consolidates most of the migration tools in dbatools into one command.  This is useful when you're looking to migrate entire instances. It less flexible than using the underlying functions. Think of it as an easy button. It migrates:</p>
-<p>All user databases to exclude support databases such as ReportServerTempDB (Use -IncludeSupportDbs for this). Use -Exclude Databases to skip.
-All logins. Use -Exclude Logins to skip.
-All database mail objects. Use -Exclude DatabaseMail
-All credentials. Use -Exclude Credentials to skip.
-All objects within the Job Server (SQL Agent). Use -Exclude AgentServer to skip.
-All linked servers. Use -Exclude LinkedServers to skip.
-All groups and servers within Central Management Server. Use -Exclude CentralManagementServer to skip.
-All SQL Server configuration objects (everything in sp_configure). Use -Exclude SpConfigure to skip.
-All user objects in system databases. Use -Exclude SysDbUserObjects to skip.
-All system triggers. Use -Exclude SystemTriggers to skip.
-All system backup devices. Use -Exclude BackupDevices to skip.
-All Audits. Use -Exclude Audits to skip.
-All Endpoints. Use -Exclude Endpoints to skip.
-All Extended Events. Use -Exclude ExtendedEvents to skip.
-All Policy Management objects. Use -Exclude PolicyManagement to skip.
-All Resource Governor objects. Use -Exclude ResourceGovernor to skip.
-All Server Audit Specifications. Use -Exclude ServerAuditSpecifications to skip.
-All Custom Errors (User Defined Messages). Use -Exclude CustomErrors to skip.
-All Data Collector collection sets. Does not configure the server. Use -Exclude DataCollector to skip.
+<p>All user databases to exclude support databases such as ReportServerTempDB (Use -IncludeSupportDbs for this). Use -Exclude Databases to skip.<br />
+All logins. Use -Exclude Logins to skip.<br />
+All database mail objects. Use -Exclude DatabaseMail<br />
+All credentials. Use -Exclude Credentials to skip.<br />
+All objects within the Job Server (SQL Agent). Use -Exclude AgentServer to skip.<br />
+All linked servers. Use -Exclude LinkedServers to skip.<br />
+All groups and servers within Central Management Server. Use -Exclude CentralManagementServer to skip.<br />
+All SQL Server configuration objects (everything in sp_configure). Use -Exclude SpConfigure to skip.<br />
+All user objects in system databases. Use -Exclude SysDbUserObjects to skip.<br />
+All system triggers. Use -Exclude SystemTriggers to skip.<br />
+All system backup devices. Use -Exclude BackupDevices to skip.<br />
+All Audits. Use -Exclude Audits to skip.<br />
+All Endpoints. Use -Exclude Endpoints to skip.<br />
+All Extended Events. Use -Exclude ExtendedEvents to skip.<br />
+All Policy Management objects. Use -Exclude PolicyManagement to skip.<br />
+All Resource Governor objects. Use -Exclude ResourceGovernor to skip.<br />
+All Server Audit Specifications. Use -Exclude ServerAuditSpecifications to skip.<br />
+All Custom Errors (User Defined Messages). Use -Exclude CustomErrors to skip.<br />
+All Data Collector collection sets. Does not configure the server. Use -Exclude DataCollector to skip.<br />
 All startup procedures. Use -Exclude StartupProcedures to skip.</p>
 <p>This script provides the ability to migrate databases using detach/copy/attach or backup/restore. SQL Server logins, including passwords, SID and database/server roles can also be migrated. In addition, job server objects can be migrated and server configuration settings can be exported or migrated. This script works with named instances, clusters and SQL Express.</p>
 <p>By default, databases will be migrated to the destination SQL Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure. Filestreams and filegroups are also migrated. Safety is emphasized.</p>
@@ -613,8 +613,8 @@ The execution of the function will migrate everything but logins and databases.<
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You may specify multiple servers.
-Note that when using -BackupRestore with multiple servers, the backup will only be performed once and backups will be deleted at the end.
+<p>Destination SQL Server. You may specify multiple servers.<br />
+Note that when using -BackupRestore with multiple servers, the backup will only be performed once and backups will be deleted at the end.<br />
 When using -DetachAttach with multiple servers, -Reattach must be specified.<br></p>
 <table>
 <thead>
@@ -643,7 +643,7 @@ When using -DetachAttach with multiple servers, -Reattach must be specified.<br>
 </tbody>
 </table>
 <h5 id="detachattach">-DetachAttach</h5>
-<p>If this switch is enabled, the the detach/copy/attach method is used to perform database migrations. No files are deleted on Source. If the destination attachment fails, the source database will be
+<p>If this switch is enabled, the the detach/copy/attach method is used to perform database migrations. No files are deleted on Source. If the destination attachment fails, the source database will be<br />
 reattached. File copies are performed over administrative shares (\server\x$\mssql) using BITS. If a database is being mirrored, the mirror will be broken prior to migration.<br></p>
 <table>
 <thead>
@@ -812,7 +812,7 @@ reattached. File copies are performed over administrative shares (\server\x$\mss
 </tbody>
 </table>
 <h5 id="setsourcereadonly">-SetSourceReadOnly</h5>
-<p>If this switch is enabled, all migrated databases will be set to ReadOnly on the source instance prior to detach/attach &amp; backup/restore. If -Reattach is specified, the database is set to read-only
+<p>If this switch is enabled, all migrated databases will be set to ReadOnly on the source instance prior to detach/attach &amp; backup/restore. If -Reattach is specified, the database is set to read-only<br />
 after reattaching.<br></p>
 <table>
 <thead>
@@ -841,7 +841,7 @@ after reattaching.<br></p>
 </tbody>
 </table>
 <h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
-<p>If this switch is enabled, the data and log directory structures on Source will be kept on Destination. Otherwise, databases will be migrated to Destination's default data and log directories.
+<p>If this switch is enabled, the data and log directory structures on Source will be kept on Destination. Otherwise, databases will be migrated to Destination's default data and log directories.<br />
 Consider this if you're migrating between different versions and use part of Microsoft's default SQL structure (MSSQL12.INSTANCE, etc.).<br></p>
 <table>
 <thead>
@@ -870,7 +870,7 @@ Consider this if you're migrating between different versions and use part of Mic
 </tbody>
 </table>
 <h5 id="includesupportdbs">-IncludeSupportDbs</h5>
-<p>If this switch is enabled, the ReportServer, ReportServerTempDb, SSIDb, and distribution databases will be migrated if they exist. A logfile named $SOURCE-$DESTINATION-$date-Sqls.csv will be written
+<p>If this switch is enabled, the ReportServer, ReportServerTempDb, SSIDb, and distribution databases will be migrated if they exist. A logfile named $SOURCE-$DESTINATION-$date-Sqls.csv will be written<br />
 to the current directory. Requires -BackupRestore or -DetachAttach.<br></p>
 <table>
 <thead>
@@ -899,8 +899,8 @@ to the current directory. Requires -BackupRestore or -DetachAttach.<br></p>
 </tbody>
 </table>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -929,8 +929,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -959,28 +959,28 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="exclude">-Exclude</h5>
-<p>Exclude one or more objects to migrate
-Databases
-Logins
-AgentServer
-Credentials
-LinkedServers
-SpConfigure
-CentralManagementServer
-DatabaseMail
-SysDbUserObjects
-SystemTriggers
-BackupDevices
-Audits
-Endpoints
-ExtendedEvents
-PolicyManagement
-ResourceGovernor
-ServerAuditSpecifications
-CustomErrors
-DataCollector
-StartupProcedures
-AgentServerProperties
+<p>Exclude one or more objects to migrate<br />
+Databases<br />
+Logins<br />
+AgentServer<br />
+Credentials<br />
+LinkedServers<br />
+SpConfigure<br />
+CentralManagementServer<br />
+DatabaseMail<br />
+SysDbUserObjects<br />
+SystemTriggers<br />
+BackupDevices<br />
+Audits<br />
+Endpoints<br />
+ExtendedEvents<br />
+PolicyManagement<br />
+ResourceGovernor<br />
+ServerAuditSpecifications<br />
+CustomErrors<br />
+DataCollector<br />
+StartupProcedures<br />
+AgentServerProperties<br />
 MasterCertificates<br></p>
 <table>
 <thead>
@@ -1209,9 +1209,9 @@ MasterCertificates<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If migrating users, forces drop and recreate of SQL and Windows logins.
-If migrating databases, deletes existing databases with matching names.
-If using -DetachAttach, -Force will break mirrors and drop dbs from Availability Groups.
+<p>If migrating users, forces drop and recreate of SQL and Windows logins.<br />
+If migrating databases, deletes existing databases with matching names.<br />
+If using -DetachAttach, -Force will break mirrors and drop dbs from Availability Groups.<br />
 For other migration objects, it will just drop existing items and readd, if -force is supported within the underlying function.<br></p>
 <table>
 <thead>
@@ -1296,8 +1296,8 @@ For other migration objects, it will just drop existing items and readd, if -for
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

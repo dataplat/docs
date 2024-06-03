@@ -525,7 +525,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Returns all log entries within the last 5 executions that contained the tag &quot;fail&quot;<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="functionname">-FunctionName</h5>
-<p>Default: &quot;*&quot;
+<p>Default: &quot;*&quot;<br />
 Only messages written by similar functions will be returned.<br></p>
 <table>
 <thead>
@@ -554,7 +554,7 @@ Only messages written by similar functions will be returned.<br></p>
 </tbody>
 </table>
 <h5 id="modulename">-ModuleName</h5>
-<p>Default: &quot;*&quot;
+<p>Default: &quot;*&quot;<br />
 Only messages written by commands from similar modules will be returned.<br></p>
 <table>
 <thead>
@@ -639,9 +639,9 @@ Only messages written by commands from similar modules will be returned.<br></p>
 </tbody>
 </table>
 <h5 id="last">-Last</h5>
-<p>Only messages written by the last X executions will be returned.
-Uses Get-History to determine execution. Ignores Get-message commands.
-By default, this will also include messages from other runspaces. If your command executes in parallel, that's useful.
+<p>Only messages written by the last X executions will be returned.<br />
+Uses Get-History to determine execution. Ignores Get-message commands.<br />
+By default, this will also include messages from other runspaces. If your command executes in parallel, that's useful.<br />
 If it doesn't and you were offloading executions to other runspaces, consider also filtering by runspace using '-Runspace'<br></p>
 <table>
 <thead>
@@ -698,7 +698,7 @@ If it doesn't and you were offloading executions to other runspaces, consider al
 </tbody>
 </table>
 <h5 id="skip">-Skip</h5>
-<p>How many executions to skip when specifying '-Last'.
+<p>How many executions to skip when specifying '-Last'.<br />
 Has no effect without the '-Last' parameter.<br></p>
 <table>
 <thead>
@@ -727,9 +727,9 @@ Has no effect without the '-Last' parameter.<br></p>
 </tbody>
 </table>
 <h5 id="runspace">-Runspace</h5>
-<p>The guid of the runspace to return messages from.
-By default, messages from all runspaces are returned.
-Run the following line to see the list of guids:
+<p>The guid of the runspace to return messages from.<br />
+By default, messages from all runspaces are returned.<br />
+Run the following line to see the list of guids:<br />
 Get-Runspace | ft Id, Name, InstanceId -AutoSize<br></p>
 <table>
 <thead>
@@ -758,9 +758,9 @@ Get-Runspace | ft Id, Name, InstanceId -AutoSize<br></p>
 </tbody>
 </table>
 <h5 id="level">-Level</h5>
-<p>Limit the message selection by level.
-Message levels have a numeric value, making it easier to select a range:
--Level (1..6)
+<p>Limit the message selection by level.<br />
+Message levels have a numeric value, making it easier to select a range:<br />
+-Level (1..6)<br />
 Will select the first 6 levels (Critical - SomewhatVerbose).<br></p>
 <table>
 <thead>

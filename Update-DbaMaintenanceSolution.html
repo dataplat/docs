@@ -487,9 +487,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Download and Update SQL Server Maintenance Solution created by Ola Hallengren (<a href="https://ola.hallengren.com">https://ola.hallengren.com</a>)</p>
 <h2 id="description">Description</h2>
-<p>This script will download and update the latest version of SQL Server Maintenance Solution created by Ola Hallengren.
+<p>This script will download and update the latest version of SQL Server Maintenance Solution created by Ola Hallengren.<br />
 Only the stored procedure will be updated. All tables and jobs will stay untouched.</p>
-<p>So this can only be used until a new version of the procedures need a new version of the tables or jobs.
+<p>So this can only be used until a new version of the procedures need a new version of the tables or jobs.<br />
 In this case you have to completely reinstall the SQL Server Maintenance Solution with Install-DbaMaintenanceSolution.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Update-DbaMaintenanceSolution
@@ -514,7 +514,7 @@ In this case you have to completely reinstall the SQL Server Maintenance Solutio
 <p>Updates Ola Hallengren's Solution objects on RES14224 in the DBA database.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance onto which the Maintenance Solution will be updated.<br></p>
+<p>The target SQL Server instance onto which the Maintenance Solution will be updated. <br></p>
 <table>
 <thead>
 <tr>
@@ -543,8 +543,8 @@ In this case you have to completely reinstall the SQL Server Maintenance Solutio
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -601,7 +601,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="solution">-Solution</h5>
-<p>Specifies which portion of the Maintenance solution to update. Valid values are All (full solution), Backup, IntegrityCheck and IndexOptimize.
+<p>Specifies which portion of the Maintenance solution to update. Valid values are All (full solution), Backup, IntegrityCheck and IndexOptimize.<br />
 Defaults to All, but only existing procedures will be replaced.<br></p>
 <table>
 <thead>
@@ -634,7 +634,7 @@ Defaults to All, but only existing procedures will be replaced.<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install Ola's solution from. This <em>should</em> be the zip file as distributed by the maintainers.
+<p>Specifies the path to a local file to install Ola's solution from. This <em>should</em> be the zip file as distributed by the maintainers.<br />
 If this parameter is not specified, the latest version will be downloaded from <a href="https://github.com/olahallengren/sql-server-maintenance-solution">https://github.com/olahallengren/sql-server-maintenance-solution</a><br></p>
 <table>
 <thead>
@@ -691,8 +691,8 @@ If this parameter is not specified, the latest version will be downloaded from <
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

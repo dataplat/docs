@@ -493,11 +493,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaDatabase
     [-Source &lt;DbaInstanceParameter&gt;]
-    [-SourceSqlCredential &lt;PSCredential&gt;] -Destination &lt;DbaInstanceParameter[]&gt;
+    [-SourceSqlCredential &lt;PSCredential&gt;]
+    -Destination &lt;DbaInstanceParameter[]&gt;
     [-DestinationSqlCredential &lt;PSCredential&gt;]
     [-Database &lt;Object[]&gt;]
     [-ExcludeDatabase &lt;Object[]&gt;]
-    [-AllDatabases] -BackupRestore
+    [-AllDatabases]
+    -BackupRestore
     [-AdvancedBackupParams &lt;Hashtable&gt;]
     [-SharedPath &lt;String&gt;]
     [-AzureCredential &lt;String&gt;]
@@ -525,12 +527,14 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 
 Copy-DbaDatabase
     [-Source &lt;DbaInstanceParameter&gt;]
-    [-SourceSqlCredential &lt;PSCredential&gt;] -Destination &lt;DbaInstanceParameter[]&gt;
+    [-SourceSqlCredential &lt;PSCredential&gt;]
+    -Destination &lt;DbaInstanceParameter[]&gt;
     [-DestinationSqlCredential &lt;PSCredential&gt;]
     [-Database &lt;Object[]&gt;]
     [-ExcludeDatabase &lt;Object[]&gt;]
     [-AllDatabases]
-    [-AzureCredential &lt;String&gt;] -DetachAttach
+    [-AzureCredential &lt;String&gt;]
+    -DetachAttach
     [-Reattach]
     [-SetSourceReadOnly]
     [-ReuseSourceFolderStructure]
@@ -593,9 +597,9 @@ Migrates Mydb from instance sql2014 to AzureDb on the specified Azure SQL Manage
 <p>Copies database t from sqlcs to the same server (sqlcs) using the detach/copy/attach method. The new database will be named t_copy and the original database will be reattached.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You may specify multiple servers.
-Note that when using -BackupRestore with multiple servers, the backup will only be performed once and backups will be deleted at the end (if you didn't specify -NoBackupCleanup).
-When using -DetachAttach with multiple servers, -Reattach must be specified.<br></p>
+<p>Destination SQL Server. You may specify multiple servers.<br />
+Note that when using -BackupRestore with multiple servers, the backup will only be performed once and backups will be deleted at the end (if you didn't specify -NoBackupCleanup).<br />
+When using -DetachAttach with multiple servers, -Reattach must be specified. <br></p>
 <table>
 <thead>
 <tr>
@@ -623,8 +627,8 @@ When using -DetachAttach with multiple servers, -Reattach must be specified.<br>
 </tbody>
 </table>
 <h5 id="backuprestore">-BackupRestore</h5>
-<p>If this switch is enabled, the copy-only backup and restore method will be used to migrate the database(s). This method requires that you specify either -SharedPath or -UseLastBackup.
-Backups will be immediately deleted after use unless -NoBackupCleanup is specified.<br></p>
+<p>If this switch is enabled, the copy-only backup and restore method will be used to migrate the database(s). This method requires that you specify either -SharedPath or -UseLastBackup.<br />
+Backups will be immediately deleted after use unless -NoBackupCleanup is specified. <br></p>
 <table>
 <thead>
 <tr>
@@ -652,8 +656,8 @@ Backups will be immediately deleted after use unless -NoBackupCleanup is specifi
 </tbody>
 </table>
 <h5 id="detachattach">-DetachAttach</h5>
-<p>If this switch is enabled, the detach/copy/attach method is used to perform database migrations. No files are deleted on Source. If Destination attachment fails, the Source database will be
-reattached. File copies are performed over administrative shares (\server\x$\mssql) using BITS. If a database is being mirrored, the mirror will be broken prior to migration.<br></p>
+<p>If this switch is enabled, the detach/copy/attach method is used to perform database migrations. No files are deleted on Source. If Destination attachment fails, the Source database will be<br />
+reattached. File copies are performed over administrative shares (\server\x$\mssql) using BITS. If a database is being mirrored, the mirror will be broken prior to migration. <br></p>
 <table>
 <thead>
 <tr>
@@ -710,8 +714,8 @@ reattached. File copies are performed over administrative shares (\server\x$\mss
 </tbody>
 </table>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -740,8 +744,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -882,7 +886,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sharedpath">-SharedPath</h5>
-<p>Specifies the network location for the backup files. The SQL Server service accounts must have read/write permission on this path.
+<p>Specifies the network location for the backup files. The SQL Server service accounts must have read/write permission on this path.<br />
 Can be either a full path 'c:\backups', a UNC path '\server\backups' or an Azure storage Account 'https://example.blob.core.windows.net/sql/'<br></p>
 <table>
 <thead>
@@ -911,7 +915,7 @@ Can be either a full path 'c:\backups', a UNC path '\server\backups' or an Azure
 </tbody>
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
-<p>The name of the credential on the SQL instance that can write to the AzureBaseUrl, only needed if using Storage access keys
+<p>The name of the credential on the SQL instance that can write to the AzureBaseUrl, only needed if using Storage access keys<br />
 If using SAS credentials, the command will look for a credential with a name matching the AzureBaseUrl<br></p>
 <table>
 <thead>
@@ -1080,7 +1084,7 @@ If using SAS credentials, the command will look for a credential with a name mat
 </tbody>
 </table>
 <h5 id="setsourcereadonly">-SetSourceReadOnly</h5>
-<p>If this switch is enabled, all migrated databases are set to ReadOnly on Source prior to detach/attach &amp; backup/restore.
+<p>If this switch is enabled, all migrated databases are set to ReadOnly on Source prior to detach/attach &amp; backup/restore.<br />
 If -Reattach is used, databases are set to read-only after reattaching.<br></p>
 <table>
 <thead>
@@ -1109,9 +1113,9 @@ If -Reattach is used, databases are set to read-only after reattaching.<br></p>
 </tbody>
 </table>
 <h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
-<p>If this switch is enabled, databases will be migrated to a data and log directory structure on Destination mirroring that used on Source. By default, the default data and log directories for
-Destination will be used when the databases are migrated.
-The structure on Source  will be kept exactly, so consider this if you're migrating between different versions and use part of Microsoft's default Sql structure (MSSql12.INSTANCE, etc)
+<p>If this switch is enabled, databases will be migrated to a data and log directory structure on Destination mirroring that used on Source. By default, the default data and log directories for<br />
+Destination will be used when the databases are migrated.<br />
+The structure on Source  will be kept exactly, so consider this if you're migrating between different versions and use part of Microsoft's default Sql structure (MSSql12.INSTANCE, etc)<br />
 To reuse Destination folder structure, use the -WithReplace switch.<br></p>
 <table>
 <thead>
@@ -1140,8 +1144,8 @@ To reuse Destination folder structure, use the -WithReplace switch.<br></p>
 </tbody>
 </table>
 <h5 id="includesupportdbs">-IncludeSupportDbs</h5>
-<p>If this switch is enabled, ReportServer, ReportServerTempDb, SSISDB, and distribution databases will be copied if they exist on Source. A log file named $SOURCE-$destinstance-$date-Sqls.csv will be
-written to the current directory.
+<p>If this switch is enabled, ReportServer, ReportServerTempDb, SSISDB, and distribution databases will be copied if they exist on Source. A log file named $SOURCE-$destinstance-$date-Sqls.csv will be<br />
+written to the current directory.<br />
 Use of this switch requires -BackupRestore or -DetachAttach as well.<br></p>
 <table>
 <thead>
@@ -1254,8 +1258,8 @@ Use of this switch requires -BackupRestore or -DetachAttach as well.<br></p>
 </tbody>
 </table>
 <h5 id="nocopyonly">-NoCopyOnly</h5>
-<p>If this switch is enabled, backups will be taken without COPY_ONLY. This will break the LSN backup chain, which will interfere with the restore chain of the database.
-By default this switch is disabled, so backups will be taken with COPY_ONLY. This will preserve the LSN backup chain.
+<p>If this switch is enabled, backups will be taken without COPY_ONLY. This will break the LSN backup chain, which will interfere with the restore chain of the database.<br />
+By default this switch is disabled, so backups will be taken with COPY_ONLY. This will preserve the LSN backup chain.<br />
 For more details please refer to this MSDN article - <a href="https://msdn.microsoft.com/en-us/library/ms191495.aspx">https://msdn.microsoft.com/en-us/library/ms191495.aspx</a><br></p>
 <table>
 <thead>
@@ -1368,9 +1372,9 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="newname">-NewName</h5>
-<p>If a single database is being copied, this will be used to rename the database during the copy process. Any occurrence of the original database name in the physical file names will be replaced with
-NewName
-If specified with multiple databases a warning will be raised and the copy stopped
+<p>If a single database is being copied, this will be used to rename the database during the copy process. Any occurrence of the original database name in the physical file names will be replaced with<br />
+NewName<br />
+If specified with multiple databases a warning will be raised and the copy stopped<br />
 This option is mutually exclusive of Prefix<br></p>
 <table>
 <thead>
@@ -1399,7 +1403,7 @@ This option is mutually exclusive of Prefix<br></p>
 </tbody>
 </table>
 <h5 id="prefix">-Prefix</h5>
-<p>All copied database names and physical files will be prefixed with this string
+<p>All copied database names and physical files will be prefixed with this string<br />
 This option is mutually exclusive of NewName<br></p>
 <table>
 <thead>
@@ -1428,8 +1432,8 @@ This option is mutually exclusive of NewName<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, existing databases on Destination with matching names from Source will be dropped.
-If using -DetachReattach, mirrors will be broken and the database(s) dropped from Availability Groups.
+<p>If this switch is enabled, existing databases on Destination with matching names from Source will be dropped.<br />
+If using -DetachReattach, mirrors will be broken and the database(s) dropped from Availability Groups.<br />
 If using -SetSourceReadonly, this will instantly roll back any open transactions that may be stopping the process.<br></p>
 <table>
 <thead>
@@ -1458,8 +1462,8 @@ If using -SetSourceReadonly, this will instantly roll back any open transactions
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

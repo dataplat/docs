@@ -487,15 +487,16 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Drop database user</p>
 <h2 id="description">Description</h2>
-<p>If user is the owner of a schema with the same name and if if the schema does not have any underlying objects the schema will be
-dropped.  If user owns more than one schema, the owner of the schemas that does not have the same name as the user, will be
+<p>If user is the owner of a schema with the same name and if if the schema does not have any underlying objects the schema will be<br />
+dropped.  If user owns more than one schema, the owner of the schemas that does not have the same name as the user, will be<br />
 changed to 'dbo'. If schemas have underlying objects, you must specify the -Force parameter so the user can be dropped.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbUser
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;Object[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;] -User &lt;Object[]&gt;
+    [-ExcludeDatabase &lt;Object[]&gt;]
+    -User &lt;Object[]&gt;
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -531,7 +532,7 @@ Remove-DbaDbUser -InputObject &lt;User[]&gt;
 <p>Drops user1 from all databases it exists in on server 'sqlserver2014'.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -559,7 +560,7 @@ Remove-DbaDbUser -InputObject &lt;User[]&gt;
 </tbody>
 </table>
 <h5 id="user">-User</h5>
-<p>Specifies the list of users to remove.<br></p>
+<p>Specifies the list of users to remove. <br></p>
 <table>
 <thead>
 <tr>
@@ -587,7 +588,7 @@ Remove-DbaDbUser -InputObject &lt;User[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Support piping from Get-DbaDbUser.<br></p>
+<p>Support piping from Get-DbaDbUser. <br></p>
 <table>
 <thead>
 <tr>
@@ -616,8 +617,8 @@ Remove-DbaDbUser -InputObject &lt;User[]&gt;
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance..<br></p>
 <table>
 <thead>
@@ -730,8 +731,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

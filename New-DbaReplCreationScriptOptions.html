@@ -526,7 +526,7 @@ PS C:\&gt; Add-DbaReplArticle @article -EnableException
 <p>Adds the stores table to the testPub publication from mssql1.pubs with the ClusteredIndexes and Identity options set, excludes default options.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="options">-Options</h5>
-<p>The options to set on published articles.
+<p>The options to set on published articles.<br />
 See <a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.sqlserver.replication.creationscriptoptions">https://docs.microsoft.com/en-us/dotnet/api/microsoft.sqlserver.replication.creationscriptoptions</a> for a list of available options<br></p>
 <table>
 <thead>
@@ -555,11 +555,11 @@ See <a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.sqlserver.rep
 </tbody>
 </table>
 <h5 id="nodefaults">-NoDefaults</h5>
-<p>If specified, no default options will be set on the object
-Defaults are copied from when you add an article in SQL Server Management Studio and include:
-PrimaryObject, CustomProcedures, Identity, KeepTimestamp,
-ClusteredIndexes, DriPrimaryKey, Collation, DriUniqueKeys,
-MarkReplicatedCheckConstraintsAsNotForReplication,
+<p>If specified, no default options will be set on the object<br />
+Defaults are copied from when you add an article in SQL Server Management Studio and include:<br />
+PrimaryObject, CustomProcedures, Identity, KeepTimestamp,<br />
+ClusteredIndexes, DriPrimaryKey, Collation, DriUniqueKeys,<br />
+MarkReplicatedCheckConstraintsAsNotForReplication,<br />
 MarkReplicatedForeignKeyConstraintsAsNotForReplication, and Schema<br></p>
 <table>
 <thead>

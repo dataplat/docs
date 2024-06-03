@@ -487,14 +487,14 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Invoke-DbaDbLogShipRecovery recovers log shipped databases to a normal state to act upon a migration or disaster.</p>
 <h2 id="description">Description</h2>
-<p>By default all the databases for a particular instance are recovered.
+<p>By default all the databases for a particular instance are recovered.<br />
 If the database is in the right state, either standby or recovering, the process will try to recover the database.</p>
-<p>At first the function will check if the backup source directory can still be reached.
-If so it will look up the last transaction log backup for the database. If that backup file is not the last copied file the log shipping copy job will be started.
-If the directory cannot be reached for the function will continue to the restoring process.
+<p>At first the function will check if the backup source directory can still be reached.<br />
+If so it will look up the last transaction log backup for the database. If that backup file is not the last copied file the log shipping copy job will be started.<br />
+If the directory cannot be reached for the function will continue to the restoring process.<br />
 After the copy job check is performed the job is disabled to prevent the job to run.</p>
-<p>For the restore the log shipping status is checked in the msdb database.
-If the last restored file is not the same as the last file name found, the log shipping restore job will be executed.
+<p>For the restore the log shipping status is checked in the msdb database.<br />
+If the last restored file is not the same as the last file name found, the log shipping restore job will be executed.<br />
 After the restore job check is performed the job is disabled to prevent the job to run</p>
 <p>The last part is to set the database online by restoring the databases with recovery</p>
 <h2 id="syntax">Syntax</h2>
@@ -565,7 +565,7 @@ After the restore job check is performed the job is disabled to prevent the job 
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Database to perform the restore for. This value can also be piped enabling multiple databases to be recovered.
+<p>Database to perform the restore for. This value can also be piped enabling multiple databases to be recovered.<br />
 If this value is not supplied all databases will be recovered.<br></p>
 <table>
 <thead>
@@ -594,8 +594,8 @@ If this value is not supplied all databases will be recovered.<br></p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -624,7 +624,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>Allows you to choose to not restore the database to a functional state (Normal) in the final steps of the process.
+<p>Allows you to choose to not restore the database to a functional state (Normal) in the final steps of the process.<br />
 By default the database is restored to a functional state (Normal).<br></p>
 <table>
 <thead>
@@ -653,8 +653,8 @@ By default the database is restored to a functional state (Normal).<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>
@@ -739,7 +739,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="delay">-Delay</h5>
-<p>Set the delay in seconds to wait for the copy and/or restore jobs.
+<p>Set the delay in seconds to wait for the copy and/or restore jobs.<br />
 By default the delay is 5 seconds<br></p>
 <table>
 <thead>

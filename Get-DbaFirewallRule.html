@@ -487,13 +487,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Returns firewall rules for SQL Server instances from the target computer.</p>
 <h2 id="description">Description</h2>
-<p>Returns firewall rules for SQL Server instances from the target computer.
-As the group and the names of the firewall rules are fixed, this command
+<p>Returns firewall rules for SQL Server instances from the target computer.<br />
+As the group and the names of the firewall rules are fixed, this command<br />
 only works for rules created with New-DbaFirewallRule.</p>
-<p>This is basically a wrapper around Get-NetFirewallRule executed at the target computer.
+<p>This is basically a wrapper around Get-NetFirewallRule executed at the target computer.<br />
 So this only works if Get-NetFirewallRule works on the target computer.</p>
 <p>The functionality is currently limited. Help to extend the functionality is welcome.</p>
-<p>As long as you can read this note here, there may be breaking changes in future versions.
+<p>As long as you can read this note here, there may be breaking changes in future versions.<br />
 So please review your scripts using this command after updating dbatools.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaFirewallRule
@@ -529,7 +529,7 @@ As the Browser is not bound to a specific instance, only the computer part of Sq
 The value &quot;AllInstance&quot; only uses the computer name part of SqlInstance.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -586,15 +586,15 @@ The value &quot;AllInstance&quot; only uses the computer name part of SqlInstanc
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Returns firewall rules for the given type(s).
+<p>Returns firewall rules for the given type(s).<br />
 Valid values are:</p>
 <ul>
 <li>Engine - for the SQL Server instance</li>
 <li>Browser - for the SQL Server Browser</li>
 <li>DAC - for the dedicated admin connection (DAC)</li>
-<li>AllInstance - for all firewall rules on the target computer related to SQL Server
-If this parameter is not used, the firewall rule for the SQL Server instance will be returned
-and in case the instance is listening on a port other than 1433,
+<li>AllInstance - for all firewall rules on the target computer related to SQL Server<br />
+If this parameter is not used, the firewall rule for the SQL Server instance will be returned<br />
+and in case the instance is listening on a port other than 1433,<br />
 also the firewall rule for the SQL Server Browser will be returned.<br></li>
 </ul>
 <table>
@@ -628,8 +628,8 @@ also the firewall rule for the SQL Server Browser will be returned.<br></li>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

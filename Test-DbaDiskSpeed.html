@@ -489,7 +489,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Obtains I/O statistics based on the DMV sys.dm_io_virtual_file_stats:</p>
 <p><a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-io-virtual-file-stats-transact-sql">https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-io-virtual-file-stats-transact-sql</a></p>
-<p>This command uses a query from Rich Benner
+<p>This command uses a query from Rich Benner<br />
 <a href="https://github.com/RichBenner/PersonalCode/blob/master/Disk_Speed_Check.sql">https://github.com/RichBenner/PersonalCode/blob/master/Disk_Speed_Check.sql</a></p>
 <p>...and also based on further adaptations referenced at <a href="https://github.com/dataplat/dbatools/issues/6551#issue-623216718">https://github.com/dataplat/dbatools/issues/6551#issue-623216718</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -543,7 +543,7 @@ Returns the statistics for more than one database specified.<br></p>
 Returns the statistics for databases other than the exclusions specified.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -572,8 +572,8 @@ Returns the statistics for databases other than the exclusions specified.<br></p
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -690,8 +690,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

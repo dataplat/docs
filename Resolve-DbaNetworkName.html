@@ -487,19 +487,19 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Returns information about the network connection of the target computer including NetBIOS name, IP Address, domain name and fully qualified domain name (FQDN).</p>
 <h2 id="description">Description</h2>
-<p>Retrieves the IPAddress, ComputerName from one computer.
+<p>Retrieves the IPAddress, ComputerName from one computer.<br />
 The object can be used to take action against its name or IPAddress.</p>
 <p>First ICMP is used to test the connection, and get the connected IPAddress.</p>
 <p>Multiple protocols (e.g. WMI, CIM, etc) are attempted before giving up.</p>
-<p>Important: Remember that FQDN doesn't always match &quot;ComputerName dot Domain&quot; as AD intends.
-There are network setup (google &quot;disjoint domain&quot;) where AD and DNS do not match.
-&quot;Full computer name&quot; (as reported by sysdm.cpl) is the only match between the two,
-and it matches the &quot;DNSHostName&quot;  property of the computer object stored in AD.
-This means that the notation of FQDN that matches &quot;ComputerName dot Domain&quot; is incorrect
-in those scenarios.
+<p>Important: Remember that FQDN doesn't always match &quot;ComputerName dot Domain&quot; as AD intends.<br />
+There are network setup (google &quot;disjoint domain&quot;) where AD and DNS do not match.<br />
+&quot;Full computer name&quot; (as reported by sysdm.cpl) is the only match between the two,<br />
+and it matches the &quot;DNSHostName&quot;  property of the computer object stored in AD.<br />
+This means that the notation of FQDN that matches &quot;ComputerName dot Domain&quot; is incorrect<br />
+in those scenarios.<br />
 In other words, the &quot;suffix&quot; of the FQDN CAN be different from the AD Domain.</p>
-<p>This cmdlet has been providing good results since its inception but for lack of useful
-names some doubts may arise.
+<p>This cmdlet has been providing good results since its inception but for lack of useful<br />
+names some doubts may arise.<br />
 Let this clear the doubts:</p>
 <ul>
 <li>InputName: whatever has been passed in</li>
@@ -543,7 +543,7 @@ Let this clear the doubts:</p>
 <p>Returns a custom object displaying InputName, ComputerName, IPAddress, DNSHostName, DNSDomain, Domain, DNSHostEntry, FQDN, DNSHostEntry for all SQL Servers returned by Get-DbaRegServer<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances.
+<p>The target SQL Server instance or instances.<br />
 This can be the name of a computer, a SMO object, an IP address or a SQL Instance.<br></p>
 <table>
 <thead>
@@ -572,8 +572,8 @@ This can be the name of a computer, a SMO object, an IP address or a SQL Instanc
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -602,8 +602,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="turbo">-Turbo</h5>
-<p>Resolves without accessing the server itself. Faster but may be less accurate because it relies on DNS only,
-so it may fail spectacularly for disjoin-domain setups. Also, everyone has its own DNS (i.e. results may vary
+<p>Resolves without accessing the server itself. Faster but may be less accurate because it relies on DNS only,<br />
+so it may fail spectacularly for disjoin-domain setups. Also, everyone has its own DNS (i.e. results may vary<br />
 changing the computer where the function runs)<br></p>
 <table>
 <thead>
@@ -632,8 +632,8 @@ changing the computer where the function runs)<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -489,15 +489,26 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Wrapper around Select-Object, extends property parameter.</p>
 <pre><code>        This function allows specifying in-line transformation of the properties specified without needing to use complex hashtables.
+
         For example, renaming a property becomes as simple as 'Length as Size'
+
+
 
         Also supported:
 
+
+
         - Specifying a typename
+
+
 
         - Picking the default display properties
 
+
+
         - Adding to an existing object without destroying its type
+
+
 
         See the description of the Property parameter for an exhaustive list of legal notations for in-line transformations.
 </code></pre>
@@ -509,13 +520,16 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-ScriptMethod &lt;SelectScriptMethodParameter[]&gt;]
     [-InputObject ]
     [-ExcludeProperty &lt;string[]&gt;]
-    [-ExpandProperty ] -Unique
+    [-ExpandProperty ]
+    -Unique
     [-Last ]
     [-First ]
-    [-Skip ] -Wait
+    [-Skip ]
+    -Wait
     [-ShowProperty &lt;string[]&gt;]
     [-ShowExcludeProperty &lt;string[]&gt;]
-    [-TypeName ] -KeepInputObject
+    [-TypeName ]
+    -KeepInputObject
     []            
 
 Select-DbaObject
@@ -525,19 +539,24 @@ Select-DbaObject
     [-ScriptMethod &lt;SelectScriptMethodParameter[]&gt;]
     [-InputObject ]
     [-ExcludeProperty &lt;string[]&gt;]
-    [-ExpandProperty ] -Unique
+    [-ExpandProperty ]
+    -Unique
     [-SkipLast ]
     [-ShowProperty &lt;string[]&gt;]
     [-ShowExcludeProperty &lt;string[]&gt;]
-    [-TypeName ] -KeepInputObject
+    [-TypeName ]
+    -KeepInputObject
     []            
 
 Select-DbaObject
-    [-InputObject ] -Unique -Wait
+    [-InputObject ]
+    -Unique
+    -Wait
     [-Index &lt;int[]&gt;]
     [-ShowProperty &lt;string[]&gt;]
     [-ShowExcludeProperty &lt;string[]&gt;]
-    [-TypeName ] -KeepInputObject
+    [-TypeName ]
+    -KeepInputObject
     []
 
 </code></pre>

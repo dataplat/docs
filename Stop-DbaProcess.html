@@ -523,7 +523,8 @@ Stop-DbaProcess
     [-Database &lt;String[]&gt;]
     [-Login &lt;String[]&gt;]
     [-Hostname &lt;String[]&gt;]
-    [-Program &lt;String[]&gt;] -InputObject &lt;Object[]&gt;
+    [-Program &lt;String[]&gt;]
+    -InputObject &lt;Object[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -559,7 +560,7 @@ Stop-DbaProcess
 <p>Finds processes that were created with dbatools, then kills them.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -587,7 +588,7 @@ Stop-DbaProcess
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>This is the process object passed by Get-DbaProcess if using a pipeline.<br></p>
+<p>This is the process object passed by Get-DbaProcess if using a pipeline. <br></p>
 <table>
 <thead>
 <tr>
@@ -616,8 +617,8 @@ Stop-DbaProcess
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -674,7 +675,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludespid">-ExcludeSpid</h5>
-<p>Specifies one or more spids which will not be killed. Options for this parameter are auto-populated from the server.
+<p>Specifies one or more spids which will not be killed. Options for this parameter are auto-populated from the server.<br />
 Exclude is the last filter to run, so even if a spid matches (for example) Hosts, if it's listed in Exclude it wil be excluded.<br></p>
 <table>
 <thead>
@@ -703,7 +704,7 @@ Exclude is the last filter to run, so even if a spid matches (for example) Hosts
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more databases whose processes will be killed. Options for this parameter are auto-populated from the server and only databases that have active processes are offered.
+<p>Specifies one or more databases whose processes will be killed. Options for this parameter are auto-populated from the server and only databases that have active processes are offered.<br />
 This parameter is auto-populated from -SqlInstance and allows only database names that have active processes. You can specify one or more Databases whose processes will be killed.<br></p>
 <table>
 <thead>
@@ -816,8 +817,8 @@ This parameter is auto-populated from -SqlInstance and allows only database name
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

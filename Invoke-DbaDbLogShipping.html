@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Invoke-DbaDbLogShipping sets up log shipping for one or more databases</p>
 <h2 id="description">Description</h2>
 <p>Invoke-DbaDbLogShipping helps to easily set up log shipping for one or more databases.</p>
-<p>This function will make a lot of decisions for you assuming you want default values like a daily interval for the schedules with a 15 minute interval on the day.
+<p>This function will make a lot of decisions for you assuming you want default values like a daily interval for the schedules with a 15 minute interval on the day.<br />
 There are some settings that cannot be made by the function and they need to be prepared before the function is executed.</p>
 <p>The following settings need to be made before log shipping can be initiated:</p>
 <ul>
@@ -496,15 +496,15 @@ There are some settings that cannot be made by the function and they need to be 
 <li>Copy destination (the folder and the privileges)</li>
 </ul>
 <ul>
-<li>Privileges
-Make sure your agent service on both the primary and the secondary instance is an Active Directory account.
+<li>Privileges<br />
+Make sure your agent service on both the primary and the secondary instance is an Active Directory account.<br />
 Also have the credentials ready to set the folder permissions</li>
 </ul>
-<p>** Network share
+<p>** Network share<br />
 The backup destination needs to be shared and have the share privileges of FULL CONTROL to Everyone.</p>
-<p>** NTFS permissions
-The backup destination must have at least read/write permissions for the primary instance agent account.
-The backup destination must have at least read permissions for the secondary instance agent account.
+<p>** NTFS permissions<br />
+The backup destination must have at least read/write permissions for the primary instance agent account.<br />
+The backup destination must have at least read permissions for the secondary instance agent account.<br />
 The copy destination must have at least read/write permission for the secondary instance agent account.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbLogShipping
@@ -639,8 +639,8 @@ The script will show a message that the copy destination has not been supplied a
 &quot;logshipping&quot; i.e. &quot;D:\SQLBackup\Logshiping&quot;.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sourcesqlinstance">-SourceSqlInstance</h5>
-<p>Source SQL Server instance which contains the databases to be log shipped.
-You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<p>Source SQL Server instance which contains the databases to be log shipped.<br />
+You must have sysadmin access and server version must be SQL Server version 2000 or greater. <br></p>
 <table>
 <thead>
 <tr>
@@ -668,8 +668,8 @@ You must have sysadmin access and server version must be SQL Server version 2000
 </tbody>
 </table>
 <h5 id="destinationsqlinstance">-DestinationSqlInstance</h5>
-<p>Destination SQL Server instance which contains the databases to be log shipped.
-You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<p>Destination SQL Server instance which contains the databases to be log shipped.<br />
+You must have sysadmin access and server version must be SQL Server version 2000 or greater. <br></p>
 <table>
 <thead>
 <tr>
@@ -697,7 +697,7 @@ You must have sysadmin access and server version must be SQL Server version 2000
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Database to set up log shipping for.<br></p>
+<p>Database to set up log shipping for. <br></p>
 <table>
 <thead>
 <tr>
@@ -725,8 +725,8 @@ You must have sysadmin access and server version must be SQL Server version 2000
 </tbody>
 </table>
 <h5 id="sharedpath">-SharedPath</h5>
-<p>The backup unc path to place the backup files. This is the root directory.
-A directory with the name of the database will be created in this path.<br></p>
+<p>The backup unc path to place the backup files. This is the root directory.<br />
+A directory with the name of the database will be created in this path. <br></p>
 <table>
 <thead>
 <tr>
@@ -755,8 +755,8 @@ A directory with the name of the database will be created in this path.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -785,8 +785,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sourcecredential">-SourceCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -815,8 +815,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -845,8 +845,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationcredential">-DestinationCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -903,8 +903,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="backupjob">-BackupJob</h5>
-<p>Name of the backup that will be created in the SQL Server agent.
-The parameter works as a prefix where the name of the database will be added to the backup job name.
+<p>Name of the backup that will be created in the SQL Server agent.<br />
+The parameter works as a prefix where the name of the database will be added to the backup job name.<br />
 The default is &quot;LSBackup_[databasename]&quot;<br></p>
 <table>
 <thead>
@@ -961,8 +961,8 @@ The default is &quot;LSBackup_[databasename]&quot;<br></p>
 </tbody>
 </table>
 <h5 id="backupschedule">-BackupSchedule</h5>
-<p>Name of the backup schedule created for the backup job.
-The parameter works as a prefix where the name of the database will be added to the backup job schedule name.
+<p>Name of the backup schedule created for the backup job.<br />
+The parameter works as a prefix where the name of the database will be added to the backup job schedule name.<br />
 Default is &quot;LSBackupSchedule_[databasename]&quot;<br></p>
 <table>
 <thead>
@@ -991,7 +991,7 @@ Default is &quot;LSBackupSchedule_[databasename]&quot;<br></p>
 </tbody>
 </table>
 <h5 id="backupscheduledisabled">-BackupScheduleDisabled</h5>
-<p>Parameter to set the backup schedule to disabled upon creation.
+<p>Parameter to set the backup schedule to disabled upon creation.<br />
 By default the schedule is enabled.<br></p>
 <table>
 <thead>
@@ -1020,7 +1020,7 @@ By default the schedule is enabled.<br></p>
 </tbody>
 </table>
 <h5 id="backupschedulefrequencytype">-BackupScheduleFrequencyType</h5>
-<p>A value indicating when a job is to be executed.
+<p>A value indicating when a job is to be executed.<br />
 Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer&quot;<br></p>
 <table>
 <thead>
@@ -1081,7 +1081,7 @@ Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer
 </tbody>
 </table>
 <h5 id="backupschedulefrequencysubdaytype">-BackupScheduleFrequencySubdayType</h5>
-<p>Specifies the units for the sub-day FrequencyInterval.
+<p>Specifies the units for the sub-day FrequencyInterval.<br />
 Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &quot;Hours&quot;<br></p>
 <table>
 <thead>
@@ -1258,8 +1258,8 @@ Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &
 </tbody>
 </table>
 <h5 id="backupschedulestarttime">-BackupScheduleStartTime</h5>
-<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.
-Example: '010000' for 01:00:00 AM.
+<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.<br />
+Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br></p>
 <table>
 <thead>
@@ -1288,8 +1288,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="backupscheduleendtime">-BackupScheduleEndTime</h5>
-<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.
-Example: '010000' for 01:00:00 AM.
+<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.<br />
+Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br></p>
 <table>
 <thead>
@@ -1318,7 +1318,7 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="backupthreshold">-BackupThreshold</h5>
-<p>Is the length of time, in minutes, after the last backup before a threshold alert error is raised.
+<p>Is the length of time, in minutes, after the last backup before a threshold alert error is raised.<br />
 The default is 60.<br></p>
 <table>
 <thead>
@@ -1375,7 +1375,7 @@ The default is 60.<br></p>
 </tbody>
 </table>
 <h5 id="copydestinationfolder">-CopyDestinationFolder</h5>
-<p>The path to copy the transaction log backup files to. This is the root directory.
+<p>The path to copy the transaction log backup files to. This is the root directory.<br />
 A directory with the name of the database will be created in this path.<br></p>
 <table>
 <thead>
@@ -1404,8 +1404,8 @@ A directory with the name of the database will be created in this path.<br></p>
 </tbody>
 </table>
 <h5 id="copyjob">-CopyJob</h5>
-<p>Name of the copy job that will be created in the SQL Server agent.
-The parameter works as a prefix where the name of the database will be added to the copy job name.
+<p>Name of the copy job that will be created in the SQL Server agent.<br />
+The parameter works as a prefix where the name of the database will be added to the copy job name.<br />
 The default is &quot;LSBackup_[databasename]&quot;<br></p>
 <table>
 <thead>
@@ -1462,8 +1462,8 @@ The default is &quot;LSBackup_[databasename]&quot;<br></p>
 </tbody>
 </table>
 <h5 id="copyschedule">-CopySchedule</h5>
-<p>Name of the backup schedule created for the copy job.
-The parameter works as a prefix where the name of the database will be added to the copy job schedule name.
+<p>Name of the backup schedule created for the copy job.<br />
+The parameter works as a prefix where the name of the database will be added to the copy job schedule name.<br />
 Default is &quot;LSCopy_[DestinationServerName]_[DatabaseName]&quot;<br></p>
 <table>
 <thead>
@@ -1492,7 +1492,7 @@ Default is &quot;LSCopy_[DestinationServerName]_[DatabaseName]&quot;<br></p>
 </tbody>
 </table>
 <h5 id="copyscheduledisabled">-CopyScheduleDisabled</h5>
-<p>Parameter to set the copy schedule to disabled upon creation.
+<p>Parameter to set the copy schedule to disabled upon creation.<br />
 By default the schedule is enabled.<br></p>
 <table>
 <thead>
@@ -1521,7 +1521,7 @@ By default the schedule is enabled.<br></p>
 </tbody>
 </table>
 <h5 id="copyschedulefrequencytype">-CopyScheduleFrequencyType</h5>
-<p>A value indicating when a job is to be executed.
+<p>A value indicating when a job is to be executed.<br />
 Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer&quot;<br></p>
 <table>
 <thead>
@@ -1582,7 +1582,7 @@ Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer
 </tbody>
 </table>
 <h5 id="copyschedulefrequencysubdaytype">-CopyScheduleFrequencySubdayType</h5>
-<p>Specifies the units for the subday FrequencyInterval.
+<p>Specifies the units for the subday FrequencyInterval.<br />
 Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &quot;Hours&quot;<br></p>
 <table>
 <thead>
@@ -1759,8 +1759,8 @@ Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &
 </tbody>
 </table>
 <h5 id="copyschedulestarttime">-CopyScheduleStartTime</h5>
-<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.
-Example: '010000' for 01:00:00 AM.
+<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.<br />
+Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br></p>
 <table>
 <thead>
@@ -1789,8 +1789,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="copyscheduleendtime">-CopyScheduleEndTime</h5>
-<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.
-Example: '010000' for 01:00:00 AM.
+<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.<br />
+Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br></p>
 <table>
 <thead>
@@ -1875,7 +1875,7 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="generatefullbackup">-GenerateFullBackup</h5>
-<p>If the database is not initialized on the secondary instance it can be done by creating a new full backup and
+<p>If the database is not initialized on the secondary instance it can be done by creating a new full backup and<br />
 restore it for you.<br></p>
 <table>
 <thead>
@@ -1904,7 +1904,7 @@ restore it for you.<br></p>
 </tbody>
 </table>
 <h5 id="historyretention">-HistoryRetention</h5>
-<p>Is the length of time in minutes in which the history is retained.
+<p>Is the length of time in minutes in which the history is retained.<br />
 The default value is 14420<br></p>
 <table>
 <thead>
@@ -1933,7 +1933,7 @@ The default value is 14420<br></p>
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>If this parameter is set the database will be in recovery mode. The database will not be readable.
+<p>If this parameter is set the database will be in recovery mode. The database will not be readable.<br />
 This setting is default.<br></p>
 <table>
 <thead>
@@ -1962,7 +1962,7 @@ This setting is default.<br></p>
 </tbody>
 </table>
 <h5 id="noinitialization">-NoInitialization</h5>
-<p>If this parameter is set the secondary database will not be initialized.
+<p>If this parameter is set the secondary database will not be initialized.<br />
 The database needs to be on the secondary instance in recovery mode.<br></p>
 <table>
 <thead>
@@ -1991,7 +1991,7 @@ The database needs to be on the secondary instance in recovery mode.<br></p>
 </tbody>
 </table>
 <h5 id="primarymonitorserver">-PrimaryMonitorServer</h5>
-<p>Is the name of the monitor server for the primary server.
+<p>Is the name of the monitor server for the primary server.<br />
 Defaults to monitor on the instance provided via SourceSqlInstance param.<br></p>
 <table>
 <thead>
@@ -2020,7 +2020,7 @@ Defaults to monitor on the instance provided via SourceSqlInstance param.<br></p
 </tbody>
 </table>
 <h5 id="primarymonitorcredential">-PrimaryMonitorCredential</h5>
-<p>Allows you to login to enter a secure credential. Only needs to be used when the PrimaryMonitorServerSecurityMode is 0 or &quot;sqlserver&quot;
+<p>Allows you to login to enter a secure credential. Only needs to be used when the PrimaryMonitorServerSecurityMode is 0 or &quot;sqlserver&quot;<br />
 To use: $scred = Get-Credential, then pass $scred object to the -PrimaryMonitorCredential parameter.<br></p>
 <table>
 <thead>
@@ -2049,7 +2049,7 @@ To use: $scred = Get-Credential, then pass $scred object to the -PrimaryMonitorC
 </tbody>
 </table>
 <h5 id="primarymonitorserversecuritymode">-PrimaryMonitorServerSecurityMode</h5>
-<p>The security mode used to connect to the monitor server for the primary server. Allowed values are 0, &quot;sqlserver&quot;, 1, &quot;windows&quot;
+<p>The security mode used to connect to the monitor server for the primary server. Allowed values are 0, &quot;sqlserver&quot;, 1, &quot;windows&quot;<br />
 The default is 1 or Windows.<br></p>
 <table>
 <thead>
@@ -2110,8 +2110,8 @@ The default is 1 or Windows.<br></p>
 </tbody>
 </table>
 <h5 id="restoredatafolder">-RestoreDataFolder</h5>
-<p>Folder to be used to restore the database data files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.
-If the parameter is not set the default data folder of the secondary instance will be used.
+<p>Folder to be used to restore the database data files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.<br />
+If the parameter is not set the default data folder of the secondary instance will be used.<br />
 If the folder is set but doesn't exist we will try to create the folder.<br></p>
 <table>
 <thead>
@@ -2140,8 +2140,8 @@ If the folder is set but doesn't exist we will try to create the folder.<br></p>
 </tbody>
 </table>
 <h5 id="restorelogfolder">-RestoreLogFolder</h5>
-<p>Folder to be used to restore the database log files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.
-If the parameter is not set the default transaction log folder of the secondary instance will be used.
+<p>Folder to be used to restore the database log files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.<br />
+If the parameter is not set the default transaction log folder of the secondary instance will be used.<br />
 If the folder is set but doesn't exist we will try to create the folder.<br></p>
 <table>
 <thead>
@@ -2170,7 +2170,7 @@ If the folder is set but doesn't exist we will try to create the folder.<br></p>
 </tbody>
 </table>
 <h5 id="restoredelay">-RestoreDelay</h5>
-<p>In case a delay needs to be set for the restore.
+<p>In case a delay needs to be set for the restore.<br />
 The default is 0.<br></p>
 <table>
 <thead>
@@ -2199,7 +2199,7 @@ The default is 0.<br></p>
 </tbody>
 </table>
 <h5 id="restorealertthreshold">-RestoreAlertThreshold</h5>
-<p>The amount of minutes after which an alert will be raised is no restore has taken place.
+<p>The amount of minutes after which an alert will be raised is no restore has taken place.<br />
 The default is 45 minutes.<br></p>
 <table>
 <thead>
@@ -2228,8 +2228,8 @@ The default is 45 minutes.<br></p>
 </tbody>
 </table>
 <h5 id="restorejob">-RestoreJob</h5>
-<p>Name of the restore job that will be created in the SQL Server agent.
-The parameter works as a prefix where the name of the database will be added to the restore job name.
+<p>Name of the restore job that will be created in the SQL Server agent.<br />
+The parameter works as a prefix where the name of the database will be added to the restore job name.<br />
 The default is &quot;LSRestore_[databasename]&quot;<br></p>
 <table>
 <thead>
@@ -2286,8 +2286,8 @@ The default is &quot;LSRestore_[databasename]&quot;<br></p>
 </tbody>
 </table>
 <h5 id="restoreschedule">-RestoreSchedule</h5>
-<p>Name of the backup schedule created for the restore job.
-The parameter works as a prefix where the name of the database will be added to the restore job schedule name.
+<p>Name of the backup schedule created for the restore job.<br />
+The parameter works as a prefix where the name of the database will be added to the restore job schedule name.<br />
 Default is &quot;LSRestore_[DestinationServerName]_[DatabaseName]&quot;<br></p>
 <table>
 <thead>
@@ -2316,7 +2316,7 @@ Default is &quot;LSRestore_[DestinationServerName]_[DatabaseName]&quot;<br></p>
 </tbody>
 </table>
 <h5 id="restorescheduledisabled">-RestoreScheduleDisabled</h5>
-<p>Parameter to set the restore schedule to disabled upon creation.
+<p>Parameter to set the restore schedule to disabled upon creation.<br />
 By default the schedule is enabled.<br></p>
 <table>
 <thead>
@@ -2345,7 +2345,7 @@ By default the schedule is enabled.<br></p>
 </tbody>
 </table>
 <h5 id="restoreschedulefrequencytype">-RestoreScheduleFrequencyType</h5>
-<p>A value indicating when a job is to be executed.
+<p>A value indicating when a job is to be executed.<br />
 Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer&quot;<br></p>
 <table>
 <thead>
@@ -2406,7 +2406,7 @@ Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer
 </tbody>
 </table>
 <h5 id="restoreschedulefrequencysubdaytype">-RestoreScheduleFrequencySubdayType</h5>
-<p>Specifies the units for the subday FrequencyInterval.
+<p>Specifies the units for the subday FrequencyInterval.<br />
 Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &quot;Hours&quot;<br></p>
 <table>
 <thead>
@@ -2583,8 +2583,8 @@ Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &
 </tbody>
 </table>
 <h5 id="restoreschedulestarttime">-RestoreScheduleStartTime</h5>
-<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.
-Example: '010000' for 01:00:00 AM.
+<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.<br />
+Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br></p>
 <table>
 <thead>
@@ -2613,8 +2613,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="restorescheduleendtime">-RestoreScheduleEndTime</h5>
-<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.
-Example: '010000' for 01:00:00 AM.
+<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.<br />
+Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br></p>
 <table>
 <thead>
@@ -2643,7 +2643,7 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="restorethreshold">-RestoreThreshold</h5>
-<p>The number of minutes allowed to elapse between restore operations before an alert is generated.
+<p>The number of minutes allowed to elapse between restore operations before an alert is generated.<br />
 The default value = 45<br></p>
 <table>
 <thead>
@@ -2728,7 +2728,7 @@ The default value = 45<br></p>
 </tbody>
 </table>
 <h5 id="secondarymonitorserver">-SecondaryMonitorServer</h5>
-<p>Is the name of the monitor server for the secondary server.
+<p>Is the name of the monitor server for the secondary server.<br />
 Defaults to monitor on the instance provided via DestinationSqlInstance param.<br></p>
 <table>
 <thead>
@@ -2757,7 +2757,7 @@ Defaults to monitor on the instance provided via DestinationSqlInstance param.<b
 </tbody>
 </table>
 <h5 id="secondarymonitorcredential">-SecondaryMonitorCredential</h5>
-<p>Allows you to login to enter a secure credential. Only needs to be used when the SecondaryMonitorServerSecurityMode is 0 or &quot;sqlserver&quot;
+<p>Allows you to login to enter a secure credential. Only needs to be used when the SecondaryMonitorServerSecurityMode is 0 or &quot;sqlserver&quot;<br />
 To use: $scred = Get-Credential, then pass $scred object to the -SecondaryMonitorCredential parameter.<br></p>
 <table>
 <thead>
@@ -2786,7 +2786,7 @@ To use: $scred = Get-Credential, then pass $scred object to the -SecondaryMonito
 </tbody>
 </table>
 <h5 id="secondarymonitorserversecuritymode">-SecondaryMonitorServerSecurityMode</h5>
-<p>The security mode used to connect to the monitor server for the secondary server. Allowed values are 0, &quot;sqlserver&quot;, 1, &quot;windows&quot;
+<p>The security mode used to connect to the monitor server for the secondary server. Allowed values are 0, &quot;sqlserver&quot;, 1, &quot;windows&quot;<br />
 The default is 1 or Windows.<br></p>
 <table>
 <thead>
@@ -2847,7 +2847,7 @@ The default is 1 or Windows.<br></p>
 </tbody>
 </table>
 <h5 id="standby">-Standby</h5>
-<p>If this parameter is set the database will be set to standby mode making the database readable.
+<p>If this parameter is set the database will be set to standby mode making the database readable.<br />
 If not set the database will be in recovery mode.<br></p>
 <table>
 <thead>
@@ -2904,7 +2904,7 @@ If not set the database will be in recovery mode.<br></p>
 </tbody>
 </table>
 <h5 id="useexistingfullbackup">-UseExistingFullBackup</h5>
-<p>If the database is not initialized on the secondary instance it can be done by selecting an existing full backup
+<p>If the database is not initialized on the secondary instance it can be done by selecting an existing full backup<br />
 and restore it for you.<br></p>
 <table>
 <thead>
@@ -2961,7 +2961,7 @@ and restore it for you.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.
+<p>The force parameter will ignore some errors in the parameters and assume defaults.<br />
 It will also remove the any present schedules with the same name for the specific job.<br></p>
 <table>
 <thead>

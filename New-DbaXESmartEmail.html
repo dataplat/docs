@@ -529,7 +529,7 @@ PS C:\&gt; Start-DbaXESmartTarget -SqlInstance sql2017 -Session querytracker -Re
 <p>Sends an email each time a querytracker event is captured.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="smtpserver">-SmtpServer</h5>
-<p>Address of the SMTP server for outgoing mail.<br></p>
+<p>Address of the SMTP server for outgoing mail. <br></p>
 <table>
 <thead>
 <tr>
@@ -557,7 +557,7 @@ PS C:\&gt; Start-DbaXESmartTarget -SqlInstance sql2017 -Session querytracker -Re
 </tbody>
 </table>
 <h5 id="sender">-Sender</h5>
-<p>Sender's email address.<br></p>
+<p>Sender's email address. <br></p>
 <table>
 <thead>
 <tr>
@@ -585,7 +585,7 @@ PS C:\&gt; Start-DbaXESmartTarget -SqlInstance sql2017 -Session querytracker -Re
 </tbody>
 </table>
 <h5 id="to">-To</h5>
-<p>Address of the To recipient(s).<br></p>
+<p>Address of the To recipient(s). <br></p>
 <table>
 <thead>
 <tr>
@@ -613,9 +613,9 @@ PS C:\&gt; Start-DbaXESmartTarget -SqlInstance sql2017 -Session querytracker -Re
 </tbody>
 </table>
 <h5 id="subject">-Subject</h5>
-<p PropertyName="" Name="" collection_time="">Subject of the mail message. Accepts placeholders in the text.
-Placeholders are in the form , where PropertyName is one of the fields or actions available in the Event object.
-For instance, a valid Subject in a configuration file looks like this: &quot;An event of name  occurred at &quot;<br></p>
+<p PropertyName="" Name="" collection_time="">Subject of the mail message. Accepts placeholders in the text.<br />
+Placeholders are in the form , where PropertyName is one of the fields or actions available in the Event object.<br />
+For instance, a valid Subject in a configuration file looks like this: &quot;An event of name  occurred at &quot; <br></p>
 <table>
 <thead>
 <tr>
@@ -643,7 +643,7 @@ For instance, a valid Subject in a configuration file looks like this: &quot;An 
 </tbody>
 </table>
 <h5 id="body">-Body</h5>
-<p>Body of the mail message. The body can be static text or any property taken from the underlying event. See Subject for a description of how placeholders work.<br></p>
+<p>Body of the mail message. The body can be static text or any property taken from the underlying event. See Subject for a description of how placeholders work. <br></p>
 <table>
 <thead>
 <tr>
@@ -756,7 +756,7 @@ For instance, a valid Subject in a configuration file looks like this: &quot;An 
 </tbody>
 </table>
 <h5 id="attachment">-Attachment</h5>
-<p>Data to attach to the email message. At this time, it can be any of the fields/actions of the underlying event. The data from the field/action is attached to the message as an ASCII stream. A single
+<p>Data to attach to the email message. At this time, it can be any of the fields/actions of the underlying event. The data from the field/action is attached to the message as an ASCII stream. A single<br />
 attachment is supported.<br></p>
 <table>
 <thead>
@@ -869,7 +869,7 @@ attachment is supported.<br></p>
 </tbody>
 </table>
 <h5 id="filter">-Filter</h5>
-<p>You can specify a filter expression by using this attribute. The filter expression is in the same form that you would use in a SQL query. For example, a valid example looks like this: duration &gt;
+<p>You can specify a filter expression by using this attribute. The filter expression is in the same form that you would use in a SQL query. For example, a valid example looks like this: duration &gt;<br />
 10000 AND cpu_time &gt; 10000<br></p>
 <table>
 <thead>
@@ -898,8 +898,8 @@ attachment is supported.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -492,7 +492,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="syntax">Syntax</h2>
 <pre><code>Write-DbaDbTableData -SqlInstance &lt;DbaInstanceParameter&gt;
     [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;Object&gt;] -InputObject &lt;Object&gt;
+    [-Database &lt;Object&gt;]
+    -InputObject &lt;Object&gt;
     [-Table] &lt;String&gt;
     [[-Schema] &lt;String&gt;]
     [-BatchSize &lt;Int32&gt;]
@@ -574,7 +575,7 @@ PS C:\&gt; $data | Write-DbaDbTableData -SqlInstance $server -Table 'tempdb.dbo.
 <p>The dataset column 'value1' is inserted into SQL column 'col1' and dataset column value2 is inserted into the SQL Column 'col2'. All other columns are ignored and therefore null or default values.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -602,14 +603,14 @@ PS C:\&gt; $data | Write-DbaDbTableData -SqlInstance $server -Table 'tempdb.dbo.
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>This is the DataTable (or data row) to import to SQL Server.
-It is very important to understand how different types of objects are beeing processed to get the best performance.
-The best performance is achieved when using the DataSet data type. If the data to be imported are determined with Invoke-DbaQuery, the option &quot;-As DataSet&quot; should be used. Then all records are
-imported in a single call of SqlBulkCopy.
-Also the data type DataTable can lead to an import of all records in a single call of SqlBulkCopy. However, it should be noted that &quot;$varWithDataTable | Write-DbaDbTableData&quot; causes the pipeline to
-convert the single object of type DataTable to a series of objects of type DataRow. These in turn lead to single calls of SqlBulkCopy per record, which negatively affects performance. This is also
-the reason why the use of the DataRow data type is generally discouraged.
-When using objects of type PSObject, these are first all combined into an internal object of type DataTable and then imported in a single call of SqlBulkCopy.<br></p>
+<p>This is the DataTable (or data row) to import to SQL Server.<br />
+It is very important to understand how different types of objects are beeing processed to get the best performance.<br />
+The best performance is achieved when using the DataSet data type. If the data to be imported are determined with Invoke-DbaQuery, the option &quot;-As DataSet&quot; should be used. Then all records are<br />
+imported in a single call of SqlBulkCopy.<br />
+Also the data type DataTable can lead to an import of all records in a single call of SqlBulkCopy. However, it should be noted that &quot;$varWithDataTable | Write-DbaDbTableData&quot; causes the pipeline to<br />
+convert the single object of type DataTable to a series of objects of type DataRow. These in turn lead to single calls of SqlBulkCopy per record, which negatively affects performance. This is also<br />
+the reason why the use of the DataRow data type is generally discouraged.<br />
+When using objects of type PSObject, these are first all combined into an internal object of type DataTable and then imported in a single call of SqlBulkCopy. <br></p>
 <table>
 <thead>
 <tr>
@@ -637,13 +638,13 @@ When using objects of type PSObject, these are first all combined into an intern
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>The table name to import data into. You can specify a one, two, or three part table name. If you specify a one or two part name, you must also use -Database.
-If the table does not exist, you can use -AutoCreateTable to automatically create the table. The table will be created with sub-optimal data types such as nvarchar(max).
-If the object has special characters please wrap them in square brackets [ ].
-Using dbo.First.Table will try to import to a table named 'Table' on schema 'First' and database 'dbo'.
-The correct way to import to a table named 'First.Table' on schema 'dbo' is by passing dbo.[First].[Table].
-Any actual usage of the ] must be escaped by duplicating the ] character.
-The correct way to import to a table Name] in schema Schema.Name is by passing [Schema.Name].[Name]]].<br></p>
+<p>The table name to import data into. You can specify a one, two, or three part table name. If you specify a one or two part name, you must also use -Database.<br />
+If the table does not exist, you can use -AutoCreateTable to automatically create the table. The table will be created with sub-optimal data types such as nvarchar(max).<br />
+If the object has special characters please wrap them in square brackets [ ].<br />
+Using dbo.First.Table will try to import to a table named 'Table' on schema 'First' and database 'dbo'.<br />
+The correct way to import to a table named 'First.Table' on schema 'dbo' is by passing dbo.[First].[Table].<br />
+Any actual usage of the ] must be escaped by duplicating the ] character.<br />
+The correct way to import to a table Name] in schema Schema.Name is by passing [Schema.Name].[Name]]]. <br></p>
 <table>
 <thead>
 <tr>
@@ -672,8 +673,8 @@ The correct way to import to a table Name] in schema Schema.Name is by passing [
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -870,7 +871,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="checkconstraints">-CheckConstraints</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to process check constraints will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to process check constraints will be enabled.<br />
 Per Microsoft &quot;Check constraints while data is being inserted. By default, constraints are not checked.&quot;<br></p>
 <table>
 <thead>
@@ -899,7 +900,7 @@ Per Microsoft &quot;Check constraints while data is being inserted. By default, 
 </tbody>
 </table>
 <h5 id="firetriggers">-FireTriggers</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to fire insert triggers will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to fire insert triggers will be enabled.<br />
 Per Microsoft &quot;When specified, cause the server to fire the insert triggers for the rows being inserted into the Database.&quot;<br></p>
 <table>
 <thead>
@@ -928,7 +929,7 @@ Per Microsoft &quot;When specified, cause the server to fire the insert triggers
 </tbody>
 </table>
 <h5 id="keepidentity">-KeepIdentity</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to preserve source identity values will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to preserve source identity values will be enabled.<br />
 Per Microsoft &quot;Preserve source identity values. When not specified, identity values are assigned by the destination.&quot;<br></p>
 <table>
 <thead>
@@ -957,7 +958,7 @@ Per Microsoft &quot;Preserve source identity values. When not specified, identit
 </tbody>
 </table>
 <h5 id="keepnulls">-KeepNulls</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to preserve NULL values will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to preserve NULL values will be enabled.<br />
 Per Microsoft &quot;Preserve null values in the destination table regardless of the settings for default values. When not specified, null values are replaced by default values where applicable.&quot;<br></p>
 <table>
 <thead>
@@ -1070,8 +1071,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>
@@ -1100,7 +1101,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="usedynamicstringlength">-UseDynamicStringLength</h5>
-<p>By default, all string columns will be NVARCHAR(MAX).
+<p>By default, all string columns will be NVARCHAR(MAX).<br />
 If this switch is enabled, all columns will get the length specified by the column's MaxLength property (if specified).<br></p>
 <table>
 <thead>

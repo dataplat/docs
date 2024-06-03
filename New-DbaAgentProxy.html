@@ -528,7 +528,7 @@ By default, only sysadmins have access to create job steps with proxies. This wi
 The proxy is then added to the CmdExec and PowerShell subsystems<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br></p>
+<p>The target SQL Server instance or instances.You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -556,7 +556,7 @@ The proxy is then added to the CmdExec and PowerShell subsystems<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the proxy or proxies you want to create<br></p>
+<p>The name of the proxy or proxies you want to create <br></p>
 <table>
 <thead>
 <tr>
@@ -584,7 +584,7 @@ The proxy is then added to the CmdExec and PowerShell subsystems<br></p>
 </tbody>
 </table>
 <h5 id="proxycredential">-ProxyCredential</h5>
-<p>The associated SQL Server Credential. The credential must be created prior to creating the Proxy.<br></p>
+<p>The associated SQL Server Credential. The credential must be created prior to creating the Proxy. <br></p>
 <table>
 <thead>
 <tr>
@@ -613,8 +613,8 @@ The proxy is then added to the CmdExec and PowerShell subsystems<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -643,18 +643,18 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subsystem">-SubSystem</h5>
-<p>The associated subsystem or subsystems. Defaults to CmdExec.
-Valid options include:
-ActiveScripting
-AnalysisCommand
-AnalysisQuery
-CmdExec
-Distribution
-LogReader
-Merge
-PowerShell
-QueueReader
-Snapshot
+<p>The associated subsystem or subsystems. Defaults to CmdExec.<br />
+Valid options include:<br />
+ActiveScripting<br />
+AnalysisCommand<br />
+AnalysisQuery<br />
+CmdExec<br />
+Distribution<br />
+LogReader<br />
+Merge<br />
+PowerShell<br />
+QueueReader<br />
+Snapshot<br />
 Ssis<br></p>
 <table>
 <thead>
@@ -855,8 +855,8 @@ Ssis<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

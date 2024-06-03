@@ -488,15 +488,15 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Runs the SQL Server feature discovery report (setup.exe /Action=RunDiscovery)</p>
 <h2 id="description">Description</h2>
 <p>Runs the SQL Server feature discovery report (setup.exe /Action=RunDiscovery)</p>
-<p>Inspired by Dave Mason's (@BeginTry) post at
+<p>Inspired by Dave Mason's (@BeginTry) post at<br />
 <a href="https://itsalljustelectrons.blogspot.be/2018/04/SQL-Server-Discovery-Report.html">https://itsalljustelectrons.blogspot.be/2018/04/SQL-Server-Discovery-Report.html</a></p>
 <p>Assumptions:</p>
 <ol>
-<li>The sub-folder &quot;Microsoft SQL Server&quot; exists in [System.Environment]::GetFolderPath(&quot;ProgramFiles&quot;),
-even if SQL was installed to a non-default path. This has been
+<li>The sub-folder &quot;Microsoft SQL Server&quot; exists in [System.Environment]::GetFolderPath(&quot;ProgramFiles&quot;),<br />
+even if SQL was installed to a non-default path. This has been<br />
 verified on SQL 2008R2 and SQL 2012. Further verification may be needed.</li>
-<li>The discovery report displays installed components for the version of SQL
-Server associated with setup.exe, along with installed components of all
+<li>The discovery report displays installed components for the version of SQL<br />
+Server associated with setup.exe, along with installed components of all<br />
 lesser versions of SQL Server that are installed.</li>
 </ol>
 <h2 id="syntax">Syntax</h2>
@@ -524,7 +524,7 @@ lesser versions of SQL Server that are installed.</li>
 <p>Gets all SQL Server features for all instances on sql2017 using the ad\sqladmin credential (which has access to the Windows Server).<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer. If the target is not localhost, it must have PowerShell remoting enabled.
+<p>The target computer. If the target is not localhost, it must have PowerShell remoting enabled.<br />
 Note that this is not the SqlInstance, but rather the ComputerName<br></p>
 <table>
 <thead>
@@ -553,7 +553,7 @@ Note that this is not the SqlInstance, but rather the ComputerName<br></p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Allows you to login to servers using alternative credentials. To use:
+<p>Allows you to login to servers using alternative credentials. To use:<br />
 $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br></p>
 <table>
 <thead>
@@ -582,8 +582,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

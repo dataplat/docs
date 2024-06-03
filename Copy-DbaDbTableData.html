@@ -487,8 +487,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Copies data between SQL Server tables.</p>
 <h2 id="description">Description</h2>
-<p>Copies data between SQL Server tables using SQL Bulk Copy.
-The same can be achieved also using Invoke-DbaQuery and Write-DbaDbTableData but it will buffer the contents of that table in memory of the machine running the commands.
+<p>Copies data between SQL Server tables using SQL Bulk Copy.<br />
+The same can be achieved also using Invoke-DbaQuery and Write-DbaDbTableData but it will buffer the contents of that table in memory of the machine running the commands.<br />
 This function prevents that by streaming a copy of the data in the most speedy and least resource-intensive way.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaDbTableData
@@ -612,8 +612,8 @@ See the Query param documentation for more details.<br></p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the source instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the source instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -670,8 +670,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the destination instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the destination instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -756,8 +756,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>Specify a table to use as a source. You can specify a 2 or 3 part name.
-If the object has special characters please wrap them in square brackets.
+<p>Specify a table to use as a source. You can specify a 2 or 3 part name.<br />
+If the object has special characters please wrap them in square brackets.<br />
 Note: Cannot specify a view if a table value is provided<br></p>
 <table>
 <thead>
@@ -786,8 +786,8 @@ Note: Cannot specify a view if a table value is provided<br></p>
 </tbody>
 </table>
 <h5 id="view">-View</h5>
-<p>Specify a view to use as a source. You can specify a 2 or 3 part name (see examples).
-If the object has special characters please wrap them in square brackets.
+<p>Specify a view to use as a source. You can specify a 2 or 3 part name (see examples).<br />
+If the object has special characters please wrap them in square brackets.<br />
 Note: Cannot specify a table if a view value is provided<br></p>
 <table>
 <thead>
@@ -816,9 +816,9 @@ Note: Cannot specify a table if a view value is provided<br></p>
 </tbody>
 </table>
 <h5 id="query">-Query</h5>
-<p>Define a query to use as a source. Note: 3 or 4 part object names may be used (see examples)
-Ensure to select all required columns.
-Calculated Columns or columns with default values may be excluded.
+<p>Define a query to use as a source. Note: 3 or 4 part object names may be used (see examples)<br />
+Ensure to select all required columns.<br />
+Calculated Columns or columns with default values may be excluded.<br />
 Note: The workflow in the command requires that a valid -Table or -View parameter value be specified.<br></p>
 <table>
 <thead>
@@ -987,7 +987,7 @@ Note: The workflow in the command requires that a valid -Table or -View paramete
 </tbody>
 </table>
 <h5 id="checkconstraints">-CheckConstraints</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to process check constraints will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to process check constraints will be enabled.<br />
 Per Microsoft &quot;Check constraints while data is being inserted. By default, constraints are not checked.&quot;<br></p>
 <table>
 <thead>
@@ -1016,7 +1016,7 @@ Per Microsoft &quot;Check constraints while data is being inserted. By default, 
 </tbody>
 </table>
 <h5 id="firetriggers">-FireTriggers</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to fire insert triggers will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to fire insert triggers will be enabled.<br />
 Per Microsoft &quot;When specified, cause the server to fire the insert triggers for the rows being inserted into the Database.&quot;<br></p>
 <table>
 <thead>
@@ -1045,7 +1045,7 @@ Per Microsoft &quot;When specified, cause the server to fire the insert triggers
 </tbody>
 </table>
 <h5 id="keepidentity">-KeepIdentity</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to preserve source identity values will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to preserve source identity values will be enabled.<br />
 Per Microsoft &quot;Preserve source identity values. When not specified, identity values are assigned by the destination.&quot;<br></p>
 <table>
 <thead>
@@ -1074,7 +1074,7 @@ Per Microsoft &quot;Preserve source identity values. When not specified, identit
 </tbody>
 </table>
 <h5 id="keepnulls">-KeepNulls</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to preserve NULL values will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to preserve NULL values will be enabled.<br />
 Per Microsoft &quot;Preserve null values in the destination table regardless of the settings for default values. When not specified, null values are replaced by default values where applicable.&quot;<br></p>
 <table>
 <thead>
@@ -1187,8 +1187,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="usedefaultfilegroup">-UseDefaultFileGroup</h5>
-<p>By default, this command will use a filegroup of the same name between
-source and target. Use this flag if you'd instead like to use the
+<p>By default, this command will use a filegroup of the same name between<br />
+source and target. Use this flag if you'd instead like to use the<br />
 default filegroup in the target database.<br></p>
 <table>
 <thead>
@@ -1245,8 +1245,8 @@ default filegroup in the target database.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

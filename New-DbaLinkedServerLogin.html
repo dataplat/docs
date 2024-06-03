@@ -527,7 +527,7 @@ NOTE: passwords are sent to the SQL Server instance in plain text. Check with yo
 sp_addlinkedsrvlogin for more details.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function
+<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function<br />
 to be executed against multiple SQL Server instances.<br></p>
 <table>
 <thead>
@@ -556,8 +556,8 @@ to be executed against multiple SQL Server instances.<br></p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -670,7 +670,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="remoteuserpassword">-RemoteUserPassword</h5>
-<p>Specifies the remote login password as a secure string. NOTE: passwords are sent to the SQL Server instance in plain text. Check with your security administrator before using this parameter. View the
+<p>Specifies the remote login password as a secure string. NOTE: passwords are sent to the SQL Server instance in plain text. Check with your security administrator before using this parameter. View the<br />
 documentation for sp_addlinkedsrvlogin for more details.<br></p>
 <table>
 <thead>
@@ -755,8 +755,8 @@ documentation for sp_addlinkedsrvlogin for more details.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

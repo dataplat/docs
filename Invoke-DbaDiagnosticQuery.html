@@ -487,11 +487,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Invoke-DbaDiagnosticQuery runs the scripts provided by Glenn Berry's DMV scripts on specified servers</p>
 <h2 id="description">Description</h2>
-<p>This is the main function of the Sql Server Diagnostic Queries related functions in dbatools.
-The diagnostic queries are developed and maintained by Glenn Berry and they can be found here along with a lot of documentation:
+<p>This is the main function of the Sql Server Diagnostic Queries related functions in dbatools.<br />
+The diagnostic queries are developed and maintained by Glenn Berry and they can be found here along with a lot of documentation:<br />
 <a href="https://glennsqlperformance.com/resources/">https://glennsqlperformance.com/resources/</a></p>
-<p>The most recent version of the diagnostic queries are included in the dbatools module.
-But it is possible to download a newer set or a specific version to an alternative location and parse and run those scripts.
+<p>The most recent version of the diagnostic queries are included in the dbatools module.<br />
+But it is possible to download a newer set or a specific version to an alternative location and parse and run those scripts.<br />
 It will run all or a selection of those scripts on one or multiple servers and return the result as a PowerShell Object</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDiagnosticQuery
@@ -558,7 +558,7 @@ Then it will export the results to Export-DbaDiagnosticQuery.<br></p>
 <p>Run diagnostic queries targeted at specific database, and only run database level queries against this database.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. Can be either a string or SMO server<br></p>
+<p>The target SQL Server instance or instances. Can be either a string or SMO server <br></p>
 <table>
 <thead>
 <tr>
@@ -671,8 +671,8 @@ Then it will export the results to Export-DbaDiagnosticQuery.<br></p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -953,7 +953,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="exportqueries">-ExportQueries</h5>
-<p>Use this switch to export the diagnostic queries to sql files. Instead of running the queries, the server will be evaluated to find the appropriate queries to run based on SQL Version.
+<p>Use this switch to export the diagnostic queries to sql files. Instead of running the queries, the server will be evaluated to find the appropriate queries to run based on SQL Version.<br />
 These sql files will then be created in the OutputDirectory<br></p>
 <table>
 <thead>
@@ -982,8 +982,8 @@ These sql files will then be created in the OutputDirectory<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

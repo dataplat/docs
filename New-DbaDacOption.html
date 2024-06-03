@@ -488,9 +488,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Creates a new Microsoft.SqlServer.Dac.DacExtractOptions/DacExportOptions object depending on the chosen Type</p>
 <h2 id="description">Description</h2>
 <p>Creates a new Microsoft.SqlServer.Dac.DacExtractOptions/DacExportOptions object that can be used during DacPackage extract. Basically saves you the time from remembering the SMO assembly name ;)</p>
-<p>See:
-<a href="https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dac.dacexportoptions.aspx">https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dac.dacexportoptions.aspx</a>
-<a href="https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dac.dacextractoptions.aspx">https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dac.dacextractoptions.aspx</a>
+<p>See:<br />
+<a href="https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dac.dacexportoptions.aspx">https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dac.dacexportoptions.aspx</a><br />
+<a href="https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dac.dacextractoptions.aspx">https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.dac.dacextractoptions.aspx</a><br />
 for more information</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDacOption
@@ -527,7 +527,7 @@ PS C:\&gt; Publish-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $op
 <p>Uses DacOption object to set Deployment Options and publish the db.dacpac dacpac file as DB1 on sql2016<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="action">-Action</h5>
-<p>Choosing an intended action: Publish or Export.<br></p>
+<p>Choosing an intended action: Publish or Export. <br></p>
 <table>
 <thead>
 <tr>
@@ -620,9 +620,9 @@ PS C:\&gt; Publish-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $op
 </tbody>
 </table>
 <h5 id="property">-Property</h5>
-<p DeployOptions="@{ConnectionTimeout=5">A Hashtable that would be used to initialize Options object properties.
-If you want to specify DeployOptions parameters, which is a property of the options object,
-add the DeployOptions key with an appropriate hashtable as a value:
+<p DeployOptions="@{ConnectionTimeout=5">A Hashtable that would be used to initialize Options object properties.<br />
+If you want to specify DeployOptions parameters, which is a property of the options object,<br />
+add the DeployOptions key with an appropriate hashtable as a value:<br />
 @}<br></p>
 <table>
 <thead>
@@ -651,8 +651,8 @@ add the DeployOptions key with an appropriate hashtable as a value:
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -487,10 +487,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Finds object dependencies and their relevant creation scripts.</p>
 <h2 id="description">Description</h2>
-<p>This function recursively finds all objects that depends on the input.
+<p>This function recursively finds all objects that depends on the input.<br />
 It will then retrieve rich information from them, including their creation scripts and the order in which it should be applied.</p>
 <p>By using the 'Parents' switch, the function will instead retrieve all items that the input depends on (including their creation scripts).</p>
-<p>For more details on dependency, see:
+<p>For more details on dependency, see:<br />
 <a href="https://technet.microsoft.com/en-us/library/ms345449(v=sql.105).aspx">https://technet.microsoft.com/en-us/library/ms345449(v=sql.105).aspx</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDependency
@@ -540,7 +540,7 @@ PS C:\&gt; $table | Get-DbaDependency
 </tbody>
 </table>
 <h5 id="allowsystemobjects">-AllowSystemObjects</h5>
-<p>Normally, system objects are ignored by this function as dependencies.
+<p>Normally, system objects are ignored by this function as dependencies.<br />
 This switch overrides that behavior.<br></p>
 <table>
 <thead>
@@ -597,7 +597,7 @@ This switch overrides that behavior.<br></p>
 </tbody>
 </table>
 <h5 id="includeself">-IncludeSelf</h5>
-<p>Includes the object whose dependencies are retrieves itself.
+<p>Includes the object whose dependencies are retrieves itself.<br />
 Useful when exporting an entire logic structure in order to recreate it in another database.<br></p>
 <table>
 <thead>
@@ -626,8 +626,8 @@ Useful when exporting an entire logic structure in order to recreate it in anoth
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

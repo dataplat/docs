@@ -527,7 +527,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Creates a database mirroring endpoint on localhost\sql2017 which binds only on ipaddress 192.168.0.15 and port 5055<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -556,8 +556,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -710,9 +710,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="endpointencryption">-EndpointEncryption</h5>
-<p>Used to specify the state of encryption on the endpoint. Defaults to required.
-Disabled
-Required
+<p>Used to specify the state of encryption on the endpoint. Defaults to required.<br />
+Disabled<br />
+Required<br />
 Supported<br></p>
 <table>
 <thead>
@@ -745,12 +745,12 @@ Supported<br></p>
 </tbody>
 </table>
 <h5 id="encryptionalgorithm">-EncryptionAlgorithm</h5>
-<p>Specifies an encryption algorithm used on an endpoint. Defaults to Aes.
-Options are:
-AesRC4
-Aes
-None
-RC4
+<p>Specifies an encryption algorithm used on an endpoint. Defaults to Aes.<br />
+Options are:<br />
+AesRC4<br />
+Aes<br />
+None<br />
+RC4<br />
 RC4Aes<br></p>
 <table>
 <thead>
@@ -783,17 +783,17 @@ RC4Aes<br></p>
 </tbody>
 </table>
 <h5 id="authenticationorder">-AuthenticationOrder</h5>
-<p>The type of connection authentication required for connections to this endpoint. Defaults to Negotiate.
-Options are:
-Certificate
-CertificateKerberos
-CertificateNegotiate
-CertificateNtlm
-Kerberos
-KerberosCertificate
-Negotiate
-NegotiateCertificate
-Ntlm
+<p>The type of connection authentication required for connections to this endpoint. Defaults to Negotiate.<br />
+Options are:<br />
+Certificate<br />
+CertificateKerberos<br />
+CertificateNegotiate<br />
+CertificateNtlm<br />
+Kerberos<br />
+KerberosCertificate<br />
+Negotiate<br />
+NegotiateCertificate<br />
+Ntlm<br />
 NtlmCertificate<br></p>
 <table>
 <thead>
@@ -854,7 +854,7 @@ NtlmCertificate<br></p>
 </tbody>
 </table>
 <h5 id="ipaddress">-IPAddress</h5>
-<p>Specifies the IP address that the endpoint will listen on. The default is ALL. This means that the listener will accept a connection on any valid IP address.
+<p>Specifies the IP address that the endpoint will listen on. The default is ALL. This means that the listener will accept a connection on any valid IP address.<br />
 Currently only IPv4 is supported by this command.<br></p>
 <table>
 <thead>
@@ -967,8 +967,8 @@ Currently only IPv4 is supported by this command.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

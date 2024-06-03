@@ -487,8 +487,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Registers an existing configuration object in registry.</p>
 <h2 id="description">Description</h2>
-<p>Registers an existing configuration object in registry.
-This allows simple persisting of settings across powershell consoles.
+<p>Registers an existing configuration object in registry.<br />
+This allows simple persisting of settings across powershell consoles.<br />
 It also can be used to generate a registry template, which can then be used to create policies.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Register-DbatoolsConfig
@@ -528,7 +528,7 @@ Register-DbatoolsConfig
 to be able to pipe the output and register them in registry for the current user.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="module">-Module</h5>
-<p>The name of the module, whose settings should be written to registry.<br></p>
+<p>The name of the module, whose settings should be written to registry. <br></p>
 <table>
 <thead>
 <tr>
@@ -557,7 +557,7 @@ to be able to pipe the output and register them in registry for the current user
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="config">-Config</h5>
-<p>The configuration object to write to registry.
+<p>The configuration object to write to registry.<br />
 Can be retrieved using Get-DbatoolsConfig.<br></p>
 <table>
 <thead>
@@ -614,7 +614,7 @@ Can be retrieved using Get-DbatoolsConfig.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Default: &quot;*&quot;
+<p>Default: &quot;*&quot;<br />
 Used in conjunction with the -Module parameter to restrict the number of configuration items written to registry.<br></p>
 <table>
 <thead>
@@ -643,8 +643,8 @@ Used in conjunction with the -Module parameter to restrict the number of configu
 </tbody>
 </table>
 <h5 id="scope">-Scope</h5>
-<p>Default: UserDefault
-Who will be affected by this export how? Current user or all? Default setting or enforced?
+<p>Default: UserDefault<br />
+Who will be affected by this export how? Current user or all? Default setting or enforced?<br />
 Legal values: UserDefault, UserMandatory, SystemDefault, SystemMandatory<br></p>
 <table>
 <thead>
@@ -673,7 +673,7 @@ Legal values: UserDefault, UserMandatory, SystemDefault, SystemMandatory<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>This parameters disables user-friendly warnings and enables the throwing of exceptions.
+<p>This parameters disables user-friendly warnings and enables the throwing of exceptions.<br />
 This is less user friendly, but allows catching exceptions in calling scripts.<br></p>
 <table>
 <thead>

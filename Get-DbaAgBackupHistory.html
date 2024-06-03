@@ -488,12 +488,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Returns backup history details for databases on a SQL Server Availability Group.</p>
 <h2 id="description">Description</h2>
 <p>Returns backup history details for some or all databases on a SQL Server Availability Group.</p>
-<p>You can even get detailed information (including file path) for latest full, differential and log files.
+<p>You can even get detailed information (including file path) for latest full, differential and log files.<br />
 For detailed examples of the various parameters see the documentation of Get-DbaDbBackupHistory.</p>
 <p>Reference: <a href="http://www.sqlhub.com/2011/07/find-your-backup-history-in-sql-server.html">http://www.sqlhub.com/2011/07/find-your-backup-history-in-sql-server.html</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgBackupHistory -SqlInstance &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -AvailabilityGroup &lt;String&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -AvailabilityGroup &lt;String&gt;
     [-Database &lt;String[]&gt;]
     [-ExcludeDatabase &lt;String[]&gt;]
     [-IncludeCopyOnly]
@@ -513,7 +514,8 @@ For detailed examples of the various parameters see the documentation of Get-Dba
     [&lt;CommonParameters&gt;]
 
 Get-DbaAgBackupHistory -SqlInstance &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -AvailabilityGroup &lt;String&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -AvailabilityGroup &lt;String&gt;
     [-Database &lt;String[]&gt;]
     [-ExcludeDatabase &lt;String[]&gt;]
     [-IncludeCopyOnly]
@@ -564,9 +566,9 @@ PS C:\&gt; $allAgResults | Format-Table
 <p>Returns information for all database backups on all replicas for all availability groups on SQL instance MyServer.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.
-If you pass in one availability group listener, all replicas are automatically determined and queried.
-If you pass in a list of individual replicas, they will be queried. This enables you to use custom ports for the replicas.<br></p>
+<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br />
+If you pass in one availability group listener, all replicas are automatically determined and queried.<br />
+If you pass in a list of individual replicas, they will be queried. This enables you to use custom ports for the replicas. <br></p>
 <table>
 <thead>
 <tr>
@@ -594,7 +596,7 @@ If you pass in a list of individual replicas, they will be queried. This enables
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Specify the availability group to process.<br></p>
+<p>Specify the availability group to process. <br></p>
 <table>
 <thead>
 <tr>
@@ -623,7 +625,7 @@ If you pass in a list of individual replicas, they will be queried. This enables
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Credential object used to connect to the SQL Server instance as a different user. This can be a Windows or SQL Server account. Windows users are determined by the existence of a backslash, so if you
+<p>Credential object used to connect to the SQL Server instance as a different user. This can be a Windows or SQL Server account. Windows users are determined by the existence of a backslash, so if you<br />
 are intending to use an alternative Windows connection instead of a SQL login, ensure it contains a backslash.<br></p>
 <table>
 <thead>
@@ -932,7 +934,7 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="devicetype">-DeviceType</h5>
-<p>Specifies a filter for backup sets based on DeviceType. Valid options are 'Disk','Permanent Disk Device', 'Tape', 'Permanent Tape Device','Pipe','Permanent Pipe Device','Virtual Device','URL', in
+<p>Specifies a filter for backup sets based on DeviceType. Valid options are 'Disk','Permanent Disk Device', 'Tape', 'Permanent Tape Device','Pipe','Permanent Pipe Device','Virtual Device','URL', in<br />
 addition to custom integers for your own DeviceType.<br></p>
 <table>
 <thead>
@@ -1045,7 +1047,7 @@ addition to custom integers for your own DeviceType.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Specifies one or more types of backups to return. Valid options are 'Full', 'Log', 'Differential', 'File', 'Differential File', 'Partial Full', and 'Partial Differential'. Otherwise, all types of
+<p>Specifies one or more types of backups to return. Valid options are 'Full', 'Log', 'Differential', 'File', 'Differential File', 'Partial Full', and 'Partial Differential'. Otherwise, all types of<br />
 backups will be returned unless one of the -Last* switches is enabled.<br></p>
 <table>
 <thead>
@@ -1110,8 +1112,8 @@ backups will be returned unless one of the -Last* switches is enabled.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

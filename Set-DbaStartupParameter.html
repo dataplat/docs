@@ -566,8 +566,8 @@ We then change the startup parameters ahead of some work<br>
 After the work has been completed, we can push the original startup parameters back to server1\instance1 and resume normal operation<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The SQL Server instance to be modified
-If the Sql Instance is offline path parameters will be ignored as we cannot test the instance's access to the path. If you want to force this to work then please use the Force switch<br></p>
+<p>The SQL Server instance to be modified<br />
+If the Sql Instance is offline path parameters will be ignored as we cannot test the instance's access to the path. If you want to force this to work then please use the Force switch <br></p>
 <table>
 <thead>
 <tr>
@@ -596,8 +596,8 @@ If the Sql Instance is offline path parameters will be ignored as we cannot test
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -654,8 +654,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="masterdata">-MasterData</h5>
-<p>Path to the data file for the Master database
-Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if
+<p>Path to the data file for the Master database<br />
+Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if<br />
 the instance is offline<br></p>
 <table>
 <thead>
@@ -684,8 +684,8 @@ the instance is offline<br></p>
 </tbody>
 </table>
 <h5 id="masterlog">-MasterLog</h5>
-<p>Path to the log file for the Master database
-Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if
+<p>Path to the log file for the Master database<br />
+Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if<br />
 the instance is offline<br></p>
 <table>
 <thead>
@@ -714,8 +714,8 @@ the instance is offline<br></p>
 </tbody>
 </table>
 <h5 id="errorlog">-ErrorLog</h5>
-<p>Path to the SQL Server error log file
-Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if
+<p>Path to the SQL Server error log file<br />
+Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if<br />
 the instance is offline<br></p>
 <table>
 <thead>
@@ -744,7 +744,7 @@ the instance is offline<br></p>
 </tbody>
 </table>
 <h5 id="traceflag">-TraceFlag</h5>
-<p>A comma separated list of TraceFlags to be applied at SQL Server startup
+<p>A comma separated list of TraceFlags to be applied at SQL Server startup<br />
 By default these will be appended to any existing trace flags set<br></p>
 <table>
 <thead>
@@ -773,7 +773,7 @@ By default these will be appended to any existing trace flags set<br></p>
 </tbody>
 </table>
 <h5 id="commandpromptstart">-CommandPromptStart</h5>
-<p>Shortens startup time when starting SQL Server from the command prompt. Typically, the SQL Server Database Engine starts as a service by calling the Service Control Manager.
+<p>Shortens startup time when starting SQL Server from the command prompt. Typically, the SQL Server Database Engine starts as a service by calling the Service Control Manager.<br />
 Because the SQL Server Database Engine does not start as a service when starting from the command prompt<br></p>
 <table>
 <thead>
@@ -802,7 +802,7 @@ Because the SQL Server Database Engine does not start as a service when starting
 </tbody>
 </table>
 <h5 id="minimalstart">-MinimalStart</h5>
-<p>Starts an instance of SQL Server with minimal configuration. This is useful if the setting of a configuration value (for example, over-committing memory) has
+<p>Starts an instance of SQL Server with minimal configuration. This is useful if the setting of a configuration value (for example, over-committing memory) has<br />
 prevented the server from starting. Starting SQL Server in minimal configuration mode places SQL Server in single-user mode<br></p>
 <table>
 <thead>
@@ -831,8 +831,8 @@ prevented the server from starting. Starting SQL Server in minimal configuration
 </tbody>
 </table>
 <h5 id="memorytoreserve">-MemoryToReserve</h5>
-<p>Specifies an integer number of megabytes (MB) of memory that SQL Server will leave available for memory allocations within the SQL Server process,
-but outside the SQL Server memory pool. The memory outside of the memory pool is the area used by SQL Server for loading items such as extended procedure .dll files,
+<p>Specifies an integer number of megabytes (MB) of memory that SQL Server will leave available for memory allocations within the SQL Server process,<br />
+but outside the SQL Server memory pool. The memory outside of the memory pool is the area used by SQL Server for loading items such as extended procedure .dll files,<br />
 the OLE DB providers referenced by distributed queries, and automation objects referenced in Transact-SQL statements. The default is 256 MB.<br></p>
 <table>
 <thead>
@@ -973,12 +973,12 @@ the OLE DB providers referenced by distributed queries, and automation objects r
 </tbody>
 </table>
 <h5 id="disablemonitoring">-DisableMonitoring</h5>
-<p>Disables the following monitoring features:
-SQL Server performance monitor counters
-Keeping CPU time and cache-hit ratio statistics
-Collecting information for the DBCC SQLPERF command
-Collecting information for some dynamic management views
-Many extended-events event points
+<p>Disables the following monitoring features:<br />
+SQL Server performance monitor counters<br />
+Keeping CPU time and cache-hit ratio statistics<br />
+Collecting information for the DBCC SQLPERF command<br />
+Collecting information for some dynamic management views<br />
+Many extended-events event points<br />
 ** Warning ** When you use the -x startup option, the information that is available for you to diagnose performance and functional problems with SQL Server is greatly reduced.<br></p>
 <table>
 <thead>
@@ -1063,7 +1063,7 @@ Many extended-events event points
 </tbody>
 </table>
 <h5 id="startupconfig">-StartupConfig</h5>
-<p>Pass in a previously saved SQL Instance startup config
+<p>Pass in a previously saved SQL Instance startup config<br />
 using this parameter will set TraceFlagOverride to true, so existing Trace Flags will be overridden<br></p>
 <table>
 <thead>
@@ -1092,7 +1092,7 @@ using this parameter will set TraceFlagOverride to true, so existing Trace Flags
 </tbody>
 </table>
 <h5 id="offline">-Offline</h5>
-<p>Setting this switch will try perform the requested actions without connect to the SQL Server Instance, this will speed things up if you know the Instance is offline.
+<p>Setting this switch will try perform the requested actions without connect to the SQL Server Instance, this will speed things up if you know the Instance is offline.<br />
 When working offline, path inputs (MasterData, MasterLog and ErrorLog) will be ignored, unless Force is specified<br></p>
 <table>
 <thead>
@@ -1149,8 +1149,8 @@ When working offline, path inputs (MasterData, MasterLog and ErrorLog) will be i
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

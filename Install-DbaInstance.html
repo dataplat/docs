@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>This function will help you to quickly install a SQL Server instance.</p>
 <h2 id="description">Description</h2>
-<p>This function will help you to quickly install a SQL Server instance on one or many computers.
+<p>This function will help you to quickly install a SQL Server instance on one or many computers.<br />
 Some of the things this function will do for you:</p>
 <ul>
 <li>Add your login as an admin to the new instance</li>
@@ -506,11 +506,11 @@ Some of the things this function will do for you:</p>
 <li>Change the TCP port after the installation is done</li>
 <li>Enable 'Perform volume maintenance tasks' for the SQL Server account</li>
 </ul>
-<p>Note that the downloaded installation media must be extracted and available to the server where the installation runs.
+<p>Note that the downloaded installation media must be extracted and available to the server where the installation runs.<br />
 NOTE: If no ProductID (PID) is found in the configuration files/parameters, Evaluation version is going to be installed.</p>
-<p>When using CredSSP authentication, this function will try to configure CredSSP authentication for PowerShell Remoting sessions.
-If this is not desired (e.g.: CredSSP authentication is managed externally, or is already configured appropriately,)
-it can be disabled by setting the dbatools configuration option 'commands.initialize-credssp.bypass' value to $true.
+<p>When using CredSSP authentication, this function will try to configure CredSSP authentication for PowerShell Remoting sessions.<br />
+If this is not desired (e.g.: CredSSP authentication is managed externally, or is already configured appropriately,)<br />
+it can be disabled by setting the dbatools configuration option 'commands.initialize-credssp.bypass' value to $true.<br />
 To be able to configure CredSSP, the command needs to be run in an elevated PowerShell session.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaInstance
@@ -593,8 +593,8 @@ PS C:\&gt; Install-DbaInstance -SqlInstance localhost\v2017:1337 -Version 2017 -
 Instance name will be defined as 'v2017'; TCP port will be changed to 1337 after installation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="version">-Version</h5>
-<p>SQL Server version you wish to install.
-This is the year version (e.g. &quot;2008R2&quot;, &quot;2017&quot;, &quot;2019&quot;, &quot;2022&quot;)<br></p>
+<p>SQL Server version you wish to install.<br />
+This is the year version (e.g. &quot;2008R2&quot;, &quot;2017&quot;, &quot;2019&quot;, &quot;2022&quot;) <br></p>
 <table>
 <thead>
 <tr>
@@ -627,12 +627,12 @@ This is the year version (e.g. &quot;2008R2&quot;, &quot;2017&quot;, &quot;2019&
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target computer and, optionally, a new instance name and a port number.
-Use one of the following generic formats:
-Server1
-Server2\Instance1
-Server1\Alpha:1533, Server2\Omega:1566
-&quot;ServerName\NewInstanceName,1534&quot;
+<p>The target computer and, optionally, a new instance name and a port number.<br />
+Use one of the following generic formats:<br />
+Server1<br />
+Server2\Instance1<br />
+Server1\Alpha:1533, Server2\Omega:1566<br />
+&quot;ServerName\NewInstanceName,1534&quot;<br />
 You can also define instance name and port using -InstanceName and -Port parameters.<br></p>
 <table>
 <thead>
@@ -717,9 +717,9 @@ You can also define instance name and port using -InstanceName and -Port paramet
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Windows Credential with permission to log on to the remote server.
-Must be specified for any remote connection if SQL Server installation media is located on a network folder.
-Authentication will default to CredSSP if -Credential is used.
+<p>Windows Credential with permission to log on to the remote server.<br />
+Must be specified for any remote connection if SQL Server installation media is located on a network folder.<br />
+Authentication will default to CredSSP if -Credential is used.<br />
 For CredSSP see also additional information in DESCRIPTION.<br></p>
 <table>
 <thead>
@@ -748,14 +748,14 @@ For CredSSP see also additional information in DESCRIPTION.<br></p>
 </tbody>
 </table>
 <h5 id="authentication">-Authentication</h5>
-<p>Chooses an authentication protocol for remote connections.
-Allowed values: 'Default', 'Basic', 'Negotiate', 'NegotiateWithImplicitCredential', 'Credssp', 'Digest', 'Kerberos'.
-If the protocol fails to establish a connection and explicit -Credentials were used, a failback authentication method would be attempted that configures PSSessionConfiguration
-on the remote machine. This method, however, is considered insecure and would, therefore, prompt an additional confirmation when used.
+<p>Chooses an authentication protocol for remote connections.<br />
+Allowed values: 'Default', 'Basic', 'Negotiate', 'NegotiateWithImplicitCredential', 'Credssp', 'Digest', 'Kerberos'.<br />
+If the protocol fails to establish a connection and explicit -Credentials were used, a failback authentication method would be attempted that configures PSSessionConfiguration<br />
+on the remote machine. This method, however, is considered insecure and would, therefore, prompt an additional confirmation when used.<br />
 Defaults:</p>
 <ul>
 <li>CredSSP when -Credential is specified - due to the fact that repository Path is usually a network share and credentials need to be passed to the remote host to avoid the double-hop issue.</li>
-<li>Default when -Credential is not specified. Will likely fail if a network path is specified.
+<li>Default when -Credential is not specified. Will likely fail if a network path is specified.<br />
 For CredSSP see also additional information in DESCRIPTION.<br></li>
 </ul>
 <table>
@@ -817,15 +817,15 @@ For CredSSP see also additional information in DESCRIPTION.<br></li>
 </tbody>
 </table>
 <h5 id="configuration">-Configuration</h5>
-<p SQLCOLLATION="Latin1_General_BIN">A hashtable with custom configuration items that you want to use during the installation.
-Overrides all other parameters.
-For example, to define a custom server collation you can use the following parameter:
-PS&gt; Install-DbaInstance -Version 2017 -Configuration @
-As long as you don't specify the item ACTION, some items are already set by the command, like SQLSYSADMINACCOUNTS or *SVCSTARTUPTYPE.
-If you specify the item ACTION, only INSTANCENAME and FEATURES are set based on the corresponding parameters and QUIET is set to True.
-You will have to set all other needed items for your specific ACTION.
-But this way it is possible to use the command so install a Failover Cluster Instance or even to remove a SQL Server instance.
-More information about how to install a Failover Cluster Instance can be found here: <a href="https://github.com/dataplat/dbatools/discussions/7447">https://github.com/dataplat/dbatools/discussions/7447</a>
+<p SQLCOLLATION="Latin1_General_BIN">A hashtable with custom configuration items that you want to use during the installation.<br />
+Overrides all other parameters.<br />
+For example, to define a custom server collation you can use the following parameter:<br />
+PS&gt; Install-DbaInstance -Version 2017 -Configuration @<br />
+As long as you don't specify the item ACTION, some items are already set by the command, like SQLSYSADMINACCOUNTS or *SVCSTARTUPTYPE.<br />
+If you specify the item ACTION, only INSTANCENAME and FEATURES are set based on the corresponding parameters and QUIET is set to True.<br />
+You will have to set all other needed items for your specific ACTION.<br />
+But this way it is possible to use the command so install a Failover Cluster Instance or even to remove a SQL Server instance.<br />
+More information about how to install a Failover Cluster Instance can be found here: <a href="https://github.com/dataplat/dbatools/discussions/7447">https://github.com/dataplat/dbatools/discussions/7447</a><br />
 Full list of parameters can be found here: <a href="https://docs.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server-from-the-command-prompt#Install">https://docs.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server-from-the-command-prompt#Install</a><br></p>
 <table>
 <thead>
@@ -854,9 +854,9 @@ Full list of parameters can be found here: <a href="https://docs.microsoft.com/e
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Path to the folder(s) with SQL Server installation media downloaded. It will be scanned recursively for a corresponding setup.exe.
-Path should be available from the remote server.
-If a setup.exe file is missing in the repository, the installation will fail.
+<p>Path to the folder(s) with SQL Server installation media downloaded. It will be scanned recursively for a corresponding setup.exe.<br />
+Path should be available from the remote server.<br />
+If a setup.exe file is missing in the repository, the installation will fail.<br />
 Consider setting the following configuration in your session if you want to omit this parameter: <code>Set-DbatoolsConfig -Name Path.SQLServerSetup -Value '\\path\to\installations'</code><br></p>
 <table>
 <thead>
@@ -885,30 +885,30 @@ Consider setting the following configuration in your session if you want to omit
 </tbody>
 </table>
 <h5 id="feature">-Feature</h5>
-<p>Features to install. Templates like &quot;Default&quot; and &quot;All&quot; can be used to setup a predefined set of components. Full list of features:
-Default: Engine, Replication, FullText, Tools
-All
-Engine
-Tools: SSMS, BackwardsCompatibility, Connectivity
-Replication
-FullText
-DataQuality
-PolyBase
-MachineLearning
-AnalysisServices
-ReportingServices
-ReportingForSharepoint
-SharepointAddin
-IntegrationServices
-MasterDataServices
-PythonPackages
-RPackages
-BackwardsCompatibility
-Connectivity
-ReplayController
-ReplayClient
-SDK
-BIDS
+<p>Features to install. Templates like &quot;Default&quot; and &quot;All&quot; can be used to setup a predefined set of components. Full list of features:<br />
+Default: Engine, Replication, FullText, Tools<br />
+All<br />
+Engine<br />
+Tools: SSMS, BackwardsCompatibility, Connectivity<br />
+Replication<br />
+FullText<br />
+DataQuality<br />
+PolyBase<br />
+MachineLearning<br />
+AnalysisServices<br />
+ReportingServices<br />
+ReportingForSharepoint<br />
+SharepointAddin<br />
+IntegrationServices<br />
+MasterDataServices<br />
+PythonPackages<br />
+RPackages<br />
+BackwardsCompatibility<br />
+Connectivity<br />
+ReplayController<br />
+ReplayClient<br />
+SDK<br />
+BIDS<br />
 SSMS: SSMS, ADV_SSMS<br></p>
 <table>
 <thead>
@@ -1197,7 +1197,7 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="throttle">-Throttle</h5>
-<p>Maximum number of computers updated in parallel. Once reached, the update operations will queue up.
+<p>Maximum number of computers updated in parallel. Once reached, the update operations will queue up.<br />
 Default: 50<br></p>
 <table>
 <thead>
@@ -1226,7 +1226,7 @@ Default: 50<br></p>
 </tbody>
 </table>
 <h5 id="productid">-ProductID</h5>
-<p>Product ID, or simply, serial number of your SQL Server installation, which will determine which version to install.
+<p>Product ID, or simply, serial number of your SQL Server installation, which will determine which version to install.<br />
 If the PID is already built into the installation media, can be ignored.<br></p>
 <table>
 <thead>
@@ -1255,7 +1255,7 @@ If the PID is already built into the installation media, can be ignored.<br></p>
 </tbody>
 </table>
 <h5 id="ascollation">-AsCollation</h5>
-<p>Collation for the Analysis Service.
+<p>Collation for the Analysis Service.<br />
 Default value: Latin1_General_CI_AS<br></p>
 <table>
 <thead>
@@ -1284,8 +1284,8 @@ Default value: Latin1_General_CI_AS<br></p>
 </tbody>
 </table>
 <h5 id="sqlcollation">-SqlCollation</h5>
-<p>Collation for the Database Engine.
-The default depends on the Windows locale:
+<p>Collation for the Database Engine.<br />
+The default depends on the Windows locale:<br />
 <a href="https://docs.microsoft.com/en-us/sql/relational-databases/collations/collation-and-unicode-support#Server-level-collations">https://docs.microsoft.com/en-us/sql/relational-databases/collations/collation-and-unicode-support#Server-level-collations</a><br></p>
 <table>
 <thead>
@@ -1622,8 +1622,8 @@ The default depends on the Windows locale:
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

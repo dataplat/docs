@@ -483,11 +483,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Generates a connection object for use in remote computer management.</p>
 <h2 id="description">Description</h2>
-<p>Generates a connection object for use in remote computer management.
+<p>Generates a connection object for use in remote computer management.<br />
 Those objects are used for the purpose of cim/wmi queries, caching which protocol worked, optimizing performance and minimizing authentication errors.</p>
-<p>New-DbaCmConnection will create a NEW object and overwrite any existing ones for the specified computer.
+<p>New-DbaCmConnection will create a NEW object and overwrite any existing ones for the specified computer.<br />
 Furthermore, information stored in the input beyond the computername will be discarded in favor of the new settings.</p>
-<p>Unless the connection cache has been disabled, all connections will automatically be registered in the cache, so no further action is necessary.
+<p>Unless the connection cache has been disabled, all connections will automatically be registered in the cache, so no further action is necessary.<br />
 The output is primarily for information purposes, however it may be used to pass objects and circumvent the cache with those.</p>
 <p>NOTE: Generally, this function need not be used, as a first connection to a computer using any connecting function such as &quot;Get-DbaCmObject&quot; will automatically register a new default connection for it.</p>
 <p>This function exists to be able to preconfigure connections.</p>
@@ -609,7 +609,7 @@ Essentially, this configures all connections to those computers to prefer failur
 </tbody>
 </table>
 <h5 id="usewindowscredentials">-UseWindowsCredentials</h5>
-<p>Whether using the default windows credentials is legit.
+<p>Whether using the default windows credentials is legit.<br />
 Not setting this will not exclude using windows credentials, but only not pre-confirm them as working.<br></p>
 <table>
 <thead>
@@ -638,7 +638,7 @@ Not setting this will not exclude using windows credentials, but only not pre-co
 </tbody>
 </table>
 <h5 id="overrideexplicitcredential">-OverrideExplicitCredential</h5>
-<p>Setting this will enable the credential override.
+<p>Setting this will enable the credential override.<br />
 The override will cause the system to ignore explicitly specified credentials, so long as known, good credentials are available.<br></p>
 <table>
 <thead>
@@ -667,7 +667,7 @@ The override will cause the system to ignore explicitly specified credentials, s
 </tbody>
 </table>
 <h5 id="disabledconnectiontypes">-DisabledConnectionTypes</h5>
-<p>Explicitly disable connection types.
+<p>Explicitly disable connection types.<br />
 These types will then not be used for connecting to the computer.<br></p>
 <table>
 <thead>
@@ -780,7 +780,7 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="enablecredentialfailover">-EnableCredentialFailover</h5>
-<p>Will enable automatic failing over to known to work credentials, when using bad credentials.
+<p>Will enable automatic failing over to known to work credentials, when using bad credentials.<br />
 By default, passing bad credentials will cause the Computer Management functions to interrupt with a warning (Or exception if in silent mode).<br></p>
 <table>
 <thead>
@@ -837,7 +837,7 @@ By default, passing bad credentials will cause the Computer Management functions
 </tbody>
 </table>
 <h5 id="cimwinrmoptions">-CimWinRMOptions</h5>
-<p>Specify a set of options to use when connecting to the target computer using CIM over WinRM.
+<p>Specify a set of options to use when connecting to the target computer using CIM over WinRM.<br />
 Use 'New-CimSessionOption' to create such an object.<br></p>
 <table>
 <thead>
@@ -866,7 +866,7 @@ Use 'New-CimSessionOption' to create such an object.<br></p>
 </tbody>
 </table>
 <h5 id="cimdcomoptions">-CimDCOMOptions</h5>
-<p>Specify a set of options to use when connecting to the target computer using CIM over DCOM.
+<p>Specify a set of options to use when connecting to the target computer using CIM over DCOM.<br />
 Use 'New-CimSessionOption' to create such an object.<br></p>
 <table>
 <thead>
@@ -895,8 +895,8 @@ Use 'New-CimSessionOption' to create such an object.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

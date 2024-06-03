@@ -487,11 +487,12 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Moves database files from one local drive or folder to another.</p>
 <h2 id="description">Description</h2>
-<p>Moves database files from one local drive or folder to another.
+<p>Moves database files from one local drive or folder to another.<br />
 It will put database offline, update metadata and set it online again.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Move-DbaDbFile -SqlInstance &lt;DbaInstanceParameter&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -Database &lt;String&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -Database &lt;String&gt;
     [-FileType &lt;String&gt;]
     [-FileDestination &lt;String&gt;]
     [-DeleteAfterMove]
@@ -502,7 +503,8 @@ It will put database offline, update metadata and set it online again.</p>
     [&lt;CommonParameters&gt;]
 
 Move-DbaDbFile -SqlInstance &lt;DbaInstanceParameter&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -Database &lt;String&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -Database &lt;String&gt;
     [-FileToMove &lt;Hashtable&gt;]
     [-DeleteAfterMove]
     [-Force]
@@ -512,7 +514,8 @@ Move-DbaDbFile -SqlInstance &lt;DbaInstanceParameter&gt;
     [&lt;CommonParameters&gt;]
 
 Move-DbaDbFile -SqlInstance &lt;DbaInstanceParameter&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -Database &lt;String&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -Database &lt;String&gt;
     [-FileStructureOnly]
     [-Force]
     [-EnableException]
@@ -545,7 +548,7 @@ Before it puts database offline and after copy each file will update database me
 <p>Shows the current database file structure (without filenames). Example: 'dbatools'='D:\Data'<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -573,7 +576,7 @@ Before it puts database offline and after copy each file will update database me
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database to be moved.<br></p>
+<p>The database to be moved. <br></p>
 <table>
 <thead>
 <tr>
@@ -602,8 +605,8 @@ Before it puts database offline and after copy each file will update database me
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -632,8 +635,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filetype">-FileType</h5>
-<p>Define the file type to move; accepted values: Data, Log or Both.
-Default value: Both
+<p>Define the file type to move; accepted values: Data, Log or Both.<br />
+Default value: Both<br />
 Exclusive, cannot be used in conjunction with FileToMove.<br></p>
 <table>
 <thead>
@@ -694,7 +697,7 @@ Exclusive, cannot be used in conjunction with FileToMove.<br></p>
 </tbody>
 </table>
 <h5 id="filetomove">-FileToMove</h5>
-<p>Pass a hashtable that contains a list of database files and their destination path.
+<p>Pass a hashtable that contains a list of database files and their destination path.<br />
 Key and value should be the logical name and then the path (e.g. 'db1_log' = 'D:\mssql\logs')<br></p>
 <table>
 <thead>
@@ -751,7 +754,7 @@ Key and value should be the logical name and then the path (e.g. 'db1_log' = 'D:
 </tbody>
 </table>
 <h5 id="filestructureonly">-FileStructureOnly</h5>
-<p>Return a hashtable of the Database file structure.
+<p>Return a hashtable of the Database file structure.<br />
 Modifying the hashtable it can then be utilized with the FileToMove parameter<br></p>
 <table>
 <thead>
@@ -808,8 +811,8 @@ Modifying the hashtable it can then be utilized with the FileToMove parameter<br
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

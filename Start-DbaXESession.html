@@ -491,7 +491,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="syntax">Syntax</h2>
 <pre><code>Start-DbaXESession
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -Session &lt;Object[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -Session &lt;Object[]&gt;
     [-StartAt &lt;DateTime&gt;]
     [-StopAt &lt;DateTime&gt;]
     [-EnableException]
@@ -503,7 +504,8 @@ Start-DbaXESession
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
     [-StartAt &lt;DateTime&gt;]
-    [-StopAt &lt;DateTime&gt;] -AllSessions
+    [-StopAt &lt;DateTime&gt;]
+    -AllSessions
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -511,7 +513,8 @@ Start-DbaXESession
 
 Start-DbaXESession
     [-StartAt &lt;DateTime&gt;]
-    [-StopAt &lt;DateTime&gt;] -InputObject &lt;Session[]&gt;
+    [-StopAt &lt;DateTime&gt;]
+    -InputObject &lt;Session[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -543,7 +546,7 @@ Start-DbaXESession
 <p>Starts the sessions returned from the Get-DbaXESession function.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2008 or higher.<br></p>
+<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2008 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -571,7 +574,7 @@ Start-DbaXESession
 </tbody>
 </table>
 <h5 id="session">-Session</h5>
-<p>Only start specific Extended Events sessions.<br></p>
+<p>Only start specific Extended Events sessions. <br></p>
 <table>
 <thead>
 <tr>
@@ -599,7 +602,7 @@ Start-DbaXESession
 </tbody>
 </table>
 <h5 id="allsessions">-AllSessions</h5>
-<p>Start all Extended Events sessions on an instance, ignoring the packaged sessions: AlwaysOn_health, system_health, telemetry_xevents.<br></p>
+<p>Start all Extended Events sessions on an instance, ignoring the packaged sessions: AlwaysOn_health, system_health, telemetry_xevents. <br></p>
 <table>
 <thead>
 <tr>
@@ -627,7 +630,7 @@ Start-DbaXESession
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter to support piping from Get-DbaXESession<br></p>
+<p>Internal parameter to support piping from Get-DbaXESession <br></p>
 <table>
 <thead>
 <tr>
@@ -656,8 +659,8 @@ Start-DbaXESession
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -686,7 +689,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="startat">-StartAt</h5>
-<p>Specifies a datetime at which the session will be started. This is done via a self-deleting schedule.
+<p>Specifies a datetime at which the session will be started. This is done via a self-deleting schedule.<br />
 The command returns immediately and returns the affected sessions in their current state.<br></p>
 <table>
 <thead>
@@ -743,8 +746,8 @@ The command returns immediately and returns the affected sessions in their curre
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

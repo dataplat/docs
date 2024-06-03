@@ -489,9 +489,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Sets the network certificate for SQL Server instance. This setting is found in Configuration Manager.</p>
 <p>This command also grants read permissions for the service account on the certificate's private key.</p>
-<p>References:
-<a href="https://www.itprotoday.com/sql-server/7-steps-ssl-encryption">https://www.itprotoday.com/sql-server/7-steps-ssl-encryption</a>
-<a href="https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/">https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/</a>
+<p>References:<br />
+<a href="https://www.itprotoday.com/sql-server/7-steps-ssl-encryption">https://www.itprotoday.com/sql-server/7-steps-ssl-encryption</a><br />
+<a href="https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/">https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/</a><br />
 <a href="https://blogs.msdn.microsoft.com/sqlserverfaq/2016/09/26/creating-and-registering-ssl-certificates/">https://blogs.msdn.microsoft.com/sqlserverfaq/2016/09/26/creating-and-registering-ssl-certificates/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaNetworkCertificate
@@ -505,7 +505,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 
 Set-DbaNetworkCertificate
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
-    [-Credential &lt;PSCredential&gt;] -Certificate &lt;X509Certificate2&gt;
+    [-Credential &lt;PSCredential&gt;]
+    -Certificate &lt;X509Certificate2&gt;
     [-RestartService]
     [-EnableException]
     [-WhatIf]
@@ -514,7 +515,8 @@ Set-DbaNetworkCertificate
 
 Set-DbaNetworkCertificate
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
-    [-Credential &lt;PSCredential&gt;] -Thumbprint &lt;String&gt;
+    [-Credential &lt;PSCredential&gt;]
+    -Thumbprint &lt;String&gt;
     [-RestartService]
     [-EnableException]
     [-WhatIf]
@@ -535,7 +537,7 @@ Set-DbaNetworkCertificate
 <p>Sets the network certificate for the SQL2008R2SP2 instance to the certificate with the thumbprint of 1223FB1ACBCA44D3EE9640F81B6BA14A92F3D6E2 in LocalMachine\My on sql1<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="certificate">-Certificate</h5>
-<p>The target certificate object<br></p>
+<p>The target certificate object <br></p>
 <table>
 <thead>
 <tr>
@@ -563,7 +565,7 @@ Set-DbaNetworkCertificate
 </tbody>
 </table>
 <h5 id="thumbprint">-Thumbprint</h5>
-<p>The thumbprint of the target certificate<br></p>
+<p>The thumbprint of the target certificate <br></p>
 <table>
 <thead>
 <tr>
@@ -648,7 +650,7 @@ Set-DbaNetworkCertificate
 </tbody>
 </table>
 <h5 id="restartservice">-RestartService</h5>
-<p>Every change to the network certificate needs a service restart to take effect.
+<p>Every change to the network certificate needs a service restart to take effect.<br />
 This switch will force a restart of the service.<br></p>
 <table>
 <thead>
@@ -677,8 +679,8 @@ This switch will force a restart of the service.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

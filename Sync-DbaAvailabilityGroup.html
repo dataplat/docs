@@ -488,20 +488,20 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Syncs dependent objects such as jobs, logins and custom errors for availability groups</p>
 <h2 id="description">Description</h2>
 <p>Syncs dependent objects for availability groups. Such objects include:</p>
-<p>SpConfigure
-CustomErrors
-Credentials
-DatabaseMail
-LinkedServers
-Logins
-LoginPermissions
-SystemTriggers
-DatabaseOwner
-AgentCategory
-AgentOperator
-AgentAlert
-AgentProxy
-AgentSchedule
+<p>SpConfigure<br />
+CustomErrors<br />
+Credentials<br />
+DatabaseMail<br />
+LinkedServers<br />
+Logins<br />
+LoginPermissions<br />
+SystemTriggers<br />
+DatabaseOwner<br />
+AgentCategory<br />
+AgentOperator<br />
+AgentAlert<br />
+AgentProxy<br />
+AgentSchedule<br />
 AgentJob</p>
 <p>Note that any of these can be excluded. For specific object exclusions (such as a single job), using the underlying Copy-Dba* command will be required.</p>
 <p>This command does not filter by which logins are in use by the ag databases or which linked servers are used. All objects that are not excluded will be copied like hulk smash.</p>
@@ -578,8 +578,8 @@ Copies all logins except for login1 and login2 and only syncs job1 and job2<br><
 </tbody>
 </table>
 <h5 id="primarysqlcredential">-PrimarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -636,8 +636,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="secondarysqlcredential">-SecondarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -694,21 +694,21 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="exclude">-Exclude</h5>
-<p>Exclude one or more objects to export
-SpConfigure
-CustomErrors
-Credentials
-DatabaseMail
-LinkedServers
-Logins
-LoginPermissions
-SystemTriggers
-DatabaseOwner
-AgentCategory
-AgentOperator
-AgentAlert
-AgentProxy
-AgentSchedule
+<p>Exclude one or more objects to export<br />
+SpConfigure<br />
+CustomErrors<br />
+Credentials<br />
+DatabaseMail<br />
+LinkedServers<br />
+Logins<br />
+LoginPermissions<br />
+SystemTriggers<br />
+DatabaseOwner<br />
+AgentCategory<br />
+AgentOperator<br />
+AgentAlert<br />
+AgentProxy<br />
+AgentSchedule<br />
 AgentJob<br></p>
 <table>
 <thead>
@@ -937,8 +937,8 @@ AgentJob<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

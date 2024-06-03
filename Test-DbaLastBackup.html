@@ -613,8 +613,8 @@ More information:<br>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -699,7 +699,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>The destination server to use to test the restore. By default, the Destination will be set to the source server
+<p>The destination server to use to test the restore. By default, the Destination will be set to the source server<br />
 If a different Destination server is specified, you must ensure that the database backups are on a shared location<br></p>
 <table>
 <thead>
@@ -728,8 +728,8 @@ If a different Destination server is specified, you must ensure that the databas
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -982,7 +982,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="copypath">-CopyPath</h5>
-<p>Specifies a path relative to the SQL Server to copy backups when CopyFile is specified. If not specified will use destination default backup location. If destination SQL Server is not local, admin
+<p>Specifies a path relative to the SQL Server to copy backups when CopyFile is specified. If not specified will use destination default backup location. If destination SQL Server is not local, admin<br />
 UNC paths will be utilized for the copy.<br></p>
 <table>
 <thead>
@@ -1039,7 +1039,7 @@ UNC paths will be utilized for the copy.<br></p>
 </tbody>
 </table>
 <h5 id="devicetype">-DeviceType</h5>
-<p>Specifies a filter for backup sets based on DeviceTypes. Valid options are 'Disk','Permanent Disk Device', 'Tape', 'Permanent Tape Device','Pipe','Permanent Pipe Device','Virtual Device', in addition
+<p>Specifies a filter for backup sets based on DeviceTypes. Valid options are 'Disk','Permanent Disk Device', 'Tape', 'Permanent Tape Device','Pipe','Permanent Pipe Device','Virtual Device', in addition<br />
 to custom integers for your own DeviceTypes.<br></p>
 <table>
 <thead>
@@ -1180,7 +1180,7 @@ to custom integers for your own DeviceTypes.<br></p>
 </tbody>
 </table>
 <h5 id="maxtransfersize">-MaxTransferSize</h5>
-<p>Parameter to set the unit of transfer. Values must be a multiple of 64kb and a max of 4GB
+<p>Parameter to set the unit of transfer. Values must be a multiple of 64kb and a max of 4GB<br />
 Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 <table>
 <thead>
@@ -1209,8 +1209,8 @@ Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 </tbody>
 </table>
 <h5 id="buffercount">-BufferCount</h5>
-<p>Number of I/O buffers to use to perform the operation.
-Reference: <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options">https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options</a>
+<p>Number of I/O buffers to use to perform the operation.<br />
+Reference: <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options">https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options</a><br />
 Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 <table>
 <thead>
@@ -1295,7 +1295,7 @@ Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 </tbody>
 </table>
 <h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
-<p>By default, databases will be migrated to the destination Sql Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure.
+<p>By default, databases will be migrated to the destination Sql Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure.<br />
 The same structure on the SOURCE will be kept exactly, so consider this if you're migrating between different versions and use part of Microsoft's default Sql structure (MSSql12.INSTANCE, etc)<br></p>
 <table>
 <thead>
@@ -1324,8 +1324,8 @@ The same structure on the SOURCE will be kept exactly, so consider this if you'r
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -488,9 +488,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Sets SQL Server 'Max Server Memory' configuration setting to a new value then displays information this setting.</p>
 <h2 id="description">Description</h2>
 <p>Sets SQL Server max memory then displays information relating to SQL Server Max Memory configuration settings.</p>
-<p>Inspired by Jonathan Kehayias's post about SQL Server Max memory (<a href="http://bit.ly/sqlmemcalc">http://bit.ly/sqlmemcalc</a>), this uses a formula to
+<p>Inspired by Jonathan Kehayias's post about SQL Server Max memory (<a href="http://bit.ly/sqlmemcalc">http://bit.ly/sqlmemcalc</a>), this uses a formula to<br />
 determine the default optimum RAM to use, then sets the SQL max value to that number.</p>
-<p>Jonathan notes that the formula used provides a <em>general recommendation</em> that doesn't account for everything that may
+<p>Jonathan notes that the formula used provides a <em>general recommendation</em> that doesn't account for everything that may<br />
 be going on in your specific environment.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaMaxMemory
@@ -550,8 +550,8 @@ of the server (think 2147483647), then pipe those to Set-DbaMaxMemory and use th
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -636,8 +636,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

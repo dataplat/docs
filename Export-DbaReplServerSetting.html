@@ -489,7 +489,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Exports replication server settings to file.</p>
 <h2 id="description">Description</h2>
 <p>Exports replication server settings to file.</p>
-<p>All replication commands need SQL Server Management Studio installed and are therefore currently not supported.
+<p>All replication commands need SQL Server Management Studio installed and are therefore currently not supported.<br />
 Have a look at this issue to get more information: <a href="https://github.com/dataplat/dbatools/issues/7428">https://github.com/dataplat/dbatools/issues/7428</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaReplServerSetting
@@ -548,8 +548,8 @@ Have a look at this issue to get more information: <a href="https://github.com/d
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -690,15 +690,15 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="encoding">-Encoding</h5>
-<p>Specifies the file encoding. The default is UTF8.
-Valid values are:
--- ASCII: Uses the encoding for the ASCII (7-bit) character set.
--- BigEndianUnicode: Encodes in UTF-16 format using the big-endian byte order.
--- Byte: Encodes a set of characters into a sequence of bytes.
--- String: Uses the encoding type for a string.
--- Unicode: Encodes in UTF-16 format using the little-endian byte order.
--- UTF7: Encodes in UTF-7 format.
--- UTF8: Encodes in UTF-8 format.
+<p>Specifies the file encoding. The default is UTF8.<br />
+Valid values are:<br />
+-- ASCII: Uses the encoding for the ASCII (7-bit) character set.<br />
+-- BigEndianUnicode: Encodes in UTF-16 format using the big-endian byte order.<br />
+-- Byte: Encodes a set of characters into a sequence of bytes.<br />
+-- String: Uses the encoding type for a string.<br />
+-- Unicode: Encodes in UTF-16 format using the little-endian byte order.<br />
+-- UTF7: Encodes in UTF-7 format.<br />
+-- UTF8: Encodes in UTF-8 format.<br />
 -- Unknown: The encoding type is unknown or invalid. The data can be treated as binary.<br></p>
 <table>
 <thead>
@@ -815,8 +815,8 @@ Valid values are:
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -487,14 +487,14 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Retrieves Wmi/Cim-Style information from computers.</p>
 <h2 id="description">Description</h2>
-<p>This function centralizes all requests for information retrieved from Get-WmiObject or Get-CimInstance.
+<p>This function centralizes all requests for information retrieved from Get-WmiObject or Get-CimInstance.<br />
 It uses different protocols as available in this order:</p>
 <ul>
 <li>Cim over WinRM</li>
 <li>Cim over DCOM</li>
 <li>Wmi</li>
-<li>Wmi over PowerShell Remoting
-It remembers channels that didn't work and will henceforth avoid them. It remembers invalid credentials and will avoid reusing them.
+<li>Wmi over PowerShell Remoting<br />
+It remembers channels that didn't work and will henceforth avoid them. It remembers invalid credentials and will avoid reusing them.<br />
 Much of its behavior can be configured using Test-DbaCmConnection.</li>
 </ul>
 <h2 id="syntax">Syntax</h2>
@@ -534,7 +534,7 @@ Get-DbaCmObject -Query &lt;String&gt;
 It will use the Credentials stored in $cred to connect, unless they are known to not work, in which case they will default to windows credentials (unless another default has been set).<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="classname">-ClassName</h5>
-<p>The name of the class to retrieve.<br></p>
+<p>The name of the class to retrieve. <br></p>
 <table>
 <thead>
 <tr>
@@ -562,7 +562,7 @@ It will use the Credentials stored in $cred to connect, unless they are known to
 </tbody>
 </table>
 <h5 id="query">-Query</h5>
-<p>The Wmi/Cim query to run against the server.<br></p>
+<p>The Wmi/Cim query to run against the server. <br></p>
 <table>
 <thead>
 <tr>
@@ -734,8 +734,8 @@ It will use the Credentials stored in $cred to connect, unless they are known to
 </tbody>
 </table>
 <h5 id="silentlycontinue">-SilentlyContinue</h5>
-<p>Use in conjunction with the -EnableException switch.
-By default, Get-DbaCmObject will throw a terminating exception when connecting to a target is impossible in exception enabled mode.
+<p>Use in conjunction with the -EnableException switch.<br />
+By default, Get-DbaCmObject will throw a terminating exception when connecting to a target is impossible in exception enabled mode.<br />
 Setting this switch will cause it write a non-terminating exception and continue with the next computer.<br></p>
 <table>
 <thead>
@@ -764,8 +764,8 @@ Setting this switch will cause it write a non-terminating exception and continue
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

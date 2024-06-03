@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Copies data from a SQL Server view to a table.</p>
 <h2 id="description">Description</h2>
-<p>Copies data from a SQL Server view to a table using SQL Bulk Copy.
+<p>Copies data from a SQL Server view to a table using SQL Bulk Copy.<br />
 With this function, a streaming copy will be done in the most speedy and least resource-intensive way.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaDbViewData
@@ -606,8 +606,8 @@ Copy is processed in BatchSize of 10000 rows. See the -Query param documentation
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the source instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the source instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -664,8 +664,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the destination instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the destination instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -750,7 +750,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="view">-View</h5>
-<p>Specify a view to use as a source. You can specify a 2 or 3 part name (see examples).
+<p>Specify a view to use as a source. You can specify a 2 or 3 part name (see examples).<br />
 If the object has special characters please wrap them in square brackets.<br></p>
 <table>
 <thead>
@@ -779,9 +779,9 @@ If the object has special characters please wrap them in square brackets.<br></p
 </tbody>
 </table>
 <h5 id="query">-Query</h5>
-<p>Define a query to use as a source. Note: 3 or 4 part object names may be used (see examples)
-Ensure to select all required columns.
-Calculated Columns or columns with default values may be excluded.
+<p>Define a query to use as a source. Note: 3 or 4 part object names may be used (see examples)<br />
+Ensure to select all required columns.<br />
+Calculated Columns or columns with default values may be excluded.<br />
 Note: The workflow in the command requires that a valid -Table or -View parameter value be specified.<br></p>
 <table>
 <thead>
@@ -950,7 +950,7 @@ Note: The workflow in the command requires that a valid -Table or -View paramete
 </tbody>
 </table>
 <h5 id="checkconstraints">-CheckConstraints</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to process check constraints will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to process check constraints will be enabled.<br />
 Per Microsoft &quot;Check constraints while data is being inserted. By default, constraints are not checked.&quot;<br></p>
 <table>
 <thead>
@@ -979,7 +979,7 @@ Per Microsoft &quot;Check constraints while data is being inserted. By default, 
 </tbody>
 </table>
 <h5 id="firetriggers">-FireTriggers</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to fire insert triggers will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to fire insert triggers will be enabled.<br />
 Per Microsoft &quot;When specified, cause the server to fire the insert triggers for the rows being inserted into the Database.&quot;<br></p>
 <table>
 <thead>
@@ -1008,7 +1008,7 @@ Per Microsoft &quot;When specified, cause the server to fire the insert triggers
 </tbody>
 </table>
 <h5 id="keepidentity">-KeepIdentity</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to preserve source identity values will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to preserve source identity values will be enabled.<br />
 Per Microsoft &quot;Preserve source identity values. When not specified, identity values are assigned by the destination.&quot;<br></p>
 <table>
 <thead>
@@ -1037,7 +1037,7 @@ Per Microsoft &quot;Preserve source identity values. When not specified, identit
 </tbody>
 </table>
 <h5 id="keepnulls">-KeepNulls</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to preserve NULL values will be enabled.
+<p>If this switch is enabled, the SqlBulkCopy option to preserve NULL values will be enabled.<br />
 Per Microsoft &quot;Preserve null values in the destination table regardless of the settings for default values. When not specified, null values are replaced by default values where applicable.&quot;<br></p>
 <table>
 <thead>
@@ -1150,8 +1150,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

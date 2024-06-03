@@ -487,8 +487,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Removes database mail account(s).</p>
 <h2 id="description">Description</h2>
-<p>Removes the database mail account(s) that have passed through the pipeline.
-If not used with a pipeline, Get-DbaDbMailAccount will be executed with the parameters provided
+<p>Removes the database mail account(s) that have passed through the pipeline.<br />
+If not used with a pipeline, Get-DbaDbMailAccount will be executed with the parameters provided<br />
 and the returned database mail account(s) will be removed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbMailAccount
@@ -525,7 +525,7 @@ Remove-DbaDbMailAccount -InputObject &lt;MailAccount[]&gt;
 <p>Using a pipeline this command gets all database mail accounts on SRV1, lets the user select those to remove and then removes the selected database mail accounts.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -553,7 +553,7 @@ Remove-DbaDbMailAccount -InputObject &lt;MailAccount[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbMailAccount.<br></p>
+<p>Allows piping from Get-DbaDbMailAccount. <br></p>
 <table>
 <thead>
 <tr>
@@ -582,8 +582,8 @@ Remove-DbaDbMailAccount -InputObject &lt;MailAccount[]&gt;
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -668,8 +668,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>
@@ -726,7 +726,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts you for confirmation before executing any changing operations within the command.
+<p>Prompts you for confirmation before executing any changing operations within the command.<br />
 This is the default. Use -Confirm:$false to suppress these prompts.<br></p>
 <table>
 <thead>

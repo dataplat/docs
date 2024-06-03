@@ -488,9 +488,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Displays replication latency for all transactional publications for a server or database.</p>
 <h2 id="description">Description</h2>
-<p>Creates tracer tokens to determine latency between the publisher/distributor and the distributor/subscriber
+<p>Creates tracer tokens to determine latency between the publisher/distributor and the distributor/subscriber<br />
 for all transactional publications for a server, database, or publication.</p>
-<p>All replication commands need SQL Server Management Studio installed and are therefore currently not supported.
+<p>All replication commands need SQL Server Management Studio installed and are therefore currently not supported.<br />
 Have a look at this issue to get more information: <a href="https://github.com/dataplat/dbatools/issues/7428">https://github.com/dataplat/dbatools/issues/7428</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaReplLatency
@@ -522,7 +522,7 @@ Have a look at this issue to get more information: <a href="https://github.com/d
 <p>Return replication latency for the TestDB_Pub publication for the TestDB database located on the server sql2008.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -579,8 +579,8 @@ Have a look at this issue to get more information: <a href="https://github.com/d
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -637,7 +637,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="timetolive">-TimeToLive</h5>
-<p>How long, in seconds, to wait for a tracer token to complete its journey from the publisher to the subscriber.
+<p>How long, in seconds, to wait for a tracer token to complete its journey from the publisher to the subscriber.<br />
 If unspecified, all tracer tokens will take as long as they need to process results.<br></p>
 <table>
 <thead>
@@ -722,8 +722,8 @@ If unspecified, all tracer tokens will take as long as they need to process resu
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

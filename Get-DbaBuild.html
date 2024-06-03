@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Returns SQL Server Build infos on a SQL instance</p>
 <h2 id="description">Description</h2>
-<p>Returns info about the specific build of a SQL instance, including the SP, the CU and the reference KB, wherever possible.
+<p>Returns info about the specific build of a SQL instance, including the SP, the CU and the reference KB, wherever possible.<br />
 It also includes End Of Support dates as specified on Microsoft Life Cycle Policy</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaBuild
@@ -581,7 +581,7 @@ It also includes End Of Support dates as specified on Microsoft Life Cycle Polic
 </tbody>
 </table>
 <h5 id="majorversion">-MajorVersion</h5>
-<p>Get a KB information based on SQL Server version. Can be refined further by -ServicePack and -CumulativeUpdate parameters.
+<p>Get a KB information based on SQL Server version. Can be refined further by -ServicePack and -CumulativeUpdate parameters.<br />
 Examples: SQL2008 | 2008R2 | 2016<br></p>
 <table>
 <thead>
@@ -610,7 +610,7 @@ Examples: SQL2008 | 2008R2 | 2016<br></p>
 </tbody>
 </table>
 <h5 id="servicepack">-ServicePack</h5>
-<p>Get a KB information based on SQL Server Service Pack version. Can be refined further by -CumulativeUpdate parameter.
+<p>Get a KB information based on SQL Server Service Pack version. Can be refined further by -CumulativeUpdate parameter.<br />
 Examples: SP0 | 2 | RTM<br></p>
 <table>
 <thead>
@@ -639,7 +639,7 @@ Examples: SP0 | 2 | RTM<br></p>
 </tbody>
 </table>
 <h5 id="cumulativeupdate">-CumulativeUpdate</h5>
-<p>Get a KB information based on SQL Server Cumulative Update version.
+<p>Get a KB information based on SQL Server Cumulative Update version.<br />
 Examples: CU0 | CU13 | CU0<br></p>
 <table>
 <thead>
@@ -696,8 +696,8 @@ Examples: CU0 | CU13 | CU0<br></p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -754,8 +754,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

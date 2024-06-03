@@ -485,7 +485,7 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaLogin">Set-DbaLogin</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set-DbaLogin makes it possible to make changes to one or more logins.
+<p>Set-DbaLogin makes it possible to make changes to one or more logins.<br />
 SQL Azure DB is not supported.</p>
 <h2 id="description">Description</h2>
 <p>Set-DbaLogin will enable you to change the password, unlock, rename, disable or enable, deny or grant login privileges to the login. It's also possible to add or remove server roles from the login.</p>
@@ -608,8 +608,8 @@ PS C:\&gt; $login | Set-DbaLogin -Disable
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -722,7 +722,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="unlock">-Unlock</h5>
-<p>Switch to unlock an account. This can be used in conjunction with the -SecurePassword or -Force parameters.
+<p>Switch to unlock an account. This can be used in conjunction with the -SecurePassword or -Force parameters.<br />
 The default is false.<br></p>
 <table>
 <thead>
@@ -751,9 +751,9 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="passwordmustchange">-PasswordMustChange</h5>
-<p>Does the user need to change his/her password. This will only be used in conjunction with the -SecurePassword parameter.
-It is required that the login have both PasswordPolicyEnforced (check_policy) and PasswordExpirationEnabled (check_expiration) enabled for the login. See the Microsoft documentation for ALTER LOGIN
-for more details.
+<p>Does the user need to change his/her password. This will only be used in conjunction with the -SecurePassword parameter.<br />
+It is required that the login have both PasswordPolicyEnforced (check_policy) and PasswordExpirationEnabled (check_expiration) enabled for the login. See the Microsoft documentation for ALTER LOGIN<br />
+for more details.<br />
 The default is false.<br></p>
 <table>
 <thead>
@@ -978,7 +978,7 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="addrole">-AddRole</h5>
-<p>Add one or more server roles to the login
+<p>Add one or more server roles to the login<br />
 The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &quot;diskadmin&quot;, &quot;processadmin&quot;, &quot;public&quot;, &quot;securityadmin&quot;, &quot;serveradmin&quot;, &quot;setupadmin&quot;, &quot;sysadmin&quot;.<br></p>
 <table>
 <thead>
@@ -1011,7 +1011,7 @@ The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &q
 </tbody>
 </table>
 <h5 id="removerole">-RemoveRole</h5>
-<p>Remove one or more server roles to the login
+<p>Remove one or more server roles to the login<br />
 The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &quot;diskadmin&quot;, &quot;processadmin&quot;, &quot;public&quot;, &quot;securityadmin&quot;, &quot;serveradmin&quot;, &quot;setupadmin&quot;, &quot;sysadmin&quot;.<br></p>
 <table>
 <thead>
@@ -1072,7 +1072,7 @@ The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &q
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>This switch is used with -Unlock to unlock a login without providing a password. This command will temporarily disable and enable the policy settings as described at
+<p>This switch is used with -Unlock to unlock a login without providing a password. This command will temporarily disable and enable the policy settings as described at<br />
 <a href="https://www.mssqltips.com/sqlservertip/2758/how-to-unlock-a-sql-login-without-resetting-the-password/">https://www.mssqltips.com/sqlservertip/2758/how-to-unlock-a-sql-login-without-resetting-the-password/</a>.<br></p>
 <table>
 <thead>
@@ -1101,8 +1101,8 @@ The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &q
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

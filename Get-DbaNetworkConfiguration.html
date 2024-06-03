@@ -489,7 +489,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Returns a PowerShell object with the network configuration of a SQL Server instance as shown in SQL Server Configuration Manager.</p>
 <p>As we get information from SQL WMI and also from the registry, we use PS Remoting to run the core code on the target machine.</p>
-<p>For a detailed explanation of the different properties see the documentation at:
+<p>For a detailed explanation of the different properties see the documentation at:<br />
 <a href="https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration">https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaNetworkConfiguration
@@ -513,7 +513,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Returns information about the server protocols for the sqlexpress on winserver and the default instance on sql2016.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -570,17 +570,17 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="outputtype">-OutputType</h5>
-<p>Defines what information is returned from the command.
-Options include: Full, ServerProtocols, TcpIpProperties, TcpIpAddresses or Certificate. Full by default.
-Full returns one object per SqlInstance with information about the server protocols
-and nested objects with information about TCP/IP properties and TCP/IP addresses.
-It also outputs advanced properties including information about the used certificate.
-ServerProtocols returns one object per SqlInstance with information about the server protocols only.
-TcpIpProperties returns one object per SqlInstance with information about the TCP/IP protocol properties only.
-TcpIpAddresses returns one object per SqlInstance and IP address.
-If the instance listens on all IP addresses (TcpIpProperties.ListenAll), only the information about the IPAll address is returned.
-Otherwise only information about the individual IP addresses is returned.
-For more details see: <a href="https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port">https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port</a>
+<p>Defines what information is returned from the command.<br />
+Options include: Full, ServerProtocols, TcpIpProperties, TcpIpAddresses or Certificate. Full by default.<br />
+Full returns one object per SqlInstance with information about the server protocols<br />
+and nested objects with information about TCP/IP properties and TCP/IP addresses.<br />
+It also outputs advanced properties including information about the used certificate.<br />
+ServerProtocols returns one object per SqlInstance with information about the server protocols only.<br />
+TcpIpProperties returns one object per SqlInstance with information about the TCP/IP protocol properties only.<br />
+TcpIpAddresses returns one object per SqlInstance and IP address.<br />
+If the instance listens on all IP addresses (TcpIpProperties.ListenAll), only the information about the IPAll address is returned.<br />
+Otherwise only information about the individual IP addresses is returned.<br />
+For more details see: <a href="https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port">https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port</a><br />
 Certificate returns one object per SqlInstance with information about the configured network certificate and whether encryption is enforced.<br></p>
 <table>
 <thead>
@@ -613,8 +613,8 @@ Certificate returns one object per SqlInstance with information about the config
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

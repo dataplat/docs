@@ -488,9 +488,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Execution of Database Console Command DBCC CHECKCONSTRAINTS</p>
 <h2 id="description">Description</h2>
 <p>Executes the command DBCC CHECKCONSTRAINTS and returns results</p>
-<p>Reports and corrects pages and row count inaccuracies in the catalog views.
+<p>Reports and corrects pages and row count inaccuracies in the catalog views.<br />
 These inaccuracies may cause incorrect space usage reports returned by the sp_spaceused system stored procedure.</p>
-<p>Read more:
+<p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-checkconstraints-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-checkconstraints-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbDbccCheckConstraint
@@ -538,7 +538,7 @@ disabled constraints on the table with able_id = TableId. Returns all rows that 
 <p>Displays what will happen if command DBCC CHECKCONSTRAINTS is called against all databses on Sql1 and Sql2/sqlexpress<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -567,8 +567,8 @@ disabled constraints on the table with able_id = TableId. Returns all rows that 
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -625,9 +625,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="object">-Object</h5>
-<p>The table or constraint to be checked.
-When table_name or table_id is specified, all enabled constraints on that table are checked.
-When constraint_name or constraint_id is specified, only that constraint is checked.
+<p>The table or constraint to be checked.<br />
+When table_name or table_id is specified, all enabled constraints on that table are checked.<br />
+When constraint_name or constraint_id is specified, only that constraint is checked.<br />
 If neither a table identifier nor a constraint identifier is specified, all enabled constraints on all tables in the current database are checked.<br></p>
 <table>
 <thead>
@@ -656,8 +656,8 @@ If neither a table identifier nor a constraint identifier is specified, all enab
 </tbody>
 </table>
 <h5 id="allconstraints">-AllConstraints</h5>
-<p>Checks all enabled and disabled constraints on the table if the table name is specified or if all tables are checked;
-Otherwise, checks only the enabled constraint.
+<p>Checks all enabled and disabled constraints on the table if the table name is specified or if all tables are checked;<br />
+Otherwise, checks only the enabled constraint.<br />
 Has no effect when a constraint is specified<br></p>
 <table>
 <thead>
@@ -686,7 +686,7 @@ Has no effect when a constraint is specified<br></p>
 </tbody>
 </table>
 <h5 id="allerrormessages">-AllErrorMessages</h5>
-<p>Returns all rows that violate constraints in the table that is checked.
+<p>Returns all rows that violate constraints in the table that is checked.<br />
 The default is the first 200 rows.<br></p>
 <table>
 <thead>
@@ -743,8 +743,8 @@ The default is the first 200 rows.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

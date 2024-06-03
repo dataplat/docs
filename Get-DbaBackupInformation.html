@@ -487,11 +487,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Scan backup files and creates a set, compatible with Restore-DbaDatabase</p>
 <h2 id="description">Description</h2>
-<p>Upon being passed a list of potential backups files this command will scan the files, select those that contain SQL Server
+<p>Upon being passed a list of potential backups files this command will scan the files, select those that contain SQL Server<br />
 backup sets. It will then filter those files down to a set</p>
-<p>The function defaults to working on a remote instance. This means that all paths passed in must be relative to the remote instance.
+<p>The function defaults to working on a remote instance. This means that all paths passed in must be relative to the remote instance.<br />
 XpDirTree will be used to perform the file scans</p>
-<p>Various means can be used to pass in a list of files to be considered. The default is to non recursively scan the folder
+<p>Various means can be used to pass in a list of files to be considered. The default is to non recursively scan the folder<br />
 passed in.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaBackupInformation -Path &lt;Object[]&gt; -SqlInstance &lt;DbaInstanceParameter&gt;
@@ -570,11 +570,11 @@ shortcut scanning all the files as we have nothing to work with<br></p>
 log backups. Note this also means they WON'T be restored<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Path to SQL Server backup files.
-Paths passed in as strings will be scanned using the desired method, default is a non recursive folder scan
-Accepts multiple paths separated by ','
-Or it can consist of FileInfo objects, such as the output of Get-ChildItem or Get-Item. This allows you to work with
-your own file structures as needed<br></p>
+<p>Path to SQL Server backup files.<br />
+Paths passed in as strings will be scanned using the desired method, default is a non recursive folder scan<br />
+Accepts multiple paths separated by ','<br />
+Or it can consist of FileInfo objects, such as the output of Get-ChildItem or Get-Item. This allows you to work with<br />
+your own file structures as needed <br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +602,7 @@ your own file structures as needed<br></p>
 </tbody>
 </table>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The SQL Server instance to be used to read the headers of the backup files<br></p>
+<p>The SQL Server instance to be used to read the headers of the backup files <br></p>
 <table>
 <thead>
 <tr>
@@ -631,8 +631,8 @@ your own file structures as needed<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -717,7 +717,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="noxpdirtree">-NoXpDirTree</h5>
-<p>If specified, this switch will cause the files to be parsed as local files to the SQL Server Instance provided. Errors may be observed when the SQL Server Instance cannot access the files being
+<p>If specified, this switch will cause the files to be parsed as local files to the SQL Server Instance provided. Errors may be observed when the SQL Server Instance cannot access the files being<br />
 parsed.<br></p>
 <table>
 <thead>
@@ -802,7 +802,7 @@ parsed.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>Replaces user friendly yellow warnings with bloody red exceptions of doom!
+<p>Replaces user friendly yellow warnings with bloody red exceptions of doom!<br />
 Use this if you want the function to throw terminating errors you want to catch.<br></p>
 <table>
 <thead>
@@ -859,7 +859,7 @@ Use this if you want the function to throw terminating errors you want to catch.
 </tbody>
 </table>
 <h5 id="ignorelogbackup">-IgnoreLogBackup</h5>
-<p>This switch only works with the MaintenanceSolution switch. With an Ola Hallengren style backup we can be sure that the LOG folder contains only log backups and skip it.
+<p>This switch only works with the MaintenanceSolution switch. With an Ola Hallengren style backup we can be sure that the LOG folder contains only log backups and skip it.<br />
 For all other scenarios we need to read the file headers to be sure.<br></p>
 <table>
 <thead>
@@ -888,7 +888,7 @@ For all other scenarios we need to read the file headers to be sure.<br></p>
 </tbody>
 </table>
 <h5 id="ignorediffbackup">-IgnoreDiffBackup</h5>
-<p>This switch only works with the MaintenanceSolution switch. With an Ola Hallengren style backup we can be sure that the DIFF folder contains only differential backups and skip it.
+<p>This switch only works with the MaintenanceSolution switch. With an Ola Hallengren style backup we can be sure that the DIFF folder contains only differential backups and skip it.<br />
 For all other scenarios we need to read the file headers to be sure.<br></p>
 <table>
 <thead>
@@ -1001,7 +1001,7 @@ For all other scenarios we need to read the file headers to be sure.<br></p>
 </tbody>
 </table>
 <h5 id="anonymise">-Anonymise</h5>
-<p>If specified we will output the results with ComputerName, InstanceName, Database, UserName, Paths, and Logical and Physical Names hashed out
+<p>If specified we will output the results with ComputerName, InstanceName, Database, UserName, Paths, and Logical and Physical Names hashed out<br />
 This options is mainly for use if we need you to submit details for fault finding to the dbatools team<br></p>
 <table>
 <thead>

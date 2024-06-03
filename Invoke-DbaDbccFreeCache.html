@@ -488,13 +488,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Execution of Database Console Commands that clear Server level Memory caches</p>
 <h2 id="description">Description</h2>
 <p>Allows execution of Database Console Commands that act at Server Level to clear Memory caches</p>
-<p>Allows execution of the following commands
-DBCC FREEPROCCACHE
-DBCC FREESESSIONCACHE
+<p>Allows execution of the following commands<br />
+DBCC FREEPROCCACHE<br />
+DBCC FREESESSIONCACHE<br />
 DBCC FREESYSTEMCACHE</p>
-<p>Read more:
-- <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freeproccache-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freeproccache-transact-sql</a>
-- <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freesessioncache-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freesessioncache-transact-sql</a>
+<p>Read more:<br />
+- <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freeproccache-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freeproccache-transact-sql</a><br />
+- <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freesessioncache-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freesessioncache-transact-sql</a><br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freesystemcache-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freesystemcache-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbccFreeCache
@@ -546,7 +546,7 @@ against the instance SqlServer2017 using Windows Authentication<br></p>
 become unused for all the caches with entries specific to the resource pool named &quot;default&quot;.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -575,8 +575,8 @@ become unused for all the caches with entries specific to the resource pool name
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -637,15 +637,15 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputvalue">-InputValue</h5>
-<p>Value used for Operation - meaning depends on Operation
-DBCC FREEPROCCACHE accepts
-a plan_handle of type varbinary(64)
-a sql_handle of type varbinary(64)
-or the name of a Resource Governor resource pool of type sysname
-If blank then clears all elements from the plan cache
-DBCC FREESYSTEMCACHE accepts
-'ALL' for ALL specifies all supported caches
-or name of a Resource Governor pool cache
+<p>Value used for Operation - meaning depends on Operation<br />
+DBCC FREEPROCCACHE accepts<br />
+a plan_handle of type varbinary(64)<br />
+a sql_handle of type varbinary(64)<br />
+or the name of a Resource Governor resource pool of type sysname<br />
+If blank then clears all elements from the plan cache<br />
+DBCC FREESYSTEMCACHE accepts<br />
+'ALL' for ALL specifies all supported caches<br />
+or name of a Resource Governor pool cache<br />
 Not required for other values<br></p>
 <table>
 <thead>
@@ -702,7 +702,7 @@ Not required for other values<br></p>
 </tbody>
 </table>
 <h5 id="markinuseforremoval">-MarkInUseForRemoval</h5>
-<p>Used when Operation = DBCC FREESYSTEMCACHE
+<p>Used when Operation = DBCC FREESYSTEMCACHE<br />
 Asynchronously frees currently used entries from their respective caches after they become unused<br></p>
 <table>
 <thead>
@@ -731,8 +731,8 @@ Asynchronously frees currently used entries from their respective caches after t
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Transforms the data in a dbatools BackupHistory object for a restore</p>
 <h2 id="description">Description</h2>
-<p>Performs various mapping on Backup History, ready restoring
+<p>Performs various mapping on Backup History, ready restoring<br />
 Options include changing restore paths, backup paths, database name and many others</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Format-DbaBackupInformation
@@ -531,7 +531,7 @@ And all Transaction Log files will be restored to E:\Logfiles<br></p>
 <p>This example changes the location that SQL Server will look for the backups. This is useful if you've moved the backups to a different location<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="backuphistory">-BackupHistory</h5>
-<p>A dbatools backupHistory object, normally this will have been created using Select-DbaBackupInformation<br></p>
+<p>A dbatools backupHistory object, normally this will have been created using Select-DbaBackupInformation <br></p>
 <table>
 <thead>
 <tr>
@@ -560,9 +560,9 @@ And all Transaction Log files will be restored to E:\Logfiles<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="replacedatabasename">-ReplaceDatabaseName</h5>
-<p>If a single value is provided, this will be replaced do all occurrences a database name
-If a Hashtable is passed in, each database name mention will be replaced as specified. If a database's name does not appear it will not be replace
-DatabaseName will also be replaced where it  occurs in the file paths of data and log files.
+<p>If a single value is provided, this will be replaced do all occurrences a database name<br />
+If a Hashtable is passed in, each database name mention will be replaced as specified. If a database's name does not appear it will not be replace<br />
+DatabaseName will also be replaced where it  occurs in the file paths of data and log files.<br />
 Please note, that this won't change the Logical Names of data files, that has to be done with a separate Alter DB call<br></p>
 <table>
 <thead>
@@ -843,10 +843,10 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="filemapping">-FileMapping</h5>
-<p>A hashtable that can be used to move specific files to a location.
-<code>$FileMapping = @{'DataFile1'='c:\restoredfiles\Datafile1.mdf';'DataFile3'='d:\DataFile3.mdf'}</code>
-And files not specified in the mapping will be restored to their original location
-This Parameter is exclusive with DestinationDataDirectory
+<p>A hashtable that can be used to move specific files to a location.<br />
+<code>$FileMapping = @{'DataFile1'='c:\restoredfiles\Datafile1.mdf';'DataFile3'='d:\DataFile3.mdf'}</code><br />
+And files not specified in the mapping will be restored to their original location<br />
+This Parameter is exclusive with DestinationDataDirectory<br />
 If specified, this will override any other file renaming/relocation options.<br></p>
 <table>
 <thead>
@@ -903,8 +903,8 @@ If specified, this will override any other file renaming/relocation options.<br>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

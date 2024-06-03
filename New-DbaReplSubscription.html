@@ -518,7 +518,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Creates a pull subscription from sql2017 to sql2019 for the pubs database.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target publishing SQL Server instance or instances.<br></p>
+<p>The target publishing SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -546,7 +546,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="subscribersqlinstance">-SubscriberSqlInstance</h5>
-<p>The subscriber SQL instance.<br></p>
+<p>The subscriber SQL instance. <br></p>
 <table>
 <thead>
 <tr>
@@ -574,7 +574,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="publicationname">-PublicationName</h5>
-<p>The name of the replication publication<br></p>
+<p>The name of the replication publication <br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +602,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The flavour of the subscription. Push or Pull.<br></p>
+<p>The flavour of the subscription. Push or Pull. <br></p>
 <table>
 <thead>
 <tr>
@@ -635,8 +635,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target publishing instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target publishing instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -693,8 +693,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subscribersqlcredential">-SubscriberSqlCredential</h5>
-<p>Login to the subscriber instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the subscriber instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -779,8 +779,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

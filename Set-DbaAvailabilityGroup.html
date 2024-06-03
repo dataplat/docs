@@ -554,8 +554,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -668,7 +668,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="clustertype">-ClusterType</h5>
-<p>Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.
+<p>Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.<br />
 Options include: External, Wsfc or None.<br></p>
 <table>
 <thead>
@@ -765,9 +765,9 @@ Options include: External, Wsfc or None.<br></p>
 </tbody>
 </table>
 <h5 id="healthchecktimeout">-HealthCheckTimeout</h5>
-<p>This setting used to specify the length of time, in milliseconds, that the SQL Server resource DLL should wait for information returned by the sp_server_diagnostics stored procedure before reporting
-the Always On Failover Cluster Instance (FCI) as unresponsive.
-Changes that are made to the timeout settings are effective immediately and do not require a restart of the SQL Server resource.
+<p>This setting used to specify the length of time, in milliseconds, that the SQL Server resource DLL should wait for information returned by the sp_server_diagnostics stored procedure before reporting<br />
+the Always On Failover Cluster Instance (FCI) as unresponsive.<br />
+Changes that are made to the timeout settings are effective immediately and do not require a restart of the SQL Server resource.<br />
 Defaults is 30000 (30 seconds).<br></p>
 <table>
 <thead>
@@ -796,7 +796,7 @@ Defaults is 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="basicavailabilitygroup">-BasicAvailabilityGroup</h5>
-<p>Indicates whether the availability group is Basic Availability Group.
+<p>Indicates whether the availability group is Basic Availability Group.<br />
 <a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/basic-availability-groups-always-on-availability-groups">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/basic-availability-groups-always-on-availability-groups</a><br></p>
 <table>
 <thead>
@@ -909,8 +909,8 @@ Defaults is 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

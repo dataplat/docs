@@ -573,7 +573,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="restart">-Restart</h5>
-<p>Restart computer automatically after a successful installation of a patch and wait until it comes back online.
+<p>Restart computer automatically after a successful installation of a patch and wait until it comes back online.<br />
 Using this parameter is the only way to chain-install more than 1 patch on a computer, since every single patch will require a restart of said computer.<br></p>
 <table>
 <thead>
@@ -602,8 +602,8 @@ Using this parameter is the only way to chain-install more than 1 patch on a com
 </tbody>
 </table>
 <h5 id="authentication">-Authentication</h5>
-<p>Chooses an authentication protocol for remote connections.
-If the protocol fails to establish a connection
+<p>Chooses an authentication protocol for remote connections.<br />
+If the protocol fails to establish a connection<br />
 Defaults:</p>
 <ul>
 <li>CredSSP when -Credential is specified - due to the fact that repository Path is usually a network share and credentials need to be passed to the remote host to avoid the double-hop issue.</li>
@@ -640,7 +640,7 @@ Defaults:</p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Windows Credential with permission to log on to the remote server.
+<p>Windows Credential with permission to log on to the remote server.<br />
 Must be specified for any remote connection if update Repository is located on a network folder.<br></p>
 <table>
 <thead>
@@ -697,7 +697,7 @@ Must be specified for any remote connection if update Repository is located on a
 </tbody>
 </table>
 <h5 id="argumentlist">-ArgumentList</h5>
-<p>A list of extra arguments to pass to the execution file. Accepts one or more strings containing command line parameters.
+<p>A list of extra arguments to pass to the execution file. Accepts one or more strings containing command line parameters.<br />
 Example: ... -ArgumentList &quot;/SkipRules=RebootRequiredCheck&quot;, &quot;/Q&quot;<br></p>
 <table>
 <thead>
@@ -754,8 +754,8 @@ Example: ... -ArgumentList &quot;/SkipRules=RebootRequiredCheck&quot;, &quot;/Q&
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

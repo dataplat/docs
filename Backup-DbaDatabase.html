@@ -573,7 +573,8 @@ Backup-DbaDatabase
     [-ReplaceInName]
     [-NoAppendDbNameInPath]
     [-CopyOnly]
-    [-Type &lt;String&gt;] -InputObject &lt;Object[]&gt;
+    [-Type &lt;String&gt;]
+    -InputObject &lt;Object[]&gt;
     [-CreateFolder]
     [-FileCount &lt;Int32&gt;]
     [-CompressBackup]
@@ -645,7 +646,7 @@ Shared Access Signature credentials for both containers exist on the source inst
 <p>Backs up the master database using the BackupCert certificate and the AES256 algorithm.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The SQL Server instance hosting the databases to be backed up.<br></p>
+<p>The SQL Server instance hosting the databases to be backed up. <br></p>
 <table>
 <thead>
 <tr>
@@ -673,7 +674,7 @@ Shared Access Signature credentials for both containers exist on the source inst
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter<br></p>
+<p>Internal parameter <br></p>
 <table>
 <thead>
 <tr>
@@ -702,8 +703,8 @@ Shared Access Signature credentials for both containers exist on the source inst
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -788,9 +789,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Path in which to place the backup files. If not specified, the backups will be placed in the default backup location for SqlInstance.
-If multiple paths are specified, the backups will be striped across these locations. This will overwrite the FileCount option.
-If the path does not exist, Sql Server will attempt to create it. Folders are created by the Sql Instance, and checks will be made for write permissions.
+<p>Path in which to place the backup files. If not specified, the backups will be placed in the default backup location for SqlInstance.<br />
+If multiple paths are specified, the backups will be striped across these locations. This will overwrite the FileCount option.<br />
+If the path does not exist, Sql Server will attempt to create it. Folders are created by the Sql Instance, and checks will be made for write permissions.<br />
 File Names with be suffixed with x-of-y to enable identifying striped sets, where y is the number of files in the set and x ranges from 1 to y.<br></p>
 <table>
 <thead>
@@ -819,10 +820,10 @@ File Names with be suffixed with x-of-y to enable identifying striped sets, wher
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>The name of the file to backup to. This is only accepted for single database backups.
-If no name is specified then the backup files will be named DatabaseName_yyyyMMddHHmm (i.e. &quot;Database1_201714022131&quot;) with the appropriate extension.
-If the same name is used repeatedly, SQL Server will add backups to the same file at an incrementing position.
-SQL Server needs permissions to write to the specified location. Path names are based on the SQL Server (C:\ is the C drive on the SQL Server, not the machine running the script).
+<p>The name of the file to backup to. This is only accepted for single database backups.<br />
+If no name is specified then the backup files will be named DatabaseName_yyyyMMddHHmm (i.e. &quot;Database1_201714022131&quot;) with the appropriate extension.<br />
+If the same name is used repeatedly, SQL Server will add backups to the same file at an incrementing position.<br />
+SQL Server needs permissions to write to the specified location. Path names are based on the SQL Server (C:\ is the C drive on the SQL Server, not the machine running the script).<br />
 Passing in NUL as the FilePath will backup to the NUL: device<br></p>
 <table>
 <thead>
@@ -879,11 +880,11 @@ Passing in NUL as the FilePath will backup to the NUL: device<br></p>
 </tbody>
 </table>
 <h5 id="replaceinname">-ReplaceInName</h5>
-<p>If this switch is set, the following list of strings will be replaced in the FilePath and Path strings:
-instancename - will be replaced with the instance Name
-servername - will be replaced with the server name
-dbname - will be replaced with the database name
-timestamp - will be replaced with the timestamp (either the default, or the format provided)
+<p>If this switch is set, the following list of strings will be replaced in the FilePath and Path strings:<br />
+instancename - will be replaced with the instance Name<br />
+servername - will be replaced with the server name<br />
+dbname - will be replaced with the database name<br />
+timestamp - will be replaced with the timestamp (either the default, or the format provided)<br />
 backuptype - will be replaced with Full, Log or Differential as appropriate<br></p>
 <table>
 <thead>
@@ -940,8 +941,8 @@ backuptype - will be replaced with Full, Log or Differential as appropriate<br><
 </tbody>
 </table>
 <h5 id="copyonly">-CopyOnly</h5>
-<p>If this switch is enabled, CopyOnly backups will be taken. By default function performs a normal backup, these backups interfere with the restore chain of the database. CopyOnly backups will not
-interfere with the restore chain of the database.
+<p>If this switch is enabled, CopyOnly backups will be taken. By default function performs a normal backup, these backups interfere with the restore chain of the database. CopyOnly backups will not<br />
+interfere with the restore chain of the database.<br />
 For more details please refer to this MSDN article - <a href="https://msdn.microsoft.com/en-us/library/ms191495.aspx">https://msdn.microsoft.com/en-us/library/ms191495.aspx</a><br></p>
 <table>
 <thead>
@@ -1058,8 +1059,8 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="compressbackup">-CompressBackup</h5>
-<p>If this switch is enabled, the function will try to perform a compressed backup if supported by the version and edition of SQL Server. Otherwise, this function will use the server(s) default setting
-for compression.
+<p>If this switch is enabled, the function will try to perform a compressed backup if supported by the version and edition of SQL Server. Otherwise, this function will use the server(s) default setting<br />
+for compression.<br />
 NOTE: Explicitly providing a value of false will disable backup compression.<br></p>
 <table>
 <thead>
@@ -1172,7 +1173,7 @@ NOTE: Explicitly providing a value of false will disable backup compression.<br>
 </tbody>
 </table>
 <h5 id="blocksize">-BlockSize</h5>
-<p>Specifies the block size to use. Must be one of 0.5KB, 1KB, 2KB, 4KB, 8KB, 16KB, 32KB or 64KB. This can be specified in bytes.
+<p>Specifies the block size to use. Must be one of 0.5KB, 1KB, 2KB, 4KB, 8KB, 16KB, 32KB or 64KB. This can be specified in bytes.<br />
 Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
 <table>
 <thead>
@@ -1201,7 +1202,7 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="buffercount">-BufferCount</h5>
-<p>Number of I/O buffers to use to perform the operation.
+<p>Number of I/O buffers to use to perform the operation.<br />
 Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
 <table>
 <thead>
@@ -1230,9 +1231,9 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="azurebaseurl">-AzureBaseUrl</h5>
-<p>The URL(s) to the base container of an Azure Storage account to write backups to.
-If specifying the AzureCredential parameter you can only provide 1 value as page blobs do not support multiple URLs
-If using Shared Access keys, you may specify as many URLs as you want, as long as a corresponding credential exists on the source server.
+<p>The URL(s) to the base container of an Azure Storage account to write backups to.<br />
+If specifying the AzureCredential parameter you can only provide 1 value as page blobs do not support multiple URLs<br />
+If using Shared Access keys, you may specify as many URLs as you want, as long as a corresponding credential exists on the source server.<br />
 If specified, the only other parameters than can be used are &quot;CopyOnly&quot;, &quot;Type&quot;, &quot;CompressBackup&quot;, &quot;Checksum&quot;, &quot;Verify&quot;, &quot;AzureCredential&quot;, &quot;CreateFolder&quot;.<br></p>
 <table>
 <thead>
@@ -1261,8 +1262,8 @@ If specified, the only other parameters than can be used are &quot;CopyOnly&quot
 </tbody>
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
-<p>The name of the credential on the SQL instance that can write to the AzureBaseUrl, only needed if using Storage access keys
-If using SAS credentials, the command will look for a credential with a name matching the AzureBaseUrl. As page blobs are used with this option we force the number of files to 1 and ignore any value
+<p>The name of the credential on the SQL instance that can write to the AzureBaseUrl, only needed if using Storage access keys<br />
+If using SAS credentials, the command will look for a credential with a name matching the AzureBaseUrl. As page blobs are used with this option we force the number of files to 1 and ignore any value<br />
 passed in for BlockSize or MaxTransferSize<br></p>
 <table>
 <thead>
@@ -1431,7 +1432,7 @@ passed in for BlockSize or MaxTransferSize<br></p>
 </tbody>
 </table>
 <h5 id="timestampformat">-TimeStampFormat</h5>
-<p>By default the command timestamps backups using the format yyyyMMddHHmm. Using this parameter this can be overridden. The timestamp format should be defined using the Get-Date formats, illegal
+<p>By default the command timestamps backups using the format yyyyMMddHHmm. Using this parameter this can be overridden. The timestamp format should be defined using the Get-Date formats, illegal<br />
 formats will cause an error to be thrown<br></p>
 <table>
 <thead>
@@ -1460,7 +1461,7 @@ formats will cause an error to be thrown<br></p>
 </tbody>
 </table>
 <h5 id="ignorefilechecks">-IgnoreFileChecks</h5>
-<p>This switch stops the function from checking for the validity of paths. This can be useful if SQL Server only has read access to the backup area.
+<p>This switch stops the function from checking for the validity of paths. This can be useful if SQL Server only has read access to the backup area.<br />
 Note, that as we cannot check the path you may well end up with errors.<br></p>
 <table>
 <thead>
@@ -1517,7 +1518,7 @@ Note, that as we cannot check the path you may well end up with errors.<br></p>
 </tbody>
 </table>
 <h5 id="encryptionalgorithm">-EncryptionAlgorithm</h5>
-<p>Specified the Encryption Algorithm to used. Must be one of 'AES128','AES192','AES256' or 'TRIPLEDES'
+<p>Specified the Encryption Algorithm to used. Must be one of 'AES128','AES192','AES256' or 'TRIPLEDES'<br />
 Must specify one of EncryptionCertificate or EncryptionKey as well.<br></p>
 <table>
 <thead>
@@ -1550,7 +1551,7 @@ Must specify one of EncryptionCertificate or EncryptionKey as well.<br></p>
 </tbody>
 </table>
 <h5 id="encryptioncertificate">-EncryptionCertificate</h5>
-<p>The name of the certificate to be used to encrypt the backups. The existence of the certificate will be checked, and will not proceed if it does not exist
+<p>The name of the certificate to be used to encrypt the backups. The existence of the certificate will be checked, and will not proceed if it does not exist<br />
 Is mutually exclusive with the EncryptionKey option<br></p>
 <table>
 <thead>
@@ -1607,8 +1608,8 @@ Is mutually exclusive with the EncryptionKey option<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

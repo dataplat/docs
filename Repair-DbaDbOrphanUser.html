@@ -488,10 +488,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Finds orphan users with existing login and remaps them.</p>
 <h2 id="description">Description</h2>
 <p>An orphan user is defined by a user that does not have a matching login (Login property = &quot;&quot;).</p>
-<p>If the matching login exists it must be:
-Enabled
-Not a system object
-Not locked
+<p>If the matching login exists it must be:<br />
+Enabled<br />
+Not a system object<br />
+Not locked<br />
 Have the same name that user</p>
 <p>You can drop users that does not have their matching login by specifying the parameter -RemoveNotExisting.</p>
 <h2 id="syntax">Syntax</h2>
@@ -538,7 +538,7 @@ Have the same name that user</p>
 <p>Finds all orphan users of all databases present on server 'sqlserver2014a'. Removes all users that do not have  matching Logins.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -567,8 +567,8 @@ Have the same name that user</p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -737,8 +737,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

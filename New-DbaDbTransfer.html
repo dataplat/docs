@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Creates a transfer object to clone objects from one database to another.</p>
 <h2 id="description">Description</h2>
-<p>Returns an SMO Transfer object that controls the process of copying database objects from one database to another.
+<p>Returns an SMO Transfer object that controls the process of copying database objects from one database to another.<br />
 Does not perform any actions unless explicitly called with .TransferData() or piped into Invoke-DbaDbTransfer.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbTransfer
@@ -550,8 +550,8 @@ Does not perform any actions unless explicitly called with .TransferData() or pi
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -608,7 +608,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the source instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
+<p>Login to the source instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
 Only SQL authentication is supported. When not specified, uses Trusted Authentication.<br></p>
 <table>
 <thead>
@@ -833,35 +833,35 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="copyall">-CopyAll</h5>
-<p>Object types to be transferred from a database. Allowed values:
-FullTextCatalogs
-FullTextStopLists
-SearchPropertyLists
-Tables
-Views
-StoredProcedures
-UserDefinedFunctions
-UserDefinedDataTypes
-UserDefinedTableTypes
-PlanGuides
-Rules
-Defaults
-Users
-Roles
-PartitionSchemes
-PartitionFunctions
-XmlSchemaCollections
-SqlAssemblies
-UserDefinedAggregates
-UserDefinedTypes
-Schemas
-Synonyms
-Sequences
-DatabaseTriggers
-DatabaseScopedCredentials
-ExternalFileFormats
-ExternalDataSources
-Logins
+<p>Object types to be transferred from a database. Allowed values:<br />
+FullTextCatalogs<br />
+FullTextStopLists<br />
+SearchPropertyLists<br />
+Tables<br />
+Views<br />
+StoredProcedures<br />
+UserDefinedFunctions<br />
+UserDefinedDataTypes<br />
+UserDefinedTableTypes<br />
+PlanGuides<br />
+Rules<br />
+Defaults<br />
+Users<br />
+Roles<br />
+PartitionSchemes<br />
+PartitionFunctions<br />
+XmlSchemaCollections<br />
+SqlAssemblies<br />
+UserDefinedAggregates<br />
+UserDefinedTypes<br />
+Schemas<br />
+Synonyms<br />
+Sequences<br />
+DatabaseTriggers<br />
+DatabaseScopedCredentials<br />
+ExternalFileFormats<br />
+ExternalDataSources<br />
+Logins<br />
 ExternalLibraries<br></p>
 <table>
 <thead>
@@ -950,8 +950,8 @@ ExternalLibraries<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

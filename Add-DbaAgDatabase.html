@@ -517,13 +517,15 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <li>Step 5: Wait for the database to finish joining the Availability Group on the secondary replicas.</li>
 </ul>
 <p>Use Test-DbaAvailabilityGroup with -AddDatabase to test if all prerequisites are met.</p>
-<p>If you have special requirements for the setup for the database at the replicas,
-perform the backup and restore part with Backup-DbaDatabase and Restore-DbaDatabase in advance.
+<p>If you have special requirements for the setup for the database at the replicas,<br />
+perform the backup and restore part with Backup-DbaDatabase and Restore-DbaDatabase in advance.<br />
 Please make sure that the last log backup has been restored before running Add-DbaAgDatabase.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Add-DbaAgDatabase
     [-SqlInstance] &lt;DbaInstanceParameter&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -AvailabilityGroup &lt;String&gt; -Database &lt;String[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -AvailabilityGroup &lt;String&gt;
+    -Database &lt;String[]&gt;
     [-Secondary &lt;DbaInstanceParameter[]&gt;]
     [-SecondarySqlCredential &lt;PSCredential&gt;]
     [-SeedingMode &lt;String&gt;]
@@ -538,7 +540,8 @@ Please make sure that the last log backup has been restored before running Add-D
 Add-DbaAgDatabase
     [-AvailabilityGroup] &lt;String&gt;
     [-Secondary &lt;DbaInstanceParameter[]&gt;]
-    [-SecondarySqlCredential &lt;PSCredential&gt;] -InputObject &lt;Database[]&gt;
+    [-SecondarySqlCredential &lt;PSCredential&gt;]
+    -InputObject &lt;Database[]&gt;
     [-SeedingMode &lt;String&gt;]
     [-SharedPath &lt;String&gt;]
     [-UseLastBackup]
@@ -586,7 +589,7 @@ PS C:\&gt; Add-DbaAgDatabase @splat -AdvancedBackupParams $adv_param
 <p>Adds db1 to ag1 on sql2017a and sql2017b. Uses compression and three files while taking the backups.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The primary replica of the Availability Group. Server version must be SQL Server version 2012 or higher.<br></p>
+<p>The primary replica of the Availability Group. Server version must be SQL Server version 2012 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -614,7 +617,7 @@ PS C:\&gt; Add-DbaAgDatabase @splat -AdvancedBackupParams $adv_param
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>The name of the Availability Group where the databases will be added.<br></p>
+<p>The name of the Availability Group where the databases will be added. <br></p>
 <table>
 <thead>
 <tr>
@@ -642,7 +645,7 @@ PS C:\&gt; Add-DbaAgDatabase @splat -AdvancedBackupParams $adv_param
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to add.<br></p>
+<p>The database(s) to add. <br></p>
 <table>
 <thead>
 <tr>
@@ -670,7 +673,7 @@ PS C:\&gt; Add-DbaAgDatabase @splat -AdvancedBackupParams $adv_param
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase, Get-DbaDbSharePoint and more.<br></p>
+<p>Enables piping from Get-DbaDatabase, Get-DbaDbSharePoint and more. <br></p>
 <table>
 <thead>
 <tr>
@@ -699,8 +702,8 @@ PS C:\&gt; Add-DbaAgDatabase @splat -AdvancedBackupParams $adv_param
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -729,7 +732,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="secondary">-Secondary</h5>
-<p>Not required - the command will figure this out. But use this parameter if secondary replicas listen on a non default port.
+<p>Not required - the command will figure this out. But use this parameter if secondary replicas listen on a non default port.<br />
 This parameter can be used to only add the databases on specific secondary replicas.<br></p>
 <table>
 <thead>
@@ -758,8 +761,8 @@ This parameter can be used to only add the databases on specific secondary repli
 </tbody>
 </table>
 <h5 id="secondarysqlcredential">-SecondarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -788,9 +791,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="seedingmode">-SeedingMode</h5>
-<p>Specifies how the secondary replica will be initially seeded.
-Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.
-Manual uses full and log backup to initially transfer the data to the secondary replica. The command skips this if the database is found in restoring state at the secondary replica.
+<p>Specifies how the secondary replica will be initially seeded.<br />
+Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.<br />
+Manual uses full and log backup to initially transfer the data to the secondary replica. The command skips this if the database is found in restoring state at the secondary replica.<br />
 If not specified, the setting from the availability group replica will be used. Otherwise the setting will be updated.<br></p>
 <table>
 <thead>
@@ -823,8 +826,8 @@ If not specified, the setting from the availability group replica will be used. 
 </tbody>
 </table>
 <h5 id="sharedpath">-SharedPath</h5>
-<p>The network share where the backups will be backed up and restored from.
-Each SQL Server service account must have access to this share.
+<p>The network share where the backups will be backed up and restored from.<br />
+Each SQL Server service account must have access to this share.<br />
 NOTE: If a backup / restore is performed, the backups will be left in tact on the network share.<br></p>
 <table>
 <thead>
@@ -909,8 +912,8 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

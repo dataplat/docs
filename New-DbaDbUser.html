@@ -494,7 +494,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String[]&gt;]
     [-ExcludeDatabase &lt;String[]&gt;]
-    [-IncludeSystem] -Login &lt;String&gt;
+    [-IncludeSystem]
+    -Login &lt;String&gt;
     [-Username &lt;String&gt;]
     [-DefaultSchema &lt;String&gt;]
     [-Force]
@@ -508,8 +509,10 @@ New-DbaDbUser
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String[]&gt;]
     [-ExcludeDatabase &lt;String[]&gt;]
-    [-IncludeSystem] -Username &lt;String&gt;
-    [-DefaultSchema &lt;String&gt;] -ExternalProvider
+    [-IncludeSystem]
+    -Username &lt;String&gt;
+    [-DefaultSchema &lt;String&gt;]
+    -ExternalProvider
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -521,8 +524,10 @@ New-DbaDbUser
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String[]&gt;]
     [-ExcludeDatabase &lt;String[]&gt;]
-    [-IncludeSystem] -Username &lt;String&gt;
-    [-DefaultSchema &lt;String&gt;] -Password &lt;SecureString&gt;
+    [-IncludeSystem]
+    -Username &lt;String&gt;
+    [-DefaultSchema &lt;String&gt;]
+    -Password &lt;SecureString&gt;
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -534,7 +539,8 @@ New-DbaDbUser
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String[]&gt;]
     [-ExcludeDatabase &lt;String[]&gt;]
-    [-IncludeSystem] -Username &lt;String&gt;
+    [-IncludeSystem]
+    -Username &lt;String&gt;
     [-DefaultSchema &lt;String&gt;]
     [-Force]
     [-EnableException]
@@ -572,7 +578,7 @@ New-DbaDbUser
 <p>Creates a new cointained sql user named user1 in the database given database with the password specified.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. Defaults to the default instance on localhost.<br></p>
+<p>The target SQL Server instance or instances. Defaults to the default instance on localhost. <br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +606,7 @@ New-DbaDbUser
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>When specified, the user will be associated to this SQL login and have the same name as the Login.<br></p>
+<p>When specified, the user will be associated to this SQL login and have the same name as the Login. <br></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +634,7 @@ New-DbaDbUser
 </tbody>
 </table>
 <h5 id="password">-Password</h5>
-<p>When specified, the user will be created as a contained user. Standalone databases partial containment should be turned on to succeed. By default, in Azure SQL databases this is turned on.<br></p>
+<p>When specified, the user will be created as a contained user. Standalone databases partial containment should be turned on to succeed. By default, in Azure SQL databases this is turned on. <br></p>
 <table>
 <thead>
 <tr>
@@ -656,8 +662,8 @@ New-DbaDbUser
 </tbody>
 </table>
 <h5 id="externalprovider">-ExternalProvider</h5>
-<p>Specifies that the user is for Azure AD Authentication.
-Equivalent to T-SQL: 'CREATE USER [claudio@********.onmicrosoft.com] FROM EXTERNAL PROVIDER`<br></p>
+<p>Specifies that the user is for Azure AD Authentication.<br />
+Equivalent to T-SQL: 'CREATE USER [claudio@********.onmicrosoft.com] FROM EXTERNAL PROVIDER` <br></p>
 <table>
 <thead>
 <tr>
@@ -686,8 +692,8 @@ Equivalent to T-SQL: 'CREATE USER [claudio@********.onmicrosoft.com] FROM EXTERN
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -884,8 +890,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

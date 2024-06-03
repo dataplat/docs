@@ -485,7 +485,7 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaSpn">Test-DbaSpn</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Test-DbaSpn will determine what SPNs <em>should</em> be set for a given server (and any instances of SQL running on it) and return
+<p>Test-DbaSpn will determine what SPNs <em>should</em> be set for a given server (and any instances of SQL running on it) and return<br />
 whether the SPNs are set or not.</p>
 <h2 id="description">Description</h2>
 <p>This function is designed to take in a server name(s) and attempt to determine required SPNs. It was initially written to mimic the (previously) broken functionality of the Microsoft Kerberos Configuration manager and SQL Server 2016.</p>
@@ -523,7 +523,7 @@ It will then take each SPN it generates and query Active Directory to make sure 
 It will then take each SPN it generates and query Active Directory to make sure the SPNs are set. Note that the credential you pass must have be a valid login with appropriate rights on the domain<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The computer you want to discover any SQL Server instances on. This parameter is required.<br></p>
+<p>The computer you want to discover any SQL Server instances on. This parameter is required. <br></p>
 <table>
 <thead>
 <tr>
@@ -580,8 +580,8 @@ It will then take each SPN it generates and query Active Directory to make sure 
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

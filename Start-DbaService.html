@@ -504,7 +504,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 
 Start-DbaService
     [-InstanceName &lt;String[]&gt;]
-    [-Type &lt;String[]&gt;] -InputObject &lt;Object[]&gt;
+    [-Type &lt;String[]&gt;]
+    -InputObject &lt;Object[]&gt;
     [-Timeout &lt;Int32&gt;]
     [-Credential &lt;PSCredential&gt;]
     [-EnableException]
@@ -534,7 +535,7 @@ Start-DbaService
 <p>Starts the SQL Server related services of type &quot;SSRS&quot; (Reporting Services) on computers in the variable MyServers.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of services from Get-DbaService<br></p>
+<p>A collection of services from Get-DbaService <br></p>
 <table>
 <thead>
 <tr>
@@ -619,7 +620,7 @@ Start-DbaService
 </tbody>
 </table>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>Use a combination of computername and instancename to get the SQL Server related services for specific instances on specific computers.
+<p>Use a combination of computername and instancename to get the SQL Server related services for specific instances on specific computers.<br />
 Parameters ComputerName and InstanceName will be ignored if SqlInstance is used.<br></p>
 <table>
 <thead>
@@ -648,7 +649,7 @@ Parameters ComputerName and InstanceName will be ignored if SqlInstance is used.
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Use -Type to collect only services of the desired SqlServiceType.
+<p>Use -Type to collect only services of the desired SqlServiceType.<br />
 Can be one of the following: &quot;Agent&quot;,&quot;Browser&quot;,&quot;Engine&quot;,&quot;FullText&quot;,&quot;SSAS&quot;,&quot;SSIS&quot;,&quot;SSRS&quot;<br></p>
 <table>
 <thead>
@@ -737,8 +738,8 @@ Can be one of the following: &quot;Agent&quot;,&quot;Browser&quot;,&quot;Engine&
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

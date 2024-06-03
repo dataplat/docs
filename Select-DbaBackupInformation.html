@@ -527,7 +527,7 @@ PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTim
 <p>Returns all the backups in \server1\backups$ to restore to 1 hour ago using only Full and Log backups.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="backuphistory">-BackupHistory</h5>
-<p>A dbatools.BackupHistory object containing backup history records<br></p>
+<p>A dbatools.BackupHistory object containing backup history records <br></p>
 <table>
 <thead>
 <tr>
@@ -696,7 +696,7 @@ PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTim
 </tbody>
 </table>
 <h5 id="continuepoints">-ContinuePoints</h5>
-<p>The Output of Get-RestoreContinuableDatabase while provides 'Database',redo_start_lsn,'FirstRecoveryForkID' values. Used to filter backups to continue a restore on a database
+<p>The Output of Get-RestoreContinuableDatabase while provides 'Database',redo_start_lsn,'FirstRecoveryForkID' values. Used to filter backups to continue a restore on a database<br />
 Sets IgnoreDiffs, and also filters databases to only those within the ContinuePoints object, or the ContinuePoints object AND DatabaseName if both specified<br></p>
 <table>
 <thead>
@@ -725,7 +725,7 @@ Sets IgnoreDiffs, and also filters databases to only those within the ContinuePo
 </tbody>
 </table>
 <h5 id="lastrestoretype">-LastRestoreType</h5>
-<p>The Output of Get-DbaDbRestoreHistory -last
+<p>The Output of Get-DbaDbRestoreHistory -last<br />
 This is used to check the last type of backup to a database to see if a differential backup can be restored<br></p>
 <table>
 <thead>
@@ -754,8 +754,8 @@ This is used to check the last type of backup to a database to see if a differen
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -488,13 +488,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Sets the network configuration of a SQL Server instance.</p>
 <h2 id="description">Description</h2>
 <p>Sets the network configuration of a SQL Server instance.</p>
-<p>Parameters are available for typical tasks like enabling or disabling a protocol or switching between dynamic and static ports.
-The object returned by Get-DbaNetworkConfiguration can be used to adjust settings of the properties
+<p>Parameters are available for typical tasks like enabling or disabling a protocol or switching between dynamic and static ports.<br />
+The object returned by Get-DbaNetworkConfiguration can be used to adjust settings of the properties<br />
 and then passed to this command via pipeline or -InputObject parameter.</p>
-<p>A change to the network configuration with SQL Server requires a restart to take effect,
+<p>A change to the network configuration with SQL Server requires a restart to take effect,<br />
 support for this can be done via the RestartService parameter.</p>
 <p>Remote SQL WMI is used by default, with PS Remoting used as a fallback.</p>
-<p>For a detailed explanation of the different properties see the documentation at:
+<p>For a detailed explanation of the different properties see the documentation at:<br />
 <a href="https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration">https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaNetworkConfiguration
@@ -513,7 +513,8 @@ support for this can be done via the RestartService parameter.</p>
 
 Set-DbaNetworkConfiguration
     [-Credential &lt;PSCredential&gt;]
-    [-RestartService] -InputObject &lt;Object[]&gt;
+    [-RestartService]
+    -InputObject &lt;Object[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -547,7 +548,7 @@ Does not prompt for confirmation.<br></p>
 Restarts the service if needed.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -575,8 +576,8 @@ Restarts the service if needed.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>The output object from Get-DbaNetworkConfiguration.
-Get-DbaNetworkConfiguration has to be run with -OutputType Full (default) to get the complete object.<br></p>
+<p>The output object from Get-DbaNetworkConfiguration.<br />
+Get-DbaNetworkConfiguration has to be run with -OutputType Full (default) to get the complete object. <br></p>
 <table>
 <thead>
 <tr>
@@ -697,9 +698,9 @@ Get-DbaNetworkConfiguration has to be run with -OutputType Full (default) to get
 </tbody>
 </table>
 <h5 id="dynamicportforipall">-DynamicPortForIPAll</h5>
-<p>Configures the instance to listen on a dynamic port for all IP addresses.
-Will enable the TCP/IP protocol if needed.
-Will set TcpIpProperties.ListenAll to $true if needed.
+<p>Configures the instance to listen on a dynamic port for all IP addresses.<br />
+Will enable the TCP/IP protocol if needed.<br />
+Will set TcpIpProperties.ListenAll to $true if needed.<br />
 Will reset the last used dynamic port if already set.<br></p>
 <table>
 <thead>
@@ -728,8 +729,8 @@ Will reset the last used dynamic port if already set.<br></p>
 </tbody>
 </table>
 <h5 id="staticportforipall">-StaticPortForIPAll</h5>
-<p>Configures the instance to listen on one or more static ports for all IP addresses.
-Will enable the TCP/IP protocol if needed.
+<p>Configures the instance to listen on one or more static ports for all IP addresses.<br />
+Will enable the TCP/IP protocol if needed.<br />
 Will set TcpIpProperties.ListenAll to $true if needed.<br></p>
 <table>
 <thead>
@@ -758,8 +759,8 @@ Will set TcpIpProperties.ListenAll to $true if needed.<br></p>
 </tbody>
 </table>
 <h5 id="ipaddress">-IpAddress</h5>
-<p>Configures the instance to listen on specific IP addresses only. Listening on all other IP addresses will be disabled.
-Takes an array of string with either the IP address (for listening on a dynamic port) or IP address and port seperated by &quot;:&quot;.
+<p>Configures the instance to listen on specific IP addresses only. Listening on all other IP addresses will be disabled.<br />
+Takes an array of string with either the IP address (for listening on a dynamic port) or IP address and port seperated by &quot;:&quot;.<br />
 IPv6 addresses must be enclosed in square brackets, e.g. [2001:db8:4006:812<span>200e] or [2001:db8:4006:812</span>200e]:1433 to be able to identify the port.<br></p>
 <table>
 <thead>
@@ -788,7 +789,7 @@ IPv6 addresses must be enclosed in square brackets, e.g. [2001:db8:4006:812<span
 </tbody>
 </table>
 <h5 id="restartservice">-RestartService</h5>
-<p>Every change to the network configuration needs a service restart to take effect.
+<p>Every change to the network configuration needs a service restart to take effect.<br />
 This switch will force a restart of the service if the network configuration has changed.<br></p>
 <table>
 <thead>
@@ -817,8 +818,8 @@ This switch will force a restart of the service if the network configuration has
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

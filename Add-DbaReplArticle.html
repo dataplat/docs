@@ -537,7 +537,7 @@ PS C:\&gt; Add-DbaReplArticle @article -EnableException
 includes default options.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The SQL Server instance(s) for the publication.<br></p>
+<p>The SQL Server instance(s) for the publication. <br></p>
 <table>
 <thead>
 <tr>
@@ -565,7 +565,7 @@ includes default options.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The publication database to apply the article configuration to be replicated.<br></p>
+<p>The publication database to apply the article configuration to be replicated. <br></p>
 <table>
 <thead>
 <tr>
@@ -593,7 +593,7 @@ includes default options.<br></p>
 </tbody>
 </table>
 <h5 id="publication">-Publication</h5>
-<p>The name of the publication.<br></p>
+<p>The name of the publication. <br></p>
 <table>
 <thead>
 <tr>
@@ -621,7 +621,7 @@ includes default options.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the object to add as an article.<br></p>
+<p>The name of the object to add as an article. <br></p>
 <table>
 <thead>
 <tr>
@@ -650,8 +650,8 @@ includes default options.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -680,7 +680,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>Schema where the article to be added is found.
+<p>Schema where the article to be added is found.<br />
 Default is dbo.<br></p>
 <table>
 <thead>
@@ -709,7 +709,7 @@ Default is dbo.<br></p>
 </tbody>
 </table>
 <h5 id="filter">-Filter</h5>
-<p>Sets the where clause used to filter the article horizontally, e.g., DiscontinuedDate IS NULL
+<p>Sets the where clause used to filter the article horizontally, e.g., DiscontinuedDate IS NULL<br />
 E.g. City = 'Seattle'<br></p>
 <table>
 <thead>
@@ -738,7 +738,7 @@ E.g. City = 'Seattle'<br></p>
 </tbody>
 </table>
 <h5 id="creationscriptoptions">-CreationScriptOptions</h5>
-<p>Options for the creation script.
+<p>Options for the creation script.<br />
 Use New-DbaReplCreationScriptOptions to create this object.<br></p>
 <table>
 <thead>
@@ -767,8 +767,8 @@ Use New-DbaReplCreationScriptOptions to create this object.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

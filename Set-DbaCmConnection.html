@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Configures a connection object for use in remote computer management.</p>
 <h2 id="description">Description</h2>
-<p>Configures a connection object for use in remote computer management.
+<p>Configures a connection object for use in remote computer management.<br />
 This function will either create new records for computers that have no connection registered so far, or it will configure existing connections if already present.</p>
 <p>As such it can be handy in making bulk-edits on connections or manually adjusting some settings.</p>
 <h2 id="syntax">Syntax</h2>
@@ -619,7 +619,7 @@ In many cases, using the default settings is desirable. For specific settings, u
 </tbody>
 </table>
 <h5 id="usewindowscredentials">-UseWindowsCredentials</h5>
-<p>Whether using the default windows credentials is legit.
+<p>Whether using the default windows credentials is legit.<br />
 Not setting this will not exclude using windows credentials, but only not pre-confirm them as working.<br></p>
 <table>
 <thead>
@@ -648,7 +648,7 @@ Not setting this will not exclude using windows credentials, but only not pre-co
 </tbody>
 </table>
 <h5 id="overrideexplicitcredential">-OverrideExplicitCredential</h5>
-<p>Setting this will enable the credential override.
+<p>Setting this will enable the credential override.<br />
 The override will cause the system to ignore explicitly specified credentials, so long as known, good credentials are available.<br></p>
 <table>
 <thead>
@@ -677,7 +677,7 @@ The override will cause the system to ignore explicitly specified credentials, s
 </tbody>
 </table>
 <h5 id="overrideconnectionpolicy">-OverrideConnectionPolicy</h5>
-<p>Setting this will configure the connection policy override.
+<p>Setting this will configure the connection policy override.<br />
 By default, global configurations enforce, which connection type is available at all and which is disabled.<br></p>
 <table>
 <thead>
@@ -706,7 +706,7 @@ By default, global configurations enforce, which connection type is available at
 </tbody>
 </table>
 <h5 id="disabledconnectiontypes">-DisabledConnectionTypes</h5>
-<p>Explicitly disable connection types.
+<p>Explicitly disable connection types.<br />
 These types will then not be used for connecting to the computer.<br></p>
 <table>
 <thead>
@@ -819,7 +819,7 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="enablecredentialfailover">-EnableCredentialFailover</h5>
-<p>Will enable automatic failing over to known to work credentials, when using bad credentials.
+<p>Will enable automatic failing over to known to work credentials, when using bad credentials.<br />
 By default, passing bad credentials will cause the Computer Management functions to interrupt with a warning (Or exception if in silent mode).<br></p>
 <table>
 <thead>
@@ -876,7 +876,7 @@ By default, passing bad credentials will cause the Computer Management functions
 </tbody>
 </table>
 <h5 id="cimwinrmoptions">-CimWinRMOptions</h5>
-<p>Specify a set of options to use when connecting to the target computer using CIM over WinRM.
+<p>Specify a set of options to use when connecting to the target computer using CIM over WinRM.<br />
 Use 'New-CimSessionOption' to create such an object.<br></p>
 <table>
 <thead>
@@ -905,7 +905,7 @@ Use 'New-CimSessionOption' to create such an object.<br></p>
 </tbody>
 </table>
 <h5 id="cimdcomoptions">-CimDCOMOptions</h5>
-<p>Specify a set of options to use when connecting to the target computer using CIM over DCOM.
+<p>Specify a set of options to use when connecting to the target computer using CIM over DCOM.<br />
 Use 'New-CimSessionOption' to create such an object.<br></p>
 <table>
 <thead>
@@ -934,7 +934,7 @@ Use 'New-CimSessionOption' to create such an object.<br></p>
 </tbody>
 </table>
 <h5 id="addbadcredential">-AddBadCredential</h5>
-<p>Adds credentials to the bad credential cache.
+<p>Adds credentials to the bad credential cache.<br />
 These credentials will not be used when connecting to the target remote computer.<br></p>
 <table>
 <thead>
@@ -991,7 +991,7 @@ These credentials will not be used when connecting to the target remote computer
 </tbody>
 </table>
 <h5 id="clearbadcredential">-ClearBadCredential</h5>
-<p>Clears the cache of credentials that didn't worked.
+<p>Clears the cache of credentials that didn't worked.<br />
 Will be applied before adding entries to the credential cache.<br></p>
 <table>
 <thead>
@@ -1020,7 +1020,7 @@ Will be applied before adding entries to the credential cache.<br></p>
 </tbody>
 </table>
 <h5 id="clearcredential">-ClearCredential</h5>
-<p>Clears the cache of credentials that worked.
+<p>Clears the cache of credentials that worked.<br />
 Will be applied before adding entries to the credential cache.<br></p>
 <table>
 <thead>
@@ -1054,8 +1054,8 @@ Will be applied before adding entries to the credential cache.<br></p>
 <li>Clears bad credential cache</li>
 <li>Removes last working credential</li>
 <li>Un-Confirms the windows credentials as working</li>
-<li>Un-Confirms the windows credentials as not working
-Automatically implies the parameters -ClearCredential and -ClearBadCredential. Using them together is redundant.
+<li>Un-Confirms the windows credentials as not working<br />
+Automatically implies the parameters -ClearCredential and -ClearBadCredential. Using them together is redundant.<br />
 Will be applied before adding entries to the credential cache.<br></li>
 </ul>
 <table>
@@ -1113,9 +1113,9 @@ Will be applied before adding entries to the credential cache.<br></li>
 </tbody>
 </table>
 <h5 id="resetconfiguration">-ResetConfiguration</h5>
-<p>Restores the configuration back to system default.
-Configuration elements are the basic behavior controlling settings, such as whether to cache bad credentials, etc.
-These can be configured globally using the dbatools configuration system and overridden locally on a per-connection basis.
+<p>Restores the configuration back to system default.<br />
+Configuration elements are the basic behavior controlling settings, such as whether to cache bad credentials, etc.<br />
+These can be configured globally using the dbatools configuration system and overridden locally on a per-connection basis.<br />
 For a list of all available settings, use &quot;Get-DbatoolsConfig -Module ComputerManagement&quot;.<br></p>
 <table>
 <thead>
@@ -1144,8 +1144,8 @@ For a list of all available settings, use &quot;Get-DbatoolsConfig -Module Compu
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

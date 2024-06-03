@@ -487,8 +487,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Resolves a path.</p>
 <h2 id="description">Description</h2>
-<p>Resolves a path.
-Will try to resolve to paths including some basic path validation and resolution.
+<p>Resolves a path.<br />
+Will try to resolve to paths including some basic path validation and resolution.<br />
 Will fail if the path cannot be resolved (so an existing path must be reached at).</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Resolve-DbaPath
@@ -515,7 +515,7 @@ If the current path is in a different provider, it will throw an exception.<br><
 <p>This will resolve all items in the parent folder, whatever the current path or drive might be.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>The path to validate.<br></p>
+<p>The path to validate. <br></p>
 <table>
 <thead>
 <tr>
@@ -544,8 +544,8 @@ If the current path is in a different provider, it will throw an exception.<br><
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="provider">-Provider</h5>
-<p>Ensure the path is of the expected provider.
-Allows ensuring one does not operate in the wrong provider.
+<p>Ensure the path is of the expected provider.<br />
+Allows ensuring one does not operate in the wrong provider.<br />
 Common providers include the filesystem, the registry or the active directory.<br></p>
 <table>
 <thead>
@@ -574,7 +574,7 @@ Common providers include the filesystem, the registry or the active directory.<b
 </tbody>
 </table>
 <h5 id="singleitem">-SingleItem</h5>
-<p>Ensure the path should resolve to a single path only.
+<p>Ensure the path should resolve to a single path only.<br />
 This may - intentionally or not - trip up wildcard paths.<br></p>
 <table>
 <thead>
@@ -603,8 +603,8 @@ This may - intentionally or not - trip up wildcard paths.<br></p>
 </tbody>
 </table>
 <h5 id="newchild">-NewChild</h5>
-<p>Assumes one wishes to create a new child item.
-The parent path will be resolved and must validate true.
+<p>Assumes one wishes to create a new child item.<br />
+The parent path will be resolved and must validate true.<br />
 The final leaf will be treated as a leaf item that does not exist yet.<br></p>
 <table>
 <thead>

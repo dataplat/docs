@@ -489,13 +489,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>TMasks data by using randomized values determined by a configuration file and a randomizer framework</p>
 <p>It will use a configuration file that can be made manually or generated using New-DbaDbMaskingConfig</p>
-<p>Note that the following column and data types are not currently supported:
-Identity
-ForeignKey
-Computed
-Hierarchyid
-Geography
-Geometry
+<p>Note that the following column and data types are not currently supported:<br />
+Identity<br />
+ForeignKey<br />
+Computed<br />
+Hierarchyid<br />
+Geography<br />
+Geometry<br />
 Xml</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbDataMasking
@@ -545,7 +545,7 @@ Create the data masking configuration file &quot;sqldb1.db1.tables.json&quot;, t
 <p>See what would happen if you the data masking configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2 and sqldb3. Do not prompt for confirmation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="filepath">-FilePath</h5>
-<p>Configuration file that contains the which tables and columns need to be masked<br></p>
+<p>Configuration file that contains the which tables and columns need to be masked <br></p>
 <table>
 <thead>
 <tr>
@@ -602,8 +602,8 @@ Create the data masking configuration file &quot;sqldb1.db1.tables.json&quot;, t
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -828,7 +828,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="maxvalue">-MaxValue</h5>
-<p>Force a max length of strings instead of relying on datatype maxes. Note if a string datatype has a lower MaxValue, that will be used instead.
+<p>Force a max length of strings instead of relying on datatype maxes. Note if a string datatype has a lower MaxValue, that will be used instead.<br />
 Useful for adhoc updates and testing, otherwise, the config file should be used.<br></p>
 <table>
 <thead>
@@ -1025,7 +1025,7 @@ Useful for adhoc updates and testing, otherwise, the config file should be used.
 </tbody>
 </table>
 <h5 id="dictionaryexportpath">-DictionaryExportPath</h5>
-<p>Export the dictionary to the given path. Naming convention will be [computername]<em>[instancename]</em>[database]_Dictionary.csv
+<p>Export the dictionary to the given path. Naming convention will be [computername]<em>[instancename]</em>[database]_Dictionary.csv<br />
 Be careful with this feature, this export is the key to get the original values which is a security risk!<br></p>
 <table>
 <thead>
@@ -1054,8 +1054,8 @@ Be careful with this feature, this export is the key to get the original values 
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

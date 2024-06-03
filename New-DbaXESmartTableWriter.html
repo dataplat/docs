@@ -518,7 +518,7 @@ PS C:\&gt; Start-DbaXESmartTarget -SqlInstance sql2017 -Session deadlock_tracker
 <p>Writes Extended Events to the deadlocktracker table in dbadb on sql2017.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2008 or higher.<br></p>
+<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2008 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -546,7 +546,7 @@ PS C:\&gt; Start-DbaXESmartTarget -SqlInstance sql2017 -Session deadlock_tracker
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the name of the database that contains the target table.<br></p>
+<p>Specifies the name of the database that contains the target table. <br></p>
 <table>
 <thead>
 <tr>
@@ -574,7 +574,7 @@ PS C:\&gt; Start-DbaXESmartTarget -SqlInstance sql2017 -Session deadlock_tracker
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>Specifies the name of the target table.<br></p>
+<p>Specifies the name of the target table. <br></p>
 <table>
 <thead>
 <tr>
@@ -603,8 +603,8 @@ PS C:\&gt; Start-DbaXESmartTarget -SqlInstance sql2017 -Session deadlock_tracker
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -633,7 +633,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="autocreatetargettable">-AutoCreateTargetTable</h5>
-<p>If this switch is enabled, XESmartTarget will infer the definition of the target table from the columns captured in the Extended Events session.
+<p>If this switch is enabled, XESmartTarget will infer the definition of the target table from the columns captured in the Extended Events session.<br />
 If the target table already exists, it will not be recreated.<br></p>
 <table>
 <thead>
@@ -718,8 +718,8 @@ If the target table already exists, it will not be recreated.<br></p>
 </tbody>
 </table>
 <h5 id="outputcolumn">-OutputColumn</h5>
-<p>Specifies the list of columns to output from the events. XESmartTarget will capture in memory and write to the target table only the columns (fields or targets) that are present in this list.
-Fields and actions are matched in a case-sensitive manner.
+<p>Specifies the list of columns to output from the events. XESmartTarget will capture in memory and write to the target table only the columns (fields or targets) that are present in this list.<br />
+Fields and actions are matched in a case-sensitive manner.<br />
 Expression columns are supported. Specify a column with ColumnName AS Expression to add an expression column (Example: Total AS Reads + Writes)<br></p>
 <table>
 <thead>
@@ -748,7 +748,7 @@ Expression columns are supported. Specify a column with ColumnName AS Expression
 </tbody>
 </table>
 <h5 id="filter">-Filter</h5>
-<p>Specifies a filter expression in the same form as you would use in the WHERE clause of a SQL query.
+<p>Specifies a filter expression in the same form as you would use in the WHERE clause of a SQL query.<br />
 Example: duration &gt; 10000 AND cpu_time &gt; 10000<br></p>
 <table>
 <thead>
@@ -777,8 +777,8 @@ Example: duration &gt; 10000 AND cpu_time &gt; 10000<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

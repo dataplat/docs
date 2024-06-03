@@ -548,7 +548,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 Internal StepIds will be updated, and any specific OnSuccess/OnFailure step references will also be updated<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater. <br></p>
 <table>
 <thead>
 <tr>
@@ -576,7 +576,7 @@ Internal StepIds will be updated, and any specific OnSuccess/OnFailure step refe
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job to which to add the step.<br></p>
+<p>The name of the job to which to add the step. <br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +604,7 @@ Internal StepIds will be updated, and any specific OnSuccess/OnFailure step refe
 </tbody>
 </table>
 <h5 id="stepname">-StepName</h5>
-<p>The name of the step.<br></p>
+<p>The name of the step. <br></p>
 <table>
 <thead>
 <tr>
@@ -633,8 +633,8 @@ Internal StepIds will be updated, and any specific OnSuccess/OnFailure step refe
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -691,8 +691,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subsystem">-Subsystem</h5>
-<p>The subsystem used by the SQL Server Agent service to execute command.
-Allowed values 'ActiveScripting','AnalysisCommand','AnalysisQuery','CmdExec','Distribution','LogReader','Merge','PowerShell','QueueReader','Snapshot','Ssis','TransactSql'
+<p>The subsystem used by the SQL Server Agent service to execute command.<br />
+Allowed values 'ActiveScripting','AnalysisCommand','AnalysisQuery','CmdExec','Distribution','LogReader','Merge','PowerShell','QueueReader','Snapshot','Ssis','TransactSql'<br />
 The default is 'TransactSql'<br></p>
 <table>
 <thead>
@@ -809,8 +809,8 @@ The default is 'TransactSql'<br></p>
 </tbody>
 </table>
 <h5 id="onsuccessaction">-OnSuccessAction</h5>
-<p>The action to perform if the step succeeds.
-Allowed values  &quot;QuitWithSuccess&quot; (default), &quot;QuitWithFailure&quot;, &quot;GoToNextStep&quot;, &quot;GoToStep&quot;.
+<p>The action to perform if the step succeeds.<br />
+Allowed values  &quot;QuitWithSuccess&quot; (default), &quot;QuitWithFailure&quot;, &quot;GoToNextStep&quot;, &quot;GoToStep&quot;.<br />
 The text value van either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
 <table>
 <thead>
@@ -871,8 +871,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="onfailaction">-OnFailAction</h5>
-<p>The action to perform if the step fails.
-Allowed values  &quot;QuitWithSuccess&quot; (default), &quot;QuitWithFailure&quot;, &quot;GoToNextStep&quot;, &quot;GoToStep&quot;.
+<p>The action to perform if the step fails.<br />
+Allowed values  &quot;QuitWithSuccess&quot; (default), &quot;QuitWithFailure&quot;, &quot;GoToNextStep&quot;, &quot;GoToStep&quot;.<br />
 The text value van either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
 <table>
 <thead>
@@ -1073,7 +1073,7 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="insert">-Insert</h5>
-<p>This switch indicates the new step is inserted at the specified stepid.
+<p>This switch indicates the new step is inserted at the specified stepid.<br />
 All following steps will have their IDs incremented by, and success/failure next steps incremented accordingly<br></p>
 <table>
 <thead>
@@ -1104,12 +1104,12 @@ All following steps will have their IDs incremented by, and success/failure next
 <h5 id="flag">-Flag</h5>
 <h2 id="sets-the-flags-for-the-job-step.flag-description">Sets the flag(s) for the job step.
 Flag                                    Description</h2>
-<p>AppendAllCmdExecOutputToJobHistory      Job history, including command output, is appended to the job history file.
-AppendToJobHistory                      Job history is appended to the job history file.
-AppendToLogFile                         Job history is appended to the SQL Server log file.
-AppendToTableLog                        Job history is appended to a log table.
-LogToTableWithOverwrite                 Job history is written to a log table, overwriting previous contents.
-None                                    Job history is not appended to a file.
+<p>AppendAllCmdExecOutputToJobHistory      Job history, including command output, is appended to the job history file.<br />
+AppendToJobHistory                      Job history is appended to the job history file.<br />
+AppendToLogFile                         Job history is appended to the SQL Server log file.<br />
+AppendToTableLog                        Job history is appended to a log table.<br />
+LogToTableWithOverwrite                 Job history is written to a log table, overwriting previous contents.<br />
+None                                    Job history is not appended to a file.<br />
 ProvideStopProcessEvent                 Job processing is stopped.<br></p>
 <table>
 <thead>
@@ -1198,8 +1198,8 @@ ProvideStopProcessEvent                 Job processing is stopped.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

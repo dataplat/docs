@@ -546,7 +546,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Similar to running sp_WhoIsActive @get_outer_command = 1, @find_block_leaders = 1<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br></p>
+<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -575,8 +575,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -633,9 +633,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filter">-Filter</h5>
-<p>FiltersBoth inclusive and exclusive
-Set either filter to '' to disable
-Session is a session ID, and either 0 or '' can be used to indicate &quot;all&quot; sessions
+<p>FiltersBoth inclusive and exclusive<br />
+Set either filter to '' to disable<br />
+Session is a session ID, and either 0 or '' can be used to indicate &quot;all&quot; sessions<br />
 All other filter types support % or _ as wildcards<br></p>
 <table>
 <thead>
@@ -696,9 +696,9 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="notfilter">-NotFilter</h5>
-<p>FiltersBoth inclusive and exclusive
-Set either filter to '' to disable
-Session is a session ID, and either 0 or '' can be used to indicate &quot;all&quot; sessions
+<p>FiltersBoth inclusive and exclusive<br />
+Set either filter to '' to disable<br />
+Session is a session ID, and either 0 or '' can be used to indicate &quot;all&quot; sessions<br />
 All other filter types support % or _ as wildcards<br></p>
 <table>
 <thead>
@@ -815,9 +815,9 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="showsleepingspids">-ShowSleepingSpids</h5>
-<p>Controls how sleeping SPIDs are handled, based on the idea of levels of interest
-0 does not pull any sleeping SPIDs
-1 pulls only those sleeping SPIDs that also have an open transaction
+<p>Controls how sleeping SPIDs are handled, based on the idea of levels of interest<br />
+0 does not pull any sleeping SPIDs<br />
+1 pulls only those sleeping SPIDs that also have an open transaction<br />
 2 pulls all sleeping SPIDs<br></p>
 <table>
 <thead>
@@ -846,7 +846,7 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="getfullinnertext">-GetFullInnerText</h5>
-<p>If 1, gets the full stored procedure or running batch, when available
+<p>If 1, gets the full stored procedure or running batch, when available<br />
 If 0, gets only the actual statement that is currently running in the batch or procedure<br></p>
 <table>
 <thead>
@@ -875,8 +875,8 @@ If 0, gets only the actual statement that is currently running in the batch or p
 </tbody>
 </table>
 <h5 id="getplans">-GetPlans</h5>
-<p>Get associated query plans for running tasks, if available
-If 1, gets the plan based on the request's statement offset
+<p>Get associated query plans for running tasks, if available<br />
+If 1, gets the plan based on the request's statement offset<br />
 If 2, gets the entire plan based on the request's plan_handle<br></p>
 <table>
 <thead>
@@ -961,10 +961,10 @@ If 2, gets the entire plan based on the request's plan_handle<br></p>
 </tbody>
 </table>
 <h5 id="gettaskinfo">-GetTaskInfo</h5>
-<p>Get information on active tasks, based on three interest levels
-Level 0 does not pull any task-related information
-Level 1 is a lightweight mode that pulls the top non-CXPACKET wait, giving preference to blockers
-Level 2 pulls all available task-based metrics, including:
+<p>Get information on active tasks, based on three interest levels<br />
+Level 0 does not pull any task-related information<br />
+Level 1 is a lightweight mode that pulls the top non-CXPACKET wait, giving preference to blockers<br />
+Level 2 pulls all available task-based metrics, including:<br />
 number of active tasks, current wait stats, physical I/O, context switches, and blocker information<br></p>
 <table>
 <thead>
@@ -1021,7 +1021,7 @@ number of active tasks, current wait stats, physical I/O, context switches, and 
 </tbody>
 </table>
 <h5 id="getaveragetime">-GetAverageTime</h5>
-<p>Get average time for past runs of an active query
+<p>Get average time for past runs of an active query<br />
 (based on the combination of plan handle, sql handle, and offset)<br></p>
 <table>
 <thead>
@@ -1050,10 +1050,10 @@ number of active tasks, current wait stats, physical I/O, context switches, and 
 </tbody>
 </table>
 <h5 id="getadditonalinfo">-GetAdditonalInfo</h5>
-<p>Get additional non-performance-related information about the session or request text_size, language, date_format, date_first, quoted_identifier, arithabort, ansi_null_dflt_on, ansi_defaults,
-ansi_warnings, ansi_padding, ansi_nulls, concat_null_yields_null, transaction_isolation_level, lock_timeout, deadlock_priority, row_count, command_type
-If a SQL Agent job is running, an subnode called agent_info will be populated with some or all of the following: job_id, job_name, step_id, step_name, msdb_query_error (in the event of an error)
-If @get_task_info is set to 2 and a lock wait is detected, a subnode called block_info will be populated with some or all of the following: lock_type, database_name, object_id, file_id, hobt_id,
+<p>Get additional non-performance-related information about the session or request text_size, language, date_format, date_first, quoted_identifier, arithabort, ansi_null_dflt_on, ansi_defaults,<br />
+ansi_warnings, ansi_padding, ansi_nulls, concat_null_yields_null, transaction_isolation_level, lock_timeout, deadlock_priority, row_count, command_type<br />
+If a SQL Agent job is running, an subnode called agent_info will be populated with some or all of the following: job_id, job_name, step_id, step_name, msdb_query_error (in the event of an error)<br />
+If @get_task_info is set to 2 and a lock wait is detected, a subnode called block_info will be populated with some or all of the following: lock_type, database_name, object_id, file_id, hobt_id,<br />
 applock_hash, metadata_resource, metadata_class_id, object_name, schema_name<br></p>
 <table>
 <thead>
@@ -1082,8 +1082,8 @@ applock_hash, metadata_resource, metadata_class_id, object_name, schema_name<br>
 </tbody>
 </table>
 <h5 id="findblockleaders">-FindBlockLeaders</h5>
-<p>Walk the blocking chain and count the number of
-total SPIDs blocked all the way down by a given session
+<p>Walk the blocking chain and count the number of<br />
+total SPIDs blocked all the way down by a given session<br />
 Also enables task_info Level 1, if @get_task_info is set to 0<br></p>
 <table>
 <thead>
@@ -1112,7 +1112,7 @@ Also enables task_info Level 1, if @get_task_info is set to 0<br></p>
 </tbody>
 </table>
 <h5 id="deltainterval">-DeltaInterval</h5>
-<p>Pull deltas on various metrics
+<p>Pull deltas on various metrics<br />
 Interval in seconds to wait before doing the second data pull<br></p>
 <table>
 <thead>
@@ -1141,10 +1141,10 @@ Interval in seconds to wait before doing the second data pull<br></p>
 </tbody>
 </table>
 <h5 id="outputcolumnlist">-OutputColumnList</h5>
-<p>List of desired output columns, in desired order
-Note that the final output will be the intersection of all enabled features and all columns in the list. Therefore, only columns associated with enabled features will actually appear in the output.
-Likewise, removing columns from this list may effectively disable features, even if they are turned on
-Each element in this list must be one of the valid output column names. Names must be delimited by square brackets. White space, formatting, and additional characters are allowed, as long as the list
+<p>List of desired output columns, in desired order<br />
+Note that the final output will be the intersection of all enabled features and all columns in the list. Therefore, only columns associated with enabled features will actually appear in the output.<br />
+Likewise, removing columns from this list may effectively disable features, even if they are turned on<br />
+Each element in this list must be one of the valid output column names. Names must be delimited by square brackets. White space, formatting, and additional characters are allowed, as long as the list<br />
 contains exact matches of delimited valid column names.<br></p>
 <table>
 <thead>
@@ -1173,14 +1173,14 @@ contains exact matches of delimited valid column names.<br></p>
 </tbody>
 </table>
 <h5 id="sortorder">-SortOrder</h5>
-<p>Column(s) by which to sort output, optionally with sort directions.
-Valid column choices:
-session_id, physical_io, reads, physical_reads, writes, tempdb_allocations,
-tempdb_current, CPU, context_switches, used_memory, physical_io_delta,
-reads_delta, physical_reads_delta, writes_delta, tempdb_allocations_delta,
-tempdb_current_delta, CPU_delta, context_switches_delta, used_memory_delta,
-tasks, tran_start_time, open_tran_count, blocking_session_id, blocked_session_count,
-percent_complete, host_name, login_name, database_name, start_time, login_time
+<p>Column(s) by which to sort output, optionally with sort directions.<br />
+Valid column choices:<br />
+session_id, physical_io, reads, physical_reads, writes, tempdb_allocations,<br />
+tempdb_current, CPU, context_switches, used_memory, physical_io_delta,<br />
+reads_delta, physical_reads_delta, writes_delta, tempdb_allocations_delta,<br />
+tempdb_current_delta, CPU_delta, context_switches_delta, used_memory_delta,<br />
+tasks, tran_start_time, open_tran_count, blocking_session_id, blocked_session_count,<br />
+percent_complete, host_name, login_name, database_name, start_time, login_time<br />
 Note that column names in the list must be bracket-delimited. Commas and/or white space are not required.<br></p>
 <table>
 <thead>
@@ -1209,9 +1209,9 @@ Note that column names in the list must be bracket-delimited. Commas and/or whit
 </tbody>
 </table>
 <h5 id="formatoutput">-FormatOutput</h5>
-<p>Formats some of the output columns in a more &quot;human readable&quot; form
-0 disables output format
-1 formats the output for variable-width fonts
+<p>Formats some of the output columns in a more &quot;human readable&quot; form<br />
+0 disables output format<br />
+1 formats the output for variable-width fonts<br />
 2 formats the output for fixed-width fonts<br></p>
 <table>
 <thead>
@@ -1240,7 +1240,7 @@ Note that column names in the list must be bracket-delimited. Commas and/or whit
 </tbody>
 </table>
 <h5 id="destinationtable">-DestinationTable</h5>
-<p>If set to a non-blank value, the script will attempt to insert into the specified destination table. Please note that the script will not verify that the table exists, or that it has the correct
+<p>If set to a non-blank value, the script will attempt to insert into the specified destination table. Please note that the script will not verify that the table exists, or that it has the correct<br />
 schema, before doing the insert. Table can be specified in one, two, or three-part format<br></p>
 <table>
 <thead>
@@ -1269,7 +1269,7 @@ schema, before doing the insert. Table can be specified in one, two, or three-pa
 </tbody>
 </table>
 <h5 id="returnschema">-ReturnSchema</h5>
-<p>If set to 1, no data collection will happen and no result set will be returned; instead, a CREATE TABLE statement will be returned via the @schema parameter, which will match the schema of the result
+<p>If set to 1, no data collection will happen and no result set will be returned; instead, a CREATE TABLE statement will be returned via the @schema parameter, which will match the schema of the result<br />
 set that would be returned by using the same collection of the rest of the parameters. The CREATE TABLE statement will have a placeholder token of &lt;table_name&gt; in place of an actual table name.<br></p>
 <table>
 <thead>
@@ -1298,7 +1298,7 @@ set that would be returned by using the same collection of the rest of the param
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>If set to 1, no data collection will happen and no result set will be returned; instead, a CREATE TABLE statement will be returned via the @schema parameter, which will match the schema of the result
+<p>If set to 1, no data collection will happen and no result set will be returned; instead, a CREATE TABLE statement will be returned via the @schema parameter, which will match the schema of the result<br />
 set that would be returned by using the same collection of the rest of the parameters. The CREATE TABLE statement will have a placeholder token of &lt;table_name&gt; in place of an actual table name.<br></p>
 <table>
 <thead>
@@ -1355,7 +1355,7 @@ set that would be returned by using the same collection of the rest of the param
 </tbody>
 </table>
 <h5 id="as">-As</h5>
-<p>Specifies output type. Valid options for this parameter are 'DataSet', 'DataTable', 'DataRow', 'PSObject'. Default is 'DataRow'.
+<p>Specifies output type. Valid options for this parameter are 'DataSet', 'DataTable', 'DataRow', 'PSObject'. Default is 'DataRow'.<br />
 PSObject output introduces overhead but adds flexibility for working with results: <a href="https://forums.powershell.org/t/dealing-with-dbnull/2328/2">https://forums.powershell.org/t/dealing-with-dbnull/2328/2</a><br></p>
 <table>
 <thead>
@@ -1388,8 +1388,8 @@ PSObject output introduces overhead but adds flexibility for working with result
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

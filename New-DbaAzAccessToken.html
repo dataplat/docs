@@ -523,10 +523,10 @@ PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&qu
 Once the connection is made, it is used to perform a test query.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="type">-Type</h5>
-<p>The type of request:
-ManagedIdentity
-ServicePrincipal
-RenewableServicePrincipal<br></p>
+<p>The type of request:<br />
+ManagedIdentity<br />
+ServicePrincipal<br />
+RenewableServicePrincipal <br></p>
 <table>
 <thead>
 <tr>
@@ -559,15 +559,15 @@ RenewableServicePrincipal<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="subtype">-Subtype</h5>
-<p>The subtype. Options include:
-AzureSqlDb (default)
-ResourceManager
-DataLake
-EventHubs
-KeyVault
-ResourceManager
-ServiceBus
-Storage
+<p>The subtype. Options include:<br />
+AzureSqlDb (default)<br />
+ResourceManager<br />
+DataLake<br />
+EventHubs<br />
+KeyVault<br />
+ResourceManager<br />
+ServiceBus<br />
+Storage<br />
 Read more here: <a href="https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/tutorial-windows-vm-access-sql">https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/tutorial-windows-vm-access-sql</a><br></p>
 <table>
 <thead>
@@ -628,7 +628,7 @@ Read more here: <a href="https://docs.microsoft.com/en-us/azure/active-directory
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>When using the ServicePrincipal type, a Credential is required. The username is the App ID and Password is the App Password
+<p>When using the ServicePrincipal type, a Credential is required. The username is the App ID and Password is the App Password<br />
 <a href="https://docs.microsoft.com/en-us/azure/active-directory/user-help/multi-factor-authentication-end-user-app-passwords">https://docs.microsoft.com/en-us/azure/active-directory/user-help/multi-factor-authentication-end-user-app-passwords</a><br></p>
 <table>
 <thead>
@@ -745,8 +745,8 @@ Read more here: <a href="https://docs.microsoft.com/en-us/azure/active-directory
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default in most of our commands, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This command, however, gifts you  with &quot;sea of red&quot; exceptions, by default, because it is useful for advanced scripting.
+<p>By default in most of our commands, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This command, however, gifts you  with &quot;sea of red&quot; exceptions, by default, because it is useful for advanced scripting.<br />
 Using this switch turns our &quot;nice by default&quot; feature on which makes errors into pretty warnings.<br></p>
 <table>
 <thead>

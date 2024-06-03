@@ -502,7 +502,8 @@ Remove-DbaDbPartitionScheme
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String[]&gt;]
-    [-ExcludeDatabase &lt;Object[]&gt;] -InputObject &lt;PartitionScheme[]&gt;
+    [-ExcludeDatabase &lt;Object[]&gt;]
+    -InputObject &lt;PartitionScheme[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -522,7 +523,7 @@ Remove-DbaDbPartitionScheme
 <p>Using a pipeline this command gets all partition schemes on SRV1, lets the user select those to remove and then removes the selected partition schemes.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbPartitionScheme.<br></p>
+<p>Allows piping from Get-DbaDbPartitionScheme. <br></p>
 <table>
 <thead>
 <tr>
@@ -579,8 +580,8 @@ Remove-DbaDbPartitionScheme
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -665,8 +666,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>
@@ -723,7 +724,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts you for confirmation before executing any changing operations within the command.
+<p>Prompts you for confirmation before executing any changing operations within the command.<br />
 This is the default. Use -Confirm:$false to suppress these prompts.<br></p>
 <table>
 <thead>

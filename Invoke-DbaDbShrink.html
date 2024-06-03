@@ -494,7 +494,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Shrinks all files in a database. Databases should be shrunk only when completely necessary.</p>
 <p>Many awesome SQL people have written about why you should not shrink your data files. Paul Randal and Kalen Delaney wrote great posts about this topic:</p>
-<p><a href="http://www.sqlskills.com/blogs/paul/why-you-should-not-shrink-your-data-files">http://www.sqlskills.com/blogs/paul/why-you-should-not-shrink-your-data-files</a>
+<p><a href="http://www.sqlskills.com/blogs/paul/why-you-should-not-shrink-your-data-files">http://www.sqlskills.com/blogs/paul/why-you-should-not-shrink-your-data-files</a><br />
 <a href="https://www.itprotoday.com/sql-server/shrinking-data-files">https://www.itprotoday.com/sql-server/shrinking-data-files</a></p>
 <p>However, there are some cases where a database will need to be shrunk. In the event that you must shrink your database:</p>
 <ol>
@@ -543,7 +543,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Shrinks all user databases on SQL2012 (not ideal for production)<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. Defaults to the default instance on localhost.<br></p>
+<p>The target SQL Server instance or instances. Defaults to the default instance on localhost. <br></p>
 <table>
 <thead>
 <tr>
@@ -572,8 +572,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance..<br></p>
 <table>
 <thead>
@@ -714,14 +714,14 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="shrinkmethod">-ShrinkMethod</h5>
-<p>Specifies the method that is used to shrink the database
-Default
-Data in pages located at the end of a file is moved to pages earlier in the file. Files are truncated to reflect allocated space.
-EmptyFile
-Migrates all of the data from the referenced file to other files in the same filegroup. (DataFile and LogFile objects only).
-NoTruncate
-Data in pages located at the end of a file is moved to pages earlier in the file.
-TruncateOnly
+<p>Specifies the method that is used to shrink the database<br />
+Default<br />
+Data in pages located at the end of a file is moved to pages earlier in the file. Files are truncated to reflect allocated space.<br />
+EmptyFile<br />
+Migrates all of the data from the referenced file to other files in the same filegroup. (DataFile and LogFile objects only).<br />
+NoTruncate<br />
+Data in pages located at the end of a file is moved to pages earlier in the file.<br />
+TruncateOnly<br />
 Data distribution is not affected. Files are truncated to reflect allocated space, recovering free space at the end of any file.<br></p>
 <table>
 <thead>
@@ -754,9 +754,9 @@ Data distribution is not affected. Files are truncated to reflect allocated spac
 </tbody>
 </table>
 <h5 id="filetype">-FileType</h5>
-<p>Specifies the files types that will be shrunk
-All - All Data and Log files are shrunk, using database shrink (Default)
-Data - Just the Data files are shrunk using file shrink
+<p>Specifies the files types that will be shrunk<br />
+All - All Data and Log files are shrunk, using database shrink (Default)<br />
+Data - Just the Data files are shrunk using file shrink<br />
 Log - Just the Log files are shrunk using file shrink<br></p>
 <table>
 <thead>
@@ -789,8 +789,8 @@ Log - Just the Log files are shrunk using file shrink<br></p>
 </tbody>
 </table>
 <h5 id="stepsize">-StepSize</h5>
-<p>Measured in bits - but no worries! PowerShell has a very cool way of formatting bits. Just specify something like: 1MB or 10GB. See the examples for more information.
-If specified, this will chunk a larger shrink operation into multiple smaller shrinks.
+<p>Measured in bits - but no worries! PowerShell has a very cool way of formatting bits. Just specify something like: 1MB or 10GB. See the examples for more information.<br />
+If specified, this will chunk a larger shrink operation into multiple smaller shrinks.<br />
 If shrinking a file by a large amount there are benefits of doing multiple smaller chunks.<br></p>
 <table>
 <thead>
@@ -903,8 +903,8 @@ If shrinking a file by a large amount there are benefits of doing multiple small
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>
@@ -961,9 +961,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts for confirmation of every step. For example:
-Are you sure you want to perform this action?
-Performing the operation &quot;Shrink database&quot; on target &quot;pubs on SQL2016\VNEXT&quot;.
+<p>Prompts for confirmation of every step. For example:<br />
+Are you sure you want to perform this action?<br />
+Performing the operation &quot;Shrink database&quot; on target &quot;pubs on SQL2016\VNEXT&quot;.<br />
 [Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is &quot;Y&quot;):<br></p>
 <table>
 <thead>

@@ -487,9 +487,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Imports a new Performance Monitor Data Collector Set Template either from the dbatools repository or a file you specify.</p>
 <h2 id="description">Description</h2>
-<p>Imports a new Performance Monitor Data Collector Set Template either from the dbatools repository or a file you specify.
+<p>Imports a new Performance Monitor Data Collector Set Template either from the dbatools repository or a file you specify.<br />
 When importing data collector sets from the local instance, Run As Admin is required.</p>
-<p>Note: The included counters will be added for all SQL instances on the machine by default.
+<p>Note: The included counters will be added for all SQL instances on the machine by default.<br />
 For specific instances in addition to the default, use -Instance.</p>
 <p>See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa371952">https://msdn.microsoft.com/en-us/library/windows/desktop/aa371952</a> for more information</p>
 <h2 id="syntax">Syntax</h2>
@@ -574,7 +574,7 @@ If you'd like to remove counters for the default instance, use Remove-DbaPfDataC
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Allows you to login to servers using alternative credentials. To use:
+<p>Allows you to login to servers using alternative credentials. To use:<br />
 $scred = Get-Credential, then pass $scred object to the -Credential parameter.<br></p>
 <table>
 <thead>
@@ -799,7 +799,7 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="subdirectoryformat">-SubdirectoryFormat</h5>
-<p>Sets flags that describe how to decorate the subdirectory name. PLA appends the decoration to the folder name. For example, if you specify plaMonthDayHour, PLA appends the current month, day, and
+<p>Sets flags that describe how to decorate the subdirectory name. PLA appends the decoration to the folder name. For example, if you specify plaMonthDayHour, PLA appends the current month, day, and<br />
 hour values to the folder name. If the folder name is MyFile, the result could be MyFile110816.<br></p>
 <table>
 <thead>
@@ -912,7 +912,7 @@ hour values to the folder name. If the folder name is MyFile, the result could b
 </tbody>
 </table>
 <h5 id="taskarguments">-TaskArguments</h5>
-<p>Sets the command-line arguments to pass to the Task Scheduler job specified in the IDataCollectorSet::Task property.
+<p>Sets the command-line arguments to pass to the Task Scheduler job specified in the IDataCollectorSet::Task property.<br />
 See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa371992">https://msdn.microsoft.com/en-us/library/windows/desktop/aa371992</a> for more information.<br></p>
 <table>
 <thead>
@@ -941,7 +941,7 @@ See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa371992">
 </tbody>
 </table>
 <h5 id="taskusertextarguments">-TaskUserTextArguments</h5>
-<p usertext="">Sets the command-line arguments that are substituted for the  substitution variable in the IDataCollectorSet::TaskArguments property.
+<p usertext="">Sets the command-line arguments that are substituted for the  substitution variable in the IDataCollectorSet::TaskArguments property.<br />
 See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa371993">https://msdn.microsoft.com/en-us/library/windows/desktop/aa371993</a> for more information.<br></p>
 <table>
 <thead>
@@ -1082,8 +1082,8 @@ See <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa371993">
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

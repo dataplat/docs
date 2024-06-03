@@ -488,8 +488,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Installs or updates the DBA MultiTool stored procedures.</p>
 <h2 id="description">Description</h2>
 <p>Downloads, extracts and installs the DBA MultiTool stored procedures.</p>
-<p>DBA MultiTool links:
-<a href="https://dba-multitool.org">https://dba-multitool.org</a>
+<p>DBA MultiTool links:<br />
+<a href="https://dba-multitool.org">https://dba-multitool.org</a><br />
 <a href="https://github.com/LowlyDBA/dba-multitool/">https://github.com/LowlyDBA/dba-multitool/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaMultiTool
@@ -535,7 +535,7 @@ PS C:\&gt; $servers | Install-DbaMultiTool
 <p>Installs the development branch version of the DBA MultiTool in the main database on sql2016 instance.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -564,8 +564,8 @@ PS C:\&gt; $servers | Install-DbaMultiTool
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -594,9 +594,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="branch">-Branch</h5>
-<p>Specifies an alternate branch of the DBA MultiTool to install.
-Allowed values:
-main (default)
+<p>Specifies an alternate branch of the DBA MultiTool to install.<br />
+Allowed values:<br />
+main (default)<br />
 development<br></p>
 <table>
 <thead>
@@ -657,7 +657,7 @@ development<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install DBA MultiTool from. This <em>should</em> be the zip file as distributed by the maintainers.
+<p>Specifies the path to a local file to install DBA MultiTool from. This <em>should</em> be the zip file as distributed by the maintainers.<br />
 If this parameter is not specified, the latest version will be downloaded and installed from <a href="https://github.com/LowlyDBA/dba-multitool/">https://github.com/LowlyDBA/dba-multitool/</a>.<br></p>
 <table>
 <thead>
@@ -714,8 +714,8 @@ If this parameter is not specified, the latest version will be downloaded and in
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

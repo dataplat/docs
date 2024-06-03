@@ -488,8 +488,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Installs or updates the First Responder Kit stored procedures.</p>
 <h2 id="description">Description</h2>
 <p>Downloads, extracts and installs the First Responder Kit stored procedures</p>
-<p>First Responder Kit links:
-<a href="http://FirstResponderKit.org">http://FirstResponderKit.org</a>
+<p>First Responder Kit links:<br />
+<a href="http://FirstResponderKit.org">http://FirstResponderKit.org</a><br />
 <a href="https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit">https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaFirstResponderKit
@@ -548,7 +548,7 @@ PS C:\&gt; $servers | Install-DbaFirstResponderKit
 <p>Uninstalls the First Responder Kit by running the official uninstall script.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -577,8 +577,8 @@ PS C:\&gt; $servers | Install-DbaFirstResponderKit
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -607,9 +607,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="branch">-Branch</h5>
-<p>Specifies an alternate branch of the First Responder Kit to install.
-Allowed values:
-main (default)
+<p>Specifies an alternate branch of the First Responder Kit to install.<br />
+Allowed values:<br />
+main (default)<br />
 dev<br></p>
 <table>
 <thead>
@@ -670,7 +670,7 @@ dev<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install FRK from. This <em>should</em> be the zip file as distributed by the maintainers.
+<p>Specifies the path to a local file to install FRK from. This <em>should</em> be the zip file as distributed by the maintainers.<br />
 If this parameter is not specified, the latest version will be downloaded and installed from <a href="https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit">https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit</a><br></p>
 <table>
 <thead>
@@ -699,9 +699,9 @@ If this parameter is not specified, the latest version will be downloaded and in
 </tbody>
 </table>
 <h5 id="onlyscript">-OnlyScript</h5>
-<p>Specifies the name(s) of the script(s) to run for installation. Wildcards are permitted.
-This way only part of the First Responder Kit can be installed.
-Using one of the three official Install-* scripts (Install-All-Scripts.sql, Install-Core-Blitz-No-Query-Store.sql, Install-Core-Blitz-With-Query-Store.sql) is possible this way.
+<p>Specifies the name(s) of the script(s) to run for installation. Wildcards are permitted.<br />
+This way only part of the First Responder Kit can be installed.<br />
+Using one of the three official Install-* scripts (Install-All-Scripts.sql, Install-Core-Blitz-No-Query-Store.sql, Install-Core-Blitz-With-Query-Store.sql) is possible this way.<br />
 Even removing the First Responder Kit is possible by using the official Uninstall.sql.<br></p>
 <table>
 <thead>
@@ -762,8 +762,8 @@ Even removing the First Responder Kit is possible by using the official Uninstal
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

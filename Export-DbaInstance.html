@@ -485,39 +485,39 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaInstance">Export-DbaInstance</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports SQL Server <em>ALL</em> database restore scripts, logins, database mail profiles/accounts, credentials, SQL Agent objects, linked servers,
-Central Management Server objects, server configuration settings (sp_configure), user objects in systems databases,
+<p>Exports SQL Server <em>ALL</em> database restore scripts, logins, database mail profiles/accounts, credentials, SQL Agent objects, linked servers,<br />
+Central Management Server objects, server configuration settings (sp_configure), user objects in systems databases,<br />
 system triggers and backup devices from one SQL Server to another.</p>
 <h2 id="description">Description</h2>
 <p>Export-DbaInstance consolidates most of the export scripts in dbatools into one command.</p>
-<p>This is useful when you're looking to Export entire instances. It less flexible than using the underlying functions.
+<p>This is useful when you're looking to Export entire instances. It less flexible than using the underlying functions.<br />
 Think of it as an easy button. Unless an -Exclude is specified, it exports:</p>
-<p>All database 'restore from backup' scripts.  Note: if a database does not have a backup the 'restore from backup' script won't be generated.
-All logins.
-All database mail objects.
-All credentials.
-All objects within the Job Server (SQL Agent).
-All linked servers.
-All groups and servers within Central Management Server.
-All SQL Server configuration objects (everything in sp_configure).
-All user objects in system databases.
-All system triggers.
-All system backup devices.
-All Audits.
-All Endpoints.
-All Extended Events.
-All Policy Management objects.
-All Resource Governor objects.
-All Server Audit Specifications.
-All Custom Errors (User Defined Messages).
-All Server Roles.
-All Availability Groups.
+<p>All database 'restore from backup' scripts.  Note: if a database does not have a backup the 'restore from backup' script won't be generated.<br />
+All logins.<br />
+All database mail objects.<br />
+All credentials.<br />
+All objects within the Job Server (SQL Agent).<br />
+All linked servers.<br />
+All groups and servers within Central Management Server.<br />
+All SQL Server configuration objects (everything in sp_configure).<br />
+All user objects in system databases.<br />
+All system triggers.<br />
+All system backup devices.<br />
+All Audits.<br />
+All Endpoints.<br />
+All Extended Events.<br />
+All Policy Management objects.<br />
+All Resource Governor objects.<br />
+All Server Audit Specifications.<br />
+All Custom Errors (User Defined Messages).<br />
+All Server Roles.<br />
+All Availability Groups.<br />
 All OLEDB Providers.</p>
 <p>The exported files are written to a folder with a naming convention of &quot;machinename$instance-yyyyMMddHHmmss&quot;.</p>
 <p>This command supports the following use cases related to the output files:</p>
 <ol>
 <li>Export files to a new timestamped folder. This is the default behavior and results in a simple historical archive within the local filesystem.</li>
-<li>Export files to an existing folder and overwrite pre-existing files. This can be accomplished using the -Force parameter.
+<li>Export files to an existing folder and overwrite pre-existing files. This can be accomplished using the -Force parameter.<br />
 This results in a single folder location with the latest exported files. These files can then be checked into a source control system if needed.</li>
 </ol>
 <p>For more granular control, please use one of the -Exclude parameters and use the other functions available within the dbatools module.</p>
@@ -563,7 +563,7 @@ This results in a single folder location with the latest exported files. These f
 include a timestamp. This supports the use case of running Export-DbaInstance on a schedule and writing to the same dir each time.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instances<br></p>
+<p>The target SQL Server instances <br></p>
 <table>
 <thead>
 <tr>
@@ -592,8 +592,8 @@ include a timestamp. This supports the use case of running Export-DbaInstance on
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -762,28 +762,28 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="exclude">-Exclude</h5>
-<p>Exclude one or more objects to export
-Databases
-Logins
-AgentServer
-Credentials
-LinkedServers
-SpConfigure
-CentralManagementServer
-DatabaseMail
-SysDbUserObjects
-SystemTriggers
-BackupDevices
-Audits
-Endpoints
-ExtendedEvents
-PolicyManagement
-ResourceGovernor
-ServerAuditSpecifications
-CustomErrors
-ServerRoles
-AvailabilityGroups
-ReplicationSettings
+<p>Exclude one or more objects to export<br />
+Databases<br />
+Logins<br />
+AgentServer<br />
+Credentials<br />
+LinkedServers<br />
+SpConfigure<br />
+CentralManagementServer<br />
+DatabaseMail<br />
+SysDbUserObjects<br />
+SystemTriggers<br />
+BackupDevices<br />
+Audits<br />
+Endpoints<br />
+ExtendedEvents<br />
+PolicyManagement<br />
+ResourceGovernor<br />
+ServerAuditSpecifications<br />
+CustomErrors<br />
+ServerRoles<br />
+AvailabilityGroups<br />
+ReplicationSettings<br />
 OleDbProvider<br></p>
 <table>
 <thead>
@@ -956,8 +956,8 @@ OleDbProvider<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -488,10 +488,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Execution of Database Console Command DBCC OPENTRAN</p>
 <h2 id="description">Description</h2>
 <p>Executes the command DBCC OPENTRAN against the requested databases</p>
-<p>Displays information about the oldest active transaction and
-the oldest distributed and nondistributed replicated transactions, if any,
+<p>Displays information about the oldest active transaction and<br />
+the oldest distributed and nondistributed replicated transactions, if any,<br />
 within the transaction log of the specified database</p>
-<p>Read more:
+<p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-opentran-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-opentran-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbDbccOpenTran
@@ -520,7 +520,7 @@ PS C:\&gt; 'Sql1','Sql2/sqlexpress' | Get-DbaDbDbccOpenTran -SqlCredential $cred
 <p>Connects to instances Sql1 and Sql2/sqlexpress using sqladmin credential and runs the command DBCC OPENTRAN WITH TABLERESULTS, NO_INFOMSGS against each database.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -549,8 +549,8 @@ PS C:\&gt; 'Sql1','Sql2/sqlexpress' | Get-DbaDbDbccOpenTran -SqlCredential $cred
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -579,8 +579,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. If unspecified, all databases will be processed.
-The Name or Id of a database can be specified
+<p>The database(s) to process. If unspecified, all databases will be processed.<br />
+The Name or Id of a database can be specified<br />
 Database names must comply with the rules for identifiers.<br></p>
 <table>
 <thead>
@@ -609,8 +609,8 @@ Database names must comply with the rules for identifiers.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

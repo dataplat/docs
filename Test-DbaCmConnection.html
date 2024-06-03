@@ -493,7 +493,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <li>Cim over WinRM</li>
 <li>Cim over DCOM</li>
 <li>Wmi</li>
-<li>PowerShellRemoting
+<li>PowerShellRemoting<br />
 Results will be written to the connectivity cache and will cause Get-DbaCmObject and Invoke-DbaCmMethod to connect using the way most likely to succeed. This way, it is likely the other commands will take less time to execute. These others too cache their results, in order to dynamically update connection statistics.</li>
 </ul>
 <p>This function ignores global configuration settings limiting which protocols may be used.</p>
@@ -577,9 +577,9 @@ The results will be reported and registered. Future calls from Get-DbaCmObject w
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The connection protocol types to test.
-By default, all types are tested.
-Note that this function will ignore global configurations limiting the types of connections available and test all connections specified here instead.
+<p>The connection protocol types to test.<br />
+By default, all types are tested.<br />
+Note that this function will ignore global configurations limiting the types of connections available and test all connections specified here instead.<br />
 Available connection protocol types: &quot;CimRM&quot;, &quot;CimDCOM&quot;, &quot;Wmi&quot;, &quot;PowerShellRemoting&quot;<br></p>
 <table>
 <thead>
@@ -636,8 +636,8 @@ Available connection protocol types: &quot;CimRM&quot;, &quot;CimDCOM&quot;, &qu
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -498,7 +498,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [&lt;CommonParameters&gt;]
 
 Remove-DbaLogin -SqlInstance &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -Login &lt;String[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -Login &lt;String[]&gt;
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -506,7 +507,8 @@ Remove-DbaLogin -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [&lt;CommonParameters&gt;]
 
 Remove-DbaLogin
-    [-SqlCredential &lt;PSCredential&gt;] -InputObject &lt;Login[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -InputObject &lt;Login[]&gt;
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -535,7 +537,7 @@ Remove-DbaLogin
 <p>Removes mylogin on SQL Server server\instance<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -563,7 +565,7 @@ Remove-DbaLogin
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The Login(s) to process - this list is auto-populated from the server. If unspecified, all Logins will be processed.<br></p>
+<p>The Login(s) to process - this list is auto-populated from the server. If unspecified, all Logins will be processed. <br></p>
 <table>
 <thead>
 <tr>
@@ -591,7 +593,7 @@ Remove-DbaLogin
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of Logins (such as returned by Get-DbaLogin), to be removed.<br></p>
+<p>A collection of Logins (such as returned by Get-DbaLogin), to be removed. <br></p>
 <table>
 <thead>
 <tr>
@@ -676,8 +678,8 @@ Remove-DbaLogin
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Invokes installation of SQL Server Service Packs and Cumulative Updates on local and remote servers.</p>
 <h2 id="description">Description</h2>
-<p>Starts an automated process of updating SQL Server installation to a specific version defined in the parameters.
+<p>Starts an automated process of updating SQL Server installation to a specific version defined in the parameters.<br />
 The command will:</p>
 <ul>
 <li>Search for SQL Server installations in a remote registry</li>
@@ -501,9 +501,9 @@ The command will:</p>
 <li>Repeat for each consequent KB and computer</li>
 </ul>
 <p>The impact of this function is set to High, if you don't want to receive interactive prompts, set -Confirm to $false.</p>
-<p>When using CredSSP authentication, this function will try to configure CredSSP authentication for PowerShell Remoting sessions.
-If this is not desired (e.g.: CredSSP authentication is managed externally, or is already configured appropriately,)
-it can be disabled by setting the dbatools configuration option 'commands.initialize-credssp.bypass' value to $true.
+<p>When using CredSSP authentication, this function will try to configure CredSSP authentication for PowerShell Remoting sessions.<br />
+If this is not desired (e.g.: CredSSP authentication is managed externally, or is already configured appropriately,)<br />
+it can be disabled by setting the dbatools configuration option 'commands.initialize-credssp.bypass' value to $true.<br />
 To be able to configure CredSSP, the command needs to be run in an elevated PowerShell session.</p>
 <p>Always backup databases and configurations prior to upgrade.</p>
 <h2 id="syntax">Syntax</h2>
@@ -529,7 +529,8 @@ To be able to configure CredSSP, the command needs to be run in an elevated Powe
 
 Update-DbaInstance
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
-    [-Credential &lt;PSCredential&gt;] -KB &lt;String[]&gt;
+    [-Credential &lt;PSCredential&gt;]
+    -KB &lt;String[]&gt;
     [-InstanceName &lt;String&gt;]
     [-Path &lt;String[]&gt;]
     [-Restart]
@@ -600,7 +601,7 @@ Binary files for the update will be searched among all files and folders recursi
 Does not prompt for confirmation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="kb">-KB</h5>
-<p>Install a specific update or list of updates. Can be a number of a string KBXXXXXXX.<br></p>
+<p>Install a specific update or list of updates. Can be a number of a string KBXXXXXXX. <br></p>
 <table>
 <thead>
 <tr>
@@ -657,9 +658,9 @@ Does not prompt for confirmation.<br></p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Windows Credential with permission to log on to the remote server.
-Must be specified for any remote connection if update Repository is located on a network folder.
-Authentication will default to CredSSP if -Credential is used.
+<p>Windows Credential with permission to log on to the remote server.<br />
+Must be specified for any remote connection if update Repository is located on a network folder.<br />
+Authentication will default to CredSSP if -Credential is used.<br />
 For CredSSP see also additional information in DESCRIPTION.<br></p>
 <table>
 <thead>
@@ -688,13 +689,13 @@ For CredSSP see also additional information in DESCRIPTION.<br></p>
 </tbody>
 </table>
 <h5 id="version">-Version</h5>
-<p>A target version of the installation you want to reach. If not specified, a latest available version would be used by default.
-Can be defined using the following general pattern: <MajorVersion><SPX><CUX>.
-Any part of the pattern can be omitted if needed:
-2008R2SP1 - will update SQL 2008R2 to SP1
-2016CU3 - will update SQL 2016 to CU3 of current Service Pack installed
-SP0CU3 - will update all existing SQL Server versions to RTM CU3 without installing any service packs
-SP1CU7 - will update all existing SQL Server versions to SP1 and then (after restart if -Restart is specified) to SP1CU7
+<p>A target version of the installation you want to reach. If not specified, a latest available version would be used by default.<br />
+Can be defined using the following general pattern: <MajorVersion><SPX><CUX>.<br />
+Any part of the pattern can be omitted if needed:<br />
+2008R2SP1 - will update SQL 2008R2 to SP1<br />
+2016CU3 - will update SQL 2016 to CU3 of current Service Pack installed<br />
+SP0CU3 - will update all existing SQL Server versions to RTM CU3 without installing any service packs<br />
+SP1CU7 - will update all existing SQL Server versions to SP1 and then (after restart if -Restart is specified) to SP1CU7<br />
 CU7 - will update all existing SQL Server versions to CU7 of current Service Pack installed<br></p>
 <table>
 <thead>
@@ -723,8 +724,8 @@ CU7 - will update all existing SQL Server versions to CU7 of current Service Pac
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Type of the update: All | ServicePack | CumulativeUpdate.
-Default: All
+<p>Type of the update: All | ServicePack | CumulativeUpdate.<br />
+Default: All<br />
 Use -Version to limit upgrade to a certain Major version of SQL Server.<br></p>
 <table>
 <thead>
@@ -785,10 +786,10 @@ Use -Version to limit upgrade to a certain Major version of SQL Server.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Path to the folder(s) with SQL Server patches downloaded. It will be scanned recursively for available patches.
-Path should be available from both server with SQL Server installation and client that runs the command.
-All file names should match the pattern used by Microsoft: SQLServer####<em>-KB###-</em>x##*.exe
-If a file is missing in the repository, the installation will fail.
+<p>Path to the folder(s) with SQL Server patches downloaded. It will be scanned recursively for available patches.<br />
+Path should be available from both server with SQL Server installation and client that runs the command.<br />
+All file names should match the pattern used by Microsoft: SQLServer####<em>-KB###-</em>x##*.exe<br />
+If a file is missing in the repository, the installation will fail.<br />
 Consider setting the following configuration if you want to omit this parameter: <code>Set-DbatoolsConfig -Name Path.SQLServerUpdates -Value '\\path\to\updates'</code><br></p>
 <table>
 <thead>
@@ -817,7 +818,7 @@ Consider setting the following configuration if you want to omit this parameter:
 </tbody>
 </table>
 <h5 id="restart">-Restart</h5>
-<p>Restart computer automatically after a successful installation of a patch and wait until it comes back online.
+<p>Restart computer automatically after a successful installation of a patch and wait until it comes back online.<br />
 Using this parameter is the only way to chain-install more than 1 patch on a computer, since every single patch will require a restart of said computer.<br></p>
 <table>
 <thead>
@@ -874,7 +875,7 @@ Using this parameter is the only way to chain-install more than 1 patch on a com
 </tbody>
 </table>
 <h5 id="throttle">-Throttle</h5>
-<p>Maximum number of computers updated in parallel. Once reached, the update operations will queue up.
+<p>Maximum number of computers updated in parallel. Once reached, the update operations will queue up.<br />
 Default: 50<br></p>
 <table>
 <thead>
@@ -903,14 +904,14 @@ Default: 50<br></p>
 </tbody>
 </table>
 <h5 id="authentication">-Authentication</h5>
-<p>Chooses an authentication protocol for remote connections.
-Allowed values: 'Default', 'Basic', 'Negotiate', 'NegotiateWithImplicitCredential', 'Credssp', 'Digest', 'Kerberos'.
-If the protocol fails to establish a connection and explicit -Credentials were used, a failback authentication method would be attempted that configures PSSessionConfiguration
-on the remote machine. This method, however, is considered insecure and would, therefore, prompt an additional confirmation when used.
+<p>Chooses an authentication protocol for remote connections.<br />
+Allowed values: 'Default', 'Basic', 'Negotiate', 'NegotiateWithImplicitCredential', 'Credssp', 'Digest', 'Kerberos'.<br />
+If the protocol fails to establish a connection and explicit -Credentials were used, a failback authentication method would be attempted that configures PSSessionConfiguration<br />
+on the remote machine. This method, however, is considered insecure and would, therefore, prompt an additional confirmation when used.<br />
 Defaults:</p>
 <ul>
 <li>CredSSP when -Credential is specified - due to the fact that repository Path is usually a network share and credentials need to be passed to the remote host to avoid the double-hop issue.</li>
-<li>Default when -Credential is not specified. Will likely fail if a network path is specified.
+<li>Default when -Credential is not specified. Will likely fail if a network path is specified.<br />
 For CredSSP see also additional information in DESCRIPTION.<br></li>
 </ul>
 <table>
@@ -972,7 +973,7 @@ For CredSSP see also additional information in DESCRIPTION.<br></li>
 </tbody>
 </table>
 <h5 id="argumentlist">-ArgumentList</h5>
-<p>A list of extra arguments to pass to the execution file. Accepts one or more strings containing command line parameters.
+<p>A list of extra arguments to pass to the execution file. Accepts one or more strings containing command line parameters.<br />
 Example: ... -ArgumentList &quot;/SkipRules=RebootRequiredCheck&quot;, &quot;/Q&quot;<br></p>
 <table>
 <thead>
@@ -1001,8 +1002,8 @@ Example: ... -ArgumentList &quot;/SkipRules=RebootRequiredCheck&quot;, &quot;/Q&
 </tbody>
 </table>
 <h5 id="download">-Download</h5>
-<p>Download missing KBs to the first folder specified in the -Path parameter.
-Files would be first downloaded to the local machine (TEMP folder), and then distributed onto remote machines if needed.
+<p>Download missing KBs to the first folder specified in the -Path parameter.<br />
+Files would be first downloaded to the local machine (TEMP folder), and then distributed onto remote machines if needed.<br />
 If the Path is a network Path, the files would be downloaded straight to the network folder and executed from there.<br></p>
 <table>
 <thead>
@@ -1059,8 +1060,8 @@ If the Path is a network Path, the files would be downloaded straight to the net
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

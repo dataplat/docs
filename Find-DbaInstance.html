@@ -493,21 +493,21 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <li>Discovery</li>
 <li>Scan</li>
 </ul>
-<p>Discovery:
-This is where it compiles a list of computers / addresses to check.
+<p>Discovery:<br />
+This is where it compiles a list of computers / addresses to check.<br />
 It supports several methods of generating such lists (including Active Directory lookup or IP Ranges), but also supports specifying a list of computers to check.</p>
 <ul>
 <li>For details on discovery, see the documentation on the '-DiscoveryType' parameter</li>
 <li>For details on explicitly providing a list, see the documentation on the '-ComputerName' parameter</li>
 </ul>
-<p>Scan:
-Once a list of computers has been provided, this command will execute a variety of actions to determine any instances present for each of them.
-This is described in more detail in the documentation on the '-ScanType' parameter.
+<p>Scan:<br />
+Once a list of computers has been provided, this command will execute a variety of actions to determine any instances present for each of them.<br />
+This is described in more detail in the documentation on the '-ScanType' parameter.<br />
 Additional parameters allow more granular control over individual scans (e.g. Credentials to use).</p>
-<p>Note on logging and auditing:
-The Discovery phase is un-problematic since it is non-intrusive, however during the scan phase, all targeted computers may be accessed repeatedly.
-This may cause issues with security teams, due to many logon events and possibly failed authentication.
-This action constitutes a network scan, which may be illegal depending on the nation you are in and whether you own the network you scan.
+<p>Note on logging and auditing:<br />
+The Discovery phase is un-problematic since it is non-intrusive, however during the scan phase, all targeted computers may be accessed repeatedly.<br />
+This may cause issues with security teams, due to many logon events and possibly failed authentication.<br />
+This action constitutes a network scan, which may be illegal depending on the nation you are in and whether you own the network you scan.<br />
 If you are unsure whether you may use this command in your environment, check the detailed description on the '-ScanType' parameter and contact your IT security team for advice.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaInstance
@@ -598,8 +598,8 @@ PS C:\&gt; $results | Format-Table -Wrap
 Using this method regularly is not recommended. Use Get-DbaService or Get-DbaRegServer instead.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The computer to scan. Can be a variety of input types, including text or the output of Get-ADComputer.
-Any extra instance information (such as connection strings or live sql server connections) beyond the computername will be discarded.<br></p>
+<p>The computer to scan. Can be a variety of input types, including text or the output of Get-ADComputer.<br />
+Any extra instance information (such as connection strings or live sql server connections) beyond the computername will be discarded. <br></p>
 <table>
 <thead>
 <tr>
@@ -627,7 +627,7 @@ Any extra instance information (such as connection strings or live sql server co
 </tbody>
 </table>
 <h5 id="discoverytype">-DiscoveryType</h5>
-<p>The mechanisms to be used to discover instances.
+<p>The mechanisms to be used to discover instances.<br />
 Supports any combination of:</p>
 <ul>
 <li>Service Principal Name lookup ('DomainSPN'; from Active Directory)</li>
@@ -638,28 +638,28 @@ Supports any combination of:</p>
 <hr />
 <ul>
 <li><p>SPN Lookup</p>
-<p>The function tries to connect active directory to look up all computers with registered SQL Instances.
-Not all instances need to be registered properly, making this not 100% reliable.
-By default, your nearest Domain Controller is contacted for this scan.
-However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.
+<p>The function tries to connect active directory to look up all computers with registered SQL Instances.<br />
+Not all instances need to be registered properly, making this not 100% reliable.<br />
+By default, your nearest Domain Controller is contacted for this scan.<br />
+However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.<br />
 If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.</p>
 </li>
 <li><p>SQL Instance Enumeration</p>
-<p>This uses the default UDP Broadcast based instance enumeration used by SSMS to detect instances.
-Note that the result from this is not used in the actual scan, but only to compile a list of computers to scan.
+<p>This uses the default UDP Broadcast based instance enumeration used by SSMS to detect instances.<br />
+Note that the result from this is not used in the actual scan, but only to compile a list of computers to scan.<br />
 To enable the same results for the scan, ensure that the 'Browser' scan is enabled.</p>
 </li>
 <li><p>IP Address range:</p>
-<p>This 'Discovery' uses a range of IPAddresses and simply passes them on to be tested.
-See the 'Description' part of help on security issues of network scanning.
-By default, it will enumerate all ethernet network adapters on the local computer and scan the entire subnet they are on.
+<p>This 'Discovery' uses a range of IPAddresses and simply passes them on to be tested.<br />
+See the 'Description' part of help on security issues of network scanning.<br />
+By default, it will enumerate all ethernet network adapters on the local computer and scan the entire subnet they are on.<br />
 By using the '-IpAddress' parameter, custom network ranges can be specified.</p>
 </li>
 <li><p>Domain Server:</p>
-<p>This will discover every single computer in Active Directory that is a Windows Server and enabled.
-By default, your nearest Domain Controller is contacted for this scan.
-However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.
-If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.<br></p>
+<p>This will discover every single computer in Active Directory that is a Windows Server and enabled.<br />
+By default, your nearest Domain Controller is contacted for this scan.<br />
+However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.<br />
+If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains. <br></p>
 </li>
 </ul>
 <table>
@@ -690,7 +690,7 @@ If credentials were specified using the '-Credential' parameter, those same cred
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="credential">-Credential</h5>
-<p>The credentials to use on windows network connection.
+<p>The credentials to use on windows network connection.<br />
 These credentials are used for:</p>
 <ul>
 <li>Contact to domain controllers for SPN lookups (only if explicit Domain Controller is specified)</li>
@@ -723,7 +723,7 @@ These credentials are used for:</p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>The credentials used to connect to SqlInstances to during the scan phase.
+<p>The credentials used to connect to SqlInstances to during the scan phase.<br />
 See the '-ScanType' parameter documentation on affected scans.<br></p>
 <table>
 <thead>
@@ -752,9 +752,9 @@ See the '-ScanType' parameter documentation on affected scans.<br></p>
 </tbody>
 </table>
 <h5 id="scantype">-ScanType</h5>
-<p>The scans are the individual methods used to retrieve information about the scanned computer and any potentially installed instances.
-This parameter is optional, by default all scans except for establishing an actual SQL connection are performed.
-Scans can be specified in any arbitrary combination, however at least one instance detecting scan needs to be specified in order for data to be returned.
+<p>The scans are the individual methods used to retrieve information about the scanned computer and any potentially installed instances.<br />
+This parameter is optional, by default all scans except for establishing an actual SQL connection are performed.<br />
+Scans can be specified in any arbitrary combination, however at least one instance detecting scan needs to be specified in order for data to be returned.<br />
 Scans:</p>
 <ul>
 <li>Browser
@@ -844,13 +844,13 @@ Scans:</p>
 </tbody>
 </table>
 <h5 id="ipaddress">-IpAddress</h5>
-<p>This parameter can be used to override the defaults for the IPRange discovery.
+<p>This parameter can be used to override the defaults for the IPRange discovery.<br />
 This parameter accepts a list of strings supporting any combination of:</p>
 <ul>
 <li>Plain IP Addresses (e.g.: &quot;10.1.1.1&quot;)</li>
 <li>IP Address Ranges (e.g.: &quot;10.1.1.1-10.1.1.5&quot;)</li>
 <li>IP Address &amp; Subnet Mask (e.g.: &quot;10.1.1.1/255.255.255.0&quot;)</li>
-<li>IP Address &amp; Subnet Length: (e.g.: &quot;10.1.1.1/24)
+<li>IP Address &amp; Subnet Length: (e.g.: &quot;10.1.1.1/24)<br />
 Overlapping addresses will not result in duplicate scans.<br></li>
 </ul>
 <table>
@@ -880,7 +880,7 @@ Overlapping addresses will not result in duplicate scans.<br></li>
 </tbody>
 </table>
 <h5 id="domaincontroller">-DomainController</h5>
-<p>The domain controller to contact for SPN lookups / searches.
+<p>The domain controller to contact for SPN lookups / searches.<br />
 Uses the credentials from the '-Credential' parameter if specified.<br></p>
 <table>
 <thead>
@@ -909,7 +909,7 @@ Uses the credentials from the '-Credential' parameter if specified.<br></p>
 </tbody>
 </table>
 <h5 id="tcpport">-TCPPort</h5>
-<p>The ports to scan in the TCP Port Scan method.
+<p>The ports to scan in the TCP Port Scan method.<br />
 Defaults to 1433.<br></p>
 <table>
 <thead>
@@ -938,9 +938,9 @@ Defaults to 1433.<br></p>
 </tbody>
 </table>
 <h5 id="minimumconfidence">-MinimumConfidence</h5>
-<p>This command tries to discover instances, which isn't always a sure thing.
-Depending on the number and type of scans completed, we have different levels of confidence in our results.
-By default, we will return anything that we have at least a low confidence of being an instance.
+<p>This command tries to discover instances, which isn't always a sure thing.<br />
+Depending on the number and type of scans completed, we have different levels of confidence in our results.<br />
+By default, we will return anything that we have at least a low confidence of being an instance.<br />
 These are the confidence levels we support and how they are determined:</p>
 <ul>
 <li>High: Established SQL Connection (including rejection for bad credentials) or service scan.</li>
@@ -975,8 +975,8 @@ These are the confidence levels we support and how they are determined:</p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

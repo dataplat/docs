@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Get amount of memory in use by <em>all</em> SQL Server components and instances</p>
 <h2 id="description">Description</h2>
-<p>Retrieves the amount of memory per performance counter. Default output includes columns Server, counter instance, counter, number of pages, memory in KB, memory in MB
+<p>Retrieves the amount of memory per performance counter. Default output includes columns Server, counter instance, counter, number of pages, memory in KB, memory in MB<br />
 SSAS and SSIS are included.</p>
 <p>SSRS does not have memory counters, only memory shrinks and memory pressure state.</p>
 <p>This function requires local admin role on the targeted computers.</p>
@@ -549,8 +549,8 @@ SSAS and SSIS are included.</p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -579,8 +579,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="memorycounterregex">-MemoryCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>sql</em>:Memory Manager*' to display relevant Memory Manager counters.
-Default: '(Total Server Memory |Target Server Memory |Connection Memory |Lock Memory |SQL Cache Memory |Optimizer Memory |Granted Workspace Memory |Cursor memory usage|Maximum Workspace)'
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>sql</em>:Memory Manager*' to display relevant Memory Manager counters.<br />
+Default: '(Total Server Memory |Target Server Memory |Connection Memory |Lock Memory |SQL Cache Memory |Optimizer Memory |Granted Workspace Memory |Cursor memory usage|Maximum Workspace)'<br />
 The default works for English language systems and has to be adapted for other languages.<br></p>
 <table>
 <thead>
@@ -649,8 +649,8 @@ The default works for English language systems and has to be adapted for other l
 </tbody>
 </table>
 <h5 id="plancounterregex">-PlanCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>sql</em>:Plan Cache*' to display relevant Plan Cache counters.
-Default: '(cache pages|procedure plan|ad hoc sql plan|prepared SQL Plan)'
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>sql</em>:Plan Cache*' to display relevant Plan Cache counters.<br />
+Default: '(cache pages|procedure plan|ad hoc sql plan|prepared SQL Plan)'<br />
 The default works for English language systems and has to be adapted for other languages.<br></p>
 <table>
 <thead>
@@ -694,8 +694,8 @@ The default works for English language systems and has to be adapted for other l
 </tbody>
 </table>
 <h5 id="buffercounterregex">-BufferCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>Buffer Manager</em>' to display relevant Buffer Manager counters.
-Default: '(Free pages|Reserved pages|Stolen pages|Total pages|Database pages|target pages|extension .* pages)'
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>Buffer Manager</em>' to display relevant Buffer Manager counters.<br />
+Default: '(Free pages|Reserved pages|Stolen pages|Total pages|Database pages|target pages|extension .* pages)'<br />
 The default works for English language systems and has to be adapted for other languages.<br></p>
 <table>
 <thead>
@@ -754,8 +754,8 @@ The default works for English language systems and has to be adapted for other l
 </tbody>
 </table>
 <h5 id="ssascounterregex">-SSASCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set 'MSAS*:Memory' to display relevant SSAS counters.
-Default: '(\memory )'
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set 'MSAS*:Memory' to display relevant SSAS counters.<br />
+Default: '(\memory )'<br />
 The default works for English language systems and has to be adapted for other languages.<br></p>
 <table>
 <thead>
@@ -784,8 +784,8 @@ The default works for English language systems and has to be adapted for other l
 </tbody>
 </table>
 <h5 id="ssiscounterregex">-SSISCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>SSIS</em>' to display relevant SSIS counters.
-Default: '(memory)'
+<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>SSIS</em>' to display relevant SSIS counters.<br />
+Default: '(memory)'<br />
 The default works for English language systems and has to be adapted for other languages.<br></p>
 <table>
 <thead>
@@ -814,8 +814,8 @@ The default works for English language systems and has to be adapted for other l
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

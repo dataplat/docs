@@ -539,7 +539,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Changes the schedule for Job1 with the name 'daily' to enabled on multiple servers using pipe line<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater. <br></p>
 <table>
 <thead>
 <tr>
@@ -567,7 +567,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job that has the schedule.<br></p>
+<p>The name of the job that has the schedule. <br></p>
 <table>
 <thead>
 <tr>
@@ -595,7 +595,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="schedulename">-ScheduleName</h5>
-<p>The name of the schedule.<br></p>
+<p>The name of the schedule. <br></p>
 <table>
 <thead>
 <tr>
@@ -624,8 +624,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -738,12 +738,12 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="frequencytype">-FrequencyType</h5>
-<p>A value indicating when a job is to be executed.
-Allowed values: 'Once', 'OneTime', 'Daily', 'Weekly', 'Monthly', 'MonthlyRelative', 'AgentStart', 'AutoStart', 'IdleComputer', 'OnIdle'
-The following synonyms provide flexibility to the allowed values for this function parameter:
-Once=OneTime
-AgentStart=AutoStart
-IdleComputer=OnIdle
+<p>A value indicating when a job is to be executed.<br />
+Allowed values: 'Once', 'OneTime', 'Daily', 'Weekly', 'Monthly', 'MonthlyRelative', 'AgentStart', 'AutoStart', 'IdleComputer', 'OnIdle'<br />
+The following synonyms provide flexibility to the allowed values for this function parameter:<br />
+Once=OneTime<br />
+AgentStart=AutoStart<br />
+IdleComputer=OnIdle<br />
 If force is used the default will be &quot;Once&quot;.<br></p>
 <table>
 <thead>
@@ -776,11 +776,11 @@ If force is used the default will be &quot;Once&quot;.<br></p>
 </tbody>
 </table>
 <h5 id="frequencyinterval">-FrequencyInterval</h5>
-<p>The days that a job is executed
-Allowed values for FrequencyType 'Daily': EveryDay or a number between 1 and 365.
-Allowed values for FrequencyType 'Weekly': Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Weekdays, Weekend or EveryDay.
-Allowed values for FrequencyType 'Monthly': Numbers 1 to 31 for each day of the month.
-If &quot;Weekdays&quot;, &quot;Weekend&quot; or &quot;EveryDay&quot; is used it over writes any other value that has been passed before.
+<p>The days that a job is executed<br />
+Allowed values for FrequencyType 'Daily': EveryDay or a number between 1 and 365.<br />
+Allowed values for FrequencyType 'Weekly': Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Weekdays, Weekend or EveryDay.<br />
+Allowed values for FrequencyType 'Monthly': Numbers 1 to 31 for each day of the month.<br />
+If &quot;Weekdays&quot;, &quot;Weekend&quot; or &quot;EveryDay&quot; is used it over writes any other value that has been passed before.<br />
 If force is used the default will be 1.<br></p>
 <table>
 <thead>
@@ -809,7 +809,7 @@ If force is used the default will be 1.<br></p>
 </tbody>
 </table>
 <h5 id="frequencysubdaytype">-FrequencySubdayType</h5>
-<p>Specifies the units for the subday FrequencyInterval.
+<p>Specifies the units for the subday FrequencyInterval.<br />
 Allowed values are 1, 'Once', 'Time', 2, 'Seconds', 'Second', 4, 'Minutes', 'Minute', 8, 'Hours', 'Hour'<br></p>
 <table>
 <thead>
@@ -986,8 +986,8 @@ Allowed values are 1, 'Once', 'Time', 2, 'Seconds', 'Second', 4, 'Minutes', 'Min
 </tbody>
 </table>
 <h5 id="starttime">-StartTime</h5>
-<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.
-Example: '010000' for 01:00:00 AM.
+<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.<br />
+Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br></p>
 <table>
 <thead>
@@ -1016,8 +1016,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="endtime">-EndTime</h5>
-<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.
-Example: '010000' for 01:00:00 AM.
+<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.<br />
+Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br></p>
 <table>
 <thead>
@@ -1046,8 +1046,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>
@@ -1076,7 +1076,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.
+<p>The force parameter will ignore some errors in the parameters and assume defaults.<br />
 It will also remove the any present schedules with the same name for the specific job.<br></p>
 <table>
 <thead>

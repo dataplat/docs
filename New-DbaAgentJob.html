@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>New-DbaAgentJob creates a new job</p>
 <h2 id="description">Description</h2>
-<p>New-DbaAgentJob makes is possible to create a job in the SQL Server Agent.
+<p>New-DbaAgentJob makes is possible to create a job in the SQL Server Agent.<br />
 It returns an array of the job(s) created</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaAgentJob
@@ -548,7 +548,7 @@ It returns an array of the job(s) created</p>
 <p>Creates a job with the name &quot;Job One&quot; on multiple servers using the pipe line<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater. <br></p>
 <table>
 <thead>
 <tr>
@@ -576,7 +576,7 @@ It returns an array of the job(s) created</p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job. The name must be unique and cannot contain the percent (%) character.<br></p>
+<p>The name of the job. The name must be unique and cannot contain the percent (%) character. <br></p>
 <table>
 <thead>
 <tr>
@@ -605,8 +605,8 @@ It returns an array of the job(s) created</p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -831,8 +831,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="eventloglevel">-EventLogLevel</h5>
-<p>Specifies when to place an entry in the Microsoft Windows application log for this job.
-Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;
+<p>Specifies when to place an entry in the Microsoft Windows application log for this job.<br />
+Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;<br />
 The text value can either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
 <table>
 <thead>
@@ -865,8 +865,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="emaillevel">-EmailLevel</h5>
-<p>Specifies when to send an e-mail upon the completion of this job.
-Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;
+<p>Specifies when to send an e-mail upon the completion of this job.<br />
+Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;<br />
 The text value can either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
 <table>
 <thead>
@@ -899,8 +899,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="pagelevel">-PageLevel</h5>
-<p>Specifies when to send a page upon the completion of this job.
-Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;
+<p>Specifies when to send a page upon the completion of this job.<br />
+Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;<br />
 The text value can either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
 <table>
 <thead>
@@ -1017,8 +1017,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="deletelevel">-DeleteLevel</h5>
-<p>Specifies when to delete the job.
-Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;
+<p>Specifies when to delete the job.<br />
+Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;<br />
 The text value can either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
 <table>
 <thead>
@@ -1079,8 +1079,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

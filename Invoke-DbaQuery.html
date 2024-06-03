@@ -488,13 +488,14 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>A command to run explicit T-SQL commands or files.</p>
 <h2 id="description">Description</h2>
-<p>This function is a wrapper command around Invoke-DbaAsync, which in turn is based on Invoke-SqlCmd2.
+<p>This function is a wrapper command around Invoke-DbaAsync, which in turn is based on Invoke-SqlCmd2.<br />
 It was designed to be more convenient to use in a pipeline and to behave in a way consistent with the rest of our functions.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaQuery
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;String&gt;] -Query &lt;String&gt;
+    [-Database &lt;String&gt;]
+    -Query &lt;String&gt;
     [-QueryTimeout &lt;Int32&gt;]
     [-As &lt;String&gt;]
     [-SqlParameter &lt;PSObject[]&gt;]
@@ -511,7 +512,8 @@ Invoke-DbaQuery
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String&gt;]
-    [-QueryTimeout &lt;Int32&gt;] -SqlObject &lt;SqlSmoObject[]&gt;
+    [-QueryTimeout &lt;Int32&gt;]
+    -SqlObject &lt;SqlSmoObject[]&gt;
     [-As &lt;String&gt;]
     [-SqlParameter &lt;PSObject[]&gt;]
     [-CommandType {Text | StoredProcedure | TableDirect}]
@@ -527,7 +529,8 @@ Invoke-DbaQuery
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;String&gt;]
-    [-QueryTimeout &lt;Int32&gt;] -File &lt;Object[]&gt;
+    [-QueryTimeout &lt;Int32&gt;]
+    -File &lt;Object[]&gt;
     [-As &lt;String&gt;]
     [-SqlParameter &lt;PSObject[]&gt;]
     [-CommandType {Text | StoredProcedure | TableDirect}]
@@ -612,9 +615,9 @@ PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query 'SELECT * FROM bar WHERE 
 <p>Creates an input parameter using Always Encrypted<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="query">-Query</h5>
-<p>Specifies one or more queries to be run. The queries can be Transact-SQL, XQuery statements, or sqlcmd commands. Multiple queries in a single batch may be separated by a semicolon or a GO
-Escape any double quotation marks included in the string.
-Consider using bracketed identifiers such as [MyTable] instead of quoted identifiers such as &quot;MyTable&quot;.<br></p>
+<p>Specifies one or more queries to be run. The queries can be Transact-SQL, XQuery statements, or sqlcmd commands. Multiple queries in a single batch may be separated by a semicolon or a GO<br />
+Escape any double quotation marks included in the string.<br />
+Consider using bracketed identifiers such as [MyTable] instead of quoted identifiers such as &quot;MyTable&quot;. <br></p>
 <table>
 <thead>
 <tr>
@@ -642,7 +645,7 @@ Consider using bracketed identifiers such as [MyTable] instead of quoted identif
 </tbody>
 </table>
 <h5 id="file">-File</h5>
-<p>Specifies the path to one or several files to be used as the query input.<br></p>
+<p>Specifies the path to one or several files to be used as the query input. <br></p>
 <table>
 <thead>
 <tr>
@@ -670,7 +673,7 @@ Consider using bracketed identifiers such as [MyTable] instead of quoted identif
 </tbody>
 </table>
 <h5 id="sqlobject">-SqlObject</h5>
-<p>Specify one or more SQL objects. Those will be converted to script and their scripts run on the target system(s).<br></p>
+<p>Specify one or more SQL objects. Those will be converted to script and their scripts run on the target system(s). <br></p>
 <table>
 <thead>
 <tr>
@@ -727,7 +730,7 @@ Consider using bracketed identifiers such as [MyTable] instead of quoted identif
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Credential object used to connect to the SQL Server Instance as a different user. This can be a Windows or SQL Server account. Windows users are determined by the existence of a backslash, so if you
+<p>Credential object used to connect to the SQL Server Instance as a different user. This can be a Windows or SQL Server account. Windows users are determined by the existence of a backslash, so if you<br />
 are intending to use an alternative Windows connection instead of a SQL login, ensure it contains a backslash.<br></p>
 <table>
 <thead>
@@ -812,7 +815,7 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="as">-As</h5>
-<p>Specifies output type. Valid options for this parameter are 'DataSet', 'DataTable', 'DataRow', 'PSObject', 'PSObjectArray', and 'SingleValue'.
+<p>Specifies output type. Valid options for this parameter are 'DataSet', 'DataTable', 'DataRow', 'PSObject', 'PSObjectArray', and 'SingleValue'.<br />
 PSObject and PSObjectArray output introduces overhead but adds flexibility for working with results: <a href="https://forums.powershell.org/t/dealing-with-dbnull/2328/2">https://forums.powershell.org/t/dealing-with-dbnull/2328/2</a><br></p>
 <table>
 <thead>
@@ -873,7 +876,7 @@ PSObject and PSObjectArray output introduces overhead but adds flexibility for w
 </tbody>
 </table>
 <h5 id="commandtype">-CommandType</h5>
-<p>Specifies the type of command represented by the query string. Valid options for this parameter are 'Text', 'TableDirect', and 'StoredProcedure'.
+<p>Specifies the type of command represented by the query string. Valid options for this parameter are 'Text', 'TableDirect', and 'StoredProcedure'.<br />
 Default is 'Text'. Further information: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlcommand.commandtype">https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlcommand.commandtype</a><br></p>
 <table>
 <thead>
@@ -1042,8 +1045,8 @@ Default is 'Text'. Further information: <a href="https://docs.microsoft.com/en-u
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Pipeline-compatible wrapper for the relog command which is available on modern Windows platforms.</p>
 <h2 id="description">Description</h2>
 <p>Pipeline-compatible wrapper for the relog command. Relog is useful for converting Windows Perfmon.</p>
-<p>Extracts performance counters from performance counter logs into other formats,
+<p>Extracts performance counters from performance counter logs into other formats,<br />
 such as text-TSV (for tab-delimited text), text-CSV (for comma-delimited text), binary-BIN, or SQL.</p>
 <p><code>relog &quot;C:\PerfLogs\Admin\System Correlation\WORKSTATIONX_20180112-000001\DataCollector01.blg&quot; -o C:\temp\foo.csv -f tsv</code></p>
 <p>If you find any input hangs, please send us the output so we can accommodate for it then use -Raw for an immediate solution.</p>
@@ -623,8 +623,8 @@ avoid naming conflicts with piped input.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The output format. Defaults to tsv. Options include tsv, csv, bin, and sql.
-For a SQL database, the output file specifies the DSN!counter_log. You can specify the database location by using the ODBC manager to configure the DSN (Database System Name).
+<p>The output format. Defaults to tsv. Options include tsv, csv, bin, and sql.<br />
+For a SQL database, the output file specifies the DSN!counter_log. You can specify the database location by using the ODBC manager to configure the DSN (Database System Name).<br />
 For more information, read here: <a href="https://technet.microsoft.com/en-us/library/bb490958.aspx">https://technet.microsoft.com/en-us/library/bb490958.aspx</a><br></p>
 <table>
 <thead>
@@ -741,7 +741,7 @@ For more information, read here: <a href="https://technet.microsoft.com/en-us/li
 </tbody>
 </table>
 <h5 id="performancecounterpath">-PerformanceCounterPath</h5>
-<p>Specifies the pathname of the text file that lists the performance counters to be included in a relog file. Use this option to list counter paths in an input file, one per line. Default setting is
+<p>Specifies the pathname of the text file that lists the performance counters to be included in a relog file. Use this option to list counter paths in an input file, one per line. Default setting is<br />
 all counters in the original log file are relogged.<br></p>
 <table>
 <thead>
@@ -1022,8 +1022,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

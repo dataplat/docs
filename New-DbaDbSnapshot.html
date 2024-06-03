@@ -559,8 +559,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -673,7 +673,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The specific snapshot name you want to create. Works only if you target a single database. If you need to create multiple snapshot,
+<p>The specific snapshot name you want to create. Works only if you target a single database. If you need to create multiple snapshot,<br />
 you must use the NameSuffix parameter<br></p>
 <table>
 <thead>
@@ -702,7 +702,7 @@ you must use the NameSuffix parameter<br></p>
 </tbody>
 </table>
 <h5 id="namesuffix">-NameSuffix</h5>
-<p>When you pass a simple string, it'll be appended to use it to build the name of the snapshot. By default snapshots are created with yyyyMMdd_HHmmss suffix
+<p>When you pass a simple string, it'll be appended to use it to build the name of the snapshot. By default snapshots are created with yyyyMMdd_HHmmss suffix<br />
 You can also pass a standard placeholder, in which case it'll be interpolated (e.g. '{0}' gets replaced with the database name)<br></p>
 <table>
 <thead>
@@ -759,9 +759,9 @@ You can also pass a standard placeholder, in which case it'll be interpolated (e
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Databases with Filestream FG can be snapshotted, but the Filestream FG is marked offline
-in the snapshot. To create a &quot;partial&quot; snapshot, you need to pass -Force explicitly
-NB: You can't then restore the Database from the newly-created snapshot.
+<p>Databases with Filestream FG can be snapshotted, but the Filestream FG is marked offline<br />
+in the snapshot. To create a &quot;partial&quot; snapshot, you need to pass -Force explicitly<br />
+NB: You can't then restore the Database from the newly-created snapshot.<br />
 For details, check <a href="https://msdn.microsoft.com/en-us/library/bb895334.aspx">https://msdn.microsoft.com/en-us/library/bb895334.aspx</a><br></p>
 <table>
 <thead>
@@ -818,8 +818,8 @@ For details, check <a href="https://msdn.microsoft.com/en-us/library/bb895334.as
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

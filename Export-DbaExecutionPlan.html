@@ -488,10 +488,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Exports execution plans to disk.</p>
 <h2 id="description">Description</h2>
 <p>Exports execution plans to disk. Can pipe from Get-DbaExecutionPlan</p>
-<p>Thanks to
-<a href="https://www.simple-talk.com/sql/t-sql-programming/dmvs-for-query-plan-metadata/">https://www.simple-talk.com/sql/t-sql-programming/dmvs-for-query-plan-metadata/</a>
-and
-<a href="http://www.scarydba.com/2017/02/13/export-plans-cache-sqlplan-file/">http://www.scarydba.com/2017/02/13/export-plans-cache-sqlplan-file/</a>
+<p>Thanks to<br />
+<a href="https://www.simple-talk.com/sql/t-sql-programming/dmvs-for-query-plan-metadata/">https://www.simple-talk.com/sql/t-sql-programming/dmvs-for-query-plan-metadata/</a><br />
+and<br />
+<a href="http://www.scarydba.com/2017/02/13/export-plans-cache-sqlplan-file/">http://www.scarydba.com/2017/02/13/export-plans-cache-sqlplan-file/</a><br />
 for the idea and query.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaExecutionPlan
@@ -517,7 +517,8 @@ Export-DbaExecutionPlan -SqlInstance &lt;DbaInstanceParameter[]&gt;
 Export-DbaExecutionPlan
     [-Database &lt;Object[]&gt;]
     [-ExcludeDatabase &lt;Object[]&gt;]
-    [-Path &lt;String&gt;] -InputObject &lt;Object[]&gt;
+    [-Path &lt;String&gt;]
+    -InputObject &lt;Object[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -545,7 +546,7 @@ Export-DbaExecutionPlan
 <p>Gets all execution plans for sqlserver2014a. Then shows what would happen if the results where piped to Export-DbaExecutionPlan<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -573,7 +574,7 @@ Export-DbaExecutionPlan
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter<br></p>
+<p>Internal parameter <br></p>
 <table>
 <thead>
 <tr>
@@ -602,8 +603,8 @@ Export-DbaExecutionPlan
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -772,8 +773,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

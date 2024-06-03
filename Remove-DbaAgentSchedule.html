@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Removes job schedules.</p>
 <h2 id="description">Description</h2>
 <p>Removes the schedules that have passed through the pipeline.</p>
-<p>If not used with a pipeline, Get-DbaAgentSchedule will be executed with the parameters provided
+<p>If not used with a pipeline, Get-DbaAgentSchedule will be executed with the parameters provided<br />
 and the returned schedules will be removed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgentSchedule
@@ -562,8 +562,8 @@ and the returned schedules will be removed.</p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -592,7 +592,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schedule">-Schedule</h5>
-<p>The name of the job schedule.
+<p>The name of the job schedule.<br />
 Please note that there can be several schedules with the same name. These differ then only in the Id or the ScheduleUid.<br></p>
 <table>
 <thead>
@@ -705,8 +705,8 @@ Please note that there can be several schedules with the same name. These differ
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

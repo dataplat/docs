@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Drop orphan users with no existing login to map</p>
 <h2 id="description">Description</h2>
 <p>Allows the removal of orphan users from one or more databases</p>
-<p>Orphaned users in SQL Server occur when a database user is based on a login in the master database, but the login no longer exists in master.
+<p>Orphaned users in SQL Server occur when a database user is based on a login in the master database, but the login no longer exists in master.<br />
 This can occur when the login is deleted, or when the database is moved to another server where the login does not exist.</p>
 <p>If user is the owner of the schema with the same name and if if the schema does not have any underlying objects the schema will be dropped.</p>
 <p>If user owns more than one schema, the owner of the schemas that does not have the same name as the user, will be changed to 'dbo'. If schemas have underlying objects, you must specify the -Force parameter so the user can be dropped.</p>
@@ -536,7 +536,7 @@ This can occur when the login is deleted, or when the database is moved to anoth
 <p>Removes user OrphanUser from all databases even if they have a matching Login. Any schema that the user owns will change ownership to dbo.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -565,8 +565,8 @@ This can occur when the login is deleted, or when the database is moved to anoth
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -679,8 +679,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled:
-If exists any schema which owner is the User, this will force the change of the owner to 'dbo'.
+<p>If this switch is enabled:<br />
+If exists any schema which owner is the User, this will force the change of the owner to 'dbo'.<br />
 If a login of the same name exists the drop will not be performed unless you specify this parameter.<br></p>
 <table>
 <thead>
@@ -709,8 +709,8 @@ If a login of the same name exists the drop will not be performed unless you spe
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -488,9 +488,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Execution of Database Console Command DBCC UPDATEUSAGE</p>
 <h2 id="description">Description</h2>
 <p>Executes the command DBCC UPDATEUSAGE and returns results</p>
-<p>Reports and corrects pages and row count inaccuracies in the catalog views.
+<p>Reports and corrects pages and row count inaccuracies in the catalog views.<br />
 These inaccuracies may cause incorrect space usage reports returned by the sp_spaceused system stored procedure.</p>
-<p>Read more:
+<p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-updateusage-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-updateusage-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbDbccUpdateUsage
@@ -533,7 +533,7 @@ PS C:\&gt; Invoke-DbaDbDbccUpdateUsage -SqlInstance SqlServer2017 -SqlCredential
 <p>Displays what will happen if command DBCC UPDATEUSAGE is called against all databses on Sql1 and Sql2/sqlexpress<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -562,8 +562,8 @@ PS C:\&gt; Invoke-DbaDbDbccUpdateUsage -SqlInstance SqlServer2017 -SqlCredential
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -592,8 +592,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. If unspecified, all databases will be processed.
-The Name or Id of a database can be specified
+<p>The database(s) to process. If unspecified, all databases will be processed.<br />
+The Name or Id of a database can be specified<br />
 Database names must comply with the rules for identifiers.<br></p>
 <table>
 <thead>
@@ -622,9 +622,9 @@ Database names must comply with the rules for identifiers.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>The table or indexed view to process.
-Table and view names must comply with the rules for identifiers
-The Id of Table or View can be specified
+<p>The table or indexed view to process.<br />
+Table and view names must comply with the rules for identifiers<br />
+The Id of Table or View can be specified<br />
 If not specified, all tables or indexed views will be processed<br></p>
 <table>
 <thead>
@@ -653,8 +653,8 @@ If not specified, all tables or indexed views will be processed<br></p>
 </tbody>
 </table>
 <h5 id="index">-Index</h5>
-<p>The Index to process.
-The Id of Index can be specified
+<p>The Index to process.<br />
+The Id of Index can be specified<br />
 If not specified, all indexes for the specified table or view will be processed.<br></p>
 <table>
 <thead>
@@ -739,8 +739,8 @@ If not specified, all indexes for the specified table or view will be processed.
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

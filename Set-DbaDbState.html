@@ -551,7 +551,8 @@ Set-DbaDbState
     [-RestrictedUser]
     [-MultiUser]
     [-Force]
-    [-EnableException] -InputObject &lt;PSObject[]&gt;
+    [-EnableException]
+    -InputObject &lt;PSObject[]&gt;
     [-WhatIf]
     [-Confirm]
     [&lt;CommonParameters&gt;]
@@ -586,7 +587,7 @@ Set-DbaDbState
 <p>Gets the databases from Get-DbaDatabase, and sets them as SINGLE_USER, dropping all other connections (and rolling back open transactions)<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances<br></p>
+<p>The target SQL Server instance or instances <br></p>
 <table>
 <thead>
 <tr>
@@ -614,7 +615,7 @@ Set-DbaDbState
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts piped database objects<br></p>
+<p>Accepts piped database objects <br></p>
 <table>
 <thead>
 <tr>
@@ -643,8 +644,8 @@ Set-DbaDbState
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -1009,8 +1010,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>For most options, this translates to instantly rolling back any open transactions
-that may be stopping the process.
+<p>For most options, this translates to instantly rolling back any open transactions<br />
+that may be stopping the process.<br />
 For -Detached it is required to break mirroring and Availability Groups<br></p>
 <table>
 <thead>
@@ -1039,8 +1040,8 @@ For -Detached it is required to break mirroring and Availability Groups<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

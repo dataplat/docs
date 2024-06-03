@@ -491,7 +491,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaXESession
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -Session &lt;Object[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    -Session &lt;Object[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -499,7 +500,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 
 Remove-DbaXESession
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;] -AllSessions
+    [-SqlCredential &lt;PSCredential&gt;]
+    -AllSessions
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -533,7 +535,7 @@ Remove-DbaXESession -InputObject &lt;Session[]&gt;
 <p>Removes the sessions returned from the Get-DbaXESession function.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2008 or higher.<br></p>
+<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2008 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -561,7 +563,7 @@ Remove-DbaXESession -InputObject &lt;Session[]&gt;
 </tbody>
 </table>
 <h5 id="session">-Session</h5>
-<p>Specifies a list of Extended Events sessions to remove.<br></p>
+<p>Specifies a list of Extended Events sessions to remove. <br></p>
 <table>
 <thead>
 <tr>
@@ -589,7 +591,7 @@ Remove-DbaXESession -InputObject &lt;Session[]&gt;
 </tbody>
 </table>
 <h5 id="allsessions">-AllSessions</h5>
-<p>If this switch is enabled, all Extended Events sessions will be removed except the packaged sessions AlwaysOn_health, system_health, telemetry_xevents.<br></p>
+<p>If this switch is enabled, all Extended Events sessions will be removed except the packaged sessions AlwaysOn_health, system_health, telemetry_xevents. <br></p>
 <table>
 <thead>
 <tr>
@@ -617,7 +619,7 @@ Remove-DbaXESession -InputObject &lt;Session[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts a collection of XEsession objects as output by Get-DbaXESession.<br></p>
+<p>Accepts a collection of XEsession objects as output by Get-DbaXESession. <br></p>
 <table>
 <thead>
 <tr>
@@ -646,8 +648,8 @@ Remove-DbaXESession -InputObject &lt;Session[]&gt;
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -676,8 +678,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -491,9 +491,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>By default, a key with a length of 1024 and a friendly name of the machines FQDN is generated.</p>
 <p>This command was originally intended to help automate the process so that SSL certificates can be available for enforcing encryption on connections.</p>
 <p>It makes a lot of assumptions - namely, that your account is allowed to auto-enroll and that you have permission to do everything it needs to do ;)</p>
-<p>References:
-<a href="https://www.itprotoday.com/sql-server/7-steps-ssl-encryption">https://www.itprotoday.com/sql-server/7-steps-ssl-encryption</a>
-<a href="https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/">https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/</a>
+<p>References:<br />
+<a href="https://www.itprotoday.com/sql-server/7-steps-ssl-encryption">https://www.itprotoday.com/sql-server/7-steps-ssl-encryption</a><br />
+<a href="https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/">https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/</a><br />
 <a href="https://blogs.msdn.microsoft.com/sqlserverfaq/2016/09/26/creating-and-registering-ssl-certificates/">https://blogs.msdn.microsoft.com/sqlserverfaq/2016/09/26/creating-and-registering-ssl-certificates/</a></p>
 <p>The certificate is generated using AD's webserver SSL template on the client machine and pushed to the remote machine.</p>
 <h2 id="syntax">Syntax</h2>
@@ -859,18 +859,18 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="flag">-Flag</h5>
-<p>Defines where and how to import the private key of an X.509 certificate.
-Defaults to: Exportable, PersistKeySet
-EphemeralKeySet
-The key associated with a PFX file is created in memory and not persisted on disk when importing a certificate.
-Exportable
-Imported keys are marked as exportable.
-NonExportable
-Expliictly mark keys as nonexportable.
-PersistKeySet
-The key associated with a PFX file is persisted when importing a certificate.
-UserProtected
-Notify the user through a dialog box or other method that the key is accessed. The Cryptographic Service Provider (CSP) in use defines the precise behavior. NOTE: This can only be used when you
+<p>Defines where and how to import the private key of an X.509 certificate.<br />
+Defaults to: Exportable, PersistKeySet<br />
+EphemeralKeySet<br />
+The key associated with a PFX file is created in memory and not persisted on disk when importing a certificate.<br />
+Exportable<br />
+Imported keys are marked as exportable.<br />
+NonExportable<br />
+Expliictly mark keys as nonexportable.<br />
+PersistKeySet<br />
+The key associated with a PFX file is persisted when importing a certificate.<br />
+UserProtected<br />
+Notify the user through a dialog box or other method that the key is accessed. The Cryptographic Service Provider (CSP) in use defines the precise behavior. NOTE: This can only be used when you<br />
 add a certificate to localhost, as it causes a prompt to appear.<br></p>
 <table>
 <thead>
@@ -959,8 +959,8 @@ add a certificate to localhost, as it causes a prompt to appear.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

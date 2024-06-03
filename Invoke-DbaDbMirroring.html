@@ -574,7 +574,7 @@ PS C:\&gt; Get-DbaDatabase -SqlInstance sql2017a -Database pubs | Invoke-DbaDbMi
 <p>Mirrors pubs on sql2017a to sql2017b and uses the last full and logs from sql2017a to seed. Doesn't prompt for confirmation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="mirror">-Mirror</h5>
-<p>SQL Server name or SMO object representing the mirror SQL Server.<br></p>
+<p>SQL Server name or SMO object representing the mirror SQL Server. <br></p>
 <table>
 <thead>
 <tr>
@@ -631,8 +631,8 @@ PS C:\&gt; Get-DbaDatabase -SqlInstance sql2017a -Database pubs | Invoke-DbaDbMi
 </tbody>
 </table>
 <h5 id="primarysqlcredential">-PrimarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -661,8 +661,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="mirrorsqlcredential">-MirrorSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -719,8 +719,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="witnesssqlcredential">-WitnessSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -777,9 +777,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="endpointencryption">-EndpointEncryption</h5>
-<p>Used to specify the state of encryption on the endpoint. Defaults to required.
-Disabled
-Required
+<p>Used to specify the state of encryption on the endpoint. Defaults to required.<br />
+Disabled<br />
+Required<br />
 Supported<br></p>
 <table>
 <thead>
@@ -812,12 +812,12 @@ Supported<br></p>
 </tbody>
 </table>
 <h5 id="encryptionalgorithm">-EncryptionAlgorithm</h5>
-<p>Specifies an encryption algorithm used on an endpoint. Defaults to Aes.
-Options are:
-AesRC4
-Aes
-None
-RC4
+<p>Specifies an encryption algorithm used on an endpoint. Defaults to Aes.<br />
+Options are:<br />
+AesRC4<br />
+Aes<br />
+None<br />
+RC4<br />
 RC4Aes<br></p>
 <table>
 <thead>
@@ -850,8 +850,8 @@ RC4Aes<br></p>
 </tbody>
 </table>
 <h5 id="sharedpath">-SharedPath</h5>
-<p>The network share where the backups will be backed up and restored from.
-Each SQL Server service account must have access to this share.
+<p>The network share where the backups will be backed up and restored from.<br />
+Each SQL Server service account must have access to this share.<br />
 NOTE: If a backup / restore is performed, the backups will be left in tact on the network share.<br></p>
 <table>
 <thead>
@@ -964,8 +964,8 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

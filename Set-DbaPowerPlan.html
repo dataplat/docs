@@ -489,8 +489,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Sets the SQL Server OS's Power Plan. Defaults to High Performance which is best practice.</p>
 <p>If your organization uses a different power plan that is considered best practice, specify -PowerPlan.</p>
-<p>References:
-<a href="https://support.microsoft.com/en-us/kb/2207548">https://support.microsoft.com/en-us/kb/2207548</a>
+<p>References:<br />
+<a href="https://support.microsoft.com/en-us/kb/2207548">https://support.microsoft.com/en-us/kb/2207548</a><br />
 <a href="http://www.sqlskills.com/blogs/glenn/windows-power-plan-effects-on-newer-intel-processors/">http://www.sqlskills.com/blogs/glenn/windows-power-plan-effects-on-newer-intel-processors/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaPowerPlan
@@ -529,7 +529,7 @@ PS C:\&gt; Set-DbaPowerPlan -ComputerName sql2017 -Credential $cred
 <p>Uses the Power Plan of oldserver as best practice and sets the Power Plan of newserver1 and newserver2 accordingly.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The server(s) to set the Power Plan on.<br></p>
+<p>The server(s) to set the Power Plan on. <br></p>
 <table>
 <thead>
 <tr>
@@ -586,7 +586,7 @@ PS C:\&gt; Set-DbaPowerPlan -ComputerName sql2017 -Credential $cred
 </tbody>
 </table>
 <h5 id="powerplan">-PowerPlan</h5>
-<p>If your organization uses a different Power Plan that's considered best practice, specify it here.
+<p>If your organization uses a different Power Plan that's considered best practice, specify it here.<br />
 Use Get-DbaPowerPlan -List to get all available Power Plans on a computer.<br></p>
 <table>
 <thead>
@@ -615,8 +615,8 @@ Use Get-DbaPowerPlan -List to get all available Power Plans on a computer.<br></
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

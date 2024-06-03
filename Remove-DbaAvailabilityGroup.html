@@ -488,11 +488,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Removes availability groups on a SQL Server instance.</p>
 <h2 id="description">Description</h2>
 <p>Removes availability groups on a SQL Server instance.</p>
-<p>If possible, remove the availability group only while connected to the server instance that hosts the primary replica.
-When the availability group is dropped from the primary replica, changes are allowed in the former primary databases (without high availability protection).
+<p>If possible, remove the availability group only while connected to the server instance that hosts the primary replica.<br />
+When the availability group is dropped from the primary replica, changes are allowed in the former primary databases (without high availability protection).<br />
 Deleting an availability group from a secondary replica leaves the primary replica in the RESTORING state, and changes are not allowed on the databases.</p>
-<p>Avoid dropping an availability group when the Windows Server Failover Clustering (WSFC) cluster has no quorum.
-If you must drop an availability group while the cluster lacks quorum, the metadata availability group that is stored in the cluster is not removed.
+<p>Avoid dropping an availability group when the Windows Server Failover Clustering (WSFC) cluster has no quorum.<br />
+If you must drop an availability group while the cluster lacks quorum, the metadata availability group that is stored in the cluster is not removed.<br />
 After the cluster regains quorum, you will need to drop the availability group again to remove it from the WSFC cluster.</p>
 <p>For more information: <a href="https://docs.microsoft.com/en-us/sql/t-sql/statements/drop-availability-group-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/statements/drop-availability-group-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -553,8 +553,8 @@ After the cluster regains quorum, you will need to drop the availability group a
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -667,8 +667,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

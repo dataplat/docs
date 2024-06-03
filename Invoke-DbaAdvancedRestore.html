@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaAdvancedRestore">Invoke-DbaAdvancedRestore</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Allows the restore of modified BackupHistory Objects
+<p>Allows the restore of modified BackupHistory Objects<br />
 For 90% of users Restore-DbaDatabase should be your point of access to this function. The other 10% use it at their own risk</p>
 <h2 id="description">Description</h2>
-<p>This is the final piece in the Restore-DbaDatabase Stack. Usually a BackupHistory object will arrive here from <code>Restore-DbaDatabase</code> via the following pipeline:
+<p>This is the final piece in the Restore-DbaDatabase Stack. Usually a BackupHistory object will arrive here from <code>Restore-DbaDatabase</code> via the following pipeline:<br />
 <code>Get-DbaBackupInformation  | Select-DbaBackupInformation | Format-DbaBackupInformation | Test-DbaBackupInformation | Invoke-DbaAdvancedRestore</code></p>
 <p>We have exposed these functions publicly to allow advanced users to perform operations that we don't support, or won't add as they would make things too complex for the majority of our users</p>
 <p>For example if you wanted to do some very complex redirection during a migration, then doing the rewrite of destinations may be better done with your own custom scripts rather than via <code>Format-DbaBackupInformation</code></p>
@@ -537,8 +537,8 @@ PS C:\&gt; $BackupHistory | Invoke-DbaAdvancedRestore -SqlInstance MyInstance
 By reusing the BackupHistory object there is no need to rescan all the backup files again<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="backuphistory">-BackupHistory</h5>
-<p>The BackupHistory object to be restored.
-Can be passed in on the pipeline<br></p>
+<p>The BackupHistory object to be restored.<br />
+Can be passed in on the pipeline <br></p>
 <table>
 <thead>
 <tr>
@@ -595,8 +595,8 @@ Can be passed in on the pipeline<br></p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -681,7 +681,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="restoretime">-RestoreTime</h5>
-<p>Point in Time to which the database should be restored.
+<p>Point in Time to which the database should be restored.<br />
 This should be the same value or earlier, as used in the previous pipeline stages<br></p>
 <table>
 <thead>
@@ -794,8 +794,8 @@ This should be the same value or earlier, as used in the previous pipeline stage
 </tbody>
 </table>
 <h5 id="blocksize">-BlockSize</h5>
-<p>Specifies the block size to use. Must be one of 0.5kb,1kb,2kb,4kb,8kb,16kb,32kb or 64kb
-Can be specified in bytes
+<p>Specifies the block size to use. Must be one of 0.5kb,1kb,2kb,4kb,8kb,16kb,32kb or 64kb<br />
+Can be specified in bytes<br />
 Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
 <table>
 <thead>
@@ -824,7 +824,7 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="buffercount">-BufferCount</h5>
-<p>Number of I/O buffers to use to perform the operation.
+<p>Number of I/O buffers to use to perform the operation.<br />
 Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
 <table>
 <thead>
@@ -853,7 +853,7 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="continue">-Continue</h5>
-<p>Indicates that the restore is continuing a restore, so target database must be in Recovering or Standby states
+<p>Indicates that the restore is continuing a restore, so target database must be in Recovering or Standby states<br />
 When specified, WithReplace will be set to true<br></p>
 <table>
 <thead>
@@ -1134,7 +1134,7 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>Replaces user friendly yellow warnings with bloody red exceptions of doom!
+<p>Replaces user friendly yellow warnings with bloody red exceptions of doom!<br />
 Use this if you want the function to throw terminating errors you want to catch.<br></p>
 <table>
 <thead>

@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Returns SQL Server Build &quot;compliance&quot; level on a build.</p>
 <h2 id="description">Description</h2>
-<p>Returns info about the specific build of a SQL instance, including the SP, the CU and the reference KB, End Of Support, wherever possible. It adds a Compliance property as true/false, and adds details about the &quot;targeted compliance&quot;.
+<p>Returns info about the specific build of a SQL instance, including the SP, the CU and the reference KB, End Of Support, wherever possible. It adds a Compliance property as true/false, and adds details about the &quot;targeted compliance&quot;.<br />
 The build data used can be found here: <a href="https://dbatools.io/builds">https://dbatools.io/builds</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaBuild
@@ -603,7 +603,7 @@ Output columns CUTarget and SPTarget are not relevant (empty), only the BuildTar
 </tbody>
 </table>
 <h5 id="maxbehind">-MaxBehind</h5>
-<p>Instead of using a specific MinimumBuild here you can pass &quot;how many service packs and cu back&quot; is the targeted compliance level. You can use xxSP or xxCU or both, where xx is a number. See the
+<p>Instead of using a specific MinimumBuild here you can pass &quot;how many service packs and cu back&quot; is the targeted compliance level. You can use xxSP or xxCU or both, where xx is a number. See the<br />
 Examples for more information.<br></p>
 <table>
 <thead>
@@ -688,8 +688,8 @@ Examples for more information.<br></p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -774,8 +774,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

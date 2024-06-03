@@ -492,8 +492,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>It is robust because it initializes properties that do not cause enumeration by default. It also supports both Windows and SQL Server authentication methods, and detects which to use based upon the provided credentials.</p>
 <p>By default, this command also sets the connection's ApplicationName property  to &quot;dbatools PowerShell module - dbatools.io - custom connection&quot;. If you're doing anything that requires profiling, you can look for this client name.</p>
 <p>Alternatively, you can pass in whichever client name you'd like using the -ClientName parameter. There are a ton of other parameters for you to explore as well.</p>
-<p>See <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx</a>
-and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx</a>,
+<p>See <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx</a><br />
+and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx</a>,<br />
 and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx</a></p>
 <p>To execute SQL commands, you can use $server.ConnectionContext.ExecuteReader($sql) or $server.Databases['master'].ExecuteNonQuery($sql)</p>
 <h2 id="syntax">Syntax</h2>
@@ -640,7 +640,7 @@ Opens a grid view to let the user select processes to be stopped.<br>
 Closes the connection.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
+<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -669,7 +669,7 @@ Closes the connection.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Credential object used to connect to the SQL Server Instance as a different user. This can be a Windows or SQL Server account. Windows users are determined by the existence of a backslash, so if you
+<p>Credential object used to connect to the SQL Server Instance as a different user. This can be a Windows or SQL Server account. Windows users are determined by the existence of a backslash, so if you<br />
 are intending to use an alternative Windows connection instead of a SQL login, ensure it contains a backslash.<br></p>
 <table>
 <thead>
@@ -726,7 +726,7 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="applicationintent">-ApplicationIntent</h5>
-<p>Declares the application workload type when connecting to a server.
+<p>Declares the application workload type when connecting to a server.<br />
 Valid values are &quot;ReadOnly&quot; and &quot;ReadWrite&quot;.<br></p>
 <table>
 <thead>
@@ -815,7 +815,7 @@ Valid values are &quot;ReadOnly&quot; and &quot;ReadWrite&quot;.<br></p>
 </tbody>
 </table>
 <h5 id="clientname">-ClientName</h5>
-<p>By default, this command sets the client's ApplicationName property to &quot;dbatools PowerShell module - dbatools.io&quot;. If you're doing anything that requires profiling, you can look for this client name.
+<p>By default, this command sets the client's ApplicationName property to &quot;dbatools PowerShell module - dbatools.io&quot;. If you're doing anything that requires profiling, you can look for this client name.<br />
 Using -ClientName allows you to set your own custom client application name.<br></p>
 <table>
 <thead>
@@ -844,8 +844,8 @@ Using -ClientName allows you to set your own custom client application name.<br>
 </tbody>
 </table>
 <h5 id="connecttimeout">-ConnectTimeout</h5>
-<p>The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error.
-Valid values are integers between 0 and 2147483647.
+<p>The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error.<br />
+Valid values are integers between 0 and 2147483647.<br />
 When opening a connection to a Azure SQL Database, set the connection timeout to 30 seconds.<br></p>
 <table>
 <thead>
@@ -874,9 +874,9 @@ When opening a connection to a Azure SQL Database, set the connection timeout to
 </tbody>
 </table>
 <h5 id="encryptconnection">-EncryptConnection</h5>
-<p>If this switch is enabled, SQL Server uses SSL encryption for all data sent between the client and server.
-Beginning in .NET Framework 4.5, when TrustServerCertificate is false and EncryptConnection is true, the server name (or IP address) in a SQL Server SSL certificate must exactly match the server name
-(or IP address) specified in the connection string. Otherwise, the connection attempt will fail. For information about support for certificates whose subject starts with a wildcard character (*), see
+<p>If this switch is enabled, SQL Server uses SSL encryption for all data sent between the client and server.<br />
+Beginning in .NET Framework 4.5, when TrustServerCertificate is false and EncryptConnection is true, the server name (or IP address) in a SQL Server SSL certificate must exactly match the server name<br />
+(or IP address) specified in the connection string. Otherwise, the connection attempt will fail. For information about support for certificates whose subject starts with a wildcard character (*), see<br />
 Accepted wildcards used by server certificates for server authentication. <a href="https://support.microsoft.com/en-us/help/258858/accepted-wildcards-used-by-server-certificates-for-server-authenticati">https://support.microsoft.com/en-us/help/258858/accepted-wildcards-used-by-server-certificates-for-server-authenticati</a><br></p>
 <table>
 <thead>
@@ -905,12 +905,12 @@ Accepted wildcards used by server certificates for server authentication. <a hre
 </tbody>
 </table>
 <h5 id="failoverpartner">-FailoverPartner</h5>
-<p>The name of the failover partner server where database mirroring is configured.
-If the value of this key is &quot;&quot; (an empty string), then Initial Catalog must be present in the connection string, and its value must not be &quot;&quot;.
-The server name can be 128 characters or less.
-If you specify a failover partner but the failover partner server is not configured for database mirroring and the primary server (specified with the Server keyword) is not available, then the
-connection will fail.
-If you specify a failover partner and the primary server is not configured for database mirroring, the connection to the primary server (specified with the Server keyword) will succeed if the primary
+<p>The name of the failover partner server where database mirroring is configured.<br />
+If the value of this key is &quot;&quot; (an empty string), then Initial Catalog must be present in the connection string, and its value must not be &quot;&quot;.<br />
+The server name can be 128 characters or less.<br />
+If you specify a failover partner but the failover partner server is not configured for database mirroring and the primary server (specified with the Server keyword) is not available, then the<br />
+connection will fail.<br />
+If you specify a failover partner and the primary server is not configured for database mirroring, the connection to the primary server (specified with the Server keyword) will succeed if the primary<br />
 server is available.<br></p>
 <table>
 <thead>
@@ -1051,7 +1051,7 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="multipleactiveresultsets">-MultipleActiveResultSets</h5>
-<p>If this switch is enabled, an application can maintain multiple active result sets (MARS).
+<p>If this switch is enabled, an application can maintain multiple active result sets (MARS).<br />
 If this switch is not enabled, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection.<br></p>
 <table>
 <thead>
@@ -1080,8 +1080,8 @@ If this switch is not enabled, an application must process or cancel all result 
 </tbody>
 </table>
 <h5 id="multisubnetfailover">-MultiSubnetFailover</h5>
-<p>If this switch is enabled, and your application is connecting to an AlwaysOn availability group (AG) on different subnets, detection of and connection to the currently active server will be faster.
-For more information about SqlClient support for Always On Availability Groups, see
+<p>If this switch is enabled, and your application is connecting to an AlwaysOn availability group (AG) on different subnets, detection of and connection to the currently active server will be faster.<br />
+For more information about SqlClient support for Always On Availability Groups, see<br />
 <a href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery">https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery</a><br></p>
 <table>
 <thead>
@@ -1110,7 +1110,7 @@ For more information about SqlClient support for Always On Availability Groups, 
 </tbody>
 </table>
 <h5 id="networkprotocol">-NetworkProtocol</h5>
-<p>Explicitly sets the network protocol used to connect to the server.
+<p>Explicitly sets the network protocol used to connect to the server.<br />
 Valid values are &quot;TcpIp&quot;,&quot;NamedPipes&quot;,&quot;Multiprotocol&quot;,&quot;AppleTalk&quot;,&quot;BanyanVines&quot;,&quot;Via&quot;,&quot;SharedMemory&quot; and &quot;NWLinkIpxSpx&quot;<br></p>
 <table>
 <thead>
@@ -1199,8 +1199,8 @@ Valid values are &quot;TcpIp&quot;,&quot;NamedPipes&quot;,&quot;Multiprotocol&qu
 </tbody>
 </table>
 <h5 id="pooledconnectionlifetime">-PooledConnectionLifetime</h5>
-<p>When a connection is returned to the pool, its creation time is compared with the current time and the connection is destroyed if that time span (in seconds) exceeds the value specified by Connection
-Lifetime. This is useful in clustered configurations to force load balancing between a running server and a server just brought online.
+<p>When a connection is returned to the pool, its creation time is compared with the current time and the connection is destroyed if that time span (in seconds) exceeds the value specified by Connection<br />
+Lifetime. This is useful in clustered configurations to force load balancing between a running server and a server just brought online.<br />
 A value of zero (0) causes pooled connections to have the maximum connection timeout.<br></p>
 <table>
 <thead>
@@ -1229,7 +1229,7 @@ A value of zero (0) causes pooled connections to have the maximum connection tim
 </tbody>
 </table>
 <h5 id="sqlexecutionmodes">-SqlExecutionModes</h5>
-<p>The SqlExecutionModes enumeration contains values that are used to specify whether the commands sent to the referenced connection to the server are executed immediately or saved in a buffer.
+<p>The SqlExecutionModes enumeration contains values that are used to specify whether the commands sent to the referenced connection to the server are executed immediately or saved in a buffer.<br />
 Valid values include &quot;CaptureSql&quot;, &quot;ExecuteAndCaptureSql&quot; and &quot;ExecuteSql&quot;.<br></p>
 <table>
 <thead>
@@ -1262,8 +1262,8 @@ Valid values include &quot;CaptureSql&quot;, &quot;ExecuteAndCaptureSql&quot; an
 </tbody>
 </table>
 <h5 id="statementtimeout">-StatementTimeout</h5>
-<p>Sets the number of seconds a statement is given to run before failing with a timeout error.
-The default is read from the configuration 'sql.execution.timeout' that is currently set to 0 (unlimited).
+<p>Sets the number of seconds a statement is given to run before failing with a timeout error.<br />
+The default is read from the configuration 'sql.execution.timeout' that is currently set to 0 (unlimited).<br />
 If you want to change this to 10 minutes, use: Set-DbatoolsConfig -FullName 'sql.execution.timeout' -Value 600<br></p>
 <table>
 <thead>
@@ -1348,7 +1348,7 @@ If you want to change this to 10 minutes, use: Set-DbatoolsConfig -FullName 'sql
 </tbody>
 </table>
 <h5 id="alwaysencrypted">-AlwaysEncrypted</h5>
-<p>Sets &quot;Column Encryption Setting=enabled&quot; on the connection so you can work with Always Encrypted values.
+<p>Sets &quot;Column Encryption Setting=enabled&quot; on the connection so you can work with Always Encrypted values.<br />
 For more information, see <a href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider">https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider</a><br></p>
 <table>
 <thead>
@@ -1433,8 +1433,8 @@ For more information, see <a href="https://docs.microsoft.com/en-us/sql/relation
 </tbody>
 </table>
 <h5 id="azuredomain">-AzureDomain</h5>
-<p>By default, this is set to database.windows.net
-In the event your AzureSqlDb is not on a database.windows.net domain, you can set a custom domain using the AzureDomain parameter.
+<p>By default, this is set to database.windows.net<br />
+In the event your AzureSqlDb is not on a database.windows.net domain, you can set a custom domain using the AzureDomain parameter.<br />
 This tells Connect-DbaInstance to login to the database using the method that works best with Azure.<br></p>
 <table>
 <thead>
@@ -1491,7 +1491,7 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </tbody>
 </table>
 <h5 id="accesstoken">-AccessToken</h5>
-<p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken, that has to be generated with Get-AzAccessToken or New-DbaAzAccessToken.
+<p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken, that has to be generated with Get-AzAccessToken or New-DbaAzAccessToken.<br />
 Note that the token is valid for only one hour and cannot be renewed automatically.<br></p>
 <table>
 <thead>
@@ -1520,8 +1520,8 @@ Note that the token is valid for only one hour and cannot be renewed automatical
 </tbody>
 </table>
 <h5 id="dedicatedadminconnection">-DedicatedAdminConnection</h5>
-<p>Connects using &quot;ADMIN:&quot; to create a dedicated admin connection (DAC) as a non-pooled connection.
-If the instance is on a remote server, the remote access has to be enabled via &quot;Set-DbaSpConfigure -Name RemoteDacConnectionsEnabled -Value $true&quot; or &quot;sp_configure 'remote admin connections', 1&quot;.
+<p>Connects using &quot;ADMIN:&quot; to create a dedicated admin connection (DAC) as a non-pooled connection.<br />
+If the instance is on a remote server, the remote access has to be enabled via &quot;Set-DbaSpConfigure -Name RemoteDacConnectionsEnabled -Value $true&quot; or &quot;sp_configure 'remote admin connections', 1&quot;.<br />
 The connection will not be closed if the variable holding the Server SMO is going out of scope, so it is very important to call .ConnectionContext.Disconnect() to close the connection. See example.<br></p>
 <table>
 <thead>
@@ -1550,8 +1550,8 @@ The connection will not be closed if the variable holding the Server SMO is goin
 </tbody>
 </table>
 <h5 id="disableexception">-DisableException</h5>
-<p>By default in most of our commands, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This command, however, gifts you  with &quot;sea of red&quot; exceptions, by default, because it is useful for advanced scripting.
+<p>By default in most of our commands, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This command, however, gifts you  with &quot;sea of red&quot; exceptions, by default, because it is useful for advanced scripting.<br />
 Using this switch turns our &quot;nice by default&quot; feature on which makes errors into pretty warnings.<br></p>
 <table>
 <thead>

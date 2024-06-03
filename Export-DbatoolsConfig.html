@@ -529,7 +529,7 @@ Export-DbatoolsConfig -ModuleName &lt;String&gt;
 <p>Exports all settings of the module 'message' that are no longer the original default values to json.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="fullname">-FullName</h5>
-<p>Select the configuration objects to export by filtering by their full name.<br></p>
+<p>Select the configuration objects to export by filtering by their full name. <br></p>
 <table>
 <thead>
 <tr>
@@ -557,7 +557,7 @@ Export-DbatoolsConfig -ModuleName &lt;String&gt;
 </tbody>
 </table>
 <h5 id="module">-Module</h5>
-<p>Select the configuration objects to export by filtering by their module name.<br></p>
+<p>Select the configuration objects to export by filtering by their module name. <br></p>
 <table>
 <thead>
 <tr>
@@ -585,8 +585,8 @@ Export-DbatoolsConfig -ModuleName &lt;String&gt;
 </tbody>
 </table>
 <h5 id="config">-Config</h5>
-<p>The configuration object(s) to export.
-Returned by Get-DbatoolsConfig.<br></p>
+<p>The configuration object(s) to export.<br />
+Returned by Get-DbatoolsConfig. <br></p>
 <table>
 <thead>
 <tr>
@@ -614,8 +614,8 @@ Returned by Get-DbatoolsConfig.<br></p>
 </tbody>
 </table>
 <h5 id="modulename">-ModuleName</h5>
-<p>Exports all configuration pertinent to a module to a predefined path.
-Exported configuration items include all settings marked as 'ModuleExport' that have been changed from the default value.<br></p>
+<p>Exports all configuration pertinent to a module to a predefined path.<br />
+Exported configuration items include all settings marked as 'ModuleExport' that have been changed from the default value. <br></p>
 <table>
 <thead>
 <tr>
@@ -643,8 +643,8 @@ Exported configuration items include all settings marked as 'ModuleExport' that 
 </tbody>
 </table>
 <h5 id="outpath">-OutPath</h5>
-<p>The path (filename included) to export to.
-Will fail if the folder does not exist, will overwrite the file if it exists.<br></p>
+<p>The path (filename included) to export to.<br />
+Will fail if the folder does not exist, will overwrite the file if it exists. <br></p>
 <table>
 <thead>
 <tr>
@@ -729,8 +729,8 @@ Will fail if the folder does not exist, will overwrite the file if it exists.<br
 </tbody>
 </table>
 <h5 id="scope">-Scope</h5>
-<p>Which predefined path to write module specific settings to.
-Only file scopes are considered.
+<p>Which predefined path to write module specific settings to.<br />
+Only file scopes are considered.<br />
 By default it writes to the suer profile.<br></p>
 <table>
 <thead>
@@ -759,7 +759,7 @@ By default it writes to the suer profile.<br></p>
 </tbody>
 </table>
 <h5 id="skipunchanged">-SkipUnchanged</h5>
-<p>If set, configuration objects whose value was not changed from its original value will not be exported.
+<p>If set, configuration objects whose value was not changed from its original value will not be exported.<br />
 (Note: Settings that were updated with the same value as the original default will still be considered changed)<br></p>
 <table>
 <thead>
@@ -788,7 +788,7 @@ By default it writes to the suer profile.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>This parameters disables user-friendly warnings and enables the throwing of exceptions.
+<p>This parameters disables user-friendly warnings and enables the throwing of exceptions.<br />
 This is less user friendly, but allows catching exceptions in calling scripts.<br></p>
 <table>
 <thead>

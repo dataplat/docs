@@ -487,9 +487,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Changes database name, logical file names, file group names and physical file names (optionally handling the move). BETA VERSION.</p>
 <h2 id="description">Description</h2>
-<p>Can change every database metadata that can be renamed.
-The ultimate goal is choosing to have a default template to enforce in your environment
-so your naming convention for every bit can be put in place in no time.
+<p>Can change every database metadata that can be renamed.<br />
+The ultimate goal is choosing to have a default template to enforce in your environment<br />
+so your naming convention for every bit can be put in place in no time.<br />
 The process is as follows (it follows the hierarchy of the entities):</p>
 <ul>
 <li>database name is changed (optionally, forcing users out)</li>
@@ -497,8 +497,8 @@ The process is as follows (it follows the hierarchy of the entities):</p>
 <li>logical name(s) are changed accordingly</li>
 <li>physical file(s) are changed accordingly</li>
 <li>if Move is specified, the database will be taken offline and the move will initiate, then it will be taken online</li>
-<li>if Move is not specified, the database remains online (unless SetOffline), and you are in charge of moving files
-If any of the above fails, the process stops.
+<li>if Move is not specified, the database remains online (unless SetOffline), and you are in charge of moving files<br />
+If any of the above fails, the process stops.<br />
 Please take a backup of your databases BEFORE using this, and remember to backup AFTER (also a FULL backup of master)</li>
 </ul>
 <p>It returns an object for each database with all the renames done, plus hidden properties showing a &quot;human&quot; representation of them.</p>
@@ -536,7 +536,8 @@ Rename-DbaDatabase
     [-Force]
     [-Move]
     [-SetOffline]
-    [-Preview] -InputObject &lt;Database[]&gt;
+    [-Preview]
+    -InputObject &lt;Database[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -596,7 +597,7 @@ The db is then set offline (watch out!). You can then proceed manually to move/c
 The db is then set offline (watch out!). The function tries to do a simple rename and then sets the db online again to finish the rename process<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>Target any number of instances, in order to return their build state.<br></p>
+<p>Target any number of instances, in order to return their build state. <br></p>
 <table>
 <thead>
 <tr>
@@ -624,7 +625,7 @@ The db is then set offline (watch out!). The function tries to do a simple renam
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts piped database objects<br></p>
+<p>Accepts piped database objects <br></p>
 <table>
 <thead>
 <tr>
@@ -653,8 +654,8 @@ The db is then set offline (watch out!). The function tries to do a simple renam
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -803,7 +804,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <ul>
 <li><FGN> current filegroup name</li>
 <li><DBN> current database name</li>
-<li><DATE> date (yyyyMMdd)
+<li><DATE> date (yyyyMMdd)<br />
 If distinct names cannot be generated, a counter will be appended (0001, 0002, 0003, etc)<br></li>
 </ul>
 <table>
@@ -839,7 +840,7 @@ If distinct names cannot be generated, a counter will be appended (0001, 0002, 0
 <li><LGN> current logical name</li>
 <li><FGN> current filegroup name</li>
 <li><DBN> current database name</li>
-<li><DATE> date (yyyyMMdd)
+<li><DATE> date (yyyyMMdd)<br />
 If distinct names cannot be generated, a counter will be appended (0001, 0002, 0003, etc)<br></li>
 </ul>
 <table>
@@ -876,7 +877,7 @@ If distinct names cannot be generated, a counter will be appended (0001, 0002, 0
 <li><LGN> current logical name</li>
 <li><FGN> current filegroup name</li>
 <li><DBN> current database name</li>
-<li><DATE> date (yyyyMMdd)
+<li><DATE> date (yyyyMMdd)<br />
 If distinct names cannot be generated, a counter will be appended (0001, 0002, 0003, etc)<br></li>
 </ul>
 <table>
@@ -906,28 +907,28 @@ If distinct names cannot be generated, a counter will be appended (0001, 0002, 0
 </tbody>
 </table>
 <h5 id="replacebefore">-ReplaceBefore</h5>
-<p>If you pass this switch, all upper level &quot;current names&quot; will be inspected and replaced BEFORE doing the
-rename according to the template in the current level (remember the hierarchy):
+<p>If you pass this switch, all upper level &quot;current names&quot; will be inspected and replaced BEFORE doing the<br />
+rename according to the template in the current level (remember the hierarchy):<br />
 Let's say you have a database named &quot;dbatools_HR&quot;, composed by 3 files</p>
 <ul>
 <li>dbatools_HR_Data.mdf</li>
 <li>dbatools_HR_Index.ndf</li>
-<li>dbatools_HR_log.ldf
-Rename-DbaDatabase .... -Database &quot;dbatools_HR&quot; -DatabaseName &quot;dbatools_HRARCHIVE&quot; -FileName '<DBN><FNN>'
+<li>dbatools_HR_log.ldf<br />
+Rename-DbaDatabase .... -Database &quot;dbatools_HR&quot; -DatabaseName &quot;dbatools_HRARCHIVE&quot; -FileName '<DBN><FNN>'<br />
 would end up with this logic:</li>
 <li>database --&gt; no placeholders specified</li>
 <li>dbatools_HR to dbatools_HRARCHIVE</li>
-<li>filenames placeholders specified
+<li>filenames placeholders specified<br />
 <DBN><FNN> --&gt; current database name + current filename&quot;</li>
 <li>dbatools_HR_Data.mdf to dbatools_HRARCHIVEdbatools_HR_Data.mdf</li>
 <li>dbatools_HR_Index.mdf to dbatools_HRARCHIVEdbatools_HR_Data.mdf</li>
-<li>dbatools_HR_log.ldf to dbatools_HRARCHIVEdbatools_HR_log.ldf
-Passing this switch, instead, e.g.
-Rename-DbaDatabase .... -Database &quot;dbatools_HR&quot; -DatabaseName &quot;dbatools_HRARCHIVE&quot; -FileName '<DBN><FNN>' -ReplaceBefore
+<li>dbatools_HR_log.ldf to dbatools_HRARCHIVEdbatools_HR_log.ldf<br />
+Passing this switch, instead, e.g.<br />
+Rename-DbaDatabase .... -Database &quot;dbatools_HR&quot; -DatabaseName &quot;dbatools_HRARCHIVE&quot; -FileName '<DBN><FNN>' -ReplaceBefore<br />
 end up with this logic instead:</li>
 <li>database --&gt; no placeholders specified</li>
 <li>dbatools_HR to dbatools_HRARCHIVE</li>
-<li>filenames placeholders specified,
+<li>filenames placeholders specified,<br />
 <DBN><FNN>, plus -ReplaceBefore --&gt; current database name + replace OLD &quot;upper level&quot; names inside the current filename</li>
 <li>dbatools_HR_Data.mdf to dbatools_HRARCHIVE_Data.mdf</li>
 <li>dbatools_HR_Index.mdf to dbatools_HRARCHIVE_Data.mdf</li>
@@ -988,8 +989,8 @@ end up with this logic instead:</li>
 </tbody>
 </table>
 <h5 id="move">-Move</h5>
-<p>If you want this function to move files, else you're the one in charge of it.
-This enables the same functionality as SetOffline, killing open transactions and putting the database
+<p>If you want this function to move files, else you're the one in charge of it.<br />
+This enables the same functionality as SetOffline, killing open transactions and putting the database<br />
 offline, then do the actual rename and setting it online again afterwards<br></p>
 <table>
 <thead>
@@ -1074,8 +1075,8 @@ offline, then do the actual rename and setting it online again afterwards<br></p
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

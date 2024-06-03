@@ -488,43 +488,43 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Creates a new inbound firewall rule for a SQL Server instance and adds the rule to the target computer.</p>
 <h2 id="description">Description</h2>
 <p>Creates a new inbound firewall rule for a SQL Server instance and adds the rule to the target computer.</p>
-<p>This is basically a wrapper around New-NetFirewallRule executed at the target computer.
+<p>This is basically a wrapper around New-NetFirewallRule executed at the target computer.<br />
 So this only works if New-NetFirewallRule works on the target computer.</p>
-<p>Both DisplayName and Name are set to the same value, since DisplayName is required
-but only Name uniquely defines the rule, thus avoiding duplicate rules with different settings.
+<p>Both DisplayName and Name are set to the same value, since DisplayName is required<br />
+but only Name uniquely defines the rule, thus avoiding duplicate rules with different settings.<br />
 The names and the group for all rules are fixed to be able to get them back with Get-DbaFirewallRule.</p>
 <p>The functionality is currently limited. Help to extend the functionality is welcome.</p>
-<p>As long as you can read this note here, there may be breaking changes in future versions.
+<p>As long as you can read this note here, there may be breaking changes in future versions.<br />
 So please review your scripts using this command after updating dbatools.</p>
 <p>The firewall rule for the instance itself will have the following configuration (parameters for New-NetFirewallRule):</p>
-<pre><code>DisplayName = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'
-Name        = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'
-Group       = 'SQL Server'
-Enabled     = 'True'
-Direction   = 'Inbound'
-Protocol    = 'TCP'
-LocalPort   = '&lt;Port&gt;' (for instances with static port)
-Program     = '&lt;Path ending with MSSQL\Binn\sqlservr.exe&gt;' (for instances with dynamic port)
+<pre><code>DisplayName = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'  
+Name        = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'  
+Group       = 'SQL Server'  
+Enabled     = 'True'  
+Direction   = 'Inbound'  
+Protocol    = 'TCP'  
+LocalPort   = '&lt;Port&gt;' (for instances with static port)  
+Program     = '&lt;Path ending with MSSQL\Binn\sqlservr.exe&gt;' (for instances with dynamic port)  
 </code></pre>
 <p>The firewall rule for the SQL Server Browser will have the following configuration (parameters for New-NetFirewallRule):</p>
-<pre><code>DisplayName = 'SQL Server Browser'
-Name        = 'SQL Server Browser'
-Group       = 'SQL Server'
-Enabled     = 'True'
-Direction   = 'Inbound'
-Protocol    = 'UDP'
-LocalPort   = '1434'
+<pre><code>DisplayName = 'SQL Server Browser'  
+Name        = 'SQL Server Browser'  
+Group       = 'SQL Server'  
+Enabled     = 'True'  
+Direction   = 'Inbound'  
+Protocol    = 'UDP'  
+LocalPort   = '1434'  
 </code></pre>
 <p>The firewall rule for the dedicated admin connection (DAC) will have the following configuration (parameters for New-NetFirewallRule):</p>
-<pre><code>DisplayName = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'
-Name        = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'
-Group       = 'SQL Server'
-Enabled     = 'True'
-Direction   = 'Inbound'
-Protocol    = 'TCP'
-LocalPort   = '&lt;Port&gt;' (typically 1434 for a default instance, but will be fetched from ERRORLOG)
+<pre><code>DisplayName = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'  
+Name        = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'  
+Group       = 'SQL Server'  
+Enabled     = 'True'  
+Direction   = 'Inbound'  
+Protocol    = 'TCP'  
+LocalPort   = '&lt;Port&gt;' (typically 1434 for a default instance, but will be fetched from ERRORLOG)  
 </code></pre>
-<p>The firewall rule for the DAC will only be created if the DAC is configured for listening remotely.
+<p>The firewall rule for the DAC will only be created if the DAC is configured for listening remotely.<br />
 Use <code>Set-DbaSpConfigure -SqlInstance SRV1 -Name RemoteDacConnectionsEnabled -Value 1</code> to enable remote DAC before running this command.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaFirewallRule
@@ -557,7 +557,7 @@ but configures the firewall rule for the domain profile only.<br></p>
 <p>Creates or recreates the firewall rule for the instance TEST on SRV1. Does not prompt for confirmation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -614,12 +614,12 @@ but configures the firewall rule for the domain profile only.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Creates firewall rules for the given type(s).
+<p>Creates firewall rules for the given type(s).<br />
 Valid values are:</p>
 <ul>
 <li>Engine - for the SQL Server instance</li>
 <li>Browser - for the SQL Server Browser</li>
-<li>DAC - for the dedicated admin connection (DAC)
+<li>DAC - for the dedicated admin connection (DAC)<br />
 If this parameter is not used:</li>
 <li>The firewall rule for the SQL Server instance will be created.</li>
 <li>In case the instance is listening on a port other than 1433, also the firewall rule for the SQL Server Browser will be created if not already in place.</li>
@@ -656,9 +656,9 @@ If this parameter is not used:</li>
 </tbody>
 </table>
 <h5 id="configuration">-Configuration</h5>
-<p>A hashtable with custom configuration parameters that are used when calling New-NetFirewallRule.
-These will override the default settings.
-Parameters Name, DisplayName and Group are not allowed here and will be silently ignored.
+<p>A hashtable with custom configuration parameters that are used when calling New-NetFirewallRule.<br />
+These will override the default settings.<br />
+Parameters Name, DisplayName and Group are not allowed here and will be silently ignored.<br />
 <a href="https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule">https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule</a><br></p>
 <table>
 <thead>
@@ -687,7 +687,7 @@ Parameters Name, DisplayName and Group are not allowed here and will be silently
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If the rule to be created already exists, a warning is displayed.
+<p>If the rule to be created already exists, a warning is displayed.<br />
 If this switch is enabled, the rule will be deleted and created again.<br></p>
 <table>
 <thead>
@@ -716,8 +716,8 @@ If this switch is enabled, the rule will be deleted and created again.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

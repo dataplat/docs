@@ -523,7 +523,7 @@ Remote sqlwmi is used by default. If this doesn't work, then remoting is used. I
 <p>Returns an object with server name, IPAddress (just ipv4), port and static ($true/$false) for every server listed in the Central Management Server on sql2014.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -552,7 +552,7 @@ Remote sqlwmi is used by default. If this doesn't work, then remoting is used. I
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Allows you to connect to servers using alternate Windows credentials
+<p>Allows you to connect to servers using alternate Windows credentials<br />
 $scred = Get-Credential, then pass $scred object to the -SqlCredential parameter.<br></p>
 <table>
 <thead>
@@ -665,8 +665,8 @@ $scred = Get-Credential, then pass $scred object to the -SqlCredential parameter
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

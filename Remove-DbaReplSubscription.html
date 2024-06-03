@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Removes a subscription for the target SQL instances.</p>
 <h2 id="description">Description</h2>
 <p>Removes a subscription for the target SQL instances.</p>
-<p><a href="https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-push-subscription?view=sql-server-ver16">https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-push-subscription?view=sql-server-ver16</a>
+<p><a href="https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-push-subscription?view=sql-server-ver16">https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-push-subscription?view=sql-server-ver16</a><br />
 <a href="https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-pull-subscription?view=sql-server-ver16">https://learn.microsoft.com/en-us/sql/relational-databases/replication/delete-a-pull-subscription?view=sql-server-ver16</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaReplSubscription
@@ -521,7 +521,7 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 <p>Removes a subscription for the testPub publication on mssql2.pubs.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target publisher SQL Server instance or instances.<br></p>
+<p>The target publisher SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -549,7 +549,7 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where the publication is located.<br></p>
+<p>The database where the publication is located. <br></p>
 <table>
 <thead>
 <tr>
@@ -577,7 +577,7 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 </tbody>
 </table>
 <h5 id="publicationname">-PublicationName</h5>
-<p>The name of the publication.<br></p>
+<p>The name of the publication. <br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +605,7 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 </tbody>
 </table>
 <h5 id="subscribersqlinstance">-SubscriberSqlInstance</h5>
-<p>The subscriber SQL Server instance.<br></p>
+<p>The subscriber SQL Server instance. <br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +633,7 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 </tbody>
 </table>
 <h5 id="subscriptiondatabase">-SubscriptionDatabase</h5>
-<p>The database where the subscription is located.<br></p>
+<p>The database where the subscription is located. <br></p>
 <table>
 <thead>
 <tr>
@@ -662,8 +662,8 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target publisher instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target publisher instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -692,8 +692,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subscribersqlcredential">-SubscriberSqlCredential</h5>
-<p>Login to the subscriber instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the subscriber instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -722,8 +722,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -501,7 +501,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>If failures occur at any point, a best attempt is made to restart the SQL Server.</p>
 <p>In order to make this script as portable as possible, Microsoft.Data.SqlClient and Get-WmiObject are used (as opposed to requiring the Failover Cluster Admin tools or SMO).</p>
 <p>If using this function against a remote SQL Server, ensure WinRM is configured and accessible. If this is not possible, run the script locally.</p>
-<p>Tested on Windows XP, 7, 8.1, Server 2012 and Windows Server Technical Preview 2.
+<p>Tested on Windows XP, 7, 8.1, Server 2012 and Windows Server Technical Preview 2.<br />
 Tested on SQL Server 2005 SP4 through 2016 CTP2.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Reset-DbaAdmin
@@ -536,7 +536,7 @@ Does not prompt for a password since it is not a SQL login. Does not prompt for 
 If the account already exists, it will be added to the sysadmin role and the password will be reset.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. SQL Server must be 2005 and above, and can be a clustered or stand-alone instance.<br></p>
+<p>The target SQL Server instance or instances. SQL Server must be 2005 and above, and can be a clustered or stand-alone instance. <br></p>
 <table>
 <thead>
 <tr>
@@ -593,7 +593,7 @@ If the account already exists, it will be added to the sysadmin role and the pas
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>By default, the Login parameter is &quot;sa&quot; but any other SQL or Windows account can be specified. If a login does not currently exist, it will be added.
+<p>By default, the Login parameter is &quot;sa&quot; but any other SQL or Windows account can be specified. If a login does not currently exist, it will be added.<br />
 When adding a Windows login to remote servers, ensure the SQL Server can add the login (ie, don't add WORKSTATION\Admin to remoteserver\instance. Domain users and Groups are valid input.<br></p>
 <table>
 <thead>
@@ -678,8 +678,8 @@ When adding a Windows login to remote servers, ensure the SQL Server can add the
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

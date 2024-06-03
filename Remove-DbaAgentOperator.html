@@ -502,7 +502,8 @@ Remove-DbaAgentOperator
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
     [-SqlCredential &lt;PSCredential&gt;]
     [-Operator &lt;String[]&gt;]
-    [-ExcludeOperator &lt;String[]&gt;] -InputObject &lt;Operator[]&gt;
+    [-ExcludeOperator &lt;String[]&gt;]
+    -InputObject &lt;Operator[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -521,7 +522,7 @@ This removes an operator named DBA from the instance.<br></p>
 <p>Using a pipeline this command gets all SQL Agent operator(s) on SRV1, lets the user select those to remove and then removes the selected SQL Agent alert category(-ies).<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaAgentOperator.<br></p>
+<p>Allows piping from Get-DbaAgentOperator. <br></p>
 <table>
 <thead>
 <tr>
@@ -578,8 +579,8 @@ This removes an operator named DBA from the instance.<br></p>
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -664,8 +665,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

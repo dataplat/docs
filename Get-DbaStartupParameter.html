@@ -513,7 +513,7 @@ PS C:\&gt; Get-DbaStartupParameter -SqlInstance sql2014 -Credential $wincred -Si
 <p>Logs in to WMI using the ad\sqladmin credential and gathers simplified information about the SQL Server Startup Parameters.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -542,7 +542,7 @@ PS C:\&gt; Get-DbaStartupParameter -SqlInstance sql2014 -Credential $wincred -Si
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="credential">-Credential</h5>
-<p>Allows you to login to servers using alternate Windows credentials.
+<p>Allows you to login to servers using alternate Windows credentials.<br />
 $scred = Get-Credential, then pass $scred object to the -Credential parameter.<br></p>
 <table>
 <thead>
@@ -599,7 +599,7 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>If this switch is enabled, exceptions will be thrown to the caller, which will need to perform its own exception processing. Otherwise, the function will try to catch the exception, interpret it and
+<p>If this switch is enabled, exceptions will be thrown to the caller, which will need to perform its own exception processing. Otherwise, the function will try to catch the exception, interpret it and<br />
 provide a friendly error message.<br></p>
 <table>
 <thead>

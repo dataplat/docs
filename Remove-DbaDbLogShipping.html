@@ -489,7 +489,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>The command Remove-DbaDbLogShipping will remove one or more databases from log shipping</p>
 <p>After running the command it will remove all the jobs, configurations set up for log shipping</p>
-<p>By default the secondary database will NOT be removed.
+<p>By default the secondary database will NOT be removed.<br />
 Use -RemoveSecondaryDatabase to make the command the secondary database</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbLogShipping
@@ -526,8 +526,8 @@ Use -RemoveSecondaryDatabase to make the command the secondary database</p>
 <p>Remove the log shipping for database DB2 and remove the database from the secondary instance<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="primarysqlinstance">-PrimarySqlInstance</h5>
-<p>Primary SQL Server instance which contains the primary database(s).
-You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<p>Primary SQL Server instance which contains the primary database(s).<br />
+You must have sysadmin access and server version must be SQL Server version 2000 or greater. <br></p>
 <table>
 <thead>
 <tr>
@@ -555,8 +555,8 @@ You must have sysadmin access and server version must be SQL Server version 2000
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Database to remove from log shipping.
-This is the name of the database located on the primary instance<br></p>
+<p>Database to remove from log shipping.<br />
+This is the name of the database located on the primary instance <br></p>
 <table>
 <thead>
 <tr>
@@ -585,7 +585,7 @@ This is the name of the database located on the primary instance<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="secondarysqlinstance">-SecondarySqlInstance</h5>
-<p>Secondary SQL Server instance which contains the secondary database(s)
+<p>Secondary SQL Server instance which contains the secondary database(s)<br />
 You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
 <table>
 <thead>
@@ -614,8 +614,8 @@ You must have sysadmin access and server version must be SQL Server version 2000
 </tbody>
 </table>
 <h5 id="primarysqlcredential">-PrimarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -644,8 +644,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="secondarysqlcredential">-SecondarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -674,7 +674,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="removesecondarydatabase">-RemoveSecondaryDatabase</h5>
-<p>By default the command will not remove the database from the secondary instance.
+<p>By default the command will not remove the database from the secondary instance.<br />
 Use this parameter to make the command remove that database<br></p>
 <table>
 <thead>

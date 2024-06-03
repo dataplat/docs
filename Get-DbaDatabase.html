@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Gets SQL Database information for each database that is present on the target instance(s) of SQL Server.</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaDatabase command gets SQL database information for each database that is present on the target instance(s) of
+<p>The Get-DbaDatabase command gets SQL database information for each database that is present on the target instance(s) of<br />
 SQL Server. If the name of the database is provided, the command will return only the specific database information.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDatabase
@@ -562,7 +562,7 @@ from the sys.dm_db_index_usage_stats DMV.<br></p>
 <p>Returns databases 'OneDb' and 'OtherDB' from SQL Server instances SQL2 and SQL3 if databases by those names exist on those instances.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -591,8 +591,8 @@ from the sys.dm_db_index_usage_stats DMV.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -677,7 +677,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeuser">-ExcludeUser</h5>
-<p>If this switch is enabled, only databases which are not User databases will be processed.
+<p>If this switch is enabled, only databases which are not User databases will be processed.<br />
 This parameter cannot be used with -ExcludeSystem.<br></p>
 <table>
 <thead>
@@ -706,7 +706,7 @@ This parameter cannot be used with -ExcludeSystem.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystem">-ExcludeSystem</h5>
-<p>If this switch is enabled, only databases which are not System databases will be processed.
+<p>If this switch is enabled, only databases which are not System databases will be processed.<br />
 This parameter cannot be used with -ExcludeUser.<br></p>
 <table>
 <thead>
@@ -791,7 +791,7 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="status">-Status</h5>
-<p>Specifies one or more database statuses to filter on. Only databases in the status(es) listed will be returned. Valid options for this parameter are 'EmergencyMode', 'Normal', 'Offline',
+<p>Specifies one or more database statuses to filter on. Only databases in the status(es) listed will be returned. Valid options for this parameter are 'EmergencyMode', 'Normal', 'Offline',<br />
 'Recovering', 'RecoveryPending', 'Restoring', 'Standby', and 'Suspect'.<br></p>
 <table>
 <thead>
@@ -1000,8 +1000,8 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Installs or updates SqlWatch.</p>
 <h2 id="description">Description</h2>
-<p>Downloads, extracts and installs or updates SqlWatch.
+<p>Downloads, extracts and installs or updates SqlWatch.<br />
 <a href="https://sqlwatch.io/">https://sqlwatch.io/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaSqlWatch
@@ -529,7 +529,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs SqlWatch in the SQLWATCH database.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>SQL Server name or SMO object representing the SQL Server to connect to.<br></p>
+<p>SQL Server name or SMO object representing the SQL Server to connect to. <br></p>
 <table>
 <thead>
 <tr>
@@ -558,8 +558,8 @@ Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authe
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -616,7 +616,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install SqlWatch from. This <em>should</em> be the zipfile as distributed by the maintainers.
+<p>Specifies the path to a local file to install SqlWatch from. This <em>should</em> be the zipfile as distributed by the maintainers.<br />
 If this parameter is not specified, the latest version will be downloaded and installed from <a href="https://github.com/marcingminski/sqlwatch">https://github.com/marcingminski/sqlwatch</a><br></p>
 <table>
 <thead>
@@ -701,8 +701,8 @@ If this parameter is not specified, the latest version will be downloaded and in
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Checks all disks on a computer to see if they are formatted with allocation units of 64KB.</p>
 <h2 id="description">Description</h2>
 <p>Checks all disks on a computer for disk allocation units that match best practice recommendations. If one server is checked, only $true or $false is returned. If multiple servers are checked, each server's name and an IsBestPractice field are returned.</p>
-<p>References:
+<p>References:<br />
 <a href="https://technet.microsoft.com/en-us/library/dd758814(v=sql.100).aspx">https://technet.microsoft.com/en-us/library/dd758814(v=sql.100).aspx</a> - &quot;The performance question here is usually not one of correlation per the formula, but whether the cluster size has been explicitly defined at 64 KB, which is a best practice for SQL Server.&quot;</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaDiskAllocation
@@ -519,7 +519,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Scans all disks not hosting SQL Server data or log files on server sqlserver2014a for best practice allocation unit size.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The server(s) to check disk configuration on.<br></p>
+<p>The server(s) to check disk configuration on. <br></p>
 <table>
 <thead>
 <tr>
@@ -576,8 +576,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -606,7 +606,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Specifies an alternate Windows account to use when enumerating drives on the server. May require Administrator privileges. To use:
+<p>Specifies an alternate Windows account to use when enumerating drives on the server. May require Administrator privileges. To use:<br />
 $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br></p>
 <table>
 <thead>
@@ -635,8 +635,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

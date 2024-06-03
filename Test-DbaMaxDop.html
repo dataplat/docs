@@ -487,15 +487,15 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Displays information relating to SQL Server Max Degree of Parallelism setting. Works on SQL Server 2005-2016.</p>
 <h2 id="description">Description</h2>
-<p>Inspired by Sakthivel Chidambaram's post about SQL Server MAXDOP Calculator (<a href="https://blogs.msdn.microsoft.com/sqlsakthi/p/maxdop-calculator/">https://blogs.msdn.microsoft.com/sqlsakthi/p/maxdop-calculator/</a>),
+<p>Inspired by Sakthivel Chidambaram's post about SQL Server MAXDOP Calculator (<a href="https://blogs.msdn.microsoft.com/sqlsakthi/p/maxdop-calculator/">https://blogs.msdn.microsoft.com/sqlsakthi/p/maxdop-calculator/</a>),<br />
 this script displays a SQL Server's: max dop configured, and the calculated recommendation.</p>
 <p>For SQL Server 2016 shows:</p>
 <ul>
 <li>Instance max dop configured and the calculated recommendation</li>
 <li>max dop configured per database (new feature)</li>
 </ul>
-<p>More info:
-<a href="https://support.microsoft.com/en-us/kb/2806535">https://support.microsoft.com/en-us/kb/2806535</a>
+<p>More info:<br />
+<a href="https://support.microsoft.com/en-us/kb/2806535">https://support.microsoft.com/en-us/kb/2806535</a><br />
 <a href="https://blogs.msdn.microsoft.com/sqlsakthi/2012/05/23/wow-we-have-maxdop-calculator-for-sql-server-it-makes-my-job-easier/">https://blogs.msdn.microsoft.com/sqlsakthi/2012/05/23/wow-we-have-maxdop-calculator-for-sql-server-it-makes-my-job-easier/</a></p>
 <p>These are just general recommendations for SQL Server and are a good starting point for setting the &quot;max degree of parallelism&quot; option.</p>
 <h2 id="syntax">Syntax</h2>
@@ -524,7 +524,7 @@ this script displays a SQL Server's: max dop configured, and the calculated reco
 instance will be shown 'InstanceVersion', 'Database' and 'DatabaseMaxDop' columns.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -553,8 +553,8 @@ instance will be shown 'InstanceVersion', 'Database' and 'DatabaseMaxDop' column
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -583,8 +583,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

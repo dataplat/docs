@@ -527,7 +527,7 @@ Creates a new operator named DBA on the sql01 instance with email address operat
 Saturday start time of 7am, Saturday end time of 6pm, Sunday start time of 8am, Sunday end time of 5pm, Weekday start time of 6am, and Weekday end time of 7pm.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="operator">-Operator</h5>
-<p>Name of the operator in SQL Agent.<br></p>
+<p>Name of the operator in SQL Agent. <br></p>
 <table>
 <thead>
 <tr>
@@ -584,8 +584,8 @@ Saturday start time of 7am, Saturday end time of 6pm, Sunday start time of 8am, 
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -698,8 +698,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="pagerday">-PagerDay</h5>
-<p>Defines what days the pager portion of the operator will be used. The default is 'Everyday'. Valid parameters
-are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', and
+<p>Defines what days the pager portion of the operator will be used. The default is 'Everyday'. Valid parameters<br />
+are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', and<br />
 'Saturday'.<br></p>
 <table>
 <thead>
@@ -928,7 +928,7 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="failsafenotificationmethod">-FailsafeNotificationMethod</h5>
-<p>Defines the notification method for the failsafe oeprator.  Value must be NotifyMail or NotifyPager.
+<p>Defines the notification method for the failsafe oeprator.  Value must be NotifyMail or NotifyPager.<br />
 The default is NotifyEmail.<br></p>
 <table>
 <thead>
@@ -1013,8 +1013,8 @@ The default is NotifyEmail.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

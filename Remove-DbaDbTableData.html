@@ -579,8 +579,8 @@ SQL. Note: for Azure SQL databases error 40552 could occur for large batch delet
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -637,8 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="batchsize">-BatchSize</h5>
-<p>The number of rows to delete per batch. This param is defaulted to 100000 and limited to a value between 1 and 1000000000 (1 billion). This param can only be used with the -Table param. If -DeleteSql
-is used the TOP (N) clause must be specified in the SQL DELETE string. Note: for Azure SQL databases error 40552 could occur for large batch deletions:
+<p>The number of rows to delete per batch. This param is defaulted to 100000 and limited to a value between 1 and 1000000000 (1 billion). This param can only be used with the -Table param. If -DeleteSql<br />
+is used the TOP (N) clause must be specified in the SQL DELETE string. Note: for Azure SQL databases error 40552 could occur for large batch deletions:<br />
 <a href="https://docs.microsoft.com/en-us/azure/azure-sql/database/troubleshoot-common-errors-issues#error-40552-the-session-has-been-terminated-because-of-excessive-transaction-log-space-usage">https://docs.microsoft.com/en-us/azure/azure-sql/database/troubleshoot-common-errors-issues#error-40552-the-session-has-been-terminated-because-of-excessive-transaction-log-space-usage</a><br></p>
 <table>
 <thead>
@@ -695,7 +695,7 @@ is used the TOP (N) clause must be specified in the SQL DELETE string. Note: for
 </tbody>
 </table>
 <h5 id="deletesql">-DeleteSql</h5>
-<p>A SQL DELETE statement to be used in the command's loop for more advanced scenarios such as deleting based on a join, using a where clause, or using an order by clause (or a combination of all of
+<p>A SQL DELETE statement to be used in the command's loop for more advanced scenarios such as deleting based on a join, using a where clause, or using an order by clause (or a combination of all of<br />
 those). It is required that the DELETE statement include the TOP (N) clause. See the example below. This param may be used instead of -Table and -BatchSize.<br></p>
 <table>
 <thead>
@@ -724,7 +724,7 @@ those). It is required that the DELETE statement include the TOP (N) clause. See
 </tbody>
 </table>
 <h5 id="logbackuppath">-LogBackupPath</h5>
-<p>The directory to store the log backups. This command creates log backups when the database is using the full or bulk_logged recovery models and is an on-prem SQL server instance. If this param is not
+<p>The directory to store the log backups. This command creates log backups when the database is using the full or bulk_logged recovery models and is an on-prem SQL server instance. If this param is not<br />
 provided the command will not take log backups. This directory should be writeable by the SQL Server service account.<br></p>
 <table>
 <thead>
@@ -753,7 +753,7 @@ provided the command will not take log backups. This directory should be writeab
 </tbody>
 </table>
 <h5 id="logbackuptimestampformat">-LogBackupTimeStampFormat</h5>
-<p>By default the command timestamps the log backup files using the format yyyyMMddHHmm. The timestamp format should be defined using the Get-Date formats, because illegal formats will cause an error to
+<p>By default the command timestamps the log backup files using the format yyyyMMddHHmm. The timestamp format should be defined using the Get-Date formats, because illegal formats will cause an error to<br />
 be thrown.<br></p>
 <table>
 <thead>
@@ -866,8 +866,8 @@ be thrown.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

@@ -554,8 +554,8 @@ Note that these additional parameters provide flexibility to define what is cons
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -640,7 +640,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="ignoreuptime">-IgnoreUptime</h5>
-<p>Less than 7 days uptime can mean that analysis of unused indexes is unreliable, and normally no results will be returned. By setting this option results will be returned even if the Instance has been
+<p>Less than 7 days uptime can mean that analysis of unused indexes is unreliable, and normally no results will be returned. By setting this option results will be returned even if the Instance has been<br />
 running for less than 7 days.<br></p>
 <table>
 <thead>
@@ -669,11 +669,11 @@ running for less than 7 days.<br></p>
 </tbody>
 </table>
 <h5 id="seeks">-Seeks</h5>
-<p>Specify a custom threshold for user seeks. The default for this parameter is 1.
-The valid values are between 1 and 1000000 to provide flexibility on the definition of 'unused' indexes.
-Note: The resulting WHERE clause uses the AND operator:
-user_seeks &lt; $Seeks
-AND user_scans &lt; $Scans
+<p>Specify a custom threshold for user seeks. The default for this parameter is 1.<br />
+The valid values are between 1 and 1000000 to provide flexibility on the definition of 'unused' indexes.<br />
+Note: The resulting WHERE clause uses the AND operator:<br />
+user_seeks &lt; $Seeks<br />
+AND user_scans &lt; $Scans<br />
 AND user_lookups &lt; $Lookups<br></p>
 <table>
 <thead>
@@ -702,11 +702,11 @@ AND user_lookups &lt; $Lookups<br></p>
 </tbody>
 </table>
 <h5 id="scans">-Scans</h5>
-<p>Specify a custom threshold for user scans. The default for this parameter is 1.
-The valid values are between 1 and 1000000 to provide flexibility on the definition of 'unused' indexes.
-Note: The resulting WHERE clause uses the AND operator:
-user_seeks &lt; $Seeks
-AND user_scans &lt; $Scans
+<p>Specify a custom threshold for user scans. The default for this parameter is 1.<br />
+The valid values are between 1 and 1000000 to provide flexibility on the definition of 'unused' indexes.<br />
+Note: The resulting WHERE clause uses the AND operator:<br />
+user_seeks &lt; $Seeks<br />
+AND user_scans &lt; $Scans<br />
 AND user_lookups &lt; $Lookups<br></p>
 <table>
 <thead>
@@ -735,11 +735,11 @@ AND user_lookups &lt; $Lookups<br></p>
 </tbody>
 </table>
 <h5 id="lookups">-Lookups</h5>
-<p>Specify a custom threshold for user lookups. The default for this parameter is 1.
-The valid values are between 1 and 1000000 to provide flexibility on the definition of 'unused' indexes.
-Note: The resulting WHERE clause uses the AND operator:
-user_seeks &lt; $Seeks
-AND user_scans &lt; $Scans
+<p>Specify a custom threshold for user lookups. The default for this parameter is 1.<br />
+The valid values are between 1 and 1000000 to provide flexibility on the definition of 'unused' indexes.<br />
+Note: The resulting WHERE clause uses the AND operator:<br />
+user_seeks &lt; $Seeks<br />
+AND user_scans &lt; $Scans<br />
 AND user_lookups &lt; $Lookups<br></p>
 <table>
 <thead>
@@ -796,8 +796,8 @@ AND user_lookups &lt; $Lookups<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

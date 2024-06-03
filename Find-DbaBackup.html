@@ -517,7 +517,7 @@ checking the Archive bit.<br></p>
 <p>Searches for all bak files in \SQL2014\Backup\ and all subdirectories that are more than 24 hours old and deletes only those files with verbose message.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the name of the base level folder to search for backup files.<br></p>
+<p>Specifies the name of the base level folder to search for backup files. <br></p>
 <table>
 <thead>
 <tr>
@@ -545,7 +545,7 @@ checking the Archive bit.<br></p>
 </tbody>
 </table>
 <h5 id="backupfileextension">-BackupFileExtension</h5>
-<p>Specifies the filename extension of the backup files you wish to find (typically 'bak', 'trn' or 'log'). Do not include the period.<br></p>
+<p>Specifies the filename extension of the backup files you wish to find (typically 'bak', 'trn' or 'log'). Do not include the period. <br></p>
 <table>
 <thead>
 <tr>
@@ -575,16 +575,16 @@ checking the Archive bit.<br></p>
 <h5 id="retentionperiod">-RetentionPeriod</h5>
 <p>Specifies the retention period for backup files. Correct format is ##U.</p>
 <h2 id="is-the-retention-value-and-must-be-an-integer-value">is the retention value and must be an integer value</h2>
-<p>U signifies the units where the valid units are:
-h = hours
-d = days
-w = weeks
-m = months
-Formatting Examples:
-'48h' = 48 hours
-'7d' = 7 days
-'4w' = 4 weeks
-'1m' = 1 month<br></p>
+<p>U signifies the units where the valid units are:<br />
+h = hours<br />
+d = days<br />
+w = weeks<br />
+m = months<br />
+Formatting Examples:<br />
+'48h' = 48 hours<br />
+'7d' = 7 days<br />
+'4w' = 4 weeks<br />
+'1m' = 1 month <br></p>
 <table>
 <thead>
 <tr>
@@ -613,7 +613,7 @@ Formatting Examples:
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="checkarchivebit">-CheckArchiveBit</h5>
-<p>If this switch is enabled, the filesystem Archive bit is checked.
+<p>If this switch is enabled, the filesystem Archive bit is checked.<br />
 If this bit is set (which translates to &quot;it has not been backed up to another location yet&quot;), the file won't be included.<br></p>
 <table>
 <thead>
@@ -642,8 +642,8 @@ If this bit is set (which translates to &quot;it has not been backed up to anoth
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

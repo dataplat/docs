@@ -489,17 +489,17 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>This function returns the results of a full table/index compression analysis and the estimated, best option to date for either NONE, Page, or Row Compression.</p>
 <p>Remember Uptime is critical, the longer uptime, the more accurate the analysis is, and it would be best if you utilized Get-DbaUptime first, before running this command.</p>
-<p>Test-DbaDbCompression script derived from GitHub and the Tiger Team's repository: (<a href="https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains">https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains</a>)
+<p>Test-DbaDbCompression script derived from GitHub and the Tiger Team's repository: (<a href="https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains">https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains</a>)<br />
 In the output, you will find the following information:</p>
 <ul>
 <li>Column Percent_Update shows the percentage of update operations on a specific table, index, or partition, relative to total operations on that object. The lower the percentage of Updates (that is, the table, index, or partition is infrequently updated), the better candidate it is for page compression.</li>
 <li>Column Percent_Scan shows the percentage of scan operations on a table, index, or partition, relative to total operations on that object. The higher the value of Scan (that is, the table, index, or partition is mostly scanned), the better candidate it is for page compression.</li>
 <li>Column Compression_Type_Recommendation can have four possible outputs indicating where there is most gain, if any: 'PAGE', 'ROW', 'NO_GAIN' or '?'. When the output is '?' this approach could not give a recommendation, so as a rule of thumb I would lean to ROW if the object suffers mainly UPDATES, or PAGE if mainly INSERTS, but this is where knowing your workload is essential. When the output is 'NO_GAIN' well, that means that according to sp_estimate_data_compression_savings no space gains will be attained when compressing, as in the above output example, where compressing would grow the affected object.</li>
 </ul>
-<p>This script will execute on the context of the current database.
-Also be aware that this may take a while to execute on large objects, because if the IS locks taken by the
-sp_estimate_data_compression_savings cannot be honored, the SP will be blocked.
-It only considers Row or Page Compression (not column compression)
+<p>This script will execute on the context of the current database.<br />
+Also be aware that this may take a while to execute on large objects, because if the IS locks taken by the<br />
+sp_estimate_data_compression_savings cannot be honored, the SP will be blocked.<br />
+It only considers Row or Page Compression (not column compression)<br />
 It only evaluates User Tables</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaDbCompression
@@ -576,7 +576,7 @@ PS C:\&gt; foreach ($svr in $servers) {
 <p>This produces a full analysis of all your servers listed and is pushed to a csv for you to analyze.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
+<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -605,8 +605,8 @@ PS C:\&gt; foreach ($svr in $servers) {
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -775,7 +775,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="rank">-Rank</h5>
-<p>Allows you to specify the field used for ranking when determining the ResultSize
+<p>Allows you to specify the field used for ranking when determining the ResultSize<br />
 Can be either TotalPages, UsedPages or TotalRows with default of TotalPages. Only applies when ResultSize is used.<br></p>
 <table>
 <thead>
@@ -808,7 +808,7 @@ Can be either TotalPages, UsedPages or TotalRows with default of TotalPages. Onl
 </tbody>
 </table>
 <h5 id="filterby">-FilterBy</h5>
-<p>Allows you to specify level of filtering when determining the ResultSize
+<p>Allows you to specify level of filtering when determining the ResultSize<br />
 Can be at either Table, Index or Partition level with default of Partition. Only applies when ResultSize is used.<br></p>
 <table>
 <thead>
@@ -841,8 +841,8 @@ Can be at either Table, Index or Partition level with default of Partition. Only
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

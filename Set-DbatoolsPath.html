@@ -483,8 +483,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Configures or updates a path under a name.</p>
 <h2 id="description">Description</h2>
-<p>Configures or updates a path under a name.
-The path can be persisted using the &quot;-Register&quot; command.
+<p>Configures or updates a path under a name.<br />
+The path can be persisted using the &quot;-Register&quot; command.<br />
 Paths setup like this can be retrieved using Get-DbatoolsPath.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbatoolsPath -Name &lt;String&gt; -Path &lt;String&gt;
@@ -504,7 +504,7 @@ Set-DbatoolsPath -Name &lt;String&gt; -Path &lt;String&gt; -Register
 <p>Configures C:\temp as the current temp path. (does not override $Env:TEMP !)<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="name">-Name</h5>
-<p>Name the path should be stored under.<br></p>
+<p>Name the path should be stored under. <br></p>
 <table>
 <thead>
 <tr>
@@ -532,7 +532,7 @@ Set-DbatoolsPath -Name &lt;String&gt; -Path &lt;String&gt; -Register
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The path that should be returned under the name.<br></p>
+<p>The path that should be returned under the name. <br></p>
 <table>
 <thead>
 <tr>
@@ -560,7 +560,7 @@ Set-DbatoolsPath -Name &lt;String&gt; -Path &lt;String&gt; -Register
 </tbody>
 </table>
 <h5 id="register">-Register</h5>
-<p>Registering a path in order for it to persist across sessions.<br></p>
+<p>Registering a path in order for it to persist across sessions. <br></p>
 <table>
 <thead>
 <tr>
@@ -589,8 +589,8 @@ Set-DbatoolsPath -Name &lt;String&gt; -Path &lt;String&gt; -Register
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="scope">-Scope</h5>
-<p>The configuration scope it should be registered under.
-Defaults to UserDefault.
+<p>The configuration scope it should be registered under.<br />
+Defaults to UserDefault.<br />
 Configuration scopes are the default locations configurations are being stored at.<br></p>
 <table>
 <thead>

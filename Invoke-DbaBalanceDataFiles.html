@@ -487,15 +487,15 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Re-balance data between data files</p>
 <h2 id="description">Description</h2>
-<p>When you have a large database with a single data file and add another file, SQL Server will only use the new file until it's about the same size.
+<p>When you have a large database with a single data file and add another file, SQL Server will only use the new file until it's about the same size.<br />
 You may want to balance the data between all the data files.</p>
-<p>The function will check the server version and edition to see if the it allows for online index rebuilds.
-If the server does support it, it will try to rebuild the index online.
+<p>The function will check the server version and edition to see if the it allows for online index rebuilds.<br />
+If the server does support it, it will try to rebuild the index online.<br />
 If the server doesn't support it, it will rebuild the index offline. Be carefull though, this can cause downtime</p>
-<p>The tables must have a clustered index to be able to balance out the data.
+<p>The tables must have a clustered index to be able to balance out the data.<br />
 The function does NOT yet support heaps.</p>
-<p>The function will also check if the file groups are subject to balance out.
-A file group would have at least have 2 data files and should be writable.
+<p>The function will also check if the file groups are subject to balance out.<br />
+A file group would have at least have 2 data files and should be writable.<br />
 If a table is within such a file group it will be subject for processing. If not the table will be skipped.</p>
 <p>Note: this command does not perform a disk space check for non-Windows machines so make sure you have enough space on the disk.</p>
 <h2 id="syntax">Syntax</h2>
@@ -544,7 +544,7 @@ Invoke-DbaBalanceDataFiles -SqlInstance &lt;DbaInstanceParameter[]&gt;
 By supplying this parameter you give permission to do the rebuilds offline if the edition does not support it.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -573,8 +573,8 @@ By supplying this parameter you give permission to do the rebuilds offline if th
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -659,7 +659,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="rebuildoffline">-RebuildOffline</h5>
-<p>Will set all the indexes to rebuild offline.
+<p>Will set all the indexes to rebuild offline.<br />
 This option is also needed when the server version is below 2005.<br></p>
 <table>
 <thead>
@@ -688,8 +688,8 @@ This option is also needed when the server version is below 2005.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>
@@ -718,7 +718,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>This will disable the check for enough disk space for the action to be successful.
+<p>This will disable the check for enough disk space for the action to be successful.<br />
 Use this with caution!!<br></p>
 <table>
 <thead>

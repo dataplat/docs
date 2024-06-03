@@ -489,18 +489,18 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Gets execution and estimated completion time information for queries</p>
 <p>Percent complete will show for the following commands</p>
-<p>ALTER INDEX REORGANIZE
-AUTO_SHRINK option with ALTER DATABASE
-BACKUP DATABASE
-DBCC CHECKDB
-DBCC CHECKFILEGROUP
-DBCC CHECKTABLE
-DBCC INDEXDEFRAG
-DBCC SHRINKDATABASE
-DBCC SHRINKFILE
-RECOVERY
-RESTORE DATABASE
-ROLLBACK
+<p>ALTER INDEX REORGANIZE<br />
+AUTO_SHRINK option with ALTER DATABASE<br />
+BACKUP DATABASE<br />
+DBCC CHECKDB<br />
+DBCC CHECKFILEGROUP<br />
+DBCC CHECKTABLE<br />
+DBCC INDEXDEFRAG<br />
+DBCC SHRINKDATABASE<br />
+DBCC SHRINKFILE<br />
+RECOVERY<br />
+RESTORE DATABASE<br />
+ROLLBACK<br />
 TDE ENCRYPTION</p>
 <p>For additional information, check out <a href="https://blogs.sentryone.com/loriedwards/patience-dm-exec-requests/">https://blogs.sentryone.com/loriedwards/patience-dm-exec-requests/</a> and <a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-requests-transact-sql">https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-requests-transact-sql</a></p>
 <p>The command will only return queries that provide estimated completion time, all other running queries will be filtered out.</p>
@@ -535,7 +535,7 @@ TDE ENCRYPTION</p>
 <p>Gets estimated completion times for queries performed against the Northwind, pubs, and Adventureworks2014 databases<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -564,8 +564,8 @@ TDE ENCRYPTION</p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>SqlLogin to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>SqlLogin to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance..<br></p>
 <table>
 <thead>
@@ -650,8 +650,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

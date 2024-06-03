@@ -487,9 +487,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Command to return any columns that could potentially contain PII (Personal Identifiable Information)</p>
 <h2 id="description">Description</h2>
-<p>This command will go through the tables in your database and assess each column.
-It will first check the columns names if it was named in such a way that it would indicate PII.
-The next thing that it will do is pattern recognition by looking into the data from the table.
+<p>This command will go through the tables in your database and assess each column.<br />
+It will first check the columns names if it was named in such a way that it would indicate PII.<br />
+The next thing that it will do is pattern recognition by looking into the data from the table.<br />
 Custom scan definitions can be specified using the formats seen in <dbatools module root>\bin\datamasking\pii-knownnames.json and <dbatools module root>\bin\datamasking\pii-patterns.json.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbPiiScan
@@ -568,8 +568,8 @@ Custom scan definitions can be specified using the formats seen in <dbatools mod
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -934,8 +934,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

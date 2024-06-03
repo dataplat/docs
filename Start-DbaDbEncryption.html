@@ -537,7 +537,7 @@ PS C:\&gt; Start-DbaDbEncryption @params
 Then encrypts all user databases on sql01, creating master keys and certificates as needed, and backing all of them up to C:\temp, securing them with the password set in $certbackuppass<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="backuppath">-BackupPath</h5>
-<p>The path (accessible by and relative to the SQL Server) where master keys and certificates are backed up<br></p>
+<p>The path (accessible by and relative to the SQL Server) where master keys and certificates are backed up <br></p>
 <table>
 <thead>
 <tr>
@@ -565,9 +565,9 @@ Then encrypts all user databases on sql01, creating master keys and certificates
 </tbody>
 </table>
 <h5 id="masterkeysecurepassword">-MasterKeySecurePassword</h5>
-<p>A master service key will be created and backed up if one does not exist
-MasterKeySecurePassword is the secure string (password) used to create the key
-This parameter is required even if no master keys are made, as we won't know if master key creation will be required until each server is processed<br></p>
+<p>A master service key will be created and backed up if one does not exist<br />
+MasterKeySecurePassword is the secure string (password) used to create the key<br />
+This parameter is required even if no master keys are made, as we won't know if master key creation will be required until each server is processed <br></p>
 <table>
 <thead>
 <tr>
@@ -595,7 +595,7 @@ This parameter is required even if no master keys are made, as we won't know if 
 </tbody>
 </table>
 <h5 id="backupsecurepassword">-BackupSecurePassword</h5>
-<p>This command will perform backups of all maskter keys and certificates. Use this parameter to set the backup password<br></p>
+<p>This command will perform backups of all maskter keys and certificates. Use this parameter to set the backup password <br></p>
 <table>
 <thead>
 <tr>
@@ -652,8 +652,8 @@ This parameter is required even if no master keys are made, as we won't know if 
 </tbody>
 </table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -682,8 +682,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="encryptorname">-EncryptorName</h5>
-<p>The name of the encryptor (Certificate or Asymmetric Key) in master that will be used. Tries to find one if one is not specified. If certificate does not exist and -Force is specified, one will be
-created with the given Encryptor Name.
+<p>The name of the encryptor (Certificate or Asymmetric Key) in master that will be used. Tries to find one if one is not specified. If certificate does not exist and -Force is specified, one will be<br />
+created with the given Encryptor Name.<br />
 In order to encrypt the database encryption key with an asymmetric key, you must use an asymmetric key that resides on an extensible key management provider.<br></p>
 <table>
 <thead>
@@ -800,7 +800,7 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 </tbody>
 </table>
 <h5 id="certificatestartdate">-CertificateStartDate</h5>
-<p>Optional start date that will be used when creating all certificates
+<p>Optional start date that will be used when creating all certificates<br />
 By default, certs will start immediately<br></p>
 <table>
 <thead>
@@ -829,7 +829,7 @@ By default, certs will start immediately<br></p>
 </tbody>
 </table>
 <h5 id="certificateexpirationdate">-CertificateExpirationDate</h5>
-<p>Optional expiration that will be used when creating all certificates
+<p>Optional expiration that will be used when creating all certificates<br />
 By default, certs will last 5 years<br></p>
 <table>
 <thead>
@@ -914,7 +914,7 @@ By default, certs will last 5 years<br></p>
 </tbody>
 </table>
 <h5 id="alluserdatabases">-AllUserDatabases</h5>
-<p>Run command against all user databases
+<p>Run command against all user databases<br />
 This was added to emphasize that all user databases will be encrypted<br></p>
 <table>
 <thead>
@@ -971,8 +971,8 @@ This was added to emphasize that all user databases will be encrypted<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>

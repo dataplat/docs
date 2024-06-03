@@ -487,8 +487,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>This command gets specified SSIS Environment and all its variables</p>
 <h2 id="description">Description</h2>
-<p>This command gets all variables from specified environment from SSIS Catalog. All sensitive values are decrypted.
-The function communicates directly with SSISDB database, &quot;SQL Server Integration Services&quot; service isn't queried there.
+<p>This command gets all variables from specified environment from SSIS Catalog. All sensitive values are decrypted.<br />
+The function communicates directly with SSISDB database, &quot;SQL Server Integration Services&quot; service isn't queried there.<br />
 Each parameter (besides SqlInstance and SqlCredential) acts as the filter to only include or exclude particular element</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaSsisEnvironmentVariable
@@ -549,9 +549,9 @@ The server names come from the pipeline.<br></p>
 selects Name and Value properties for variables that names start with letter 'a' and outputs it as the GridView<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances.
-This can be a collection and receive pipeline input to allow the function
-to be executed against multiple SQL Server instances.<br></p>
+<p>The target SQL Server instance or instances.<br />
+This can be a collection and receive pipeline input to allow the function<br />
+to be executed against multiple SQL Server instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -580,8 +580,8 @@ to be executed against multiple SQL Server instances.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -638,7 +638,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="environmentexclude">-EnvironmentExclude</h5>
-<p>The SSIS Environments to exclude. Acts as a filter for environments, best used without 'Environment' parameter
+<p>The SSIS Environments to exclude. Acts as a filter for environments, best used without 'Environment' parameter<br />
 to get variables for all environments but excluded ones<br></p>
 <table>
 <thead>
@@ -695,7 +695,7 @@ to get variables for all environments but excluded ones<br></p>
 </tbody>
 </table>
 <h5 id="folderexclude">-FolderExclude</h5>
-<p>The Folders names to exclude. Acts as a filter for folders containing environments, best user without 'Folder' parameter
+<p>The Folders names to exclude. Acts as a filter for folders containing environments, best user without 'Folder' parameter<br />
 to get variables for all folders but excluded ones<br></p>
 <table>
 <thead>
@@ -724,8 +724,8 @@ to get variables for all folders but excluded ones<br></p>
 </tbody>
 </table>
 <h5 id="enableexception">-EnableException</h5>
-<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.
-This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
 <table>
 <thead>
