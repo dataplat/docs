@@ -273,7 +273,7 @@ Set-DbadocsOSearch -OutputFolder $OutputFolder -ContentFolder $ContentFolder
 
 #create all pages
 try {
-    $maxConcurrentJobs = (Get-CimInstance -ClassName Win32_Processor -Property NumberOfCores | Measure-Object -Property 'NumberOfCores' -Sum).Sum
+    [int]$maxConcurrentJobs = [Environment]::ProcessorCount
 } catch {
     $maxConcurrentJobs = 4
 }
