@@ -277,6 +277,7 @@ try {
 } catch {
     $maxConcurrentJobs = 4
 }
+Write-Host "Starting $maxConcurrentJobs Jobs"
 $whatever = Split-ArrayInParts -array $idx -parts $maxConcurrentJobs
 $jobs = @()
 Write-Host "Creating docs pages"
