@@ -506,6 +506,7 @@ If the job parameter is not supplied the schedule will not be attached to a job.
     [[-EndDate] &lt;String&gt;]
     [[-StartTime] &lt;String&gt;]
     [[-EndTime] &lt;String&gt;]
+    [[-Owner] &lt;String&gt;]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -877,7 +878,7 @@ FrequencyRecurrenceFactor is used only if FrequencyType is &quot;Weekly&quot;, &
 </tbody>
 </table>
 <h5 id="startdate">-StartDate</h5>
-<p>The date on which execution of a job can begin.<br />
+<p>The date on which execution of a job can begin. Must be a string in the format yyyyMMdd.<br />
 If force is used the start date will be the current day<br></p>
 <table>
 <thead>
@@ -906,8 +907,8 @@ If force is used the start date will be the current day<br></p>
 </tbody>
 </table>
 <h5 id="enddate">-EndDate</h5>
-<p>The date on which execution of a job can stop.<br />
-If force is used the end date will be '9999-12-31'<br></p>
+<p>The date on which execution of a job can stop. Must be a string in the format yyyyMMdd.<br />
+If force is used the end date will be '99991231'<br></p>
 <table>
 <thead>
 <tr>
@@ -935,10 +936,10 @@ If force is used the end date will be '9999-12-31'<br></p>
 </tbody>
 </table>
 <h5 id="starttime">-StartTime</h5>
-<p>The time on any day to begin execution of a job. Format HHMMSS / 24 hour clock.<br />
+<p>The time on any day to begin execution of a job. Must be a string in the format HHmmss / 24 hour clock.<br />
 Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br />
-If force is used the start time will be '00:00:00'<br></p>
+If force is used the start time will be '000000' for midnight.<br></p>
 <table>
 <thead>
 <tr>
@@ -966,10 +967,38 @@ If force is used the start time will be '00:00:00'<br></p>
 </tbody>
 </table>
 <h5 id="endtime">-EndTime</h5>
-<p>The time on any day to end execution of a job. Format HHMMSS / 24 hour clock.<br />
+<p>The time on any day to end execution of a job. Must be a string in the format HHmmss / 24 hour clock.<br />
 Example: '010000' for 01:00:00 AM.<br />
 Example: '140000' for 02:00:00 PM.<br />
-If force is used the start time will be '23:59:59'<br></p>
+If force is used the end time will be '235959' for one second before midnight.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="owner">-Owner</h5>
+<p>Login to own the job, defaults to login running the command.<br></p>
 <table>
 <thead>
 <tr>

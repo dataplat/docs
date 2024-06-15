@@ -539,10 +539,14 @@ PS C:\&gt; $servers | Install-DbaFirstResponderKit
 </code></pre>
 <p>Installs only the procedures sp_Blitz and sp_BlitzWho and the table SqlServerVersions by running the corresponding scripts.<br></p>
 <h5 id="example-8">Example:  8</h5>
-<pre><code>PS C:\&gt; Install-DbaFirstResponderKit -SqlInstance sql2016 -OnlyScript Install-Core-Blitz-No-Query-Store.sql
+<pre><code>PS C:\&gt; Install-DbaFirstResponderKit -SqlInstance sql2016 -OnlyScript Install-All-Scripts.sql
 </code></pre>
-<p>Installs only part of the First Responder Kit by running the official install script.<br></p>
+<p>Installs the First Responder Kit using the official install script.<br></p>
 <h5 id="example-9">Example:  9</h5>
+<pre><code>PS C:\&gt; Install-DbaFirstResponderKit -SqlInstance sql-server-001.database.windows.net -OnlyScript Install-Azure.sql
+</code></pre>
+<p>Installs the First Responder Kit using the official install script for Azure SQL Database.<br></p>
+<h5 id="example-10">Example:  10</h5>
 <pre><code>PS C:\&gt; Install-DbaFirstResponderKit -SqlInstance sql2016 -OnlyScript Uninstall.sql
 </code></pre>
 <p>Uninstalls the First Responder Kit by running the official uninstall script.<br></p>
@@ -729,7 +733,7 @@ Even removing the First Responder Kit is possible by using the official Uninstal
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Install-All-Scripts.sql,Install-Core-Blitz-No-Query-Store.sql,Install-Core-Blitz-With-Query-Store.sql,sp_Blitz.sql,sp_BlitzFirst.sql,sp_BlitzIndex.sql,sp_BlitzCache.sql,sp_BlitzWho.sql,sp_BlitzQueryStore.sql,sp_BlitzAnalysis.sql,sp_BlitzBackups.sql,sp_BlitzInMemoryOLTP.sql,sp_BlitzLock.sql,sp_AllNightLog.sql,sp_AllNightLog_Setup.sql,sp_DatabaseRestore.sql,sp_ineachdb.sql,SqlServerVersions.sql,Uninstall.sql</td>
+<td>Install-All-Scripts.sql,Install-Azure.sql,sp_Blitz.sql,sp_BlitzFirst.sql,sp_BlitzIndex.sql,sp_BlitzCache.sql,sp_BlitzWho.sql,sp_BlitzAnalysis.sql,sp_BlitzBackups.sql,sp_BlitzLock.sql,sp_DatabaseRestore.sql,sp_ineachdb.sql,SqlServerVersions.sql,Uninstall.sql</td>
 </tr>
 </tbody>
 </table>
