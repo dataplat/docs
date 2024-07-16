@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbUser">New-DbaDbUser</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new user for the specified database.</p>
+<p>Creates a new user for the specified database(s).</p>
 <h2 id="description">Description</h2>
-<p>Creates a new user for a specified database with provided specifications.</p>
+<p>Creates a new user for the specified database(s) with provided specifications.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbUser
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -495,39 +495,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Database &lt;String[]&gt;]
     [-ExcludeDatabase &lt;String[]&gt;]
     [-IncludeSystem]
-    -Login &lt;String&gt;
-    [-Username &lt;String&gt;]
-    [-DefaultSchema &lt;String&gt;]
-    [-Force]
-    [-EnableException]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-New-DbaDbUser
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;String[]&gt;]
-    [-ExcludeDatabase &lt;String[]&gt;]
-    [-IncludeSystem]
-    -Username &lt;String&gt;
-    [-DefaultSchema &lt;String&gt;]
+    -User &lt;String&gt;
     -ExternalProvider
-    [-Force]
-    [-EnableException]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-New-DbaDbUser
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;String[]&gt;]
-    [-ExcludeDatabase &lt;String[]&gt;]
-    [-IncludeSystem]
-    -Username &lt;String&gt;
     [-DefaultSchema &lt;String&gt;]
-    -Password &lt;SecureString&gt;
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -540,7 +510,37 @@ New-DbaDbUser
     [-Database &lt;String[]&gt;]
     [-ExcludeDatabase &lt;String[]&gt;]
     [-IncludeSystem]
-    -Username &lt;String&gt;
+    -User &lt;String&gt;
+    -SecurePassword &lt;SecureString&gt;
+    [-DefaultSchema &lt;String&gt;]
+    [-Force]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+New-DbaDbUser
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Database &lt;String[]&gt;]
+    [-ExcludeDatabase &lt;String[]&gt;]
+    [-IncludeSystem]
+    -User &lt;String&gt;
+    [-DefaultSchema &lt;String&gt;]
+    [-Force]
+    [-EnableException]
+    [-WhatIf]
+    [-Confirm]
+    [&lt;CommonParameters&gt;]
+
+New-DbaDbUser
+    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Database &lt;String[]&gt;]
+    [-ExcludeDatabase &lt;String[]&gt;]
+    [-IncludeSystem]
+    [-User &lt;String&gt;]
+    -Login &lt;String&gt;
     [-DefaultSchema &lt;String&gt;]
     [-Force]
     [-EnableException]
@@ -555,30 +555,30 @@ New-DbaDbUser
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Login user1
 </code></pre>
-<p>Creates a new sql user with login named user1 in the specified database.<br></p>
+<p>Creates a new sql user named user1 for the login user1 in the database DB1.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Username user1
+<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -User user1
 </code></pre>
-<p>Creates a new sql user without login named user1 in the specified database.<br></p>
+<p>Creates a new sql user named user1 without login in the database DB1.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Login Login1 -Username user1
+<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -User user1 -Login login1
 </code></pre>
-<p>Creates a new sql user named user1 mapped to Login1 in the specified database.<br></p>
+<p>Creates a new sql user named user1 for the login login1 in the database DB1.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Login Login1 -Username user1 -DefaultSchema schema1
+<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -User user1 -Login Login1 -DefaultSchema schema1
 </code></pre>
-<p>Creates a new sql user named user1 mapped to Login1 in the specified database and specifies the default schema to be schema1.<br></p>
+<p>Creates a new sql user named user1 for the login login1 in the database DB1 and specifies the default schema to be schema1.<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Username &quot;claudio@********.onmicrosoft.com&quot; -ExternalProvider
+<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -User &quot;claudio@********.onmicrosoft.com&quot; -ExternalProvider
 </code></pre>
-<p>Creates a new sql user named 'claudio@********.onmicrosoft.com' mapped to Azure Active Directory (AAD) in the specified database.<br></p>
+<p>Creates a new sql user named 'claudio@********.onmicrosoft.com' mapped to Azure Active Directory (AAD) in the database DB1.<br></p>
 <h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Username user1 -Password (ConvertTo-SecureString -String &quot;DBATools&quot; -AsPlainText)
+<pre><code>PS C:\&gt; New-DbaDbUser -SqlInstance sqlserver2014 -Database DB1 -Username user1 -Password (ConvertTo-SecureString -String &quot;DBATools&quot; -AsPlainText -Force)
 </code></pre>
-<p>Creates a new cointained sql user named user1 in the database given database with the password specified.<br></p>
+<p>Creates a new contained sql user named user1 in the database DB1 with the password specified.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. Defaults to the default instance on localhost. <br></p>
+<p>The target SQL Server instance or instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -590,6 +590,34 @@ New-DbaDbUser
 <tr>
 <td>Alias</td>
 <td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>True</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="user">-User</h5>
+<p>When specified, the user will have this name. If not specified but -Login is used, the user will have the same name as the login. <br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>Username</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -606,7 +634,7 @@ New-DbaDbUser
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>When specified, the user will be associated to this SQL login and have the same name as the Login. <br></p>
+<p>When specified, the user will be associated to this SQL login. <br></p>
 <table>
 <thead>
 <tr>
@@ -633,8 +661,8 @@ New-DbaDbUser
 </tr>
 </tbody>
 </table>
-<h5 id="password">-Password</h5>
-<p>When specified, the user will be created as a contained user. Standalone databases partial containment should be turned on to succeed. By default, in Azure SQL databases this is turned on. <br></p>
+<h5 id="securepassword">-SecurePassword</h5>
+<p>If we need to pass a password to the command, we always use the type securestring and name the parameter SecurePassword. Here we only use the alias for backwords compatibility. <br></p>
 <table>
 <thead>
 <tr>
@@ -645,7 +673,7 @@ New-DbaDbUser
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>Password</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -662,7 +690,7 @@ New-DbaDbUser
 </tbody>
 </table>
 <h5 id="externalprovider">-ExternalProvider</h5>
-<p>Specifies that the user is for Azure AD Authentication.<br />
+<p>When specified, the user will be created for Azure AD Authentication.<br />
 Equivalent to T-SQL: 'CREATE USER [claudio@********.onmicrosoft.com] FROM EXTERNAL PROVIDER` <br></p>
 <table>
 <thead>
@@ -722,7 +750,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all user databases will be processed.<br></p>
+<p>Specifies one or more database(s) to process. If unspecified, all user databases will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -750,7 +778,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server. By default, system databases are excluded.<br></p>
+<p>Specifies one or more database(s) to exclude from processing.<br></p>
 <table>
 <thead>
 <tr>
@@ -778,7 +806,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystem">-IncludeSystem</h5>
-<p>If this switch is enabled, the user will be added to system databases. This switch will be ignored if -Database is used.<br></p>
+<p>If this switch is enabled, also system databases will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -802,34 +830,6 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="username">-Username</h5>
-<p>When specified, the user will have this name.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
 </tr>
 </tbody>
 </table>

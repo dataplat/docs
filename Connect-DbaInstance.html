@@ -1492,7 +1492,8 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </table>
 <h5 id="accesstoken">-AccessToken</h5>
 <p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken, that has to be generated with Get-AzAccessToken or New-DbaAzAccessToken.<br />
-Note that the token is valid for only one hour and cannot be renewed automatically.<br></p>
+Note that the token is valid for only one hour and cannot be renewed automatically.<br />
+Note that the returned SMO is not a fully functional SMO. It can only be used in a limited list of commands like Invoke-DbaQuery, Import-DbaCsv or Write-DbaDbTableData.<br></p>
 <table>
 <thead>
 <tr>

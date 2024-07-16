@@ -582,6 +582,11 @@ PS C:\&gt; Install-DbaInstance -Version 2016 -InstancePath D:\Root -DataPath E: 
 <p>Install SQL Server 2016 instance into D:\Root drive, set default data folder as E: and default logs folder as L:.<br>
 Perform volume maintenance tasks permission is granted. MyDomain\SvcSqlServer is used as a service account for SqlServer.<br></p>
 <h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; $svcAcc = [PSCredential]::new(&quot;MyDomain\SvcSqlServer$&quot;, [SecureString]::new())
+PS C:\&gt; Install-DbaInstance -Version 2016 -InstancePath D:\Root -DataPath E: -LogPath L: -PerformVolumeMaintenanceTasks -EngineCredential $svcAcc
+</code></pre>
+<p>The same as the last example except MyDomain\SvcSqlServer is now a Managed Service Account (MSA).<br></p>
+<h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; $config = @{
 &gt;&gt; AGTSVCSTARTUPTYPE = &quot;Manual&quot;
 &gt;&gt; BROWSERSVCSTARTUPTYPE = &quot;Manual&quot;
