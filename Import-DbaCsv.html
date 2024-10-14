@@ -583,7 +583,16 @@ Since a table name was not specified, the table name is automatically determined
 &gt;&gt; }
 PS C:\&gt; Import-DbaCsv -Path c:\temp\supersmall.csv -SqlInstance sql2016 -Database tempdb -ColumnMap $columns
 </code></pre>
-<p>The CSV column 'Text' is inserted into SQL column 'FirstName' and CSV column Number is inserted into the SQL Column 'PhoneNumber'. All other columns are ignored and therefore null or default values.<br></p>
+<p>The CSV field 'Text' is inserted into SQL column 'FirstName' and CSV field Number is inserted into the SQL Column 'PhoneNumber'. All other columns are ignored and therefore null or default values.<br></p>
+<h5 id="example-11">Example:  11</h5>
+<pre><code>PS C:\&gt; $columns = @{
+&gt;&gt; 0 = 'FirstName'
+&gt;&gt; 1 = 'PhoneNumber'
+&gt;&gt; }
+PS C:\&gt; Import-DbaCsv -Path c:\temp\supersmall.csv -SqlInstance sql2016 -Database tempdb -NoHeaderRow -ColumnMap $columns
+</code></pre>
+<p>If the CSV has no headers, passing a ColumnMap works when you have as the key the ordinal of the column (0-based).<br>
+In this example the first CSV field is inserted into SQL column 'FirstName' and the second CSV field is inserted into the SQL Column 'PhoneNumber'.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The SQL Server Instance to import data into. <br></p>
