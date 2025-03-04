@@ -505,6 +505,7 @@ It was designed to be more convenient to use in a pipeline and to behave in a wa
     [-InputObject &lt;Database[]&gt;]
     [-ReadOnly]
     [-NoExec]
+    [-AppendConnectionString &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -522,6 +523,7 @@ Invoke-DbaQuery
     [-InputObject &lt;Database[]&gt;]
     [-ReadOnly]
     [-NoExec]
+    [-AppendConnectionString &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -539,6 +541,7 @@ Invoke-DbaQuery
     [-InputObject &lt;Database[]&gt;]
     [-ReadOnly]
     [-NoExec]
+    [-AppendConnectionString &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -613,6 +616,17 @@ PS C:\&gt; $inputparamSSN = New-DbaSqlParameter -Direction Input -ParameterName 
 PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query 'SELECT * FROM bar WHERE SSN_col = @SSN' -SqlParameter @inputparamSSN
 </code></pre>
 <p>Creates an input parameter using Always Encrypted<br></p>
+<h5 id="example-12">Example:  12</h5>
+<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance AG1 -Database dbatools -MultiSubnetFailover -ConnectTimeout 60
+PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query 'SELECT foo FROM bar'
+</code></pre>
+<p>Reuses Connect-DbaInstance, leveraging advanced paramenters, to adhere to official guidelines to target FCI or AG listeners.<br>
+See <a href="https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery#connecting-with-multisubnetfailover">https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery#connecting-with-multisubnetfailover</a><br></p>
+<h5 id="example-13">Example:  13</h5>
+<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance AG1 -Query 'SELECT foo FROM bar' -AppendConnectionString 'MultiSubnetFailover=true;Connect Timeout=60'
+</code></pre>
+<p>Leverages your own parameters, giving you full power, mimicking Connect-DbaInstance's <code>-MultiSubnetFailover -ConnectTimeout 60</code>, to adhere to official guidelines to target FCI or AG listeners.<br>
+See <a href="https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery#connecting-with-multisubnetfailover">https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery#connecting-with-multisubnetfailover</a><br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="query">-Query</h5>
 <p>Specifies one or more queries to be run. The queries can be Transact-SQL, XQuery statements, or sqlcmd commands. Multiple queries in a single batch may be separated by a semicolon or a GO<br />
@@ -1041,6 +1055,34 @@ Default is 'Text'. Further information: <a href="https://docs.microsoft.com/en-u
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="appendconnectionstring">-AppendConnectionString</h5>
+<p>Appends to the current connection string. Note that you cannot pass authentication information using this method. Use -SqlInstance and optionally -SqlCredential to set authentication information.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

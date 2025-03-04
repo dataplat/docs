@@ -504,19 +504,20 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </ol>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbShrink
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Database] &lt;Object[]&gt;]
-    [[-ExcludeDatabase] &lt;Object[]&gt;]
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+    [-SqlCredential &lt;PSCredential&gt;]
+    [-Database &lt;Object[]&gt;]
+    [-ExcludeDatabase &lt;Object[]&gt;]
     [-AllUserDatabases]
-    [[-PercentFreeSpace] &lt;Int32&gt;]
-    [[-ShrinkMethod] &lt;String&gt;]
-    [[-FileType] &lt;String&gt;]
-    [[-StepSize] &lt;Int64&gt;]
-    [[-StatementTimeout] &lt;Int32&gt;]
+    [-PercentFreeSpace &lt;Int32&gt;]
+    [-ShrinkMethod &lt;String&gt;]
+    [-FileType &lt;String&gt;]
+    [-StepSize &lt;Int64&gt;]
+    [-StatementTimeout &lt;Int32&gt;]
     [-ExcludeIndexStats]
     [-ExcludeUpdateUsage]
     [-EnableException]
+    [-InputObject &lt;Database[]&gt;]
     [-WhatIf]
     [-Confirm]
     [&lt;CommonParameters&gt;]
@@ -541,9 +542,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; Invoke-DbaDbShrink -SqlInstance sql2012 -AllUserDatabases
 </code></pre>
 <p>Shrinks all user databases on SQL2012 (not ideal for production)<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sql2012 -Database Northwind,pubs | Invoke-DbaDbShrink
+</code></pre>
+<p>Shrinks all databases coming from a pre-filtered list via Get-DbaDatabase<br></p>
+<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. Defaults to the default instance on localhost. <br></p>
+<p>The target SQL Server instance or instances. Defaults to the default instance on localhost.<br></p>
 <table>
 <thead>
 <tr>
@@ -558,7 +563,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tr>
 <tr>
 <td>Required</td>
-<td>True</td>
+<td>False</td>
 </tr>
 <tr>
 <td>Pipeline</td>
@@ -570,7 +575,6 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tr>
 </tbody>
 </table>
-<h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
@@ -929,6 +933,34 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>A collection of databases (such as returned by Get-DbaDatabase)<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

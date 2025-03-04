@@ -531,7 +531,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Finds all failed job then starts them. Consider using a -WhatIf at the end of Start-DbaAgentJob to see what it'll do first<br></p>
 <h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; Find-DbaAgentJob -SqlInstance Dev01 -LastUsed 10 -Exclude &quot;Yearly - RollUp Workload&quot;, &quot;SMS - Notification&quot;
+<pre><code>PS C:\&gt; Find-DbaAgentJob -SqlInstance Dev01 -LastUsed 10 -ExcludeJobName &quot;Yearly - RollUp Workload&quot;, &quot;SMS - Notification&quot;
 </code></pre>
 <p>Returns all agent jobs that have not ran in the last 10 days ignoring jobs &quot;Yearly - RollUp Workload&quot; and &quot;SMS - Notification&quot;<br></p>
 <h5 id="example-7">Example:  7</h5>

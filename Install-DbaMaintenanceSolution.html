@@ -537,18 +537,31 @@ If the Maintenance Solution already exists, the script will be halted.<br></p>
 &gt;&gt; }
 &gt;&gt; Install-DbaMaintenanceSolution @params
 </code></pre>
-<p>Installs Maintenance Solution to myserver in database. Adds Agent Jobs, and if any currently exist, they'll be replaced.<br></p>
+<p>Installs Maintenance Solution to myserver in database. Adds Agent Jobs, and if any currently exist, they'll be replaced.<br>
+Since the <code>LogToTable</code> switch is enabled, the CommandLog table will be dropped and recreated also.<br>
+If the tables relating to <code>InstallParallel</code> are present, they will not be dropped.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Install-DbaMaintenanceSolution -SqlInstance RES14224 -Database DBA -InstallJobs -BackupLocation &quot;Z:\SQLBackup&quot; -CleanupTime 72 -ReplaceExisting
+<pre><code>PS C:\&gt; $params = @{
+&gt;&gt; SqlInstance = 'RES14224'
+&gt;&gt; Database = 'DBA'
+&gt;&gt; InstallJobs = $true
+&gt;&gt; BackupLocation = 'Z:\SQLBackup'
+&gt;&gt; CleanupTime = 72
+&gt;&gt; ReplaceExisting = $true
+&gt;&gt; }
+PS C:\&gt; Install-DbaMaintenanceSolution @params
 </code></pre>
 <p>This will drop and then recreate the Ola Hallengren's Solution objects<br>
 The cleanup script will drop and recreate:<br></p>
 <ul>
-<li>TABLE [dbo].[CommandLog]<br></li>
 <li>STORED PROCEDURE [dbo].[CommandExecute]<br></li>
 <li>STORED PROCEDURE [dbo].[DatabaseBackup]<br></li>
 <li>STORED PROCEDURE [dbo].[DatabaseIntegrityCheck]<br></li>
 <li>STORED PROCEDURE [dbo].[IndexOptimize]<br>
+The tables will not be dropped as the <code>LogToTable</code> and <code>InstallParallel</code> switches are not enabled.<br></li>
+<li>[dbo].[CommandLog]<br></li>
+<li>[dbo].[Queue]<br></li>
+<li>[dbo].[QueueDatabase]<br>
 The following SQL Agent jobs will be deleted:<br></li>
 <li>'Output File Cleanup'<br></li>
 <li>'IndexOptimize - USER_DATABASES'<br></li>
@@ -769,7 +782,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="replaceexisting">-ReplaceExisting</h5>
-<p>If this switch is enabled, objects already present in the target database will be dropped and recreated.<br></p>
+<p>If this switch is enabled, objects already present in the target database will be dropped and recreated.<br />
+Note - The tables for <code>LogToTable</code> and <code>InstallParallel</code> will only be dropped if those options are also specified.<br></p>
 <table>
 <thead>
 <tr>

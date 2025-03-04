@@ -495,6 +495,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-KeyCredential] &lt;PSCredential&gt;]
     [[-SecurePassword] &lt;SecureString&gt;]
     [[-Path] &lt;String&gt;]
+    [[-FileBaseName] &lt;String&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -635,6 +636,35 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </table>
 <h5 id="path">-Path</h5>
 <p>The directory to export the key. If no path is specified, the default backup directory for the instance will be used.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filebasename">-FileBaseName</h5>
+<p>Override the default naming convention with a fixed name for the service master key, useful when exporting a single one.<br />
+&quot;.key&quot; will be appended to the filename.<br></p>
 <table>
 <thead>
 <tr>

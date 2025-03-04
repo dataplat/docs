@@ -559,7 +559,7 @@ Prompts for confirmation before the update.<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Update-DbaInstance -ComputerName SQL1, SQL2 -Restart -Path \\network\share -Confirm:$false
 </code></pre>
-<p>Updates all applicable SQL Server installations on SQL1 and SQL2 with the most recent patch.<br>
+<p>Updates all applicable SQL Server installations on SQL1 and SQL2 with the most recent patch (that has at least a &quot;CU&quot; flag).<br>
 It will install latest ServicePack, restart the computers, install latest Cumulative Update, and finally restart the computer once again.<br>
 Binary files for the update will be searched among all files and folders recursively in \network\share.<br>
 Does not prompt for confirmation.<br></p>
@@ -601,7 +601,7 @@ Binary files for the update will be searched among all files and folders recursi
 Does not prompt for confirmation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="kb">-KB</h5>
-<p>Install a specific update or list of updates. Can be a number of a string KBXXXXXXX. <br></p>
+<p>Install a specific update or list of updates. Can be a number or a string KBXXXXXXX. <br></p>
 <table>
 <thead>
 <tr>

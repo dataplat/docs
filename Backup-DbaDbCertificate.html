@@ -495,6 +495,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-DecryptionPassword &lt;SecureString&gt;]
     [-Path &lt;FileInfo&gt;]
     [-Suffix &lt;String&gt;]
+    [-FileBaseName &lt;String&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -509,6 +510,7 @@ Backup-DbaDbCertificate -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-DecryptionPassword &lt;SecureString&gt;]
     [-Path &lt;FileInfo&gt;]
     [-Suffix &lt;String&gt;]
+    [-FileBaseName &lt;String&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -520,6 +522,7 @@ Backup-DbaDbCertificate
     [-DecryptionPassword &lt;SecureString&gt;]
     [-Path &lt;FileInfo&gt;]
     [-Suffix &lt;String&gt;]
+    [-FileBaseName &lt;String&gt;]
     [-InputObject &lt;Certificate[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -803,6 +806,35 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </table>
 <h5 id="suffix">-Suffix</h5>
 <p>The suffix of the filename of the exported certificate.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filebasename">-FileBaseName</h5>
+<p>Override the default naming convention with a fixed name for the certificate and private key file name, useful when exporting a single certificate.<br />
+&quot;.cer&quot; will be appended to the certificate file name and &quot;.pvk&quot; will be appended to the private key file name.<br></p>
 <table>
 <thead>
 <tr>

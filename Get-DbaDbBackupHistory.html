@@ -552,7 +552,7 @@ other examples.<br></p>
 <p>Get-DbaDbBackupHistory -SqlInstance SqlInstance2014a -SqlCredential $cred<br>
 Does the same as above but connect to SqlInstance2014a as SQL user &quot;sqladmin&quot;<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaDbBackupHistory -SqlInstance SqlInstance2014a -Database db1, db2 -Since '2016-07-01 10:47:00'
+<pre><code>PS C:\&gt; Get-DbaDbBackupHistory -SqlInstance SqlInstance2014a -Database db1, db2 -Since ([DateTime]'2016-07-01 10:47:00')
 </code></pre>
 <p>Returns backup information only for databases db1 and db2 on SqlInstance2014a since July 1, 2016 at 10:47 AM.<br></p>
 <h5 id="example-4">Example:  4</h5>
@@ -763,8 +763,10 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="since">-Since</h5>
-<p>Specifies a starting point for the search for backups. If a DateTime object is passed, that will be used. If a TimeSpan object is passed, that will be added to Get-Date and the resulting value will<br />
-be used.<br></p>
+<p>Specifies a starting point for the search for backups.<br />
+This is compared to the date stored in msdb, which gets stored in the timezone of the running SQL Server instance.<br />
+If a DateTime object is passed, that will be used.<br />
+If a TimeSpan object is passed, that will be added to Get-Date and the resulting value will be used.<br></p>
 <table>
 <thead>
 <tr>
@@ -787,7 +789,7 @@ be used.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>(Get-Date '01/01/1970')</td>
+<td>([DateTime]::ParseExact(&quot;1970-01-01&quot;, &quot;yyyy-MM-dd&quot;, [System.Globalization.CultureInfo]::InvariantCulture))</td>
 </tr>
 </tbody>
 </table>
