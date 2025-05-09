@@ -502,7 +502,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-ColumnEncryptionSetting] &lt;String&gt;]
     [-Legacy]
     [-NonPooledConnection]
-    [[-WorkstationId] &lt;String&gt;]
+    [[-WorkstationID] &lt;String&gt;]
+    [-EnableException]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -860,7 +861,7 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tr>
 </tbody>
 </table>
-<h5 id="workstationid">-WorkstationId</h5>
+<h5 id="workstationid">-WorkstationID</h5>
 <p>Set the Workstation Id that is associated with the connection.<br></p>
 <table>
 <thead>
@@ -885,6 +886,36 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 <tr>
 <td>Default Value</td>
 <td>$env:COMPUTERNAME</td>
+</tr>
+</tbody>
+</table>
+<h5 id="enableexception">-EnableException</h5>
+<p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
+This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
+Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Installs or updates Erik Darling's stored procedures.</p>
 <h2 id="description">Description</h2>
-<p>Downloads, extracts and installs Erik Darling's stored procedures</p>
+<p>Downloads, extracts and installs Erik Darling's stored procedures. It does not install anything else from the repository. For example, the WhatsUpMemory view is not installed.</p>
 <p>DarlingData links:<br />
 <a href="https://www.erikdarling.com">https://www.erikdarling.com</a><br />
 <a href="https://github.com/erikdarlingdata/DarlingData">https://github.com/erikdarlingdata/DarlingData</a></p>
@@ -516,7 +516,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Install-DbaDarlingData -SqlInstance server1\instance1 -Database DBA
 </code></pre>
-<p>Logs into server1\instance1 with Windows authentication and then installs tall of Erik's scripts in the DBA database.<br></p>
+<p>Logs into server1\instance1 with Windows authentication and then installs all of Erik's scripts in the DBA database.<br></p>
 <h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; Install-DbaDarlingData -SqlInstance server1\instance1 -Database master -SqlCredential $cred
 </code></pre>
@@ -659,10 +659,16 @@ dev<br></p>
 <h5 id="procedure">-Procedure</h5>
 <p>Specifies the name(s) of the procedures to install<br />
 Allowed Values or Combination of Values:<br />
-All (default, to install all 3 procedures)<br />
-Human (to install sp_HumanEvents)<br />
-Pressure (to install sp_PressureDetector)<br />
-Quickie (to install sp_QuickieStore)<br></p>
+All (default, to install all procedures)<br />
+HumanEvents (to install sp_HumanEvents)<br />
+PressureDetector (to install sp_PressureDetector)<br />
+QuickieStore (to install sp_QuickieStore)<br />
+HumanEventsBlockViewer (to install sp_HumanEventsBlockViewer)<br />
+LogHunter (to install sp_LogHunter)<br />
+HealthParser (to install sp_HealthParser)<br />
+IndexCleanup (to install sp_IndexCleanup)<br />
+PerfCheck (to install sp_PerfCheck)<br />
+The following shorthands are allowed, ordered as above: Human, Pressure, Quickie, Block, Log, Health, Index, Perf.<br></p>
 <table>
 <thead>
 <tr>
@@ -689,7 +695,7 @@ Quickie (to install sp_QuickieStore)<br></p>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>All,Human,Pressure,Quickie,HumanEvents,PressureDetector,QuickieStore,HumanEventsBlockViewer,LogHunter,HealthParser</td>
+<td>All,Human,HumanEvents,Pressure,PressureDetector,Quickie,QuickieStore,Block,HumanEventsBlockViewer,Log,LogHunter,Health,HealthParser,Index,IndexCleanup,Perf,PerfCheck</td>
 </tr>
 </tbody>
 </table>

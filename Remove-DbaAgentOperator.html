@@ -514,8 +514,9 @@ Remove-DbaAgentOperator
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<p>PS:&gt;Remove-DbaAgentOperator -SqlInstance sql01 -Operator DBA<br>
-This removes an operator named DBA from the instance.<br></p>
+<pre><code>PS C:\&gt; Remove-DbaAgentOperator -SqlInstance sql01 -Operator DBA
+</code></pre>
+<p>This removes an operator named DBA from the instance.<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Get-DbaAgentOperator -SqlInstance SRV1 | Out-GridView -Title 'Select SQL Agent operator(s) to drop' -OutputMode Multiple | Remove-DbaAgentOperator
 </code></pre>
