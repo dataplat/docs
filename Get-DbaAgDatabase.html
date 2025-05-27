@@ -512,10 +512,6 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; Get-DbaAgDatabase -SqlInstance sql2017a -AvailabilityGroup AG101
 </code></pre>
 <p>Returns all the databases in the availability group AG101 on sql2017a<br></p>
-<h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaAvailabilityGroup -SqlInstance sqlcluster -AvailabilityGroup SharePoint -Database Sharepoint_Config | Get-DbaAgDatabase
-</code></pre>
-<p>Returns the database Sharepoint_Config found in the availability group SharePoint on server sqlcluster<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.<br></p>
