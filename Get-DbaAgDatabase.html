@@ -513,7 +513,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Returns all the databases in the availability group AG101 on sql2017a<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaAvailabilityGroup -SqlInstance sqlcluster -AvailabilityGroup SharePoint -Database Sharepoint_Config | Get-DbaAgDatabase
+<pre><code>PS C:\&gt; Get-DbaAvailabilityGroup -SqlInstance sqlcluster -AvailabilityGroup SharePoint | Get-DbaAgDatabase -Database Sharepoint_Config
 </code></pre>
 <p>Returns the database Sharepoint_Config found in the availability group SharePoint on server sqlcluster<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>

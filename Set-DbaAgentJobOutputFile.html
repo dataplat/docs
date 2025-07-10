@@ -538,7 +538,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="outputfile">-OutputFile</h5>
-<p>The Full Path to the New Output file <br></p>
+<p>The Full Path to the New Output file. <br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +598,8 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The job to process - this list is auto-populated from the server.<br></p>
+<p>The name of the job to process.<br />
+This parameter is not officially mandatory, but you will always be asked to provide a job if you have not.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,7 +627,10 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="step">-Step</h5>
-<p>The Agent Job Step to provide Output File Path for. Also available dynamically<br></p>
+<p>The name of the Agent Job Step to provide Output File Path for.<br />
+Within a job, step names are unique so this is a safe way to select steps.<br />
+Also available dynamically. If you do not specify this parameter and the target job has only one step, then we use that step. If it has more than one, then a GUI will be used to make you pick steps.<br />
+If that GUI does not work, then we use all steps.<br></p>
 <table>
 <thead>
 <tr>

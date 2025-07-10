@@ -513,12 +513,12 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Exports data from EmployeePayHistory in AdventureWorks2014 in sql2017<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance sql2017 -Database AdventureWorks2014 -Table EmployeePayHistory | Export-DbaDbTableData -Path C:\temp\export.sql -Append
+<pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance sql2017 -Database AdventureWorks2014 -Table EmployeePayHistory | Export-DbaDbTableData -FilePath C:\temp\export.sql -Append
 </code></pre>
 <p>Exports data from EmployeePayHistory in AdventureWorks2014 in sql2017 using a trusted connection - Will append the output to the file C:\temp\export.sql if it already exists<br>
 Script does not include Batch Separator and will not compile<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance sql2016 -Database MyDatabase -Table 'dbo.Table1', 'dbo.Table2' -SqlCredential sqladmin | Export-DbaDbTableData -Path C:\temp\export.sql
+<pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance sql2016 -Database MyDatabase -Table 'dbo.Table1', 'dbo.Table2' -SqlCredential sqladmin | Export-DbaDbTableData -FilePath C:\temp\export.sql -Append
 </code></pre>
 <p>Exports only data from 'dbo.Table1' and 'dbo.Table2' in MyDatabase to C:\temp\export.sql and uses the SQL login &quot;sqladmin&quot; to login to sql2016<br></p>
 <h3 id="required-parameters">Required Parameters</h3>

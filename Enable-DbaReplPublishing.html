@@ -504,9 +504,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Enable-DbaReplPublishing -SqlInstance SqlBox1\Instance2 -StartupProcedure '[dbo].[StartUpProc1]'
+<pre><code>PS C:\&gt; Enable-DbaReplPublishing -SqlInstance SqlBox1\Instance2
 </code></pre>
-<p>Attempts to set the procedure '[dbo].[StartUpProc1]' in the master database of SqlBox1\Instance2 for automatic execution when the instance is started.<br></p>
+<p>Enables replication publishing for instance SqlBox1\Instance2 using Windows Auth and the default InstallDataDirectory\ReplData as the snapshot folder<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. <br></p>
