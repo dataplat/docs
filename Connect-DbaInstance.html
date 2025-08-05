@@ -622,13 +622,24 @@ PS C:\&gt; $server = Connect-DbaInstance -SqlInstance $azureInstance -Database $
 PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&quot;
 </code></pre>
 <p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken.<br>
+Works with both Azure PowerShell v13 (string tokens) and v14+ (SecureString tokens).<br>
 Note that the token is valid for only one hour and cannot be renewed automatically.<br></p>
 <h5 id="example-16">Example:  16</h5>
+<pre><code>PS C:\&gt; # Azure PowerShell v14+ with SecureString token support
+PS C:\&gt; Connect-AzAccount
+PS C:\&gt; $azureToken = (Get-AzAccessToken -ResourceUrl https://database.windows.net).Token
+PS C:\&gt; $azureInstance = &quot;YOUR-AZURE-SQL-MANAGED-INSTANCE.database.windows.net&quot;
+PS C:\&gt; $server = Connect-DbaInstance -SqlInstance $azureInstance -Database &quot;YOURDATABASE&quot; -AccessToken $azureToken
+PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&quot;
+</code></pre>
+<p>Connect to an Azure SQL Managed Instance using Azure PowerShell v14+ where Get-AzAccessToken returns a SecureString.<br>
+The function automatically detects and converts the SecureString token to the required format.<br></p>
+<h5 id="example-17">Example:  17</h5>
 <pre><code>PS C:\&gt; $token = New-DbaAzAccessToken -Type RenewableServicePrincipal -Subtype AzureSqlDb -Tenant $tenantid -Credential $cred
 PS C:\&gt; Connect-DbaInstance -SqlInstance sample.database.windows.net -Accesstoken $token
 </code></pre>
 <p>Uses dbatools to generate the access token for an Azure SQL Database, then logs in using that AccessToken.<br></p>
-<h5 id="example-17">Example:  17</h5>
+<h5 id="example-18">Example:  18</h5>
 <pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance srv1 -DedicatedAdminConnection
 PS C:\&gt; $dbaProcess = Get-DbaProcess -SqlInstance $server -ExcludeSystemSpids
 PS C:\&gt; $killedProcess = $dbaProcess | Out-GridView -OutputMode Multiple | Stop-DbaProcess
@@ -1492,6 +1503,8 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </table>
 <h5 id="accesstoken">-AccessToken</h5>
 <p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken, that has to be generated with Get-AzAccessToken or New-DbaAzAccessToken.<br />
+Supports both String (Azure PowerShell v13 and earlier) and SecureString (Azure PowerShell v14+) token formats.<br />
+The function automatically detects the token type and converts SecureString tokens to the required plain text format internally.<br />
 Note that the token is valid for only one hour and cannot be renewed automatically.<br />
 Note that the returned SMO is not a fully functional SMO. It can only be used in a limited list of commands like Invoke-DbaQuery, Import-DbaCsv or Write-DbaDbTableData.<br></p>
 <table>

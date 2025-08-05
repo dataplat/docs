@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDeprecatedFeature">Get-DbaDeprecatedFeature</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays information relating to deprecated features for SQL Server 2005 and above.</p>
+<p>Displays usage information relating to deprecated features for SQL Server 2005 and above.</p>
 <h2 id="description">Description</h2>
-<p>Displays information relating to deprecated features for SQL Server 2005 and above.</p>
+<p>Displays usage information relating to deprecated features for SQL Server 2005 and above.<br />
+More information: <a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance-monitor/sql-server-deprecated-features-object">https://learn.microsoft.com/en-us/sql/relational-databases/performance-monitor/sql-server-deprecated-features-object</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDeprecatedFeature
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -502,11 +503,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; Get-DbaDeprecatedFeature -SqlInstance sql2008, sqlserver2012
 </code></pre>
-<p>Check deprecated features for all databases on the servers sql2008 and sqlserver2012.<br></p>
+<p>Get usage information relating to deprecated features on the servers sql2008 and sqlserver2012.<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Get-DbaDeprecatedFeature -SqlInstance sql2008
 </code></pre>
-<p>Check deprecated features on server sql2008.<br></p>
+<p>Get usage information relating to deprecated features on server sql2008.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance <br></p>
