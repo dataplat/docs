@@ -1,0 +1,21 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "dbatools",
+  "description": "Auto-generated documentation for the dbatools PowerShell module (~700 SQL Server automation commands).",
+  "folders": [],
+  "excludeFolders": [".github", "assets", "bogus"],
+  "excludeFiles": ["CNAME"],
+  "rules": [
+    "Use -EnableException when you need try/catch; dbatools is 'nice by default' and otherwise suppresses hard throws.",
+    "Prefer -SqlInstance (DbaInstanceParameter). For non-default ports, quote 'server:port' or 'server,port'.",
+    "Dry-run destructive commands with -WhatIf and require confirmation with -Confirm where available.",
+    "On Linux/macOS, use PowerShell Core 7.4+; Windows works with Windows PowerShell v3+.",
+    "For whole-instance moves use Start-DbaMigration; for granular tasks use Copy-Dba* commands.",
+    "Use Invoke-DbaQuery with -SqlParameter to avoid SQL injection in dynamic queries."
+  ],
+  "previousVersions": [
+    { "tag": "v2.5.5", "title": "2.5.5 (Azure Trusted Signing)" },
+    { "tag": "v2.5.1", "title": "2.5.1" },
+    { "tag": "v2.1.32", "title": "2.1.32" }
+  ]
+}
