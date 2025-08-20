@@ -515,29 +515,23 @@ Custom scan definitions can be specified using the formats seen in <dbatools mod
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db1
-</code></pre>
-<p>Scan the database db1 on instance sql1<br></p>
+<p>PS &gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db1<br>
+Scan the database db1 on instance sql1<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Invoke-DbaDbPiiScan -SqlInstance sql1, sql2 -Database db1, db2
-</code></pre>
-<p>Scan multiple databases on multiple instances<br></p>
+<p>PS &gt; Invoke-DbaDbPiiScan -SqlInstance sql1, sql2 -Database db1, db2<br>
+Scan multiple databases on multiple instances<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db2 -ExcludeColumn firstname
-</code></pre>
-<p>Scan database db2 but exclude the column firstname<br></p>
+<p>PS &gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db2 -ExcludeColumn firstname<br>
+Scan database db2 but exclude the column firstname<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db2 -CountryCode US
-</code></pre>
-<p>Scan database db2 but only apply data patterns used for the United States<br></p>
+<p>PS &gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db2 -CountryCode US<br>
+Scan database db2 but only apply data patterns used for the United States<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db1 -PatternFilePath  c:\pii\patterns.json
-</code></pre>
-<p>Scans db1 on instance sql1 with additional custom patterns<br></p>
+<p>PS &gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db1 -PatternFilePath  c:\pii\patterns.json<br>
+Scans db1 on instance sql1 with additional custom patterns<br></p>
 <h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db1 -PatternFilePath  c:\pii\patterns.json -ExcludeDefaultPattern
-</code></pre>
-<p>Scans db1 on instance sql1 with additional custom patterns, excluding the default patterns<br></p>
+<p>PS &gt; Invoke-DbaDbPiiScan -SqlInstance sql1 -Database db1 -PatternFilePath  c:\pii\patterns.json -ExcludeDefaultPattern<br>
+Scans db1 on instance sql1 with additional custom patterns, excluding the default patterns<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances.<br></p>

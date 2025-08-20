@@ -509,21 +509,17 @@ Use -RemoveSecondaryDatabase to make the command the secondary database</p>
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Remove-DbaDbLogShipping -PrimarySqlInstance sql1 -SecondarySqlInstance sql2 -Database DB1
-</code></pre>
-<p>Remove the log shipping for database DB1<br></p>
+<p>PS &gt; Remove-DbaDbLogShipping -PrimarySqlInstance sql1 -SecondarySqlInstance sql2 -Database DB1<br>
+Remove the log shipping for database DB1<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Remove-DbaDbLogShipping -PrimarySqlInstance sql1 -Database DB1
-</code></pre>
-<p>Remove the log shipping for database DB1 and let the command figure out the secondary instance<br></p>
+<p>PS &gt; Remove-DbaDbLogShipping -PrimarySqlInstance sql1 -Database DB1<br>
+Remove the log shipping for database DB1 and let the command figure out the secondary instance<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Remove-DbaDbLogShipping -PrimarySqlInstance localhost -SecondarySqlInstance sql2 -Database DB1, DB2
-</code></pre>
-<p>Remove the log shipping for multiple database<br></p>
+<p>PS &gt; Remove-DbaDbLogShipping -PrimarySqlInstance localhost -SecondarySqlInstance sql2 -Database DB1, DB2<br>
+Remove the log shipping for multiple database<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Remove-DbaDbLogShipping -PrimarySqlInstance localhost -SecondarySqlInstance localhost -Database DB2 -RemoveSecondaryDatabase
-</code></pre>
-<p>Remove the log shipping for database DB2 and remove the database from the secondary instance<br></p>
+<p>PS &gt; Remove-DbaDbLogShipping -PrimarySqlInstance localhost -SecondarySqlInstance localhost -Database DB2 -RemoveSecondaryDatabase<br>
+Remove the log shipping for database DB2 and remove the database from the secondary instance<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="primarysqlinstance">-PrimarySqlInstance</h5>
 <p>Primary SQL Server instance which contains the primary database(s).<br />

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Install-DbaSqlWatch</title>
+    <title>dbatools docs | Install-DbaSqlPackage</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,24 +12,24 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ,powershell,sql server,devops,json">
-    <meta name="subtitle" content="Docs for Install-DbaSqlWatch">
+    <meta name="subtitle" content="Docs for Install-DbaSqlPackage">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Install-DbaSqlWatch" />
-    <meta property="og:url" content="https://docs.dbatools.io/Install-DbaSqlWatch.html" />
-    <meta property="og:description" content="dbatools docs for Install-DbaSqlWatch" />
+    <meta property="og:title" content="dbatools docs:  Install-DbaSqlPackage" />
+    <meta property="og:url" content="https://docs.dbatools.io/Install-DbaSqlPackage.html" />
+    <meta property="og:description" content="dbatools docs for Install-DbaSqlPackage" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Install-DbaSqlWatch" />
+    <meta name="twitter:text:title" content="dbatools docs:  Install-DbaSqlPackage" />
     
-    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Install-DbaSqlWatch.png">
+    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Install-DbaSqlPackage.png">
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name=twitter:creator content="@psdbatools">
-    <meta name=twitter:title content="dbatools docs:  Install-DbaSqlWatch">
+    <meta name=twitter:title content="dbatools docs:  Install-DbaSqlPackage">
     <meta property="twitter:site" content="@psdbatools" />
 
-    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Install-DbaSqlWatch.png">
-    <link rel=canonical href="https://docs.dbatools.io/Install-DbaSqlWatch.html" />
+    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Install-DbaSqlPackage.png">
+    <link rel=canonical href="https://docs.dbatools.io/Install-DbaSqlPackage.html" />
     <link rel=alternate type=application/json
         href=https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
         title="dbatools documentation">
@@ -461,7 +461,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="install-dbasqlwatch">Install-DbaSqlWatch</h1>
+                    <h1 id="install-dbasqlpackage">Install-DbaSqlPackage</h1>
 <table>
 <thead>
 <tr>
@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Ken K (github.com/koglerk)</td>
+<td>Chrissy LeMaire and Claude</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -481,21 +481,27 @@
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Install-DbaSqlWatch.ps1">Install-DbaSqlWatch</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Install-DbaSqlPackage.ps1">Install-DbaSqlPackage</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaSqlWatch">Install-DbaSqlWatch</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaSqlPackage">Install-DbaSqlPackage</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Installs or updates SqlWatch.</p>
+<p>Downloads and installs SqlPackage on Windows, Linux, or macOS</p>
 <h2 id="description">Description</h2>
-<p>Downloads, extracts and installs or updates SqlWatch.<br />
-<a href="https://sqlwatch.io/">https://sqlwatch.io/</a></p>
+<p>Downloads and installs SqlPackage so that you can use Import-DbaDacpac, Export-DbaDacpac, Publish-DbaDacpac and Get-DbaDacpac.</p>
+<p>Cross-platform support:</p>
+<ul>
+<li>Windows: Supports both ZIP (portable) and MSI installation methods</li>
+<li>Linux/macOS: Supports ZIP installation method only</li>
+</ul>
+<p>By default, SqlPackage is installed as a portable ZIP file to the dbatools directory for CurrentUser scope.<br />
+For AllUsers (LocalMachine) scope on Windows, you can use the MSI installer which requires administrative privileges.</p>
+<p>Writes to $script:PSModuleRoot\bin\sqlpackage by default for CurrentUser scope.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Install-DbaSqlWatch
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [[-SqlCredential] &lt;PSCredential&gt;]
-    [[-Database] &lt;String&gt;]
+<pre><code>Install-DbaSqlPackage
+    [[-Path] &lt;String&gt;]
+    [[-Scope] &lt;String&gt;]
+    [[-Type] &lt;String&gt;]
     [[-LocalFile] &lt;String&gt;]
-    [-PreRelease]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -507,55 +513,25 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<p>PS &gt; Install-DbaSqlWatch -SqlInstance server1<br>
-Logs into server1 with Windows authentication and then installs SqlWatch in the SQLWATCH database.<br></p>
+<pre><code>PS C:\&gt; Install-DbaSqlPackage
+</code></pre>
+<p>Downloads SqlPackage ZIP to the dbatools directory for the current user<br></p>
 <h5 id="example-2">Example:  2</h5>
-<p>PS &gt; Install-DbaSqlWatch -SqlInstance server1\instance1 -Database DBA<br>
-Logs into server1\instance1 with Windows authentication and then installs SqlWatch in the DBA database.<br></p>
+<pre><code>PS C:\&gt; Install-DbaSqlPackage -Scope AllUsers -Type Msi
+</code></pre>
+<p>Downloads and installs SqlPackage MSI for all users (requires administrative privileges)<br></p>
 <h5 id="example-3">Example:  3</h5>
-<p>PS &gt; Install-DbaSqlWatch -SqlInstance server1\instance1 -Database DBA -SqlCredential $cred<br>
-Logs into server1\instance1 with SQL authentication and then installs SqlWatch in the DBA database.<br></p>
+<pre><code>PS C:\&gt; Install-DbaSqlPackage -Path C:\SqlPackage
+</code></pre>
+<p>Downloads SqlPackage ZIP to C:\SqlPackage<br></p>
 <h5 id="example-4">Example:  4</h5>
-<p>PS &gt; Install-DbaSqlWatch -SqlInstance sql2016\standardrtm, sql2016\sqlexpress, sql2014<br>
-Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs SqlWatch in the SQLWATCH database.<br></p>
-<h5 id="example-5">Example:  5</h5>
-<p>PS &gt; $servers = &quot;sql2016\standardrtm&quot;, &quot;sql2016\sqlexpress&quot;, &quot;sql2014&quot;<br>
-$servers | Install-DbaSqlWatch<br>
-Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs SqlWatch in the SQLWATCH database.<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
-<h5 id="sqlinstance">-SqlInstance</h5>
-<p>SQL Server name or SMO object representing the SQL Server to connect to. <br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<pre><code>PS C:\&gt; Install-DbaSqlPackage -LocalFile C:\temp\sqlpackage.zip
+</code></pre>
+<p>Installs SqlPackage from the local ZIP file.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<h5 id="path">-Path</h5>
+<p>Specifies the path where SqlPackage will be extracted or installed.<br />
+If not specified, SqlPackage will be installed to the dbatools directory for CurrentUser scope.<br></p>
 <table>
 <thead>
 <tr>
@@ -582,8 +558,12 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="database">-Database</h5>
-<p>Specifies the database to install SqlWatch into. Defaults to SQLWATCH.<br></p>
+<h5 id="scope">-Scope</h5>
+<p>Specifies the installation scope. Valid values are:</p>
+<ul>
+<li>CurrentUser: Installs to the dbatools directory (default, uses ZIP)</li>
+<li>AllUsers: Installs to system location (Windows: Program Files with MSI/admin privileges; Unix: /usr/local/sqlpackage)<br></li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -606,13 +586,52 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>SQLWATCH</td>
+<td>CurrentUser</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>CurrentUser,AllUsers</td>
+</tr>
+</tbody>
+</table>
+<h5 id="type">-Type</h5>
+<p>Specifies the installation type. Valid values are:</p>
+<ul>
+<li>Zip: Downloads and extracts the portable ZIP file (default, works on all platforms)</li>
+<li>Msi: Downloads and installs the MSI package (Windows only, AllUsers scope only, requires admin privileges)<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Zip</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Zip,Msi</td>
 </tr>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install SqlWatch from. This <em>should</em> be the zipfile as distributed by the maintainers.<br />
-If this parameter is not specified, the latest version will be downloaded and installed from <a href="https://github.com/marcingminski/sqlwatch">https://github.com/marcingminski/sqlwatch</a><br></p>
+<p>Specifies the path to a local file to install SqlPackage from. This file should be an msi or zip file.<br></p>
 <table>
 <thead>
 <tr>
@@ -636,39 +655,11 @@ If this parameter is not specified, the latest version will be downloaded and in
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="prerelease">-PreRelease</h5>
-<p>If specified, a pre-release (beta) will be downloaded rather than a stable release<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
 </tr>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, SqlWatch will be downloaded from the internet even if previously cached.<br></p>
+<p>If this switch is enabled, the Sqlpackage will be downloaded from the internet even if previously cached.<br></p>
 <table>
 <thead>
 <tr>
@@ -726,7 +717,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="whatif">-WhatIf</h5>
-<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
 <table>
 <thead>
 <tr>
@@ -754,7 +745,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts to confirm actions<br></p>
+<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
 <table>
 <thead>
 <tr>

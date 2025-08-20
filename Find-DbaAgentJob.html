@@ -547,9 +547,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Queries CMS server to return all SQL instances in the Production folder and then list out all agent jobs that have either been disabled or have no schedule.<br></p>
 <h5 id="example-10">Example:  10</h5>
-<pre><code>PS C:\&gt; $Instances = 'SQL2017N5','SQL2019N5','SQL2019N20','SQL2019N21','SQL2019N22'
-</code></pre>
-<p>Find-DbaAgentJob -SqlInstance $Instances -JobName <em>backup</em> -IsNotScheduled<br>
+<p>PS &gt; $Instances = 'SQL2017N5','SQL2019N5','SQL2019N20','SQL2019N21','SQL2019N22'<br>
+Find-DbaAgentJob -SqlInstance $Instances -JobName <em>backup</em> -IsNotScheduled<br>
 Returns all agent job(s) wiht backup in the name, that don't have a schedule on 'SQL2017N5','SQL2019N5','SQL2019N20','SQL2019N21','SQL2019N22'<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>

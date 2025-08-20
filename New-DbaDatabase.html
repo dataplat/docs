@@ -523,21 +523,17 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaDatabase -SqlInstance sql1
-</code></pre>
-<p>Creates a randomly named database (random-N) on instance sql1<br></p>
+<p>PS &gt; New-DbaDatabase -SqlInstance sql1<br>
+Creates a randomly named database (random-N) on instance sql1<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaDatabase -SqlInstance sql1 -Name dbatools, dbachecks
-</code></pre>
-<p>Creates a database named dbatools and a database named dbachecks on sql1<br></p>
+<p>PS &gt; New-DbaDatabase -SqlInstance sql1 -Name dbatools, dbachecks<br>
+Creates a database named dbatools and a database named dbachecks on sql1<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; New-DbaDatabase -SqlInstance sql1, sql2, sql3 -Name multidb, multidb2 -SecondaryFilesize 20 -SecondaryFileGrowth 20 -LogSize 20 -LogGrowth 20
-</code></pre>
-<p>Creates two databases, multidb and multidb2, on 3 instances (sql1, sql2 and sql3) and sets the secondary data file size to 20MB, the file growth to 20MB and the log growth to 20MB for each<br></p>
+<p>PS &gt; New-DbaDatabase -SqlInstance sql1, sql2, sql3 -Name multidb, multidb2 -SecondaryFilesize 20 -SecondaryFileGrowth 20 -LogSize 20 -LogGrowth 20<br>
+Creates two databases, multidb and multidb2, on 3 instances (sql1, sql2 and sql3) and sets the secondary data file size to 20MB, the file growth to 20MB and the log growth to 20MB for each<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; New-DbaDatabase -SqlInstance sql1 -Name nondefault -DataFilePath M:\Data -LogFilePath 'L:\Logs with spaces' -SecondaryFileCount 2
-</code></pre>
-<p>Creates a database named nondefault and places data files in in the M:\data directory and log files in &quot;L:\Logs with spaces&quot;.<br>
+<p>PS &gt; New-DbaDatabase -SqlInstance sql1 -Name nondefault -DataFilePath M:\Data -LogFilePath 'L:\Logs with spaces' -SecondaryFileCount 2<br>
+Creates a database named nondefault and places data files in in the M:\data directory and log files in &quot;L:\Logs with spaces&quot;.<br>
 Creates a secondary group with 2 files in the Secondary filegroup.<br></p>
 <h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; $databaseParams = @{

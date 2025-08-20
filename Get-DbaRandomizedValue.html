@@ -511,25 +511,20 @@ It supports a wide range of sql data types and an entire dictionary of various r
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Get-DbaRandomizedValue -DataType bit
-</code></pre>
-<p>Will return either a 1 or 0<br></p>
+<p>PS &gt; Get-DbaRandomizedValue -DataType bit<br>
+Will return either a 1 or 0<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaRandomizedValue -DataType int
-</code></pre>
-<p>Will generate a number between -2147483648 and 2147483647<br></p>
+<p>PS &gt; Get-DbaRandomizedValue -DataType int<br>
+Will generate a number between -2147483648 and 2147483647<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaRandomizedValue -RandomizerSubType Zipcode
-</code></pre>
-<p>Generates a random zipcode<br></p>
+<p>PS &gt; Get-DbaRandomizedValue -RandomizerSubType Zipcode<br>
+Generates a random zipcode<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Get-DbaRandomizedValue -RandomizerSubType Zipcode -Format &quot;#### ##&quot;
-</code></pre>
-<p>Generates a random zipcode like &quot;1234 56&quot;<br></p>
+<p>PS &gt; Get-DbaRandomizedValue -RandomizerSubType Zipcode -Format &quot;#### ##&quot;<br>
+Generates a random zipcode like &quot;1234 56&quot;<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Get-DbaRandomizedValue -RandomizerSubType PhoneNumber -Format &quot;(###) #######&quot;
-</code></pre>
-<p>Generates a random phonenumber like &quot;(123) 4567890&quot;<br></p>
+<p>PS &gt; Get-DbaRandomizedValue -RandomizerSubType PhoneNumber -Format &quot;(###) #######&quot;<br>
+Generates a random phonenumber like &quot;(123) 4567890&quot;<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="datatype">-DataType</h5>
 <p>The target SQL Server instance or instances.<br />

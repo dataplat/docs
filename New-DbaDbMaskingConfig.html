@@ -526,17 +526,14 @@ Xml</p>
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaDbMaskingConfig -SqlInstance SQLDB1 -Database DB1 -Path C:\Temp\clone
-</code></pre>
-<p>Process all tables and columns for database DB1 on instance SQLDB1<br></p>
+<p>PS &gt; New-DbaDbMaskingConfig -SqlInstance SQLDB1 -Database DB1 -Path C:\Temp\clone<br>
+Process all tables and columns for database DB1 on instance SQLDB1<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaDbMaskingConfig -SqlInstance SQLDB1 -Database DB1 -Table Customer -Path C:\Temp\clone
-</code></pre>
-<p>Process only table Customer with all the columns<br></p>
+<p>PS &gt; New-DbaDbMaskingConfig -SqlInstance SQLDB1 -Database DB1 -Table Customer -Path C:\Temp\clone<br>
+Process only table Customer with all the columns<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; New-DbaDbMaskingConfig -SqlInstance SQLDB1 -Database DB1 -Table Customer -Column City -Path C:\Temp\clone
-</code></pre>
-<p>Process only table Customer and only the column named &quot;City&quot;<br></p>
+<p>PS &gt; New-DbaDbMaskingConfig -SqlInstance SQLDB1 -Database DB1 -Table Customer -Column City -Path C:\Temp\clone<br>
+Process only table Customer and only the column named &quot;City&quot;<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
 <p>Path where to save the generated JSON files.<br />

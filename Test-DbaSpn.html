@@ -507,19 +507,16 @@ whether the SPNs are set or not.</p>
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Test-DbaSpn -ComputerName SQLSERVERA -Credential ad\sqldba
-</code></pre>
-<p>Connects to a computer (SQLSERVERA) and queries WMI for all SQL instances and return &quot;required&quot; SPNs. It will then take each SPN it generates<br>
+<p>PS &gt; Test-DbaSpn -ComputerName SQLSERVERA -Credential ad\sqldba<br>
+Connects to a computer (SQLSERVERA) and queries WMI for all SQL instances and return &quot;required&quot; SPNs. It will then take each SPN it generates<br>
 and query Active Directory to make sure the SPNs are set.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Test-DbaSpn -ComputerName SQLSERVERA,SQLSERVERB -Credential ad\sqldba
-</code></pre>
-<p>Connects to multiple computers (SQLSERVERA, SQLSERVERB) and queries WMI for all SQL instances and return &quot;required&quot; SPNs.<br>
+<p>PS &gt; Test-DbaSpn -ComputerName SQLSERVERA,SQLSERVERB -Credential ad\sqldba<br>
+Connects to multiple computers (SQLSERVERA, SQLSERVERB) and queries WMI for all SQL instances and return &quot;required&quot; SPNs.<br>
 It will then take each SPN it generates and query Active Directory to make sure the SPNs are set.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Test-DbaSpn -ComputerName SQLSERVERC -Credential ad\sqldba
-</code></pre>
-<p>Connects to a computer (SQLSERVERC) on a specified and queries WMI for all SQL instances and return &quot;required&quot; SPNs.<br>
+<p>PS &gt; Test-DbaSpn -ComputerName SQLSERVERC -Credential ad\sqldba<br>
+Connects to a computer (SQLSERVERC) on a specified and queries WMI for all SQL instances and return &quot;required&quot; SPNs.<br>
 It will then take each SPN it generates and query Active Directory to make sure the SPNs are set. Note that the credential you pass must have be a valid login with appropriate rights on the domain<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>

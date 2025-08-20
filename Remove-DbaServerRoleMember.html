@@ -532,9 +532,8 @@ PS C:\&gt; $roles | Remove-DbaServerRoleMember -Login login1
 </code></pre>
 <p>Removes login1 from the bulkadmin and dbcreator fixed server-level roles on the server localhost.<br></p>
 <h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; PS C:\ $logins = Get-Content C:\logins.txt
-</code></pre>
-<p>PS C:\ $srvLogins = Get-DbaLogin -SqlInstance server1 -Login $logins<br>
+<p>PS &gt; PS C:\ $logins = Get-Content C:\logins.txt<br>
+PS C:\ $srvLogins = Get-DbaLogin -SqlInstance server1 -Login $logins<br>
 PS C:\ Remove-DbaServerRoleMember -Login $logins -ServerRole mycustomrole<br>
 Removes all the logins found in C:\logins.txt from mycustomrole custom server-level role on server1.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
