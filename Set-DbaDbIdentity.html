@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaDbIdentity">Set-DbaDbIdentity</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Checks and updates the current identity value via DBCC CHECKIDENT</p>
+<p>Checks and resets identity column values using DBCC CHECKIDENT</p>
 <h2 id="description">Description</h2>
-<p>Use the command DBCC CHECKIDENT to check and if necessary update the current identity value of a table and return results<br />
-Can update an individual table via the ReSeedValue and RESEED option of DBCC CHECKIDENT</p>
+<p>Executes DBCC CHECKIDENT to verify the current identity value for tables with identity columns and optionally reseed them to a specific value.<br />
+This is essential after bulk data operations, imports, or deletes that can leave identity values out of sync with actual table data.<br />
+When run without ReSeedValue, it reports the current identity value and the maximum value in the identity column.<br />
+When ReSeedValue is specified, it resets the identity counter to prevent duplicate key errors or close identity gaps.</p>
 <p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-checkident-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-checkident-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -585,8 +587,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br />
-Only one database should be specified when using a RESEED value<br></p>
+<p>Specifies which databases to check for identity values. If not specified, all databases on the instance will be processed.<br />
+When using ReSeedValue, only a single database can be specified since reseeding requires targeting a specific table location.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,8 +616,8 @@ Only one database should be specified when using a RESEED value<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>The table(s) for which to check the current identity value.<br />
-Only one table should be specified when using a RESEED value<br></p>
+<p>Specifies which tables with identity columns to check or reseed. Use schema.table format for tables not in the default schema.<br />
+When using ReSeedValue, only a single table can be specified since each table's identity must be reseeded individually.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,7 +645,8 @@ Only one table should be specified when using a RESEED value<br></p>
 </tbody>
 </table>
 <h5 id="reseedvalue">-ReSeedValue</h5>
-<p>The new reseed value to be used to set as the current identity value.<br></p>
+<p>Sets the next identity value that will be assigned to new rows in the specified table.<br />
+Use this after bulk operations, deletes, or imports that leave gaps in identity sequences or when the identity value needs correction.<br></p>
 <table>
 <thead>
 <tr>

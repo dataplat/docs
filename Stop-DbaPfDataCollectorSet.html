@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Stop-DbaPfDataCollectorSet">Stop-DbaPfDataCollectorSet</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Stops Performance Monitor Data Collector Set.</p>
+<p>Stops Windows Performance Monitor Data Collector Sets used for SQL Server performance monitoring.</p>
 <h2 id="description">Description</h2>
-<p>Stops Performance Monitor Data Collector Set.</p>
+<p>Stops running Performance Monitor Data Collector Sets that are actively collecting performance counters for SQL Server monitoring and analysis. This function interacts with the Windows Performance Logs and Alerts (PLA) service to gracefully halt data collection processes. Commonly used to stop baseline data collection after capturing sufficient performance metrics, or to halt monitoring during maintenance windows when counter data isn't needed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Stop-DbaPfDataCollectorSet
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -522,7 +522,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Stops the 'System Correlation' Collector.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer. Defaults to localhost.<br></p>
+<p>Specifies the target computer where Performance Monitor Data Collector Sets are running. Accepts multiple computer names for bulk operations.<br />
+Use this when stopping collectors on remote SQL Server instances or when managing multiple servers from a central location.<br />
+Defaults to localhost when not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -579,7 +581,9 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="collectorset">-CollectorSet</h5>
-<p>The name of the Collector Set to stop.<br></p>
+<p>Specifies the exact name of the Data Collector Set to stop. Supports multiple collector names for stopping several sets simultaneously.<br />
+Use this when you need to stop specific performance monitoring sets without affecting other running collectors on the system.<br />
+Common SQL Server collector sets include 'SQL Server Data Collector Set' and custom monitoring configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +611,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts the object output by Get-DbaPfDataCollectorSet via the pipeline.<br></p>
+<p>Accepts Data Collector Set objects from Get-DbaPfDataCollectorSet via pipeline input.<br />
+Use this approach when you need to filter or examine collector properties before stopping them, or when building complex monitoring workflows.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +640,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="nowait">-NoWait</h5>
-<p>If this switch is enabled, the collector is stopped and the results are returned immediately.<br></p>
+<p>Returns control immediately after initiating the stop command without waiting for the collector to fully terminate.<br />
+Use this in automated scripts where you need to stop multiple collectors quickly or when the stopping process might take time due to large data buffers being flushed.<br></p>
 <table>
 <thead>
 <tr>

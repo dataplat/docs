@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaAgentJob">Find-DbaAgentJob</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Find-DbaAgentJob finds agent jobs that fit certain search filters.</p>
+<p>Searches and filters SQL Agent jobs across SQL Server instances using multiple criteria.</p>
 <h2 id="description">Description</h2>
-<p>This command filters SQL Agent jobs giving the DBA a list of jobs that may need attention or could possibly be options for removal.</p>
+<p>Searches SQL Agent jobs across one or more SQL Server instances using various filter criteria including job name, step name, execution status, schedule status, and notification settings. Helps DBAs identify problematic jobs that have failed, haven't run recently, are disabled, lack schedules, or missing email notifications. Useful for maintenance audits, troubleshooting job issues, and identifying cleanup candidates in environments with many automated processes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaAgentJob
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -611,8 +611,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="jobname">-JobName</h5>
-<p>Filter agent jobs to only the name(s) you list.<br />
-Supports regular expression (e.g. MyJob*) being passed in.<br></p>
+<p>Specifies agent job names to search for using exact matches or wildcard patterns.<br />
+Supports wildcards like <em>backup</em>, MyJob*, or <em>ETL</em> to find jobs with specific naming conventions.<br />
+Useful when you need to focus on particular job types or troubleshoot specific processes.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +641,8 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="excludejobname">-ExcludeJobName</h5>
-<p>Allows you to enter an array of agent job names to ignore<br></p>
+<p>Excludes specific job names from the search results using exact name matches.<br />
+Use this to filter out known good jobs when searching for problematic ones, like excluding maintenance jobs when looking for failed application jobs.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,8 +670,9 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="stepname">-StepName</h5>
-<p>Filter based on StepName.<br />
-Supports regular expression (e.g. MyJob*) being passed in.<br></p>
+<p>Searches for jobs containing steps with specific names or patterns.<br />
+Supports wildcards to find jobs with steps like <em>backup</em>, <em>index</em>, or <em>cleanup</em>.<br />
+Helpful when troubleshooting issues in multi-step jobs or finding jobs that perform specific operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -697,7 +700,9 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="lastused">-LastUsed</h5>
-<p>Find all jobs that haven't ran in the INT number of previous day(s)<br></p>
+<p>Finds jobs that haven't executed successfully in the specified number of days.<br />
+Use this to identify stale or potentially broken jobs that may need attention.<br />
+Common values are 7, 30, or 90 days depending on job frequency and business requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -725,7 +730,8 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="isdisabled">-IsDisabled</h5>
-<p>Find all jobs that are disabled<br></p>
+<p>Finds all jobs with disabled status (not scheduled to run automatically).<br />
+Use this during maintenance windows to identify jobs that were disabled for troubleshooting or may have been forgotten after maintenance.<br></p>
 <table>
 <thead>
 <tr>
@@ -753,7 +759,9 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="isfailed">-IsFailed</h5>
-<p>Find all jobs that have failed<br></p>
+<p>Finds jobs where the last execution resulted in a failure status.<br />
+Essential for daily health checks and identifying jobs that need immediate attention.<br />
+Combine with Since parameter to focus on recent failures or look at historical patterns.<br></p>
 <table>
 <thead>
 <tr>
@@ -781,7 +789,8 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="isnotscheduled">-IsNotScheduled</h5>
-<p>Find all jobs with no schedule assigned<br></p>
+<p>Finds jobs that exist but have no schedule defined (manual execution only).<br />
+Useful for identifying orphaned jobs, temporary jobs that should be cleaned up, or jobs awaiting proper scheduling configuration.<br></p>
 <table>
 <thead>
 <tr>
@@ -809,7 +818,9 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="isnoemailnotification">-IsNoEmailNotification</h5>
-<p>Find all jobs without email notification configured<br></p>
+<p>Finds jobs that lack email notification setup for failures or completion.<br />
+Important for ensuring critical jobs will alert DBAs when they fail.<br />
+Use this during compliance audits or when establishing monitoring standards.<br></p>
 <table>
 <thead>
 <tr>
@@ -837,7 +848,9 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>Filter based on agent job categories<br></p>
+<p>Filters jobs by their assigned categories such as 'Database Maintenance', 'REPL-Distribution', or custom categories.<br />
+Useful for focusing on specific types of jobs like replication jobs, maintenance tasks, or application-specific processes.<br />
+Categories help organize and manage jobs in environments with many different job types.<br></p>
 <table>
 <thead>
 <tr>
@@ -865,7 +878,9 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="owner">-Owner</h5>
-<p>Filter based on owner of the job/s<br></p>
+<p>Filters jobs by their owner login name, or excludes jobs by prefixing with a dash (-).<br />
+Use 'DOMAIN\User' to find jobs owned by specific accounts, or '-sa' to exclude sa-owned jobs.<br />
+Helpful for security audits, identifying jobs that may need ownership changes, or finding jobs created by specific users.<br></p>
 <table>
 <thead>
 <tr>
@@ -893,7 +908,9 @@ Supports regular expression (e.g. MyJob*) being passed in.<br></p>
 </tbody>
 </table>
 <h5 id="since">-Since</h5>
-<p>Datetime object used to narrow the results to a date<br></p>
+<p>Limits results to jobs that last ran on or after the specified date and time.<br />
+Use with IsFailed to find jobs that failed since a specific incident, or combine with other filters to focus on recent activity.<br />
+Accepts standard datetime formats like '2023-01-01' or '2023-01-01 14:30:00'.<br></p>
 <table>
 <thead>
 <tr>

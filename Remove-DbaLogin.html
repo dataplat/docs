@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaLogin">Remove-DbaLogin</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Drops a Login</p>
+<p>Removes SQL Server logins from target instances</p>
 <h2 id="description">Description</h2>
-<p>Tries a bunch of different ways to remove a Login or two or more.</p>
+<p>Removes one or more SQL Server logins from specified instances using the SMO Drop() method. This function handles the complete removal process including dependency checks and provides proper error handling when logins cannot be dropped due to existing sessions or database ownership. Use the -Force parameter to automatically terminate active sessions associated with the login before removal, which is useful when cleaning up test environments or decommissioning user accounts.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaLogin
     [-SqlCredential &lt;PSCredential&gt;]
@@ -565,7 +565,8 @@ Remove-DbaLogin
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The Login(s) to process - this list is auto-populated from the server. If unspecified, all Logins will be processed. <br></p>
+<p>Specifies the SQL Server login names to remove from the target instance. Accepts multiple login names as an array.<br />
+Use this when you know the specific logins to delete, such as when cleaning up test accounts or decommissioned user logins. <br></p>
 <table>
 <thead>
 <tr>
@@ -593,7 +594,8 @@ Remove-DbaLogin
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of Logins (such as returned by Get-DbaLogin), to be removed. <br></p>
+<p>Accepts login objects piped from Get-DbaLogin or other dbatools functions that return SQL Server login objects.<br />
+Use this for advanced filtering scenarios or when chaining multiple dbatools commands together in a pipeline. <br></p>
 <table>
 <thead>
 <tr>
@@ -650,7 +652,8 @@ Remove-DbaLogin
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Kills any sessions associated with the login prior to drop<br></p>
+<p>Automatically terminates any active database connections and sessions associated with the login before attempting removal.<br />
+Use this when you need to forcibly remove logins that have active sessions, common in development environments or during emergency cleanup.<br></p>
 <table>
 <thead>
 <tr>

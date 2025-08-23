@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaSsisCatalog">Copy-DbaSsisCatalog</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaSsisCatalog migrates Folders, SSIS projects, and environments from one SQL Server to another.</p>
+<p>Migrates SSIS catalogs including folders, projects, and environments between SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>By default, all folders, projects, and environments are copied. The -Project parameter can be specified to copy only one project, if desired.</p>
-<p>The parameters get more granular from the Folder level. For example, specifying -Folder will only deploy projects/environments from within that folder.</p>
+<p>Copies the complete SSISDB catalog structure from a source SQL Server to one or more destination instances. This function handles server migrations, environment promotions, and disaster recovery scenarios where you need to replicate your Integration Services deployments.</p>
+<p>By default, all folders, projects, and environments are copied. You can use -Project, -Folder, or -Environment parameters to migrate specific components instead of the entire catalog. The function will create the SSISDB catalog on the destination if it doesn't exist, and automatically enable SQL CLR if required.</p>
+<p>The parameters work hierarchically - specifying -Folder will only deploy projects and environments from within that folder, while -Project will deploy just that specific project from whichever folder contains it.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaSsisCatalog
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -531,7 +532,8 @@ PS C:\&gt; Copy-DbaSsisCatalog -Source sqlserver2014a -Destination sqlcluster -C
 <p>Deploy entire SSIS catalog to an instance without a destination catalog. User prompts for creating the catalog on Destination will be bypassed.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2012 or higher. <br></p>
+<p>Source SQL Server instance containing the SSISDB catalog to copy from. Requires sysadmin privileges and SQL Server 2012 or higher.<br />
+This instance must have Integration Services installed with an existing SSISDB catalog containing the folders, projects, and environments you want to migrate. <br></p>
 <table>
 <thead>
 <tr>
@@ -559,7 +561,8 @@ PS C:\&gt; Copy-DbaSsisCatalog -Source sqlserver2014a -Destination sqlcluster -C
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2012 or higher. <br></p>
+<p>Destination SQL Server instances where the SSISDB catalog will be copied to. Requires sysadmin privileges and SQL Server 2012 or higher.<br />
+If SSISDB doesn't exist on the destination, the function will offer to create it automatically including enabling CLR integration if needed. <br></p>
 <table>
 <thead>
 <tr>
@@ -588,9 +591,8 @@ PS C:\&gt; Copy-DbaSsisCatalog -Source sqlserver2014a -Destination sqlcluster -C
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the source SQL Server instance. Use this when you need to connect with different credentials than your current Windows identity.<br />
+Accepts PowerShell credential objects created with Get-Credential and supports SQL Authentication, Windows Authentication, and Active Directory authentication modes.<br></p>
 <table>
 <thead>
 <tr>
@@ -618,9 +620,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the destination SQL Server instances. Use this when you need to connect with different credentials than your current Windows identity.<br />
+Accepts PowerShell credential objects created with Get-Credential and supports SQL Authentication, Windows Authentication, and Active Directory authentication modes.<br></p>
 <table>
 <thead>
 <tr>
@@ -648,7 +649,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="project">-Project</h5>
-<p>Specifies a source Project name.<br></p>
+<p>Specifies a single SSIS project name to copy instead of migrating all projects. The project will be deployed from whichever source folder contains it.<br />
+Use this when you only need to migrate a specific Integration Services project rather than the entire catalog structure.<br></p>
 <table>
 <thead>
 <tr>
@@ -676,7 +678,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="folder">-Folder</h5>
-<p>Specifies a source folder name.<br></p>
+<p>Specifies a single SSISDB catalog folder to copy instead of migrating all folders. Only projects and environments from within this folder will be copied.<br />
+Use this to limit the migration scope when you only need to move contents of a specific organizational folder.<br></p>
 <table>
 <thead>
 <tr>
@@ -704,7 +707,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="environment">-Environment</h5>
-<p>Specifies an environment to copy.<br></p>
+<p>Specifies a single SSIS environment to copy instead of migrating all environments. The environment will be deployed from whichever source folder contains it.<br />
+Use this when you only need to migrate specific environment configurations that contain your parameter values and connection strings.<br></p>
 <table>
 <thead>
 <tr>
@@ -732,7 +736,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="createcatalogpassword">-CreateCatalogPassword</h5>
-<p>Specifies a secure string to use in creating an SSISDB catalog on Destination. If this is specified, prompts for the password will be skipped.<br></p>
+<p>Password for creating a new SSISDB catalog on the destination as a SecureString object. Required when the destination doesn't have an existing SSISDB catalog.<br />
+Use this in automated scripts to avoid interactive password prompts during catalog creation. The password encrypts sensitive data within the SSISDB catalog.<br></p>
 <table>
 <thead>
 <tr>
@@ -760,7 +765,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enablesqlclr">-EnableSqlClr</h5>
-<p>If this switch is enabled and Destination does not have the SQL CLR configuration option enabled, user prompts for enabling it on Destination will be skipped. SQL CLR is required for SSISDB.<br></p>
+<p>Automatically enables CLR integration on the destination without prompting for confirmation. CLR integration is required for SSISDB catalog functionality.<br />
+Use this in automated scenarios where you want to avoid interactive prompts when the destination server doesn't have CLR enabled.<br></p>
 <table>
 <thead>
 <tr>
@@ -788,7 +794,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the SSIS Catalog will be dropped and recreated on Destination if it already exists.<br></p>
+<p>Drops and recreates existing folders, projects, and environments at the destination instead of skipping them. Use this when you need to overwrite existing SSIS objects during migrations.<br />
+Without this parameter, the function will skip objects that already exist at the destination and display warning messages.<br></p>
 <table>
 <thead>
 <tr>

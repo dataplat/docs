@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbMailLog">Get-DbaDbMailLog</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the DBMail log from a SQL instance</p>
+<p>Retrieves Database Mail event logs from msdb for troubleshooting email delivery issues</p>
 <h2 id="description">Description</h2>
-<p>Gets the DBMail log from a SQL instance</p>
+<p>Retrieves Database Mail event logs from the msdb.dbo.sysmail_event_log table, providing detailed information about email send attempts, failures, and system events. This function is essential for diagnosing Database Mail problems, monitoring email delivery status, and identifying configuration issues. You can filter results by date range and event type (Error, Warning, Success, Information, Internal) to focus on specific troubleshooting scenarios rather than manually querying the mail log tables.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbMailLog
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -574,7 +574,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="since">-Since</h5>
-<p>Datetime object used to narrow the results to the send request date<br></p>
+<p>Filters log entries to only include events that occurred on or after the specified date and time.<br />
+Use this when troubleshooting recent mail delivery issues or investigating problems within a specific timeframe.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +603,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Narrow the results by type. Valid values include Error, Warning, Success, Information, Internal<br></p>
+<p>Filters log entries by event type to focus troubleshooting on specific mail system behaviors.<br />
+Use 'Error' to identify failed deliveries, 'Warning' for potential issues, 'Success' to verify deliveries, 'Information' for general events, or 'Internal' for system-level Database Mail operations.<br></p>
 <table>
 <thead>
 <tr>

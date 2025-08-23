@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaXEObject">Get-DbaXEObject</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets a list of extended events objects exposed by event packages from specified SQL Server instance(s).</p>
+<p>Retrieves Extended Events objects available for monitoring and troubleshooting on SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>This function returns a list of extended events objects exposed by event packages from specified SQL Server instance(s).</p>
+<p>This function queries sys.dm_xe_packages and sys.dm_xe_objects to discover what Extended Events components are available on your SQL Server instances. Use this when planning Extended Events sessions to see what events you can capture, what actions you can attach, and what targets you can write to. Essential for DBAs setting up performance monitoring, security auditing, or troubleshooting sessions since XE object availability varies by SQL Server version and edition.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaXEObject
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -569,15 +569,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Used to specify the type. Valid types include:<br />
-Action<br />
-Event<br />
-Map<br />
-Message<br />
-PredicateComparator<br />
-PredicateSource<br />
-Target<br />
-Type<br></p>
+<p>Filters the Extended Events objects by specific component types to help you find the XE building blocks you need.<br />
+Use this when planning XE sessions to focus on specific components rather than viewing all available objects.<br />
+Events capture SQL Server activities, Actions attach additional data to events, Targets define where to store captured data, and Predicates filter which events to capture.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,18 +485,18 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaCmConnection">Test-DbaCmConnection</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Tests over which paths a computer can be managed.</p>
+<p>Tests remote computer management connectivity using multiple protocols and caches optimal connection methods</p>
 <h2 id="description">Description</h2>
-<p>Tests over which paths a computer can be managed.</p>
-<p>This function tries out the connectivity for:</p>
+<p>Tests remote computer connectivity across four different management protocols to determine the most reliable connection method for SQL Server administration tasks.</p>
+<p>This function evaluates connectivity for:</p>
 <ul>
-<li>Cim over WinRM</li>
-<li>Cim over DCOM</li>
-<li>Wmi</li>
-<li>PowerShellRemoting<br />
-Results will be written to the connectivity cache and will cause Get-DbaCmObject and Invoke-DbaCmMethod to connect using the way most likely to succeed. This way, it is likely the other commands will take less time to execute. These others too cache their results, in order to dynamically update connection statistics.</li>
+<li>CIM over WinRM (Windows Remote Management)</li>
+<li>CIM over DCOM (Distributed Component Object Model)</li>
+<li>WMI (Windows Management Instrumentation)</li>
+<li>PowerShell Remoting</li>
 </ul>
-<p>This function ignores global configuration settings limiting which protocols may be used.</p>
+<p>Results are cached and automatically used by other dbatools commands like Get-DbaCmObject and Invoke-DbaCmMethod to optimize future connections. This eliminates the need to test connectivity repeatedly and ensures faster execution of subsequent operations. The connectivity cache is dynamically updated as other dbatools commands discover working or failing connection methods.</p>
+<p>This function bypasses global configuration settings that might restrict certain protocols, allowing you to test all available connection types regardless of your dbatools configuration.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaCmConnection
     [[-ComputerName] &lt;DbaCmConnectionParameter[]&gt;]
@@ -521,7 +521,9 @@ Results will be written to the connectivity cache and will cause Get-DbaCmObject
 The results will be reported and registered. Future calls from Get-DbaCmObject will recognize the results and optimize the query.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The computer to test against.<br></p>
+<p>Specifies the target computers to test management connectivity against. Accepts computer names, IP addresses, or FQDN formats.<br />
+Use this to validate which remote management protocols work before running other dbatools commands that require computer management access.<br />
+Defaults to the local computer if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -577,10 +579,9 @@ The results will be reported and registered. Future calls from Get-DbaCmObject w
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The connection protocol types to test.<br />
-By default, all types are tested.<br />
-Note that this function will ignore global configurations limiting the types of connections available and test all connections specified here instead.<br />
-Available connection protocol types: &quot;CimRM&quot;, &quot;CimDCOM&quot;, &quot;Wmi&quot;, &quot;PowerShellRemoting&quot;<br></p>
+<p>Specifies which remote management protocols to test for connectivity. Tests all four protocols by default.<br />
+Use this to focus testing on specific protocols when troubleshooting connectivity issues or when you know certain protocols are blocked in your environment.<br />
+Available options: CimRM (CIM over WinRM), CimDCOM (CIM over DCOM), Wmi (legacy WMI), PowerShellRemoting.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,7 +609,8 @@ Available connection protocol types: &quot;CimRM&quot;, &quot;CimDCOM&quot;, &qu
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Alert will be dropped and recreated on Destination.<br></p>
+<p>Forces testing even when credentials are cached as previously failed. Removes bad credential cache entries and retests connectivity.<br />
+Use this when credentials have been updated or when network connectivity issues have been resolved since the last test.<br></p>
 <table>
 <thead>
 <tr>

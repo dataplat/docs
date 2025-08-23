@@ -485,17 +485,19 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaSpinLockStatistic">Get-DbaSpinLockStatistic</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays information from sys.dm_os_spinlock_stats.  Works on SQL Server 2008 and above.</p>
+<p>Retrieves spinlock contention statistics from SQL Server's internal synchronization mechanisms</p>
 <h2 id="description">Description</h2>
-<p>This command is based off of Paul Randal's post &quot;Advanced SQL Server performance tuning&quot;</p>
+<p>Queries sys.dm_os_spinlock_stats to return detailed statistics about SQL Server's spinlock usage and contention. Spinlocks are lightweight synchronization primitives that SQL Server uses internally for very brief waits when protecting critical code sections and memory structures.</p>
+<p>This information helps diagnose severe performance issues caused by spinlock contention, which typically manifests as high CPU usage with poor throughput. Common spinlock contention scenarios include tempdb allocation bottlenecks, excessive concurrent activity on specific database objects, or issues with SQL Server's internal data structures.</p>
+<p>Based on Paul Randal's advanced performance troubleshooting methodology, this data is essential when wait statistics show SOS_SCHEDULER_YIELD or other CPU-related waits that might indicate spinlock pressure.</p>
 <p>Returns:<br />
-SpinLockName<br />
-Collisions<br />
-Spins<br />
-SpinsPerCollision<br />
-SleepTime<br />
-Backoffs</p>
-<p>Reference:  <a href="https://www.sqlskills.com/blogs/paul/advanced-performance-troubleshooting-waits-latches-spinlocks/">https://www.sqlskills.com/blogs/paul/advanced-performance-troubleshooting-waits-latches-spinlocks/</a></p>
+SpinLockName - The type of spinlock (e.g., LOCK_HASH, LOGCACHE_ACCESS)<br />
+Collisions - Number of times threads had to wait for the spinlock<br />
+Spins - Total number of spin cycles before acquiring the lock<br />
+SpinsPerCollision - Average spins per collision (efficiency indicator)<br />
+SleepTime - Total time spent sleeping when spins were exhausted<br />
+Backoffs - Number of times the thread backed off before retrying</p>
+<p>Reference: <a href="https://www.sqlskills.com/blogs/paul/advanced-performance-troubleshooting-waits-latches-spinlocks/">https://www.sqlskills.com/blogs/paul/advanced-performance-troubleshooting-waits-latches-spinlocks/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaSpinLockStatistic
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

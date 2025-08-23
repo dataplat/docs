@@ -551,7 +551,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 <p>Creates a self-signed certificate using the SHA256 hashing algorithm that does not expire for 5 years<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances. Defaults to localhost. If target is a cluster, you must also specify ClusterInstanceName (see below)<br></p>
+<p>Specifies the target computer or computers where the certificate will be created and installed. Defaults to localhost.<br />
+For SQL Server clusters, specify each cluster node here and use ClusterInstanceName for the cluster's virtual name.<br />
+The certificate is created locally and then copied to remote machines via WinRM if needed.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +609,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="caserver">-CaServer</h5>
-<p>Optional - the CA Server where the request will be sent to<br></p>
+<p>Specifies the Certificate Authority server that will sign the certificate request.<br />
+When omitted, the function automatically discovers the CA server from Active Directory.<br />
+Required for domain-signed certificates when automatic discovery fails.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +639,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="caname">-CaName</h5>
-<p>The properly formatted CA name of the corresponding CaServer<br></p>
+<p>Specifies the Certificate Authority name on the CA server.<br />
+When omitted, the function automatically discovers the CA name from Active Directory.<br />
+Must match the exact CA name as registered in the domain's PKI infrastructure.<br></p>
 <table>
 <thead>
 <tr>
@@ -663,7 +669,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="clusterinstancename">-ClusterInstanceName</h5>
-<p>When creating certs for a cluster, use this parameter to create the certificate for the cluster node name. Use ComputerName for each of the nodes.<br></p>
+<p>Specifies the virtual cluster name when creating certificates for SQL Server failover clusters.<br />
+The certificate subject and SAN will use this cluster name instead of individual node names.<br />
+Use ComputerName to specify each physical cluster node where the certificate will be installed.<br></p>
 <table>
 <thead>
 <tr>
@@ -691,7 +699,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="securepassword">-SecurePassword</h5>
-<p>Password to encrypt/decrypt private key for export to remote machine<br></p>
+<p>Specifies the password used to protect the private key during certificate export and import operations.<br />
+Required when installing certificates on remote machines to secure the private key during transport.<br />
+The same password is used for both export from the local machine and import on remote machines.<br></p>
 <table>
 <thead>
 <tr>
@@ -719,7 +729,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="friendlyname">-FriendlyName</h5>
-<p>The FriendlyName listed in the certificate. This defaults to the FQDN of the $ComputerName<br></p>
+<p>Specifies the friendly name displayed in the certificate store to help identify the certificate.<br />
+Defaults to &quot;SQL Server&quot; making it easy to locate certificates intended for SQL Server encryption.<br />
+Choose descriptive names like &quot;SQL Prod Cluster&quot; or &quot;SQL Dev Server&quot; for better organization.<br></p>
 <table>
 <thead>
 <tr>
@@ -747,7 +759,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="certificatetemplate">-CertificateTemplate</h5>
-<p>The domain's Certificate Template - WebServer by default.<br></p>
+<p>Specifies the Active Directory Certificate Template used for certificate generation.<br />
+Defaults to &quot;WebServer&quot; which provides the necessary server authentication capabilities for SQL Server encryption.<br />
+The template must exist in your domain's PKI and allow auto-enrollment for your account.<br></p>
 <table>
 <thead>
 <tr>
@@ -775,7 +789,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="keylength">-KeyLength</h5>
-<p>The length of the key - defaults to 1024<br></p>
+<p>Specifies the RSA key size in bits for the certificate's private key.<br />
+Defaults to 1024 bits, though 2048 or 4096 bits provide better security for production environments.<br />
+Longer keys provide stronger encryption but may slightly impact performance during SSL handshakes.<br></p>
 <table>
 <thead>
 <tr>
@@ -803,7 +819,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="store">-Store</h5>
-<p>Certificate store - defaults to LocalMachine<br></p>
+<p>Specifies the certificate store location where the certificate will be installed.<br />
+Defaults to &quot;LocalMachine&quot; which makes certificates available to services like SQL Server.<br />
+Use &quot;CurrentUser&quot; only for user-specific certificates that don't need service access.<br></p>
 <table>
 <thead>
 <tr>
@@ -831,7 +849,9 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="folder">-Folder</h5>
-<p>Certificate folder - defaults to My (Personal)<br></p>
+<p>Specifies the certificate store folder where the certificate will be placed.<br />
+Defaults to &quot;My&quot; (Personal certificates) which is where SQL Server looks for server certificates.<br />
+Use &quot;TrustedPeople&quot; or other folders only for specific certificate trust scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -859,19 +879,10 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 </tbody>
 </table>
 <h5 id="flag">-Flag</h5>
-<p>Defines where and how to import the private key of an X.509 certificate.<br />
-Defaults to: Exportable, PersistKeySet<br />
-EphemeralKeySet<br />
-The key associated with a PFX file is created in memory and not persisted on disk when importing a certificate.<br />
-Exportable<br />
-Imported keys are marked as exportable.<br />
-NonExportable<br />
-Expliictly mark keys as nonexportable.<br />
-PersistKeySet<br />
-The key associated with a PFX file is persisted when importing a certificate.<br />
-UserProtected<br />
-Notify the user through a dialog box or other method that the key is accessed. The Cryptographic Service Provider (CSP) in use defines the precise behavior. NOTE: This can only be used when you<br />
-add a certificate to localhost, as it causes a prompt to appear.<br></p>
+<p>Specifies how the certificate's private key should be handled during import operations.<br />
+Defaults to &quot;Exportable, PersistKeySet&quot; allowing the key to be backed up and persisted on disk.<br />
+Use &quot;NonExportable&quot; for high-security environments where private keys should never leave the machine.<br />
+&quot;UserProtected&quot; requires interactive confirmation and only works on localhost installations.<br></p>
 <table>
 <thead>
 <tr>
@@ -903,7 +914,9 @@ add a certificate to localhost, as it causes a prompt to appear.<br></p>
 </tbody>
 </table>
 <h5 id="dns">-Dns</h5>
-<p>Specify the Dns entries listed in SAN. By default, it will be ComputerName + FQDN, or in the case of clusters, clustername + cluster FQDN.<br></p>
+<p>Specifies additional DNS names to include in the certificate's Subject Alternative Name (SAN) extension.<br />
+By default, includes the computer name and FQDN, or cluster name and cluster FQDN for clusters.<br />
+Add extra DNS names that clients will use to connect, such as aliases or load balancer names.<br></p>
 <table>
 <thead>
 <tr>
@@ -931,7 +944,9 @@ add a certificate to localhost, as it causes a prompt to appear.<br></p>
 </tbody>
 </table>
 <h5 id="selfsigned">-SelfSigned</h5>
-<p>Creates a self-signed certificate. All other parameters can still apply except CaServer and CaName because the command does not go and get the certificate signed.<br></p>
+<p>Creates a self-signed certificate instead of requesting one from a Certificate Authority.<br />
+Useful for development environments or when no domain CA is available.<br />
+Self-signed certificates will generate trust warnings unless manually added to client trust stores.<br></p>
 <table>
 <thead>
 <tr>
@@ -989,7 +1004,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="hashalgorithm">-HashAlgorithm</h5>
-<p>Specifies hashing algorithm for self-signed certificate.  Must be one of the values Sha256, sha384, sha512, sha1, md5, md4, md2.<br></p>
+<p>Specifies the cryptographic hash algorithm used for certificate signing.<br />
+Defaults to &quot;sha1&quot; for compatibility, though &quot;Sha256&quot; or higher is recommended for production security.<br />
+Modern browsers and applications prefer SHA-256 or higher; avoid MD5 and MD4 for security reasons.<br></p>
 <table>
 <thead>
 <tr>
@@ -1021,7 +1038,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="monthsvalid">-MonthsValid</h5>
-<p>Allows you to specify the number of months a self-signed certificate will be valid for.  e.g a value of 60 will generate a certificate vaild until 5 years (60 months) time.<br></p>
+<p>Specifies how many months the self-signed certificate remains valid from the creation date.<br />
+Defaults to 12 months; use longer periods like 60 months (5 years) to reduce certificate renewal frequency.<br />
+Only applies to self-signed certificates; CA-signed certificates use the CA's validity period.<br></p>
 <table>
 <thead>
 <tr>

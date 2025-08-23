@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaRgResourcePool">Set-DbaRgResourcePool</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets a resource pool for use by the Resource Governor on the specified SQL Server.</p>
+<p>Modifies CPU, memory, and IOPS limits for existing SQL Server Resource Governor pools.</p>
 <h2 id="description">Description</h2>
-<p>Sets a resource pool for use by the Resource Governor on the specified SQL Server.<br />
-A resource pool represents a subset of the physical resources (memory, CPUs and IO) of an instance of the Database Engine.</p>
+<p>Modifies resource allocation settings for existing Resource Governor pools to control how much CPU, memory, and disk I/O different workloads can consume.<br />
+This lets you adjust performance limits after analyzing workload patterns or when server capacity changes.<br />
+Works with both internal pools (for SQL Server queries) and external pools (for R Services, Python, or other external processes).<br />
+The Resource Governor is automatically reconfigured to apply changes immediately unless you skip reconfiguration.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaRgResourcePool
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
@@ -625,7 +627,8 @@ for the instance sql2016 by piping output from Get-DbaRgResourcePool.<br></p>
 </tbody>
 </table>
 <h5 id="resourcepool">-ResourcePool</h5>
-<p>Name of the resource pool to be created.<br></p>
+<p>Specifies the name of the existing resource pool to modify.<br />
+Use this to target specific pools like 'poolAdmin' or 'poolDeveloper' when you need to adjust their resource limits.<br></p>
 <table>
 <thead>
 <tr>
@@ -653,7 +656,9 @@ for the instance sql2016 by piping output from Get-DbaRgResourcePool.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Internal or External.<br></p>
+<p>Specifies whether to modify Internal or External resource pools.<br />
+Internal pools control SQL Server queries and connections, while External pools manage R Services, Python, or other external processes.<br />
+Defaults to Internal if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -685,7 +690,9 @@ for the instance sql2016 by piping output from Get-DbaRgResourcePool.<br></p>
 </tbody>
 </table>
 <h5 id="minimumcpupercentage">-MinimumCpuPercentage</h5>
-<p>Specifies the guaranteed average CPU bandwidth for all requests in the resource pool when there is CPU contention.<br></p>
+<p>Sets the guaranteed minimum CPU percentage (0-100) that this pool will always receive during CPU contention.<br />
+Use this to ensure critical workloads get sufficient CPU even when the server is busy.<br />
+For example, set to 20 to guarantee a pool always gets at least 20% of available CPU.<br></p>
 <table>
 <thead>
 <tr>
@@ -713,7 +720,9 @@ for the instance sql2016 by piping output from Get-DbaRgResourcePool.<br></p>
 </tbody>
 </table>
 <h5 id="maximumcpupercentage">-MaximumCpuPercentage</h5>
-<p>Specifies the maximum average CPU bandwidth that all requests in resource pool will receive when there is CPU contention.<br></p>
+<p>Sets the maximum CPU percentage (1-100) that this pool can consume during CPU contention.<br />
+Use this to prevent runaway queries from monopolizing CPU resources.<br />
+For example, set to 30 to limit a development pool to 30% of available CPU.<br></p>
 <table>
 <thead>
 <tr>
@@ -741,8 +750,9 @@ for the instance sql2016 by piping output from Get-DbaRgResourcePool.<br></p>
 </tbody>
 </table>
 <h5 id="capcpupercentage">-CapCpuPercentage</h5>
-<p>Specifies a hard cap on the CPU bandwidth that all requests in the resource pool will receive.<br />
-Limits the maximum CPU bandwidth level to be the same as the specified value. Only for SQL Server 2012+<br></p>
+<p>Sets an absolute hard cap (1-100) on CPU usage that cannot be exceeded even when CPU is available.<br />
+Unlike MaximumCpuPercentage, this limit applies regardless of server load or contention.<br />
+Only available on SQL Server 2012 and later. Use this for strict resource isolation requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -770,7 +780,9 @@ Limits the maximum CPU bandwidth level to be the same as the specified value. On
 </tbody>
 </table>
 <h5 id="minimummemorypercentage">-MinimumMemoryPercentage</h5>
-<p>Specifies the minimum amount of memory reserved for this resource pool that can not be shared with other resource pools.<br></p>
+<p>Sets the minimum memory percentage (0-100) that is reserved exclusively for this pool and cannot be shared.<br />
+Use this to guarantee memory for critical workloads that must have dedicated memory allocation.<br />
+For example, set to 15 to ensure a production pool always has at least 15% of server memory reserved.<br></p>
 <table>
 <thead>
 <tr>
@@ -798,7 +810,9 @@ Limits the maximum CPU bandwidth level to be the same as the specified value. On
 </tbody>
 </table>
 <h5 id="maximummemorypercentage">-MaximumMemoryPercentage</h5>
-<p>Specifies the total server memory that can be used by requests in this resource pool. value is an integer with a default setting of 100.<br></p>
+<p>Sets the maximum memory percentage (1-100) that this pool can consume from total server memory.<br />
+Use this to prevent memory-intensive workloads from consuming all available memory.<br />
+Defaults to 100, meaning no memory restrictions. Set lower values like 50 to limit pool memory usage.<br></p>
 <table>
 <thead>
 <tr>
@@ -826,7 +840,9 @@ Limits the maximum CPU bandwidth level to be the same as the specified value. On
 </tbody>
 </table>
 <h5 id="minimumiopspervolume">-MinimumIOPSPerVolume</h5>
-<p>Specifies the minimum I/O operations per second (IOPS) per disk volume to reserve for the resource pool.<br></p>
+<p>Sets the minimum guaranteed IOPS per disk volume that this pool will receive during I/O contention.<br />
+Use this to ensure critical workloads get sufficient disk I/O performance even when storage is busy.<br />
+For example, set to 1000 to guarantee at least 1000 IOPS per volume for a production pool.<br></p>
 <table>
 <thead>
 <tr>
@@ -854,7 +870,9 @@ Limits the maximum CPU bandwidth level to be the same as the specified value. On
 </tbody>
 </table>
 <h5 id="maximumiopspervolume">-MaximumIOPSPerVolume</h5>
-<p>Specifies the maximum I/O operations per second (IOPS) per disk volume to allow for the resource pool.<br></p>
+<p>Sets the maximum IOPS per disk volume that this pool can consume during I/O operations.<br />
+Use this to prevent I/O-intensive workloads from overwhelming disk subsystems and affecting other pools.<br />
+For example, set to 5000 to limit a reporting pool to 5000 IOPS per volume.<br></p>
 <table>
 <thead>
 <tr>
@@ -882,8 +900,9 @@ Limits the maximum CPU bandwidth level to be the same as the specified value. On
 </tbody>
 </table>
 <h5 id="maximumprocesses">-MaximumProcesses</h5>
-<p>Specifies the maximum number of processes allowed for the external resource pool.<br />
-Specify 0 to set an unlimited threshold for the pool, which is thereafter bound only by computer resources.<br></p>
+<p>Sets the maximum number of external processes allowed in this external resource pool.<br />
+Only applies to External pool types used for R Services, Python, or other external runtime processes.<br />
+Set to 0 for unlimited processes (limited only by server resources), or specify a number like 10 to restrict concurrent external processes.<br></p>
 <table>
 <thead>
 <tr>
@@ -911,8 +930,9 @@ Specify 0 to set an unlimited threshold for the pool, which is thereafter bound 
 </tbody>
 </table>
 <h5 id="skipreconfigure">-SkipReconfigure</h5>
-<p>Resource Governor requires a reconfiguriation for resource pool changes to take effect.<br />
-Use this switch to skip issuing a reconfigure for the Resource Governor.<br></p>
+<p>Prevents automatic reconfiguration of the Resource Governor after making pool changes.<br />
+Use this when making multiple pool modifications and you want to reconfigure manually later.<br />
+Without reconfiguration, your pool changes won't take effect until you manually reconfigure the Resource Governor.<br></p>
 <table>
 <thead>
 <tr>
@@ -940,7 +960,9 @@ Use this switch to skip issuing a reconfigure for the Resource Governor.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows input to be piped from Get-DbaRgResourcePool.<br></p>
+<p>Accepts resource pool objects piped from Get-DbaRgResourcePool for bulk modifications.<br />
+Use this to modify multiple pools at once by piping them from Get-DbaRgResourcePool.<br />
+Eliminates the need to specify SqlInstance and ResourcePool parameters when working with existing pool objects.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaDbAssembly">Copy-DbaDbAssembly</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaDbAssembly migrates assemblies from one SQL Server to another.</p>
+<p>Copies CLR assemblies from source databases to destination SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>By default, all assemblies are copied.</p>
-<p>If the assembly already exists on the destination, it will be skipped unless -Force is used.</p>
-<p>This script does not yet copy dependencies or dependent objects.</p>
+<p>Migrates custom CLR assemblies from databases on a source SQL Server to corresponding databases on destination instances. This function scans all accessible databases for user-created assemblies and recreates them on the target servers, automatically handling security requirements like setting the TRUSTWORTHY property for external assemblies.</p>
+<p>Designed for database migration scenarios where applications rely on custom .NET assemblies registered in SQL Server. If assemblies already exist on the destination, they're skipped unless you use -Force to drop and recreate them.</p>
+<p>The function does not copy assembly dependencies or dependent objects like CLR stored procedures, functions, or user-defined types that reference the assemblies.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaDbAssembly
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -524,7 +524,8 @@ In this example, anotherassembly will be copied to the dbname3 database on the s
 <p>Shows what would happen if the command were executed using force.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>Source SQL Server instance containing the CLR assemblies to copy. Requires sysadmin access to scan all accessible databases for user-created assemblies.<br />
+The function will inventory all custom assemblies across every database on this instance for migration. <br></p>
 <table>
 <thead>
 <tr>
@@ -552,7 +553,8 @@ In this example, anotherassembly will be copied to the dbname3 database on the s
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Target SQL Server instance(s) where CLR assemblies will be created. Accepts multiple destinations to copy assemblies to several servers simultaneously.<br />
+Requires sysadmin access and corresponding databases must already exist on the destination for assembly migration to succeed. <br></p>
 <table>
 <thead>
 <tr>
@@ -581,9 +583,8 @@ In this example, anotherassembly will be copied to the dbname3 database on the s
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the source SQL Server instance. Use this when your current Windows credentials don't have sysadmin access to the source server.<br />
+Accepts PowerShell credential objects created with Get-Credential and supports SQL Server Authentication or Active Directory authentication methods.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,9 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the destination SQL Server instance(s). Use this when your current Windows credentials don't have sysadmin access to the target servers.<br />
+Accepts PowerShell credential objects created with Get-Credential and supports SQL Server Authentication or Active Directory authentication methods.<br></p>
 <table>
 <thead>
 <tr>
@@ -641,7 +641,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="assembly">-Assembly</h5>
-<p>The assembly(ies) to process. This list is auto-populated from the server. If unspecified, all assemblies will be processed.<br></p>
+<p>Specific CLR assemblies to copy instead of migrating all assemblies. Use the format 'DatabaseName.AssemblyName' to target assemblies in specific databases.<br />
+This is useful when you only need to migrate certain assemblies rather than performing a full assembly migration across all databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -669,7 +670,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeassembly">-ExcludeAssembly</h5>
-<p>The assembly(ies) to exclude. This list is auto-populated from the server.<br></p>
+<p>CLR assemblies to skip during the migration process. Use the format 'DatabaseName.AssemblyName' to exclude specific assemblies from specific databases.<br />
+This is helpful when you want to migrate most assemblies but need to skip problematic or obsolete ones that shouldn't be copied to the destination.<br></p>
 <table>
 <thead>
 <tr>
@@ -697,7 +699,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, existing assemblies on Destination with matching names from Source will be dropped.<br></p>
+<p>Drops existing assemblies on the destination before recreating them from the source. By default, assemblies that already exist are skipped.<br />
+Use this when you need to overwrite destination assemblies with updated versions from the source, but be aware that assemblies with dependencies cannot be dropped.<br></p>
 <table>
 <thead>
 <tr>

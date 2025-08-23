@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbMailHistory">Get-DbaDbMailHistory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the history of mail sent from a SQL instance</p>
+<p>Retrieves Database Mail history from SQL Server's msdb database for troubleshooting and compliance</p>
 <h2 id="description">Description</h2>
-<p>Gets the history of mail sent from a SQL instance</p>
+<p>Retrieves comprehensive Database Mail history from the msdb.dbo.sysmail_allitems table, including delivery status, recipients, subject lines, and timestamps. This function helps DBAs troubleshoot email delivery issues, audit mail activity for compliance reporting, and monitor Database Mail performance. You can filter results by send date or delivery status (Sent, Failed, Unsent, Retrying) to focus on specific timeframes or problem emails.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbMailHistory
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -574,7 +574,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="since">-Since</h5>
-<p>Datetime object used to narrow the results to the send request date<br></p>
+<p>Filters mail history to only include emails sent after the specified date and time.<br />
+Use this when troubleshooting recent delivery issues or generating reports for specific time periods.<br />
+Accepts standard PowerShell DateTime objects like (Get-Date).AddDays(-7) for the past week.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +604,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="status">-Status</h5>
-<p>Narrow the results by status. Valid values include Unsent, Sent, Failed and Retrying<br></p>
+<p>Filters results to only show emails with the specified delivery status.<br />
+Use 'Failed' to identify delivery problems, 'Unsent' for queued messages, or 'Retrying' for current retry attempts.<br />
+Accepts multiple values: Unsent, Sent, Failed, and Retrying.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,12 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Resolve-DbaNetworkName">Resolve-DbaNetworkName</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns information about the network connection of the target computer including NetBIOS name, IP Address, domain name and fully qualified domain name (FQDN).</p>
+<p>Resolves network names and returns detailed network information for SQL Server connection troubleshooting and validation.</p>
 <h2 id="description">Description</h2>
-<p>Retrieves the IPAddress, ComputerName from one computer.<br />
-The object can be used to take action against its name or IPAddress.</p>
-<p>First ICMP is used to test the connection, and get the connected IPAddress.</p>
-<p>Multiple protocols (e.g. WMI, CIM, etc) are attempted before giving up.</p>
+<p>Performs comprehensive network name resolution to gather detailed connection information for SQL Server instances and computers.<br />
+This function is essential when you need to verify connectivity, troubleshoot connection issues, or validate network configurations before connecting to SQL Server.</p>
+<p>Uses multiple resolution methods including DNS lookups, ICMP ping tests, and WMI/CIM queries to ensure accurate results across different network configurations.<br />
+First tests connectivity using ICMP to identify the responding IP address, then gathers comprehensive network details through various protocols.</p>
 <p>Important: Remember that FQDN doesn't always match &quot;ComputerName dot Domain&quot; as AD intends.<br />
 There are network setup (google &quot;disjoint domain&quot;) where AD and DNS do not match.<br />
 &quot;Full computer name&quot; (as reported by sysdm.cpl) is the only match between the two,<br />
@@ -543,8 +543,9 @@ Let this clear the doubts:</p>
 <p>Returns a custom object displaying InputName, ComputerName, IPAddress, DNSHostName, DNSDomain, Domain, DNSHostEntry, FQDN, DNSHostEntry for all SQL Servers returned by Get-DbaRegServer<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances.<br />
-This can be the name of a computer, a SMO object, an IP address or a SQL Instance.<br></p>
+<p>Specifies the target computer name, IP address, or SQL Server instance to resolve network information for.<br />
+Use this when troubleshooting connectivity issues or validating network configurations before connecting to SQL Server.<br />
+Accepts computer names (SERVER01), IP addresses (192.168.1.100), SQL Server instances (SERVER01\INSTANCE), or SMO objects from Get-DbaRegServer.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,9 +603,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="turbo">-Turbo</h5>
-<p>Resolves without accessing the server itself. Faster but may be less accurate because it relies on DNS only,<br />
-so it may fail spectacularly for disjoin-domain setups. Also, everyone has its own DNS (i.e. results may vary<br />
-changing the computer where the function runs)<br></p>
+<p>Enables DNS-only resolution mode for faster network name resolution without connecting to the target computer.<br />
+Use this when you need quick DNS lookups but don't require comprehensive network details or WMI/CIM information.<br />
+Results may be less accurate in disjoint-domain environments where AD and DNS configurations don't align, and may vary depending on your local DNS configuration.<br></p>
 <table>
 <thead>
 <tr>

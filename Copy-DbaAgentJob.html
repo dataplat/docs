@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaAgentJob">Copy-DbaAgentJob</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaAgentJob migrates jobs from one SQL Server to another.</p>
+<p>Migrates SQL Server Agent jobs between instances with dependency validation</p>
 <h2 id="description">Description</h2>
-<p>By default, all jobs are copied. The -Job parameter is auto-populated for command-line completion and can be used to copy only specific jobs.</p>
-<p>If the job already exists on the destination, it will be skipped unless -Force is used.</p>
+<p>Copies SQL Server Agent jobs from one instance to another while automatically validating all dependencies including databases, logins, proxy accounts, and operators. This eliminates the manual process of checking prerequisites before moving jobs during migrations, disaster recovery, or environment promotions.</p>
+<p>The function intelligently skips jobs associated with maintenance plans and provides detailed validation messages for any missing dependencies. By default, existing jobs are preserved unless -Force is specified to overwrite them.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaAgentJob
     [[-Source] &lt;DbaInstanceParameter&gt;]
@@ -529,7 +529,8 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 <p>Copies all SSRS jobs (subscriptions) from AlwaysOn Primary SQL instance sqlserver2014a to AlwaysOn Secondary SQL instance sqlserver2014b<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Destination SQL Server instance(s) where jobs will be created. You must have sysadmin access and the server must be SQL Server 2000 or higher.<br />
+Supports multiple destinations to copy jobs to multiple servers simultaneously during migrations or DR setup. <br></p>
 <table>
 <thead>
 <tr>
@@ -558,7 +559,8 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br></p>
+<p>Source SQL Server instance containing the jobs to copy. You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br />
+Use this when copying jobs from a specific instance rather than piping job objects with InputObject.<br></p>
 <table>
 <thead>
 <tr>
@@ -586,9 +588,9 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 </tbody>
 </table>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the source SQL Server instance. Accepts PowerShell credentials (Get-Credential).<br />
+Use this when the source server requires different authentication than your current Windows session, such as SQL authentication or cross-domain scenarios.<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br></p>
 <table>
 <thead>
 <tr>
@@ -616,9 +618,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the destination SQL Server instance. Accepts PowerShell credentials (Get-Credential).<br />
+Use this when the destination server requires different authentication than your current Windows session, such as SQL authentication or cross-domain scenarios.<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br></p>
 <table>
 <thead>
 <tr>
@@ -646,7 +648,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The job(s) to process. This list is auto-populated from the server. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies which SQL Agent jobs to copy by name. Accepts wildcards and multiple job names.<br />
+Use this to copy specific jobs instead of all jobs, such as during selective migrations or when testing job deployments.<br />
+If unspecified, all jobs will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -674,7 +678,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludejob">-ExcludeJob</h5>
-<p>The job(s) to exclude. This list is auto-populated from the server.<br></p>
+<p>Specifies which SQL Agent jobs to skip during the copy operation. Accepts wildcards and multiple job names.<br />
+Use this to exclude specific jobs from bulk operations, such as skipping environment-specific jobs or maintenance tasks that shouldn't be migrated.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,7 +707,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="disableonsource">-DisableOnSource</h5>
-<p>If this switch is enabled, the job will be disabled on the source server.<br></p>
+<p>Disables the job on the source server after successfully copying it to the destination.<br />
+Use this during server migrations or failover scenarios where you want to prevent the job from running on the old server while it runs on the new one.<br></p>
 <table>
 <thead>
 <tr>
@@ -730,7 +736,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="disableondestination">-DisableOnDestination</h5>
-<p>If this switch is enabled, the newly migrated job will be disabled on the destination server.<br></p>
+<p>Creates the job on the destination server but leaves it disabled.<br />
+Use this when deploying jobs to test environments or when you need to review and modify job steps before enabling them in the new environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -758,7 +765,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Job will be dropped and recreated on Destination.<br></p>
+<p>Overwrites existing jobs on the destination server and automatically sets missing job owners to the 'sa' login.<br />
+Use this when you need to replace existing jobs or when source job owners don't exist on the destination server during migrations.<br></p>
 <table>
 <thead>
 <tr>
@@ -786,7 +794,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Piped in jobs from Get-DbaAgentJob<br></p>
+<p>Accepts SQL Agent job objects from the pipeline, typically from Get-DbaAgentJob.<br />
+Use this to copy pre-filtered jobs or when combining with other job management cmdlets for complex workflows.<br></p>
 <table>
 <thead>
 <tr>

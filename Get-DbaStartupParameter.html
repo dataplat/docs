@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaStartupParameter">Get-DbaStartupParameter</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays values for a detailed list of SQL Server Startup Parameters.</p>
+<p>Retrieves SQL Server startup parameters from the Windows service configuration</p>
 <h2 id="description">Description</h2>
-<p>Displays values for a detailed list of SQL Server Startup Parameters including Master Data Path, Master Log path, Error Log, Trace Flags, Parameter String and much more.</p>
-<p>This command relies on remote Windows Server (SQL WMI/WinRm) access. You can pass alternative Windows credentials by using the -Credential parameter.</p>
+<p>Extracts and parses SQL Server startup parameters directly from the Windows service configuration using WMI. Returns detailed information about file paths (master database, transaction log, error log), trace flags, debug flags, and special startup modes like single-user or minimal start.</p>
+<p>Useful for troubleshooting startup issues, documenting server configurations, and verifying trace flag settings without connecting to SQL Server itself. Requires Windows credentials and WMI access to the target server.</p>
 <p>See <a href="https://msdn.microsoft.com/en-us/library/ms190737.aspx">https://msdn.microsoft.com/en-us/library/ms190737.aspx</a> for more information.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaStartupParameter
@@ -571,7 +571,8 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="simple">-Simple</h5>
-<p>If this switch is enabled, simplified output will be produced including only Server, Master Data path, Master Log path, ErrorLog, TraceFlags and ParameterString.<br></p>
+<p>Returns only essential startup information: file paths (master data, master log, error log), trace flags, and the complete parameter string.<br />
+Use this when you need a quick overview without detailed startup mode flags like single-user, minimal start, or monitoring settings.<br></p>
 <table>
 <thead>
 <tr>

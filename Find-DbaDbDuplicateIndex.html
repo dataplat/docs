@@ -485,22 +485,13 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaDbDuplicateIndex">Find-DbaDbDuplicateIndex</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Find duplicate and overlapping indexes.</p>
+<p>Identifies duplicate and overlapping indexes that waste storage space and degrade insert performance</p>
 <h2 id="description">Description</h2>
-<p>This command will help you to find duplicate and overlapping indexes on a database or a list of databases.</p>
-<p>On SQL Server 2008 and higher, the IsFiltered property will also be checked</p>
-<p>Only supports CLUSTERED and NONCLUSTERED indexes.</p>
-<p>Output:<br />
-TableName<br />
-IndexName<br />
-KeyColumns<br />
-IncludedColumns<br />
-IndexSizeMB<br />
-IndexType<br />
-CompressionDescription (When 2008+)<br />
-[RowCount]<br />
-IsDisabled<br />
-IsFiltered (When 2008+)</p>
+<p>Scans database tables to identify indexes that have identical or overlapping column structures, which consume unnecessary storage space and slow down insert, update, and delete operations. Duplicate indexes have exactly the same key columns, included columns, and filter conditions, while overlapping indexes share some key columns but differ in others.</p>
+<p>Use this during index maintenance to eliminate redundant indexes before they impact performance. The function analyzes sys.indexes and related catalog views to compare column structures, accounting for column order and sort direction. On SQL Server 2008 and higher, filtered indexes are properly differentiated using the IsFiltered property.</p>
+<p>Supports both clustered and nonclustered indexes on user tables, excluding system objects. Returns comprehensive index details including size in MB, row counts, compression settings (2008+), and disabled/filtered status to help prioritize which duplicates to remove.</p>
+<p>Output includes:<br />
+TableName, IndexName, KeyColumns, IncludedColumns, IndexSizeMB, IndexType, CompressionDescription (2008+), RowCount, IsDisabled, IsFiltered (2008+)</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaDbDuplicateIndex
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -591,7 +582,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for duplicate indexes. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases instead of scanning all databases on the instance, which can be time-consuming on servers with many databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -619,8 +611,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includeoverlapping">-IncludeOverlapping</h5>
-<p>If this switch is enabled, indexes which are partially duplicated will be returned.<br />
-Example: If the first key column is the same between two indexes, but one has included columns and the other not, this will be shown.<br></p>
+<p>Finds indexes that share some key columns but have different column structures, not just exact duplicates.<br />
+Use this to identify indexes where one might be redundant because it's covered by another with additional columns.<br />
+For example, an index on (CustomerID) would be flagged as overlapping with an index on (CustomerID, OrderDate).<br></p>
 <table>
 <thead>
 <tr>

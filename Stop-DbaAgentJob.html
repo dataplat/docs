@@ -485,9 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Stop-DbaAgentJob">Stop-DbaAgentJob</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Stops a running SQL Server Agent Job.</p>
+<p>Stops running SQL Server Agent jobs by calling their Stop() method.</p>
 <h2 id="description">Description</h2>
-<p>This command stops a job then returns connected SMO object for SQL Agent Job information for each instance(s) of SQL Server.</p>
+<p>Stops currently executing SQL Server Agent jobs and returns the job objects for verification after the stop attempt.<br />
+Perfect for halting runaway jobs during maintenance windows, stopping jobs that are causing blocking or performance issues, or clearing job queues before scheduled operations.<br />
+The function automatically skips jobs that are already idle and can optionally wait until jobs have completely finished stopping before returning results.<br />
+Works with individual job names, exclusion filters, or accepts piped job objects from Get-DbaAgentJob and other dbatools commands.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Stop-DbaAgentJob
     [-SqlCredential &lt;PSCredential&gt;]
@@ -566,7 +569,8 @@ Stop-DbaAgentJob
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter that enables piping <br></p>
+<p>Accepts SQL Agent job objects from pipeline operations, typically from Get-DbaAgentJob or other dbatools commands.<br />
+This allows you to filter jobs using complex criteria upstream and then pipe the results directly to Stop-DbaAgentJob for processing. <br></p>
 <table>
 <thead>
 <tr>
@@ -625,7 +629,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The job(s) to process - this list is auto-populated from the server. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies which SQL Agent jobs to stop by name. Accepts exact job names from the target instance.<br />
+Use this when you need to stop specific jobs instead of all running jobs. If unspecified, all currently running jobs will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -653,7 +658,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludejob">-ExcludeJob</h5>
-<p>The job(s) to exclude - this list is auto-populated from the server.<br></p>
+<p>Specifies SQL Agent job names to exclude from the stop operation. Accepts exact job names from the target instance.<br />
+Use this when you want to stop most jobs but preserve critical ones like backup jobs, monitoring jobs, or maintenance routines during troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -681,7 +687,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="wait">-Wait</h5>
-<p>Wait for output until the job has completely stopped<br></p>
+<p>Waits for each job to completely finish stopping before returning results. Without this switch, the function returns immediately after sending the stop command.<br />
+Use this when you need to ensure jobs have fully terminated before proceeding with subsequent operations like maintenance or troubleshooting steps.<br></p>
 <table>
 <thead>
 <tr>

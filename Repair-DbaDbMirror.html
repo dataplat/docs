@@ -485,11 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Repair-DbaDbMirror">Repair-DbaDbMirror</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Attempts to repair a suspended or paused mirroring database.</p>
+<p>Repairs suspended database mirroring sessions by restarting endpoints and resuming mirroring</p>
 <h2 id="description">Description</h2>
-<p>Attempts to repair a suspended mirroring database.</p>
-<p>Restarts the endpoints then sets the partner to resume. See this article for more info:</p>
-<p><a href="http://www.sqlservercentral.com/blogs/vivekssqlnotes/2016/09/03/how-to-resume-suspended-database-mirroring-in-sql-server-/">http://www.sqlservercentral.com/blogs/vivekssqlnotes/2016/09/03/how-to-resume-suspended-database-mirroring-in-sql-server-/</a></p>
+<p>Restores database mirroring functionality when mirroring sessions become suspended due to network connectivity issues, log space problems, or other transient failures. This function performs the standard troubleshooting steps that DBAs typically execute manually: stops and restarts the database mirroring endpoints on the SQL Server instance, then resumes the mirroring session between the principal and mirror databases.</p>
+<p>When database mirroring is suspended, the mirror database stops receiving transaction log records from the principal database, creating a potential data loss risk. This command automates the common recovery process, eliminating the need to manually restart endpoints and issue ALTER DATABASE commands to resume mirroring.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Repair-DbaDbMirror
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -576,7 +575,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database.<br></p>
+<p>Specifies the name of the mirrored database that needs repair on the SQL Server instance.<br />
+Use this when you know the specific database with suspended mirroring that requires endpoint restart and session resumption.<br />
+Accepts multiple database names and supports wildcards for pattern matching.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +605,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase pipeline input to repair multiple mirrored databases in a single operation.<br />
+Use this approach when you need to repair several databases at once or when working with the output of database filtering commands.<br />
+Each database object must represent a database that has mirroring configured.<br></p>
 <table>
 <thead>
 <tr>

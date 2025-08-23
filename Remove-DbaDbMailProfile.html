@@ -485,11 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbMailProfile">Remove-DbaDbMailProfile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes database mail profile(s).</p>
+<p>Removes Database Mail profiles from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Removes the database mail profile(s) that have passed through the pipeline.</p>
-<p>If not used with a pipeline, Get-DbaDbMailProfile will be executed with the parameters provided<br />
-and the returned database mail profile(s) will be removed.</p>
+<p>Deletes specified Database Mail profiles from the msdb database, permanently removing their configuration and preventing them from sending emails.<br />
+This is commonly used during security hardening to remove unused profiles or when cleaning up misconfigured mail setups.<br />
+Accepts profiles via pipeline from Get-DbaDbMailProfile or directly through parameters, making it easy to selectively remove profiles based on specific criteria.<br />
+Returns detailed results showing which profiles were successfully removed and any that failed during deletion.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbMailProfile
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -553,7 +554,8 @@ Remove-DbaDbMailProfile -InputObject &lt;MailProfile[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbMailProfile. <br></p>
+<p>Accepts Database Mail profile objects from Get-DbaDbMailProfile via pipeline.<br />
+This allows for advanced filtering and selection of profiles before removal, such as selecting profiles based on account configuration or last usage date. <br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +614,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="profile">-Profile</h5>
-<p>Specifies one or more database mail profile(s) to get. If unspecified, all profiles will be removed.<br></p>
+<p>Specifies one or more Database Mail profile names to remove from the instance. Supports wildcards for pattern matching.<br />
+Use this when you need to remove specific profiles instead of all profiles on the instance. If unspecified, all profiles will be removed.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +643,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeprofile">-ExcludeProfile</h5>
-<p>Specifies one or more database mail profile(s) to exclude.<br></p>
+<p>Specifies one or more Database Mail profile names to exclude from removal. Supports wildcards for pattern matching.<br />
+Use this when removing all profiles except certain ones you want to keep active for ongoing email operations.<br></p>
 <table>
 <thead>
 <tr>

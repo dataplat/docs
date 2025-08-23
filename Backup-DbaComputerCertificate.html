@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Backup-DbaComputerCertificate">Backup-DbaComputerCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Backs up a computer certificate - useful for older systems and backing up remote certs to local disk.</p>
+<p>Exports computer certificates to disk for SQL Server network encryption backup and disaster recovery.</p>
 <h2 id="description">Description</h2>
-<p>Backs up a computer certificate - useful for older systems and backing up remote certs to local disk.</p>
+<p>Exports computer certificates from the local or remote certificate store to files on disk. This is essential for backing up certificates used for SQL Server network encryption before server migrations, certificate renewals, or disaster recovery scenarios. The function works with certificate objects from Get-DbaComputerCertificate and supports multiple export formats including standard .cer files and password-protected .pfx files for complete private key backup.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Backup-DbaComputerCertificate
     [[-SecurePassword] &lt;SecureString&gt;]
@@ -512,7 +512,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Backs up certificate with the thumbprint 29C469578D6C6211076A09CEE5C5797EEA0C2713 to the temp directory.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>The target certificate object. Accepts input from Get-DbaComputerCertificate. <br></p>
+<p>The certificate objects to export, typically from Get-DbaComputerCertificate pipeline output.<br />
+Use this to specify which certificates to backup for SQL Server network encryption recovery scenarios. <br></p>
 <table>
 <thead>
 <tr>
@@ -541,7 +542,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="securepassword">-SecurePassword</h5>
-<p>Export using a password<br></p>
+<p>Provides password protection for certificate exports, required when exporting private keys with Pfx format.<br />
+Essential for securing certificate backups that contain private keys used for SQL Server TLS encryption.<br></p>
 <table>
 <thead>
 <tr>
@@ -569,7 +571,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Export to a directory<br></p>
+<p>Specifies the target directory where certificate files will be saved with auto-generated filenames.<br />
+Files are named using the pattern: ComputerName-Thumbprint.cer for easy identification during recovery.<br></p>
 <table>
 <thead>
 <tr>
@@ -597,7 +600,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Export to a specific file name<br></p>
+<p>Specifies the exact file path and name for the exported certificate.<br />
+Use this when you need to control the output filename or when backing up a single certificate to a specific location.<br></p>
 <table>
 <thead>
 <tr>
@@ -625,7 +629,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Export type. Options include: Authenticode, Cert, Pfx, Pkcs12, Pkcs7, SerializedCert.<br></p>
+<p>Determines the certificate export format for different backup and deployment scenarios.<br />
+Use 'Cert' for public key only backups, 'Pfx' for complete certificate with private key backup, or other formats based on your security requirements.<br></p>
 <table>
 <thead>
 <tr>

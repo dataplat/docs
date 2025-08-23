@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaMemoryUsage">Get-DbaMemoryUsage</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get amount of memory in use by <em>all</em> SQL Server components and instances</p>
+<p>Collects memory usage statistics from all SQL Server services using Windows performance counters</p>
 <h2 id="description">Description</h2>
-<p>Retrieves the amount of memory per performance counter. Default output includes columns Server, counter instance, counter, number of pages, memory in KB, memory in MB<br />
-SSAS and SSIS are included.</p>
+<p>Collects detailed memory usage from SQL Server Database Engine, Analysis Services (SSAS), and Integration Services (SSIS) using Windows performance counters. This helps you troubleshoot memory pressure issues and understand how memory is allocated across different SQL Server components on the same server.</p>
+<p>Gathers counters from Memory Manager (server memory, connection memory, lock memory), Plan Cache (procedure plans, ad-hoc plans), Buffer Manager (total pages, free pages, stolen pages), and service-specific memory usage. Each result shows the counter name, instance, page count where applicable, and memory in both KB and MB.</p>
 <p>SSRS does not have memory counters, only memory shrinks and memory pressure state.</p>
 <p>This function requires local admin role on the targeted computers.</p>
 <h2 id="syntax">Syntax</h2>
@@ -521,7 +521,8 @@ SSAS and SSIS are included.</p>
 <p>Gets results from an array of $servers then diplays them in a gridview.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The Windows Server that you are connecting to. Note that this will return all instances, but Out-GridView makes it easy to filter to specific instances.<br></p>
+<p>Specifies the Windows server to collect memory usage statistics from. Returns data for all SQL Server instances on the server.<br />
+Use this when you need to monitor memory usage across multiple instances on a single server or compare memory allocation between different servers.<br></p>
 <table>
 <thead>
 <tr>
@@ -579,9 +580,10 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="memorycounterregex">-MemoryCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>sql</em>:Memory Manager*' to display relevant Memory Manager counters.<br />
-Default: '(Total Server Memory |Target Server Memory |Connection Memory |Lock Memory |SQL Cache Memory |Optimizer Memory |Granted Workspace Memory |Cursor memory usage|Maximum Workspace)'<br />
-The default works for English language systems and has to be adapted for other languages.<br></p>
+<p>Filters which SQL Server Memory Manager counters to collect using a regular expression pattern. Controls memory allocation tracking for server memory, connections, locks, cache, optimizer, and<br />
+workspace usage.<br />
+Customize this when you need specific memory counters or when working with non-English SQL Server installations where counter names are localized.<br />
+Default pattern captures the most critical memory allocation counters that DBAs monitor for memory pressure troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -649,9 +651,10 @@ The default works for English language systems and has to be adapted for other l
 </tbody>
 </table>
 <h5 id="plancounterregex">-PlanCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>sql</em>:Plan Cache*' to display relevant Plan Cache counters.<br />
-Default: '(cache pages|procedure plan|ad hoc sql plan|prepared SQL Plan)'<br />
-The default works for English language systems and has to be adapted for other languages.<br></p>
+<p>Filters which SQL Server Plan Cache counters to collect using a regular expression pattern. Tracks memory usage for cached execution plans including stored procedures, ad-hoc queries, and prepared<br />
+statements.<br />
+Use this to focus on specific plan cache types when investigating plan cache bloat or when working with non-English SQL Server installations.<br />
+Default pattern captures all major plan cache memory consumers that affect query performance and memory allocation.<br></p>
 <table>
 <thead>
 <tr>
@@ -694,9 +697,10 @@ The default works for English language systems and has to be adapted for other l
 </tbody>
 </table>
 <h5 id="buffercounterregex">-BufferCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>Buffer Manager</em>' to display relevant Buffer Manager counters.<br />
-Default: '(Free pages|Reserved pages|Stolen pages|Total pages|Database pages|target pages|extension .* pages)'<br />
-The default works for English language systems and has to be adapted for other languages.<br></p>
+<p>Filters which SQL Server Buffer Manager counters to collect using a regular expression pattern. Monitors buffer pool memory usage including data pages, free pages, stolen pages, and buffer pool<br />
+extensions.<br />
+Modify this when troubleshooting specific buffer pool issues or working with non-English SQL Server installations where counter names are translated.<br />
+Default pattern includes essential buffer pool metrics that indicate memory pressure and buffer pool health.<br></p>
 <table>
 <thead>
 <tr>
@@ -754,9 +758,9 @@ The default works for English language systems and has to be adapted for other l
 </tbody>
 </table>
 <h5 id="ssascounterregex">-SSASCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set 'MSAS*:Memory' to display relevant SSAS counters.<br />
-Default: '(\memory )'<br />
-The default works for English language systems and has to be adapted for other languages.<br></p>
+<p>Filters which SQL Server Analysis Services (SSAS) memory counters to collect using a regular expression pattern. Tracks memory consumption for SSAS instances and processing operations.<br />
+Customize this when monitoring specific SSAS memory usage patterns or working with non-English installations where SSAS counter names are localized.<br />
+Use when troubleshooting SSAS memory issues or when SSAS and Database Engine compete for server memory resources.<br></p>
 <table>
 <thead>
 <tr>
@@ -784,9 +788,9 @@ The default works for English language systems and has to be adapted for other l
 </tbody>
 </table>
 <h5 id="ssiscounterregex">-SSISCounterRegex</h5>
-<p>Regular expression that is applied to the paths of the counters returned for the counter list set '<em>SSIS</em>' to display relevant SSIS counters.<br />
-Default: '(memory)'<br />
-The default works for English language systems and has to be adapted for other languages.<br></p>
+<p>Filters which SQL Server Integration Services (SSIS) memory counters to collect using a regular expression pattern. Monitors memory usage for SSIS package execution and service operations.<br />
+Adjust this when investigating SSIS memory consumption during ETL operations or working with non-English installations where SSIS counter names are translated.<br />
+Useful for identifying memory bottlenecks in SSIS packages or when multiple SQL Server services compete for available memory.<br></p>
 <table>
 <thead>
 <tr>

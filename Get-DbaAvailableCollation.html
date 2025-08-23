@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAvailableCollation">Get-DbaAvailableCollation</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Return available collations for a given SQL Server</p>
+<p>Retrieves all available collations from SQL Server instances with detailed locale and code page information</p>
 <h2 id="description">Description</h2>
-<p>Returns the list of collations available on each SQL Server.<br />
-Only the connect permission is required to get this information.</p>
+<p>Returns the complete list of collations supported by each SQL Server instance, along with their associated code page names, locale descriptions, and detailed properties.<br />
+This information is essential when creating new databases, changing database collations, or planning migrations where collation compatibility matters.<br />
+The function enhances the raw collation data with human-readable code page and locale descriptions to help DBAs make informed collation choices.<br />
+Only connect permission is required to retrieve this information.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAvailableCollation
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

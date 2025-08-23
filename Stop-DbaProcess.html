@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Stop-DbaProcess">Stop-DbaProcess</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>This command finds and kills SQL Server processes.</p>
+<p>Terminates SQL Server processes (SPIDs) to resolve blocking, kill runaway queries, or clean up connections.</p>
 <h2 id="description">Description</h2>
-<p>This command kills all spids associated with a spid, login, host, program or database.</p>
-<p>If you are attempting to kill your own login sessions, the process performing the kills will be skipped.</p>
+<p>Terminates SQL Server processes by targeting specific SPIDs, logins, hostnames, programs, or databases. This is essential for resolving blocking situations, stopping runaway queries that consume resources, or cleaning up abandoned connections from applications or users.</p>
+<p>The function automatically prevents you from killing your own connection session to avoid disconnecting yourself. You can filter processes by multiple criteria and use it alongside Get-DbaProcess to identify problem sessions before terminating them.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Stop-DbaProcess
     [-SqlCredential &lt;PSCredential&gt;]
@@ -588,7 +588,8 @@ Stop-DbaProcess
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>This is the process object passed by Get-DbaProcess if using a pipeline. <br></p>
+<p>Accepts process objects from Get-DbaProcess through the pipeline. Use this approach to first identify and review problematic sessions before terminating them, providing better control and<br />
+verification of which processes will be killed. <br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +648,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="spid">-Spid</h5>
-<p>Specifies one or more spids to be killed. Options for this parameter are auto-populated from the server.<br></p>
+<p>Targets specific session IDs (SPIDs) for termination. Use this when you know the exact process ID causing problems, typically identified from blocking reports or activity monitors. You can specify<br />
+multiple SPIDs to kill several problem sessions at once.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,8 +677,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludespid">-ExcludeSpid</h5>
-<p>Specifies one or more spids which will not be killed. Options for this parameter are auto-populated from the server.<br />
-Exclude is the last filter to run, so even if a spid matches (for example) Hosts, if it's listed in Exclude it wil be excluded.<br></p>
+<p>Protects specific session IDs from termination even if they match other filter criteria. Use this to preserve important connections like monitoring tools or critical application sessions when killing<br />
+processes by login, hostname, or database. This exclusion is applied last, overriding all other matching filters.<br></p>
 <table>
 <thead>
 <tr>
@@ -704,8 +706,8 @@ Exclude is the last filter to run, so even if a spid matches (for example) Hosts
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more databases whose processes will be killed. Options for this parameter are auto-populated from the server and only databases that have active processes are offered.<br />
-This parameter is auto-populated from -SqlInstance and allows only database names that have active processes. You can specify one or more Databases whose processes will be killed.<br></p>
+<p>Kills all active sessions connected to specified databases. Useful when you need to perform exclusive database operations like restores, schema changes, or when preparing for database maintenance.<br />
+This will disconnect all users currently connected to the targeted databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -733,7 +735,8 @@ This parameter is auto-populated from -SqlInstance and allows only database name
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>Specifies one or more login names whose processes will be killed. Options for this parameter are auto-populated from the server and only login names that have active processes are offered.<br></p>
+<p>Terminates all active sessions for specified login names. Use this to disconnect all connections from a specific user account, such as when removing user access or troubleshooting login-specific<br />
+issues. Supports multiple logins and accepts both Windows (DOMAIN\user) and SQL logins.<br></p>
 <table>
 <thead>
 <tr>
@@ -761,7 +764,8 @@ This parameter is auto-populated from -SqlInstance and allows only database name
 </tbody>
 </table>
 <h5 id="hostname">-Hostname</h5>
-<p>Specifies one or more client hostnames whose processes will be killed. Options for this parameter are auto-populated from the server and only hostnames that have active processes are offered.<br></p>
+<p>Kills all sessions originating from specified client computer names. Useful when a problematic application server or workstation is creating excessive connections or when you need to force disconnect<br />
+all sessions from a specific machine. Accepts multiple hostnames including both short names and FQDNs.<br></p>
 <table>
 <thead>
 <tr>
@@ -789,7 +793,8 @@ This parameter is auto-populated from -SqlInstance and allows only database name
 </tbody>
 </table>
 <h5 id="program">-Program</h5>
-<p>Specifies one or more client programs whose processes will be killed. Options for this parameter are auto-populated from the server and only programs that have active processes are offered.<br></p>
+<p>Terminates sessions based on the client application name. Use this to disconnect all connections from specific applications like SSMS, poorly-behaved ETL tools, or misbehaving custom applications.<br />
+Common program names include 'Microsoft SQL Server Management Studio' and various .NET application names.<br></p>
 <table>
 <thead>
 <tr>

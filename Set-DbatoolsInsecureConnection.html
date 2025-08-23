@@ -481,12 +481,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbatoolsInsecureConnection">Set-DbatoolsInsecureConnection</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the default connection settings to trust all server certificates and not require an encrypted connection.</p>
+<p>Reverts SQL Server connection security defaults to disable encryption and trust all certificates</p>
 <h2 id="description">Description</h2>
-<p>Microsoft changed the default connection settings in the SQL Server connection libraries<br />
-to require an encrypted connection and not trust all server certificates.</p>
-<p>This command reverts those defaults and sets the default connection settings to trust all server<br />
-certificates and not require encrypted connections.</p>
+<p>Microsoft changed the default connection settings in SQL Server client libraries to require encryption and validate certificates, which can break existing dbatools scripts and connections in development environments. This function reverts those security defaults by configuring dbatools to trust all server certificates and disable encryption requirements.</p>
+<p>The function sets two key dbatools configuration values: sql.connection.trustcert (true) and sql.connection.encrypt (false). By default, these settings persist across PowerShell sessions, but you can use -SessionOnly to apply them temporarily.</p>
+<p>This is particularly useful when working with development servers, self-signed certificates, or legacy environments where the new security defaults cause connection failures.</p>
 <p>You can read more here: <a href="https://dbatools.io/newdefaults">https://dbatools.io/newdefaults</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbatoolsInsecureConnection
@@ -510,7 +509,8 @@ certificates and not require encrypted connections.</p>
 Does not persist across sessions so the default will return if you close and reopen PowerShell.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sessiononly">-SessionOnly</h5>
-<p>Does not persist across sessions so the default will return if you close and reopen PowerShell.<br></p>
+<p>Applies the insecure connection settings only to the current PowerShell session instead of persisting them permanently.<br />
+Use this when testing connection settings or when you need insecure connections temporarily without changing your permanent dbatools configuration.<br></p>
 <table>
 <thead>
 <tr>
@@ -538,8 +538,8 @@ Does not persist across sessions so the default will return if you close and reo
 </tbody>
 </table>
 <h5 id="scope">-Scope</h5>
-<p>The configuration scope it should be registered under. Defaults to UserDefault.<br />
-Configuration scopes are the default locations configurations are being stored at.<br></p>
+<p>Specifies where to store the persistent connection settings when SessionOnly is not used. Defaults to UserDefault.<br />
+UserDefault applies to the current user only, while SystemDefault applies to all users on the machine.<br></p>
 <table>
 <thead>
 <tr>
@@ -567,7 +567,8 @@ Configuration scopes are the default locations configurations are being stored a
 </tbody>
 </table>
 <h5 id="register">-Register</h5>
-<p>Deprecated.<br></p>
+<p>This parameter is deprecated and will be removed in a future release.<br />
+The function now automatically handles registration of settings when SessionOnly is not specified.<br></p>
 <table>
 <thead>
 <tr>

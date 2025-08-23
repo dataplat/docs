@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaExtendedProperty">Remove-DbaExtendedProperty</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Drops an extended property</p>
+<p>Removes custom metadata and documentation stored as extended properties from SQL Server objects</p>
 <h2 id="description">Description</h2>
-<p>Drops an extended property</p>
+<p>Removes extended properties that contain custom metadata, documentation, and business descriptions from SQL Server objects. Extended properties are commonly used to store object documentation, version information, compliance tags, and business rules directly within the database schema.</p>
+<p>This function accepts piped input from Get-DbaExtendedProperty, making it easy to remove outdated documentation, clean up deprecated metadata, or bulk-remove properties during database restructuring projects. Works with all SQL Server object types including databases, tables, columns, stored procedures, and views.</p>
+<p>The command uses sp_dropextendedproperty internally and returns status information for each removed property, so you can verify successful cleanup operations or track what was removed for audit purposes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaExtendedProperty
     [-InputObject] &lt;ExtendedProperty[]&gt;
@@ -510,7 +512,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Removes the appversion extended property on the mytable table of the mydb database and does not prompt for confirmation<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaExtendedProperty <br></p>
+<p>Specifies the extended property objects to remove from SQL Server objects. Accepts ExtendedProperty objects from Get-DbaExtendedProperty.<br />
+Use this to remove outdated documentation, compliance tags, or metadata stored as extended properties on databases, tables, columns, and other SQL Server objects. <br></p>
 <table>
 <thead>
 <tr>

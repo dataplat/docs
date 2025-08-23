@@ -485,14 +485,13 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaAdvancedRestore">Invoke-DbaAdvancedRestore</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Allows the restore of modified BackupHistory Objects<br />
-For 90% of users Restore-DbaDatabase should be your point of access to this function. The other 10% use it at their own risk</p>
+<p>Executes database restores from processed BackupHistory objects with advanced customization options</p>
 <h2 id="description">Description</h2>
-<p>This is the final piece in the Restore-DbaDatabase Stack. Usually a BackupHistory object will arrive here from <code>Restore-DbaDatabase</code> via the following pipeline:<br />
-<code>Get-DbaBackupInformation  | Select-DbaBackupInformation | Format-DbaBackupInformation | Test-DbaBackupInformation | Invoke-DbaAdvancedRestore</code></p>
-<p>We have exposed these functions publicly to allow advanced users to perform operations that we don't support, or won't add as they would make things too complex for the majority of our users</p>
-<p>For example if you wanted to do some very complex redirection during a migration, then doing the rewrite of destinations may be better done with your own custom scripts rather than via <code>Format-DbaBackupInformation</code></p>
-<p>We would recommend ALWAYS pushing your input through <code>Test-DbaBackupInformation</code> just to make sure that it makes sense to us.</p>
+<p>This is the final execution step in the dbatools restore pipeline. It takes pre-processed BackupHistory objects and performs the actual SQL Server database restoration with support for complex scenarios that aren't handled by the standard Restore-DbaDatabase command.</p>
+<p>The typical pipeline flow is: Get-DbaBackupInformation | Select-DbaBackupInformation | Format-DbaBackupInformation | Test-DbaBackupInformation | Invoke-DbaAdvancedRestore</p>
+<p>This function handles advanced restore scenarios including point-in-time recovery, page-level restores, Azure blob storage backups, custom file relocations, and specialized options like CDC preservation or standby mode. It can generate T-SQL scripts for review before execution, verify backup integrity, or perform the actual restore operations.</p>
+<p>Most DBAs should use Restore-DbaDatabase for standard scenarios. This function is designed for situations requiring custom backup processing logic, complex migrations with file redirection, or when you need granular control over the restore process that isn't available in the simplified commands.</p>
+<p>Always validate your BackupHistory objects with Test-DbaBackupInformation before using this function to ensure the restore chain is logically consistent.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaAdvancedRestore
     [-BackupHistory] &lt;Object[]&gt;
@@ -537,8 +536,9 @@ PS C:\&gt; $BackupHistory | Invoke-DbaAdvancedRestore -SqlInstance MyInstance
 By reusing the BackupHistory object there is no need to rescan all the backup files again<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="backuphistory">-BackupHistory</h5>
-<p>The BackupHistory object to be restored.<br />
-Can be passed in on the pipeline <br></p>
+<p>Processed BackupHistory objects from the dbatools restore pipeline containing backup file metadata and restore instructions.<br />
+Typically comes from Format-DbaBackupInformation after running Get-DbaBackupInformation and Select-DbaBackupInformation.<br />
+Each object contains the backup file paths, database name, file relocations, and sequencing information needed for the restore operation. <br></p>
 <table>
 <thead>
 <tr>
@@ -625,7 +625,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="outputscriptonly">-OutputScriptOnly</h5>
-<p>If set, the restore will not be performed, but the T-SQL scripts to perform it will be returned<br></p>
+<p>Generates T-SQL RESTORE scripts without executing them, allowing you to review the commands before running.<br />
+Useful for validating complex restores, creating deployment scripts, or troubleshooting restore logic.<br />
+The generated scripts can be saved and executed manually or through other automation tools.<br></p>
 <table>
 <thead>
 <tr>
@@ -653,7 +655,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="verifyonly">-VerifyOnly</h5>
-<p>If set, performs a Verify of the backups rather than a full restore<br></p>
+<p>Performs RESTORE VERIFYONLY operations to check backup file integrity without actually restoring the database.<br />
+Use this to validate backup files are readable and not corrupted before attempting a full restore.<br />
+Particularly valuable when testing backup files from different environments or after transferring backup files.<br></p>
 <table>
 <thead>
 <tr>
@@ -681,8 +685,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="restoretime">-RestoreTime</h5>
-<p>Point in Time to which the database should be restored.<br />
-This should be the same value or earlier, as used in the previous pipeline stages<br></p>
+<p>Specifies the exact point-in-time for log restore operations when performing point-in-time recovery.<br />
+Use this for recovering to a specific moment before data corruption or unwanted changes occurred.<br />
+Must be within the timeframe covered by your transaction log backups and should match the value used in earlier pipeline stages.<br></p>
 <table>
 <thead>
 <tr>
@@ -710,7 +715,9 @@ This should be the same value or earlier, as used in the previous pipeline stage
 </tbody>
 </table>
 <h5 id="standbydirectory">-StandbyDirectory</h5>
-<p>A folder path where a standby file should be created to put the recovered databases in a standby mode<br></p>
+<p>Directory path where SQL Server creates standby files for read-only access during restore operations.<br />
+Puts the database in standby mode, allowing read-only queries while maintaining the ability to apply additional transaction log restores.<br />
+Commonly used for log shipping warm standby servers or when you need to query data during a staged restore process.<br></p>
 <table>
 <thead>
 <tr>
@@ -738,7 +745,9 @@ This should be the same value or earlier, as used in the previous pipeline stage
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>Leave the database in a restoring state so that further restore may be made<br></p>
+<p>Leaves the database in RESTORING state after the operation, allowing additional transaction log restores to be applied.<br />
+Essential for point-in-time recovery scenarios where you need to apply multiple transaction log backups sequentially.<br />
+The database remains inaccessible until a final restore operation is performed WITH RECOVERY.<br></p>
 <table>
 <thead>
 <tr>
@@ -766,7 +775,9 @@ This should be the same value or earlier, as used in the previous pipeline stage
 </tbody>
 </table>
 <h5 id="maxtransfersize">-MaxTransferSize</h5>
-<p>Parameter to set the unit of transfer. Values must be a multiple by 64kb<br></p>
+<p>Sets the maximum amount of data transferred between SQL Server and backup devices in each read operation.<br />
+Specify in bytes as a multiple of 64KB to optimize restore performance for large databases or slow storage.<br />
+Higher values can improve performance but use more memory; typically ranges from 64KB to 4MB depending on your system.<br></p>
 <table>
 <thead>
 <tr>
@@ -794,9 +805,9 @@ This should be the same value or earlier, as used in the previous pipeline stage
 </tbody>
 </table>
 <h5 id="blocksize">-BlockSize</h5>
-<p>Specifies the block size to use. Must be one of 0.5kb,1kb,2kb,4kb,8kb,16kb,32kb or 64kb<br />
-Can be specified in bytes<br />
-Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
+<p>Physical block size used for backup device I/O operations, must be 512, 1024, 2048, 4096, 8192, 16384, 32768, or 65536 bytes.<br />
+Should match the block size used when the backup was created to avoid performance issues.<br />
+Most backups use the default 64KB unless created with specific block size requirements for tape devices or storage optimization.<br></p>
 <table>
 <thead>
 <tr>
@@ -824,8 +835,9 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="buffercount">-BufferCount</h5>
-<p>Number of I/O buffers to use to perform the operation.<br />
-Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
+<p>Number of I/O buffers SQL Server uses during the restore operation to improve throughput.<br />
+Higher buffer counts can speed up restores for large databases, especially when reading from multiple backup files.<br />
+Typically ranges from 2 to 64 buffers depending on available memory and restore performance requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -853,8 +865,9 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="continue">-Continue</h5>
-<p>Indicates that the restore is continuing a restore, so target database must be in Recovering or Standby states<br />
-When specified, WithReplace will be set to true<br></p>
+<p>Continues a previously started restore sequence where the database is already in RESTORING or STANDBY state.<br />
+Use this when applying additional transaction log backups to a database that was restored WITH NORECOVERY.<br />
+Automatically enables WithReplace to allow the operation on existing database objects.<br></p>
 <table>
 <thead>
 <tr>
@@ -882,7 +895,9 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
-<p>AzureCredential required to connect to blob storage holding the backups<br></p>
+<p>Name of the SQL Server credential object required to access backup files stored in Azure Blob Storage.<br />
+The credential must already exist on the target SQL Server instance with proper access keys for the storage account.<br />
+Required when restoring from URLs that point to Azure blob storage containers instead of local file paths.<br></p>
 <table>
 <thead>
 <tr>
@@ -910,7 +925,9 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="withreplace">-WithReplace</h5>
-<p>Indicated that if the database already exists it should be replaced<br></p>
+<p>Allows the restore operation to overwrite an existing database with the same name.<br />
+Without this parameter, the restore will fail if a database with the target name already exists on the instance.<br />
+Commonly used during database migrations, refresh operations, or when restoring over development/test databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -938,7 +955,9 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="keepreplication">-KeepReplication</h5>
-<p>Indicates whether replication configuration should be restored as part of the database restore operation<br></p>
+<p>Preserves replication settings when restoring a database that was part of a replication topology.<br />
+Use this when restoring a replicated database to maintain publisher, subscriber, or distributor configurations.<br />
+Without this parameter, replication metadata is removed during the restore process.<br></p>
 <table>
 <thead>
 <tr>
@@ -966,7 +985,9 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="keepcdc">-KeepCDC</h5>
-<p>Indicates whether CDC information should be restored as part of the database<br></p>
+<p>Preserves Change Data Capture (CDC) configuration and metadata during database restore operations.<br />
+Essential when restoring databases where CDC is actively capturing data changes for auditing or ETL processes.<br />
+Cannot be combined with NoRecovery or StandbyDirectory parameters as CDC requires the database to be fully recovered.<br></p>
 <table>
 <thead>
 <tr>
@@ -994,7 +1015,9 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="pagerestore">-PageRestore</h5>
-<p>The output from Get-DbaSuspect page containing the suspect pages to be restored.<br></p>
+<p>Array of page objects from Get-DbaSuspectPage specifying corrupted pages to restore using page-level restore.<br />
+Use this for targeted repair of specific corrupted pages without restoring the entire database.<br />
+Each object should contain FileId and PageID properties identifying the exact pages needing restoration.<br></p>
 <table>
 <thead>
 <tr>
@@ -1022,7 +1045,9 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="executeas">-ExecuteAs</h5>
-<p>If set, this will cause the database(s) to be restored (and therefore owned) as the SA user<br></p>
+<p>SQL Server login name to impersonate during the restore operation, affecting database ownership.<br />
+When specified, the restore runs under this login context, making them the database owner.<br />
+Typically used to ensure specific ownership patterns or when the current login lacks sufficient permissions.<br></p>
 <table>
 <thead>
 <tr>
@@ -1050,7 +1075,9 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="stopbefore">-StopBefore</h5>
-<p>Switch to indicate the restore should stop before StopMark<br></p>
+<p>Stops the restore operation just before the specified StopMark rather than after it.<br />
+Use this when you need to exclude a particular marked transaction from the restored database.<br />
+Only effective when used in combination with the StopMark parameter for mark-based recovery scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -1078,7 +1105,9 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="stopmark">-StopMark</h5>
-<p>Mark in the transaction log to stop the restore at<br></p>
+<p>Named transaction mark in the transaction log where the restore operation should stop.<br />
+Use this for precise point-in-time recovery to a specific marked transaction, typically created with BEGIN TRAN WITH MARK.<br />
+Provides more granular control than timestamp-based recovery for critical business operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -1106,7 +1135,9 @@ When specified, WithReplace will be set to true<br></p>
 </tbody>
 </table>
 <h5 id="stopafterdate">-StopAfterDate</h5>
-<p>By default the restore will stop at the first occurence of StopMark found in the chain, passing a datetime where will cause it to stop the first StopMark atfer that datetime<br></p>
+<p>DateTime value specifying that only StopMark occurrences after this date should be considered for restore termination.<br />
+Use this when the same mark name appears multiple times in your transaction log backups.<br />
+Ensures the restore stops at the correct instance of the mark when identical mark names exist at different times.<br></p>
 <table>
 <thead>
 <tr>

@@ -528,7 +528,9 @@ Connects to Active Directory and adds a provided SPN to the given account, suppr
 <p>Displays what would happen trying to set all missing SPNs for sql2016<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="spn">-SPN</h5>
-<p>The SPN you want to add <br></p>
+<p>Specifies the Service Principal Name to register in Active Directory for SQL Server Kerberos authentication.<br />
+Must follow the format 'MSSQLSvc/hostname:port' or 'MSSQLSvc/FQDN:port' for named instances.<br />
+Use this to enable Kerberos authentication and eliminate double-hop authentication issues. <br></p>
 <table>
 <thead>
 <tr>
@@ -556,7 +558,9 @@ Connects to Active Directory and adds a provided SPN to the given account, suppr
 </tbody>
 </table>
 <h5 id="serviceaccount">-ServiceAccount</h5>
-<p>The account you want the SPN added to <br></p>
+<p>Specifies the Active Directory account that runs the SQL Server service and will own the SPN.<br />
+Can be a domain user account (domain\username) or computer account (computername$) depending on your SQL Server service configuration.<br />
+This account must exist in Active Directory and you must have permissions to modify its properties. <br></p>
 <table>
 <thead>
 <tr>
@@ -613,7 +617,9 @@ Connects to Active Directory and adds a provided SPN to the given account, suppr
 </tbody>
 </table>
 <h5 id="nodelegation">-NoDelegation</h5>
-<p>Skips setting the delegation<br></p>
+<p>Prevents automatic configuration of Kerberos constrained delegation for the specified SPN.<br />
+Use this when you want to manually configure delegation later or when delegation is not required for your environment.<br />
+By default, the function enables constrained delegation to allow the service account to authenticate to other services.<br></p>
 <table>
 <thead>
 <tr>

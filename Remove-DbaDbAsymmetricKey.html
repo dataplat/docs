@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbAsymmetricKey">Remove-DbaDbAsymmetricKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Deletes specified asymmetric key</p>
+<p>Removes asymmetric keys from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Deletes specified asymmetric key</p>
+<p>Removes asymmetric keys from SQL Server databases by executing DROP ASYMMETRIC KEY commands. Asymmetric keys are part of SQL Server's cryptographic hierarchy used for encryption, digital signatures, and protecting symmetric keys or certificates. This function helps DBAs clean up unused encryption objects during security audits, decommission old encryption schemes, or remove keys that are no longer needed for compliance requirements. Supports both direct parameter input and pipeline input from Get-DbaDbAsymmetricKey for bulk operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbAsymmetricKey
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -572,7 +572,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Name of the asymmetric key to be removed<br></p>
+<p>Specifies the name of the asymmetric key to remove from the database.<br />
+Use this when you know the exact key name to target specific encryption objects for deletion.<br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +601,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database from which the asymmetric key will be deleted.<br></p>
+<p>Specifies the database containing the asymmetric key to be removed. Defaults to 'master' if not specified.<br />
+Use this to target specific databases when cleaning up encryption objects during security audits or decommissioning operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +630,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows passing in of AsymmetricKey objects from Get-DbaDbAsymmetricKey<br></p>
+<p>Accepts AsymmetricKey objects from Get-DbaDbAsymmetricKey for pipeline operations.<br />
+Use this when you need to remove multiple keys or when filtering keys based on specific criteria before deletion.<br></p>
 <table>
 <thead>
 <tr>

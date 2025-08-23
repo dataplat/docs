@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaWindowsLog">Get-DbaWindowsLog</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets Windows Application events associated with an instance</p>
+<p>Retrieves and parses SQL Server error log entries from the file system for analysis and troubleshooting</p>
 <h2 id="description">Description</h2>
-<p>Gets Windows Application events associated with an instance</p>
+<p>Parses SQL Server error log files directly from the file system to extract structured error information including timestamps, SPIDs, error numbers, severity levels, and messages. Locates error log files by querying Windows Application Event Log for SQL Server startup events (Event ID 17111), then reads and parses the raw log files to provide searchable, filterable results. This is essential for troubleshooting SQL Server issues, compliance reporting, and proactive monitoring since it gives you programmatic access to detailed error information that would otherwise require manual log file review.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaWindowsLog
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -539,8 +539,8 @@ This exists to ignore the Script Analyzer rule for Start-Runspace<br></p>
 </tbody>
 </table>
 <h5 id="start">-Start</h5>
-<p>Default: 1970<br />
-Retrieve all events starting from this timestamp.<br></p>
+<p>Filters log entries to include only those occurring after this timestamp. Defaults to January 1, 1970.<br />
+Use this to focus on recent issues or events within a specific timeframe when troubleshooting SQL Server problems.<br></p>
 <table>
 <thead>
 <tr>
@@ -568,8 +568,8 @@ Retrieve all events starting from this timestamp.<br></p>
 </tbody>
 </table>
 <h5 id="end">-End</h5>
-<p>Default: Now<br />
-Retrieve all events that happened before this timestamp<br></p>
+<p>Filters log entries to include only those occurring before this timestamp. Defaults to the current date and time.<br />
+Combine with Start parameter to create specific time windows for analyzing SQL Server events during known problem periods.<br></p>
 <table>
 <thead>
 <tr>
@@ -625,9 +625,8 @@ Retrieve all events that happened before this timestamp<br></p>
 </tbody>
 </table>
 <h5 id="maxthreads">-MaxThreads</h5>
-<p>Default: Unlimited<br />
-The maximum number of parallel threads used on the local computer.<br />
-Given that those will mostly be waiting for the remote system, there is usually no need to limit this.<br></p>
+<p>Controls the maximum number of parallel threads used on the local computer for processing multiple SQL instances. Defaults to unlimited.<br />
+Set a specific limit when processing many instances simultaneously to prevent overwhelming the local system with too many concurrent operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -655,10 +654,8 @@ Given that those will mostly be waiting for the remote system, there is usually 
 </tbody>
 </table>
 <h5 id="maxremotethreads">-MaxRemoteThreads</h5>
-<p>Default: 2<br />
-The maximum number of parallel threads that are executed on the target sql server.<br />
-These processes will cause considerable CPU load, so a low limit is advisable in most scenarios.<br />
-Any value lower than 1 disables the limit<br></p>
+<p>Sets the maximum number of parallel threads executed on each target SQL Server for processing error log files. Defaults to 2.<br />
+Keep this low to avoid excessive CPU load on production servers, as log file parsing is CPU-intensive. Set to 0 or below to remove the limit entirely.<br></p>
 <table>
 <thead>
 <tr>

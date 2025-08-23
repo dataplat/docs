@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaAgentOperator">Copy-DbaAgentOperator</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaAgentOperator migrates operators from one SQL Server to another.</p>
+<p>Copies SQL Server Agent operators between instances for migration and standardization.</p>
 <h2 id="description">Description</h2>
-<p>By default, all operators are copied. The -Operators parameter is auto-populated for command-line completion and can be used to copy only specific operators.</p>
-<p>If the associated credentials for the operator do not exist on the destination, it will be skipped. If the operator already exists on the destination, it will be skipped unless -Force is used.</p>
+<p>Copies SQL Server Agent operators from a source instance to one or more destination instances, preserving all operator properties including email addresses, pager numbers, and notification schedules. This is essential during server migrations, environment standardization, or when setting up identical alerting configurations across multiple instances.</p>
+<p>All operators are copied by default, but you can target specific operators or exclude certain ones. Existing operators on the destination are skipped unless you use -Force to overwrite them. The function protects failsafe operators from being accidentally dropped during forced operations.</p>
+<p>Each operator is scripted from the source using SQL Management Objects and recreated on the destination, ensuring all configuration details are preserved exactly as configured on the source instance.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaAgentOperator
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -522,7 +523,8 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 <p>Shows what would happen if the command were executed using force.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>The SQL Server instance containing the operators you want to copy from. Must be SQL Server 2000 or higher.<br />
+Use this to specify which instance has the existing operators that need to be migrated or replicated to other instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -550,7 +552,8 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>One or more SQL Server instances where the operators will be copied to. Must be SQL Server 2000 or higher.<br />
+Accepts multiple instances to copy operators to several servers at once during migrations or standardization projects. <br></p>
 <table>
 <thead>
 <tr>
@@ -579,9 +582,8 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the source SQL Server instance when Windows Authentication is not available.<br />
+Use this when the source server requires SQL Server Authentication or when running under a different user context than your current Windows session.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,9 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the destination SQL Server instances when Windows Authentication is not available.<br />
+Use this when the destination servers require SQL Server Authentication or when running under a different user context than your current Windows session.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="operator">-Operator</h5>
-<p>The operator(s) to process. This list is auto-populated from the server. If unspecified, all operators will be processed.<br></p>
+<p>Specifies which operators to copy by name. Accepts wildcards and multiple operator names.<br />
+Use this when you only need to migrate specific operators instead of copying all operators from the source instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeoperator">-ExcludeOperator</h5>
-<p>The operators(s) to exclude. This list is auto-populated from the server.<br></p>
+<p>Operators to skip during the copy operation. Accepts wildcards and multiple operator names.<br />
+Use this to copy most operators while excluding specific ones, such as development-only or temporary operators.<br></p>
 <table>
 <thead>
 <tr>
@@ -695,7 +698,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Operator will be dropped and recreated on Destination.<br></p>
+<p>Drops and recreates operators that already exist on the destination instances.<br />
+Use this when you need to overwrite existing operators with updated configurations from the source, but note that failsafe operators are protected and will be skipped.<br></p>
 <table>
 <thead>
 <tr>

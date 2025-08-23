@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Clear-DbaLatchStatistics">Clear-DbaLatchStatistics</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Clears Latch Statistics</p>
+<p>Resets SQL Server latch statistics counters to establish a fresh performance baseline</p>
 <h2 id="description">Description</h2>
-<p>Reset the aggregated statistics - basically just executes DBCC SQLPERF (N'sys.dm_os_latch_stats', CLEAR)</p>
+<p>Clears all accumulated latch statistics from the sys.dm_os_latch_stats dynamic management view by executing DBCC SQLPERF (N'sys.dm_os_latch_stats', CLEAR). This resets counters for latch types like BUFFER, ACCESS_METHODS_DATASET_PARENT, and others to zero values.</p>
+<p>Use this when troubleshooting latch contention to get a clean baseline before running your workload, or during performance testing to measure the impact of specific queries or operations. After clearing statistics, you can monitor sys.dm_os_latch_stats to see which latch types are experiencing the most waits and timeouts in your current workload.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Clear-DbaLatchStatistics
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

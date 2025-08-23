@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Backup-DbaDatabase">Backup-DbaDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Backup one or more SQL Server databases from a single SQL Server SqlInstance.</p>
+<p>Creates database backups with flexible destination options and enterprise backup features.</p>
 <h2 id="description">Description</h2>
-<p>Performs a backup of a specified type of 1 or more databases on a single SQL Server Instance. These backups may be Full, Differential or Transaction log backups.</p>
+<p>Creates full, differential, or transaction log backups for SQL Server databases with support for local file systems, Azure blob storage, and advanced backup features like compression, encryption, and striping. Handles backup validation, automatic path creation, and flexible file naming conventions to support both automated and manual backup workflows. Integrates with SQL Server's native backup infrastructure while providing PowerShell-friendly output for backup monitoring and compliance reporting. Replaces manual T-SQL backup commands with a single cmdlet that manages backup destinations, validates paths, and returns detailed backup metadata.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Backup-DbaDatabase
     [-SqlCredential &lt;PSCredential&gt;]
@@ -674,7 +674,9 @@ Shared Access Signature credentials for both containers exist on the source inst
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter <br></p>
+<p>Accepts database objects from pipeline for backup operations.<br />
+Allows piping databases from Get-DbaDatabase or other dbatools commands.<br />
+Internal parameter primarily used for pipeline processing and automation scenarios. <br></p>
 <table>
 <thead>
 <tr>
@@ -733,7 +735,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. This list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to include in the backup operation. Accepts database names, wildcards, or arrays.<br />
+When omitted, all user databases are backed up (tempdb is automatically excluded).<br />
+Use this to target specific databases instead of backing up the entire instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -761,7 +765,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude. This list is auto-populated from the server.<br></p>
+<p>Specifies which databases to exclude from the backup operation. Accepts database names, wildcards, or arrays.<br />
+Useful when you want to backup most databases but skip specific ones like test or temporary databases.<br />
+Combined with Database parameter, exclusions are applied after inclusions.<br></p>
 <table>
 <thead>
 <tr>
@@ -789,10 +795,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Path in which to place the backup files. If not specified, the backups will be placed in the default backup location for SqlInstance.<br />
-If multiple paths are specified, the backups will be striped across these locations. This will overwrite the FileCount option.<br />
-If the path does not exist, Sql Server will attempt to create it. Folders are created by the Sql Instance, and checks will be made for write permissions.<br />
-File Names with be suffixed with x-of-y to enable identifying striped sets, where y is the number of files in the set and x ranges from 1 to y.<br></p>
+<p>Sets the directory path where backup files will be created. Defaults to the instance's default backup location.<br />
+Multiple paths enable striping for improved performance and overrides FileCount parameter.<br />
+SQL Server creates missing directories automatically if it has permissions. Striped files are numbered x-of-y for set identification.<br></p>
 <table>
 <thead>
 <tr>
@@ -820,11 +825,10 @@ File Names with be suffixed with x-of-y to enable identifying striped sets, wher
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>The name of the file to backup to. This is only accepted for single database backups.<br />
-If no name is specified then the backup files will be named DatabaseName_yyyyMMddHHmm (i.e. &quot;Database1_201714022131&quot;) with the appropriate extension.<br />
-If the same name is used repeatedly, SQL Server will add backups to the same file at an incrementing position.<br />
-SQL Server needs permissions to write to the specified location. Path names are based on the SQL Server (C:\ is the C drive on the SQL Server, not the machine running the script).<br />
-Passing in NUL as the FilePath will backup to the NUL: device<br></p>
+<p>Specifies the complete backup file name including extension. Only valid for single database backups.<br />
+When omitted, files are auto-named as DatabaseName_yyyyMMddHHmm with appropriate extensions (.bak, .trn, .dif).<br />
+Repeated use appends to the same file at incrementing positions. Use 'NUL' to discard backup output for testing.<br />
+All paths are relative to the SQL Server instance, not the local machine running the command.<br></p>
 <table>
 <thead>
 <tr>
@@ -852,7 +856,9 @@ Passing in NUL as the FilePath will backup to the NUL: device<br></p>
 </tbody>
 </table>
 <h5 id="incrementprefix">-IncrementPrefix</h5>
-<p>If enabled, this will prefix backup files with an incrementing integer (ie; '1-', '2-'). Using this has been alleged to improved restore times on some Azure based SQL Database platforms<br></p>
+<p>Prefixes backup files with incremental numbers (1-, 2-, etc.) when striping across multiple files.<br />
+Primarily used for Azure SQL Database platforms where this naming convention may improve restore performance.<br />
+Only applies when FileCount is greater than 1 or multiple paths are specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -880,12 +886,9 @@ Passing in NUL as the FilePath will backup to the NUL: device<br></p>
 </tbody>
 </table>
 <h5 id="replaceinname">-ReplaceInName</h5>
-<p>If this switch is set, the following list of strings will be replaced in the FilePath and Path strings:<br />
-instancename - will be replaced with the instance Name<br />
-servername - will be replaced with the server name<br />
-dbname - will be replaced with the database name<br />
-timestamp - will be replaced with the timestamp (either the default, or the format provided)<br />
-backuptype - will be replaced with Full, Log or Differential as appropriate<br></p>
+<p>Enables dynamic token replacement in file paths and names for flexible backup naming schemes.<br />
+Replaces: instancename, servername, dbname, timestamp, backuptype with actual values.<br />
+Essential for standardized backup naming across environments and automated backup scripts with consistent file organization.<br></p>
 <table>
 <thead>
 <tr>
@@ -913,7 +916,9 @@ backuptype - will be replaced with Full, Log or Differential as appropriate<br><
 </tbody>
 </table>
 <h5 id="noappenddbnameinpath">-NoAppendDbNameInPath</h5>
-<p>A switch that will prevent to systematically appended dbname to the path when creating the backup file path<br></p>
+<p>Prevents automatic database name folder creation when using CreateFolder parameter.<br />
+By default, CreateFolder adds a database-specific subdirectory for organization.<br />
+Use this when you want files directly in the specified path without database name folders.<br></p>
 <table>
 <thead>
 <tr>
@@ -941,9 +946,9 @@ backuptype - will be replaced with Full, Log or Differential as appropriate<br><
 </tbody>
 </table>
 <h5 id="copyonly">-CopyOnly</h5>
-<p>If this switch is enabled, CopyOnly backups will be taken. By default function performs a normal backup, these backups interfere with the restore chain of the database. CopyOnly backups will not<br />
-interfere with the restore chain of the database.<br />
-For more details please refer to this MSDN article - <a href="https://msdn.microsoft.com/en-us/library/ms191495.aspx">https://msdn.microsoft.com/en-us/library/ms191495.aspx</a><br></p>
+<p>Creates copy-only backups that don't break the restore chain or affect log backup sequences.<br />
+Essential for ad-hoc backups during maintenance, before major changes, or for moving databases to other environments.<br />
+Copy-only backups don't reset differential bases or interfere with scheduled backup strategies.<br></p>
 <table>
 <thead>
 <tr>
@@ -971,7 +976,9 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The type of SQL Server backup to perform. Accepted values are &quot;Full&quot;, &quot;Log&quot;, &quot;Differential&quot;, &quot;Diff&quot;, &quot;Database&quot;<br></p>
+<p>Specifies the backup type to perform: Full, Log, Differential, or Database (same as Full).<br />
+Log backups require full recovery model and prior full backup. Differential backups require prior full backup.<br />
+Choose based on your recovery objectives and backup strategy requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -1003,7 +1010,9 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="createfolder">-CreateFolder</h5>
-<p>If this switch is enabled, each database will be backed up into a separate folder on each of the paths specified by Path.<br></p>
+<p>Creates a separate subdirectory for each database within the backup path for better organization.<br />
+Results in paths like 'BackupPath\DatabaseName\BackupFile.bak' instead of all files in one directory.<br />
+Particularly useful for multi-database backups and maintaining organized backup directory structures.<br></p>
 <table>
 <thead>
 <tr>
@@ -1031,7 +1040,9 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="filecount">-FileCount</h5>
-<p>This is the number of striped copies of the backups you wish to create.    This value is overwritten if you specify multiple Backup Directories.<br></p>
+<p>Specifies the number of files to stripe the backup across for improved performance.<br />
+Higher values increase backup speed but require more disk space and coordination during restores.<br />
+Automatically overridden when multiple Path values are provided. Typically use 2-4 files for optimal performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -1059,9 +1070,9 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="compressbackup">-CompressBackup</h5>
-<p>If this switch is enabled, the function will try to perform a compressed backup if supported by the version and edition of SQL Server. Otherwise, this function will use the server(s) default setting<br />
-for compression.<br />
-NOTE: Explicitly providing a value of false will disable backup compression.<br></p>
+<p>Forces backup compression when supported by SQL Server edition and version (Enterprise/Standard 2008+).<br />
+Reduces backup file size by 50-80% but increases CPU usage during backup operations.<br />
+When omitted, uses server default compression setting. Explicitly false disables compression entirely.<br></p>
 <table>
 <thead>
 <tr>
@@ -1089,7 +1100,9 @@ NOTE: Explicitly providing a value of false will disable backup compression.<br>
 </tbody>
 </table>
 <h5 id="checksum">-Checksum</h5>
-<p>If this switch is enabled, the backup checksum will be calculated.<br></p>
+<p>Enables backup checksum calculation to detect backup corruption during creation and restore.<br />
+Adds minimal overhead but provides important data integrity verification for critical backups.<br />
+Recommended for production environments to ensure backup reliability and early corruption detection.<br></p>
 <table>
 <thead>
 <tr>
@@ -1117,7 +1130,9 @@ NOTE: Explicitly providing a value of false will disable backup compression.<br>
 </tbody>
 </table>
 <h5 id="verify">-Verify</h5>
-<p>If this switch is enabled, the backup will be verified by running a RESTORE VERIFYONLY against the SqlInstance<br></p>
+<p>Performs RESTORE VERIFYONLY after backup completion to confirm backup integrity and restorability.<br />
+Adds time to backup operations but ensures backups are usable before considering the job complete.<br />
+Critical for validating backups in automated processes and compliance requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -1145,7 +1160,9 @@ NOTE: Explicitly providing a value of false will disable backup compression.<br>
 </tbody>
 </table>
 <h5 id="maxtransfersize">-MaxTransferSize</h5>
-<p>Sets the size of the unit of transfer. Values must be a multiple of 64kb.<br></p>
+<p>Controls the size of each data transfer unit during backup operations. Must be a multiple of 64KB with 4MB maximum.<br />
+Larger values can improve performance for fast storage but may cause memory pressure.<br />
+Automatically set to 128KB for TDE-encrypted databases with compression to avoid conflicts.<br></p>
 <table>
 <thead>
 <tr>
@@ -1173,8 +1190,9 @@ NOTE: Explicitly providing a value of false will disable backup compression.<br>
 </tbody>
 </table>
 <h5 id="blocksize">-BlockSize</h5>
-<p>Specifies the block size to use. Must be one of 0.5KB, 1KB, 2KB, 4KB, 8KB, 16KB, 32KB or 64KB. This can be specified in bytes.<br />
-Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
+<p>Sets the physical block size for backup devices. Must be 0.5KB, 1KB, 2KB, 4KB, 8KB, 16KB, 32KB, or 64KB.<br />
+Affects backup file structure and restore performance. Larger blocks may improve performance for fast storage.<br />
+Cannot be used with Azure page blob backups (when AzureCredential is specified).<br></p>
 <table>
 <thead>
 <tr>
@@ -1202,8 +1220,9 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="buffercount">-BufferCount</h5>
-<p>Number of I/O buffers to use to perform the operation.<br />
-Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail<br></p>
+<p>Specifies the number of I/O buffers allocated for the backup operation.<br />
+More buffers can improve performance on fast storage but consume additional memory.<br />
+SQL Server calculates optimal values automatically, so specify only when performance tuning specific scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -1231,10 +1250,10 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="azurebaseurl">-AzureBaseUrl</h5>
-<p>The URL(s) to the base container of an Azure Storage account to write backups to.<br />
-If specifying the AzureCredential parameter you can only provide 1 value as page blobs do not support multiple URLs<br />
-If using Shared Access keys, you may specify as many URLs as you want, as long as a corresponding credential exists on the source server.<br />
-If specified, the only other parameters than can be used are &quot;CopyOnly&quot;, &quot;Type&quot;, &quot;CompressBackup&quot;, &quot;Checksum&quot;, &quot;Verify&quot;, &quot;AzureCredential&quot;, &quot;CreateFolder&quot;.<br></p>
+<p>Specifies Azure blob storage container URLs for cloud backup destinations.<br />
+Single URL required for page blobs (with AzureCredential), multiple URLs supported for block blobs with SAS.<br />
+Requires corresponding SQL Server credentials for authentication. Limits other parameter usage to core backup options.<br />
+Essential for backing up to Azure storage for cloud-native or hybrid SQL Server deployments.<br></p>
 <table>
 <thead>
 <tr>
@@ -1262,9 +1281,9 @@ If specified, the only other parameters than can be used are &quot;CopyOnly&quot
 </tbody>
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
-<p>The name of the credential on the SQL instance that can write to the AzureBaseUrl, only needed if using Storage access keys<br />
-If using SAS credentials, the command will look for a credential with a name matching the AzureBaseUrl. As page blobs are used with this option we force the number of files to 1 and ignore any value<br />
-passed in for BlockSize or MaxTransferSize<br></p>
+<p>Specifies the SQL Server credential name for Azure storage access key authentication.<br />
+Creates page blob backups with automatic single-file restriction and ignores BlockSize/MaxTransferSize.<br />
+For SAS authentication, use credentials named to match the AzureBaseUrl. Required for Azure storage access key scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -1292,7 +1311,9 @@ passed in for BlockSize or MaxTransferSize<br></p>
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>This is passed in to perform a tail log backup if needed<br></p>
+<p>Performs transaction log backup without truncating the log, leaving database in restoring state.<br />
+Essential for tail-log backups during disaster recovery or before restoring to a point in time.<br />
+Only applicable to log backups and prevents normal database operations until recovery is completed.<br></p>
 <table>
 <thead>
 <tr>
@@ -1320,7 +1341,9 @@ passed in for BlockSize or MaxTransferSize<br></p>
 </tbody>
 </table>
 <h5 id="buildpath">-BuildPath</h5>
-<p>By default this command will not attempt to create missing paths, this switch will change the behaviour so that it will<br></p>
+<p>Enables automatic creation of missing directory paths when SQL Server has permissions.<br />
+By default, the function expects backup paths to exist and will fail if they don't.<br />
+Useful for automated backup scripts where destination folders might not exist yet.<br></p>
 <table>
 <thead>
 <tr>
@@ -1348,7 +1371,9 @@ passed in for BlockSize or MaxTransferSize<br></p>
 </tbody>
 </table>
 <h5 id="withformat">-WithFormat</h5>
-<p>Formats the media as the first step of the backup operation. NOTE: This will set Initialize and SkipTapeHeader to $true.<br></p>
+<p>Formats the backup media before writing, destroying any existing backup sets on the device.<br />
+Automatically enables Initialize and SkipTapeHeader options for complete media initialization.<br />
+Use when starting fresh backup sets or when media corruption requires reformatting.<br></p>
 <table>
 <thead>
 <tr>
@@ -1376,7 +1401,9 @@ passed in for BlockSize or MaxTransferSize<br></p>
 </tbody>
 </table>
 <h5 id="initialize">-Initialize</h5>
-<p>Initializes the media as part of the backup operation.<br></p>
+<p>Overwrites existing backup sets on the media to start a new backup set.<br />
+Destroys all previous backups on the target files/devices but preserves media formatting.<br />
+Use when you want to replace old backups without formatting the entire media.<br></p>
 <table>
 <thead>
 <tr>
@@ -1404,7 +1431,9 @@ passed in for BlockSize or MaxTransferSize<br></p>
 </tbody>
 </table>
 <h5 id="skiptapeheader">-SkipTapeHeader</h5>
-<p>Initializes the media as part of the backup operation.<br></p>
+<p>Skips tape header information during backup operations, primarily for compatibility.<br />
+Mainly relevant for tape devices and legacy backup scenarios.<br />
+Automatically enabled with WithFormat parameter for proper media initialization.<br></p>
 <table>
 <thead>
 <tr>
@@ -1432,8 +1461,9 @@ passed in for BlockSize or MaxTransferSize<br></p>
 </tbody>
 </table>
 <h5 id="timestampformat">-TimeStampFormat</h5>
-<p>By default the command timestamps backups using the format yyyyMMddHHmm. Using this parameter this can be overridden. The timestamp format should be defined using the Get-Date formats, illegal<br />
-formats will cause an error to be thrown<br></p>
+<p>Customizes the timestamp format used in auto-generated backup file names. Defaults to yyyyMMddHHmm.<br />
+Must use valid Get-Date format strings (e.g., 'yyyy-MM-dd_HH-mm-ss' for readable timestamps).<br />
+Applied when FilePath is not specified and ReplaceInName contains 'timestamp' placeholder.<br></p>
 <table>
 <thead>
 <tr>
@@ -1461,8 +1491,9 @@ formats will cause an error to be thrown<br></p>
 </tbody>
 </table>
 <h5 id="ignorefilechecks">-IgnoreFileChecks</h5>
-<p>This switch stops the function from checking for the validity of paths. This can be useful if SQL Server only has read access to the backup area.<br />
-Note, that as we cannot check the path you may well end up with errors.<br></p>
+<p>Skips path validation checks before backup operations, useful when SQL Server has limited filesystem access.<br />
+Bypasses safety checks that normally prevent backup failures due to permissions or missing paths.<br />
+Use with caution as it may result in backup failures that could have been prevented.<br></p>
 <table>
 <thead>
 <tr>
@@ -1490,7 +1521,9 @@ Note, that as we cannot check the path you may well end up with errors.<br></p>
 </tbody>
 </table>
 <h5 id="outputscriptonly">-OutputScriptOnly</h5>
-<p>Switch causes only the T-SQL script for the backup to be generated. Will not create any paths if they do not exist<br></p>
+<p>Generates and returns the T-SQL BACKUP commands without executing them.<br />
+Useful for reviewing backup commands, incorporating into scripts, or troubleshooting backup parameter combinations.<br />
+No actual backup operations occur and no paths are created when using this option.<br></p>
 <table>
 <thead>
 <tr>
@@ -1518,8 +1551,9 @@ Note, that as we cannot check the path you may well end up with errors.<br></p>
 </tbody>
 </table>
 <h5 id="encryptionalgorithm">-EncryptionAlgorithm</h5>
-<p>Specified the Encryption Algorithm to used. Must be one of 'AES128','AES192','AES256' or 'TRIPLEDES'<br />
-Must specify one of EncryptionCertificate or EncryptionKey as well.<br></p>
+<p>Specifies the encryption algorithm for backup encryption: AES128, AES192, AES256, or TRIPLEDES.<br />
+Requires either EncryptionCertificate or EncryptionKey for the encryption process.<br />
+AES256 recommended for maximum security, though it may impact backup performance on older hardware.<br></p>
 <table>
 <thead>
 <tr>
@@ -1551,8 +1585,9 @@ Must specify one of EncryptionCertificate or EncryptionKey as well.<br></p>
 </tbody>
 </table>
 <h5 id="encryptioncertificate">-EncryptionCertificate</h5>
-<p>The name of the certificate to be used to encrypt the backups. The existence of the certificate will be checked, and will not proceed if it does not exist<br />
-Is mutually exclusive with the EncryptionKey option<br></p>
+<p>Specifies the certificate name in the master database for backup encryption.<br />
+Certificate existence is validated before backup begins to prevent failures mid-operation.<br />
+Mutually exclusive with EncryptionKey. Essential for protecting sensitive data in backup files.<br></p>
 <table>
 <thead>
 <tr>
@@ -1580,7 +1615,9 @@ Is mutually exclusive with the EncryptionKey option<br></p>
 </tbody>
 </table>
 <h5 id="description-1">-Description</h5>
-<p>The text describing the backup set like in BACKUP ... WITH DESCRITION = ''.<br></p>
+<p>Adds a description to the backup set metadata for documentation and identification purposes.<br />
+Limited to 255 characters and stored in MSDB backup history for backup set identification.<br />
+Useful for tracking backup purposes, change sets, or special circumstances around the backup timing.<br></p>
 <table>
 <thead>
 <tr>

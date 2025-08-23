@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaClientProtocol">Get-DbaClientProtocol</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the SQL Server related client protocols on a computer.</p>
+<p>Retrieves SQL Server client network protocol configuration and status from local or remote computers.</p>
 <h2 id="description">Description</h2>
-<p>Gets the SQL Server related client protocols on one or more computers.</p>
-<p>Requires Local Admin rights on destination computer(s).<br />
+<p>Retrieves the configuration and status of SQL Server client network protocols (Named Pipes, TCP/IP, Shared Memory, VIA) from local or remote computers. This function helps DBAs audit and troubleshoot client connectivity issues by showing which protocols are enabled, their order of precedence, and associated DLL files.</p>
+<p>The returned objects include Enable() and Disable() methods, allowing you to modify protocol settings directly without opening SQL Server Configuration Manager. This is particularly useful for standardizing client configurations across multiple servers or troubleshooting connectivity problems.</p>
+<p>Requires Local Admin rights on destination computer(s) and SQL Server 2005 or later.<br />
 The client protocols can be enabled and disabled when retrieved via WSMan.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaClientProtocol
@@ -520,7 +521,9 @@ The client protocols can be enabled and disabled when retrieved via WSMan.</p>
 If successful, return code 0 is shown.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>Specifies the target computer(s) to retrieve SQL Server client protocol configuration from. Accepts computer names, IP addresses, or SQL Server instance names.<br />
+Use this when you need to audit client protocol settings on remote servers or troubleshoot connectivity issues across multiple machines.<br />
+Defaults to the local computer if not specified.<br></p>
 <table>
 <thead>
 <tr>

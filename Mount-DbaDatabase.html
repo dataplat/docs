@@ -486,9 +486,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Mount-DbaDatabase">Mount-DbaDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Attach a SQL Server Database - aliased to Attach-DbaDatabase</p>
+<p>Attaches detached database files to a SQL Server instance</p>
 <h2 id="description">Description</h2>
-<p>This command will attach a SQL Server database.</p>
+<p>Attaches detached database files (.mdf, .ldf, .ndf) back to a SQL Server instance, making the database available for use again. When database files exist on disk but the database is not registered in the SQL Server instance, this command reconnects them using the SQL Server Management Objects (SMO) AttachDatabase method.</p>
+<p>If you don't specify the file structure, the command attempts to determine the correct database files by examining backup history for the most recent full backup. This is particularly useful when restoring databases from file copies or moving databases between instances where the files already exist but need to be reattached.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Mount-DbaDatabase
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -553,7 +554,8 @@ option is None.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to attach. <br></p>
+<p>Specifies the names of the detached databases to attach to the SQL Server instance.<br />
+Use this when you have database files (.mdf, .ldf, .ndf) on disk but the database is no longer registered in SQL Server. <br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +614,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filestructure">-FileStructure</h5>
-<p>A StringCollection object value that contains a list database files. If FileStructure is not specified, BackupHistory will be used to guess the structure.<br></p>
+<p>Specifies the complete collection of database file paths (.mdf, .ldf, .ndf) required to attach the database.<br />
+When omitted, the command attempts to determine file locations automatically using backup history from the most recent full backup.<br />
+Use this parameter when files are in non-standard locations or when automatic detection fails.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +644,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="databaseowner">-DatabaseOwner</h5>
-<p>Sets the database owner for the database. The sa account (or equivalent) will be used if DatabaseOwner is not specified.<br></p>
+<p>Sets the login account that will own the attached database.<br />
+When not specified, defaults to the sa account or the SQL Server sysadmin with ID 1 if sa is not available.<br />
+Use this to assign ownership to a specific login for security or administrative requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,7 +674,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="attachoption">-AttachOption</h5>
-<p>An AttachOptions object value that contains the attachment options. Valid options are &quot;None&quot;, &quot;RebuildLog&quot;, &quot;EnableBroker&quot;, &quot;NewBroker&quot; and &quot;ErrorBrokerConversations&quot;.<br></p>
+<p>Controls how SQL Server handles the database attachment process and Service Broker configuration.<br />
+Use 'RebuildLog' when transaction log files are missing or corrupt, 'EnableBroker' to activate Service Broker, or 'NewBroker' to create a new Service Broker identifier.<br />
+Defaults to 'None' for standard attachment without special handling.<br></p>
 <table>
 <thead>
 <tr>

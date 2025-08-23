@@ -485,14 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaBackupInformation">Get-DbaBackupInformation</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Scan backup files and creates a set, compatible with Restore-DbaDatabase</p>
+<p>Scans backup files and reads their headers to create structured backup history objects for restore operations</p>
 <h2 id="description">Description</h2>
-<p>Upon being passed a list of potential backups files this command will scan the files, select those that contain SQL Server<br />
-backup sets. It will then filter those files down to a set</p>
-<p>The function defaults to working on a remote instance. This means that all paths passed in must be relative to the remote instance.<br />
-XpDirTree will be used to perform the file scans</p>
-<p>Various means can be used to pass in a list of files to be considered. The default is to non recursively scan the folder<br />
-passed in.</p>
+<p>Reads the headers of SQL Server backup files to extract metadata and creates BackupHistory objects compatible with Restore-DbaDatabase. This eliminates the need to manually track backup chains and file locations when planning database restores.</p>
+<p>The function identifies valid SQL Server backup files from a given path, reads their headers using the SQL Server instance, and organizes them into backup sets. It handles full, differential, and log backups, automatically determining backup types, LSN chains, and file dependencies.</p>
+<p>By default, the function uses xp_dirtree to scan remote paths accessible to the SQL Server instance. This means paths must be accessible from the SQL Server service account. The -NoXpDirTree switch allows scanning local files instead.</p>
+<p>Special support is included for Ola Hallengren maintenance solution backup folder structures, which can significantly speed up scanning of organized backup directories.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaBackupInformation -Path &lt;Object[]&gt; -SqlInstance &lt;DbaInstanceParameter&gt;
     [-SqlCredential &lt;PSCredential&gt;]

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaPath">Test-DbaPath</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Tests if file or directory exists from the perspective of the SQL Server service account.</p>
+<p>Tests if files or directories are accessible to the SQL Server service account.</p>
 <h2 id="description">Description</h2>
-<p>Uses master.dbo.xp_fileexist to determine if a file or directory exists.</p>
+<p>Verifies file and directory accessibility from SQL Server's perspective using the master.dbo.xp_fileexist extended stored procedure. This is essential before backup operations, restore tasks, or any SQL Server process that requires file system access. The function tests from the SQL Server service account's security context, which may differ from your user account's permissions. Returns detailed information about file existence and whether the path is a container (directory).</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaPath
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -539,7 +539,9 @@ PS C:\&gt; Test-DbaPath -SqlInstance sqlcluster -SqlCredential $credential -Path
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The Path to test. This can be a file or directory <br></p>
+<p>Specifies the file or directory paths to test for accessibility from the SQL Server service account's perspective. Accepts single paths, arrays of paths, or pipeline input.<br />
+Use this to verify SQL Server can access backup destinations, restore source files, or any location needed for database operations.<br />
+Critical for pre-validating paths before backup, restore, or bulk operations that would otherwise fail with access denied errors. <br></p>
 <table>
 <thead>
 <tr>

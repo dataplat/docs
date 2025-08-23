@@ -485,9 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbAsymmetricKey">Get-DbaDbAsymmetricKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database Asymmetric Key</p>
+<p>Retrieves asymmetric keys from SQL Server databases for encryption management and security auditing</p>
 <h2 id="description">Description</h2>
-<p>Gets database Asymmetric Key</p>
+<p>Retrieves asymmetric keys stored in SQL Server databases, including their encryption algorithms, key lengths, owners, and thumbprints.<br />
+This function is essential for security audits and encryption key management, allowing DBAs to inventory all asymmetric keys across databases without manually querying system catalogs.<br />
+Asymmetric keys are used for encryption, digital signatures, and certificate creation in SQL Server's transparent data encryption and column-level encryption features.<br />
+Returns detailed key properties to help with compliance reporting and security assessments.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbAsymmetricKey
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -575,7 +578,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Get Asymmetric Keys from specific database<br></p>
+<p>Specifies which databases to scan for asymmetric keys. Accepts wildcards for pattern matching.<br />
+Use this when you need to audit encryption keys in specific databases instead of scanning all databases on the instance.<br />
+Essential for targeted security assessments or compliance audits of particular applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +608,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Database(s) to ignore when retrieving Asymmetric Keys<br></p>
+<p>Excludes specific databases from the asymmetric key scan. Accepts wildcards for pattern matching.<br />
+Use this to skip system databases, test databases, or databases known to not contain encryption keys.<br />
+Helps focus audits on production databases and reduces noise in security assessments.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +638,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Get specific Asymmetric Key by name<br></p>
+<p>Filters results to asymmetric keys with specific names. Accepts wildcards and multiple key names.<br />
+Use this when tracking specific keys during key rotation, compliance audits, or troubleshooting encryption issues.<br />
+Common when validating that required encryption keys exist across multiple databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -659,7 +668,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from the pipeline, typically from Get-DbaDatabase.<br />
+Use this to chain database filtering with key retrieval, such as getting keys from databases with specific properties.<br />
+Enables advanced filtering scenarios like scanning only databases created after a certain date or with particular owners.<br></p>
 <table>
 <thead>
 <tr>

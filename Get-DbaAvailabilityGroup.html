@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAvailabilityGroup">Get-DbaAvailabilityGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns availability group objects from a SQL Server instance.</p>
+<p>Retrieves Availability Group configuration and status information from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Returns availability group objects from a SQL Server instance.</p>
-<p>Default view provides most common set of properties for information on the Availability Group(s).</p>
+<p>Retrieves detailed Availability Group information including replica roles, cluster configuration, database membership, and listener details from SQL Server 2012+ instances.</p>
+<p>This command helps DBAs monitor AG health, identify primary replicas for failover planning, and generate inventory reports for compliance or troubleshooting. The default view shows essential properties like replica roles, primary replica location, and cluster type, while the full object contains comprehensive AG configuration details.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAvailabilityGroup
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -583,7 +583,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Return only specific availability groups.<br></p>
+<p>Specifies one or more Availability Group names to filter results to specific AGs. Supports wildcards for pattern matching.<br />
+Use this when you need to check status or configuration of particular AGs rather than retrieving information for all AGs on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="isprimary">-IsPrimary</h5>
-<p>If this switch is enabled, a boolean indicating whether SqlInstance is the Primary replica in the AG is returned.<br></p>
+<p>Returns a boolean value indicating whether the queried SQL Server instance is currently serving as the Primary replica for each Availability Group.<br />
+Use this switch when you need to quickly identify which replica in your AG topology is currently primary, particularly useful for automated failover scripts or health monitoring.<br></p>
 <table>
 <thead>
 <tr>

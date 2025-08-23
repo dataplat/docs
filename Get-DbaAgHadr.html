@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgHadr">Get-DbaAgHadr</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the Hadr service setting on the specified SQL Server instance.</p>
+<p>Retrieves the High Availability Disaster Recovery (HADR) service status for SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Gets the Hadr setting, from the service level, and returns true or false for the specified SQL Server instance.</p>
+<p>Checks whether Availability Groups are enabled at the service level on SQL Server instances. This is a prerequisite for creating and managing Availability Groups, as HADR must be enabled before you can configure any AG functionality. Returns the computer name, instance name, and the current HADR enabled status (true/false) for each specified instance, making it useful for environment audits and troubleshooting AG setup issues.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgHadr
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

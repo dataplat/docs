@@ -485,11 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbDbccCheckConstraint">Invoke-DbaDbDbccCheckConstraint</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Execution of Database Console Command DBCC CHECKCONSTRAINTS</p>
+<p>Validates constraint integrity by checking for constraint violations in SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Executes the command DBCC CHECKCONSTRAINTS and returns results</p>
-<p>Reports and corrects pages and row count inaccuracies in the catalog views.<br />
-These inaccuracies may cause incorrect space usage reports returned by the sp_spaceused system stored procedure.</p>
+<p>Executes DBCC CHECKCONSTRAINTS to identify rows that violate CHECK, FOREIGN KEY, and other constraints in your databases. This command helps DBAs verify data integrity after bulk imports, constraint modifications, or when troubleshooting data quality issues. You can target specific tables, individual constraints, or scan entire databases for violations. The command returns detailed information about any rows that don't meet constraint requirements, including the table, constraint name, and violating data criteria.</p>
 <p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-checkconstraints-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-checkconstraints-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -597,7 +595,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to check for constraint violations. Accepts multiple database names and supports wildcards for pattern matching.<br />
+If not specified, all accessible databases on the instance will be processed. Use this when you need to target specific databases instead of checking the entire instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -625,10 +624,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="object">-Object</h5>
-<p>The table or constraint to be checked.<br />
-When table_name or table_id is specified, all enabled constraints on that table are checked.<br />
-When constraint_name or constraint_id is specified, only that constraint is checked.<br />
-If neither a table identifier nor a constraint identifier is specified, all enabled constraints on all tables in the current database are checked.<br></p>
+<p>Specifies the table or constraint to check for violations. Accepts either table names, constraint names, or their numeric IDs.<br />
+When targeting a table, all enabled constraints on that table are validated. When targeting a specific constraint, only that constraint is checked.<br />
+Use this when you need to focus on a specific table after bulk data operations or when investigating a known problematic constraint.<br></p>
 <table>
 <thead>
 <tr>
@@ -656,9 +654,10 @@ If neither a table identifier nor a constraint identifier is specified, all enab
 </tbody>
 </table>
 <h5 id="allconstraints">-AllConstraints</h5>
-<p>Checks all enabled and disabled constraints on the table if the table name is specified or if all tables are checked;<br />
-Otherwise, checks only the enabled constraint.<br />
-Has no effect when a constraint is specified<br></p>
+<p>Forces checking of both enabled and disabled constraints on the specified table or all tables in the database.<br />
+By default, only enabled constraints are validated. Use this when you need to verify data integrity against all constraint definitions, including those temporarily disabled during maintenance<br />
+operations.<br />
+Has no effect when checking a specific constraint by name or ID.<br></p>
 <table>
 <thead>
 <tr>
@@ -686,8 +685,9 @@ Has no effect when a constraint is specified<br></p>
 </tbody>
 </table>
 <h5 id="allerrormessages">-AllErrorMessages</h5>
-<p>Returns all rows that violate constraints in the table that is checked.<br />
-The default is the first 200 rows.<br></p>
+<p>Returns all constraint violation rows instead of limiting output to the first 200 violations per constraint.<br />
+Use this when you need a complete inventory of data quality issues, especially after bulk imports or when preparing comprehensive data cleanup reports.<br />
+Be cautious with large tables as this can generate extensive output.<br></p>
 <table>
 <thead>
 <tr>
@@ -715,7 +715,9 @@ The default is the first 200 rows.<br></p>
 </tbody>
 </table>
 <h5 id="noinformationalmessages">-NoInformationalMessages</h5>
-<p>Suppresses all informational messages.<br></p>
+<p>Suppresses informational messages like &quot;DBCC execution completed&quot; and processing status updates.<br />
+Use this when automating constraint checks in scripts where you only want to capture actual constraint violations, not DBCC status messages.<br />
+Helpful for cleaner output when processing multiple databases or integrating results into monitoring systems.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaServerRole">Remove-DbaServerRole</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Deletes specified server-level role.</p>
+<p>Removes custom server-level roles from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Deletes specified server-level role.</p>
+<p>Removes custom server-level roles that are no longer needed from SQL Server instances. This function helps clean up security configurations by permanently dropping user-defined server roles while preserving built-in system roles. Use this when decommissioning applications, consolidating permissions, or cleaning up after security audits. The operation requires confirmation due to its permanent nature and potential security impact.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaServerRole
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -571,7 +571,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="serverrole">-ServerRole</h5>
-<p>The server-role that will be removed.<br></p>
+<p>Specifies the name of the custom server-level role to remove from the SQL Server instance.<br />
+Only user-defined server roles can be removed - built-in roles like sysadmin or serveradmin are protected.<br />
+Use this when you need to clean up obsolete custom roles after application decommissioning or security reviews.<br></p>
 <table>
 <thead>
 <tr>
@@ -599,7 +601,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Piped server-role objects.<br></p>
+<p>Accepts server role objects from Get-DbaServerRole for pipeline operations.<br />
+Use this when you need to remove multiple roles or want to filter roles before removal.<br />
+Allows for more complex scenarios like removing all custom roles that match specific criteria.<br></p>
 <table>
 <thead>
 <tr>

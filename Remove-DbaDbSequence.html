@@ -485,11 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbSequence">Remove-DbaDbSequence</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes sequences.</p>
+<p>Removes database sequence objects from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Removes the sequences that have passed through the pipeline.</p>
-<p>If not used with a pipeline, Get-DbaDbSequence will be executed with the parameters provided<br />
-and the returned sequences will be removed.</p>
+<p>Removes sequence objects from SQL Server databases, freeing up schema namespace and cleaning up unused database objects.<br />
+Sequences are commonly used for generating unique numeric values and may need removal during application changes or database cleanup.</p>
+<p>When used without a pipeline, the function will first retrieve matching sequences using Get-DbaDbSequence with the provided parameters, then remove them.<br />
+Pipeline input from Get-DbaDbSequence allows for selective removal after review or filtering.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbSequence
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -550,7 +551,8 @@ Remove-DbaDbSequence -InputObject &lt;Sequence[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbSequence. <br></p>
+<p>Accepts sequence objects piped from Get-DbaDbSequence for removal.<br />
+This allows you to first review sequences with Get-DbaDbSequence before selectively removing them. <br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases to search for sequences to remove. Accepts wildcards for pattern matching.<br />
+Use this to limit sequence removal to specific databases instead of searching all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sequence">-Sequence</h5>
-<p>The name(s) of the sequence(s).<br></p>
+<p>Specifies the name(s) of the sequences to remove. Accepts wildcards for pattern matching.<br />
+Use this when you know the exact sequence names or want to remove sequences matching a naming pattern.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The name(s) of the schema for the sequence(s).<br></p>
+<p>Filters sequences to remove by schema name. Accepts wildcards for pattern matching.<br />
+Useful when you need to remove sequences from specific schemas only, such as during application module cleanup.<br></p>
 <table>
 <thead>
 <tr>

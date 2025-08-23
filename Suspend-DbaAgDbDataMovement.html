@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Suspend-DbaAgDbDataMovement">Suspend-DbaAgDbDataMovement</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Suspends data movement for an availability group database on a SQL Server instance.</p>
+<p>Suspends data synchronization for availability group databases to halt replication between replicas.</p>
 <h2 id="description">Description</h2>
-<p>Suspends data movement for an availability group database on a SQL Server instance.</p>
+<p>Temporarily halts data movement between primary and secondary replicas for specified availability group databases. This stops transaction log records from being sent to secondary replicas, which is useful during maintenance windows, troubleshooting synchronization issues, or when preparing for manual failovers. While suspended, the secondary databases will fall behind the primary and cannot be failed over to until data movement is resumed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Suspend-DbaAgDbDataMovement
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -572,7 +572,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>The availability group where the database movement will be suspended.<br></p>
+<p>Specifies the availability group containing the databases to suspend. Required when using SqlInstance parameter.<br />
+Use this to target databases within a specific AG when multiple availability groups exist on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +601,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database or databases to suspend movement upon.<br></p>
+<p>Specifies which availability group databases to suspend data movement for. Accepts multiple database names.<br />
+Use this when you need to halt synchronization for specific databases while leaving other AG databases running normally.<br></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +630,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAgDatabase<br></p>
+<p>Accepts availability group database objects piped from Get-DbaAgDatabase or other dbatools AG commands.<br />
+Use this for pipeline operations when you want to filter and select specific AG databases before suspending data movement.<br></p>
 <table>
 <thead>
 <tr>

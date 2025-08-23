@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaWaitingTask">Get-DbaWaitingTask</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays waiting task.</p>
+<p>Retrieves detailed information about currently waiting sessions and their wait types from SQL Server dynamic management views.</p>
 <h2 id="description">Description</h2>
-<p>This command is based on waiting task T-SQL script published by Paul Randal.<br />
+<p>Queries sys.dm_os_waiting_tasks and related DMVs to identify sessions that are currently waiting, along with comprehensive diagnostic information including wait types, durations, blocking sessions, SQL text, and query plans. This function helps DBAs quickly identify performance bottlenecks, troubleshoot blocking issues, and analyze what's causing slowdowns in real-time. The output includes helpful context like degree of parallelism for CXPACKET waits, resource descriptions, and direct links to SQLSkills wait type documentation for further analysis.</p>
+<p>This command is based on the waiting task T-SQL script published by Paul Randal.<br />
 Reference: <a href="https://www.sqlskills.com/blogs/paul/updated-sys-dm_os_waiting_tasks-script-2/">https://www.sqlskills.com/blogs/paul/updated-sys-dm_os_waiting_tasks-script-2/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaWaitingTask
@@ -571,7 +572,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="spid">-Spid</h5>
-<p>Find the waiting task of one or more specific process ids<br></p>
+<p>Filters results to show waiting tasks for specific session IDs only. Accepts one or more SPIDs as an array.<br />
+Use this when troubleshooting known problematic sessions or when you want to focus on specific user connections instead of scanning all active sessions.<br></p>
 <table>
 <thead>
 <tr>
@@ -599,7 +601,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemspid">-IncludeSystemSpid</h5>
-<p>If this switch is enabled, the output will include the system sessions.<br></p>
+<p>Includes system sessions (SPIDs) in the results along with user sessions. By default, only user sessions are returned.<br />
+Enable this when diagnosing system-level performance issues or when system processes might be causing blocking or resource contention.<br></p>
 <table>
 <thead>
 <tr>

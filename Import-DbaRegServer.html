@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Import-DbaRegServer">Import-DbaRegServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Imports registered servers and registered server groups to SQL Server Central Management Server (CMS)</p>
+<p>Imports registered servers and server groups into SQL Server Central Management Server from XML files, other CMS instances, or custom objects</p>
 <h2 id="description">Description</h2>
-<p>Imports registered servers and registered server groups to SQL Server Central Management Server (CMS)</p>
+<p>Imports registered servers and server groups into a SQL Server Central Management Server (CMS) from multiple sources including exported XML files, other CMS instances, or custom objects like CSVs. The function automatically creates missing server groups during import and supports importing to specific group locations within the CMS hierarchy. This is essential for migrating CMS configurations between environments, consolidating server inventories from multiple sources, or bulk-loading server lists into a new CMS setup.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Import-DbaRegServer
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -579,7 +579,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Optional path to exported reg server XML<br></p>
+<p>Specifies the file path to XML files containing exported registered server configurations from SQL Server Management Studio or Export-DbaRegServer.<br />
+Use this when migrating CMS configurations between environments or restoring server lists from backup exports.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,8 +608,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaRegServer, Get-DbaRegServerGroup, CSVs and other objects.<br />
-If importing from CSV or other object, a column named ServerName is required. Optional columns include Name, Description and Group.<br></p>
+<p>Accepts registered server objects, server group objects, or custom objects like CSV data for bulk import operations. Supports piping from Get-DbaRegServer and Get-DbaRegServerGroup cmdlets.<br />
+When importing from CSV or custom objects, ServerName column is required while Name, Description, and Group columns are optional. Use this for consolidating servers from multiple CMS instances or<br />
+bulk-loading server inventories.<br></p>
 <table>
 <thead>
 <tr>
@@ -636,7 +638,8 @@ If importing from CSV or other object, a column named ServerName is required. Op
 </tbody>
 </table>
 <h5 id="group">-Group</h5>
-<p>Imports to specific group<br></p>
+<p>Specifies the target group within the CMS hierarchy where servers will be imported. Accepts group paths using backslash notation like &quot;hr\Seattle&quot; or ServerGroup objects from Get-DbaRegServerGroup.<br />
+Use this when you need to organize imported servers into specific groups rather than importing to the root level.<br></p>
 <table>
 <thead>
 <tr>

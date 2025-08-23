@@ -486,9 +486,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Dismount-DbaDatabase">Dismount-DbaDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Detach a SQL Server Database.</p>
+<p>Detaches one or more databases from a SQL Server instance with built-in safety checks and validation.</p>
 <h2 id="description">Description</h2>
-<p>This command detaches one or more SQL Server databases. If necessary, -Force can be used to break mirrors and remove databases from availability groups prior to detaching.</p>
+<p>Safely detaches databases from SQL Server instances while performing comprehensive validation checks before detachment. This function automatically validates that databases aren't system databases, replicated, or have active snapshots, preventing common detachment failures. When databases are part of mirroring or Availability Groups, the -Force parameter allows automatic cleanup by breaking mirrors and removing databases from AGs before detaching. Active user connections can also be forcibly terminated when needed. This command is essential for database migration scenarios, decommissioning databases, or moving databases between instances without using backup/restore methods.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Dismount-DbaDatabase
     [-SqlCredential &lt;PSCredential&gt;]
@@ -567,7 +567,8 @@ If the database is part of an Availability Group, it will first be dropped prior
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to detach. <br></p>
+<p>Specifies the name(s) of databases to detach from the SQL Server instance. Accepts wildcards for pattern matching.<br />
+Use this when you need to detach specific databases by name rather than passing database objects through the pipeline. <br></p>
 <table>
 <thead>
 <tr>
@@ -595,7 +596,8 @@ If the database is part of an Availability Group, it will first be dropped prior
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of databases (such as returned by Get-DbaDatabase), to be detached. <br></p>
+<p>Accepts database objects from the pipeline for detachment operations. Typically used with Get-DbaDatabase output.<br />
+This allows you to filter and select databases using Get-DbaDatabase before detaching them, providing more control over the selection process. <br></p>
 <table>
 <thead>
 <tr>
@@ -654,7 +656,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="updatestatistics">-UpdateStatistics</h5>
-<p>If this switch is enabled, statistics for the database will be updated prior to detaching it.<br></p>
+<p>Updates database statistics before detaching the database to ensure optimal performance if the database is later reattached.<br />
+Use this when you plan to reattach the database later and want to maintain current statistics for query optimization.<br></p>
 <table>
 <thead>
 <tr>
@@ -682,7 +685,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled and the database is part of a mirror, the mirror will be broken. If the database is part of an Availability Group, it will be removed from the AG.<br></p>
+<p>Bypasses safety checks and handles blocking conditions that prevent database detachment. Automatically breaks database mirroring, removes databases from Availability Groups, and terminates active<br />
+user connections.<br />
+Use this when you need to detach databases that are part of high availability configurations or have active connections that cannot be closed gracefully.<br></p>
 <table>
 <thead>
 <tr>

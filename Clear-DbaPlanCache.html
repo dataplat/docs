@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Clear-DbaPlanCache">Clear-DbaPlanCache</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes ad-hoc and prepared plan caches is single use plans are over defined threshold.</p>
+<p>Clears SQL Server plan cache when single-use adhoc and prepared plans exceed memory threshold</p>
 <h2 id="description">Description</h2>
-<p>Checks ad-hoc and prepared plan cache for each database, if over 100 MBs removes from the cache.</p>
-<p>This command automates that process.</p>
+<p>Monitors your SQL Server's plan cache for single-use adhoc and prepared plans that consume excessive memory. When these plans exceed the specified threshold (default 100MB), the function clears the entire plan cache using DBCC FREESYSTEMCACHE('SQL Plans').</p>
+<p>Single-use plans are a common cause of memory pressure in SQL Server environments with dynamic SQL or applications that don't use parameterized queries. Instead of manually checking sys.dm_exec_cached_plans and running DBCC commands, this function automates the detection and cleanup process.</p>
+<p>Use this when you're experiencing memory pressure from plan cache bloat or as part of regular maintenance to prevent cache-related performance issues. The function only clears the cache when necessary, avoiding unnecessary disruption to your server's performance.</p>
 <p>References: <a href="https://www.sqlskills.com/blogs/kimberly/plan-cache-adhoc-workloads-and-clearing-the-single-use-plan-cache-bloat/">https://www.sqlskills.com/blogs/kimberly/plan-cache-adhoc-workloads-and-clearing-the-single-use-plan-cache-bloat/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Clear-DbaPlanCache
@@ -578,7 +579,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="threshold">-Threshold</h5>
-<p>Memory used threshold.<br></p>
+<p>Specifies the memory threshold in megabytes for single-use adhoc and prepared plans before the plan cache is cleared. Default is 100 MB.<br />
+Use this to control when plan cache cleanup occurs based on your server's memory capacity and workload patterns.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +608,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables results to be piped in from Get-DbaPlanCache.<br></p>
+<p>Accepts plan cache objects from Get-DbaPlanCache via pipeline input. Each object contains plan cache statistics including memory usage and instance details.<br />
+Use this to process multiple instances or when you need to filter plan cache results before clearing.<br></p>
 <table>
 <thead>
 <tr>

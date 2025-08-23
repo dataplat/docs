@@ -485,13 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaDbCompression">Set-DbaDbCompression</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets tables and indexes with preferred compression setting.</p>
+<p>Applies data compression to SQL Server tables and indexes to reduce storage space and improve performance.</p>
 <h2 id="description">Description</h2>
-<p>This function sets the appropriate compression recommendation, determined either by using the Tiger Team's query or set to the CompressionType parameter.</p>
-<p>Remember Uptime is critical for the Tiger Team query, the longer uptime, the more accurate the analysis is.<br />
-You would probably be best if you utilized Get-DbaUptime first, before running this command.</p>
-<p>Set-DbaDbCompression script derived from GitHub and the tigertoolbox<br />
-(<a href="https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains">https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains</a>)</p>
+<p>Compresses tables, indexes, and heaps across one or more databases using Row, Page, or intelligent recommendations based on Microsoft's Tiger Team compression analysis. Automatically handles the complex process of analyzing usage patterns, applying appropriate compression types, and rebuilding objects online when possible. Saves significant storage space, reduces backup sizes, and improves I/O performance without requiring manual compression analysis for each object. Particularly valuable for large production databases where storage costs and backup windows are concerns.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaDbCompression
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -605,7 +601,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to apply compression to. Accepts wildcard patterns and multiple database names.<br />
+When omitted, all non-system databases on the instance will be processed. Use this to target specific databases when you don't want to compress everything.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +630,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<p>Specifies databases to skip during the compression operation. Accepts wildcard patterns and multiple database names.<br />
+Use this when you want to compress most databases but exclude specific ones like databases under maintenance or with special requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -661,7 +659,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>The table(s) to process. If unspecified, all tables will be processed.<br></p>
+<p>Specifies which tables to compress within the selected databases. Accepts multiple table names and works with wildcard patterns.<br />
+When omitted, all eligible tables in the database will be processed. Use this to target specific large tables or avoid compressing certain tables.<br></p>
 <table>
 <thead>
 <tr>
@@ -689,8 +688,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="compressiontype">-CompressionType</h5>
-<p>Control the compression type applied. Default is 'Recommended' which uses the Tiger Team query to use the most appropriate setting per object. Other option is to compress all objects to either Row or<br />
-Page.<br></p>
+<p>Specifies the type of compression to apply: Recommended, Page, Row, or None. Default is 'Recommended' which analyzes each object and applies the optimal compression type.<br />
+Use 'Page' or 'Row' to force all objects to the same compression level, or 'None' to remove compression. Recommended is best for mixed workloads where different objects benefit from different<br />
+compression types.<br></p>
 <table>
 <thead>
 <tr>
@@ -722,7 +722,8 @@ Page.<br></p>
 </tbody>
 </table>
 <h5 id="maxruntime">-MaxRunTime</h5>
-<p>Will continue to alter tables and indexes for the given amount of minutes.<br></p>
+<p>Sets a time limit in minutes for the compression operation to prevent it from running indefinitely. When the time limit is reached, the function stops processing additional objects.<br />
+Use this during business hours to ensure the operation completes within a maintenance window. A value of 0 (default) means no time limit.<br></p>
 <table>
 <thead>
 <tr>
@@ -750,7 +751,8 @@ Page.<br></p>
 </tbody>
 </table>
 <h5 id="percentcompression">-PercentCompression</h5>
-<p>Will only work on the tables/indexes that have the calculated savings at and higher for the given number provided.<br></p>
+<p>Sets the minimum space savings threshold (as a percentage) required before an object will be compressed. Only objects that would achieve this level of savings or higher are processed.<br />
+Use this to focus compression efforts on objects that will provide the most benefit. For example, setting this to 25 will only compress objects that would save at least 25% of their current space.<br></p>
 <table>
 <thead>
 <tr>
@@ -778,8 +780,9 @@ Page.<br></p>
 </tbody>
 </table>
 <h5 id="forceofflinerebuilds">-ForceOfflineRebuilds</h5>
-<p>By default, this function prefers online rebuilds over offline ones.<br />
-If you are on a supported version of SQL Server but still prefer to do offline rebuilds, enable this flag<br></p>
+<p>Forces compression operations to use offline rebuilds instead of the default online rebuilds when possible. Online rebuilds keep tables accessible during compression but use more resources.<br />
+Use this switch when you need to minimize resource usage during compression or when experiencing issues with online operations. Offline rebuilds will make tables unavailable during the compression<br />
+process.<br></p>
 <table>
 <thead>
 <tr>
@@ -807,7 +810,8 @@ If you are on a supported version of SQL Server but still prefer to do offline r
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Takes the output of Test-DbaDbCompression as an object and applied compression based on those recommendations.<br></p>
+<p>Accepts compression recommendations from Test-DbaDbCompression and applies those specific recommendations instead of running a new analysis.<br />
+Use this when you want to review compression recommendations first, then apply only the ones you approve of. This approach gives you more control over which objects get compressed.<br></p>
 <table>
 <thead>
 <tr>

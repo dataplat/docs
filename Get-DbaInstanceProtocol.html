@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaInstanceProtocol">Get-DbaInstanceProtocol</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the SQL Server related server protocols on a computer.</p>
+<p>Retrieves SQL Server network protocol configuration and status from target computers.</p>
 <h2 id="description">Description</h2>
-<p>Gets the SQL Server related server protocols on one or more computers.</p>
-<p>Requires Local Admin rights on destination computer(s).<br />
-The server protocols can be enabled and disabled when retrieved via WSMan.</p>
+<p>Retrieves the configuration and status of SQL Server network protocols (TCP/IP, Named Pipes, Shared Memory, VIA) by querying the WMI ComputerManagement namespace. This is essential for troubleshooting connectivity issues, auditing network configurations for security compliance, and managing protocol settings across multiple SQL Server instances.</p>
+<p>The returned protocol objects include Enable() and Disable() methods, allowing you to manage protocol states directly without opening SQL Server Configuration Manager. This is particularly useful for automating security hardening by disabling unnecessary protocols or standardizing configurations across your environment.</p>
+<p>Requires Local Admin rights on destination computer(s).</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaInstanceProtocol
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -520,7 +520,8 @@ The server protocols can be enabled and disabled when retrieved via WSMan.</p>
 If successful, return code 0 is shown.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>Specifies the target computer(s) where SQL Server instances are running. Accepts computer names, fully qualified domain names, or IP addresses.<br />
+Use this when you need to check network protocol configurations on remote SQL Server machines for connectivity troubleshooting or security audits.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Join-DbaPath">Join-DbaPath</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Performs multisegment path joins.</p>
+<p>Constructs file paths with correct separators for Windows and Linux SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Performs multisegment path joins.</p>
+<p>Constructs file paths by joining multiple segments while automatically using the correct path separators (backslash for Windows, forward slash for Linux) based on the target SQL Server instance's operating system. This function eliminates the guesswork when building file paths for backup files, exports, scripts, or other SQL Server operations that need to reference files on the remote server. Without specifying a SqlInstance, it defaults to the local machine's path separator conventions.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Join-DbaPath
     [-Path] &lt;String&gt;
@@ -506,7 +506,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 Returns 'C:/temp/Foo/Bar' on non-windows.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>The basepath to join on. <br></p>
+<p>Specifies the base directory path where backup files, scripts, or other SQL Server resources will be stored. This forms the root location for building complete file paths.<br />
+Use this when you need to define the starting directory for backup operations, export locations, or script file destinations on either local or remote SQL Server instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -563,7 +564,8 @@ Returns 'C:/temp/Foo/Bar' on non-windows.<br></p>
 </tbody>
 </table>
 <h5 id="child">-Child</h5>
-<p>Any number of child paths to add.<br></p>
+<p>Specifies additional path segments to append to the base path, such as subdirectories, filename prefixes, or date folders. Accepts multiple values to build nested directory structures.<br />
+Use this to organize files into logical groupings like database names, backup types, or date-based folders (e.g., 'MyDatabase', 'Full', '2024-01-15').<br></p>
 <table>
 <thead>
 <tr>

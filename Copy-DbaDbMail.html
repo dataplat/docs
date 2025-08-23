@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaDbMail">Copy-DbaDbMail</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Migrates Mail Profiles, Accounts, Mail Servers and Mail Server Configs from one SQL Server to another.</p>
+<p>Copies Database Mail configuration including profiles, accounts, mail servers and settings between SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>By default, all mail configurations for Profiles, Accounts, Mail Servers and Configs are copied.</p>
+<p>Migrates the complete Database Mail setup from a source SQL Server to one or more destination servers. This includes mail profiles (which group accounts for specific purposes), mail accounts (SMTP configurations), mail servers (SMTP server details and credentials), and global configuration values like account retry attempts and maximum file size.</p>
+<p>Database Mail is commonly used for automated alerts, backup notifications, job failure reports, and maintenance notifications. This function saves significant manual configuration time when setting up new servers, standardizing mail configurations across environments, or migrating to new hardware.</p>
+<p>The function preserves all SMTP authentication details including encrypted passwords, handles name conflicts with optional force replacement, and can enable Database Mail on the destination if it's enabled on the source. You can migrate specific component types or the entire configuration in one operation.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt; -Destination &lt;DbaInstanceParameter[]&gt;
     [-SourceSqlCredential &lt;PSCredential&gt;]
@@ -530,7 +532,8 @@ Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt; -Destination &lt;DbaInstance
 <p>Performs execution of function, and will throw a terminating exception if something breaks<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>Specifies the source SQL Server instance containing the Database Mail configuration to copy. The function reads all mail profiles, accounts, mail servers, and configuration values from this instance.<br />
+You must have sysadmin privileges to access the MSDB database where Database Mail settings are stored. <br></p>
 <table>
 <thead>
 <tr>
@@ -558,7 +561,8 @@ Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt; -Destination &lt;DbaInstance
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Specifies one or more destination SQL Server instances where the Database Mail configuration will be copied. Accepts an array to migrate to multiple servers simultaneously.<br />
+You must have sysadmin privileges on each destination to create mail profiles, accounts, and server configurations in MSDB. <br></p>
 <table>
 <thead>
 <tr>
@@ -587,8 +591,9 @@ Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt; -Destination &lt;DbaInstance
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="type">-Type</h5>
-<p>Specifies the object type to migrate. Valid options are 'ConfigurationValues', 'Profiles', 'Accounts', and 'MailServers'. When Type is specified, all categories from the selected type will be<br />
-migrated.<br></p>
+<p>Limits migration to specific Database Mail component types instead of copying everything. Choose 'ConfigurationValues' for global settings like retry attempts and file size limits, 'Profiles' for<br />
+mail profile definitions, 'Accounts' for SMTP account configurations, or 'MailServers' for SMTP server details.<br />
+Use this when you only need to sync specific components or when troubleshooting individual Database Mail layers.<br></p>
 <table>
 <thead>
 <tr>
@@ -680,7 +685,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, existing objects on Destination with matching names from Source will be dropped.<br></p>
+<p>Overwrites existing Database Mail objects on the destination that have matching names from the source. Without this switch, existing profiles, accounts, or mail servers are skipped to prevent<br />
+accidental data loss.<br />
+Use this when updating existing Database Mail configurations or when you need to replace outdated settings with current ones from the source server.<br></p>
 <table>
 <thead>
 <tr>

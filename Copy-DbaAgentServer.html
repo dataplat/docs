@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaAgentServer">Copy-DbaAgentServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy SQL Server Agent from one server to another.</p>
+<p>Copies all SQL Server Agent objects and server properties between instances.</p>
 <h2 id="description">Description</h2>
-<p>A wrapper function that calls the associated Copy command for each of the object types seen in SSMS under SQL Server Agent. This also copies all of the the SQL Agent properties (job history max rows, DBMail profile name, etc.).</p>
+<p>Migrates complete SQL Server Agent configuration including jobs, operators, alerts, schedules, job categories, and proxies from one instance to another. This function handles the proper sequence of object creation and also copies server-level Agent properties like job history retention settings, error log locations, and database mail profiles. Essential for server migrations, disaster recovery setups, or standardizing Agent configurations across multiple environments without manually recreating dozens of objects.</p>
 <p>You must have sysadmin access and server version must be SQL Server version 2000 or greater.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaAgentServer
@@ -522,7 +522,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Shows what would happen if the command were executed.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>Source SQL Server instance containing the Agent objects you want to copy. All jobs, schedules, operators, alerts, proxies, and server properties will be migrated from this instance.<br />
+Must have sysadmin access and be SQL Server 2000 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -550,7 +551,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Target SQL Server instance(s) where Agent objects will be copied. Accepts multiple instances to copy the same configuration to several servers at once.<br />
+Must have sysadmin access and be SQL Server 2000 or higher. Useful for standardizing Agent configurations across development, test, and production environments. <br></p>
 <table>
 <thead>
 <tr>
@@ -579,9 +581,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Authentication credentials for connecting to the Source SQL Server instance. Use this when you need SQL Server authentication instead of Windows authentication.<br />
+Create credentials using Get-Credential and pass them to this parameter. Common when source server is in different domain or requires SQL login.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,9 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Authentication credentials for connecting to the Destination SQL Server instance(s). Use this when you need SQL Server authentication instead of Windows authentication.<br />
+Create credentials using Get-Credential and pass them to this parameter. Required when destination servers use different authentication than your current context.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +639,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="disablejobsondestination">-DisableJobsOnDestination</h5>
-<p>If this switch is enabled, the jobs will be disabled on Destination after copying.<br></p>
+<p>Disables all copied jobs on the destination instance after migration completes. Jobs will exist but won't run until manually enabled.<br />
+Use this when copying to test environments where you don't want production jobs running automatically, or during staged migrations where jobs should remain inactive initially.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +668,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="disablejobsonsource">-DisableJobsOnSource</h5>
-<p>If this switch is enabled, the jobs will be disabled on Source after copying.<br></p>
+<p>Disables all jobs on the source instance after copying them to destination. Jobs will exist but won't run until manually re-enabled.<br />
+Use this during server migrations when you want to prevent jobs from running on the old server after moving them to the new instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -695,7 +697,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeserverproperties">-ExcludeServerProperties</h5>
-<p>Skips the migration of Agent Server Properties (job history log, service state restart preferences, error log location, etc)<br></p>
+<p>Skips copying SQL Agent server-level configuration like job history retention settings, error log locations, database mail profiles, and service restart preferences.<br />
+Use this when you only want to copy jobs and schedules but keep the destination server's existing Agent configuration settings intact.<br></p>
 <table>
 <thead>
 <tr>
@@ -723,7 +726,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, existing objects on Destination with matching names from Source will be dropped, then copied.<br></p>
+<p>Overwrites existing Agent objects on destination that have matching names from source. Objects are dropped first, then recreated with source configuration.<br />
+Use this when you want to ensure destination matches source exactly, replacing any existing jobs, operators, or schedules with conflicting names.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaClientAlias">New-DbaClientAlias</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates/updates a sql alias for the specified server - mimics cliconfg.exe</p>
+<p>Creates SQL Server client aliases in the Windows registry for simplified connection management</p>
 <h2 id="description">Description</h2>
-<p>Creates/updates a SQL Server alias by altering HKLM:\SOFTWARE\Microsoft\MSSQLServer\Client</p>
+<p>Creates or updates SQL Server client aliases by modifying registry keys in HKLM:\SOFTWARE\Microsoft\MSSQLServer\Client\ConnectTo, replacing the need for manual cliconfg.exe configuration. This allows applications and connections to use simple alias names instead of complex server names, instance names, or custom port numbers. Particularly useful when standardizing connections across multiple workstations, managing port changes, or simplifying named instance connections without modifying application connection strings.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaClientAlias
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -518,7 +518,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Creates a new NamedPipes alias on the local workstation called sp, which points sqlcluster\sharepoint<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="servername">-ServerName</h5>
-<p>The target SQL Server <br></p>
+<p>Specifies the actual SQL Server instance that the alias will point to.<br />
+Can include instance names (server\instance) or custom ports (server,1433) for non-standard configurations.<br />
+This is the real connection target that applications will reach when using the alias name. <br></p>
 <table>
 <thead>
 <tr>
@@ -546,7 +548,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="alias">-Alias</h5>
-<p>The alias to be created <br></p>
+<p>Defines the short, friendly name that applications will use to connect to SQL Server.<br />
+Choose a simple name that's easier to remember and type than the full server\instance name.<br />
+This alias name will appear in connection strings and SQL management tools. <br></p>
 <table>
 <thead>
 <tr>
@@ -575,7 +579,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer where the alias will be created<br></p>
+<p>Specifies the target computer(s) where the client alias will be created in the registry.<br />
+Use this when configuring aliases on remote workstations or when managing multiple computers centrally.<br />
+Defaults to the local computer if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +637,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="protocol">-Protocol</h5>
-<p>The protocol for the connection, either TCPIP or NetBIOS. Defaults to TCPIP.<br></p>
+<p>Sets the network protocol for the connection, either TCPIP or NamedPipes.<br />
+TCPIP is recommended for most scenarios and works across network boundaries.<br />
+NamedPipes may be preferred for local connections or specific security requirements. Defaults to TCPIP.<br></p>
 <table>
 <thead>
 <tr>

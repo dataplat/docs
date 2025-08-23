@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbTable">Get-DbaDbTable</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns a summary of information on the tables</p>
+<p>Retrieves table metadata including space usage, row counts, and table features from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Shows table information around table row and data sizes and if it has any table type information.</p>
+<p>Returns detailed table information including row counts, space usage (IndexSpaceUsed, DataSpaceUsed), and special table characteristics like memory optimization, partitioning, and FileTable status. Essential for database capacity planning, documentation, and finding tables with specific features across multiple databases. Supports complex three-part naming with special characters and can filter by database, schema, or specific table names.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbTable
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -593,7 +593,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to retrieve table information from. Accepts multiple database names and wildcards.<br />
+Use this when you need table data from specific databases instead of scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -621,7 +622,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific databases from table retrieval. Accepts multiple database names and wildcards.<br />
+Helpful when you want most databases but need to skip problematic or irrelevant ones like temp databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -649,7 +651,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemdbs">-IncludeSystemDBs</h5>
-<p>Switch parameter that when used will display system database information<br></p>
+<p>Includes system databases (master, model, msdb, tempdb) in the table scan.<br />
+By default system databases are excluded since they rarely contain user tables of interest.<br></p>
 <table>
 <thead>
 <tr>
@@ -677,11 +680,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>Define a specific table you would like to query. You can specify up to three-part name such as db.sch.tbl.<br />
-If the object has special characters wrap them in square brackets [ ].<br />
-The correct way to find table named 'First.Table' on schema 'dbo' is by passing dbo.[First.Table]<br />
-Any actual usage of the ] must be escaped by duplicating the ] character.<br />
-The correct way to find a table Name] in schema Schema.Name is by passing [Schema.Name].[Name]]]<br></p>
+<p>Specifies specific tables to retrieve using one, two, or three-part naming (table, schema.table, or database.schema.table).<br />
+Use this when you need information on particular tables instead of all tables in the database.<br />
+Wrap names containing special characters in square brackets and escape actual ] characters by doubling them.<br></p>
 <table>
 <thead>
 <tr>
@@ -709,7 +710,8 @@ The correct way to find a table Name] in schema Schema.Name is by passing [Schem
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>Only return tables from the specified schema<br></p>
+<p>Filters results to tables within specific schemas. Accepts multiple schema names.<br />
+Useful for focusing on application schemas while excluding utility or system schemas.<br></p>
 <table>
 <thead>
 <tr>
@@ -737,7 +739,8 @@ The correct way to find a table Name] in schema Schema.Name is by passing [Schem
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase via pipeline input.<br />
+Use this when you have already filtered databases and want to pass them directly for table processing.<br></p>
 <table>
 <thead>
 <tr>

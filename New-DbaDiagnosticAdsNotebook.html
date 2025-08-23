@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDiagnosticAdsNotebook">New-DbaDiagnosticAdsNotebook</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new Diagnostic Jupyter Notebook for use with Azure Data Studio</p>
+<p>Generates a Jupyter Notebook containing Glenn Berry's SQL Server diagnostic queries for Azure Data Studio</p>
 <h2 id="description">Description</h2>
-<p>Creates a new Jupyter Notebook for use with Azure Data Studio, based on Glenn Berry's<br />
-popular Diagnostic queries</p>
+<p>Converts Glenn Berry's well-known SQL Server diagnostic queries into a Jupyter Notebook (.ipynb) file that can be opened and executed in Azure Data Studio. The function automatically detects your SQL Server version or accepts a target version parameter, then creates a notebook with version-specific diagnostic queries formatted as executable cells. Each query includes descriptive markdown explaining what it measures and why it's useful for performance troubleshooting and health monitoring.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDiagnosticAdsNotebook
     [[-SqlInstance] &lt;DbaInstanceParameter&gt;]
@@ -519,7 +518,8 @@ popular Diagnostic queries</p>
 <p>Creates a new Jupyter Notebook named &quot;myNotebook&quot; based on the version &quot;2017&quot; of diagnostic queries, including database-specific queries<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the output path of the Jupyter Notebook <br></p>
+<p>Specifies the full file path where the Jupyter Notebook (.ipynb file) will be created. The directory must exist and you must have write permissions to the location.<br />
+The generated notebook can be opened in Azure Data Studio or any Jupyter-compatible environment for executing Glenn Berry's diagnostic queries. <br></p>
 <table>
 <thead>
 <tr>
@@ -606,8 +606,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="targetversion">-TargetVersion</h5>
-<p>If you are not creating the notebook for a specific instance of SQL Server, you can specify the version that you want to create the notebook for.<br />
-Must be one of &quot;2005&quot;, &quot;2008&quot;, &quot;2008R2&quot;, &quot;2012&quot;, &quot;2014&quot;, &quot;2016&quot;, &quot;2016SP2&quot;, &quot;2017&quot;, &quot;2019&quot;, &quot;2022&quot;, &quot;AzureSQLDatabase&quot;<br></p>
+<p>Specifies the SQL Server version to generate diagnostic queries for when not connecting to a live instance. Use this when creating notebooks for offline analysis or different environments than your<br />
+current connection.<br />
+Must be one of &quot;2005&quot;, &quot;2008&quot;, &quot;2008R2&quot;, &quot;2012&quot;, &quot;2014&quot;, &quot;2016&quot;, &quot;2016SP2&quot;, &quot;2017&quot;, &quot;2019&quot;, &quot;2022&quot;, &quot;AzureSQLDatabase&quot;. Cannot be used together with SqlInstance parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +640,8 @@ Must be one of &quot;2005&quot;, &quot;2008&quot;, &quot;2008R2&quot;, &quot;201
 </tbody>
 </table>
 <h5 id="includedatabasespecific">-IncludeDatabaseSpecific</h5>
-<p>If this switch is enabled, the notebook will also include database-specific queries. Defaults to $false.<br></p>
+<p>Includes database-level diagnostic queries in addition to the default instance-level queries. These queries examine database-specific performance metrics, index usage, and database settings.<br />
+Use this when you need detailed analysis of individual databases rather than just server-wide diagnostics. Defaults to $false.<br></p>
 <table>
 <thead>
 <tr>

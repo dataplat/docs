@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbRoleMember">Get-DbaDbRoleMember</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get members of database roles for each instance(s) of SQL Server.</p>
+<p>Retrieves all users and nested roles that are members of database roles across SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaDbRoleMember returns connected SMO object for database roles for each instance(s) of SQL Server.</p>
+<p>This function enumerates the membership of database roles, showing which users and nested roles belong to each role. Essential for security audits, permission troubleshooting, and compliance reporting, it reveals the complete role hierarchy within your databases. By default, system users are excluded to focus on business-relevant accounts, but you can include them for comprehensive security reviews. The function works across multiple instances and databases simultaneously, making it perfect for enterprise-wide role membership documentation and access reviews.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbRoleMember
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -596,7 +596,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. This list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for role membership. Accepts wildcards for pattern matching.<br />
+Use this to focus on specific databases rather than scanning all databases on the instance. Helpful when you only need role membership data for particular applications or business units.<br></p>
 <table>
 <thead>
 <tr>
@@ -624,7 +625,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude. This list is auto-populated from the server.<br></p>
+<p>Excludes specific databases from role membership analysis. Supports wildcards for pattern matching.<br />
+Use this to skip system databases like tempdb or databases under maintenance when performing enterprise-wide role audits.<br></p>
 <table>
 <thead>
 <tr>
@@ -652,7 +654,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="role">-Role</h5>
-<p>The role(s) to process. If unspecified, all roles will be processed.<br></p>
+<p>Limits the analysis to specific database roles by name. Accepts wildcards for pattern matching.<br />
+Use this when investigating membership of particular roles like 'db_owner', 'db_datareader', or custom application roles during security reviews or troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -680,7 +683,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excluderole">-ExcludeRole</h5>
-<p>The role(s) to exclude.<br></p>
+<p>Excludes specific database roles from the membership analysis. Supports wildcards for pattern matching.<br />
+Use this to filter out roles you're not interested in, such as excluding 'public' role or application-specific roles during focused security audits.<br></p>
 <table>
 <thead>
 <tr>
@@ -708,7 +712,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludefixedrole">-ExcludeFixedRole</h5>
-<p>Excludes all members of fixed roles.<br></p>
+<p>Excludes members of SQL Server's built-in database roles like db_owner, db_datareader, db_datawriter, etc.<br />
+Use this when you want to focus only on custom application roles and their memberships, filtering out the standard SQL Server role assignments.<br></p>
 <table>
 <thead>
 <tr>
@@ -736,7 +741,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemuser">-IncludeSystemUser</h5>
-<p>Includes system users. By default system users are not included.<br></p>
+<p>Includes SQL Server system users like 'dbo', 'guest', 'sys', and 'INFORMATION_SCHEMA' in the results.<br />
+Use this for comprehensive security audits or when troubleshooting system-level permission issues. Normally these accounts are excluded to focus on business user accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -764,7 +770,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaDbRole or Get-DbaDatabase<br></p>
+<p>Accepts piped objects from Get-DbaDbRole, Get-DbaDatabase, or SQL Server instances for processing.<br />
+Use this to chain commands together, such as first filtering roles with Get-DbaDbRole then analyzing their membership, or to process multiple database objects efficiently.<br></p>
 <table>
 <thead>
 <tr>

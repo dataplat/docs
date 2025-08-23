@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbPartitionScheme">Get-DbaDbPartitionScheme</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database partition scheme(s).</p>
+<p>Retrieves partition schemes from SQL Server databases for table partitioning management.</p>
 <h2 id="description">Description</h2>
-<p>Gets database Partition Schemes.</p>
+<p>Retrieves partition scheme objects from one or more SQL Server databases, providing details about how partitioned tables and indexes are distributed across filegroups. Partition schemes define the physical storage mapping for partitioned tables by specifying which filegroups contain each partition's data. This function helps DBAs inventory existing partition schemes when planning table partitioning strategies, troubleshooting performance issues with partitioned tables, or preparing for partition maintenance operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbPartitionScheme
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -583,7 +583,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get users from specific database(s).<br></p>
+<p>Specifies which databases to scan for partition schemes. Accepts multiple database names.<br />
+Use this when you need to check partition schemes in specific databases rather than all accessible databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server.<br></p>
+<p>Specifies databases to skip when scanning for partition schemes. Accepts multiple database names.<br />
+Use this to exclude system databases or specific databases you don't want to check, such as development or staging databases during production audits.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +641,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="partitionscheme">-PartitionScheme</h5>
-<p>The name(s) of the partition scheme(s).<br></p>
+<p>Specifies which partition schemes to retrieve by name. Accepts multiple scheme names for targeted retrieval.<br />
+Use this when you need to examine specific partition schemes rather than all schemes in the database, such as when troubleshooting performance issues with particular partitioned tables.<br></p>
 <table>
 <thead>
 <tr>

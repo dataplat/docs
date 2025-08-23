@@ -485,17 +485,17 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaPermission">Get-DbaPermission</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get a list of Server and Database level permissions</p>
+<p>Retrieves explicit and implicit permissions across SQL Server instances and databases for security auditing</p>
 <h2 id="description">Description</h2>
-<p>Retrieves a list of permissions</p>
-<p>Permissions link principals to securables.<br />
-Principals exist on Windows, Instance and Database level.<br />
-Securables exist on Instance and Database level.<br />
-A permission state can be GRANT, DENY or REVOKE.<br />
-The permission type can be SELECT, CONNECT, EXECUTE and more.<br />
-The CONTROL permission is also returned for dbo users, db_owners, and schema owners.<br />
-To see server-level implicit permissions via fixed roles run the following command: Get-DbaServerRole -SqlInstance serverName | Select-Object *</p>
-<p>See <a href="https://msdn.microsoft.com/en-us/library/ms191291.aspx">https://msdn.microsoft.com/en-us/library/ms191291.aspx</a> for more information</p>
+<p>Retrieves comprehensive permission information from SQL Server instances and databases, including both explicit permissions and implicit permissions from fixed roles.</p>
+<p>This function queries sys.server_permissions and sys.database_permissions to capture all granted, denied, and revoked permissions across server and database levels.<br />
+Perfect for security audits, compliance reporting, troubleshooting access issues, and planning permission migrations between environments.</p>
+<p>The output includes permission state (GRANT/DENY/REVOKE), permission type (SELECT, CONNECT, EXECUTE, etc.), grantee information, and the specific securable being protected.<br />
+Also captures implicit CONTROL permissions for dbo users, db_owner role members, and schema owners that aren't explicitly stored in system tables.<br />
+Each result includes ready-to-use GRANT and REVOKE statements for easy permission replication or cleanup.</p>
+<p>Permissions link principals (logins, users, roles) to securables (servers, databases, schemas, objects).<br />
+Principals exist at Windows, instance, and database levels, while securables exist at instance and database levels.</p>
+<p>See <a href="https://msdn.microsoft.com/en-us/library/ms191291.aspx">https://msdn.microsoft.com/en-us/library/ms191291.aspx</a> for more information about SQL Server permissions</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPermission
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -589,7 +589,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more database(s) to process. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for permissions. Accepts wildcards and multiple database names.<br />
+When omitted, all accessible databases on the instance are processed, which is useful for comprehensive security audits.<br></p>
 <table>
 <thead>
 <tr>
@@ -617,7 +618,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies one or more database(s) to exclude from processing.<br></p>
+<p>Excludes specific databases from permission analysis. Accepts wildcards and multiple database names.<br />
+Commonly used to skip system databases like TempDB or exclude sensitive databases from security reports.<br></p>
 <table>
 <thead>
 <tr>
@@ -645,7 +647,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includeserverlevel">-IncludeServerLevel</h5>
-<p>If this switch is enabled, information about Server Level Permissions will be output.<br></p>
+<p>Includes server-level permissions in the output, such as CONTROL SERVER, VIEW SERVER STATE, and fixed server roles like sysadmin.<br />
+Essential for complete security audits as it captures instance-wide permissions that affect all databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -673,7 +676,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemobjects">-ExcludeSystemObjects</h5>
-<p>If this switch is enabled, permissions on system securables will be excluded.<br></p>
+<p>Excludes permissions on system objects like system tables, views, and stored procedures from the output.<br />
+Use this when focusing on user-created objects to reduce noise in permission reports and compliance audits.<br></p>
 <table>
 <thead>
 <tr>

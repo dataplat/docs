@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbTransfer">New-DbaDbTransfer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a transfer object to clone objects from one database to another.</p>
+<p>Creates a configured SMO Transfer object for copying database objects between SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Returns an SMO Transfer object that controls the process of copying database objects from one database to another.<br />
-Does not perform any actions unless explicitly called with .TransferData() or piped into Invoke-DbaDbTransfer.</p>
+<p>Returns a configured SMO Transfer object that defines what database objects to copy and how to copy them between SQL Server instances.<br />
+This function prepares the transfer configuration but does not execute the actual copy operation - you must call .TransferData() on the returned object or pipe it to Invoke-DbaDbTransfer to perform the transfer.<br />
+Useful for database migrations, environment refreshes, or selective object deployment where you need to copy specific tables, views, stored procedures, users, or other database objects.<br />
+Supports copying schema only, data only, or both, with configurable batch sizes and timeout values for large data transfers.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbTransfer
     [[-SqlInstance] &lt;DbaInstanceParameter&gt;]
@@ -580,7 +582,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlinstance">-DestinationSqlInstance</h5>
-<p>Destination Sql Server. You must have appropriate access to create objects on the target server.<br></p>
+<p>Specifies the target SQL Server instance where database objects will be transferred. The function configures the SMO Transfer object to connect to this destination.<br />
+You must have appropriate permissions to create the specified objects on the target server.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,8 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the source instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Only SQL authentication is supported. When not specified, uses Trusted Authentication.<br></p>
+<p>Credentials for connecting to the destination SQL Server instance. Accepts PowerShell credential objects created with Get-Credential.<br />
+Only SQL Server authentication is supported for the destination connection. When not specified, uses Windows Authentication.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +640,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database to copy the objects from.<br></p>
+<p>Specifies the source database containing the objects to transfer. This database must exist on the source SQL Server instance.<br />
+Use this to define which database serves as the source for the transfer operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +669,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="destinationdatabase">-DestinationDatabase</h5>
-<p>The database to copy the objects to. If not specified, it is assumed to be same as the source database.<br></p>
+<p>Specifies the target database where objects will be transferred. The database should already exist on the destination instance.<br />
+When not specified, uses the same database name as the source database.<br></p>
 <table>
 <thead>
 <tr>
@@ -693,7 +698,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="batchsize">-BatchSize</h5>
-<p>The BatchSize for the data copy defaults to 5000.<br></p>
+<p>Sets the number of rows to transfer in each batch during data copy operations. Controls memory usage and transaction log growth on the destination.<br />
+Larger batch sizes improve performance but use more memory. Smaller batches reduce memory pressure but may slow transfer speed. Default is 50,000 rows.<br></p>
 <table>
 <thead>
 <tr>
@@ -721,7 +727,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="bulkcopytimeout">-BulkCopyTimeOut</h5>
-<p>Value in seconds for the BulkCopy operations timeout. The default is 30 seconds.<br></p>
+<p>Sets the timeout in seconds for each bulk copy operation before it times out and fails. Prevents long-running transfers from hanging indefinitely.<br />
+Increase this value when transferring large tables or working with slower network connections. Default is 5000 seconds.<br></p>
 <table>
 <thead>
 <tr>
@@ -749,7 +756,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="scriptingoption">-ScriptingOption</h5>
-<p>Custom scripting rules, generated by New-DbaScriptingOption<br></p>
+<p>Provides custom scripting options that control how database objects are scripted during the transfer. Must be created using New-DbaScriptingOption.<br />
+Use this to control object scripting behavior such as including permissions, check constraints, triggers, or indexes in the transfer.<br></p>
 <table>
 <thead>
 <tr>
@@ -777,7 +785,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping of database SMO objects into the command.<br></p>
+<p>Accepts specific database objects (tables, views, stored procedures, etc.) to transfer via pipeline input from other dbatools commands.<br />
+Use this to transfer only selected objects instead of entire object types. Objects must be SMO objects from the source database.<br></p>
 <table>
 <thead>
 <tr>
@@ -805,7 +814,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="copyallobjects">-CopyAllObjects</h5>
-<p>Transfer all objects of the source database<br></p>
+<p>Includes all transferable database objects in the transfer operation, regardless of object type. This is the broadest transfer scope available.<br />
+Use this for complete database migrations or when you need to transfer everything except system objects and data.<br></p>
 <table>
 <thead>
 <tr>
@@ -833,36 +843,11 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="copyall">-CopyAll</h5>
-<p>Object types to be transferred from a database. Allowed values:<br />
-FullTextCatalogs<br />
-FullTextStopLists<br />
-SearchPropertyLists<br />
-Tables<br />
-Views<br />
-StoredProcedures<br />
-UserDefinedFunctions<br />
-UserDefinedDataTypes<br />
-UserDefinedTableTypes<br />
-PlanGuides<br />
-Rules<br />
-Defaults<br />
-Users<br />
-Roles<br />
-PartitionSchemes<br />
-PartitionFunctions<br />
-XmlSchemaCollections<br />
-SqlAssemblies<br />
-UserDefinedAggregates<br />
-UserDefinedTypes<br />
-Schemas<br />
-Synonyms<br />
-Sequences<br />
-DatabaseTriggers<br />
-DatabaseScopedCredentials<br />
-ExternalFileFormats<br />
-ExternalDataSources<br />
-Logins<br />
-ExternalLibraries<br></p>
+<p>Specifies which types of database objects to include in the transfer operation. You can specify multiple object types to transfer specific categories.<br />
+Common values include Tables, Views, StoredProcedures, UserDefinedFunctions, Users, and Roles for typical database migrations. Use this for selective transfers instead of copying all objects.<br />
+Allowed values: FullTextCatalogs, FullTextStopLists, SearchPropertyLists, Tables, Views, StoredProcedures, UserDefinedFunctions, UserDefinedDataTypes, UserDefinedTableTypes, PlanGuides, Rules,<br />
+Defaults, Users, Roles, PartitionSchemes, PartitionFunctions, XmlSchemaCollections, SqlAssemblies, UserDefinedAggregates, UserDefinedTypes, Schemas, Synonyms, Sequences, DatabaseTriggers,<br />
+DatabaseScopedCredentials, ExternalFileFormats, ExternalDataSources, Logins, ExternalLibraries<br></p>
 <table>
 <thead>
 <tr>
@@ -894,7 +879,8 @@ ExternalLibraries<br></p>
 </tbody>
 </table>
 <h5 id="schemaonly">-SchemaOnly</h5>
-<p>Transfers only object schema.<br></p>
+<p>Transfers only the structure and definitions of database objects without copying any table data. Creates empty tables with all constraints, indexes, and triggers.<br />
+Use this for setting up database structure in development environments or when data will be loaded separately.<br></p>
 <table>
 <thead>
 <tr>
@@ -922,7 +908,8 @@ ExternalLibraries<br></p>
 </tbody>
 </table>
 <h5 id="dataonly">-DataOnly</h5>
-<p>Transfers only data without copying schema.<br></p>
+<p>Transfers only table data without creating or modifying database object structures. Assumes that tables and other objects already exist on the destination.<br />
+Use this for data refresh scenarios where the database schema is already in place and you only need to update the data.<br></p>
 <table>
 <thead>
 <tr>

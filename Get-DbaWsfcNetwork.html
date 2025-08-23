@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaWsfcNetwork">Get-DbaWsfcNetwork</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets information about one or more networks in a failover cluster.</p>
+<p>Retrieves network configuration details from Windows Server Failover Clustering for SQL Server high availability troubleshooting.</p>
 <h2 id="description">Description</h2>
-<p>Gets information about one or more networks in a failover cluster.</p>
+<p>Retrieves detailed network information from Windows Server Failover Cluster nodes, including IP addresses, subnet masks, and network roles. This information is essential for diagnosing connectivity issues with SQL Server Failover Cluster Instances (FCIs) and Availability Groups, especially when troubleshooting network-related failures or validating cluster network configuration. The function returns comprehensive network details like IPv4/IPv6 addresses, prefix lengths, and quorum settings that help DBAs understand how cluster networks are configured and identify potential communication problems between nodes.</p>
 <p>All Windows Server Failover Clustering (Wsfc) commands require local admin on each member node.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaWsfcNetwork
@@ -506,7 +506,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets network information from the failover cluster cluster01<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target cluster name. Can be a Network or the cluster name itself.<br></p>
+<p>Specifies the Windows Server Failover Cluster name or any cluster node name to retrieve network configuration from.<br />
+Use this to target a specific cluster when troubleshooting network connectivity issues with SQL Server FCIs or Availability Groups.<br />
+Accepts multiple cluster names for bulk network configuration analysis.<br></p>
 <table>
 <thead>
 <tr>

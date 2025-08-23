@@ -485,12 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Update-DbaMaintenanceSolution">Update-DbaMaintenanceSolution</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Download and Update SQL Server Maintenance Solution created by Ola Hallengren (<a href="https://ola.hallengren.com">https://ola.hallengren.com</a>)</p>
+<p>Updates existing Ola Hallengren Maintenance Solution stored procedures to the latest version</p>
 <h2 id="description">Description</h2>
-<p>This script will download and update the latest version of SQL Server Maintenance Solution created by Ola Hallengren.<br />
-Only the stored procedure will be updated. All tables and jobs will stay untouched.</p>
-<p>So this can only be used until a new version of the procedures need a new version of the tables or jobs.<br />
-In this case you have to completely reinstall the SQL Server Maintenance Solution with Install-DbaMaintenanceSolution.</p>
+<p>Updates the stored procedures for Ola Hallengren's Maintenance Solution on SQL Server instances where it's already installed. This function downloads the latest version from GitHub and replaces only the procedure code, leaving all existing tables, jobs, and configurations intact.</p>
+<p>Use this when you need to get bug fixes or improvements in the maintenance procedures without disrupting your existing backup, integrity check, and index optimization jobs. The function checks for existing procedures before attempting updates and only updates what's currently installed.</p>
+<p>This approach only works when the new procedure versions are compatible with your existing table structures and job configurations. If Ola releases changes that require schema modifications or new tables, you'll need to use Install-DbaMaintenanceSolution for a complete reinstallation instead.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Update-DbaMaintenanceSolution
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -573,7 +572,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where Ola Hallengren's solution is currently installed. Defaults to master.<br></p>
+<p>Specifies the database containing the existing Ola Hallengren maintenance solution stored procedures. Defaults to master.<br />
+Change this if you installed the maintenance solution in a different database like DBA or Admin.<br></p>
 <table>
 <thead>
 <tr>
@@ -601,8 +601,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="solution">-Solution</h5>
-<p>Specifies which portion of the Maintenance solution to update. Valid values are All (full solution), Backup, IntegrityCheck and IndexOptimize.<br />
-Defaults to All, but only existing procedures will be replaced.<br></p>
+<p>Controls which maintenance solution components to update. Valid options are All, Backup, IntegrityCheck, IndexOptimize, or CommandExecute.<br />
+Use this when you only want to update specific procedures instead of the entire solution. Only procedures that already exist will be updated.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,8 +634,8 @@ Defaults to All, but only existing procedures will be replaced.<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install Ola's solution from. This <em>should</em> be the zip file as distributed by the maintainers.<br />
-If this parameter is not specified, the latest version will be downloaded from <a href="https://github.com/olahallengren/sql-server-maintenance-solution">https://github.com/olahallengren/sql-server-maintenance-solution</a><br></p>
+<p>Path to a local zip file containing Ola Hallengren's maintenance solution instead of downloading from GitHub.<br />
+Use this in environments without internet access or when you need to deploy a specific version that differs from the latest release.<br></p>
 <table>
 <thead>
 <tr>
@@ -663,7 +663,8 @@ If this parameter is not specified, the latest version will be downloaded from <
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Ola's solution will be downloaded from the internet even if previously cached.<br></p>
+<p>Forces download of the latest maintenance solution from GitHub even if a cached version exists locally.<br />
+Use this when you want to ensure you're getting the absolute latest version or if the cached version is corrupted.<br></p>
 <table>
 <thead>
 <tr>

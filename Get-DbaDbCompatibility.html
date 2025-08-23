@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbCompatibility">Get-DbaDbCompatibility</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays the compatibility level for SQL Server databases.</p>
+<p>Retrieves database compatibility levels from SQL Server instances for upgrade planning and compliance auditing.</p>
 <h2 id="description">Description</h2>
-<p>Get the current database compatibility level for all databases on a server or list of databases passed in to the function.</p>
+<p>Returns the current compatibility level setting for each database, which determines what SQL Server language features and behaviors are available to that database. This is essential when planning SQL Server upgrades, as databases often retain older compatibility levels even after the instance is upgraded. The function helps identify which databases may need compatibility level updates to take advantage of newer SQL Server features or to maintain vendor application support requirements.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbCompatibility
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -569,7 +569,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database or databases to process. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to check for compatibility levels. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases rather than reviewing all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -597,7 +598,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of databases (such as returned by Get-DbaDatabase)<br></p>
+<p>Accepts database objects from the pipeline to check their compatibility levels directly.<br />
+Use this when you already have database objects from Get-DbaDatabase or other dbatools commands and want to avoid additional server queries.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbccUserOption">Get-DbaDbccUserOption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Execution of Database Console Command DBCC USEROPTIONS</p>
+<p>Retrieves current session-level SET options and connection settings from SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Returns the results of DBCC USEROPTIONS</p>
+<p>Executes DBCC USEROPTIONS against SQL Server instances to display current session settings including ANSI options, isolation levels, date formats, language, and timeout values. This is particularly useful when troubleshooting application connection issues or verifying that session-level defaults match across environments. You can filter results to specific options or retrieve all current settings to compare against expected configurations during deployments or performance investigations.</p>
 <p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-useroptions-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-useroptions-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -580,7 +580,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="option">-Option</h5>
-<p>Return only specific options. Returns all results if not specified.<br />
+<p>Filters results to show only specific session options instead of all DBCC USEROPTIONS output. Use this when troubleshooting specific connection settings like ANSI options, date formats, or isolation<br />
+levels without seeing the full list of 13 available options.<br />
 Accepts any values in set 'ansi_null_dflt_on', 'ansi_nulls', 'ansi_padding', 'ansi_warnings', 'arithabort', 'concat_null_yields_null', 'datefirst', 'dateformat', 'isolation level', 'language',<br />
 'lock_timeout', 'quoted_identifier', 'textsize'<br></p>
 <table>

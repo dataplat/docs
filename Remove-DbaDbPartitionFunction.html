@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbPartitionFunction">Remove-DbaDbPartitionFunction</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a database partition function(s) from each database and SQL Server instance.</p>
+<p>Drops partition functions from SQL Server databases to clean up unused partitioning schemes.</p>
 <h2 id="description">Description</h2>
-<p>Removes a database partition function(s), with supported piping from Get-DbaDbPartitionFunction.</p>
+<p>Removes partition functions from specified databases across one or more SQL Server instances. Partition functions define the value ranges used to split table data across multiple filegroups, and removing unused functions helps maintain a clean database schema. This command is commonly used during partition cleanup operations, schema migrations, or when decommissioning partitioned tables that no longer require their associated partition functions.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbPartitionFunction
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
@@ -523,7 +523,8 @@ Remove-DbaDbPartitionFunction
 <p>Using a pipeline this command gets all partition functions on SRV1, lets the user select those to remove and then removes the selected partition functions.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbPartitionFunction. <br></p>
+<p>Accepts partition function objects from Get-DbaDbPartitionFunction for targeted removal operations.<br />
+Use this with pipeline operations when you need to selectively remove specific partition functions based on criteria like name patterns, usage, or dependencies. <br></p>
 <table>
 <thead>
 <tr>
@@ -610,7 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies the database(s) from which to remove partition functions. Accepts wildcard patterns for matching multiple databases.<br />
+Use this to target specific databases when you need to clean up partitioning objects from particular databases rather than all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<p>Excludes the specified database(s) from partition function removal operations. Auto-populated with available databases from the target server.<br />
+Use this when you want to remove partition functions from most databases but need to preserve them in specific databases like production or critical systems.<br></p>
 <table>
 <thead>
 <tr>

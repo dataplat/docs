@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaExtendedProtection">Set-DbaExtendedProtection</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set the Extended Protection setting of the SQL Server network configuration.</p>
+<p>Configures Extended Protection for Authentication on SQL Server network protocols</p>
 <h2 id="description">Description</h2>
-<p>Set the Extended Protection setting of the SQL Server network configuration.</p>
-<p>This setting requires access to the Windows Server and not the SQL Server instance. The setting is found in SQL Server Configuration Manager under the properties of SQL Server Network Configuration &gt; Protocols for &quot;InstanceName&quot;.</p>
+<p>Modifies the Extended Protection registry setting for SQL Server network protocols to enhance connection security. Extended Protection helps prevent authentication relay attacks by requiring additional authentication at the network protocol level.</p>
+<p>This security feature is particularly useful in environments where you need to protect against man-in-the-middle attacks or when connecting over untrusted networks. When set to &quot;Required&quot;, clients must support Extended Protection to connect, which may require updating older applications or connection strings.</p>
+<p>The function modifies Windows registry values directly and requires administrative privileges on the target server. Changes take effect immediately for new connections without requiring a SQL Server restart. This setting requires access to the Windows Server and not the SQL Server instance. The setting is found in SQL Server Configuration Manager under the properties of SQL Server Network Configuration &gt; Protocols for &quot;InstanceName&quot;.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaExtendedProtection
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -581,7 +582,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="value">-Value</h5>
-<p>Posible values are Off, Allowed and Always.<br></p>
+<p>Specifies the Extended Protection level for SQL Server network protocols. Accepts &quot;Off&quot;, &quot;Allowed&quot;, or &quot;Required&quot; (or equivalent integers 0, 1, 2).<br />
+Use &quot;Off&quot; to disable Extended Protection, &quot;Allowed&quot; to accept both protected and unprotected connections, or &quot;Required&quot; to enforce Extended Protection for all client connections.<br />
+Defaults to &quot;Off&quot; when not specified. Setting to &quot;Required&quot; may prevent older applications from connecting unless they support Extended Protection authentication.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentJob">Get-DbaAgentJob</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Agent Job information for each instance(s) of SQL Server.</p>
+<p>Retrieves SQL Server Agent job details and execution status from one or more instances.</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaAgentJob returns connected SMO object for SQL Agent Job information for each instance(s) of SQL Server.</p>
+<p>Retrieves detailed information about SQL Server Agent jobs including their configuration, status, schedules, and execution history. This function connects to SQL instances and queries the msdb database to return job properties like owner, category, last run outcome, and current execution status. Use this to monitor job health across your environment, audit job configurations before deployments, or identify jobs associated with specific databases for maintenance planning.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentJob
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -600,7 +600,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The job(s) to process - this list is auto-populated from the server. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies specific SQL Agent job names to retrieve. Accepts an array of job names for targeting multiple jobs.<br />
+Use this when you need to check status or configuration of specific jobs instead of retrieving all jobs on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +629,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludejob">-ExcludeJob</h5>
-<p>The job(s) to exclude - this list is auto-populated from the server.<br></p>
+<p>Excludes specific SQL Agent job names from the results. Accepts an array of job names to skip.<br />
+Useful when you want most jobs except for specific ones like test jobs or jobs you're not responsible for managing.<br></p>
 <table>
 <thead>
 <tr>
@@ -656,7 +658,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Return jobs with T-SQL job steps associated with specific databases<br></p>
+<p>Filters jobs to only those containing T-SQL job steps that target specific databases.<br />
+Essential for database-specific maintenance planning or identifying which jobs will be affected by database operations like restores or migrations.<br></p>
 <table>
 <thead>
 <tr>
@@ -684,7 +687,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>Return jobs associated with specific category<br></p>
+<p>Filters jobs by their assigned category such as 'Database Maintenance', 'Report Server', or custom categories.<br />
+Helpful for organizing job management tasks by functional area or finding jobs related to specific SQL Server features.<br></p>
 <table>
 <thead>
 <tr>
@@ -712,7 +716,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludecategory">-ExcludeCategory</h5>
-<p>Categories to exclude - jobs associated with these categories will not be returned.<br></p>
+<p>Excludes jobs from specific categories from the results. Accepts an array of category names.<br />
+Use this to filter out jobs you don't manage, such as third-party application jobs or SSRS jobs when focusing on database maintenance.<br></p>
 <table>
 <thead>
 <tr>
@@ -740,7 +745,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedisabledjobs">-ExcludeDisabledJobs</h5>
-<p>Switch will exclude disabled jobs from the output.<br></p>
+<p>Excludes disabled SQL Agent jobs from the results, showing only enabled jobs.<br />
+Use this when focusing on active job monitoring or troubleshooting since disabled jobs won't execute.<br></p>
 <table>
 <thead>
 <tr>
@@ -768,7 +774,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includeexecution">-IncludeExecution</h5>
-<p>Include Execution details if the job is currently running<br></p>
+<p>Adds execution start date information for currently running jobs to the output.<br />
+Essential for troubleshooting long-running jobs or monitoring active job execution in real-time.<br></p>
 <table>
 <thead>
 <tr>
@@ -796,7 +803,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The type of job: MultiServer or Local. Defaults to both MultiServer and Local.<br></p>
+<p>Specifies whether to return Local jobs, MultiServer jobs, or both. Local jobs run only on the current instance while MultiServer jobs are managed centrally.<br />
+Use 'Local' when managing single-instance environments or 'MultiServer' when working with SQL Server multi-server administration setups.<br></p>
 <table>
 <thead>
 <tr>

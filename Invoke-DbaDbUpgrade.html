@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbUpgrade">Invoke-DbaDbUpgrade</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Take a database and upgrades it to compatibility of the SQL Instance its hosted on and updates the target recovery time to the new default of 60 seconds.</p>
+<p>Upgrades database compatibility level and performs post-upgrade maintenance tasks</p>
 <h2 id="description">Description</h2>
-<p>Updates compatibility level and target recovery time, then runs CHECKDB with data_purity, DBCC updateusage, sp_updatestats and finally sp_refreshview against all user views.</p>
+<p>Performs the essential steps needed after upgrading SQL Server or moving databases to a newer instance. Updates database compatibility level to match the hosting SQL Server version and sets target recovery time to 60 seconds for SQL Server 2016 and newer.</p>
+<p>Executes critical post-upgrade maintenance including DBCC CHECKDB with DATA_PURITY to detect data corruption, DBCC UPDATEUSAGE to correct page counts, sp_updatestats to refresh statistics, and sp_refreshview to update all user views with new metadata. This automates the manual checklist DBAs typically follow after SQL Server upgrades to ensure databases function optimally on the new version.</p>
 <p>Based on <a href="https://thomaslarock.com/2014/06/upgrading-to-sql-server-2014-a-dozen-things-to-check/">https://thomaslarock.com/2014/06/upgrading-to-sql-server-2014-a-dozen-things-to-check/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbUpgrade
@@ -593,8 +594,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is autopopulated from the server. If unspecified, you have to use -ExcludeDatabase to exclude some user databases or -AllUserDatabases to process all user<br />
-databases.<br></p>
+<p>Specifies which databases to upgrade and run post-upgrade maintenance tasks on. Accepts wildcards for pattern matching.<br />
+Use this when you need to target specific databases rather than processing all user databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -622,7 +623,8 @@ databases.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is autopopulated from the server<br></p>
+<p>Excludes specific databases from the upgrade process when using -AllUserDatabases. Accepts wildcards for pattern matching.<br />
+Useful for skipping system-critical databases or those with special maintenance windows during bulk upgrade operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -650,7 +652,8 @@ databases.<br></p>
 </tbody>
 </table>
 <h5 id="nocheckdb">-NoCheckDb</h5>
-<p>Skip checkdb<br></p>
+<p>Skips the DBCC CHECKDB with DATA_PURITY validation step during the upgrade process.<br />
+Use this when you've recently run integrity checks or need to reduce upgrade time, though this removes corruption detection from the process.<br></p>
 <table>
 <thead>
 <tr>
@@ -678,7 +681,8 @@ databases.<br></p>
 </tbody>
 </table>
 <h5 id="noupdateusage">-NoUpdateUsage</h5>
-<p>Skip usage update<br></p>
+<p>Skips the DBCC UPDATEUSAGE step that corrects inaccuracies in page and row count information.<br />
+Use this when you're confident space usage statistics are accurate or need to minimize upgrade time for very large databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -706,7 +710,8 @@ databases.<br></p>
 </tbody>
 </table>
 <h5 id="noupdatestats">-NoUpdateStats</h5>
-<p>Skip stats update<br></p>
+<p>Skips running sp_updatestats to refresh all user table statistics with current data distribution.<br />
+Use this when statistics were recently updated or when you have a separate statistics maintenance plan in place.<br></p>
 <table>
 <thead>
 <tr>
@@ -734,7 +739,8 @@ databases.<br></p>
 </tbody>
 </table>
 <h5 id="norefreshview">-NoRefreshView</h5>
-<p>Skip view update<br></p>
+<p>Skips executing sp_refreshview on all user views to update their metadata for the new SQL Server version.<br />
+Use this when you have no views or prefer to refresh view metadata manually to avoid potential view compilation issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -762,7 +768,8 @@ databases.<br></p>
 </tbody>
 </table>
 <h5 id="alluserdatabases">-AllUserDatabases</h5>
-<p>Run command against all user databases<br></p>
+<p>Processes all user databases on the instance, excluding system databases. Cannot be used with -Database parameter.<br />
+Use this for instance-wide upgrades after SQL Server version changes or when standardizing all databases to current compatibility levels.<br></p>
 <table>
 <thead>
 <tr>
@@ -790,7 +797,8 @@ databases.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Don't skip over databases that are already at the same level the instance is<br></p>
+<p>Runs all maintenance tasks even on databases already at the correct compatibility level and target recovery time.<br />
+Use this when you need to ensure CHECKDB, UPDATEUSAGE, statistics updates, and view refreshes run regardless of compatibility status.<br></p>
 <table>
 <thead>
 <tr>
@@ -818,7 +826,8 @@ databases.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of databases (such as returned by Get-DbaDatabase)<br></p>
+<p>Accepts database objects from the pipeline, typically from Get-DbaDatabase output. Cannot be used with -Database or -AllUserDatabases.<br />
+Use this for targeted upgrades based on complex filtering criteria or when integrating with other dbatools commands in a pipeline.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbFileGrowth">Get-DbaDbFileGrowth</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database growth and growth type</p>
+<p>Retrieves database file auto-growth settings and maximum size limits</p>
 <h2 id="description">Description</h2>
-<p>Gets database growth and growth type</p>
+<p>Retrieves auto-growth configuration for data and log files across SQL Server databases, including growth type (percentage or fixed MB), growth increment values, and maximum size limits. This function helps DBAs quickly identify databases with problematic growth settings like percentage-based growth on large files, unlimited growth configurations, or insufficient growth increments that could cause performance issues during auto-growth events.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbFileGrowth
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -573,7 +573,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The name of the target databases<br></p>
+<p>Specifies which databases to analyze for file growth settings. Accepts wildcards for pattern matching.<br />
+Use this when you need to check growth configuration for specific databases instead of all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -601,7 +602,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase via pipeline input.<br />
+Use this when you want to analyze file growth settings for databases already retrieved by another dbatools command.<br></p>
 <table>
 <thead>
 <tr>

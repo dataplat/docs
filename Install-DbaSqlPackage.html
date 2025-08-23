@@ -485,16 +485,17 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaSqlPackage">Install-DbaSqlPackage</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Downloads and installs SqlPackage on Windows, Linux, or macOS</p>
+<p>Installs Microsoft SqlPackage utility required for database deployment and DACPAC operations</p>
 <h2 id="description">Description</h2>
-<p>Downloads and installs SqlPackage so that you can use Import-DbaDacpac, Export-DbaDacpac, Publish-DbaDacpac and Get-DbaDacpac.</p>
+<p>Downloads and installs Microsoft SqlPackage utility, which is essential for database deployment automation and DACPAC operations. This prerequisite tool enables you to use Import-DbaDacpac, Export-DbaDacpac, Publish-DbaDacpac and Get-DbaDacpac for automated database schema deployments and CI/CD pipelines.</p>
+<p>SqlPackage is Microsoft's command-line utility for deploying database schema changes, extracting database schemas to DACPAC files, and publishing changes across environments. DBAs use this for automated deployments, maintaining consistent database schemas between development and production, and implementing database DevOps workflows.</p>
 <p>Cross-platform support:</p>
 <ul>
 <li>Windows: Supports both ZIP (portable) and MSI installation methods</li>
 <li>Linux/macOS: Supports ZIP installation method only</li>
 </ul>
-<p>By default, SqlPackage is installed as a portable ZIP file to the dbatools directory for CurrentUser scope.<br />
-For AllUsers (LocalMachine) scope on Windows, you can use the MSI installer which requires administrative privileges.</p>
+<p>By default, SqlPackage is installed as a portable ZIP file to the dbatools directory for CurrentUser scope, making it immediately available for database deployment tasks without requiring system-wide installation.<br />
+For AllUsers (LocalMachine) scope on Windows, you can use the MSI installer which requires administrative privileges and provides system-wide access.</p>
 <p>Writes to $script:PSModuleRoot\bin\sqlpackage by default for CurrentUser scope.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaSqlPackage
@@ -530,8 +531,9 @@ For AllUsers (LocalMachine) scope on Windows, you can use the MSI installer whic
 <p>Installs SqlPackage from the local ZIP file.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the path where SqlPackage will be extracted or installed.<br />
-If not specified, SqlPackage will be installed to the dbatools directory for CurrentUser scope.<br></p>
+<p>Specifies the custom directory path where SqlPackage will be extracted or installed.<br />
+Use this when you need SqlPackage in a specific location for CI/CD pipelines, shared tools directories, or portable deployments.<br />
+If not specified, defaults to the dbatools data directory for CurrentUser scope or system location for AllUsers scope.<br></p>
 <table>
 <thead>
 <tr>
@@ -559,11 +561,9 @@ If not specified, SqlPackage will be installed to the dbatools directory for Cur
 </tbody>
 </table>
 <h5 id="scope">-Scope</h5>
-<p>Specifies the installation scope. Valid values are:</p>
-<ul>
-<li>CurrentUser: Installs to the dbatools directory (default, uses ZIP)</li>
-<li>AllUsers: Installs to system location (Windows: Program Files with MSI/admin privileges; Unix: /usr/local/sqlpackage)<br></li>
-</ul>
+<p>Controls whether SqlPackage is installed for the current user only or system-wide for all users.<br />
+Use CurrentUser (default) for personal use or when you lack admin rights. Use AllUsers for shared servers where multiple DBAs need access to SqlPackage.<br />
+AllUsers requires administrative privileges on Windows and installs to Program Files via MSI or /usr/local/sqlpackage on Unix systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -595,11 +595,9 @@ If not specified, SqlPackage will be installed to the dbatools directory for Cur
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Specifies the installation type. Valid values are:</p>
-<ul>
-<li>Zip: Downloads and extracts the portable ZIP file (default, works on all platforms)</li>
-<li>Msi: Downloads and installs the MSI package (Windows only, AllUsers scope only, requires admin privileges)<br></li>
-</ul>
+<p>Determines the installation method for SqlPackage deployment.<br />
+Use Zip (default) for portable installations that don't require admin rights and work on all platforms. Use Msi for Windows system-wide installations with proper registry integration.<br />
+MSI installations require AllUsers scope and administrative privileges but provide better integration with Windows software management.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +629,9 @@ If not specified, SqlPackage will be installed to the dbatools directory for Cur
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install SqlPackage from. This file should be an msi or zip file.<br></p>
+<p>Specifies the path to a pre-downloaded SqlPackage installation file (MSI or ZIP format).<br />
+Use this in air-gapped environments or when you've already downloaded SqlPackage for offline installation.<br />
+Useful for corporate environments where direct internet downloads are restricted or when installing the same version across multiple servers.<br></p>
 <table>
 <thead>
 <tr>
@@ -659,7 +659,9 @@ If not specified, SqlPackage will be installed to the dbatools directory for Cur
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Sqlpackage will be downloaded from the internet even if previously cached.<br></p>
+<p>Forces re-download and reinstallation of SqlPackage even if it already exists in the target location.<br />
+Use this when you need to update to the latest version, fix a corrupted installation, or ensure you have a clean SqlPackage deployment.<br />
+Without this switch, the function will skip installation if SqlPackage is already detected in the destination path.<br></p>
 <table>
 <thead>
 <tr>

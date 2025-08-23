@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbUser">Get-DbaDbUser</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database users</p>
+<p>Retrieves database user accounts and their associated login mappings from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Gets database users</p>
+<p>Retrieves all database user accounts from one or more databases, showing their associated server logins, authentication types, and access states. This function is essential for security audits, user access reviews, and compliance reporting where you need to see who has database-level access and how their accounts are configured. You can filter results by specific users, logins, databases, or exclude system accounts to focus on custom user accounts that require regular review.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbUser
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -593,7 +593,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get users from specific database(s)<br></p>
+<p>Specifies which databases to query for user accounts. Accepts multiple database names and supports wildcards.<br />
+Use this when you need to audit users in specific databases rather than scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -621,7 +622,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server<br></p>
+<p>Specifies databases to skip when retrieving user accounts. Useful for excluding system databases or databases you don't manage.<br />
+Common practice is to exclude tempdb, model, or development databases when focusing on production user access reviews.<br></p>
 <table>
 <thead>
 <tr>
@@ -649,7 +651,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemuser">-ExcludeSystemUser</h5>
-<p>This switch removes all system objects from the user collection<br></p>
+<p>Excludes built-in system users like 'dbo', 'guest', 'INFORMATION_SCHEMA', and other system-created accounts.<br />
+Use this switch during security audits to focus only on custom user accounts that require regular access review and management.<br></p>
 <table>
 <thead>
 <tr>
@@ -677,7 +680,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="user">-User</h5>
-<p>Specifies the name(s) of the user(s) to return.<br></p>
+<p>Filters results to specific database user names. Accepts multiple user names for targeted queries.<br />
+Use this when investigating specific user accounts or verifying permissions for particular users during access reviews or troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -705,7 +709,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>Specifies the name(s) of the login(s) to filter the user(s) returned.<br></p>
+<p>Filters results to database users associated with specific server logins. Shows which databases a login has user accounts in.<br />
+Essential for understanding a login's database-level access across the instance, especially during user access audits or when removing departing employees.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaDbFileGroup">Set-DbaDbFileGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the options for a filegroup.</p>
+<p>Modifies filegroup properties including default designation, read-only status, and auto-grow behavior.</p>
 <h2 id="description">Description</h2>
-<p>Sets the options for a filegroup for the specified database(s).</p>
+<p>Modifies key properties of database filegroups including setting the default filegroup for new objects, changing read-only status for data archival, and configuring auto-grow behavior across all files in the filegroup. Use this when you need to restructure database storage layout, implement data archival strategies, or optimize file growth patterns. The function validates that filegroups exist and contain at least one file before applying changes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaDbFileGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -592,7 +592,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases contain the filegroups to modify. Required when using SqlInstance parameter.<br />
+Use this to target specific databases when working with filegroup configurations across multiple databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -620,7 +621,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filegroup">-FileGroup</h5>
-<p>The name(s) of the filegroup(s).<br></p>
+<p>Specifies the name(s) of the filegroup(s) to modify. The filegroup must exist and contain at least one file.<br />
+Use this to target specific filegroups when you need to change their default status, read-only setting, or auto-grow behavior.<br></p>
 <table>
 <thead>
 <tr>
@@ -648,7 +650,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="default">-Default</h5>
-<p>Specifies if the filegroup should be the default. Only one filegroup in a database can be specified as the default.<br></p>
+<p>Sets the filegroup as the default filegroup for new database objects like tables and indexes.<br />
+Use this when restructuring storage layout or when you want new objects created in a specific filegroup instead of PRIMARY.<br></p>
 <table>
 <thead>
 <tr>
@@ -676,7 +679,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="readonly">-ReadOnly</h5>
-<p>Specifies the filegroup should be readonly. To change the filegroup to readwrite use -ReadOnly:$false<br></p>
+<p>Controls the read-only status of the filegroup to prevent data modifications for archival or compliance purposes.<br />
+Set to $true for read-only (common for historical data), or $false to restore read-write access.<br></p>
 <table>
 <thead>
 <tr>
@@ -704,7 +708,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="autogrowallfiles">-AutoGrowAllFiles</h5>
-<p>Specifies the filegroup should auto grow all files if one file has met the threshold to auto grow. To revert this setting use -AutoGrowAllFiles:$false<br></p>
+<p>Enables proportional growth across all files in the filegroup when any file reaches its growth threshold.<br />
+Use this to maintain balanced file sizes and prevent hotspots, especially important for tempdb and high-transaction filegroups.<br></p>
 <table>
 <thead>
 <tr>
@@ -732,7 +737,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase and Get-DbaDbFileGroup.<br></p>
+<p>Accepts database or filegroup objects from Get-DbaDatabase or Get-DbaDbFileGroup via pipeline.<br />
+Use this for efficient processing when working with multiple databases or filegroups from previous commands.<br></p>
 <table>
 <thead>
 <tr>

@@ -481,14 +481,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbatoolsPath">Get-DbatoolsPath</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Access a configured path.</p>
+<p>Retrieves configured file paths used by dbatools functions for storing temporary files, logs, and output data.</p>
 <h2 id="description">Description</h2>
-<p>Access a configured path.<br />
-Paths can be configured using Set-DbatoolsPath or using the configuration system.<br />
-To register a path using the configuration system create a setting key named like this:<br />
-&quot;Path.Managed.<PathName>&quot;<br />
-For example the following setting points at the temp path:<br />
-&quot;Path.Managed.Temp&quot;</p>
+<p>Retrieves file paths that have been configured for use by dbatools functions. These paths define where the module stores temporary files, exports, logs, and other data during SQL Server operations. DBAs can customize these paths to control where dbatools writes files, ensuring compliance with organizational file storage policies and avoiding permission issues.</p>
+<p>Paths can be configured using Set-DbatoolsPath or directly through the configuration system by creating settings with the format &quot;Path.Managed.<PathName>&quot;. Common predefined paths include Temp, LocalAppData, AppData, and ProgramData, but custom paths can be defined for specific workflows like backup file staging or export destinations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbatoolsPath
     [-Name] &lt;String&gt;
@@ -504,7 +500,11 @@ For example the following setting points at the temp path:<br />
 <p>Returns the temp path.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="name">-Name</h5>
-<p>Name of the path to retrieve. <br></p>
+<p>Specifies the name of the configured path to retrieve. Common predefined paths include 'Temp' for temporary file operations, 'LocalAppData' for user-specific application data, 'AppData' for roaming<br />
+profile data, and 'ProgramData' for system-wide application data.<br />
+Use this when you need to determine where dbatools will write files for export operations, temporary processing, or when configuring custom paths for specific workflows like backup staging<br />
+directories or report output locations.<br />
+Custom path names can be defined using Set-DbatoolsPath and referenced here for consistent file management across your SQL Server administration scripts. <br></p>
 <table>
 <thead>
 <tr>

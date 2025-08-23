@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbStoredProcedure">Get-DbaDbStoredProcedure</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database Stored Procedures</p>
+<p>Retrieves stored procedures from SQL Server databases with detailed metadata and filtering options</p>
 <h2 id="description">Description</h2>
-<p>Gets database Stored Procedures</p>
+<p>Retrieves stored procedures from one or more SQL Server databases, returning detailed information including schema, creation dates, and implementation details. This function helps DBAs inventory stored procedures across instances, analyze database objects for documentation or migration planning, and locate specific procedures by name or schema. You can filter results by database, schema, or procedure name, and exclude system stored procedures to focus on user-defined objects. Supports multi-part naming conventions for precise targeting of specific procedures.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbStoredProcedure
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -605,7 +605,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get Stored Procedures from specific database(s)<br></p>
+<p>Specifies which databases to search for stored procedures. Accepts database names and supports wildcards.<br />
+Use this when you need to focus on specific databases instead of searching across all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +634,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server<br></p>
+<p>Excludes specified databases from the stored procedure search. Accepts database names and supports wildcards.<br />
+Useful when you want results from most databases but need to skip specific ones like development or staging databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -661,7 +663,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemsp">-ExcludeSystemSp</h5>
-<p>This switch removes all system objects from the Stored Procedure collection<br></p>
+<p>Excludes system stored procedures from results, showing only user-defined stored procedures.<br />
+Use this when you want to focus on custom business logic and avoid the hundreds of built-in SQL Server system procedures.<br></p>
 <table>
 <thead>
 <tr>
@@ -689,7 +692,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Name(s) of the stored procedure(s) to return. It is possible to specify two-part names such as schemaname.procname and three-part names such as dbname.schemaname.procname.<br></p>
+<p>Specifies exact stored procedure names to retrieve. Supports two-part names (schema.procedure) and three-part names (database.schema.procedure).<br />
+Use this when searching for specific procedures by name rather than browsing all procedures in a database or schema.<br></p>
 <table>
 <thead>
 <tr>
@@ -717,7 +721,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>Only return procedures from the specified schema.<br></p>
+<p>Filters results to stored procedures within the specified schema(s). Accepts multiple schema names.<br />
+Useful for organizing results by application area or when working with multi-tenant databases that separate objects by schema.<br></p>
 <table>
 <thead>
 <tr>
@@ -745,7 +750,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase for pipeline processing.<br />
+Use this to chain commands when you need to filter databases first, then retrieve stored procedures from the filtered results.<br></p>
 <table>
 <thead>
 <tr>

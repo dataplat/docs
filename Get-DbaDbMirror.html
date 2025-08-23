@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbMirror">Get-DbaDbMirror</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets properties of database mirrors and mirror witnesses.</p>
+<p>Retrieves database mirroring configuration and status for mirrored databases and their witness servers</p>
 <h2 id="description">Description</h2>
-<p>Gets properties of database mirrors and mirror witnesses.</p>
+<p>This command collects detailed mirroring information from databases configured with SQL Server Database Mirroring, including partner servers, witness servers, safety levels, and synchronization status. It queries both the database properties and the sys.database_mirroring_witnesses system view to provide complete mirroring topology details. Use this when you need to audit your mirroring setup, troubleshoot mirroring issues, or verify mirroring configuration across multiple instances without manually checking each database's mirroring properties in SSMS.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbMirror
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -574,7 +574,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The name of the target databases<br></p>
+<p>Specifies which databases to check for mirroring configuration. Accepts multiple database names and supports wildcards.<br />
+Use this when you want to examine mirroring status for specific databases instead of checking all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>

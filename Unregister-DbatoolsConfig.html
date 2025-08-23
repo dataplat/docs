@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Unregister-DbatoolsConfig">Unregister-DbatoolsConfig</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes registered configuration settings.</p>
+<p>Removes persisted dbatools configuration settings from registry and configuration files.</p>
 <h2 id="description">Description</h2>
-<p>Removes registered configuration settings.<br />
-This function can be used to remove settings that have been persisted for either user or computer.</p>
-<p>Note: This command has no effect on configuration settings currently in memory.</p>
+<p>Removes dbatools configuration settings that have been persisted to Windows registry or JSON configuration files. This lets you clean up module settings that were previously saved using Register-DbatoolsConfig, removing them from user profiles or system-wide storage locations.</p>
+<p>The function handles settings stored in multiple persistence scopes including user-specific registry entries, computer-wide registry settings, and JSON configuration files in various user and system directories. You can target specific settings by name or module, or remove entire configuration groups.</p>
+<p>Note: This command only removes persisted settings and has no effect on configuration values currently loaded in PowerShell memory.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Unregister-DbatoolsConfig
     [-ConfigurationItem &lt;Config[]&gt;]
@@ -522,7 +522,8 @@ Note: Changing system wide settings requires running the console with elevation.
 <p>Unregisters all configuration settings for the module MyModule.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="module">-Module</h5>
-<p>The module, amongst which settings should be unregistered. <br></p>
+<p>Specifies the module name to target for configuration removal.<br />
+Use this to remove all configuration settings belonging to a specific dbatools module or component. <br></p>
 <table>
 <thead>
 <tr>
@@ -551,7 +552,8 @@ Note: Changing system wide settings requires running the console with elevation.
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="configurationitem">-ConfigurationItem</h5>
-<p>A configuration object as returned by Get-DbatoolsConfig.<br></p>
+<p>Specifies configuration objects to remove from persistent storage, as returned by Get-DbatoolsConfig.<br />
+Use this when you want to unregister specific settings already identified through Get-DbatoolsConfig.<br></p>
 <table>
 <thead>
 <tr>
@@ -579,7 +581,8 @@ Note: Changing system wide settings requires running the console with elevation.
 </tbody>
 </table>
 <h5 id="fullname">-FullName</h5>
-<p>The full name of the configuration setting to purge.<br></p>
+<p>Specifies the complete name of the configuration setting to remove from persistent storage.<br />
+Use this when you know the exact setting name in the format 'module.category.setting'.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,8 +610,8 @@ Note: Changing system wide settings requires running the console with elevation.
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the setting to unregister.<br />
-For use together with the module parameter, to limit the amount of settings that are unregistered.<br></p>
+<p>Specifies the setting name pattern to match within the targeted module. Supports wildcards.<br />
+Use with the Module parameter to narrow down which settings to remove, defaults to '*' to match all settings.<br></p>
 <table>
 <thead>
 <tr>
@@ -636,9 +639,8 @@ For use together with the module parameter, to limit the amount of settings that
 </tbody>
 </table>
 <h5 id="scope">-Scope</h5>
-<p>Settings can be set to either default or enforced, for user or the entire computer.<br />
-By default, only DefaultSettings for the user are unregistered.<br />
-Use this parameter to choose the actual scope for the command to process.<br></p>
+<p>Specifies which configuration storage locations to target for removal: user settings, computer-wide settings, or file-based configurations.<br />
+Defaults to UserDefault which removes settings from the current user's registry. Use SystemDefault to remove computer-wide settings (requires elevation).<br></p>
 <table>
 <thead>
 <tr>

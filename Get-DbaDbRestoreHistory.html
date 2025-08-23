@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbRestoreHistory">Get-DbaDbRestoreHistory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns restore history details for databases on a SQL Server.</p>
+<p>Retrieves database restore history from MSDB for compliance reporting and recovery analysis.</p>
 <h2 id="description">Description</h2>
-<p>By default, this command will return the server name, database, username, restore type, date, from file and to files.</p>
+<p>Queries the MSDB database's restorehistory and backupset tables to retrieve detailed information about all database restore operations performed on a SQL Server instance. This function returns comprehensive restore details including who performed the restore, when it occurred, what type of restore was performed, and the source and destination file paths.</p>
+<p>Use this command to track restore activity for compliance auditing, troubleshoot database issues by determining when databases were last restored, or investigate unexpected changes by identifying recent restore operations. The function supports filtering by database name, restore type (Database, File, Filegroup, Differential, Log, Verifyonly, Revert), date ranges, and can return only the most recent restore for each database.</p>
+<p>This eliminates the need to manually query MSDB system tables or write complex SQL joins to gather restore history information across multiple instances.</p>
 <p>Thanks to <a href="https://www.mssqltips.com/SqlInstancetip/1724/when-was-the-last-time-your-sql-server-database-was-restored/">https://www.mssqltips.com/SqlInstancetip/1724/when-was-the-last-time-your-sql-server-database-was-restored/</a> for the query and <a href="https://sqlstudies.com/2016/07/27/when-was-this-database-restored/">https://sqlstudies.com/2016/07/27/when-was-this-database-restored/</a> for the idea.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbRestoreHistory
@@ -592,7 +594,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Filters restore history to specific database(s). Accepts wildcards for pattern matching.<br />
+Use this when investigating restore activity for particular databases rather than reviewing all restore operations on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -620,7 +623,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Excludes specific database(s) from the restore history results. Accepts wildcards for pattern matching.<br />
+Useful when you need to filter out system databases or other databases that aren't relevant to your investigation.<br></p>
 <table>
 <thead>
 <tr>
@@ -648,7 +652,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="since">-Since</h5>
-<p>Specifies a datetime to use as the starting point for searching backup history.<br></p>
+<p>Filters restore history to operations that occurred on or after the specified date and time.<br />
+Use this when investigating recent restore activity or limiting results to a specific time period for compliance reporting.<br></p>
 <table>
 <thead>
 <tr>
@@ -676,7 +681,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Deprecated.<br></p>
+<p>This parameter is deprecated and no longer used.<br />
+Previously controlled whether to return all available columns, but this functionality has been removed.<br></p>
 <table>
 <thead>
 <tr>
@@ -704,7 +710,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="last">-Last</h5>
-<p>If this switch is enabled, the last restore action performed on each database is returned.<br></p>
+<p>Returns only the most recent restore operation for each database, filtering out all earlier restore history.<br />
+Use this when you need to quickly identify when each database was last restored without seeing the full restore timeline.<br></p>
 <table>
 <thead>
 <tr>
@@ -732,8 +739,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="restoretype">-RestoreType</h5>
-<p>Return the history for a specific type of restore. The possible values are 'Database', 'File', 'Filegroup', 'Differential', 'Log', 'Verifyonly', 'Revert'. This is an optional parameter so there is no<br />
-default value.<br></p>
+<p>Filters results to a specific type of restore operation: Database, File, Filegroup, Differential, Log, Verifyonly, or Revert.<br />
+Use this when troubleshooting specific restore scenarios, such as finding all log restores during a point-in-time recovery or identifying differential restores for performance analysis.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbFileGroup">Get-DbaDbFileGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns a summary of information on filegroups</p>
+<p>Retrieves filegroup configuration and storage details from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Shows information around filegroups.</p>
+<p>Retrieves detailed filegroup information from one or more databases, including filegroup type, size, and configuration details. This function helps DBAs analyze database storage organization, plan storage capacity, and document database structure for compliance or migration planning. Returns filegroup objects that can be filtered by database or specific filegroup names, making it useful for targeted storage analysis and troubleshooting performance issues related to data distribution.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbFileGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -586,7 +586,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for filegroup information. Accepts wildcards and multiple database names.<br />
+Use this when you need to focus on specific databases instead of scanning all databases on the instance, which is helpful for large environments or targeted storage analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,7 +615,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Database object piped in from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase pipeline input for processing filegroups.<br />
+Use this when you want to chain database filtering with filegroup analysis, such as excluding system databases or filtering by database properties before examining storage structure.<br></p>
 <table>
 <thead>
 <tr>
@@ -642,7 +644,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filegroup">-FileGroup</h5>
-<p>Define a specific FileGroup  you would like to query.<br></p>
+<p>Filters results to specific filegroups by name, such as 'PRIMARY' or custom filegroups.<br />
+Use this when troubleshooting storage issues with particular filegroups or when you need to verify configuration of specific data placement strategies.<br></p>
 <table>
 <thead>
 <tr>

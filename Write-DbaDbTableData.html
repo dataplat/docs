@@ -486,9 +486,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Write-DbaDbTableData">Write-DbaDbTableData</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Writes data to a SQL Server table.</p>
+<p>Performs high-speed bulk inserts of data into SQL Server tables using SqlBulkCopy.</p>
 <h2 id="description">Description</h2>
-<p>Writes a .NET DataTable to a SQL Server table using SQL Bulk Copy.</p>
+<p>Imports data from various sources (CSV files, DataTables, DataSets, PowerShell objects) into SQL Server tables using SqlBulkCopy for optimal performance. This command handles the heavy lifting of data type conversion from PowerShell to SQL Server, automatically creates missing tables when needed, and provides fine-grained control over bulk copy operations. Commonly used for data migration, ETL processes, and importing large datasets where INSERT statements would be too slow.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Write-DbaDbTableData -SqlInstance &lt;DbaInstanceParameter&gt;
     [-SqlCredential &lt;PSCredential&gt;]
@@ -603,14 +603,9 @@ PS C:\&gt; $data | Write-DbaDbTableData -SqlInstance $server -Table 'tempdb.dbo.
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>This is the DataTable (or data row) to import to SQL Server.<br />
-It is very important to understand how different types of objects are beeing processed to get the best performance.<br />
-The best performance is achieved when using the DataSet data type. If the data to be imported are determined with Invoke-DbaQuery, the option &quot;-As DataSet&quot; should be used. Then all records are<br />
-imported in a single call of SqlBulkCopy.<br />
-Also the data type DataTable can lead to an import of all records in a single call of SqlBulkCopy. However, it should be noted that &quot;$varWithDataTable | Write-DbaDbTableData&quot; causes the pipeline to<br />
-convert the single object of type DataTable to a series of objects of type DataRow. These in turn lead to single calls of SqlBulkCopy per record, which negatively affects performance. This is also<br />
-the reason why the use of the DataRow data type is generally discouraged.<br />
-When using objects of type PSObject, these are first all combined into an internal object of type DataTable and then imported in a single call of SqlBulkCopy. <br></p>
+<p>Accepts various data formats including DataTable, DataSet, CSV files, or PowerShell objects for bulk insertion.<br />
+Use DataSet for optimal performance as all records import in a single SqlBulkCopy call. DataTable also performs well but avoid piping directly as it converts to slower DataRow processing.<br />
+PowerShell objects are automatically converted to DataTable format before import. <br></p>
 <table>
 <thead>
 <tr>
@@ -638,13 +633,9 @@ When using objects of type PSObject, these are first all combined into an intern
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>The table name to import data into. You can specify a one, two, or three part table name. If you specify a one or two part name, you must also use -Database.<br />
-If the table does not exist, you can use -AutoCreateTable to automatically create the table. The table will be created with sub-optimal data types such as nvarchar(max).<br />
-If the object has special characters please wrap them in square brackets [ ].<br />
-Using dbo.First.Table will try to import to a table named 'Table' on schema 'First' and database 'dbo'.<br />
-The correct way to import to a table named 'First.Table' on schema 'dbo' is by passing dbo.[First].[Table].<br />
-Any actual usage of the ] must be escaped by duplicating the ] character.<br />
-The correct way to import to a table Name] in schema Schema.Name is by passing [Schema.Name].[Name]]]. <br></p>
+<p>Specifies the destination table using one, two, or three-part naming (database.schema.table). Supports temp tables with # prefix.<br />
+Use square brackets for special characters: [Schema.Name].[Table]] for tables containing brackets. Three-part names override the Database parameter.<br />
+Combine with -AutoCreateTable to create missing tables, though manual table creation provides better data type control. <br></p>
 <table>
 <thead>
 <tr>
@@ -703,7 +694,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where the Input Object data will be written.<br></p>
+<p>Specifies the target database for the bulk insert operation. Required when using one or two-part table names.<br />
+Use this when you need to target a specific database different from the default connection database.<br></p>
 <table>
 <thead>
 <tr>
@@ -731,7 +723,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>Defaults to dbo if no schema is specified.<br></p>
+<p>Sets the schema for the destination table when not specified in the table name. Defaults to 'dbo'.<br />
+Use this when working with non-default schemas or when security policies require specific schema targeting.<br></p>
 <table>
 <thead>
 <tr>
@@ -759,7 +752,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="batchsize">-BatchSize</h5>
-<p>The BatchSize for the import defaults to 50000.<br></p>
+<p>Controls how many rows are sent to SQL Server in each batch operation. Defaults to 50,000 rows.<br />
+Lower values (5,000-10,000) work better for wide tables or limited memory, while higher values improve performance for narrow tables with sufficient resources.<br></p>
 <table>
 <thead>
 <tr>
@@ -787,7 +781,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="notifyafter">-NotifyAfter</h5>
-<p>Sets the option to show the notification after so many rows of import. Defaults to 5000 rows.<br></p>
+<p>Determines how frequently progress notifications appear during the import operation. Defaults to every 5,000 rows.<br />
+Set higher for less frequent updates on large imports, or lower for more granular progress tracking on smaller datasets.<br></p>
 <table>
 <thead>
 <tr>
@@ -815,7 +810,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="autocreatetable">-AutoCreateTable</h5>
-<p>If this switch is enabled, the table will be created if it does not already exist. The table will be created with sub-optimal data types such as nvarchar(max).<br></p>
+<p>Automatically creates the destination table when it doesn't exist, using data types inferred from the source data.<br />
+Convenient for quick imports but creates generic data types like NVARCHAR(MAX). For production use, manually create tables with appropriate data types and constraints.<br></p>
 <table>
 <thead>
 <tr>
@@ -843,7 +839,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="notablelock">-NoTableLock</h5>
-<p>If this switch is enabled, a table lock (TABLOCK) will not be placed on the destination table. By default, this operation will lock the destination table while running.<br></p>
+<p>Disables the default TABLOCK hint during bulk insert operations, allowing concurrent access to the destination table.<br />
+Use when importing to tables that need concurrent read access, though this may reduce import performance compared to the default exclusive lock.<br></p>
 <table>
 <thead>
 <tr>
@@ -871,8 +868,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="checkconstraints">-CheckConstraints</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to process check constraints will be enabled.<br />
-Per Microsoft &quot;Check constraints while data is being inserted. By default, constraints are not checked.&quot;<br></p>
+<p>Enforces check constraints during the bulk insert operation instead of the default behavior of bypassing them.<br />
+Use when data integrity validation is critical, though this reduces import performance. Constraints are normally checked after bulk operations complete.<br></p>
 <table>
 <thead>
 <tr>
@@ -900,8 +897,8 @@ Per Microsoft &quot;Check constraints while data is being inserted. By default, 
 </tbody>
 </table>
 <h5 id="firetriggers">-FireTriggers</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to fire insert triggers will be enabled.<br />
-Per Microsoft &quot;When specified, cause the server to fire the insert triggers for the rows being inserted into the Database.&quot;<br></p>
+<p>Executes INSERT triggers during the bulk copy operation instead of bypassing them for performance.<br />
+Essential when triggers maintain audit trails, calculated fields, or related table updates. Significantly impacts import speed but preserves all database logic.<br></p>
 <table>
 <thead>
 <tr>
@@ -929,8 +926,8 @@ Per Microsoft &quot;When specified, cause the server to fire the insert triggers
 </tbody>
 </table>
 <h5 id="keepidentity">-KeepIdentity</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to preserve source identity values will be enabled.<br />
-Per Microsoft &quot;Preserve source identity values. When not specified, identity values are assigned by the destination.&quot;<br></p>
+<p>Preserves identity column values from the source data instead of generating new sequential values.<br />
+Critical for maintaining referential integrity when importing related tables or restoring data with existing identity dependencies.<br></p>
 <table>
 <thead>
 <tr>
@@ -958,8 +955,8 @@ Per Microsoft &quot;Preserve source identity values. When not specified, identit
 </tbody>
 </table>
 <h5 id="keepnulls">-KeepNulls</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to preserve NULL values will be enabled.<br />
-Per Microsoft &quot;Preserve null values in the destination table regardless of the settings for default values. When not specified, null values are replaced by default values where applicable.&quot;<br></p>
+<p>Maintains NULL values from source data instead of replacing them with column default values.<br />
+Use when NULL has specific business meaning in your data or when you need to preserve exact source data representation including missing values.<br></p>
 <table>
 <thead>
 <tr>
@@ -987,7 +984,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="truncate">-Truncate</h5>
-<p>If this switch is enabled, the destination table will be truncated after prompting for confirmation.<br></p>
+<p>Removes all existing data from the destination table before performing the bulk insert operation.<br />
+Useful for refreshing tables with new data while maintaining table structure, indexes, and permissions. Always prompts for confirmation before execution.<br></p>
 <table>
 <thead>
 <tr>
@@ -1015,7 +1013,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="bulkcopytimeout">-BulkCopyTimeOut</h5>
-<p>Value in seconds for the BulkCopy operations timeout. The default is 30 seconds.<br></p>
+<p>Sets the maximum time in seconds to wait for the bulk copy operation to complete. Defaults to 5,000 seconds.<br />
+Increase for very large datasets or slow storage systems. Set to 0 for unlimited timeout when importing millions of rows.<br></p>
 <table>
 <thead>
 <tr>
@@ -1043,7 +1042,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="columnmap">-ColumnMap</h5>
-<p>By default, the bulk insert tries to automap columns. When it doesn't work as desired, this parameter will help. Check out the examples for more information.<br></p>
+<p SourceColumn="DestColumn">Defines custom mapping between source and destination columns using a hashtable when automatic column mapping fails.<br />
+Use when column names differ between source and target, or when you need to import only specific columns. Format: @.<br></p>
 <table>
 <thead>
 <tr>
@@ -1101,8 +1101,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="usedynamicstringlength">-UseDynamicStringLength</h5>
-<p>By default, all string columns will be NVARCHAR(MAX).<br />
-If this switch is enabled, all columns will get the length specified by the column's MaxLength property (if specified).<br></p>
+<p>Creates string columns with lengths based on source data MaxLength property instead of defaulting to NVARCHAR(MAX).<br />
+Improves storage efficiency and query performance when AutoCreateTable is used, but requires source data to provide accurate length information.<br></p>
 <table>
 <thead>
 <tr>

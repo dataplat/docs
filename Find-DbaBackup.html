@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaBackup">Find-DbaBackup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Finds SQL Server backups on disk.</p>
+<p>Searches filesystem directories for SQL Server backup files based on age and extension criteria.</p>
 <h2 id="description">Description</h2>
-<p>Provides all of the same functionality for finding SQL backups to remove from disk as a standard maintenance plan would.</p>
-<p>As an addition you have the ability to check the Archive bit on files before deletion. This will allow you to ensure backups have been archived to your archive location before removal.</p>
+<p>Recursively scans specified directories to locate SQL Server backup files (.bak, .trn, .dif, etc.) older than your defined retention period. Returns file objects that can be piped to removal commands or processed for cleanup workflows.</p>
+<p>This function replaces manual directory searches when managing backup retention policies. You can filter results to only include files that have been archived (using the Archive bit check) to ensure backups are safely stored elsewhere before cleanup.</p>
+<p>Commonly used in automated maintenance scripts to identify backup files ready for deletion based on your organization's retention requirements.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaBackup
     [-Path] &lt;String&gt;
@@ -517,7 +518,8 @@ checking the Archive bit.<br></p>
 <p>Searches for all bak files in \SQL2014\Backup\ and all subdirectories that are more than 24 hours old and deletes only those files with verbose message.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the name of the base level folder to search for backup files. <br></p>
+<p>Specifies the root directory path to recursively search for backup files. Searches all subdirectories within this path.<br />
+Use this to target specific backup locations like dedicated backup drives or network shares where your SQL Server backups are stored. <br></p>
 <table>
 <thead>
 <tr>
@@ -545,7 +547,8 @@ checking the Archive bit.<br></p>
 </tbody>
 </table>
 <h5 id="backupfileextension">-BackupFileExtension</h5>
-<p>Specifies the filename extension of the backup files you wish to find (typically 'bak', 'trn' or 'log'). Do not include the period. <br></p>
+<p>Specifies the file extension to search for without the period (e.g., 'bak', 'trn', 'dif', 'log').<br />
+Use 'bak' for full backups, 'trn' or 'log' for transaction log backups, or 'dif' for differential backups depending on which backup type you need to manage. <br></p>
 <table>
 <thead>
 <tr>
@@ -573,18 +576,9 @@ checking the Archive bit.<br></p>
 </tbody>
 </table>
 <h5 id="retentionperiod">-RetentionPeriod</h5>
-<p>Specifies the retention period for backup files. Correct format is ##U.</p>
-<h2 id="is-the-retention-value-and-must-be-an-integer-value">is the retention value and must be an integer value</h2>
-<p>U signifies the units where the valid units are:<br />
-h = hours<br />
-d = days<br />
-w = weeks<br />
-m = months<br />
-Formatting Examples:<br />
-'48h' = 48 hours<br />
-'7d' = 7 days<br />
-'4w' = 4 weeks<br />
-'1m' = 1 month <br></p>
+<p>Specifies how old backup files must be before they're included in results, using format like '7d' or '48h'.<br />
+Files older than this period will be returned, making this essential for backup cleanup operations based on your retention policy.<br />
+Valid units: h (hours), d (days), w (weeks), m (months). Examples: '48h', '7d', '4w', '1m'. <br></p>
 <table>
 <thead>
 <tr>
@@ -613,8 +607,8 @@ Formatting Examples:<br />
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="checkarchivebit">-CheckArchiveBit</h5>
-<p>If this switch is enabled, the filesystem Archive bit is checked.<br />
-If this bit is set (which translates to &quot;it has not been backed up to another location yet&quot;), the file won't be included.<br></p>
+<p>Only includes backup files that have been archived to another location (Archive bit is not set).<br />
+Use this safety feature to ensure backups have been copied to tape, cloud storage, or other backup systems before cleanup to prevent accidental data loss.<br></p>
 <table>
 <thead>
 <tr>

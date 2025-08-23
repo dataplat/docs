@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaServerRole">New-DbaServerRole</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Create new server-level roles.</p>
+<p>Creates custom server-level roles on SQL Server instances for role-based access control.</p>
 <h2 id="description">Description</h2>
-<p>The New-DbaServerRole create new roles on instance(s) of SQL Server.</p>
+<p>Creates new server-level roles on one or more SQL Server instances, allowing you to implement custom security frameworks without manually using SSMS or T-SQL. Server roles provide a way to group server-level permissions and assign them to logins, making it easier to manage security across your environment. The function checks for existing roles before creation and optionally allows you to specify a role owner other than the default dbo.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaServerRole
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -568,7 +568,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="serverrole">-ServerRole</h5>
-<p>Server-Level role to be created.<br></p>
+<p>Specifies the name of the custom server-level role to create. Accepts multiple role names to create several roles in one operation.<br />
+Use this when implementing role-based security models or when you need custom permission groups beyond the built-in server roles like sysadmin or dbcreator.<br></p>
 <table>
 <thead>
 <tr>
@@ -596,7 +597,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="owner">-Owner</h5>
-<p>The owner of the role. If not specified will assume the default dbo.<br></p>
+<p>Sets the login that will own the newly created server role. Defaults to 'dbo' if not specified.<br />
+Specify a different owner when you need the role managed by a specific login for security or organizational requirements.<br></p>
 <table>
 <thead>
 <tr>

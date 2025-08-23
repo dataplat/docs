@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaSqlWatch">Install-DbaSqlWatch</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Installs or updates SqlWatch.</p>
+<p>Installs or updates SqlWatch monitoring solution on SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Downloads, extracts and installs or updates SqlWatch.<br />
-<a href="https://sqlwatch.io/">https://sqlwatch.io/</a></p>
+<p>Deploys SqlWatch, an open-source SQL Server monitoring and performance collection tool, to one or more SQL Server instances. SqlWatch continuously gathers performance metrics, wait statistics, and system information into dedicated tables for historical analysis and alerting.</p>
+<p>This function automatically downloads the latest SqlWatch release from GitHub (or uses a local file), then deploys it to the specified database using DACPAC technology. SqlWatch creates its own database objects to collect and store performance data, making it useful for DBAs who need ongoing monitoring without third-party agents or expensive monitoring solutions.</p>
+<p>The installed SqlWatch system runs autonomously via SQL Agent jobs, collecting data at regular intervals. It includes a web dashboard for viewing metrics and can be customized for specific monitoring requirements.</p>
+<p>More information: <a href="https://sqlwatch.io/">https://sqlwatch.io/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaSqlWatch
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -583,7 +585,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database to install SqlWatch into. Defaults to SQLWATCH.<br></p>
+<p>Specifies the target database where SqlWatch objects will be created and performance data will be stored. Defaults to SQLWATCH.<br />
+Use this when you want to install SqlWatch into an existing database alongside other monitoring tools or when following specific naming conventions.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,8 +614,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install SqlWatch from. This <em>should</em> be the zipfile as distributed by the maintainers.<br />
-If this parameter is not specified, the latest version will be downloaded and installed from <a href="https://github.com/marcingminski/sqlwatch">https://github.com/marcingminski/sqlwatch</a><br></p>
+<p>Specifies the path to a local SqlWatch zip file to install instead of downloading from GitHub. Must be the official zip file distributed by SqlWatch maintainers.<br />
+Use this when you have offline environments, want to control the specific version being deployed, or need to install from a pre-approved software repository.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +643,8 @@ If this parameter is not specified, the latest version will be downloaded and in
 </tbody>
 </table>
 <h5 id="prerelease">-PreRelease</h5>
-<p>If specified, a pre-release (beta) will be downloaded rather than a stable release<br></p>
+<p>Downloads and installs the latest pre-release (beta) version of SqlWatch instead of the stable release branch.<br />
+Use this when you need to test new features or bug fixes that haven't been released yet, but avoid in production environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,7 +672,8 @@ If this parameter is not specified, the latest version will be downloaded and in
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, SqlWatch will be downloaded from the internet even if previously cached.<br></p>
+<p>Forces re-download of SqlWatch from GitHub even if a cached copy already exists locally in the dbatools data directory.<br />
+Use this when you need to ensure you have the absolute latest version or when troubleshooting installation issues with potentially corrupted cached files.<br></p>
 <table>
 <thead>
 <tr>

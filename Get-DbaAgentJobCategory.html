@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentJobCategory">Get-DbaAgentJobCategory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get-DbaAgentJobCategory retrieves the job categories.</p>
+<p>Retrieves SQL Server Agent job categories with usage counts and filtering options</p>
 <h2 id="description">Description</h2>
-<p>Get-DbaAgentJobCategory makes it possible to retrieve the job categories.</p>
+<p>Returns SQL Server Agent job categories from one or more instances, showing how many jobs are assigned to each category. Job categories help organize and group related SQL Agent jobs for easier management and reporting. This function retrieves both built-in categories (like Database Maintenance, Log Shipping) and custom categories created by DBAs. You can filter by specific category names or types (LocalJob for single-instance jobs, MultiServerJob for MSX/TSX environments, or None for uncategorized jobs) to focus on particular organizational schemes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentJobCategory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -574,7 +574,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>The name of the category to filter out. If no category is used all categories will be returned.<br></p>
+<p>Specifies one or more job category names to return, filtering the results to only those categories. Accepts multiple values and supports built-in categories like 'Database Maintenance', 'Log<br />
+Shipping', 'Replication', and custom categories created by DBAs.<br />
+Use this when you need to check specific categories for job assignments or verify custom organizational schemes. If not specified, all job categories are returned.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,8 +604,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="categorytype">-CategoryType</h5>
-<p>The type of category. This can be &quot;LocalJob&quot;, &quot;MultiServerJob&quot; or &quot;None&quot;.<br />
-If no category is used all categories types will be returned.<br></p>
+<p>Filters job categories by their deployment type: 'LocalJob' for single-instance jobs, 'MultiServerJob' for Master Server/Target Server (MSX/TSX) environments, or 'None' for uncategorized jobs.<br />
+Use this in MSX/TSX configurations to distinguish between locally managed jobs and multi-server jobs, or to identify jobs that haven't been assigned a proper category. If not specified, all category<br />
+types are returned.<br></p>
 <table>
 <thead>
 <tr>

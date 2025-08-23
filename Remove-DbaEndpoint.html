@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaEndpoint">Remove-DbaEndpoint</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes endpoints from a SQL Server instance.</p>
+<p>Removes SQL Server endpoints including DatabaseMirroring, ServiceBroker, Soap, and TSql types.</p>
 <h2 id="description">Description</h2>
-<p>Removes endpoints from a SQL Server instance.</p>
+<p>Removes SQL Server endpoints by executing DROP ENDPOINT commands against the target instance. This function handles DatabaseMirroring, ServiceBroker, Soap, and TSql endpoint types, making it useful for decommissioning unused services, cleaning up after failed deployments, or hardening SQL Server instances by removing unnecessary network entry points. You can target specific endpoints by name or remove all endpoints at once, with confirmation prompts to prevent accidental deletions.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaEndpoint
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -576,7 +576,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="endpoint">-Endpoint</h5>
-<p>Only remove specific endpoints.<br></p>
+<p>Specifies the names of specific endpoints to remove from the SQL Server instance. Accepts multiple endpoint names as an array.<br />
+Use this when you need to selectively remove particular endpoints like 'Mirroring' or custom service broker endpoints while leaving others intact.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +605,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="allendpoints">-AllEndpoints</h5>
-<p>Remove all endpoints on an instance.<br></p>
+<p>Removes all user-defined endpoints from the SQL Server instance, excluding system endpoints that cannot be dropped.<br />
+Use this for complete endpoint cleanup during decommissioning or when hardening an instance by removing all custom network entry points.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +634,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-Endpoint.<br></p>
+<p>Accepts endpoint objects from the pipeline, typically from Get-DbaEndpoint output. Allows for filtering endpoints before removal.<br />
+Use this when you need to apply complex filtering logic or when chaining endpoint discovery and removal operations together.<br></p>
 <table>
 <thead>
 <tr>

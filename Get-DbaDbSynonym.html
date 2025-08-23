@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbSynonym">Get-DbaDbSynonym</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get the synonym(s) for database(s) / instance(s) of SQL Server.</p>
+<p>Retrieves database synonyms and their target object mappings from SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaDbSynonym returns the synonym(s) for database(s) / instance(s) of SQL Server.</p>
+<p>Returns database synonym objects along with their target object details including base server, database, schema, and object name. Synonyms are database-scoped aliases that point to objects in the same or different databases, even on remote servers. This function helps DBAs document database dependencies, track cross-database references, and analyze synonym usage across their SQL Server environment. The output includes both the synonym definition and its underlying target, making it useful for impact analysis when planning database migrations or refactoring.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbSynonym
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -589,7 +589,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. This list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which database(s) to search for synonyms. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases instead of scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -617,7 +618,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude. This list is auto-populated from the server.<br></p>
+<p>Excludes specific database(s) from the synonym search. Accepts wildcards for pattern matching.<br />
+Useful for skipping system databases, test environments, or databases you know don't contain relevant synonyms.<br></p>
 <table>
 <thead>
 <tr>
@@ -645,7 +647,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The schema(s) to process. If unspecified, all schemas will be processed.<br></p>
+<p>Filters synonyms to only those in the specified schema(s). Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on synonyms within specific schemas, such as application-specific or departmental schemas.<br></p>
 <table>
 <thead>
 <tr>
@@ -673,7 +676,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeschema">-ExcludeSchema</h5>
-<p>The schema(s) to exclude.<br></p>
+<p>Excludes synonyms from specific schema(s) in the results. Accepts wildcards for pattern matching.<br />
+Helpful for filtering out system schemas or schemas that contain synonyms you're not interested in analyzing.<br></p>
 <table>
 <thead>
 <tr>
@@ -701,7 +705,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="synonym">-Synonym</h5>
-<p>The synonym(s) to process. If unspecified, all synonyms will be processed.<br></p>
+<p>Specifies exact synonym name(s) to retrieve. Accepts multiple synonym names as an array.<br />
+Use this when you need details about specific synonyms, such as checking where a particular synonym points or verifying its target object.<br></p>
 <table>
 <thead>
 <tr>
@@ -729,7 +734,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesynonym">-ExcludeSynonym</h5>
-<p>The synonym(s) to exclude.<br></p>
+<p>Excludes specific synonym(s) from the results by name. Accepts multiple synonym names as an array.<br />
+Useful when you want to see all synonyms except certain ones you already know about or don't need to review.<br></p>
 <table>
 <thead>
 <tr>
@@ -757,7 +763,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase via pipeline input. Allows you to chain database filtering commands.<br />
+Use this to process synonyms only from databases that meet specific criteria, such as specific compatibility levels or last backup dates.<br></p>
 <table>
 <thead>
 <tr>

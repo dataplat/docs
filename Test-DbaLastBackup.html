@@ -643,7 +643,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database backups to test. If -Database is not provided, all database backups will be tested.<br></p>
+<p>Specifies which databases to include in the backup test. Accepts wildcards for pattern matching.<br />
+Use this to limit testing to specific databases instead of all databases on the instance.<br />
+Helpful when you only want to verify critical databases or troubleshoot specific backup issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -671,7 +673,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Exclude specific Database backups to test.<br></p>
+<p>Specifies databases to exclude from backup testing. Accepts wildcards for pattern matching.<br />
+Use this to skip non-critical databases, large databases, or databases with known backup issues.<br />
+Commonly used to exclude system databases or databases that would take too long to test.<br></p>
 <table>
 <thead>
 <tr>
@@ -699,8 +703,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>The destination server to use to test the restore. By default, the Destination will be set to the source server<br />
-If a different Destination server is specified, you must ensure that the database backups are on a shared location<br></p>
+<p>Specifies the SQL Server instance where test restores will be performed. Defaults to the source server if not specified.<br />
+Use this when you want to test restores on a different server, such as isolating test operations from production workloads.<br />
+When using a different destination server, backup files must be accessible from that server via shared storage or use -CopyFile.<br></p>
 <table>
 <thead>
 <tr>
@@ -728,9 +733,9 @@ If a different Destination server is specified, you must ensure that the databas
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the destination SQL Server instance when different from the source.<br />
+Use this when the destination server requires different authentication than the source server.<br />
+Accepts PowerShell credentials (Get-Credential) and supports Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated.<br></p>
 <table>
 <thead>
 <tr>
@@ -758,7 +763,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="datadirectory">-DataDirectory</h5>
-<p>Specifies an alternative directory for mdfs, ndfs and so on. The command uses the SQL Server's default data directory for all restores.<br></p>
+<p>Specifies the directory where restored database data files (.mdf, .ndf) will be placed. Defaults to the SQL Server's default data directory.<br />
+Use this when you need to direct test restores to specific storage, such as faster drives for testing or isolated storage locations.<br />
+The SQL Server service account must have write permissions to this directory.<br></p>
 <table>
 <thead>
 <tr>
@@ -786,7 +793,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="logdirectory">-LogDirectory</h5>
-<p>Specifies an alternative directory for ldfs. The command uses the SQL Server's default log directory for all restores.<br></p>
+<p>Specifies the directory where restored database log files (.ldf) will be placed. Defaults to the SQL Server's default log directory.<br />
+Use this when you want to separate test database logs from production logs or direct them to faster storage for testing.<br />
+The SQL Server service account must have write permissions to this directory.<br></p>
 <table>
 <thead>
 <tr>
@@ -814,7 +823,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filestreamdirectory">-FileStreamDirectory</h5>
-<p>Specifies a directory for filestream data.<br></p>
+<p>Specifies the directory where FileStream data will be restored for databases that use FileStream storage.<br />
+Use this when testing databases with FileStream-enabled tables to ensure the FileStream data is properly restored and accessible.<br />
+Required only for databases that contain FileStream data and when not using -ReuseSourceFolderStructure.<br></p>
 <table>
 <thead>
 <tr>
@@ -842,7 +853,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="prefix">-Prefix</h5>
-<p>The database is restored as &quot;dbatools-testrestore-$databaseName&quot; by default. You can change dbatools-testrestore to whatever you would like using this parameter.<br></p>
+<p>Specifies the naming prefix for test databases. Defaults to 'dbatools-testrestore-' resulting in names like 'dbatools-testrestore-MyDB'.<br />
+Use this to customize test database naming for organizational standards or to avoid naming conflicts.<br />
+Choose prefixes that clearly identify databases as temporary test restores.<br></p>
 <table>
 <thead>
 <tr>
@@ -870,7 +883,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="verifyonly">-VerifyOnly</h5>
-<p>If this switch is enabled, VERIFYONLY will be performed. An actual restore will not be executed.<br></p>
+<p>Performs backup verification only without actually restoring the database. Uses T-SQL RESTORE VERIFYONLY command.<br />
+Use this for faster backup validation when you only need to confirm backup file integrity without full restore testing.<br />
+Skips DBCC CHECKDB since no actual database is restored.<br></p>
 <table>
 <thead>
 <tr>
@@ -898,7 +913,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="nocheck">-NoCheck</h5>
-<p>If this switch is enabled, DBCC CHECKDB will be skipped<br></p>
+<p>Skips the DBCC CHECKDB operation after restoring the test database.<br />
+Use this to speed up the testing process when you only need to verify that backups can be restored successfully.<br />
+Reduces testing time but provides less thorough validation of database integrity.<br></p>
 <table>
 <thead>
 <tr>
@@ -926,7 +943,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="nodrop">-NoDrop</h5>
-<p>If this switch is enabled, the newly-created test database will not be dropped.<br></p>
+<p>Prevents the test database from being automatically dropped after the test completes.<br />
+Use this when you need to examine the restored database manually or perform additional testing.<br />
+Remember to manually clean up test databases later to avoid storage issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -954,7 +973,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="copyfile">-CopyFile</h5>
-<p>If this switch is enabled, the backup file will be copied to the destination default backup location unless CopyPath is specified.<br></p>
+<p>Copies backup files to the destination server's default backup directory before attempting the restore.<br />
+Use this when backup files are not accessible from the destination server, such as local backups on different servers.<br />
+Cannot be used with Azure SQL Database backups.<br></p>
 <table>
 <thead>
 <tr>
@@ -982,8 +1003,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="copypath">-CopyPath</h5>
-<p>Specifies a path relative to the SQL Server to copy backups when CopyFile is specified. If not specified will use destination default backup location. If destination SQL Server is not local, admin<br />
-UNC paths will be utilized for the copy.<br></p>
+<p>Specifies the destination directory where backup files will be copied when using -CopyFile. Defaults to the destination server's default backup directory.<br />
+Use this to control where backup files are temporarily stored during testing, such as directing them to faster storage.<br />
+Path must be accessible to the destination SQL Server service account.<br></p>
 <table>
 <thead>
 <tr>
@@ -1011,7 +1033,9 @@ UNC paths will be utilized for the copy.<br></p>
 </tbody>
 </table>
 <h5 id="maxsize">-MaxSize</h5>
-<p>Max size in MB. Databases larger than this value will not be restored.<br></p>
+<p>Maximum database size in MB. Databases with backups larger than this value will be skipped.<br />
+Use this to avoid testing extremely large databases that would consume excessive time or storage resources.<br />
+Helps focus testing on databases that can be practically tested within available resources.<br></p>
 <table>
 <thead>
 <tr>
@@ -1039,8 +1063,9 @@ UNC paths will be utilized for the copy.<br></p>
 </tbody>
 </table>
 <h5 id="devicetype">-DeviceType</h5>
-<p>Specifies a filter for backup sets based on DeviceTypes. Valid options are 'Disk','Permanent Disk Device', 'Tape', 'Permanent Tape Device','Pipe','Permanent Pipe Device','Virtual Device', in addition<br />
-to custom integers for your own DeviceTypes.<br></p>
+<p>Filters backups by device type such as 'Disk', 'Tape', or 'Virtual Device'. Accepts multiple values.<br />
+Use this when you need to test only backups from specific backup devices or exclude certain device types.<br />
+Commonly used to test only disk backups or exclude tape backups that may be offline.<br></p>
 <table>
 <thead>
 <tr>
@@ -1068,7 +1093,9 @@ to custom integers for your own DeviceTypes.<br></p>
 </tbody>
 </table>
 <h5 id="includecopyonly">-IncludeCopyOnly</h5>
-<p>If this switch is enabled, copy only backups will be counted as a last backup.<br></p>
+<p>Includes copy-only backups when determining the most recent backup to test.<br />
+Use this when you want to test copy-only backups that were created for specific purposes like migrations or testing.<br />
+Copy-only backups don't break the backup chain but are normally excluded from 'last backup' queries.<br></p>
 <table>
 <thead>
 <tr>
@@ -1096,7 +1123,9 @@ to custom integers for your own DeviceTypes.<br></p>
 </tbody>
 </table>
 <h5 id="ignorelogbackup">-IgnoreLogBackup</h5>
-<p>If this switch is enabled, transaction log backups will be ignored. The restore will stop at the latest full or differential backup point.<br></p>
+<p>Skips transaction log backups during restore, stopping at the most recent full or differential backup.<br />
+Use this for faster testing when point-in-time recovery precision isn't critical for the test.<br />
+Results in some data loss compared to a complete restore chain but significantly reduces testing time.<br></p>
 <table>
 <thead>
 <tr>
@@ -1124,7 +1153,9 @@ to custom integers for your own DeviceTypes.<br></p>
 </tbody>
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
-<p>The name of the SQL Server credential on the destination instance that holds the key to the azure storage account.<br></p>
+<p>Specifies the name of the SQL Server credential that contains the key for accessing Azure Storage where backups are stored.<br />
+Use this when testing backups stored in Azure Blob Storage that require credential-based authentication.<br />
+The credential must already exist on the destination SQL Server instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -1152,7 +1183,9 @@ to custom integers for your own DeviceTypes.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase for pipeline processing.<br />
+Use this to test backups for databases selected through Get-DbaDatabase filtering options.<br />
+Enables complex database selection scenarios beyond simple name matching.<br></p>
 <table>
 <thead>
 <tr>
@@ -1180,8 +1213,9 @@ to custom integers for your own DeviceTypes.<br></p>
 </tbody>
 </table>
 <h5 id="maxtransfersize">-MaxTransferSize</h5>
-<p>Parameter to set the unit of transfer. Values must be a multiple of 64kb and a max of 4GB<br />
-Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
+<p>Sets the data transfer unit size for backup restoration. Must be a multiple of 64KB with a maximum of 4GB.<br />
+Use this to optimize restore performance by increasing buffer size, especially for large databases on high-speed storage.<br />
+Higher values can improve performance but consume more memory during the restore operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1209,9 +1243,9 @@ Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 </tbody>
 </table>
 <h5 id="buffercount">-BufferCount</h5>
-<p>Number of I/O buffers to use to perform the operation.<br />
-Reference: <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options">https://msdn.microsoft.com/en-us/library/ms178615.aspx#data-transfer-options</a><br />
-Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
+<p>Specifies the number of I/O buffers used during the restore operation.<br />
+Use this to optimize restore performance by controlling memory allocation for the restore process.<br />
+Higher values can improve performance but consume more memory, so balance against other server activity.<br></p>
 <table>
 <thead>
 <tr>
@@ -1239,7 +1273,9 @@ Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 </tbody>
 </table>
 <h5 id="ignorediffbackup">-IgnoreDiffBackup</h5>
-<p>If this switch is enabled, differential backups will be ignored. The restore will only use Full and Log backups, so will take longer to complete<br></p>
+<p>Skips differential backups during restore, using only full and transaction log backups.<br />
+Use this to test restore scenarios that don't rely on differential backups or when differential backups are suspected to be problematic.<br />
+May significantly increase restore time due to processing more transaction log backups.<br></p>
 <table>
 <thead>
 <tr>
@@ -1267,7 +1303,9 @@ Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 </tbody>
 </table>
 <h5 id="maxdop">-MaxDop</h5>
-<p>Allows you to pass in a MAXDOP setting to the DBCC CheckDB command to limit the number of parallel processes used.<br></p>
+<p>Sets the maximum degree of parallelism for the DBCC CHECKDB operation. Limits the number of parallel processes used.<br />
+Use this to control resource usage during integrity checks, especially on busy servers or when testing multiple databases.<br />
+Lower values reduce CPU usage but increase DBCC runtime.<br></p>
 <table>
 <thead>
 <tr>
@@ -1295,8 +1333,9 @@ Parameter is used as passthrough for Restore-DbaDatabase.<br></p>
 </tbody>
 </table>
 <h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
-<p>By default, databases will be migrated to the destination Sql Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure.<br />
-The same structure on the SOURCE will be kept exactly, so consider this if you're migrating between different versions and use part of Microsoft's default Sql structure (MSSql12.INSTANCE, etc)<br></p>
+<p>Maintains the original file paths and directory structure from the source database during restore.<br />
+Use this when testing databases that have specific file location requirements or when simulating exact production restore scenarios.<br />
+Ensures the destination server has the same directory structure as the source or the restore will fail.<br></p>
 <table>
 <thead>
 <tr>

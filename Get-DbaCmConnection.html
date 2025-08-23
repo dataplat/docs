@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaCmConnection">Get-DbaCmConnection</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Retrieves windows management connections from the cache</p>
+<p>Retrieves cached Windows Management and CIM connections used by dbatools commands</p>
 <h2 id="description">Description</h2>
-<p>Retrieves windows management connections from the cache</p>
+<p>Shows which remote computer connections are currently cached by dbatools for Windows Management and CIM operations. This helps you understand what authentication contexts are active and troubleshoot connection issues when running dbatools commands against remote SQL Server instances. Cached connections are automatically created when you run dbatools commands that need to access Windows services, registry, or file system on remote servers.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaCmConnection
     [[-ComputerName] &lt;String[]&gt;]
@@ -513,7 +513,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>List all cached connection that use a username containing &quot;charles&quot; as default or override credentials.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The computername to ComputerName for.<br></p>
+<p>Filters cached connections by computer name or server name. Supports wildcards for pattern matching.<br />
+Use this to check connections to specific SQL Server hosts or to search for connections matching a pattern like &quot;sql<em>prod</em>&quot;.<br></p>
 <table>
 <thead>
 <tr>
@@ -541,7 +542,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="username">-UserName</h5>
-<p>Username on credentials to look for. Will not find connections using the default windows credentials.<br></p>
+<p>Filters cached connections by the username in the stored credentials. Supports wildcards for pattern matching.<br />
+Use this to find connections using specific service accounts or domain credentials. Will not match connections using integrated Windows authentication.<br></p>
 <table>
 <thead>
 <tr>

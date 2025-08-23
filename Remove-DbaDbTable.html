@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbTable">Remove-DbaDbTable</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes database table(s) from each database and SQL Server instance.</p>
+<p>Drops tables from SQL Server databases with safety controls and detailed status reporting.</p>
 <h2 id="description">Description</h2>
-<p>Removes database table(s), with supported piping from Get-DbaDbTable.</p>
+<p>Permanently removes tables from one or more databases using SQL Server Management Objects (SMO). This function provides a safer alternative to manual DROP TABLE statements by including built-in confirmation prompts and comprehensive error handling. You can specify tables directly by name or pipe table objects from Get-DbaDbTable for more complex filtering scenarios. Each removal operation returns detailed status information including success confirmation and specific error messages when failures occur.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbTable
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -573,7 +573,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases to target for table removal operations. Accepts multiple database names as an array.<br />
+Use this when you need to remove tables from specific databases rather than searching across all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -601,7 +602,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>The name(s) of the table(s).<br></p>
+<p>Specifies the names of tables to remove from the target databases. Accepts multiple table names as an array.<br />
+Tables should be specified by name only (without schema prefix) as the function will find tables regardless of schema. Use Get-DbaDbTable for more complex filtering scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -629,7 +631,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbTable.<br></p>
+<p>Accepts table objects directly from Get-DbaDbTable for removal operations. This approach allows for advanced filtering and validation before deletion.<br />
+Use this parameter when you need to remove tables based on complex criteria like size, row count, or schema patterns that Get-DbaDbTable can filter.<br></p>
 <table>
 <thead>
 <tr>

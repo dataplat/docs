@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Measure-DbatoolsImport">Measure-DbatoolsImport</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays the import load times of the dbatools PowerShell module</p>
+<p>Measures and displays detailed timing metrics for dbatools module import operations</p>
 <h2 id="description">Description</h2>
-<p>Displays the import load times of the dbatools PowerShell module</p>
+<p>Returns performance data collected during the dbatools module import process, showing the duration of each import step. This function helps troubleshoot slow module loading times by identifying which components take the longest to initialize. The timing data includes loading the dbatools library, type aliases, internal commands, external commands, and other initialization steps. Only displays steps that took measurable time (greater than 00:00:00) to complete.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Measure-DbatoolsImport
     [&lt;CommonParameters&gt;]

@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Sync-DbaLoginPermission">Sync-DbaLoginPermission</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copies SQL login permissions from one server to another.</p>
+<p>Synchronizes login permissions and role memberships between SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Syncs only SQL Server login permissions, roles, etc. Does not add or drop logins. If a matching login does not exist on the destination, the login will be skipped. Credential removal is not currently supported for this operation.</p>
+<p>Syncs comprehensive login security settings from a source to destination SQL Server instance, ensuring logins have consistent permissions across environments. This function only modifies permissions for existing logins - it will not create or drop logins themselves.</p>
+<p>The sync process handles server roles (sysadmin, bulkadmin, etc.), server-level permissions (Connect SQL, View any database, etc.), SQL Agent job ownership, credential mappings, database user mappings, database roles (db_owner, db_datareader, etc.), and database-level permissions. This is particularly useful for maintaining consistent security configurations across development, staging, and production environments, or when rebuilding servers and needing to restore login permissions without recreating the logins.</p>
+<p>If a login exists on the source but not the destination, that login is skipped entirely. The function also protects against syncing permissions for system logins, host-based logins, and the currently connected login to prevent accidental lockouts.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Sync-DbaLoginPermission
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -519,7 +521,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Copies permissions ONLY for logins netnerds and realcajun.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>Specifies the source SQL Server instance containing the login permissions to copy from. The login permissions, server roles, database roles, and security settings will be read from this instance.<br />
+You must have sysadmin access and the server version must be SQL Server 2000 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -547,7 +550,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Specifies the destination SQL Server instance(s) where login permissions will be applied. Accepts multiple instances to sync permissions to several servers simultaneously.<br />
+The logins must already exist on the destination - this function only syncs permissions, not the logins themselves. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
 <table>
 <thead>
 <tr>
@@ -576,8 +580,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
+<p>Specifies alternative credentials to connect to the source SQL Server instance. Use this when your current Windows credentials don't have access to the source server.<br />
+Accepts PowerShell credentials created with Get-Credential. Supports Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -606,8 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
+<p>Specifies alternative credentials to connect to the destination SQL Server instance(s). Use this when your current Windows credentials don't have access to the destination server(s).<br />
+Accepts PowerShell credentials created with Get-Credential. Supports Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
@@ -636,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The login(s) to process. Options for this list are auto-populated from the server. If unspecified, all logins will be processed.<br></p>
+<p>Specifies which specific logins to sync permissions for. Use this when you only want to sync permissions for certain accounts rather than all logins.<br />
+Accepts multiple login names as an array. If not specified, permissions for all logins on the source server will be synced (excluding system and host-based logins).<br></p>
 <table>
 <thead>
 <tr>
@@ -664,7 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludelogin">-ExcludeLogin</h5>
-<p>The login(s) to exclude. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies login names to exclude from the permission sync process. Use this to skip specific accounts that shouldn't have their permissions synced.<br />
+Commonly used to exclude service accounts, shared accounts, or logins with environment-specific permissions that should remain different between servers.<br></p>
 <table>
 <thead>
 <tr>

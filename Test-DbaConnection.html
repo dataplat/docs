@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaConnection">Test-DbaConnection</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Tests the connection to a single instance.</p>
+<p>Validates SQL Server connectivity and gathers comprehensive connection diagnostics</p>
 <h2 id="description">Description</h2>
-<p>Tests the ability to connect to an SQL Server instance outputting information about the server and instance.</p>
+<p>Tests SQL Server instance connectivity while collecting detailed connection and environment information for troubleshooting. Returns authentication details, network configuration, TCP ports, and local PowerShell environment data. Essential for diagnosing connectivity issues before running automation scripts or validating access across multiple instances. Combines SQL connection testing with network diagnostics including ping status, PSRemoting access, and DNS resolution.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaConnection
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -583,8 +583,8 @@ Test connection to SQL2017 instance and collecting information on SQL Server usi
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Credential object used to connect to the Computer as a different user.<br />
-Utilized for gathering PSRemoting and TCPPort information.<br></p>
+<p>Windows credentials for computer-level access to the target server. Required for PSRemoting tests and TCP port detection when running under a different security context.<br />
+Use this when your current Windows account lacks administrative privileges on the target server or when testing across domain boundaries.<br></p>
 <table>
 <thead>
 <tr>
@@ -642,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="skippsremoting">-SkipPSRemoting</h5>
-<p>This switch will skip the test for PSRemoting.<br></p>
+<p>Skips the PowerShell remoting connectivity test during the connection assessment.<br />
+Use this when PSRemoting is disabled or blocked by firewall rules but you still want to test SQL connectivity and gather other diagnostic information.<br></p>
 <table>
 <thead>
 <tr>

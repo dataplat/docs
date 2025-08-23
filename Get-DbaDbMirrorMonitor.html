@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbMirrorMonitor">Get-DbaDbMirrorMonitor</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns status rows for a monitored database from the status table in which database mirroring monitoring history is stored and allows you to choose whether the procedure obtains the latest status beforehand.</p>
+<p>Retrieves database mirroring performance metrics and monitoring history from SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Returns status rows for a monitored database from the status table in which database mirroring monitoring history is stored and allows you to choose whether the procedure obtains the latest status beforehand.</p>
-<p>Basically executes sp_dbmmonitorresults.</p>
+<p>Retrieves detailed database mirroring performance statistics from the msdb monitoring tables, helping you track mirroring health and identify performance bottlenecks. This function executes sp_dbmmonitorresults to pull metrics like log generation rates, send rates, transaction delays, and recovery progress from both principal and mirror databases.</p>
+<p>Use this when troubleshooting mirroring performance issues, monitoring replication lag, or generating compliance reports for high availability configurations. You can optionally refresh the monitoring data before retrieval and filter results by time periods or row counts to focus on specific timeframes.</p>
+<p>The function returns comprehensive metrics including unsent log size, recovery rates, average delays, and witness status - all the key indicators DBAs need to assess mirroring health without manually querying system tables.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbMirrorMonitor
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -572,7 +573,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database.<br></p>
+<p>Specifies which mirrored databases to monitor. Only databases configured for mirroring will return results.<br />
+Use this to focus monitoring on specific databases instead of checking all mirrored databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +602,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase pipeline input.<br />
+Use this when you want to filter databases first before checking their mirroring status.<br></p>
 <table>
 <thead>
 <tr>
@@ -628,8 +631,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="update">-Update</h5>
-<p>Updates the status for the database by calling sp_dbmmonitorupdate before computing the results.<br />
-However, if the status table has been updated within the previous 15 seconds, or the user is not a member of the sysadmin fixed server role, the command runs without updating the status.<br></p>
+<p>Forces a refresh of mirroring statistics before retrieving results by calling sp_dbmmonitorupdate.<br />
+Use this when you need the most current metrics, though SQL Server automatically limits updates to once every 15 seconds and requires sysadmin privileges.<br></p>
 <table>
 <thead>
 <tr>
@@ -657,7 +660,8 @@ However, if the status table has been updated within the previous 15 seconds, or
 </tbody>
 </table>
 <h5 id="limitresults">-LimitResults</h5>
-<p>Limit results. Defaults to last two hours.<br />
+<p>Controls how much historical monitoring data to retrieve from the msdb.dbo.dbm_monitor_data table.<br />
+Choose shorter time periods for recent performance analysis or longer periods for trend analysis. Row-based options return the most recent entries regardless of time.<br />
 Options include:<br />
 LastRow<br />
 LastTwoHours<br />

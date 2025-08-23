@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaRandomizedDatasetTemplate">Get-DbaRandomizedDatasetTemplate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the dataset templates</p>
+<p>Retrieves JSON template files that define column structures for generating realistic test data</p>
 <h2 id="description">Description</h2>
-<p>Retrieves the templates from the default directory and if assigned custom directories</p>
+<p>Retrieves JSON template files from default and custom directories that define how to generate realistic test datasets. These templates specify column names, data types, and semantic subtypes (like Name.FirstName, Address.City) for creating structured sample data for development and testing environments. The default templates include PersonalData with common fields like names, addresses, and birthdates, and you can specify custom template directories to include organization-specific data patterns.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaRandomizedDatasetTemplate
     [[-Template] &lt;String[]&gt;]
@@ -511,8 +511,9 @@ Get the templates from thedefault directory and filter on PersonalData and Test<
 Get the templates from a custom directory<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="template">-Template</h5>
-<p>The name of the template to use.<br />
-It will go through the default templates to see if it's present<br></p>
+<p>Specifies which template files to retrieve by name (without the .json extension).<br />
+Use this to filter results when you only need specific templates like &quot;PersonalData&quot; or custom templates.<br />
+If not specified, all available templates from the specified paths are returned.<br></p>
 <table>
 <thead>
 <tr>
@@ -540,7 +541,9 @@ It will go through the default templates to see if it's present<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Path or paths that contain template files<br></p>
+<p>Specifies one or more directory paths containing custom JSON template files for data generation.<br />
+Use this when your organization has created custom templates beyond the default dbatools templates.<br />
+Templates from these paths are added to the default templates unless -ExcludeDefault is specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -568,7 +571,9 @@ It will go through the default templates to see if it's present<br></p>
 </tbody>
 </table>
 <h5 id="excludedefault">-ExcludeDefault</h5>
-<p>Exclude the default templates<br></p>
+<p>Excludes the built-in dbatools templates from the results.<br />
+Use this when you only want to work with custom templates from specified paths.<br />
+The default templates include common data patterns like PersonalData with names, addresses, and dates.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Backup-DbaServiceMasterKey">Backup-DbaServiceMasterKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Backs up specified service master key.</p>
+<p>Exports SQL Server Service Master Key to an encrypted backup file for disaster recovery.</p>
 <h2 id="description">Description</h2>
-<p>Backs up specified service master key.</p>
+<p>Creates an encrypted backup of the SQL Server Service Master Key (SMK), which sits at the top of SQL Server's encryption hierarchy. The Service Master Key encrypts Database Master Keys and certificates, making its backup critical for disaster recovery scenarios where encrypted databases need to be restored or moved between servers. The backup file is password-protected and can be stored in the default backup directory or a custom location. This prevents the need to manually recreate encryption keys and certificates when rebuilding servers or migrating encrypted databases.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Backup-DbaServiceMasterKey
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -579,7 +579,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="keycredential">-KeyCredential</h5>
-<p>Pass a credential object for the password<br></p>
+<p>Provides an alternative way to pass the encryption password using a PowerShell credential object.<br />
+Use this when you need to automate the backup process without interactive password prompts or when integrating with credential management systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +608,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="securepassword">-SecurePassword</h5>
-<p>The password to encrypt the exported key. This must be a SecureString.<br></p>
+<p>Sets the password used to encrypt the Service Master Key backup file. Must be provided as a SecureString object for security.<br />
+If not specified, you'll be prompted to enter the password interactively. Store this password securely as it's required to restore the Service Master Key during disaster recovery.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The directory to export the key. If no path is specified, the default backup directory for the instance will be used.<br></p>
+<p>Specifies the directory where the Service Master Key backup file will be created. Defaults to the SQL Server instance's configured backup directory if not specified.<br />
+Use this when you need to store the backup in a specific location for compliance, network storage, or organizational requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -663,8 +666,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filebasename">-FileBaseName</h5>
-<p>Override the default naming convention with a fixed name for the service master key, useful when exporting a single one.<br />
-&quot;.key&quot; will be appended to the filename.<br></p>
+<p>Overrides the default naming convention to use a custom base name for the backup file. The system automatically appends &quot;.key&quot; to whatever name you provide.<br />
+Use this when you need predictable file names for automation scripts or when following specific naming standards in your environment.<br></p>
 <table>
 <thead>
 <tr>

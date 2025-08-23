@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbRoleMember">Remove-DbaDbRoleMember</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a Database User from a database role for each instance(s) of SQL Server.</p>
+<p>Removes database users from database roles across SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>The Remove-DbaDbRoleMember removes users in a database from a database role or roles for each instance(s) of SQL Server.</p>
+<p>Removes database users from specified database roles, supporting both built-in roles (like db_datareader, db_datawriter, db_owner) and custom database roles. This function streamlines user access management when you need to revoke permissions during employee transitions, security reviews, or role-based access cleanup.</p>
+<p>Handles user removal from multiple roles simultaneously and works across multiple databases and instances. Particularly useful for bulk permission changes, compliance requirements, or when migrating users between different security models. The function validates that users are actually members of the specified roles before attempting removal, preventing unnecessary errors.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbRoleMember
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -529,7 +530,8 @@ PS C:\&gt; $roles | Remove-DbaDbRoleMember -User user1
 </code></pre>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="user">-User</h5>
-<p>The user(s) to remove from the role(s) specified. <br></p>
+<p>Specifies the database users to remove from the specified roles. Accepts multiple usernames for bulk operations.<br />
+The function validates that users are actually members of the roles before attempting removal, preventing errors when users aren't currently assigned to the roles. <br></p>
 <table>
 <thead>
 <tr>
@@ -616,7 +618,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. This list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to process for role member removal. Accepts wildcards for pattern matching.<br />
+When omitted, the function processes all databases on the instance. Use this to target specific databases during security reviews or when cleaning up permissions in development environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -644,7 +647,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="role">-Role</h5>
-<p>The role(s) to process.<br></p>
+<p>Specifies the database roles to remove users from, such as db_datareader, db_datawriter, db_owner, or custom roles.<br />
+Accepts multiple roles to remove users from several roles simultaneously. Required unless you're piping in DatabaseRole objects from Get-DbaDbRole.<br></p>
 <table>
 <thead>
 <tr>
@@ -672,7 +676,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaDbRole or Get-DbaDatabase<br></p>
+<p>Accepts piped input from Get-DbaDatabase, Get-DbaDbRole, or SQL Server instance objects.<br />
+Use this to chain commands together, such as piping specific databases or roles to process only those objects instead of specifying them via parameters.<br></p>
 <table>
 <thead>
 <tr>

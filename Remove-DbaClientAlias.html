@@ -485,9 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaClientAlias">Remove-DbaClientAlias</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a sql alias for the specified server - mimics cliconfg.exe</p>
+<p>Removes SQL Server client aliases from Windows registry on local or remote computers</p>
 <h2 id="description">Description</h2>
-<p>Removes a sql alias for the specified server by altering HKLM:\SOFTWARE\Microsoft\MSSQLServer\Client - mimics cliconfg.exe.</p>
+<p>Removes SQL Server client aliases from the Windows registry by deleting entries from both 32-bit and 64-bit registry locations.<br />
+Client aliases redirect SQL Server connection requests to different servers or instances, but outdated or incorrect aliases can cause connection failures.<br />
+This function provides a programmatic way to clean up these aliases when the deprecated cliconfg.exe utility is not available or when managing multiple computers remotely.<br />
+Commonly used when decommissioning servers, updating connection strings, or troubleshooting connectivity issues caused by stale alias configurations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaClientAlias
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -512,7 +515,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Removes all SQL Server client aliases on the local computer<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="alias">-Alias</h5>
-<p>The alias or array of aliases to be deleted <br></p>
+<p>Specifies the SQL Server client alias name(s) to remove from both 32-bit and 64-bit registry locations.<br />
+Use this to clean up outdated aliases that redirect connections to decommissioned servers or incorrect instances.<br />
+Accepts multiple alias names for bulk cleanup operations. <br></p>
 <table>
 <thead>
 <tr>
@@ -541,7 +546,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer where the alias will be created.<br></p>
+<p>Specifies the target computer(s) where SQL Server client aliases will be removed from the Windows registry.<br />
+Use this when you need to clean up aliases on remote workstations or application servers.<br />
+Defaults to the local computer if not specified.<br></p>
 <table>
 <thead>
 <tr>

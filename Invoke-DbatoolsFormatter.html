@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbatoolsFormatter">Invoke-DbatoolsFormatter</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Helps formatting function files to dbatools' standards</p>
+<p>Formats PowerShell function files to dbatools coding standards</p>
 <h2 id="description">Description</h2>
-<p>Uses PSSA's Invoke-Formatter to format the target files and saves it without the BOM.</p>
+<p>Applies consistent code formatting to PowerShell files using PSScriptAnalyzer's Invoke-Formatter with OTBS (One True Brace Style) settings. This function standardizes indentation, brace placement, and whitespace handling across all dbatools module files, ensuring code consistency for contributors and maintainers. Files are saved without BOM encoding and with proper line ending handling for cross-platform compatibility.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbatoolsFormatter
     [-Path] &lt;Object[]&gt;
@@ -504,7 +504,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Reformats C:\dbatools\public\Get-DbaDatabase.ps1 to dbatools' standards<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>The path to the ps1 file that needs to be formatted <br></p>
+<p>Specifies the path to one or more PowerShell (.ps1) files that need to be formatted to dbatools coding standards.<br />
+Accepts pipeline input from Get-ChildItem or other file listing commands for batch processing multiple files.<br />
+Use this when you want to apply consistent OTBS formatting, proper indentation, and standardized brace placement to your dbatools contributions. <br></p>
 <table>
 <thead>
 <tr>

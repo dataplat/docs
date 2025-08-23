@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Add-DbaReplArticle">Add-DbaReplArticle</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Add an article configuration to a publication in a database on the SQL Server instance(s).</p>
+<p>Adds a table or other database object as an article to an existing replication publication.</p>
 <h2 id="description">Description</h2>
-<p>Add an article configuration to a publication in a database on the SQL Server instance(s).</p>
+<p>Adds a database object (typically a table) as an article to an existing SQL Server replication publication. Articles define which tables and data get replicated to subscribers. This function supports both transactional and merge replication publications, allowing you to expand replication topology without using SQL Server Management Studio. You can apply horizontal filters to replicate only specific rows, and customize schema options like indexes and statistics that get created on subscriber databases.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Add-DbaReplArticle
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -565,7 +565,8 @@ includes default options.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The publication database to apply the article configuration to be replicated. <br></p>
+<p>Specifies the database containing both the publication and the object you want to add as an article.<br />
+This must be the same database where your replication publication was created. <br></p>
 <table>
 <thead>
 <tr>
@@ -593,7 +594,8 @@ includes default options.<br></p>
 </tbody>
 </table>
 <h5 id="publication">-Publication</h5>
-<p>The name of the publication. <br></p>
+<p>Specifies the name of the existing replication publication to add the article to.<br />
+The publication must already exist and be configured for the type of replication you want (transactional, snapshot, or merge). <br></p>
 <table>
 <thead>
 <tr>
@@ -621,7 +623,8 @@ includes default options.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the object to add as an article. <br></p>
+<p>Specifies the name of the database object (typically a table) to add as an article to the publication.<br />
+This object will be replicated to all subscribers of the publication. <br></p>
 <table>
 <thead>
 <tr>
@@ -680,8 +683,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>Schema where the article to be added is found.<br />
-Default is dbo.<br></p>
+<p>Specifies the schema name of the object you want to add as an article.<br />
+Use this when your table or object exists in a schema other than dbo. Defaults to dbo if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -709,8 +712,8 @@ Default is dbo.<br></p>
 </tbody>
 </table>
 <h5 id="filter">-Filter</h5>
-<p>Sets the where clause used to filter the article horizontally, e.g., DiscontinuedDate IS NULL<br />
-E.g. City = 'Seattle'<br></p>
+<p>Applies a WHERE clause condition to filter which rows get replicated from the article (horizontal filtering).<br />
+Use this when you only want to replicate specific rows, such as &quot;City = 'Seattle'&quot; or &quot;Status = 'Active'&quot;. Do not include the word 'WHERE' in your filter expression.<br></p>
 <table>
 <thead>
 <tr>
@@ -738,8 +741,8 @@ E.g. City = 'Seattle'<br></p>
 </tbody>
 </table>
 <h5 id="creationscriptoptions">-CreationScriptOptions</h5>
-<p>Options for the creation script.<br />
-Use New-DbaReplCreationScriptOptions to create this object.<br></p>
+<p>Controls which schema elements get created on the subscriber database when the article is replicated.<br />
+Use this to specify whether indexes, constraints, triggers, and other objects should be created on subscribers. Create this object using New-DbaReplCreationScriptOptions.<br></p>
 <table>
 <thead>
 <tr>

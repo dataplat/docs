@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Enable-DbaForceNetworkEncryption">Enable-DbaForceNetworkEncryption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Enables Force Encryption for a SQL Server instance.</p>
+<p>Configures SQL Server to require encrypted connections from all clients by modifying the Windows registry</p>
 <h2 id="description">Description</h2>
-<p>Enables Force Encryption for a SQL Server instance. Note that this requires access to the Windows Server, not the SQL instance itself.</p>
-<p>This setting is found in Configuration Manager.</p>
+<p>Modifies the Windows registry to force all client connections to SQL Server to use encryption, regardless of the client's encryption settings. This security feature ensures that all data transmitted between clients and SQL Server is encrypted, protecting against network eavesdropping and man-in-the-middle attacks.</p>
+<p>This function operates at the Windows level by updating the ForceEncryption registry value in the SQL Server network configuration, which normally requires manual changes through SQL Server Configuration Manager. The setting applies to all protocols and client connections to the specified instance.</p>
+<p>Important: You must restart the SQL Server service after running this command for the encryption requirement to take effect. Requires Windows administrator privileges on the target server, not SQL Server permissions.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Enable-DbaForceNetworkEncryption
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -544,7 +545,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Allows you to login to the computer (not SQL Server instance) using alternative Windows credentials<br></p>
+<p>Windows credentials for connecting to the remote computer to modify registry settings. Required when the current user lacks administrative access to the target server.<br />
+This is used for Windows authentication to the computer, not SQL Server login credentials.<br></p>
 <table>
 <thead>
 <tr>

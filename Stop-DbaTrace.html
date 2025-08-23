@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Stop-DbaTrace">Stop-DbaTrace</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Stops SQL Server traces</p>
+<p>Stops running SQL Server traces using sp_trace_setstatus</p>
 <h2 id="description">Description</h2>
-<p>Stops SQL Server traces</p>
+<p>Stops one or more running SQL Server traces by calling sp_trace_setstatus with a status of 0. This is useful when you need to stop traces created for troubleshooting, performance monitoring, or security auditing that are no longer needed or are impacting server performance. The function prevents you from accidentally stopping the default trace and provides guidance to use Set-DbaSpConfigure if you need to disable it. Works with trace IDs or accepts piped input from Get-DbaTrace for selective stopping of traces.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Stop-DbaTrace
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -575,7 +575,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="id">-Id</h5>
-<p>A list of trace ids<br></p>
+<p>Specifies the trace IDs to stop. Accepts one or more trace ID numbers as integers.<br />
+Use this when you need to stop specific traces instead of all running traces on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +604,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter for piping<br></p>
+<p>Accepts trace objects from the pipeline, typically from Get-DbaTrace output.<br />
+This enables selective stopping of traces by piping Get-DbaTrace results through filtering commands like Out-GridView or Where-Object.<br></p>
 <table>
 <thead>
 <tr>

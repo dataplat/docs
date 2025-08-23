@@ -485,9 +485,14 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaMaxMemory">Set-DbaMaxMemory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets SQL Server 'Max Server Memory' configuration setting to a new value then displays information this setting.</p>
+<p>Configures SQL Server 'Max Server Memory' setting using calculated recommendations or explicit values</p>
 <h2 id="description">Description</h2>
-<p>Sets SQL Server max memory then displays information relating to SQL Server Max Memory configuration settings.</p>
+<p>Modifies the SQL Server 'Max Server Memory' configuration to prevent SQL Server from consuming all available system memory.<br />
+This setting controls how much memory SQL Server can allocate for its buffer pool and other memory consumers, leaving<br />
+adequate memory for the operating system and other applications.</p>
+<p>When no explicit value is provided, the function calculates an optimal recommendation using a proven formula that reserves<br />
+memory based on total system RAM. This formula accounts for operating system overhead, scales appropriately for servers<br />
+with different memory configurations, and can handle multiple SQL Server instances on the same server.</p>
 <p>Inspired by Jonathan Kehayias's post about SQL Server Max memory (<a href="http://bit.ly/sqlmemcalc">http://bit.ly/sqlmemcalc</a>), this uses a formula to<br />
 determine the default optimum RAM to use, then sets the SQL max value to that number.</p>
 <p>Jonathan notes that the formula used provides a <em>general recommendation</em> that doesn't account for everything that may<br />
@@ -580,7 +585,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="max">-Max</h5>
-<p>Specifies the max megabytes (MB)<br></p>
+<p>Specifies the explicit maximum memory value in megabytes for SQL Server to use. When provided, this overrides the automatic memory recommendation calculation.<br />
+Use this when you need a specific memory allocation that differs from the calculated recommendation, such as reserving memory for other applications or setting conservative limits for shared servers.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,7 +614,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A InputObject returned by Test-DbaMaxMemory<br></p>
+<p>Accepts output objects from Test-DbaMaxMemory containing memory analysis results for one or more SQL Server instances.<br />
+Use this to pipeline memory testing results directly into memory configuration, allowing you to review recommendations before applying changes.<br></p>
 <table>
 <thead>
 <tr>

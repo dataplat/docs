@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Sync-DbaAvailabilityGroup">Sync-DbaAvailabilityGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Syncs dependent objects such as jobs, logins and custom errors for availability groups</p>
+<p>Synchronizes server-level objects from primary to secondary replicas in availability groups</p>
 <h2 id="description">Description</h2>
-<p>Syncs dependent objects for availability groups. Such objects include:</p>
+<p>Copies server-level objects from the primary replica to all secondary replicas in an availability group. Availability groups only synchronize databases, not the server-level dependencies that applications need to function properly after failover.</p>
+<p>This command ensures that logins, SQL Agent jobs, linked servers, and other critical server objects exist on all replicas so your applications work seamlessly regardless of which replica becomes primary. By default, it synchronizes these object types:</p>
 <p>SpConfigure<br />
 CustomErrors<br />
 Credentials<br />
@@ -503,8 +504,8 @@ AgentAlert<br />
 AgentProxy<br />
 AgentSchedule<br />
 AgentJob</p>
-<p>Note that any of these can be excluded. For specific object exclusions (such as a single job), using the underlying Copy-Dba* command will be required.</p>
-<p>This command does not filter by which logins are in use by the ag databases or which linked servers are used. All objects that are not excluded will be copied like hulk smash.</p>
+<p>Any of these object types can be excluded using the -Exclude parameter. For granular control over specific objects (like excluding individual jobs or logins), use the -ExcludeJob, -ExcludeLogin parameters or the underlying Copy-Dba* commands directly.</p>
+<p>The command copies ALL objects of each enabled type - it doesn't filter based on which objects are actually used by the availability group databases. Use the exclusion parameters to limit scope when needed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Sync-DbaAvailabilityGroup
     [[-Primary] &lt;DbaInstanceParameter&gt;]
@@ -550,7 +551,8 @@ Copies all logins except for login1 and login2 and only syncs job1 and job2<br><
 <p>Shows what would happen if the command were to run but doesn't actually perform the action.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="primary">-Primary</h5>
-<p>The primary SQL Server instance. Server version must be SQL Server version 2012 or higher.<br></p>
+<p>The primary replica SQL Server instance for the availability group. This is the source server from which all server-level objects will be copied.<br />
+Required when not using InputObject parameter. Server version must be SQL Server 2012 or higher.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,7 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="secondary">-Secondary</h5>
-<p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.<br></p>
+<p>The secondary replica SQL Server instances where server-level objects will be copied to. Can specify multiple instances.<br />
+If not specified, the function will automatically discover all secondary replicas in the availability group. Server version must be SQL Server 2012 or higher.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>The name of the Availability Group.<br></p>
+<p>The name of the specific availability group to synchronize server objects for.<br />
+When specified, the function will identify all replicas in this AG and sync objects from primary to all secondaries.<br></p>
 <table>
 <thead>
 <tr>
@@ -694,22 +698,10 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="exclude">-Exclude</h5>
-<p>Exclude one or more objects to export<br />
-SpConfigure<br />
-CustomErrors<br />
-Credentials<br />
-DatabaseMail<br />
-LinkedServers<br />
-Logins<br />
-LoginPermissions<br />
-SystemTriggers<br />
-DatabaseOwner<br />
-AgentCategory<br />
-AgentOperator<br />
-AgentAlert<br />
-AgentProxy<br />
-AgentSchedule<br />
-AgentJob<br></p>
+<p>Excludes specific object types from being synchronized to avoid conflicts or reduce sync time.<br />
+Useful when you need to manually manage certain objects or when some object types cause issues in your environment. Valid values:<br />
+SpConfigure, CustomErrors, Credentials, DatabaseMail, LinkedServers, Logins, LoginPermissions,<br />
+SystemTriggers, DatabaseOwner, AgentCategory, AgentOperator, AgentAlert, AgentProxy, AgentSchedule, AgentJob<br></p>
 <table>
 <thead>
 <tr>
@@ -741,7 +733,8 @@ AgentJob<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>Specific logins to sync. If unspecified, all logins will be processed.<br></p>
+<p>Specifies which login accounts to synchronize to secondary replicas. Accepts an array of login names.<br />
+Use this when you only need to sync specific service accounts or application logins rather than all logins on the server.<br></p>
 <table>
 <thead>
 <tr>
@@ -769,7 +762,8 @@ AgentJob<br></p>
 </tbody>
 </table>
 <h5 id="excludelogin">-ExcludeLogin</h5>
-<p>Specific logins to exclude when performing the sync. If unspecified, all logins will be processed.<br></p>
+<p>Specifies login accounts to skip during synchronization. Accepts an array of login names.<br />
+Commonly used to exclude system accounts, sa, or logins that should remain unique per replica for monitoring or maintenance purposes.<br></p>
 <table>
 <thead>
 <tr>
@@ -797,7 +791,8 @@ AgentJob<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>Specific jobs to sync. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies which SQL Agent jobs to synchronize to secondary replicas. Accepts an array of job names.<br />
+Use this when you only need to sync critical jobs like backup jobs or maintenance tasks rather than all jobs on the server.<br></p>
 <table>
 <thead>
 <tr>
@@ -825,7 +820,8 @@ AgentJob<br></p>
 </tbody>
 </table>
 <h5 id="excludejob">-ExcludeJob</h5>
-<p>Specific jobs to exclude when performing the sync. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies SQL Agent jobs to skip during synchronization. Accepts an array of job names.<br />
+Commonly used to exclude replica-specific jobs like log shipping, local backups, or jobs that should only run on the primary replica.<br></p>
 <table>
 <thead>
 <tr>
@@ -853,7 +849,8 @@ AgentJob<br></p>
 </tbody>
 </table>
 <h5 id="disablejobondestination">-DisableJobOnDestination</h5>
-<p>If this switch is enabled, the newly migrated job will be disabled on the destination server.<br></p>
+<p>Disables all synchronized jobs on secondary replicas after copying them from the primary.<br />
+Use this when jobs should only run on the primary replica or when you need to manually control which jobs run on each replica after failover.<br></p>
 <table>
 <thead>
 <tr>
@@ -881,7 +878,8 @@ AgentJob<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAvailabilityGroup.<br></p>
+<p>Accepts availability group objects from Get-DbaAvailabilityGroup for pipeline processing.<br />
+Use this to sync multiple availability groups at once or to process specific AGs returned by filtering commands.<br></p>
 <table>
 <thead>
 <tr>
@@ -909,7 +907,8 @@ AgentJob<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the objects will dropped and recreated on Destination.<br></p>
+<p>Drops and recreates existing objects on secondary replicas instead of skipping them.<br />
+Use this when you need to update objects that already exist on secondaries or when objects have configuration differences that need to be synchronized.<br></p>
 <table>
 <thead>
 <tr>

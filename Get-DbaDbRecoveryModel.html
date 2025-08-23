@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbRecoveryModel">Get-DbaDbRecoveryModel</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays the Recovery Model.</p>
+<p>Retrieves database recovery model settings and backup history information from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Displays the Recovery Model for all databases. This is the default, you can filter using -Database, -ExcludeDatabase, -RecoveryModel</p>
+<p>Retrieves recovery model configuration for databases along with their last backup dates, which is essential for backup strategy planning and compliance auditing. DBAs use this to identify databases with inappropriate recovery models for their business requirements, troubleshoot transaction log growth issues, and ensure backup policies align with recovery model settings. The function shows whether databases are accessible and when their last full, differential, and transaction log backups occurred, making it valuable for both routine maintenance and disaster recovery planning.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbRecoveryModel
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -571,7 +571,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="recoverymodel">-RecoveryModel</h5>
-<p>Filters the output based on Recovery Model. Valid options are Simple, Full and BulkLogged<br />
+<p>Filters results to show only databases using the specified recovery model (Simple, Full, or BulkLogged).<br />
+Use this to identify databases with incorrect recovery models for your backup strategy or to audit compliance with recovery model policies.<br />
 Details about the recovery models can be found here:<br />
 <a href="https://docs.microsoft.com/en-us/sql/relational-databases/backup-restore/recovery-models-sql-server">https://docs.microsoft.com/en-us/sql/relational-databases/backup-restore/recovery-models-sql-server</a><br></p>
 <table>
@@ -605,7 +606,8 @@ Details about the recovery models can be found here:<br />
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. if unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to retrieve recovery model information for. Accepts database names, wildcards, or arrays.<br />
+Use this when you need to check recovery models for specific databases rather than all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +635,8 @@ Details about the recovery models can be found here:<br />
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific databases from the recovery model check. Accepts database names, wildcards, or arrays.<br />
+Useful for skipping system databases or databases you don't manage when reviewing recovery model compliance.<br></p>
 <table>
 <thead>
 <tr>

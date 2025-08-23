@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Select-DbaBackupInformation">Select-DbaBackupInformation</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Select a subset of backups from a dbatools backup history object</p>
+<p>Filters backup history to identify the minimum backup chain needed for point-in-time database recovery</p>
 <h2 id="description">Description</h2>
-<p>Select-DbaBackupInformation filters out a subset of backups from the dbatools backup history object with parameters supplied.</p>
+<p>Analyzes backup history objects and determines the exact sequence of backups required to restore a database to a specific point in time. This function handles the complex LSN logic to identify which full, differential, and log backups are needed, eliminating the guesswork of manual restore planning. It supports continuing interrupted restores, filtering by database or server names, and accommodating different restore strategies by optionally ignoring differential or log backups. Perfect for automating disaster recovery procedures or when you need to restore to a precise moment without restoring unnecessary backup files.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Select-DbaBackupInformation
     [-BackupHistory] &lt;Object&gt;
@@ -527,7 +527,8 @@ PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTim
 <p>Returns all the backups in \server1\backups$ to restore to 1 hour ago using only Full and Log backups.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="backuphistory">-BackupHistory</h5>
-<p>A dbatools.BackupHistory object containing backup history records <br></p>
+<p>Backup history records from Get-DbaBackupInformation containing backup metadata and file paths.<br />
+This function analyzes these records to determine the minimum backup chain needed for point-in-time recovery. <br></p>
 <table>
 <thead>
 <tr>
@@ -556,7 +557,8 @@ PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTim
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="restoretime">-RestoreTime</h5>
-<p>The point in time you want to restore to<br></p>
+<p>The specific point in time to restore the database to. Defaults to one month in the future if not specified.<br />
+Use this when you need to recover to a specific moment, such as just before a data corruption incident occurred.<br></p>
 <table>
 <thead>
 <tr>
@@ -584,7 +586,8 @@ PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTim
 </tbody>
 </table>
 <h5 id="ignorelogs">-IgnoreLogs</h5>
-<p>This switch will cause Log Backups to be ignored. So will restore to the last Full or Diff backup only<br></p>
+<p>Excludes transaction log backups from the restore chain, limiting recovery to the most recent full or differential backup.<br />
+Use this when you don't need point-in-time recovery or when log backups are unavailable or corrupted.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +615,8 @@ PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTim
 </tbody>
 </table>
 <h5 id="ignorediffs">-IgnoreDiffs</h5>
-<p>This switch will cause Differential backups to be ignored. Unless IgnoreLogs is specified, restore to point in time will still occur, just using all available log backups<br></p>
+<p>Excludes differential backups from the restore chain, using only full backups and transaction logs.<br />
+Use this when differential backups are corrupted or when you want to test a restore strategy using only full and log backups.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +644,8 @@ PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTim
 </tbody>
 </table>
 <h5 id="databasename">-DatabaseName</h5>
-<p>A string array of Database Names that you want to filter to<br></p>
+<p>Filters results to only include backup chains for the specified database names. Accepts wildcards.<br />
+Use this when you only need to restore specific databases from a backup set containing multiple databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,7 +673,8 @@ PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTim
 </tbody>
 </table>
 <h5 id="servername">-ServerName</h5>
-<p>A string array of Server Names that you want to filter<br></p>
+<p>Filters results to only include backups from the specified server or availability group names.<br />
+For Availability Groups, this filters by the AG name rather than individual replica server names.<br></p>
 <table>
 <thead>
 <tr>
@@ -696,8 +702,8 @@ PS C:\&gt; $FilteredBackups = $Backups | Select-DbaBackupInformation -RestoreTim
 </tbody>
 </table>
 <h5 id="continuepoints">-ContinuePoints</h5>
-<p>The Output of Get-RestoreContinuableDatabase while provides 'Database',redo_start_lsn,'FirstRecoveryForkID' values. Used to filter backups to continue a restore on a database<br />
-Sets IgnoreDiffs, and also filters databases to only those within the ContinuePoints object, or the ContinuePoints object AND DatabaseName if both specified<br></p>
+<p>Output from Get-RestoreContinuableDatabase containing LSN and fork information for resuming interrupted restores.<br />
+Use this when continuing a partial restore operation on a database that's already in a restoring state.<br></p>
 <table>
 <thead>
 <tr>
@@ -725,8 +731,8 @@ Sets IgnoreDiffs, and also filters databases to only those within the ContinuePo
 </tbody>
 </table>
 <h5 id="lastrestoretype">-LastRestoreType</h5>
-<p>The Output of Get-DbaDbRestoreHistory -last<br />
-This is used to check the last type of backup to a database to see if a differential backup can be restored<br></p>
+<p>Output from Get-DbaDbRestoreHistory -Last showing the most recent restore operation performed on the target database.<br />
+This determines whether differential backups can be applied based on the last restore type performed.<br></p>
 <table>
 <thead>
 <tr>

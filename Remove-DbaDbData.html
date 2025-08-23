@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbData">Remove-DbaDbData</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes all the data from a database(s) for each instance(s) of SQL Server.</p>
+<p>Truncates all user tables in specified databases to remove all data while preserving table structure.</p>
 <h2 id="description">Description</h2>
-<p>This command truncates all the tables in a database. If there are foreign keys and/or views they are scripted out, then dropped before the truncate, and recreated after.</p>
+<p>Removes all data from user tables by truncating each table in the specified databases. When foreign keys or views exist that would prevent truncation, the function automatically scripts them out, drops them temporarily, performs the truncation, then recreates the objects with their original definitions and permissions. This provides a fast way to clear databases for testing or development environments without having to rebuild schemas. The function excludes system databases and only processes user databases to prevent accidental damage to SQL Server internals.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbData
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -582,7 +582,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. This list is auto-populated from the server. If unspecified, all user databases will be processed.<br></p>
+<p>Specifies which databases to clear of data. Accepts wildcards for pattern matching.<br />
+When omitted, the function processes all user databases on the instance. System databases are always excluded for safety.<br></p>
 <table>
 <thead>
 <tr>
@@ -610,7 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude. This list is auto-populated from the server.<br></p>
+<p>Excludes specific databases from data removal operations. Use this to protect important databases when clearing multiple databases.<br />
+Commonly used with production or reference databases that should remain untouched during development environment resets.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaDatabase<br></p>
+<p>Accepts piped database objects from Get-DbaDatabase or server connections from Connect-DbaInstance.<br />
+Use this for pipeline operations when you need to filter databases with complex criteria before clearing data.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,8 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br />
-Will default to Path.DbatoolsExport Configuration entry<br></p>
+<p>Sets the temporary directory for storing drop and create scripts during the data removal process.<br />
+The function creates temporary SQL scripts for foreign keys and views, then automatically removes them when complete. Defaults to the configured dbatools export path.<br></p>
 <table>
 <thead>
 <tr>

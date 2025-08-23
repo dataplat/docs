@@ -485,26 +485,50 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaInstance">Install-DbaInstance</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>This function will help you to quickly install a SQL Server instance.</p>
+<p>Automates SQL Server instance installation across local and remote computers with customizable configuration.</p>
 <h2 id="description">Description</h2>
-<p>This function will help you to quickly install a SQL Server instance on one or many computers.<br />
-Some of the things this function will do for you:</p>
+<p>Orchestrates unattended SQL Server installations by generating configuration files and executing setup.exe remotely or locally. Automates the tedious process of creating proper configuration.ini files, handling service accounts, and managing installation prerequisites like pending reboots and authentication protocols.</p>
+<p>The function dynamically builds installation configurations based on your parameters, automatically configures optimal settings like tempdb file counts based on CPU cores (SQL 2016+), and handles authentication scenarios including CredSSP for network installations. It can install multiple instances in parallel and manages the complete installation lifecycle from prerequisite checks to post-installation TCP port configuration.</p>
+<p>Key automation features include:</p>
 <ul>
-<li>Add your login as an admin to the new instance</li>
-<li>Search for SQL Server installations in the specified file repository</li>
-<li>Generate SA password if needed</li>
-<li>Install specific features using 'Default' and 'All' templates or cherry-pick the ones you need</li>
-<li>Set number of tempdb files based on number of cores (SQL2016+)</li>
-<li>Activate .Net 3.5 feature for SQL2012/2014</li>
-<li>Restart the machine if needed after the installation is done</li>
+<li>Generates secure SA passwords for mixed authentication mode installations</li>
+<li>Automatically grants sysadmin rights to your account or specified administrators</li>
+<li>Configures tempdb file counts based on server CPU cores for optimal performance</li>
+<li>Handles service account credentials using native PowerShell credential objects</li>
+<li>Manages installation media location detection across network and local paths</li>
+<li>Performs prerequisite validation including pending reboot detection</li>
+<li>Supports parallel installation across multiple servers with throttling controls</li>
+<li>Configures TCP port settings post-installation when specified</li>
 </ul>
-<p>Fully customizable installation parameters allow you to:</p>
+<p>Advanced configuration capabilities:</p>
 <ul>
-<li>Use existing Configuration.ini files for the installation</li>
-<li>Define service account credentials using native Powershell syntax</li>
-<li>Override any configurations by using -Configuration switch</li>
-<li>Change the TCP port after the installation is done</li>
-<li>Enable 'Perform volume maintenance tasks' for the SQL Server account</li>
+<li>Import existing Configuration.ini files or build configurations from scratch</li>
+<li>Override any SQL Server setup parameter using the -Configuration hashtable</li>
+<li>Support for specialized installations like failover cluster instances</li>
+<li>Enable instant file initialization (perform volume maintenance tasks) automatically</li>
+<li>Slipstream updates during installation using -UpdateSourcePath</li>
+<li>Install specific feature combinations using templates (Default, All) or individual components</li>
+</ul>
+<p>Authentication and credential management:</p>
+<ul>
+<li>Automatically configures CredSSP authentication for network-based installations when needed</li>
+<li>Supports various authentication protocols (Kerberos, NTLM, Basic) with fallback options</li>
+<li>Handles domain service accounts, managed service accounts (MSAs), and local accounts</li>
+<li>Manages distinct service credentials for Database Engine, SQL Agent, Analysis Services, Integration Services, and other components</li>
+</ul>
+<p>Installation media requirements:</p>
+<ul>
+<li>Requires extracted SQL Server installation media accessible to target servers</li>
+<li>Supports both local and network-based installation media repositories</li>
+<li>Automatically locates appropriate setup.exe files based on specified SQL Server version</li>
+<li>Falls back to Evaluation edition if no Product ID is provided in configuration</li>
+</ul>
+<p>Remote execution considerations:</p>
+<ul>
+<li>Requires elevated privileges on target computers for SQL Server installation</li>
+<li>Automatically handles CredSSP configuration when installing from network shares</li>
+<li>Supports custom authentication protocols and credential delegation scenarios</li>
+<li>Can optionally restart target computers automatically when required by installation prerequisites</li>
 </ul>
 <p>Note that the downloaded installation media must be extracted and available to the server where the installation runs.<br />
 NOTE: If no ProductID (PID) is found in the configuration files/parameters, Evaluation version is going to be installed.</p>
@@ -598,8 +622,9 @@ PS C:\&gt; Install-DbaInstance -SqlInstance localhost\v2017:1337 -Version 2017 -
 Instance name will be defined as 'v2017'; TCP port will be changed to 1337 after installation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="version">-Version</h5>
-<p>SQL Server version you wish to install.<br />
-This is the year version (e.g. &quot;2008R2&quot;, &quot;2017&quot;, &quot;2019&quot;, &quot;2022&quot;) <br></p>
+<p>Specifies the SQL Server version to install using the year-based identifier.<br />
+Valid values are 2008, 2008R2, 2012, 2014, 2016, 2017, 2019, and 2022.<br />
+This parameter determines which setup.exe file to locate in the installation media and configures version-specific features like tempdb file optimization (SQL 2016+). <br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +691,9 @@ You can also define instance name and port using -InstanceName and -Port paramet
 </tbody>
 </table>
 <h5 id="instancename">-InstanceName</h5>
-<p>Name of the SQL Server instance to install. Overrides the instance name specified in -SqlInstance.<br></p>
+<p>Specifies the name for the new SQL Server instance, overriding any instance name in the SqlInstance parameter.<br />
+Use 'MSSQLSERVER' for the default instance or a custom name for named instances.<br />
+Named instances enable multiple SQL Server installations on the same server and affect service names, registry keys, and connection strings.<br></p>
 <table>
 <thead>
 <tr>
@@ -694,7 +721,9 @@ You can also define instance name and port using -InstanceName and -Port paramet
 </tbody>
 </table>
 <h5 id="sacredential">-SaCredential</h5>
-<p>Securely provide the password for the sa account when using mixed mode authentication.<br></p>
+<p>Specifies the password for the sa account when AuthenticationMode is set to Mixed.<br />
+If not provided with Mixed mode, a random 128-character password is automatically generated and returned in the output.<br />
+Only required when you want to set a specific sa password instead of using the auto-generated one.<br></p>
 <table>
 <thead>
 <tr>
@@ -753,16 +782,10 @@ For CredSSP see also additional information in DESCRIPTION.<br></p>
 </tbody>
 </table>
 <h5 id="authentication">-Authentication</h5>
-<p>Chooses an authentication protocol for remote connections.<br />
-Allowed values: 'Default', 'Basic', 'Negotiate', 'NegotiateWithImplicitCredential', 'Credssp', 'Digest', 'Kerberos'.<br />
-If the protocol fails to establish a connection and explicit -Credentials were used, a failback authentication method would be attempted that configures PSSessionConfiguration<br />
-on the remote machine. This method, however, is considered insecure and would, therefore, prompt an additional confirmation when used.<br />
-Defaults:</p>
-<ul>
-<li>CredSSP when -Credential is specified - due to the fact that repository Path is usually a network share and credentials need to be passed to the remote host to avoid the double-hop issue.</li>
-<li>Default when -Credential is not specified. Will likely fail if a network path is specified.<br />
-For CredSSP see also additional information in DESCRIPTION.<br></li>
-</ul>
+<p>Specifies the PowerShell remoting authentication protocol for connecting to remote servers during installation.<br />
+Defaults to CredSSP when -Credential is provided to handle network share access and avoid double-hop authentication issues.<br />
+Use 'Kerberos' in domain environments where CredSSP is restricted, or 'Basic' for workgroup scenarios.<br />
+When installing from network shares, CredSSP is typically required to pass credentials through to the file server.<br></p>
 <table>
 <thead>
 <tr>
@@ -794,7 +817,9 @@ For CredSSP see also additional information in DESCRIPTION.<br></li>
 </tbody>
 </table>
 <h5 id="configurationfile">-ConfigurationFile</h5>
-<p>The path to the custom Configuration.ini file.<br></p>
+<p>Path to an existing SQL Server Configuration.ini file to use for the installation.<br />
+Use this when you have a pre-configured setup file from a previous installation or when you need specific settings not covered by the function parameters.<br />
+The function will read and apply all settings from this file, overriding any conflicting parameters.<br></p>
 <table>
 <thead>
 <tr>
@@ -822,16 +847,10 @@ For CredSSP see also additional information in DESCRIPTION.<br></li>
 </tbody>
 </table>
 <h5 id="configuration">-Configuration</h5>
-<p SQLCOLLATION="Latin1_General_BIN">A hashtable with custom configuration items that you want to use during the installation.<br />
-Overrides all other parameters.<br />
-For example, to define a custom server collation you can use the following parameter:<br />
-PS&gt; Install-DbaInstance -Version 2017 -Configuration @<br />
-As long as you don't specify the item ACTION, some items are already set by the command, like SQLSYSADMINACCOUNTS or *SVCSTARTUPTYPE.<br />
-If you specify the item ACTION, only INSTANCENAME and FEATURES are set based on the corresponding parameters and QUIET is set to True.<br />
-You will have to set all other needed items for your specific ACTION.<br />
-But this way it is possible to use the command so install a Failover Cluster Instance or even to remove a SQL Server instance.<br />
-More information about how to install a Failover Cluster Instance can be found here: <a href="https://github.com/dataplat/dbatools/discussions/7447">https://github.com/dataplat/dbatools/discussions/7447</a><br />
-Full list of parameters can be found here: <a href="https://docs.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server-from-the-command-prompt#Install">https://docs.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server-from-the-command-prompt#Install</a><br></p>
+<p>A hashtable containing SQL Server setup configuration parameters that override function defaults.<br />
+Use this for advanced scenarios like setting custom startup types, enabling specific features, or configuring failover cluster instances.<br />
+Each key-value pair becomes a parameter in the Configuration.ini file, allowing full control over the installation process.<br />
+When ACTION is specified, only minimal defaults are set, requiring you to provide all necessary configuration items for that specific installation type.<br></p>
 <table>
 <thead>
 <tr>
@@ -859,10 +878,9 @@ Full list of parameters can be found here: <a href="https://docs.microsoft.com/e
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Path to the folder(s) with SQL Server installation media downloaded. It will be scanned recursively for a corresponding setup.exe.<br />
-Path should be available from the remote server.<br />
-If a setup.exe file is missing in the repository, the installation will fail.<br />
-Consider setting the following configuration in your session if you want to omit this parameter: <code>Set-DbatoolsConfig -Name Path.SQLServerSetup -Value '\\path\to\installations'</code><br></p>
+<p>Specifies the directory containing extracted SQL Server installation media, which will be scanned recursively for the appropriate setup.exe.<br />
+Can be a local path or network share accessible from target servers during remote installations.<br />
+The path must contain the extracted ISO contents or downloaded installer files, not the ISO file itself.<br></p>
 <table>
 <thead>
 <tr>
@@ -890,31 +908,10 @@ Consider setting the following configuration in your session if you want to omit
 </tbody>
 </table>
 <h5 id="feature">-Feature</h5>
-<p>Features to install. Templates like &quot;Default&quot; and &quot;All&quot; can be used to setup a predefined set of components. Full list of features:<br />
-Default: Engine, Replication, FullText, Tools<br />
-All<br />
-Engine<br />
-Tools: SSMS, BackwardsCompatibility, Connectivity<br />
-Replication<br />
-FullText<br />
-DataQuality<br />
-PolyBase<br />
-MachineLearning<br />
-AnalysisServices<br />
-ReportingServices<br />
-ReportingForSharepoint<br />
-SharepointAddin<br />
-IntegrationServices<br />
-MasterDataServices<br />
-PythonPackages<br />
-RPackages<br />
-BackwardsCompatibility<br />
-Connectivity<br />
-ReplayController<br />
-ReplayClient<br />
-SDK<br />
-BIDS<br />
-SSMS: SSMS, ADV_SSMS<br></p>
+<p>Specifies which SQL Server components to install, either as individual features or using predefined templates.<br />
+'Default' installs Engine, Replication, FullText, and Tools for typical database server setups.<br />
+'All' installs every available feature for the specified version.<br />
+Choose specific features like 'Engine', 'AnalysisServices', 'ReportingServices', or 'IntegrationServices' for targeted installations based on your requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -946,7 +943,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="authenticationmode">-AuthenticationMode</h5>
-<p>Chooses authentication mode for SQL Server. Allowed values: Mixed, Windows.<br></p>
+<p>Specifies the SQL Server authentication mode: Windows (Windows Authentication only) or Mixed (Windows and SQL Authentication).<br />
+Windows mode is more secure and recommended for domain environments, while Mixed mode is required for applications that need SQL logins.<br />
+When using Mixed mode, ensure you provide a strong SaCredential or allow the function to generate a secure random password.<br></p>
 <table>
 <thead>
 <tr>
@@ -978,7 +977,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="instancepath">-InstancePath</h5>
-<p>Root folder for instance components. Includes SQL Server logs, system databases, etc.<br></p>
+<p>Specifies the root directory where SQL Server instance files will be installed, including program files, system databases, and logs.<br />
+Defaults to the standard program files location unless you need to install on a different drive for capacity or performance reasons.<br />
+This path becomes the base for all instance-specific directories unless individual paths are specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -1006,7 +1007,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="datapath">-DataPath</h5>
-<p>Path to the Data folder.<br></p>
+<p>Specifies the default directory for user database data files (.mdf and .ndf).<br />
+Used as the default location when creating new databases if no explicit path is provided in CREATE DATABASE statements.<br />
+Consider placing this on high-performance storage separate from logs for optimal I/O performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -1034,7 +1037,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="logpath">-LogPath</h5>
-<p>Path to the Log folder.<br></p>
+<p>Specifies the default directory for user database transaction log files (.ldf).<br />
+Used as the default location for transaction logs when creating new databases.<br />
+Best practice is to place logs on separate storage from data files to optimize write performance and enable better backup strategies.<br></p>
 <table>
 <thead>
 <tr>
@@ -1062,7 +1067,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="temppath">-TempPath</h5>
-<p>Path to the TempDB folder.<br></p>
+<p>Specifies the directory for tempdb database files, which handle temporary objects and internal SQL Server operations.<br />
+Consider placing tempdb on fast storage (SSD) separate from user databases since it's heavily used for sorts, joins, and temporary tables.<br />
+For SQL 2016+, the function automatically configures multiple tempdb data files based on CPU core count.<br></p>
 <table>
 <thead>
 <tr>
@@ -1090,7 +1097,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="backuppath">-BackupPath</h5>
-<p>Path to the Backup folder.<br></p>
+<p>Specifies the default directory for database backup files when no explicit path is provided in BACKUP commands.<br />
+This location should have sufficient space for your backup retention strategy and be accessible to your backup software.<br />
+Consider network accessibility if you plan to backup to shared storage or use backup software that requires UNC paths.<br></p>
 <table>
 <thead>
 <tr>
@@ -1118,7 +1127,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="updatesourcepath">-UpdateSourcePath</h5>
-<p>Path to the updates that you want to slipstream into the installation.<br></p>
+<p>Specifies the directory containing SQL Server updates (service packs, cumulative updates) to apply during installation.<br />
+Enables slipstream installation to avoid separate patching steps after the base installation completes.<br />
+The path should contain the update executable files compatible with the SQL Server version being installed.<br></p>
 <table>
 <thead>
 <tr>
@@ -1146,7 +1157,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="adminaccount">-AdminAccount</h5>
-<p>One or more members of the sysadmin group. Uses UserName from the -Credential parameter if specified, or current Windows user by default.<br></p>
+<p>Specifies one or more Windows accounts to grant sysadmin privileges on the new SQL Server instance.<br />
+Defaults to the current user or the account specified in the Credential parameter.<br />
+Use domain\username format for domain accounts or computername\username for local accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -1174,7 +1187,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="port">-Port</h5>
-<p>After successful installation, changes SQL Server TCP port to this value. Overrides the port specified in -SqlInstance.<br></p>
+<p>Specifies the TCP port number for SQL Server after installation, overriding the default port 1433.<br />
+The function configures the port post-installation since SQL Server setup doesn't directly support custom ports.<br />
+Use non-standard ports for security through obscurity or when running multiple instances that need distinct ports.<br></p>
 <table>
 <thead>
 <tr>
@@ -1202,8 +1217,9 @@ SSMS: SSMS, ADV_SSMS<br></p>
 </tbody>
 </table>
 <h5 id="throttle">-Throttle</h5>
-<p>Maximum number of computers updated in parallel. Once reached, the update operations will queue up.<br />
-Default: 50<br></p>
+<p>Specifies the maximum number of concurrent SQL Server installations when targeting multiple servers.<br />
+Controls resource usage and network bandwidth by limiting parallel operations.<br />
+Consider your network capacity, installation media server performance, and available system resources when adjusting from the default of 50.<br></p>
 <table>
 <thead>
 <tr>
@@ -1231,8 +1247,9 @@ Default: 50<br></p>
 </tbody>
 </table>
 <h5 id="productid">-ProductID</h5>
-<p>Product ID, or simply, serial number of your SQL Server installation, which will determine which version to install.<br />
-If the PID is already built into the installation media, can be ignored.<br></p>
+<p>Specifies the product license key (PID) to install a licensed edition of SQL Server instead of Evaluation edition.<br />
+Required only when the installation media doesn't include an embedded license key.<br />
+Without a valid ProductID, the installation defaults to a time-limited Evaluation edition that expires after 180 days.<br></p>
 <table>
 <thead>
 <tr>
@@ -1260,8 +1277,9 @@ If the PID is already built into the installation media, can be ignored.<br></p>
 </tbody>
 </table>
 <h5 id="ascollation">-AsCollation</h5>
-<p>Collation for the Analysis Service.<br />
-Default value: Latin1_General_CI_AS<br></p>
+<p>Specifies the collation for Analysis Services, determining sort order and character comparison rules for SSAS databases.<br />
+Defaults to Latin1_General_CI_AS if not specified.<br />
+Choose a collation that matches your data locale and case sensitivity requirements for dimensional and tabular models.<br></p>
 <table>
 <thead>
 <tr>
@@ -1289,9 +1307,9 @@ Default value: Latin1_General_CI_AS<br></p>
 </tbody>
 </table>
 <h5 id="sqlcollation">-SqlCollation</h5>
-<p>Collation for the Database Engine.<br />
-The default depends on the Windows locale:<br />
-<a href="https://docs.microsoft.com/en-us/sql/relational-databases/collations/collation-and-unicode-support#Server-level-collations">https://docs.microsoft.com/en-us/sql/relational-databases/collations/collation-and-unicode-support#Server-level-collations</a><br></p>
+<p>Specifies the server-level collation for the Database Engine, affecting sort order, case sensitivity, and accent sensitivity for all databases.<br />
+Defaults to the Windows locale setting if not specified.<br />
+Choose carefully as changing server collation after installation requires rebuilding system databases and can affect application compatibility.<br></p>
 <table>
 <thead>
 <tr>
@@ -1319,7 +1337,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="enginecredential">-EngineCredential</h5>
-<p>Service account of the SQL Server Database Engine<br></p>
+<p>Specifies the Windows account to run the SQL Server Database Engine service.<br />
+Use domain service accounts for network access, Managed Service Accounts (MSAs) for automated password management, or local accounts for standalone servers.<br />
+The account needs specific Windows privileges like 'Log on as a service' and permissions to the installation directories.<br></p>
 <table>
 <thead>
 <tr>
@@ -1347,7 +1367,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="agentcredential">-AgentCredential</h5>
-<p>Service account of the SQL Server Agent<br></p>
+<p>Specifies the Windows account to run the SQL Server Agent service, which manages scheduled jobs, alerts, and replication.<br />
+Typically uses the same account as the Database Engine for simplicity, but can be separate for security isolation.<br />
+Requires permissions to execute job steps, access network resources for backup jobs, and interact with other SQL Server instances for replication.<br></p>
 <table>
 <thead>
 <tr>
@@ -1375,7 +1397,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="ascredential">-ASCredential</h5>
-<p>Service account of the Analysis Services<br></p>
+<p>Specifies the Windows account to run the Analysis Services (SSAS) service for OLAP cubes and tabular models.<br />
+The account needs permissions to data sources, file system access for processing, and network connectivity for distributed queries.<br />
+Consider using a dedicated service account when SSAS requires different security contexts than the Database Engine.<br></p>
 <table>
 <thead>
 <tr>
@@ -1403,7 +1427,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="iscredential">-ISCredential</h5>
-<p>Service account of the Integration Services<br></p>
+<p>Specifies the Windows account to run the Integration Services (SSIS) service for ETL package execution and management.<br />
+The account needs permissions to source and destination systems, file shares for package storage, and SQL Server databases for logging and configuration.<br />
+Use a service account with broad permissions since SSIS packages often access multiple systems and data sources.<br></p>
 <table>
 <thead>
 <tr>
@@ -1431,7 +1457,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="rscredential">-RSCredential</h5>
-<p>Service account of the Reporting Services<br></p>
+<p>Specifies the Windows account to run the Reporting Services (SSRS) service for report generation and delivery.<br />
+The account needs permissions to the report server database, data sources used in reports, and network resources for email delivery.<br />
+Consider network connectivity requirements when reports access remote data sources or when using email subscriptions.<br></p>
 <table>
 <thead>
 <tr>
@@ -1459,7 +1487,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="ftcredential">-FTCredential</h5>
-<p>Service account of the Full-Text catalog service<br></p>
+<p>Specifies the Windows account to run the Full-Text Filter Daemon service for indexing and searching text content in databases.<br />
+The account needs permissions to database files and temporary directories used during full-text indexing operations.<br />
+Usually runs under a low-privilege account since it only processes text extraction and indexing without requiring broad system access.<br></p>
 <table>
 <thead>
 <tr>
@@ -1487,7 +1517,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="pbenginecredential">-PBEngineCredential</h5>
-<p>Service account of the PolyBase service<br></p>
+<p>Specifies the Windows account to run the PolyBase Engine service for distributed queries against Hadoop, Azure Blob Storage, and other external data sources.<br />
+The account needs network access to external systems and permissions to temporary directories for data processing.<br />
+Required when installing PolyBase features for big data integration and external table functionality.<br></p>
 <table>
 <thead>
 <tr>
@@ -1515,7 +1547,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="saveconfiguration">-SaveConfiguration</h5>
-<p>Save installation configuration file in a custom location. Will not be preserved otherwise.<br></p>
+<p>Specifies a path to save the generated Configuration.ini file for future reference or reuse.<br />
+Without this parameter, the configuration file is created in a temporary location and not preserved after installation.<br />
+Useful for documenting installation settings, troubleshooting, or replicating installations across multiple servers.<br></p>
 <table>
 <thead>
 <tr>
@@ -1543,7 +1577,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="performvolumemaintenancetasks">-PerformVolumeMaintenanceTasks</h5>
-<p>Allow SQL Server service account to perform Volume Maintenance tasks.<br></p>
+<p>Grants the SQL Server service account 'Perform volume maintenance tasks' privilege to enable instant file initialization.<br />
+Allows SQL Server to skip zero-initialization of data files, significantly reducing the time for database creation, restore operations, and auto-growth events.<br />
+Only affects data files; transaction log files are always zero-initialized for transaction integrity.<br></p>
 <table>
 <thead>
 <tr>
@@ -1571,7 +1607,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="restart">-Restart</h5>
-<p>Restart computer automatically if a restart is required before or after the installation.<br></p>
+<p>Automatically restarts target computers when required by Windows updates, pending file operations, or installation prerequisites.<br />
+Use this during maintenance windows when automatic restarts are acceptable.<br />
+Without this parameter, installations will fail if pending restarts are detected, requiring manual intervention.<br></p>
 <table>
 <thead>
 <tr>
@@ -1599,7 +1637,9 @@ The default depends on the Windows locale:<br />
 </tbody>
 </table>
 <h5 id="nopendingrenamecheck">-NoPendingRenameCheck</h5>
-<p>Disables pending rename validation when checking for a pending reboot.<br></p>
+<p>Skips the check for pending file rename operations when validating reboot requirements.<br />
+Use this when you know pending renames won't affect the SQL Server installation or when working with systems that show false positives for pending renames.<br />
+Generally safer to allow the default validation unless you have specific reasons to bypass this safety check.<br></p>
 <table>
 <thead>
 <tr>

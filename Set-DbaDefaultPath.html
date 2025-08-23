@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaDefaultPath">Set-DbaDefaultPath</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the default SQL Server paths for data, logs, and backups</p>
+<p>Configures the default file paths for new databases and backups on SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Sets the default SQL Server paths for data, logs, and backups</p>
+<p>Modifies the server-level default paths that SQL Server uses when creating new databases or performing backups without specifying explicit locations. This eliminates the need to manually specify file paths for routine database operations and ensures consistent placement of files across your environment.</p>
+<p>The function validates that the specified path is accessible to the SQL Server service account before making changes. When changing data or log paths, a SQL Server service restart is required for the changes to take effect. Backup path changes are immediate.</p>
 <p>To change the error log location, use Set-DbaStartupParameter</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaDefaultPath
@@ -542,7 +543,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The path on the destination SQL Server <br></p>
+<p>The directory path where SQL Server will create new database files or backups by default.<br />
+Must be a valid path accessible to the SQL Server service account with appropriate permissions.<br />
+Use UNC paths for shared storage or local paths like C:\Data for dedicated storage volumes. <br></p>
 <table>
 <thead>
 <tr>
@@ -601,7 +604,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The type of path to modify. Options include: Data, Log and Backup.<br></p>
+<p>Specifies which default path types to configure: Data (new database data files), Log (new database log files), or Backup (backup operations).<br />
+Use Data and Log when standardizing database file locations across instances or moving files to faster storage.<br />
+Backup path changes take effect immediately, while Data and Log changes require a SQL Server service restart.<br></p>
 <table>
 <thead>
 <tr>

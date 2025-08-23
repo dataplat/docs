@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaDbCompatibility">Test-DbaDbCompatibility</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Compares Database Compatibility level to Server Compatibility</p>
+<p>Identifies databases running at lower compatibility levels than the SQL Server instance supports</p>
 <h2 id="description">Description</h2>
-<p>Compares Database Compatibility level to Server Compatibility</p>
+<p>Compares each database's compatibility level against the SQL Server instance's maximum supported compatibility level. This helps identify databases that may not be leveraging newer SQL Server features and performance improvements available after an instance upgrade. Returns detailed comparison results showing which databases could benefit from compatibility level updates to match the server version.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaDbCompatibility
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -578,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to test for compatibility level mismatches. Accepts database names, wildcards, or arrays.<br />
+Use this when you need to check specific databases instead of testing all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies which databases to skip during compatibility level testing. Accepts database names, wildcards, or arrays.<br />
+Use this to exclude system databases, maintenance databases, or any databases you don't want included in the results.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaLinkedServer">Export-DbaLinkedServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports linked servers INCLUDING PASSWORDS, unless specified otherwise, to sql file.</p>
+<p>Generates T-SQL scripts to recreate linked server configurations with their login credentials.</p>
 <h2 id="description">Description</h2>
-<p>Exports linked servers INCLUDING PASSWORDS, unless specified otherwise, to sql file.</p>
-<p>Requires remote Windows access if exporting the password.</p>
+<p>Creates executable T-SQL scripts from existing linked server definitions, including remote login mappings and passwords. Perfect for migrating linked servers between environments, creating disaster recovery scripts, or documenting your linked server landscape. When passwords are included, the function accesses the local registry to decrypt stored credentials, so the generated scripts contain actual working passwords rather than placeholder values.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaLinkedServer
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -546,7 +545,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="linkedserver">-LinkedServer</h5>
-<p>The linked server(s) to export. If unspecified, all linked servers will be processed.<br></p>
+<p>Specifies one or more linked server names to export, supporting wildcards for pattern matching. If not specified, all linked servers on the instance will be exported.<br />
+Use this when you need to export specific linked servers rather than the entire linked server configuration from an instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +632,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br></p>
+<p>Specifies the directory where the linked server export file will be created. Defaults to the configured DbatoolsExport path.<br />
+Use this when you need the script saved to a specific folder location for organization or deployment purposes.<br></p>
 <table>
 <thead>
 <tr>
@@ -660,7 +661,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file.<br></p>
+<p>Specifies the complete file path and name for the exported T-SQL script, including the .sql extension.<br />
+Use this when you need precise control over the output filename and location, overriding the automatic naming from Path parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -688,7 +690,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludepassword">-ExcludePassword</h5>
-<p>Exports the linked server without any sensitive information.<br></p>
+<p>Excludes actual passwords from the exported script, replacing them with placeholder values for security purposes.<br />
+Use this when sharing scripts across environments or with team members where you need the linked server structure but want to protect sensitive credentials.<br></p>
 <table>
 <thead>
 <tr>
@@ -716,7 +719,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="append">-Append</h5>
-<p>Append to Path<br></p>
+<p>Adds the exported linked server scripts to an existing file instead of overwriting it.<br />
+Use this when combining multiple linked server exports into a single deployment script or building comprehensive migration scripts over multiple runs.<br></p>
 <table>
 <thead>
 <tr>
@@ -744,7 +748,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allow credentials to be piped in from Get-DbaLinkedServer<br></p>
+<p>Accepts linked server objects piped from Get-DbaLinkedServer, allowing you to filter and process specific linked servers before export.<br />
+Use this when you want to chain commands together, such as first getting linked servers with specific criteria then exporting only those results.<br></p>
 <table>
 <thead>
 <tr>

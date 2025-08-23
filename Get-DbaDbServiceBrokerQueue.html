@@ -578,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get service broker queues from specific database(s)<br></p>
+<p>Specifies which databases to retrieve Service Broker queues from. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases instead of scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server<br></p>
+<p>Specifies databases to exclude from the Service Broker queue retrieval. Accepts wildcards for pattern matching.<br />
+Useful when you want to scan most databases but skip specific ones like test or development databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,7 +636,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemqueue">-ExcludeSystemQueue</h5>
-<p>This switch removes all system objects from the queue collection<br></p>
+<p>Excludes system-created Service Broker queues from the results, showing only user-created queues.<br />
+Use this to focus on application-specific queues and filter out SQL Server's internal messaging queues.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaDbSchema">Set-DbaDbSchema</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Updates the owner for one or more schemas.</p>
+<p>Changes the owner of database schemas to reassign security and object ownership responsibilities</p>
 <h2 id="description">Description</h2>
-<p>Updates the owner for one or more schemas.</p>
+<p>Modifies the ownership of database schemas by updating the schema owner property in SQL Server. This is commonly needed when reorganizing database security, transferring ownership from developers to service accounts, or standardizing schema ownership after database migrations. The function works by retrieving the schema object and updating its Owner property through SQL Server Management Objects, then applying the change to the database.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaDbSchema
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -515,7 +515,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Passes in the example1 db via pipeline and updates the TestSchema1 and TestSchema2 schemas and assigns the dbatools user as the owner of the schemas.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="schema">-Schema</h5>
-<p>The name(s) of the schema(s) <br></p>
+<p>Specifies the name(s) of the database schemas whose ownership will be changed. Accepts multiple schema names.<br />
+Common scenarios include transferring ownership from developers to service accounts or standardizing ownership after migrations. <br></p>
 <table>
 <thead>
 <tr>
@@ -543,7 +544,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="schemaowner">-SchemaOwner</h5>
-<p>The name of the database user that will own the schema(s). <br></p>
+<p>Specifies the database user or role that will become the new owner of the specified schemas. Must be a valid database principal.<br />
+Typically used to assign ownership to service accounts, application users, or standardized roles like db_owner. <br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +633,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases contain the schemas to be updated. Required when using SqlInstance parameter.<br />
+Use this to target specific databases where you need to change schema ownership.<br></p>
 <table>
 <thead>
 <tr>
@@ -659,7 +662,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase via pipeline input. Use this to work with database objects already retrieved.<br />
+Useful when you want to filter databases first or work with databases from multiple instances in a single operation.<br></p>
 <table>
 <thead>
 <tr>

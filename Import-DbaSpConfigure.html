@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Import-DbaSpConfigure">Import-DbaSpConfigure</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Updates sp_configure settings on destination server.</p>
+<p>Copies sp_configure settings between SQL Server instances or applies settings from a SQL file.</p>
 <h2 id="description">Description</h2>
-<p>Updates sp_configure settings on destination server.</p>
+<p>Copies all sp_configure settings from a source SQL Server instance to a destination instance, or applies sp_configure settings from a SQL file to an instance. This function handles advanced options visibility, validates server versions for compatibility, and executes the necessary RECONFIGURE statements. Essential for maintaining consistent configuration across environments during migrations, standardization projects, or when applying saved configuration templates.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Import-DbaSpConfigure
     [-Force]
@@ -540,7 +540,8 @@ $DestinationSqlCredential<br></p>
 <p>Imports the sp_configure settings from the file .\spconfig.sql and sets them on the sqlserver server using the SQL credential stored in the variable $SqlCredential<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br></p>
+<p>Source SQL Server instance to copy sp_configure settings from. Requires sysadmin privileges to read configuration values.<br />
+Use this when migrating settings between servers or standardizing configurations across your environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -568,7 +569,8 @@ $DestinationSqlCredential<br></p>
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher.<br></p>
+<p>Target SQL Server instance where sp_configure settings will be applied. Requires sysadmin privileges to modify configuration.<br />
+This server will have its configuration updated to match the source server's settings.<br></p>
 <table>
 <thead>
 <tr>
@@ -596,9 +598,8 @@ $DestinationSqlCredential<br></p>
 </tbody>
 </table>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the source SQL Server instance. Use when Windows authentication is not available.<br />
+Accepts PowerShell credential objects created with Get-Credential.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,9 +627,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the destination SQL Server instance. Use when Windows authentication is not available.<br />
+Accepts PowerShell credential objects created with Get-Credential.<br></p>
 <table>
 <thead>
 <tr>
@@ -684,7 +684,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the path to a SQL script file holding sp_configure queries for each of the settings to be changed. Export-DbaSPConfigure creates a suitable file as its output.<br></p>
+<p>Path to a SQL script file containing sp_configure commands to execute. The file should contain individual sp_configure statements.<br />
+Use this parameter when applying saved configurations from Export-DbaSpConfigure or custom configuration scripts.<br></p>
 <table>
 <thead>
 <tr>
@@ -743,8 +744,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, no version check between Source and Destination is performed. By default, the major and minor versions of Source and Destination must match when copying sp_configure<br />
-settings.<br></p>
+<p>Bypasses the SQL Server version compatibility check between source and destination instances. By default, major versions must match.<br />
+Use with caution as some configuration options may not be available or may behave differently across SQL Server versions.<br></p>
 <table>
 <thead>
 <tr>

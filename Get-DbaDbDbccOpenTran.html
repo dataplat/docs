@@ -485,12 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbDbccOpenTran">Get-DbaDbDbccOpenTran</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Execution of Database Console Command DBCC OPENTRAN</p>
+<p>Identifies the oldest active transactions in database transaction logs using DBCC OPENTRAN</p>
 <h2 id="description">Description</h2>
-<p>Executes the command DBCC OPENTRAN against the requested databases</p>
-<p>Displays information about the oldest active transaction and<br />
-the oldest distributed and nondistributed replicated transactions, if any,<br />
-within the transaction log of the specified database</p>
+<p>Executes DBCC OPENTRAN against specified databases to identify long-running or problematic transactions that may be causing blocking, transaction log growth, or replication delays.</p>
+<p>This function helps DBAs troubleshoot performance issues by revealing the oldest active transaction and any distributed or replicated transactions within each database's transaction log. When transactions remain open for extended periods, they prevent log truncation and can cause cascading blocking issues throughout your SQL Server instance.</p>
+<p>The output includes detailed transaction information in structured PowerShell objects, making it easy to identify which transactions need attention. If no active transactions are found, the function clearly indicates this status for each database checked.</p>
+<p>This is particularly valuable when investigating sudden transaction log growth, diagnosing blocking chains, or troubleshooting replication latency issues where old transactions may be preventing log reader processes from advancing.</p>
 <p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-opentran-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-opentran-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -579,9 +579,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. If unspecified, all databases will be processed.<br />
-The Name or Id of a database can be specified<br />
-Database names must comply with the rules for identifiers.<br></p>
+<p>Specifies which databases to check for open transactions. Accepts database names or database IDs.<br />
+Use this when investigating transaction issues in specific databases rather than scanning all databases on the instance.<br />
+If omitted, DBCC OPENTRAN runs against all accessible databases, which may take longer on instances with many databases.<br></p>
 <table>
 <thead>
 <tr>

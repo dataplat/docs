@@ -485,13 +485,16 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbccFreeCache">Invoke-DbaDbccFreeCache</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Execution of Database Console Commands that clear Server level Memory caches</p>
+<p>Clears SQL Server memory caches using DBCC commands to resolve performance issues and free memory</p>
 <h2 id="description">Description</h2>
-<p>Allows execution of Database Console Commands that act at Server Level to clear Memory caches</p>
-<p>Allows execution of the following commands<br />
-DBCC FREEPROCCACHE<br />
-DBCC FREESESSIONCACHE<br />
-DBCC FREESYSTEMCACHE</p>
+<p>Executes DBCC commands to clear various SQL Server memory caches when troubleshooting performance problems or freeing memory on resource-constrained systems. This function helps DBAs resolve issues like parameter sniffing, plan cache bloat, or memory pressure without restarting the SQL Server service.</p>
+<p>Supports three cache-clearing operations:</p>
+<ul>
+<li>DBCC FREEPROCCACHE: Clears procedure cache (all plans or specific plan handles/resource pools)</li>
+<li>DBCC FREESESSIONCACHE: Clears distributed query connection cache for linked servers</li>
+<li>DBCC FREESYSTEMCACHE: Clears system caches like token cache and ring buffers</li>
+</ul>
+<p>Use FREEPROCCACHE to resolve parameter sniffing issues or when query plans become inefficient. Use FREESESSIONCACHE when experiencing linked server connection problems. Use FREESYSTEMCACHE to clear authentication tokens and other system-level cached data.</p>
 <p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freeproccache-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freeproccache-transact-sql</a><br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freesessioncache-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-freesessioncache-transact-sql</a><br />
@@ -605,7 +608,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="operation">-Operation</h5>
-<p>DBCC Operation to Perform - Supports specific set of operations<br></p>
+<p>Specifies which cache clearing operation to perform: FreeProcCache, FreeSessionCache, or FreeSystemCache.<br />
+Use FreeProcCache to resolve parameter sniffing or clear inefficient query plans, FreeSessionCache to clear linked server connections, or FreeSystemCache to clear authentication tokens and<br />
+system-level caches.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,16 +642,10 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputvalue">-InputValue</h5>
-<p>Value used for Operation - meaning depends on Operation<br />
-DBCC FREEPROCCACHE accepts<br />
-a plan_handle of type varbinary(64)<br />
-a sql_handle of type varbinary(64)<br />
-or the name of a Resource Governor resource pool of type sysname<br />
-If blank then clears all elements from the plan cache<br />
-DBCC FREESYSTEMCACHE accepts<br />
-'ALL' for ALL specifies all supported caches<br />
-or name of a Resource Governor pool cache<br />
-Not required for other values<br></p>
+<p>Specifies a target value to limit the cache clearing operation instead of clearing all cache entries.<br />
+For FreeProcCache: provide a specific plan_handle (0x...), sql_handle (0x...), or Resource Governor pool name to clear only those entries. For FreeSystemCache: provide a Resource Governor pool name<br />
+to clear only that pool's cache entries.<br />
+When omitted, clears all entries for the specified operation which is the typical DBA use case.<br></p>
 <table>
 <thead>
 <tr>
@@ -674,7 +673,8 @@ Not required for other values<br></p>
 </tbody>
 </table>
 <h5 id="noinformationalmessages">-NoInformationalMessages</h5>
-<p>Suppresses all informational messages.<br></p>
+<p>Suppresses informational messages returned by the DBCC commands.<br />
+Use this in scripts or automated processes where you only want to capture errors and warnings.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,8 +702,8 @@ Not required for other values<br></p>
 </tbody>
 </table>
 <h5 id="markinuseforremoval">-MarkInUseForRemoval</h5>
-<p>Used when Operation = DBCC FREESYSTEMCACHE<br />
-Asynchronously frees currently used entries from their respective caches after they become unused<br></p>
+<p>Marks currently active cache entries for removal once they become unused, rather than waiting for them to be released.<br />
+Only applies to FreeSystemCache operations and helps ensure memory is freed more aggressively on systems under memory pressure.<br></p>
 <table>
 <thead>
 <tr>

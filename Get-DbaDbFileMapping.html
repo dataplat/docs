@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbFileMapping">Get-DbaDbFileMapping</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Provides an easy way to build the FileMapping Hashtable for Restore-DbaDatabase from an existing database</p>
+<p>Creates file mapping hashtable from existing database for use in restore operations</p>
 <h2 id="description">Description</h2>
-<p>Provides an easy way to build the FileMapping Hashtable for Restore-DbaDatabase from an existing database</p>
+<p>Extracts the logical-to-physical file name mappings from an existing database and returns them in a hashtable format compatible with Restore-DbaDatabase. This eliminates the need to manually specify file paths when restoring databases to different servers or locations. The function reads both data files and log files from the database's file groups and creates a complete mapping that preserves the original file structure during restore operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbFileMapping
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -566,7 +566,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to extract file mappings from. Accepts wildcards for pattern matching.<br />
+Use this when you need file mappings for specific databases instead of all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -594,7 +595,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Database object piped in from Get-DbaDatabase<br></p>
+<p>Accepts database objects directly from Get-DbaDatabase or other dbatools database functions via pipeline.<br />
+Use this when you want to chain database operations or work with pre-filtered database collections.<br></p>
 <table>
 <thead>
 <tr>

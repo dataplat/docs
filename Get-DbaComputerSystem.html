@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaComputerSystem">Get-DbaComputerSystem</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets computer system information from the server.</p>
+<p>Retrieves comprehensive hardware and system information from Windows computers hosting SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Gets computer system information from the server and returns as an object.</p>
+<p>Collects detailed system specifications including processor details, memory configuration, domain membership, and hardware information from target computers. This function is essential for SQL Server capacity planning, pre-installation system verification, and troubleshooting performance issues by providing complete hardware inventory data.</p>
+<p>The function queries WMI classes (Win32_ComputerSystem and Win32_Processor) to gather CPU details, determines hyperthreading status, checks total physical memory, and identifies domain roles. It also detects pending reboots that could affect SQL Server operations and optionally retrieves AWS EC2 metadata for cloud-hosted instances.</p>
+<p>Use this command when documenting SQL Server environments, verifying system requirements before installations or upgrades, or investigating hardware-related performance bottlenecks.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaComputerSystem
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -514,7 +516,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Returns information about the sql2016's computer system and includes additional properties around the EC2 instance.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>Target computer(s). If no computer name is specified, the local computer is targeted<br></p>
+<p>Specifies the target computer(s) to collect system information from. Defaults to the local computer when not specified.<br />
+Use this to inventory multiple SQL Server hosts at once or to gather system details from remote servers for capacity planning and troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -570,7 +573,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="includeaws">-IncludeAws</h5>
-<p>If computer is hosted in AWS Infrastructure as a Service (IaaS), additional information will be included.<br></p>
+<p>Retrieves additional AWS EC2 metadata when the target computer is hosted on Amazon Web Services. Adds properties like AMI ID, instance type, availability zone, and IAM role information.<br />
+Use this switch when documenting cloud-hosted SQL Server environments or when you need AWS-specific details for compliance or cost management purposes.<br></p>
 <table>
 <thead>
 <tr>

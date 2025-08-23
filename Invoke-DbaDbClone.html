@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbClone">Invoke-DbaDbClone</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Clones a database schema and statistics</p>
+<p>Creates lightweight database clones containing schema and statistics but no table data</p>
 <h2 id="description">Description</h2>
-<p>Clones a database schema and statistics.</p>
-<p>This can be useful for testing query performance without requiring all the space needed for the data in the database.</p>
+<p>Creates schema-only database clones using SQL Server's DBCC CLONEDATABASE command. The cloned database contains all database objects (tables, indexes, views, procedures) and statistics, but no actual table data.</p>
+<p>This is particularly valuable for performance troubleshooting scenarios where you need to analyze query execution plans and optimizer behavior without the storage overhead of copying entire tables. DBAs commonly use this for reproducing performance issues in test environments or sharing database structures with vendors for support cases.</p>
 <p>Read more:<br />
 - <a href="https://sqlperformance.com/2016/08/sql-statistics/expanding-dbcc-clonedatabase">https://sqlperformance.com/2016/08/sql-statistics/expanding-dbcc-clonedatabase</a><br />
 - <a href="https://support.microsoft.com/en-us/help/3177838/how-to-use-dbcc-clonedatabase-to-generate-a-schema-and-statistics-only">https://support.microsoft.com/en-us/help/3177838/how-to-use-dbcc-clonedatabase-to-generate-a-schema-and-statistics-only</a></p>
@@ -580,7 +580,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database to clone - this list is auto-populated from the server.<br></p>
+<p>Specifies the source database(s) to clone from the SQL Server instance. Accepts multiple database names for batch operations.<br />
+Use this when connecting directly to an instance rather than piping database objects from Get-DbaDatabase.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,7 +609,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase through the pipeline, allowing for filtered operations.<br />
+This method provides more flexibility than the Database parameter for complex database selection scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -636,7 +638,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="clonedatabase">-CloneDatabase</h5>
-<p>The name(s) to clone to.<br></p>
+<p>Specifies the name(s) for the new cloned database(s). If not provided, defaults to adding '_clone' suffix to the source database name.<br />
+Each clone must have a unique name on the target instance and cannot already exist.<br></p>
 <table>
 <thead>
 <tr>
@@ -664,7 +667,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludestatistics">-ExcludeStatistics</h5>
-<p>Exclude the statistics in the cloned database<br></p>
+<p>Excludes table and index statistics from the cloned database, creating only the schema structure without statistical metadata.<br />
+Use this when you only need the database structure for schema comparison or when statistics would interfere with your testing scenario. Requires SQL Server 2014 SP2 CU3+ or SQL Server 2016 SP1+.<br></p>
 <table>
 <thead>
 <tr>
@@ -692,7 +696,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludequerystore">-ExcludeQueryStore</h5>
-<p>Exclude the QueryStore data in the cloned database<br></p>
+<p>Excludes Query Store data from the cloned database, preventing historical query execution data from being copied.<br />
+Use this when you want a clean slate for query performance analysis or when Query Store data is not relevant to your testing scenario. Requires SQL Server 2016 SP1 or higher.<br></p>
 <table>
 <thead>
 <tr>
@@ -720,7 +725,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="updatestatistics">-UpdateStatistics</h5>
-<p>Update the statistics prior to cloning (per Microsoft Tiger Team formula)<br></p>
+<p>Updates column store index statistics in the source database before cloning using Microsoft Tiger Team methodology.<br />
+Use this when working with column store indexes to ensure the clone contains current statistical information for accurate query plan generation.<br></p>
 <table>
 <thead>
 <tr>

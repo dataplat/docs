@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbIdentity">Get-DbaDbIdentity</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Checks the current identity value via DBCC CHECKIDENT with NORESEED optuin</p>
+<p>Retrieves current identity values from tables without reseeding using DBCC CHECKIDENT</p>
 <h2 id="description">Description</h2>
-<p>Use the command DBCC CHECKIDENT with NORESEED option to checks the current identity value of a table and return results</p>
+<p>Executes DBCC CHECKIDENT with the NORESEED option to retrieve current identity seed and column values from specified tables without modifying anything. This provides a safe way to inspect identity column status across multiple tables, databases, and instances simultaneously.</p>
+<p>DBAs use this when troubleshooting identity gaps, planning bulk operations, or auditing identity column usage before performing maintenance tasks. Unlike running DBCC CHECKIDENT manually, this command structures the output into readable PowerShell objects that show both the current identity value and the actual highest value in the column.</p>
+<p>The NORESEED option ensures no changes are made to your tables - it's purely informational. The function parses the DBCC output to extract specific identity metrics, making it ideal for scripted monitoring and reporting workflows.</p>
 <p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-checkident-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-checkident-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -584,7 +586,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to check for identity column values. If not specified, all accessible databases on the instance are processed.<br />
+Use this to focus on specific databases when you don't need identity information from every database on the server.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +615,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>The table(s) for which to check the current identity value.<br></p>
+<p>Specifies the table names to check for current identity seed and column values. Accepts schema-qualified names like 'Production.ScrapReason'.<br />
+This parameter is required since DBCC CHECKIDENT must target specific tables. Use a query against sys.columns to find all tables with identity columns if needed.<br></p>
 <table>
 <thead>
 <tr>

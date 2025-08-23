@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbEncryptionKey">Get-DbaDbEncryptionKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database encryption keys</p>
+<p>Retrieves Transparent Data Encryption (TDE) database encryption keys from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Gets database encryption keys</p>
+<p>Retrieves detailed information about Transparent Data Encryption (TDE) database encryption keys including encryption state, algorithm, and certificate details. This function helps DBAs audit encrypted databases, verify TDE configuration, and gather key information for compliance reporting or troubleshooting encryption issues. Returns comprehensive key properties like thumbprint, encryption type, and important dates for certificate rotation planning.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbEncryptionKey
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -578,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Get encryption key from specific database<br></p>
+<p>Specifies which databases to retrieve TDE encryption keys from. Accepts wildcards for pattern matching.<br />
+Use this when you need to check encryption status for specific databases instead of all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Database(s) to ignore when retrieving encryption keys<br></p>
+<p>Excludes specific databases from the encryption key retrieval operation. Useful when scanning all databases except certain ones like system databases or test databases.<br />
+Commonly used to skip tempdb or databases that are known to be unencrypted.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,7 +636,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects piped from Get-DbaDatabase or other dbatools commands. This allows you to filter databases using Get-DbaDatabase's extensive filtering options before checking encryption keys.<br />
+Particularly useful for complex database selection scenarios or when working with specific database collections.<br></p>
 <table>
 <thead>
 <tr>

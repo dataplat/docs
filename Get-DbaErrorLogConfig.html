@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaErrorLogConfig">Get-DbaErrorLogConfig</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Pulls the configuration for the ErrorLog on a given SQL Server instance</p>
+<p>Retrieves SQL Server error log configuration settings including file count, size limits, and storage location</p>
 <h2 id="description">Description</h2>
-<p>Pulls the configuration for the ErrorLog on a given SQL Server instance.</p>
-<p>Includes error log path, number of log files configured and size (SQL Server 2012+ only)</p>
+<p>Retrieves current error log configuration from SQL Server instances, showing how many log files are retained, where they're stored, and size limits if configured. This information helps DBAs understand log retention policies and troubleshoot logging issues without connecting to SQL Server Management Studio. Log size information is only available on SQL Server 2012 and later versions.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaErrorLogConfig
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

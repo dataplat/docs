@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Watch-DbaXESession">Watch-DbaXESession</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Watch live XEvent Data as it happens</p>
+<p>Monitors Extended Events sessions in real-time, streaming live event data as it occurs</p>
 <h2 id="description">Description</h2>
-<p>Watch live XEvent Data as it happens. This command runs until you stop the session, kill the PowerShell session, or Ctrl-C.</p>
+<p>Streams live event data from running Extended Events sessions, allowing real-time monitoring of database activity, performance issues, or security events. Each captured event is processed into a PowerShell object with organized columns for event name, timestamp, fields, and actions. This command runs continuously until you stop the XE session, terminate the PowerShell session, or press Ctrl-C, making it ideal for interactive troubleshooting and live analysis workflows.</p>
 <p>Thanks to Dave Mason (@BeginTry) for some straightforward code samples <a href="https://itsalljustelectrons.blogspot.be/2017/01/SQL-Server-Extended-Event-Handling-Via-Powershell.html">https://itsalljustelectrons.blogspot.be/2017/01/SQL-Server-Extended-Event-Handling-Via-Powershell.html</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Watch-DbaXESession
@@ -575,7 +575,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="session">-Session</h5>
-<p>Only return a specific session. Options for this parameter are auto-populated from the server.<br></p>
+<p>Specifies the name of the Extended Events session to monitor for live event data. Use this when you want to watch a specific XE session instead of requiring pipeline input.<br />
+Common sessions include system_health for general diagnostics or custom sessions you've created for specific monitoring needs.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +604,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts an XESession object returned by Get-DbaXESession.<br></p>
+<p>Accepts one or more XESession objects from Get-DbaXESession via the pipeline. Use this approach when you want to filter, start, or configure XE sessions before monitoring them.<br />
+This enables workflows like 'Get-DbaXESession | Where Name -like &quot;<em>perf</em>&quot; | Start-DbaXESession | Watch-DbaXESession' for batch operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +633,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="raw">-Raw</h5>
-<p>If this switch is enabled, the enumeration object is returned.<br></p>
+<p>Returns the raw XEvent enumeration object instead of processed PowerShell objects with organized columns. Use this when you need to work with the native Extended Events data structure for custom<br />
+processing or integration with other tools.<br />
+Most DBAs should use the default processed output which provides cleaner, more readable event data.<br></p>
 <table>
 <thead>
 <tr>

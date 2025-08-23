@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaNetworkCertificate">Remove-DbaNetworkCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes the network certificate for SQL Server instance</p>
+<p>Removes the SSL certificate configuration from SQL Server network encryption settings</p>
 <h2 id="description">Description</h2>
-<p>Removes the network certificate for SQL Server instance. This setting is found in Configuration Manager.</p>
+<p>Removes the certificate thumbprint from SQL Server's network encryption configuration by clearing the Certificate registry value in SuperSocketNetLib. This disables forced SSL encryption for client connections and returns the instance to unencrypted or optional encryption mode. Use this when decommissioning certificates, troubleshooting SSL connection issues, or when you need to reconfigure encryption settings from scratch.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaNetworkCertificate
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -543,7 +543,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Allows you to login to the computer (not sql instance) using alternative credentials.<br></p>
+<p>Windows credentials for accessing the target computer's registry and WMI services. This is used for computer-level authentication, not SQL Server authentication.<br />
+Required when the current user lacks administrative privileges on the target server or when running against remote servers in different domains.<br></p>
 <table>
 <thead>
 <tr>

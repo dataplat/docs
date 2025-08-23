@@ -485,11 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaKbUpdate">Get-DbaKbUpdate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets download links and detailed information for KB files (SPs/hotfixes/CUs, etc)</p>
+<p>Retrieves detailed metadata and download links for Microsoft KB updates from the update catalog</p>
 <h2 id="description">Description</h2>
-<p>Parses catalog.update.microsoft.com and grabs details for KB files (SPs/hotfixes/CUs, etc)</p>
-<p>Because Microsoft's RSS feed does not work, the command has to parse a few webpages which can result in slowness.</p>
-<p>Use the Simple parameter for simplified output and faster results.</p>
+<p>Searches Microsoft's update catalog website to retrieve comprehensive information about KB updates including service packs, hotfixes, and cumulative updates. Returns detailed metadata such as supported products, architecture, language, file size, supersession information, and direct download links. Integrates with Get-DbaBuild to provide SQL Server-specific versioning details when available, making it essential for patch management and update research workflows. Note that parsing multiple web pages can be slow since Microsoft doesn't provide an API for this data.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaKbUpdate
     [-Name] &lt;String[]&gt;
@@ -525,7 +523,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Downloads Japanese version of KB4057119.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="name">-Name</h5>
-<p>The KB name or number. For example, KB4057119 or 4057119. <br></p>
+<p>Specifies the KB article number to search for, with or without the 'KB' prefix. Accepts multiple values for batch processing.<br />
+Use this to retrieve update information for specific knowledge base articles like security patches, cumulative updates, or service packs. <br></p>
 <table>
 <thead>
 <tr>
@@ -554,7 +553,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="simple">-Simple</h5>
-<p>A lil faster. Returns, at the very least: Title, Architecture, Language, Hotfix, UpdateId and Link<br></p>
+<p>Returns only essential update information to improve performance by skipping detailed web scraping. Provides Title, Architecture, Language, Hotfix status, UpdateId, and download Link.<br />
+Use this when you need basic KB information quickly or when processing many updates where full details aren't required.<br></p>
 <table>
 <thead>
 <tr>
@@ -582,9 +582,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="language">-Language</h5>
-<p>Cumulative Updates come in one file for all languages, but Service Packs have a file for every language.<br />
-If you want to get only a specific language, use this parameter.<br />
-You you can press tab for auto-complete or use the two letter code that is used for Accept-Language HTTP header, e. g. &quot;en&quot; for English or &quot;de&quot; for German.<br></p>
+<p>Filters results to show only updates for a specific language when multiple language versions exist. Service Packs typically have separate files per language, while Cumulative Updates usually include<br />
+all languages in one file.<br />
+Use this when you need updates for non-English environments or want to download language-specific packages. Accepts standard language codes like &quot;en&quot; for English, &quot;de&quot; for German, or &quot;ja&quot; for<br />
+Japanese.<br></p>
 <table>
 <thead>
 <tr>

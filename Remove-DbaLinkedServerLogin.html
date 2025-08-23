@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaLinkedServerLogin">Remove-DbaLinkedServerLogin</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a linked server login.</p>
+<p>Removes linked server login mappings that define credential relationships between local and remote server logins.</p>
 <h2 id="description">Description</h2>
-<p>Removes a linked server login.</p>
+<p>Removes linked server login mappings, which are the credential associations that determine how local SQL Server logins authenticate to remote servers through linked server connections. These mappings control which credentials are used when executing queries against remote servers, so removing them effectively blocks access through that linked server for the specified local login. This is commonly used when decommissioning user access, cleaning up security configurations, or removing entire linked server setups.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaLinkedServerLogin
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -584,7 +584,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="linkedserver">-LinkedServer</h5>
-<p>The name(s) of the linked server(s).<br></p>
+<p>Specifies the name of the linked server containing the login mappings to remove. This is the linked server object that holds the credential associations between local and remote server logins.<br />
+Use this when you need to remove login mappings from a specific linked server, such as when cleaning up security configurations or decommissioning user access.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="locallogin">-LocalLogin</h5>
-<p>The name(s) of the linked server login(s).<br></p>
+<p>Specifies the local login names whose linked server login mappings should be removed. These are the local SQL Server login accounts that have credential mappings defined for remote server access.<br />
+Use this to remove specific login mappings rather than all mappings for a linked server, such as when a user account is being deactivated or their remote access needs to be revoked.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +642,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Connect-DbaInstance, Get-DbaLinkedServer, and Get-DbaLinkedServerLogin.<br></p>
+<p>Accepts SQL Server instance objects, linked server objects, or linked server login objects from the pipeline for batch removal operations. Compatible with output from Connect-DbaInstance,<br />
+Get-DbaLinkedServer, and Get-DbaLinkedServerLogin.<br />
+Use this for pipeline operations when you want to remove login mappings from multiple objects or when chaining commands together for bulk security configuration changes.<br></p>
 <table>
 <thead>
 <tr>

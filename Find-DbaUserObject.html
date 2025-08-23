@@ -485,20 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaUserObject">Find-DbaUserObject</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Searches SQL Server to find user-owned objects (i.e. not dbo or sa) or for any object owned by a specific user specified by the Pattern parameter.</p>
+<p>Finds SQL Server objects owned by users other than sa or dbo, or searches for objects owned by a specific user pattern.</p>
 <h2 id="description">Description</h2>
-<p>Looks at the below list of objects to see if they are either owned by a user or a specific user (using the parameter -Pattern)<br />
-Database Owner<br />
-Agent Job Owner<br />
-Used in Credential<br />
-USed in Proxy<br />
-SQL Agent Steps using a Proxy<br />
-Endpoints<br />
-Server Roles<br />
-Database Schemas<br />
-Database Roles<br />
-Database Assembles<br />
-Database Synonyms</p>
+<p>Scans SQL Server instances to identify objects with non-standard ownership, which is critical for security auditing and user management.<br />
+When removing user accounts or performing security reviews, you need to know what objects they own to avoid breaking dependencies.<br />
+This function searches databases, SQL Agent jobs, credentials, proxies, endpoints, server roles, schemas, database roles, assemblies, and synonyms.<br />
+Use the Pattern parameter to search for objects owned by a specific user, or run without it to find all user-owned objects that aren't owned by system accounts.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaUserObject
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -580,7 +572,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="pattern">-Pattern</h5>
-<p>The regex pattern that the command will search for<br></p>
+<p>Searches for objects owned by accounts matching this regex pattern. Use this when looking for objects owned by a specific user or group of users.<br />
+When omitted, finds all objects not owned by system accounts (sa/dbo). Supports Windows domain accounts like 'DOMAIN\username' or SQL logins.<br></p>
 <table>
 <thead>
 <tr>

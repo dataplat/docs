@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaXESession">New-DbaXESession</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new XESession object - for the dogged.</p>
+<p>Creates a new Extended Events session object for programmatic configuration and deployment.</p>
 <h2 id="description">Description</h2>
-<p>Creates a new XESession object - for the dogged (very manual, Import-DbaXESessionTemplate is recommended). See the following for more info:</p>
-<p><a href="https://docs.microsoft.com/en-us/sql/relational-databases/extended-events/use-the-powershell-provider-for-extended-events">https://docs.microsoft.com/en-us/sql/relational-databases/extended-events/use-the-powershell-provider-for-extended-events</a></p>
+<p>Creates a new Extended Events session object that can be programmatically configured with events, actions, and targets before deployment to SQL Server. This function provides the foundation for building XE sessions through code rather than using predefined templates. The returned session object requires additional configuration using AddEvent(), AddAction(), and AddTarget() methods before calling Create() to deploy it to the server. For most scenarios, Import-DbaXESessionTemplate provides a simpler approach using predefined session configurations, but this function offers complete control when building custom monitoring solutions from scratch.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaXESession
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -540,7 +539,8 @@ PS C:\&gt; $session.Create()
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The Name of the session to be created. <br></p>
+<p>Specifies the name for the new Extended Events session. Session names must be unique within the SQL Server instance and follow SQL Server identifier naming rules.<br />
+Choose descriptive names that indicate the monitoring purpose, such as &quot;Query_Performance_Monitor&quot; or &quot;Security_Audit_Session&quot;. <br></p>
 <table>
 <thead>
 <tr>

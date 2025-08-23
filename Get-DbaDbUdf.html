@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbUdf">Get-DbaDbUdf</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database User Defined Functions</p>
+<p>Retrieves User Defined Functions from SQL Server databases with filtering and metadata</p>
 <h2 id="description">Description</h2>
-<p>Gets database User Defined Functions</p>
+<p>Retrieves all User Defined Functions (UDFs) from one or more SQL Server databases, returning detailed metadata including schema, creation dates, and data types. This function helps DBAs inventory custom database logic, analyze code dependencies during migrations, and audit user-created functions for security or performance reviews. You can filter results by database, schema, or function name, and exclude system functions to focus on custom business logic.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbUdf
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -587,7 +587,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get User Defined Functions from specific database(s)<br></p>
+<p>Specifies which databases to retrieve User Defined Functions from. Accepts wildcards for pattern matching.<br />
+Use this when you need to audit UDFs in specific databases rather than scanning the entire instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -615,7 +616,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server<br></p>
+<p>Specifies databases to skip when retrieving User Defined Functions. Useful for excluding system databases or databases under maintenance.<br />
+Commonly used to exclude tempdb, model, or large databases that don't contain custom business logic.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,7 +645,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemudf">-ExcludeSystemUdf</h5>
-<p>This switch removes all system objects from the UDF collection<br></p>
+<p>Filters out built-in SQL Server system functions from the results, showing only custom user-created functions.<br />
+Essential when auditing business logic since system databases can contain 100+ built-in UDFs that obscure custom code.<br></p>
 <table>
 <thead>
 <tr>
@@ -671,7 +674,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The schema(s) to process. If unspecified, all schemas will be processed.<br></p>
+<p>Limits results to User Defined Functions within specific schemas. Accepts multiple schema names.<br />
+Useful for focusing on functions owned by particular applications or development teams, such as 'Sales' or 'Reporting' schemas.<br></p>
 <table>
 <thead>
 <tr>
@@ -699,7 +703,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeschema">-ExcludeSchema</h5>
-<p>The schema(s) to exclude.<br></p>
+<p>Excludes User Defined Functions from specific schemas when retrieving results.<br />
+Helpful for filtering out legacy schemas, test schemas, or third-party application schemas that aren't relevant to your analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -727,7 +732,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name(s) of the user defined functions to process. If unspecified, all user defined functions will be processed.<br></p>
+<p>Retrieves specific User Defined Functions by name. Accepts multiple function names and supports wildcards.<br />
+Use this when searching for particular functions during troubleshooting or when documenting specific business logic components.<br></p>
 <table>
 <thead>
 <tr>
@@ -755,7 +761,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludename">-ExcludeName</h5>
-<p>The name(s) of the user defined functions to exclude.<br></p>
+<p>Excludes specific User Defined Functions from results by name. Supports wildcards for pattern matching.<br />
+Useful for filtering out known test functions, deprecated functions, or utility functions that clutter audit reports.<br></p>
 <table>
 <thead>
 <tr>

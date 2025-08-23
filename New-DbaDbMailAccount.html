@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbMailAccount">New-DbaDbMailAccount</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new database mail account</p>
+<p>Creates a new Database Mail account for sending emails from SQL Server</p>
 <h2 id="description">Description</h2>
-<p>Creates a new database mail account</p>
+<p>Creates a new Database Mail account on SQL Server instances to enable automated email notifications, alerts, and reports. Database Mail accounts define the email settings (SMTP server, sender address, authentication) that SQL Server uses when sending emails through stored procedures like sp_send_dbmail. This is essential for setting up automated maintenance notifications, job failure alerts, and scheduled report delivery.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbMailAccount
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -542,7 +542,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="account">-Account</h5>
-<p>The name of the account to be created. <br></p>
+<p>Specifies the unique name for the Database Mail account being created. This name is used internally by SQL Server to identify the account when configuring Database Mail profiles.<br />
+Choose a descriptive name that identifies the account's purpose, such as 'MaintenanceAlerts' or 'ReportDelivery'. <br></p>
 <table>
 <thead>
 <tr>
@@ -570,7 +571,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="emailaddress">-EmailAddress</h5>
-<p>Sets the e-mail address of the mail account. <br></p>
+<p>Specifies the sender email address that appears in outgoing messages from this Database Mail account. This must be a valid email address that your SMTP server accepts.<br />
+Use addresses that recipients will recognize and trust, such as 'sqlserver@company.com' or 'dba-alerts@domain.local'. <br></p>
 <table>
 <thead>
 <tr>
@@ -629,7 +631,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="displayname">-DisplayName</h5>
-<p>Sets the name of the mail account that is displayed in messages.<br></p>
+<p>Sets the friendly name that appears in the 'From' field of outgoing emails. Recipients see this name instead of the raw account name.<br />
+Defaults to the Account name if not specified. Use descriptive names like 'SQL Server Alerts' or 'DBA Team Notifications'.<br></p>
 <table>
 <thead>
 <tr>
@@ -657,7 +660,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="description-1">-Description</h5>
-<p>Sets the description of the purpose of the mail account.<br></p>
+<p>Provides optional documentation text describing the account's purpose and usage. This helps other DBAs understand when and how the account should be used.<br />
+Consider including details like which jobs or applications use this account and any special configuration requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -685,7 +689,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="replytoaddress">-ReplyToAddress</h5>
-<p>Sets the e-mail address to which the mail account replies.<br></p>
+<p>Specifies an alternate email address for replies when different from the sender address. Recipients who reply to automated emails will send responses to this address instead.<br />
+Useful when you want replies to go to a monitored mailbox like 'dba-team@company.com' rather than the automated sender address.<br></p>
 <table>
 <thead>
 <tr>
@@ -713,7 +718,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="mailserver">-MailServer</h5>
-<p>The name of the mail server.<br></p>
+<p>Specifies the SMTP server hostname or IP address that SQL Server will use to send emails through this account. The server must be accessible from the SQL Server instance.<br />
+If not specified, uses the SQL Server instance name as the mail server. The function validates that the mail server exists unless -Force is used.<br></p>
 <table>
 <thead>
 <tr>
@@ -741,7 +747,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Mail Account will be created even if the mail server is not present.<br></p>
+<p>Bypasses the mail server existence validation and creates the Database Mail account even if the specified SMTP server cannot be found or verified.<br />
+Use this when the mail server exists but is not discoverable by SQL Server, or when setting up accounts for servers that will be available later.<br></p>
 <table>
 <thead>
 <tr>

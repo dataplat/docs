@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbMirror">Remove-DbaDbMirror</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes database mirrors.</p>
+<p>Breaks database mirroring partnerships and stops mirroring sessions</p>
 <h2 id="description">Description</h2>
-<p>Removes database mirrors. Does not set databases in recovery to recovered.</p>
+<p>Terminates database mirroring sessions by breaking the partnership between principal and mirror databases. This command stops the mirroring relationship completely, which is useful when decommissioning mirrors, performing maintenance that requires breaking the partnership, or during disaster recovery scenarios where you need to bring a database online independently.</p>
+<p>Important: This function only breaks the mirroring partnership - it does not automatically recover databases that are left in a &quot;Restoring&quot; state. You'll need to manually restore those databases with RECOVERY to make them accessible for normal operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbMirror
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -576,7 +577,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database.<br></p>
+<p>Specifies the names of databases whose mirroring partnerships should be terminated. Accepts multiple database names.<br />
+Required when using SqlInstance parameter. Use this to target specific mirrored databases rather than processing all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +606,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from the pipeline, typically from Get-DbaDatabase.<br />
+Use this when you want to filter databases using Get-DbaDatabase's capabilities before breaking mirroring partnerships.<br></p>
 <table>
 <thead>
 <tr>

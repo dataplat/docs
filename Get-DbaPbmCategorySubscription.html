@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaPbmCategorySubscription">Get-DbaPbmCategorySubscription</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns policy category subscriptions from policy based management from an instance.</p>
+<p>Retrieves database subscriptions to Policy-Based Management categories that control automatic policy evaluation.</p>
 <h2 id="description">Description</h2>
-<p>Returns policy category subscriptions from policy based management from an instance.</p>
+<p>Retrieves all database subscriptions to policy categories from SQL Server's Policy-Based Management feature. These subscriptions determine which databases are subject to automatic policy evaluation for specific policy categories. When a database subscribes to a category (either voluntarily or through mandatory subscription), all policies in that category will be automatically evaluated against the database. This is essential for auditing policy compliance, troubleshooting evaluation failures, and understanding which databases are governed by which policy sets.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPbmCategorySubscription
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -568,7 +568,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaPbmStore<br></p>
+<p>Accepts Policy-Based Management store objects from Get-DbaPbmStore for pipeline processing.<br />
+Use this when you need to query category subscriptions from an already retrieved PBM store object, improving performance when working with multiple PBM operations on the same instance.<br></p>
 <table>
 <thead>
 <tr>

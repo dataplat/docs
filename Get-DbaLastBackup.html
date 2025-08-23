@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaLastBackup">Get-DbaLastBackup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get date/time for last known backups of databases.</p>
+<p>Retrieves last backup dates and times for database backup compliance monitoring</p>
 <h2 id="description">Description</h2>
-<p>Retrieves and compares the date/time for the last known backups, as well as the creation date/time for the database.</p>
-<p>Default output includes columns Server, Database, LastFullBackup, LastDiffBackup, LastLogBackup.</p>
+<p>Queries msdb backup history to retrieve the most recent full, differential, and transaction log backup dates for each database. This function helps DBAs quickly identify backup gaps and verify compliance with backup policies by showing when each backup type was last performed. The function also calculates elapsed time since each backup and provides status indicators to highlight potential issues, such as databases with no recent backups or transaction log backups that are overdue in full recovery model databases. Default output includes Server, Database, LastFullBackup, LastDiffBackup, and LastLogBackup columns.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaLastBackup
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -586,7 +585,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more database(s) to process. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to check for backup history. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases rather than scanning all databases on the instance.<br />
+Helpful for monitoring critical production databases or troubleshooting backup issues on particular databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,7 +615,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies one or more database(s) to exclude from processing.<br></p>
+<p>Excludes specific databases from the backup history check. Commonly used to skip system databases or test databases.<br />
+Use this when you want to check most databases but exclude certain ones like tempdb, development databases, or databases with known backup exemptions.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbSnapshot">Remove-DbaDbSnapshot</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes database snapshots</p>
+<p>Drops database snapshots from SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Removes (drops) database snapshots from the server</p>
+<p>Removes database snapshots by executing DROP DATABASE statements against the target SQL Server instances. Database snapshots are point-in-time, read-only copies of databases that consume minimal space through copy-on-write technology. This function helps DBAs clean up obsolete snapshots that are no longer needed for reporting, testing, or recovery purposes. The Force parameter can terminate active connections to snapshots that might otherwise prevent the drop operation from succeeding.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbSnapshot
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -599,7 +599,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Removes snapshots for only this specific base db<br></p>
+<p>Specifies the base database(s) whose snapshots should be removed. Only snapshots created from these source databases will be dropped.<br />
+Use this when you need to clean up snapshots for specific databases while leaving other snapshots intact.<br></p>
 <table>
 <thead>
 <tr>
@@ -627,7 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Removes snapshots excluding this specific base dbs<br></p>
+<p>Excludes snapshots from the specified base database(s) from removal. All other snapshots on the instance will be removed.<br />
+Use this when you want to remove most snapshots but preserve those from critical databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -655,7 +657,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="snapshot">-Snapshot</h5>
-<p>Restores databases from snapshot with this name only<br></p>
+<p>Specifies the exact snapshot name(s) to remove. Accepts multiple snapshot names for targeted removal operations.<br />
+Use this when you know the specific snapshot names you want to drop, such as outdated test or reporting snapshots.<br></p>
 <table>
 <thead>
 <tr>
@@ -683,7 +686,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables input from Get-DbaDbSnapshot<br></p>
+<p>Accepts database snapshot objects from Get-DbaDbSnapshot for pipeline operations. This allows filtering and processing snapshots before removal.<br />
+Use this for complex filtering scenarios where you first identify specific snapshots with Get-DbaDbSnapshot.<br></p>
 <table>
 <thead>
 <tr>
@@ -711,7 +715,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="allsnapshots">-AllSnapshots</h5>
-<p>Specifies that you want to remove all snapshots from the server<br></p>
+<p>Removes all database snapshots found on the target SQL Server instance(s). This affects every snapshot regardless of source database.<br />
+Use this for complete snapshot cleanup operations, typically during maintenance windows or server decommissioning.<br></p>
 <table>
 <thead>
 <tr>
@@ -739,7 +744,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Will forcibly kill all running queries that prevent the drop process.<br></p>
+<p>Terminates active connections and running queries against snapshots to allow the drop operation to complete successfully.<br />
+Use this when snapshots have active sessions that would normally block the removal process.<br></p>
 <table>
 <thead>
 <tr>

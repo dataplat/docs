@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaEndpoint">New-DbaEndpoint</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates endpoints on a SQL Server instance.</p>
+<p>Creates SQL Server endpoints for database mirroring, Service Broker, SOAP, or T-SQL communication.</p>
 <h2 id="description">Description</h2>
-<p>Creates endpoints on a SQL Server instance.</p>
+<p>Creates SQL Server endpoints that enable communication between instances for high availability features like availability groups and database mirroring. Database mirroring endpoints are the most common type, required for setting up availability groups and database mirroring partnerships. The function also supports Service Broker endpoints for message queuing, SOAP endpoints for web services, and T-SQL endpoints for remote connections. Automatically generates TCP ports if not specified and handles encryption settings to ensure secure communication between SQL Server instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaEndpoint
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -586,7 +586,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the endpoint. Defaults to hadr_endpoint if type is DatabaseMirroring, has to be provided for other types.<br></p>
+<p>Specifies the name for the new endpoint. Defaults to hadr_endpoint for DatabaseMirroring endpoints.<br />
+Required when creating ServiceBroker, Soap, or TSql endpoints as these need unique names for identification.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,7 +615,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The type of endpoint. Defaults to DatabaseMirroring. Options: DatabaseMirroring, ServiceBroker, Soap, TSql<br></p>
+<p>Defines the endpoint type to create. DatabaseMirroring endpoints enable availability groups and database mirroring.<br />
+ServiceBroker enables message queuing, Soap creates web service endpoints, and TSql allows remote connections. Defaults to DatabaseMirroring.<br></p>
 <table>
 <thead>
 <tr>
@@ -646,7 +648,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="protocol">-Protocol</h5>
-<p>The type of protocol. Defaults to tcp. Options: Tcp, NamedPipes, Http, Via, SharedMemory<br></p>
+<p>Sets the communication protocol for the endpoint. TCP is standard for database mirroring and availability groups.<br />
+Use Http for SOAP endpoints, NamedPipes for local connections, or SharedMemory for same-machine communication. Defaults to Tcp.<br></p>
 <table>
 <thead>
 <tr>
@@ -678,7 +681,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="role">-Role</h5>
-<p>The type of role. Defaults to All. Options: All, None, Partner, Witness<br></p>
+<p>Determines the database mirroring role this endpoint can serve. All allows the instance to act as principal, mirror, or witness.<br />
+Partner restricts to principal/mirror roles only, Witness allows witness-only, None disables mirroring roles. Defaults to All.<br></p>
 <table>
 <thead>
 <tr>
@@ -710,10 +714,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="endpointencryption">-EndpointEncryption</h5>
-<p>Used to specify the state of encryption on the endpoint. Defaults to required.<br />
-Disabled<br />
-Required<br />
-Supported<br></p>
+<p>Controls whether encryption is enforced for endpoint connections. Required forces all connections to use encryption.<br />
+Supported allows both encrypted and unencrypted connections, Disabled prevents encryption. Defaults to Required for security.<br></p>
 <table>
 <thead>
 <tr>
@@ -745,13 +747,8 @@ Supported<br></p>
 </tbody>
 </table>
 <h5 id="encryptionalgorithm">-EncryptionAlgorithm</h5>
-<p>Specifies an encryption algorithm used on an endpoint. Defaults to Aes.<br />
-Options are:<br />
-AesRC4<br />
-Aes<br />
-None<br />
-RC4<br />
-RC4Aes<br></p>
+<p>Sets the encryption algorithm used to secure endpoint communications. AES provides the strongest security.<br />
+RC4 options are available for backward compatibility but are less secure. Use None only when encryption is disabled. Defaults to Aes.<br></p>
 <table>
 <thead>
 <tr>
@@ -783,18 +780,8 @@ RC4Aes<br></p>
 </tbody>
 </table>
 <h5 id="authenticationorder">-AuthenticationOrder</h5>
-<p>The type of connection authentication required for connections to this endpoint. Defaults to Negotiate.<br />
-Options are:<br />
-Certificate<br />
-CertificateKerberos<br />
-CertificateNegotiate<br />
-CertificateNtlm<br />
-Kerberos<br />
-KerberosCertificate<br />
-Negotiate<br />
-NegotiateCertificate<br />
-Ntlm<br />
-NtlmCertificate<br></p>
+<p>Defines the authentication methods and their priority order for endpoint connections. Negotiate automatically chooses the best available method.<br />
+Use certificate options when requiring certificate-based authentication, or specific methods like Kerberos for domain environments. Defaults to Negotiate.<br></p>
 <table>
 <thead>
 <tr>
@@ -826,7 +813,8 @@ NtlmCertificate<br></p>
 </tbody>
 </table>
 <h5 id="certificate">-Certificate</h5>
-<p>Database certificate used for authentication.<br></p>
+<p>Name of a database certificate to use for endpoint authentication instead of Windows authentication.<br />
+The certificate must already exist in the master database and provides certificate-based authentication for enhanced security.<br></p>
 <table>
 <thead>
 <tr>
@@ -854,8 +842,8 @@ NtlmCertificate<br></p>
 </tbody>
 </table>
 <h5 id="ipaddress">-IPAddress</h5>
-<p>Specifies the IP address that the endpoint will listen on. The default is ALL. This means that the listener will accept a connection on any valid IP address.<br />
-Currently only IPv4 is supported by this command.<br></p>
+<p>Sets which IP address the endpoint listens on for incoming connections. Use 0.0.0.0 to listen on all available interfaces.<br />
+Specify a particular IP address to restrict connections to that interface only, useful for multi-homed servers. Defaults to 0.0.0.0 (all interfaces).<br></p>
 <table>
 <thead>
 <tr>
@@ -883,7 +871,8 @@ Currently only IPv4 is supported by this command.<br></p>
 </tbody>
 </table>
 <h5 id="port">-Port</h5>
-<p>Port for TCP. If one is not provided, it will be auto-generated.<br></p>
+<p>Specifies the TCP port number for the endpoint to listen on. Auto-generates a port starting from 5022 if not specified.<br />
+Use this when you need a specific port for firewall rules or standardization across instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -911,7 +900,8 @@ Currently only IPv4 is supported by this command.<br></p>
 </tbody>
 </table>
 <h5 id="sslport">-SslPort</h5>
-<p>Port for SSL.<br></p>
+<p>Sets the SSL port number for HTTPS endpoints when using HTTP protocol. Only applicable for Soap endpoints using HTTPS.<br />
+Required when creating secure web service endpoints that need encrypted communication over HTTP.<br></p>
 <table>
 <thead>
 <tr>
@@ -939,7 +929,8 @@ Currently only IPv4 is supported by this command.<br></p>
 </tbody>
 </table>
 <h5 id="owner">-Owner</h5>
-<p>Owner of the endpoint. Defaults to sa.<br></p>
+<p>Sets the SQL Server login that owns the endpoint. The owner has full control permissions on the endpoint.<br />
+Defaults to the sa account if available, otherwise uses the current connection's login for ownership.<br></p>
 <table>
 <thead>
 <tr>

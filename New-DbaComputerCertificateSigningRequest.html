@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaComputerCertificateSigningRequest">New-DbaComputerCertificateSigningRequest</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new computer certificate signing request. Useful for offline servers and Forcing Encryption.</p>
+<p>Generates certificate signing requests for SQL Server instances to enable SSL/TLS encryption and connection security.</p>
 <h2 id="description">Description</h2>
-<p>Creates a new computer certificate signing request that is compatible with SQL Server.</p>
-<p>By default, a key with a length of 1024 and a friendly name of the machines FQDN is generated.</p>
+<p>Creates certificate signing requests (CSRs) that can be submitted to your Certificate Authority to obtain SSL/TLS certificates for SQL Server instances. This eliminates the manual process of creating certificate requests and ensures proper configuration for SQL Server's encryption requirements.</p>
+<p>The function generates both the certificate configuration file (.inf) and the signing request file (.csr) with proper Subject Alternative Names (SAN) to support SQL Server's certificate validation. This is essential when implementing Force Encryption, configuring encrypted connections, or meeting compliance requirements that mandate encrypted database communications.</p>
+<p>Supports both standalone SQL Server instances and cluster configurations, automatically resolving FQDNs and configuring appropriate DNS entries. The generated certificates work with SQL Server's encryption features including encrypted client connections, mirroring, and backup encryption scenarios.</p>
+<p>By default, creates RSA certificates with 1024-bit keys, though this can be customized for stronger encryption requirements. All certificates are configured as machine certificates with the Microsoft RSA SChannel Cryptographic Provider for compatibility with SQL Server's encryption stack.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaComputerCertificateSigningRequest
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -525,7 +527,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Shows what would happen if the command were run<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances. Defaults to localhost. If target is a cluster, you must also specify ClusterInstanceName (see below)<br></p>
+<p>The target computer name hosting the SQL Server instance where the certificate will be installed. Accepts multiple computer names for batch processing.<br />
+For standalone servers, this creates certificates for the specified machine. For clusters, specify each cluster node here and use ClusterInstanceName for the virtual cluster name.<br></p>
 <table>
 <thead>
 <tr>
@@ -581,7 +584,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="clusterinstancename">-ClusterInstanceName</h5>
-<p>When creating certs for a cluster, use this parameter to create the certificate for the cluster node name. Use ComputerName for each of the nodes.<br></p>
+<p>Specifies the virtual cluster name for SQL Server failover cluster instances. This becomes the certificate's Common Name (CN) and primary DNS entry.<br />
+Required when generating certificates for clustered SQL Server instances to ensure proper SSL validation during failovers between cluster nodes.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +613,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The folder to export to.<br></p>
+<p>Directory where the certificate configuration (.inf) and signing request (.csr) files will be created. Defaults to the dbatools export path.<br />
+Each computer gets its own subdirectory containing the certificate files needed for submission to your Certificate Authority.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +642,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="friendlyname">-FriendlyName</h5>
-<p>The FriendlyName listed in the certificate. This defaults to the FQDN of the $ComputerName<br></p>
+<p>Sets a descriptive name for the certificate that appears in the Windows Certificate Store. Defaults to &quot;SQL Server&quot;.<br />
+This name helps administrators identify the certificate's purpose when managing multiple certificates on the same server.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +671,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="keylength">-KeyLength</h5>
-<p>The length of the key - defaults to 1024<br></p>
+<p>Specifies the RSA key length in bits for the certificate. Defaults to 1024 for compatibility, though 2048 or 4096 is recommended for production.<br />
+Higher key lengths provide stronger encryption but may impact SQL Server connection performance on older hardware.<br></p>
 <table>
 <thead>
 <tr>
@@ -693,7 +700,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="dns">-Dns</h5>
-<p>Specify the Dns entries listed in SAN. By default, it will be ComputerName + FQDN, or in the case of clusters, clustername + cluster FQDN.<br></p>
+<p>Additional DNS names to include in the certificate's Subject Alternative Name (SAN) field. By default includes both short and FQDN names.<br />
+Add extra DNS entries here if clients connect using aliases, load balancer names, or other DNS records that point to your SQL Server instance.<br></p>
 <table>
 <thead>
 <tr>

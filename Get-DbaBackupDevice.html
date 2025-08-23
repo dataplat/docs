@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaBackupDevice">Get-DbaBackupDevice</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Backup Device information for each instance(s) of SQL Server.</p>
+<p>Retrieves configured backup devices from SQL Server instances for inventory and management</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaBackupDevice command gets SQL Backup Device information for each instance(s) of SQL Server.</p>
+<p>This function returns all backup devices configured on SQL Server instances, including their type (disk, tape, URL), physical locations, and settings. Backup devices are logical names that map to physical backup destinations, allowing DBAs to create standardized backup locations that can be referenced in backup scripts and maintenance plans. Use this to audit backup device configurations across your environment, verify backup paths are accessible, or document your backup infrastructure for compliance and disaster recovery planning.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaBackupDevice
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

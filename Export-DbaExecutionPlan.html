@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaExecutionPlan">Export-DbaExecutionPlan</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports execution plans to disk.</p>
+<p>Extracts execution plans from plan cache and saves them as .sqlplan files for analysis</p>
 <h2 id="description">Description</h2>
-<p>Exports execution plans to disk. Can pipe from Get-DbaExecutionPlan</p>
+<p>Queries the SQL Server plan cache using dynamic management views and exports execution plans as XML files with .sqlplan extensions. These files can be opened directly in SQL Server Management Studio for detailed analysis and troubleshooting. The function retrieves both single statement plans and batch query plans from sys.dm_exec_query_stats, allowing you to analyze query performance patterns and identify optimization opportunities. You can filter results by database, creation time, or last execution time to focus on specific time periods or problematic queries. This eliminates the need to manually capture plans during query execution or dig through plan cache DMVs.</p>
 <p>Thanks to<br />
 <a href="https://www.simple-talk.com/sql/t-sql-programming/dmvs-for-query-plan-metadata/">https://www.simple-talk.com/sql/t-sql-programming/dmvs-for-query-plan-metadata/</a><br />
 and<br />
@@ -574,7 +574,9 @@ Export-DbaExecutionPlan
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter <br></p>
+<p>Accepts execution plan objects from the pipeline, typically from Get-DbaExecutionPlan.<br />
+Use this when you want to filter or process plans with Get-DbaExecutionPlan first, then export specific results.<br />
+Allows for more complex filtering scenarios before exporting plans to files. <br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +635,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to export execution plans from. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases instead of analyzing plans from all databases on the instance.<br />
+Helps reduce output volume and processing time when troubleshooting database-specific performance issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -661,7 +665,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies which databases to exclude from execution plan export. Accepts wildcards for pattern matching.<br />
+Use this to skip system databases or databases that are known to be performing well when doing instance-wide plan analysis.<br />
+Common exclusions include tempdb, model, or development databases that don't need performance review.<br></p>
 <table>
 <thead>
 <tr>
@@ -689,7 +695,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The directory where all of the sqlxml files will be exported<br></p>
+<p>Specifies the directory path where .sqlplan files will be saved. Defaults to the dbatools export configuration path.<br />
+Files are named using a pattern that includes instance name, database, query position, and SQL handle for easy identification.<br />
+Ensure the path exists and has sufficient space, as large plan caches can generate hundreds of files.<br></p>
 <table>
 <thead>
 <tr>
@@ -717,7 +725,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sincecreation">-SinceCreation</h5>
-<p>Datetime object used to narrow the results to a date<br></p>
+<p>Filters execution plans to only include those created after the specified date and time.<br />
+Use this when investigating performance issues that started after a specific deployment, configuration change, or known incident.<br />
+Helps focus analysis on recently compiled plans rather than older cached plans that may no longer be relevant.<br></p>
 <table>
 <thead>
 <tr>
@@ -745,7 +755,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sincelastexecution">-SinceLastExecution</h5>
-<p>Datetime object used to narrow the results to a date<br></p>
+<p>Filters execution plans to only include those last executed after the specified date and time.<br />
+Use this when you want to analyze only actively used plans rather than stale plans sitting in cache.<br />
+Particularly useful for identifying currently problematic queries during active performance issues or recent workload changes.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaRegServerGroup">Get-DbaRegServerGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets list of Server Groups objects stored in SQL Server Central Management Server (CMS).</p>
+<p>Retrieves server group objects from SQL Server Central Management Server (CMS) for organized server management.</p>
 <h2 id="description">Description</h2>
-<p>Returns an array of Server Groups found in the CMS.</p>
+<p>Returns server group objects from Central Management Server, which are organizational containers that help DBAs manage multiple SQL Server instances in a hierarchical structure. Server groups allow you to categorize registered servers by environment, function, or any logical grouping that makes sense for your infrastructure.</p>
+<p>This function is essential for inventory management and automated administration across multiple SQL Server instances. Use it to discover existing server groups before adding new registered servers, or to build dynamic server lists for bulk operations based on your organizational structure.</p>
+<p>The function supports targeting specific groups by name or path (including nested subgroups), excluding certain groups from results, or filtering by group ID. You can work with both local CMS stores and remote Central Management Server instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaRegServerGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -578,7 +580,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="group">-Group</h5>
-<p>Specifies one or more groups to include from SQL Server Central Management Server.<br></p>
+<p>Specifies one or more server group names to retrieve from Central Management Server. Supports hierarchical paths using backslash notation (e.g., 'Production\WebServers').<br />
+Use this when you need specific organizational groups rather than all groups, or when working with nested subgroups within your CMS structure.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +609,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludegroup">-ExcludeGroup</h5>
-<p>Specifies one or more Central Management Server groups to exclude.<br></p>
+<p>Specifies one or more server group names to exclude from the results. Accepts the same hierarchical path format as the Group parameter.<br />
+Use this when you want all groups except certain ones, such as excluding test environments from production operations or removing deprecated groups from inventory reports.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,7 +638,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="id">-Id</h5>
-<p>Get group by Id(s). This parameter only works if the group has a registered server in it.<br></p>
+<p>Retrieves server groups by their numeric identifier. Note that Id 1 always represents the root DatabaseEngineServerGroup, and this parameter only works for groups that contain registered servers.<br />
+Use this when you need to target groups programmatically using their internal CMS identifiers, typically in automated scripts that reference groups by ID rather than name.<br></p>
 <table>
 <thead>
 <tr>

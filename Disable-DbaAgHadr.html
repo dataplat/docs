@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Disable-DbaAgHadr">Disable-DbaAgHadr</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Disables the Hadr service setting on the specified SQL Server.</p>
+<p>Disables High Availability Disaster Recovery (HADR) capability on SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>In order to build an AG a cluster has to be built and then the Hadr enabled for the SQL Server<br />
-service. This function disables that feature for the SQL Server service.</p>
+<p>Disables the HADR service setting at the SQL Server instance level, effectively removing the instance's ability to participate in Availability Groups. This is commonly needed when decommissioning servers from AGs, troubleshooting AG setup issues, or converting instances back to standalone operation after removing them from Availability Groups.</p>
+<p>The function modifies the HADR setting through WMI but requires a SQL Server service restart to take effect. Use the -Force parameter to automatically restart both SQL Server and SQL Agent services immediately, or manually restart later to apply the change.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Disable-DbaAgHadr
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -574,7 +574,8 @@ service. This function disables that feature for the SQL Server service.</p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Will restart SQL Server and SQL Server Agent service to apply the change.<br></p>
+<p>Automatically restarts both SQL Server and SQL Server Agent services to immediately apply the HADR setting change. Without this switch, the HADR disable setting is changed but requires manual service<br />
+restart to take effect.<br></p>
 <table>
 <thead>
 <tr>

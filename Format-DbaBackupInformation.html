@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Format-DbaBackupInformation">Format-DbaBackupInformation</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Transforms the data in a dbatools BackupHistory object for a restore</p>
+<p>Modifies backup history metadata to prepare database restores with different names, paths, or locations</p>
 <h2 id="description">Description</h2>
-<p>Performs various mapping on Backup History, ready restoring<br />
-Options include changing restore paths, backup paths, database name and many others</p>
+<p>Takes backup history objects from Select-DbaBackupInformation and transforms them for restore scenarios where you need to change database names, file locations, or backup paths. This is essential for disaster recovery situations where you're restoring to different servers, renaming databases, or moving files to new storage locations. The function handles all the metadata transformations needed so you don't have to manually edit restore paths and database references before running Restore-DbaDatabase.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Format-DbaBackupInformation
     [-BackupHistory] &lt;Object[]&gt;
@@ -531,7 +530,8 @@ And all Transaction Log files will be restored to E:\Logfiles<br></p>
 <p>This example changes the location that SQL Server will look for the backups. This is useful if you've moved the backups to a different location<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="backuphistory">-BackupHistory</h5>
-<p>A dbatools backupHistory object, normally this will have been created using Select-DbaBackupInformation <br></p>
+<p>Backup history objects from Select-DbaBackupInformation that contain metadata about database backups.<br />
+Use this to pass backup information that needs to be modified for restore operations to different locations or with different names. <br></p>
 <table>
 <thead>
 <tr>
@@ -560,10 +560,9 @@ And all Transaction Log files will be restored to E:\Logfiles<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="replacedatabasename">-ReplaceDatabaseName</h5>
-<p>If a single value is provided, this will be replaced do all occurrences a database name<br />
-If a Hashtable is passed in, each database name mention will be replaced as specified. If a database's name does not appear it will not be replace<br />
-DatabaseName will also be replaced where it  occurs in the file paths of data and log files.<br />
-Please note, that this won't change the Logical Names of data files, that has to be done with a separate Alter DB call<br></p>
+<p>Changes the database name in backup history to prepare for restoring with a different name. Pass a single string to rename one database, or a hashtable to map multiple old names to new names.<br />
+Use this when restoring databases to different environments or creating copies with new names.<br />
+Database names in file paths are also updated, but logical file names require separate ALTER DATABASE commands after restore.<br></p>
 <table>
 <thead>
 <tr>
@@ -591,7 +590,8 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="replacedbnameinfile">-ReplaceDbNameInFile</h5>
-<p>If set, will replace the old database name with the new name if it occurs in the file name<br></p>
+<p>Replaces occurrences of the original database name within physical file names with the new database name.<br />
+Use this in combination with ReplaceDatabaseName to ensure file names match the new database name and avoid confusion during restore operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -619,7 +619,8 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="datafiledirectory">-DataFileDirectory</h5>
-<p>This will move ALL restored files to this location during the restore<br></p>
+<p>Sets the destination directory for all data files during restore. This overrides the original file locations stored in the backup.<br />
+Use this when restoring to servers with different drive configurations or when consolidating database files to specific storage locations.<br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +648,8 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="logfiledirectory">-LogFileDirectory</h5>
-<p>This will move all log files to this location, overriding DataFileDirectory<br></p>
+<p>Sets the destination directory specifically for transaction log files during restore. This takes precedence over DataFileDirectory for log files only.<br />
+Use this to place log files on separate storage from data files for performance optimization or storage management requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,7 +677,8 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="destinationfilestreamdirectory">-DestinationFileStreamDirectory</h5>
-<p>This move the FileStream folder and contents to the new location, overriding DataFileDirectory<br></p>
+<p>Sets the destination directory for FileStream data files during restore. This takes precedence over DataFileDirectory for FileStream files only.<br />
+Use this when databases contain FileStream data that needs to be stored on specific storage optimized for large file handling.<br></p>
 <table>
 <thead>
 <tr>
@@ -703,7 +706,8 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="databasenameprefix">-DatabaseNamePrefix</h5>
-<p>This string will be prefixed to all restored database's name<br></p>
+<p>Adds a prefix to all database names during the restore operation. The prefix is applied after any name replacements from ReplaceDatabaseName.<br />
+Use this to create standardized naming conventions like adding environment identifiers (Dev_, Test_, etc.) to restored databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -731,7 +735,8 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="databasefileprefix">-DatabaseFilePrefix</h5>
-<p>A string that will be prefixed to every file restored<br></p>
+<p>Adds a prefix to the physical file names of all restored database files (both data and log files).<br />
+Use this to avoid file name conflicts when restoring to servers that already have files with the same names.<br></p>
 <table>
 <thead>
 <tr>
@@ -759,7 +764,8 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="databasefilesuffix">-DatabaseFileSuffix</h5>
-<p>A string that will be suffixed to every file restored<br></p>
+<p>Adds a suffix to the physical file names of all restored database files (both data and log files).<br />
+Use this to create unique file names when restoring multiple copies of the same database or to add version identifiers to restored files.<br></p>
 <table>
 <thead>
 <tr>
@@ -787,7 +793,8 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="rebasebackupfolder">-RebaseBackupFolder</h5>
-<p>Use this to rebase where your backups are stored.<br></p>
+<p>Changes the path where SQL Server will look for backup files during the restore operation.<br />
+Use this when backup files have been moved to a different location since the backup was created, such as copying backups to a disaster recovery site.<br></p>
 <table>
 <thead>
 <tr>
@@ -815,7 +822,8 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="continue">-Continue</h5>
-<p>Indicates that this is a continuing restore<br></p>
+<p>Marks this as part of an ongoing restore sequence that will have additional transaction log backups applied later.<br />
+Use this when performing point-in-time recovery scenarios where you need to restore a full backup followed by multiple log backups.<br></p>
 <table>
 <thead>
 <tr>
@@ -843,11 +851,9 @@ Please note, that this won't change the Logical Names of data files, that has to
 </tbody>
 </table>
 <h5 id="filemapping">-FileMapping</h5>
-<p>A hashtable that can be used to move specific files to a location.<br />
-<code>$FileMapping = @{'DataFile1'='c:\restoredfiles\Datafile1.mdf';'DataFile3'='d:\DataFile3.mdf'}</code><br />
-And files not specified in the mapping will be restored to their original location<br />
-This Parameter is exclusive with DestinationDataDirectory<br />
-If specified, this will override any other file renaming/relocation options.<br></p>
+<p>Maps specific logical file names to custom physical file paths during restore. Use hashtable format like @{'LogicalName1'='C:\NewPath\file1.mdf'}.<br />
+Use this when you need granular control over where individual database files are restored, overriding directory-based parameters.<br />
+Files not specified in the mapping retain their original locations, and this parameter takes precedence over all other file location settings.<br></p>
 <table>
 <thead>
 <tr>
@@ -875,7 +881,8 @@ If specified, this will override any other file renaming/relocation options.<br>
 </tbody>
 </table>
 <h5 id="pathsep">-PathSep</h5>
-<p>By default is Windows's style (<code>\</code>) but you can pass also, e.g., <code>/</code> for Unix's style paths<br></p>
+<p>Specifies the path separator character for file paths. Defaults to backslash () for Windows.<br />
+Use forward slash (/) when working with Linux SQL Server instances or when backup history contains Unix-style paths.<br></p>
 <table>
 <thead>
 <tr>

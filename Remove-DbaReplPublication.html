@@ -569,7 +569,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database that will be replicated.<br></p>
+<p>Specifies the database containing the replication publication to remove. Required when using SqlInstance to identify which database's publications to target.<br />
+Use this to scope the operation to a specific database when multiple databases have replication configured.<br></p>
 <table>
 <thead>
 <tr>
@@ -597,7 +598,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the replication publication<br></p>
+<p>Specifies the exact name of the replication publication to remove. Required when using SqlInstance to identify which specific publication to target.<br />
+Use this when you know the publication name and want to remove a specific publication rather than all publications in a database.<br></p>
 <table>
 <thead>
 <tr>
@@ -625,7 +627,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A publication object retrieved from Get-DbaReplPublication. Enables piping from Get-DbaReplPublication.<br></p>
+<p>Accepts replication publication objects from Get-DbaReplPublication for pipeline operations. Use this when you want to filter publications first, then remove selected ones.<br />
+Particularly useful when removing multiple publications based on specific criteria or when integrating with other replication management workflows.<br></p>
 <table>
 <thead>
 <tr>

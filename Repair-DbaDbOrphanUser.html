@@ -485,15 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Repair-DbaDbOrphanUser">Repair-DbaDbOrphanUser</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Finds orphan users with existing login and remaps them.</p>
+<p>Repairs orphaned database users by remapping them to matching server logins or optionally removing them.</p>
 <h2 id="description">Description</h2>
-<p>An orphan user is defined by a user that does not have a matching login (Login property = &quot;&quot;).</p>
-<p>If the matching login exists it must be:<br />
-Enabled<br />
-Not a system object<br />
-Not locked<br />
-Have the same name that user</p>
-<p>You can drop users that does not have their matching login by specifying the parameter -RemoveNotExisting.</p>
+<p>Identifies and repairs orphaned database users - users that exist in a database but are no longer associated with a server login. This commonly occurs after database restores, migrations, or when logins are recreated.</p>
+<p>The function searches each database for users where the Login property is empty, then attempts to remap them to existing server logins with matching names. For a login to be eligible for remapping, it must be enabled, not a system object, not locked, and have the exact same name as the orphaned user.</p>
+<p>Uses modern ALTER USER syntax for SQL Server 2005+ or the legacy sp_change_users_login procedure for SQL Server 2000. Optionally removes orphaned users that have no matching server login when -RemoveNotExisting is specified.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Repair-DbaDbOrphanUser
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -597,7 +593,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to scan for orphaned users. Accepts wildcards for pattern matching and multiple database names.<br />
+Use this when you only need to repair orphaned users in specific databases rather than scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -625,7 +622,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server<br></p>
+<p>Specifies databases to skip when scanning for orphaned users. Useful for avoiding system databases or databases under maintenance.<br />
+Commonly used to exclude tempdb, distribution databases, or databases where orphaned users should remain untouched.<br></p>
 <table>
 <thead>
 <tr>
@@ -653,7 +651,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="users">-Users</h5>
-<p>Specifies the list of usernames to repair.<br></p>
+<p>Specifies specific database users to repair rather than processing all orphaned users found.<br />
+Use this when you need to target specific problematic users or when working with large databases where selective repair is preferred.<br></p>
 <table>
 <thead>
 <tr>
@@ -681,7 +680,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="removenotexisting">-RemoveNotExisting</h5>
-<p>If this switch is enabled, all users that do not have a matching login will be dropped from the database.<br></p>
+<p>Removes orphaned database users that have no corresponding server login instead of just reporting them.<br />
+Use this after database migrations or when cleaning up databases where some users should no longer exist. Exercise caution as this permanently removes users.<br></p>
 <table>
 <thead>
 <tr>
@@ -709,7 +709,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Forces alter schema to dbo owner so users can be dropped.<br></p>
+<p>Bypasses confirmation prompts and forces schema ownership changes to dbo when removing orphaned users.<br />
+Required when orphaned users own database schemas that prevent their removal. Use with caution as it can affect database object ownership.<br></p>
 <table>
 <thead>
 <tr>

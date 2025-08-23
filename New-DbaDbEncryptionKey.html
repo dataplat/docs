@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbEncryptionKey">New-DbaDbEncryptionKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new database encryption key that is encrypted by the instance certificate</p>
+<p>Creates database encryption keys for Transparent Data Encryption (TDE)</p>
 <h2 id="description">Description</h2>
-<p>Creates a new database encryption key. If no database is specified, the encryption key will be created in master.</p>
-<p>In order to encrypt the database encryption key with an asymmetric key, you must use an asymmetric key that resides on an extensible key management provider.</p>
+<p>Creates database encryption keys (DEKs) required for Transparent Data Encryption, using certificates or asymmetric keys from the master database. This is the essential first step before enabling TDE on any database to encrypt data at rest. The function automatically validates that certificates have been backed up before creating encryption keys, preventing potential data loss scenarios. If no encryptor is specified, it will automatically select an appropriate certificate or asymmetric key from master database.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbEncryptionKey
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -579,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where the encryption key will be created. Defaults to master.<br></p>
+<p>Specifies the database where the encryption key will be created to enable Transparent Data Encryption.<br />
+This is the user database you want to encrypt, not the master database where certificates are stored.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,8 +607,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="encryptorname">-EncryptorName</h5>
-<p>The name of the encryptor (Certificate or Asymmetric Key) in master that will be used. Tries to find one if one is not specified.<br />
-In order to encrypt the database encryption key with an asymmetric key, you must use an asymmetric key that resides on an extensible key management provider.<br></p>
+<p>Specifies the name of the certificate or asymmetric key in the master database to encrypt the database encryption key.<br />
+If not provided, the function automatically selects an appropriate certificate from master (requires exactly one non-system certificate to exist).<br />
+For asymmetric keys, the key must reside on an extensible key management provider like Azure Key Vault or Hardware Security Module.<br></p>
 <table>
 <thead>
 <tr>
@@ -636,7 +637,8 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Specifies an encryption type of Certificate or Asymmetric Key. Defaults to Certificate.<br></p>
+<p>Specifies whether to use a Certificate or AsymmetricKey from the master database as the encryptor.<br />
+Certificates are more common for TDE implementations, while asymmetric keys are typically used with external key management providers.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,8 +670,9 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 </tbody>
 </table>
 <h5 id="encryptionalgorithm">-EncryptionAlgorithm</h5>
-<p>Specifies an encryption algorithm. Defaults to Aes256.<br />
-Options are: &quot;Aes128&quot;, &quot;Aes192&quot;, &quot;Aes256&quot;, &quot;TripleDes&quot;<br></p>
+<p>Specifies the symmetric encryption algorithm used for the database encryption key.<br />
+Aes256 provides the strongest encryption and is recommended for production environments, while Aes128 offers faster performance.<br />
+TripleDes is legacy and should be avoided for new implementations.<br></p>
 <table>
 <thead>
 <tr>
@@ -701,7 +704,8 @@ Options are: &quot;Aes128&quot;, &quot;Aes192&quot;, &quot;Aes256&quot;, &quot;T
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase to create encryption keys for multiple databases.<br />
+Use this when you need to enable TDE on several databases across one or more SQL Server instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -729,9 +733,9 @@ Options are: &quot;Aes128&quot;, &quot;Aes192&quot;, &quot;Aes256&quot;, &quot;T
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>When a certificate encryptor is used, this command will refuse to create an encryption key for a certificate that has not been backed up<br />
-Use Force to create an encryption key even though the specified cert has not been backed up<br />
-Also, if EncryptorName is specified and the certificate does not exist, it will be created when Force is specified<br></p>
+<p>Bypasses the safety check that prevents creating encryption keys with unbackup certificates, which could lead to unrecoverable data loss.<br />
+Also creates the specified certificate automatically if it doesn't exist in the master database.<br />
+Use this only in development environments or when you have verified certificate backups exist through other means.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaRegServer">Remove-DbaRegServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes registered servers found in SQL Server Central Management Server (CMS).</p>
+<p>Removes registered servers from SQL Server Central Management Server or local registered server groups.</p>
 <h2 id="description">Description</h2>
-<p>Removes registered servers found in SQL Server Central Management Server (CMS).</p>
+<p>Removes registered servers from SQL Server Central Management Server (CMS) or local registered server groups within SQL Server Management Studio. This command helps DBAs clean up outdated server registrations, remove decommissioned servers, or reorganize server inventory without manually navigating through SSMS interfaces.</p>
+<p>You can remove servers by specifying individual server names, registered server display names, or entire groups. The function works with both CMS hierarchies and local registered server groups, but cannot modify Azure Data Studio registered servers.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaRegServer
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -577,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Specifies one or more names to include. Name is the visible name in SSMS CMS interface (labeled Registered Server Name)<br></p>
+<p>Specifies registered server display names to remove from CMS or local registered servers.<br />
+Use this when you need to remove servers by their friendly names as shown in the SSMS Registered Servers pane rather than actual server instance names.<br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +607,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="servername">-ServerName</h5>
-<p>Specifies one or more server names to include. Server Name is the actual instance name (labeled Server Name)<br></p>
+<p>Specifies actual SQL Server instance names to remove from registered servers.<br />
+Use this when you need to remove servers by their connection strings or network names rather than display names, which is helpful when cleaning up instances that may have been registered with<br />
+different friendly names.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="group">-Group</h5>
-<p>Specifies one or more groups to include from SQL Server Central Management Server.<br></p>
+<p>Removes all registered servers from specified Central Management Server groups. Supports hierarchical paths using backslash notation (e.g., &quot;Production\Database Servers&quot;).<br />
+Use this when you need to clean out entire groups during environment changes, server migrations, or organizational restructuring.<br></p>
 <table>
 <thead>
 <tr>
@@ -661,7 +666,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows results from Get-DbaRegServer to be piped in<br></p>
+<p>Accepts registered server objects from Get-DbaRegServer for targeted removal operations.<br />
+Use this for complex removal scenarios where you first query and filter servers, then pipe the results to remove specific servers based on properties or conditions.<br></p>
 <table>
 <thead>
 <tr>

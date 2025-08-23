@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaNetworkCertificate">Get-DbaNetworkCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the computer certificate enabled for the SQL Server instance's network encryption.</p>
+<p>Retrieves the certificate currently configured for SQL Server network encryption.</p>
 <h2 id="description">Description</h2>
-<p>Gets the computer certificates that is assigned to the SQL Server instance for enabling network encryption.</p>
+<p>Retrieves the specific computer certificate that SQL Server is configured to use for network encryption and SSL connections. This shows you which certificate from the local certificate store is actively being used by the SQL Server instance for encrypting client connections. Only returns instances that actually have a certificate configured - instances without certificates won't appear in the results. Useful for auditing SSL configurations, troubleshooting encrypted connection issues, and verifying certificate assignments across multiple instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaNetworkCertificate
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]

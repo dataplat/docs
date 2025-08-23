@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaCmConnection">Set-DbaCmConnection</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Configures a connection object for use in remote computer management.</p>
+<p>Configures remote computer connection settings for SQL Server host management.</p>
 <h2 id="description">Description</h2>
-<p>Configures a connection object for use in remote computer management.<br />
-This function will either create new records for computers that have no connection registered so far, or it will configure existing connections if already present.</p>
-<p>As such it can be handy in making bulk-edits on connections or manually adjusting some settings.</p>
+<p>Configures connection objects that dbatools uses to manage remote SQL Server host computers via CIM, WMI, and PowerShell remoting.<br />
+This function creates new connection records for computers not yet cached, or modifies existing connection settings for previously contacted hosts.</p>
+<p>Use this to bulk-configure connection behavior, manage credential caching, or troubleshoot remote connection issues when dbatools functions need to access SQL Server host systems for tasks like service management, file operations, or system information gathering.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaCmConnection
     [-ComputerName &lt;DbaCmConnectionParameter[]&gt;]
@@ -563,7 +563,8 @@ In this example, the configuration settings will also be reset, since after re-i
 In many cases, using the default settings is desirable. For specific settings, use New-DbaCmConnection as part of the profile in order to explicitly configure a connection.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The computer to build the connection object for.<br></p>
+<p>Specifies the SQL Server host computer name to configure connection settings for. Accepts computer names, FQDNs, or IP addresses.<br />
+Use this when you need to pre-configure how dbatools connects to specific SQL Server host machines for service management, file operations, or system administration tasks.<br></p>
 <table>
 <thead>
 <tr>
@@ -619,8 +620,8 @@ In many cases, using the default settings is desirable. For specific settings, u
 </tbody>
 </table>
 <h5 id="usewindowscredentials">-UseWindowsCredentials</h5>
-<p>Whether using the default windows credentials is legit.<br />
-Not setting this will not exclude using windows credentials, but only not pre-confirm them as working.<br></p>
+<p>Confirms that Windows credentials of the current user should be used for remote connections to the target computer.<br />
+Set this when you know the current user account has sufficient privileges on the remote SQL Server host and want to avoid credential prompts.<br></p>
 <table>
 <thead>
 <tr>
@@ -648,8 +649,8 @@ Not setting this will not exclude using windows credentials, but only not pre-co
 </tbody>
 </table>
 <h5 id="overrideexplicitcredential">-OverrideExplicitCredential</h5>
-<p>Setting this will enable the credential override.<br />
-The override will cause the system to ignore explicitly specified credentials, so long as known, good credentials are available.<br></p>
+<p>Forces dbatools to use cached working credentials instead of explicitly provided credentials when available.<br />
+Enable this when you want the connection system to automatically use known-good credentials rather than failing with explicitly provided but incorrect credentials.<br></p>
 <table>
 <thead>
 <tr>
@@ -677,8 +678,8 @@ The override will cause the system to ignore explicitly specified credentials, s
 </tbody>
 </table>
 <h5 id="overrideconnectionpolicy">-OverrideConnectionPolicy</h5>
-<p>Setting this will configure the connection policy override.<br />
-By default, global configurations enforce, which connection type is available at all and which is disabled.<br></p>
+<p>Allows this connection to bypass global connection type restrictions configured in dbatools settings.<br />
+Use this when you need to enable specific connection methods (CIM, WMI, PowerShell remoting) for individual computers that are normally disabled globally.<br></p>
 <table>
 <thead>
 <tr>
@@ -706,8 +707,8 @@ By default, global configurations enforce, which connection type is available at
 </tbody>
 </table>
 <h5 id="disabledconnectiontypes">-DisabledConnectionTypes</h5>
-<p>Explicitly disable connection types.<br />
-These types will then not be used for connecting to the computer.<br></p>
+<p>Specifies which connection protocols to disable for this computer (CIM, WMI, PowerShell remoting, or combinations).<br />
+Use this to block problematic connection methods on specific hosts while allowing others to work normally.<br></p>
 <table>
 <thead>
 <tr>
@@ -735,7 +736,8 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="disablebadcredentialcache">-DisableBadCredentialCache</h5>
-<p>Will prevent the caching of credentials if set to true.<br></p>
+<p>Prevents dbatools from remembering credentials that fail authentication for this computer.<br />
+Enable this when you're frequently changing credentials or troubleshooting authentication issues and don't want failed attempts cached.<br></p>
 <table>
 <thead>
 <tr>
@@ -763,7 +765,8 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="disablecimpersistence">-DisableCimPersistence</h5>
-<p>Will prevent Cim-Sessions to be reused.<br></p>
+<p>Forces dbatools to create new CIM sessions for each operation instead of reusing existing sessions.<br />
+Use this when experiencing issues with persistent CIM connections or when you need fresh authentication for each operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -791,7 +794,8 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="disablecredentialautoregister">-DisableCredentialAutoRegister</h5>
-<p>Will prevent working credentials from being automatically cached<br></p>
+<p>Prevents successful credentials from being automatically saved to the connection cache for future use.<br />
+Enable this for security-sensitive environments where you don't want credentials stored in memory between operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -819,8 +823,8 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="enablecredentialfailover">-EnableCredentialFailover</h5>
-<p>Will enable automatic failing over to known to work credentials, when using bad credentials.<br />
-By default, passing bad credentials will cause the Computer Management functions to interrupt with a warning (Or exception if in silent mode).<br></p>
+<p>Allows dbatools to automatically try previously successful credentials when the provided credentials fail.<br />
+Use this to improve connection reliability by falling back to known working credentials when new ones don't authenticate properly.<br></p>
 <table>
 <thead>
 <tr>
@@ -848,7 +852,8 @@ By default, passing bad credentials will cause the Computer Management functions
 </tbody>
 </table>
 <h5 id="windowscredentialsarebad">-WindowsCredentialsAreBad</h5>
-<p>Will prevent the windows credentials of the currently logged on user from being used for the remote connection.<br></p>
+<p>Marks the current user's Windows credentials as non-functional for this remote computer.<br />
+Set this when you know Windows authentication won't work for the target host and want to prevent automatic attempts with current user credentials.<br></p>
 <table>
 <thead>
 <tr>
@@ -876,8 +881,8 @@ By default, passing bad credentials will cause the Computer Management functions
 </tbody>
 </table>
 <h5 id="cimwinrmoptions">-CimWinRMOptions</h5>
-<p>Specify a set of options to use when connecting to the target computer using CIM over WinRM.<br />
-Use 'New-CimSessionOption' to create such an object.<br></p>
+<p>Specifies advanced WinRM session options for CIM connections, such as authentication methods, timeouts, or proxy settings.<br />
+Create this object using New-CimSessionOption and use when you need custom WinRM configuration for challenging network environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -905,8 +910,8 @@ Use 'New-CimSessionOption' to create such an object.<br></p>
 </tbody>
 </table>
 <h5 id="cimdcomoptions">-CimDCOMOptions</h5>
-<p>Specify a set of options to use when connecting to the target computer using CIM over DCOM.<br />
-Use 'New-CimSessionOption' to create such an object.<br></p>
+<p>Specifies advanced DCOM session options for CIM connections, including authentication, impersonation levels, or DCOM-specific settings.<br />
+Create this object using New-CimSessionOption and use when connecting through firewalls or when WinRM isn't available.<br></p>
 <table>
 <thead>
 <tr>
@@ -934,8 +939,8 @@ Use 'New-CimSessionOption' to create such an object.<br></p>
 </tbody>
 </table>
 <h5 id="addbadcredential">-AddBadCredential</h5>
-<p>Adds credentials to the bad credential cache.<br />
-These credentials will not be used when connecting to the target remote computer.<br></p>
+<p>Adds specific credentials to the list of known non-working credentials for this computer.<br />
+Use this to prevent dbatools from attempting credentials you know will fail, improving performance and avoiding account lockouts.<br></p>
 <table>
 <thead>
 <tr>
@@ -963,7 +968,8 @@ These credentials will not be used when connecting to the target remote computer
 </tbody>
 </table>
 <h5 id="removebadcredential">-RemoveBadCredential</h5>
-<p>Removes credentials from the bad credential cache.<br></p>
+<p>Removes previously flagged credentials from the bad credential list for this computer.<br />
+Use this when credentials that previously failed have been updated or permissions have been granted.<br></p>
 <table>
 <thead>
 <tr>
@@ -991,8 +997,8 @@ These credentials will not be used when connecting to the target remote computer
 </tbody>
 </table>
 <h5 id="clearbadcredential">-ClearBadCredential</h5>
-<p>Clears the cache of credentials that didn't worked.<br />
-Will be applied before adding entries to the credential cache.<br></p>
+<p>Removes all entries from the bad credential cache for this computer.<br />
+Use this when troubleshooting authentication issues or after bulk credential updates that might affect previously failed credentials.<br></p>
 <table>
 <thead>
 <tr>
@@ -1020,8 +1026,8 @@ Will be applied before adding entries to the credential cache.<br></p>
 </tbody>
 </table>
 <h5 id="clearcredential">-ClearCredential</h5>
-<p>Clears the cache of credentials that worked.<br />
-Will be applied before adding entries to the credential cache.<br></p>
+<p>Removes any cached working credentials for this computer, forcing fresh authentication on next connection.<br />
+Use this when credentials have changed or when you need to ensure the next connection uses newly provided credentials.<br></p>
 <table>
 <thead>
 <tr>
@@ -1049,15 +1055,8 @@ Will be applied before adding entries to the credential cache.<br></p>
 </tbody>
 </table>
 <h5 id="resetcredential">-ResetCredential</h5>
-<p>Resets all credential-related caches:</p>
-<ul>
-<li>Clears bad credential cache</li>
-<li>Removes last working credential</li>
-<li>Un-Confirms the windows credentials as working</li>
-<li>Un-Confirms the windows credentials as not working<br />
-Automatically implies the parameters -ClearCredential and -ClearBadCredential. Using them together is redundant.<br />
-Will be applied before adding entries to the credential cache.<br></li>
-</ul>
+<p>Performs a complete credential reset by clearing both working and failed credential caches and resetting Windows credential status.<br />
+Use this for comprehensive credential troubleshooting or when starting fresh with connection authentication for a host.<br></p>
 <table>
 <thead>
 <tr>
@@ -1085,7 +1084,8 @@ Will be applied before adding entries to the credential cache.<br></li>
 </tbody>
 </table>
 <h5 id="resetconnectionstatus">-ResetConnectionStatus</h5>
-<p>Restores all connection status to default, as if no connection protocol had ever been tested.<br></p>
+<p>Clears all connection protocol test results, marking CIM, WMI, and PowerShell remoting as untested for this computer.<br />
+Use this to force dbatools to re-test connection methods after network changes, firewall updates, or service configuration changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -1113,10 +1113,8 @@ Will be applied before adding entries to the credential cache.<br></li>
 </tbody>
 </table>
 <h5 id="resetconfiguration">-ResetConfiguration</h5>
-<p>Restores the configuration back to system default.<br />
-Configuration elements are the basic behavior controlling settings, such as whether to cache bad credentials, etc.<br />
-These can be configured globally using the dbatools configuration system and overridden locally on a per-connection basis.<br />
-For a list of all available settings, use &quot;Get-DbatoolsConfig -Module ComputerManagement&quot;.<br></p>
+<p>Restores all connection behavior settings to system defaults, removing any computer-specific overrides.<br />
+Use this to return a connection to standard behavior after testing custom settings or when troubleshooting connection issues.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbEncryption">Get-DbaDbEncryption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns a summary of encryption used on databases passed to it.</p>
+<p>Retrieves comprehensive encryption inventory from SQL Server databases including TDE status, certificates, and keys.</p>
 <h2 id="description">Description</h2>
-<p>Shows if a database has Transparent Data Encryption (TDE), any certificates, asymmetric keys or symmetric keys with details for each.</p>
+<p>Audits database-level encryption across SQL Server instances by examining TDE encryption status, certificates, asymmetric keys, and symmetric keys within each database. Returns detailed information including key algorithms, lengths, owners, backup dates, and expiration dates for compliance reporting and security assessments. Particularly useful for encryption audits, certificate lifecycle management, and ensuring regulatory compliance across your SQL Server environment.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbEncryption
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -579,7 +579,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to examine for encryption objects including TDE, certificates, and keys. Accepts database names as strings or arrays.<br />
+Use this to focus encryption audits on specific databases rather than scanning all user databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +608,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server.<br></p>
+<p>Excludes specific databases from the encryption inventory scan. Useful when you need to audit most databases but skip certain ones.<br />
+Commonly used to exclude databases with known encryption issues or maintenance databases that don't require encryption compliance checks.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemdbs">-IncludeSystemDBs</h5>
-<p>Switch parameter that when used will display system database information.<br></p>
+<p>Includes system databases (master, model, msdb, tempdb) in the encryption inventory. By default, only user databases are scanned.<br />
+Use this when conducting comprehensive security audits that require visibility into system database encryption objects and TDE configurations.<br></p>
 <table>
 <thead>
 <tr>

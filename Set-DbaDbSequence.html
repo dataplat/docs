@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaDbSequence">Set-DbaDbSequence</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Modifies a sequence.</p>
+<p>Modifies properties of existing SQL Server sequence objects</p>
 <h2 id="description">Description</h2>
-<p>Modifies a sequence in the database(s) specified.</p>
+<p>Modifies existing SQL Server sequence objects by updating their properties such as increment value, restart point, minimum and maximum bounds, cycling behavior, and cache settings. This function is essential when you need to adjust sequence behavior after deployment, fix increment issues, or optimize performance without recreating the sequence and losing its current state.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaDbSequence
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -521,7 +521,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Using a pipeline this command modifies the sequence named TestSchema.TestSequence in the TestDB database on the sqldev01 instance. The sequence will now cycle the sequence values.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sequence">-Sequence</h5>
-<p>The name of the new sequence <br></p>
+<p>Specifies the name of the sequence object to modify. This is the sequence you want to update properties for.<br />
+Must be an existing sequence in the specified schema, otherwise the function will fail. <br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies the target database containing the sequence to modify. Accepts multiple database names.<br />
+Required when using SqlInstance parameter to identify which database contains the sequence.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +639,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The name of the schema for the sequence. The default is dbo.<br></p>
+<p>Specifies the schema containing the sequence to modify. Defaults to 'dbo' if not specified.<br />
+Use this when your sequence exists in a custom schema rather than the default dbo schema.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +668,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="restartwith">-RestartWith</h5>
-<p>The first value for the sequence to restart with.<br></p>
+<p>Sets the next value the sequence will return when NEXT VALUE FOR is called. Immediately resets the sequence to this value.<br />
+Use this to fix sequence gaps, realign sequences after data imports, or reset sequences for testing.<br></p>
 <table>
 <thead>
 <tr>
@@ -693,7 +697,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="incrementby">-IncrementBy</h5>
-<p>The value to increment by.<br></p>
+<p>Sets how much the sequence value increases (or decreases if negative) with each NEXT VALUE FOR call.<br />
+Common values are 1 for sequential numbering or larger values for reserving ranges. Cannot be zero.<br></p>
 <table>
 <thead>
 <tr>
@@ -721,7 +726,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="minvalue">-MinValue</h5>
-<p>The minimum bound for the sequence.<br></p>
+<p>Sets the lowest value the sequence can generate. Once reached, sequence behavior depends on the Cycle setting.<br />
+Use this to establish data range constraints or prevent sequences from going below business-required minimums.<br></p>
 <table>
 <thead>
 <tr>
@@ -749,7 +755,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="maxvalue">-MaxValue</h5>
-<p>The maximum bound for the sequence.<br></p>
+<p>Sets the highest value the sequence can generate. Once reached, sequence behavior depends on the Cycle setting.<br />
+Use this to prevent sequences from exceeding data type limits or business-defined maximum values.<br></p>
 <table>
 <thead>
 <tr>
@@ -777,7 +784,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="cycle">-Cycle</h5>
-<p>Switch that indicates if the sequence should cycle the values<br></p>
+<p>Enables the sequence to restart from MinValue after reaching MaxValue (or vice versa for negative increments).<br />
+Use this for scenarios like rotating through a fixed set of values or when sequences need to wrap around.<br></p>
 <table>
 <thead>
 <tr>
@@ -805,7 +813,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="cachesize">-CacheSize</h5>
-<p>The integer size of the cache. To specify NO CACHE for a sequence use -CacheSize 0. As noted in the Microsoft documentation if the cache size is not specified the Database Engine will select a size.<br></p>
+<p>Sets the number of sequence values SQL Server pre-allocates in memory for faster access.<br />
+Use 0 to disable caching (guarantees no gaps but slower performance), or specify a number for high-performance scenarios. Omit this parameter to let SQL Server choose an optimal cache size.<br></p>
 <table>
 <thead>
 <tr>
@@ -833,7 +842,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase via pipeline to modify sequences across multiple databases.<br />
+Use this for batch operations when you need to modify the same sequence in multiple databases.<br></p>
 <table>
 <thead>
 <tr>

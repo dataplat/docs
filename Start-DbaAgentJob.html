@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Start-DbaAgentJob">Start-DbaAgentJob</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Starts a running SQL Server Agent Job.</p>
+<p>Starts SQL Server Agent jobs and optionally waits for completion</p>
 <h2 id="description">Description</h2>
-<p>This command starts a job then returns connected SMO object for SQL Agent Job information for each instance(s) of SQL Server.</p>
+<p>Starts one or more SQL Server Agent jobs that are currently idle. This function validates jobs are in an idle state before starting them and can optionally wait for job completion before returning results. You can start all jobs, specific jobs by name, or exclude certain jobs from execution. It also supports starting jobs at specific steps rather than from the beginning, which is useful for resuming failed jobs or testing individual job steps.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Start-DbaAgentJob
     [-SqlCredential &lt;PSCredential&gt;]
@@ -605,7 +605,8 @@ Starts Job1, starts Job2, starts Job3 and waits for completion of Job1, Job2, an
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter that enables piping <br></p>
+<p>Accepts SQL Agent job objects from the pipeline, typically from Get-DbaAgentJob or other dbatools functions.<br />
+Use this when chaining dbatools commands together to start jobs that meet specific criteria, such as failed jobs or jobs with certain schedules. <br></p>
 <table>
 <thead>
 <tr>
@@ -664,7 +665,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The job(s) to process - this list is auto-populated from the server. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies the names of specific SQL Agent jobs to start. Accepts job names as strings and supports multiple job names in an array.<br />
+Use this when you need to start only certain jobs instead of all jobs on the server. Job names are case-sensitive and must match exactly.<br></p>
 <table>
 <thead>
 <tr>
@@ -692,7 +694,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="stepname">-StepName</h5>
-<p>The step name to start the job at, will default to the step configured by the job.<br></p>
+<p>Specifies the job step name where job execution should begin instead of starting from the first step.<br />
+Use this to resume a failed job at a specific step or to test individual job steps without running the entire job sequence.<br></p>
 <table>
 <thead>
 <tr>
@@ -720,7 +723,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludejob">-ExcludeJob</h5>
-<p>The job(s) to exclude - this list is auto-populated from the server.<br></p>
+<p>Specifies job names to exclude from starting when using -AllJobs or when no specific jobs are specified.<br />
+Use this to start all jobs except certain ones, such as excluding maintenance jobs during business hours or problematic jobs that need special handling.<br></p>
 <table>
 <thead>
 <tr>
@@ -748,7 +752,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alljobs">-AllJobs</h5>
-<p>Retrieve all the jobs<br></p>
+<p>Starts all SQL Agent jobs that are currently in an idle state on the target instance.<br />
+Use this switch when you need to start all available jobs, typically after server maintenance or during bulk job execution scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -776,7 +781,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="wait">-Wait</h5>
-<p>Wait for output until the job has started<br></p>
+<p>Waits for each job to complete execution before returning results or proceeding to the next job.<br />
+Use this when you need to ensure job completion before continuing your script, or when jobs have dependencies that require sequential execution.<br></p>
 <table>
 <thead>
 <tr>
@@ -804,8 +810,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="parallel">-Parallel</h5>
-<p>Works in conjunction with the Wait switch.  Be default, when passing the Wait switch, each job is started one at a time and waits for completion<br />
-before starting the next job.  The Parallel switch will change the behavior to start all jobs at once, and wait for all jobs to complete .<br></p>
+<p>Starts all specified jobs simultaneously and waits for all to complete, rather than starting and waiting for each job sequentially.<br />
+Use this when jobs can run concurrently without conflicts to reduce total execution time. Requires the -Wait parameter to function.<br></p>
 <table>
 <thead>
 <tr>
@@ -833,7 +839,8 @@ before starting the next job.  The Parallel switch will change the behavior to s
 </tbody>
 </table>
 <h5 id="waitperiod">-WaitPeriod</h5>
-<p>Wait period in seconds to use when -Wait is used<br></p>
+<p>Sets the polling interval in seconds for checking job status when using the -Wait parameter. Defaults to 3 seconds.<br />
+Adjust this value based on your job duration - use shorter intervals for quick jobs or longer intervals for jobs that run for hours to reduce server load.<br></p>
 <table>
 <thead>
 <tr>
@@ -861,7 +868,8 @@ before starting the next job.  The Parallel switch will change the behavior to s
 </tbody>
 </table>
 <h5 id="sleepperiod">-SleepPeriod</h5>
-<p>Period in milliseconds to wait after a job has started<br></p>
+<p>Sets the initial wait time in milliseconds after starting a job before checking its status. Defaults to 300 milliseconds.<br />
+Increase this value if you experience issues with jobs not showing as started immediately, which can occur on heavily loaded servers.<br></p>
 <table>
 <thead>
 <tr>

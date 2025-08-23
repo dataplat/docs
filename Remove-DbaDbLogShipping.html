@@ -485,12 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbLogShipping">Remove-DbaDbLogShipping</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Remove-DbaDbLogShipping will remove one or more databases from log shipping</p>
+<p>Dismantles SQL Server log shipping configurations and removes associated jobs and monitoring</p>
 <h2 id="description">Description</h2>
-<p>The command Remove-DbaDbLogShipping will remove one or more databases from log shipping</p>
-<p>After running the command it will remove all the jobs, configurations set up for log shipping</p>
-<p>By default the secondary database will NOT be removed.<br />
-Use -RemoveSecondaryDatabase to make the command the secondary database</p>
+<p>Completely removes log shipping setup from both primary and secondary instances by cleaning up all associated SQL Agent jobs, monitor configurations, and database relationships stored in msdb. This function calls the proper SQL Server system stored procedures (sp_delete_log_shipping_primary_secondary, sp_delete_log_shipping_primary_database, and sp_delete_log_shipping_secondary_database) to ensure clean removal without orphaned objects.</p>
+<p>Use this when migrating to different disaster recovery solutions, cleaning up failed log shipping setups, or decommissioning secondary servers. The function automatically discovers secondary server information from the log shipping configuration if not specified.</p>
+<p>By default, the secondary database remains intact and accessible after log shipping removal. Use -RemoveSecondaryDatabase to completely drop the secondary database as part of the cleanup process.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbLogShipping
     [-PrimarySqlInstance] &lt;DbaInstanceParameter&gt;
@@ -522,8 +521,8 @@ Remove the log shipping for multiple database<br></p>
 Remove the log shipping for database DB2 and remove the database from the secondary instance<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="primarysqlinstance">-PrimarySqlInstance</h5>
-<p>Primary SQL Server instance which contains the primary database(s).<br />
-You must have sysadmin access and server version must be SQL Server version 2000 or greater. <br></p>
+<p>The SQL Server instance hosting the primary database(s) in the log shipping configuration. This server contains the source database that is being shipped to secondary instances.<br />
+You must have sysadmin access to execute the log shipping removal stored procedures. Requires SQL Server 2000 or later. <br></p>
 <table>
 <thead>
 <tr>
@@ -551,8 +550,8 @@ You must have sysadmin access and server version must be SQL Server version 2000
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Database to remove from log shipping.<br />
-This is the name of the database located on the primary instance <br></p>
+<p>The primary database name(s) to remove from log shipping configuration. Accepts multiple databases via pipeline or array input.<br />
+Must specify the database name as it exists on the primary instance, not the secondary instance name which may be different. <br></p>
 <table>
 <thead>
 <tr>
@@ -581,8 +580,8 @@ This is the name of the database located on the primary instance <br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="secondarysqlinstance">-SecondarySqlInstance</h5>
-<p>Secondary SQL Server instance which contains the secondary database(s)<br />
-You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
+<p>The SQL Server instance hosting the secondary database(s) in the log shipping configuration. If not specified, the function automatically discovers this from the log shipping metadata in msdb.<br />
+Required when removing log shipping from multiple secondary instances or when automatic discovery fails. You must have sysadmin access to clean up secondary database configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -670,8 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="removesecondarydatabase">-RemoveSecondaryDatabase</h5>
-<p>By default the command will not remove the database from the secondary instance.<br />
-Use this parameter to make the command remove that database<br></p>
+<p>Completely drops the secondary database from the secondary instance after removing the log shipping configuration. By default, the secondary database remains intact and accessible.<br />
+Use this when decommissioning the secondary server or when you need to start fresh with a new log shipping setup.<br></p>
 <table>
 <thead>
 <tr>

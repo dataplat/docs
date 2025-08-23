@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAgentJobCategory">New-DbaAgentJobCategory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>New-DbaAgentJobCategory creates a new job category.</p>
+<p>Creates new SQL Server Agent job categories for organizing and managing jobs.</p>
 <h2 id="description">Description</h2>
-<p>New-DbaAgentJobCategory makes it possible to create a job category that can be used with jobs.<br />
-It returns an array of the job categories created .</p>
+<p>Creates custom job categories in SQL Server Agent to help organize and classify jobs by function, department, or priority level. Job categories provide a way to group related jobs together for easier management and reporting, replacing the need to manually create categories through SQL Server Management Studio. You can specify whether the category is for local jobs, multi-server jobs, or general use, with LocalJob being the default type.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaAgentJobCategory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -543,7 +542,8 @@ It returns an array of the job categories created .</p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>The name of the category <br></p>
+<p>Specifies the name of the SQL Agent job category to create. Accepts multiple category names when you need to create several categories at once.<br />
+Use descriptive names that reflect job functions like 'Database Maintenance', 'ETL Jobs', or 'Reporting' to help organize jobs by purpose or department. <br></p>
 <table>
 <thead>
 <tr>
@@ -602,8 +602,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="categorytype">-CategoryType</h5>
-<p>The type of category. This can be &quot;LocalJob&quot;, &quot;MultiServerJob&quot; or &quot;None&quot;.<br />
-The default is &quot;LocalJob&quot; and will automatically be set when no option is chosen.<br></p>
+<p>Defines the scope and purpose of the job category. Valid options are &quot;LocalJob&quot; for jobs that run on the local instance, &quot;MultiServerJob&quot; for jobs in multi-server environments, or &quot;None&quot; for<br />
+general-purpose categories.<br />
+Defaults to &quot;LocalJob&quot; when not specified, which is appropriate for most standalone SQL Server instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +636,8 @@ The default is &quot;LocalJob&quot; and will automatically be set when no option
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.<br></p>
+<p>Suppresses confirmation prompts during category creation. Sets the confirmation preference to bypass interactive confirmation requests.<br />
+Use this when automating category creation in scripts where manual confirmation is not desired or possible.<br></p>
 <table>
 <thead>
 <tr>

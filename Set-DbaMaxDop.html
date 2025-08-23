@@ -485,11 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaMaxDop">Set-DbaMaxDop</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets SQL Server maximum degree of parallelism (Max DOP), then displays information relating to SQL Server Max DOP configuration settings. Works on SQL Server 2005 and higher.</p>
+<p>Configures SQL Server maximum degree of parallelism (MaxDOP) at instance or database level</p>
 <h2 id="description">Description</h2>
-<p>Uses the Test-DbaMaxDop command to get the recommended value if -MaxDop parameter is not specified.</p>
-<p>These are just general recommendations for SQL Server and are a good starting point for setting the &quot;max degree of parallelism&quot; option.</p>
-<p>You can set MaxDop database scoped configurations if the server is version 2016 or higher</p>
+<p>Configures the max degree of parallelism setting to control how many processors SQL Server uses for parallel query execution. Without a specified value, the function automatically applies recommended settings based on your server's hardware configuration using Test-DbaMaxDop. This prevents performance issues caused by excessive parallelism on multi-core servers, especially in OLTP environments where parallel queries can create more overhead than benefit. For SQL Server 2016 and higher, you can set database-scoped MaxDOP configurations to fine-tune performance for specific workloads.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaMaxDop
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -588,7 +586,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more databases to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to configure with database-scoped MaxDOP settings. Only works on SQL Server 2016 and higher.<br />
+Use this when you need different MaxDOP values for specific databases with unique workload characteristics.<br />
+Cannot be combined with AllDatabases or ExcludeDatabase parameters.<br></p>
 <table>
 <thead>
 <tr>
@@ -616,7 +616,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies one or more databases to exclude from processing. Options for this list are auto-populated from the server<br></p>
+<p>Specifies which databases to skip when applying database-scoped MaxDOP settings. Only works on SQL Server 2016 and higher.<br />
+Use this when you want to configure most databases but leave certain ones (like system databases) unchanged.<br />
+Cannot be combined with Database or AllDatabases parameters.<br></p>
 <table>
 <thead>
 <tr>
@@ -644,7 +646,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="maxdop">-MaxDop</h5>
-<p>Specifies the Max DOP value to set.<br></p>
+<p>Sets a specific MaxDOP value instead of using the recommended value from Test-DbaMaxDop.<br />
+Use this when you have specific performance requirements or want to override the automatic recommendations.<br />
+Common values are 1 (disable parallelism), 2-4 (typical OLTP), or higher values for data warehouse workloads.<br></p>
 <table>
 <thead>
 <tr>
@@ -672,7 +676,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>If Test-SqlMaxDop has been executed prior to this function, the results may be passed in via this parameter.<br></p>
+<p>Accepts the output from Test-DbaMaxDop to avoid re-analyzing server hardware and current settings.<br />
+Use this when you want to review the recommendations first or apply settings from a previously saved analysis.<br />
+Can be piped directly from Test-DbaMaxDop for streamlined workflows.<br></p>
 <table>
 <thead>
 <tr>
@@ -700,7 +706,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alldatabases">-AllDatabases</h5>
-<p>If this switch is enabled, Max DOP will be set on all databases. This switch is only useful on SQL Server 2016 and higher.<br></p>
+<p>Applies database-scoped MaxDOP settings to all databases on the instance. Only works on SQL Server 2016 and higher.<br />
+Use this when you want consistent MaxDOP values across all databases rather than relying on instance-level settings.<br />
+Cannot be combined with Database or ExcludeDatabase parameters.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbServiceBrokerService">Get-DbaDbServiceBrokerService</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database service broker services</p>
+<p>Retrieves Service Broker services from SQL Server databases for auditing and troubleshooting messaging configurations</p>
 <h2 id="description">Description</h2>
-<p>Gets database Service broker services</p>
+<p>Retrieves detailed information about Service Broker services configured in SQL Server databases, including service names, associated queues, schemas, and ownership details. Service Broker services define the endpoints for reliable messaging between applications and databases. This function helps DBAs audit Service Broker implementations, troubleshoot message-based applications, and document messaging configurations for compliance or migration planning.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbServiceBrokerService
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -578,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get service broker services from specific database(s)<br></p>
+<p>Specifies which databases to query for Service Broker services. Accepts multiple database names.<br />
+Use this when you need to limit the search to specific databases instead of scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server<br></p>
+<p>Excludes specific databases from the Service Broker service search. Accepts multiple database names.<br />
+Useful when you want to audit most databases but skip known databases without Service Broker configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,7 +636,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemservice">-ExcludeSystemService</h5>
-<p>This switch removes all system objects from the queue collection<br></p>
+<p>Excludes system-created Service Broker services from the results, showing only user-defined services.<br />
+Use this to focus on custom messaging implementations and avoid clutter from built-in SQL Server services.<br></p>
 <table>
 <thead>
 <tr>

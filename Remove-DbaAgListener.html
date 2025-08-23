@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaAgListener">Remove-DbaAgListener</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a listener from an availability group on a SQL Server instance.</p>
+<p>Removes availability group listeners from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Removes a listener from an availability group on a SQL Server instance.</p>
+<p>Removes availability group listeners from SQL Server instances, permanently deleting the virtual network name and IP address configuration that clients use to connect to availability group databases. This operation is typically performed during decommissioning, reconfiguration, or when consolidating listeners. Once removed, applications will need to connect directly to individual replicas or use a different listener. The function can target specific listeners by name or remove all listeners from specified availability groups.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgListener
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -572,7 +572,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="listener">-Listener</h5>
-<p>The listener or listeners to remove.<br></p>
+<p>Specifies the name of specific availability group listeners to remove. Required when using SqlInstance parameter.<br />
+Use this when you need to remove particular listeners rather than all listeners from availability groups.<br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +601,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Only remove listeners from specific availability groups.<br></p>
+<p>Filters listener removal to only those within the specified availability groups.<br />
+Use this when you want to remove listeners from particular AGs while preserving listeners from other availability groups on the same instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +630,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaListener<br></p>
+<p>Accepts availability group listener objects from the pipeline, typically from Get-DbaAgListener.<br />
+Use this when you need to remove listeners that have been filtered or selected through other dbatools commands.<br></p>
 <table>
 <thead>
 <tr>

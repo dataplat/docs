@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaLinkedServer">Remove-DbaLinkedServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a linked server.</p>
+<p>Removes linked servers from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Removes a linked server.</p>
+<p>Removes one or more linked servers from target SQL Server instances. This function drops the linked server objects from the system catalog, effectively severing the connection between the local and remote servers. When using the -Force parameter, it also removes any associated linked server logins before dropping the linked server itself. This is useful for decommissioning legacy connections, cleaning up unused linked servers during server migrations, or removing connections for security compliance requirements.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaLinkedServer
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -582,7 +582,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="linkedserver">-LinkedServer</h5>
-<p>The name(s) of the linked server(s).<br></p>
+<p>Specifies the name(s) of the linked server(s) to remove from the SQL Server instance.<br />
+Use this to target specific linked servers instead of removing all linked servers.<br />
+Accepts an array of names when you need to remove multiple linked servers in a single operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -610,7 +612,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Connect-DbaInstance and Get-DbaLinkedServer.<br></p>
+<p>Accepts linked server objects from Get-DbaLinkedServer or server instances from Connect-DbaInstance via pipeline.<br />
+Use this when you want to remove linked servers that were previously retrieved with Get-DbaLinkedServer.<br />
+When passing server instances, you must also specify the LinkedServer parameter to identify which linked servers to remove.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +642,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Drops the linked server login(s) associated with the linked server and then drops the linked server.<br></p>
+<p>Removes all linked server logins associated with the linked server before dropping the linked server itself.<br />
+Use this when the linked server has associated logins that would prevent removal.<br />
+Without this parameter, the removal will fail if any linked server logins exist, requiring you to manually remove them first.<br></p>
 <table>
 <thead>
 <tr>

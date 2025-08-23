@@ -583,7 +583,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get Checks from specific database(s)<br></p>
+<p>Specifies which databases to search for check constraints. Accepts wildcards and multiple database names.<br />
+Use this when you need to examine constraints on specific databases rather than all accessible databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server<br></p>
+<p>Excludes specific databases from the check constraint search. Accepts multiple database names.<br />
+Useful when you want to scan most databases but skip certain ones like development or temporary databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +641,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemtable">-ExcludeSystemTable</h5>
-<p>This switch removes all system objects from the table collection<br></p>
+<p>Excludes check constraints from system tables when searching through databases.<br />
+Use this to focus only on user-created tables and avoid system table constraints that are typically not relevant for DBA reviews.<br></p>
 <table>
 <thead>
 <tr>

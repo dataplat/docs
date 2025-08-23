@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Add-DbaComputerCertificate">Add-DbaComputerCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Adds a computer certificate - useful for older systems.</p>
+<p>Imports X.509 certificates into the Windows certificate store on local or remote computers.</p>
 <h2 id="description">Description</h2>
-<p>Adds a computer certificate from a local or remote computer.</p>
+<p>Imports X.509 certificates (including password-protected .pfx files with private keys) into the specified Windows certificate store on one or more computers. This function is essential for SQL Server TLS/SSL encryption setup, Availability Group certificate requirements, and Service Broker security configurations.</p>
+<p>The function handles both certificate files from disk and certificate objects from the pipeline, supports remote installation via PowerShell remoting, and allows you to control import behavior through various flags like exportable/non-exportable private keys. By default, certificates are installed to the LocalMachine\My (Personal) store with exportable and persistent private keys, which is the standard location for SQL Server service certificates.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Add-DbaComputerCertificate
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -525,7 +526,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Adds the local C:\temp\sql01.pfx to sql01's LocalMachine\My (Personal) certificate store and marks the private key as non-exportable. Skips confirmation prompt.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances. Defaults to localhost.<br></p>
+<p>The target computer or computers where certificates will be installed. Accepts server names, FQDNs, or IP addresses.<br />
+Use this when installing certificates on remote SQL Server hosts or cluster nodes. Defaults to localhost when not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -581,7 +583,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="securepassword">-SecurePassword</h5>
-<p>The password for the certificate, if it is password protected.<br></p>
+<p>The password for encrypted certificate files (.pfx files with private keys). Required when importing password-protected certificates.<br />
+Use this when installing SSL certificates or Service Broker certificates that were exported with password protection.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +612,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="certificate">-Certificate</h5>
-<p>The target certificate object.<br></p>
+<p>A certificate object from the pipeline or PowerShell variable. Accepts X509Certificate2 objects from Get-ChildItem Cert:\ or other certificate commands.<br />
+Use this when you already have certificate objects loaded in memory rather than reading from disk files.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +641,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The local path to the target certificate object.<br></p>
+<p>The local file path to the certificate file (.cer, .crt, .pfx, .p12). The file must be accessible from the machine running the command.<br />
+Specify this when installing certificates from files on disk, commonly used for SSL certificates or custom CA certificates.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +670,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="store">-Store</h5>
-<p>Certificate store. Default is LocalMachine.<br></p>
+<p>The certificate store location where certificates will be installed. Options are LocalMachine (system-wide) or CurrentUser (user-specific).<br />
+Use LocalMachine for SQL Server service certificates and system certificates that need to be available to services. Defaults to LocalMachine.<br></p>
 <table>
 <thead>
 <tr>
@@ -693,7 +699,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="folder">-Folder</h5>
-<p>Certificate folder. Default is My (Personal).<br></p>
+<p>The certificate store folder within the specified store. Common folders include My (Personal), Root (Trusted Root), and CA (Intermediate).<br />
+Use My for SQL Server SSL certificates and Service Broker certificates. Defaults to My which is the Personal certificate store.<br></p>
 <table>
 <thead>
 <tr>
@@ -721,7 +728,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="flag">-Flag</h5>
-<p>Defines where and how to import the private key of an X.509 certificate.<br />
+<p>Controls how certificate private keys are stored and accessed in the Windows certificate store. Determines security and accessibility characteristics.<br />
+Use NonExportable for production SQL Server certificates to prevent private key extraction. Use Exportable when you need to back up or migrate certificates.<br />
 Defaults to: Exportable, PersistKeySet<br />
 EphemeralKeySet<br />
 The key associated with a PFX file is created in memory and not persisted on disk when importing a certificate.<br />

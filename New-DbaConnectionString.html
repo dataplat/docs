@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaConnectionString">New-DbaConnectionString</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Builds or extracts a SQL Server Connection String</p>
+<p>Creates connection strings for SQL Server instances using PowerShell-friendly parameters</p>
 <h2 id="description">Description</h2>
-<p>Builds or extracts a SQL Server Connection String. Note that dbatools-style syntax is used.</p>
-<p>So you do not need to specify &quot;Data Source&quot;, you can just specify -SqlInstance and -SqlCredential and we'll handle it for you.</p>
-<p>This is the simplified PowerShell approach to connection string building. See examples for more info.</p>
+<p>Creates properly formatted SQL Server connection strings without having to manually construct complex connection string syntax. Instead of remembering obscure keywords like &quot;Data Source&quot; or &quot;Initial Catalog&quot;, you can use familiar PowerShell parameters like -SqlInstance and -Database.</p>
+<p>This function handles the complexity of connection string building for you, including authentication methods (Windows, SQL Server, Azure AD), encryption settings, timeout values, and Azure SQL Database specifics. It supports both legacy System.Data.SqlClient and modern Microsoft.Data.SqlClient providers.</p>
+<p>Particularly useful when building custom applications, automation scripts, or when you need to generate connection strings for other tools that require them. The function can also extract connection strings from existing SMO server objects for reuse or modification.</p>
 <p>See <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx</a><br />
 and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx</a><br />
 and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx</a></p>
@@ -632,7 +632,8 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="accesstoken">-AccessToken</h5>
-<p>Basically tells the connection string to ignore authentication. Does not include the AccessToken in the resulting connecstring.<br></p>
+<p>Specifies that Azure Active Directory access token authentication should be used. When specified, the connection string is configured for token-based authentication.<br />
+Use this when connecting to Azure SQL with an access token you've obtained separately from Azure AD authentication flows.<br></p>
 <table>
 <thead>
 <tr>
@@ -660,7 +661,8 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="applicationintent">-ApplicationIntent</h5>
-<p>Declares the application workload type when connecting to a server. Possible values are ReadOnly and ReadWrite.<br></p>
+<p>Specifies whether the application workload is read-only or read-write when connecting to an Always On availability group. Valid values are ReadOnly and ReadWrite.<br />
+Use ReadOnly to connect to secondary replicas for reporting queries, which helps offload read traffic from the primary replica.<br></p>
 <table>
 <thead>
 <tr>
@@ -692,7 +694,8 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="batchseparator">-BatchSeparator</h5>
-<p>By default, this is &quot;GO&quot;<br></p>
+<p>Sets the batch separator for SQL commands. Defaults to &quot;GO&quot; if not specified.<br />
+Change this when working with tools or scripts that use different batch separators, or when &quot;GO&quot; conflicts with your SQL code.<br></p>
 <table>
 <thead>
 <tr>
@@ -720,8 +723,8 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="clientname">-ClientName</h5>
-<p>By default, this command sets the client's ApplicationName property to &quot;dbatools PowerShell module - dbatools.io&quot;. If you're doing anything that requires profiling, you can look for this client name.<br />
-Using -ClientName allows you to set your own custom client application name.<br></p>
+<p>Sets the application name that appears in SQL Server monitoring tools like Activity Monitor, Extended Events, and Profiler. Defaults to &quot;dbatools PowerShell module - dbatools.io&quot;.<br />
+Use a descriptive name when you need to identify specific scripts or applications in SQL Server logs and monitoring for troubleshooting or performance analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -749,9 +752,8 @@ Using -ClientName allows you to set your own custom client application name.<br>
 </tbody>
 </table>
 <h5 id="connecttimeout">-ConnectTimeout</h5>
-<p>The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error.<br />
-Valid values are greater than or equal to 0 and less than or equal to 2147483647.<br />
-When opening a connection to a Azure SQL Database, set the connection timeout to 30 seconds.<br></p>
+<p>Sets the number of seconds to wait while attempting to establish a connection before timing out. Valid range is 0 to 2147483647.<br />
+Increase this value for slow networks or when connecting to busy servers. Azure SQL Database connections automatically default to 30 seconds due to network latency considerations.<br></p>
 <table>
 <thead>
 <tr>
@@ -779,7 +781,8 @@ When opening a connection to a Azure SQL Database, set the connection timeout to
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Database name<br></p>
+<p>Specifies the initial database to connect to when the connection is established. Sets the Initial Catalog property in the connection string.<br />
+Required for Azure SQL Database connections, and useful for ensuring connections start in the correct database context for your operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -807,12 +810,8 @@ When opening a connection to a Azure SQL Database, set the connection timeout to
 </tbody>
 </table>
 <h5 id="encryptconnection">-EncryptConnection</h5>
-<p>Valid options are: 'Mandatory', 'Optional', 'Strict'<br />
-When true, SQL Server uses SSL encryption for all data sent between the client and server if the server has a certificate installed. Recognized values are true, false, yes, and no. For more<br />
-information, see Connection String Syntax.<br />
-Beginning in .NET Framework 4.5, when TrustServerCertificate is false and Encrypt is true, the server name (or IP address) in a SQL Server SSL certificate must exactly match the server name (or IP<br />
-address) specified in the connection string. Otherwise, the connection attempt will fail. For information about support for certificates whose subject starts with a wildcard character (*), see<br />
-Accepted wildcards used by server certificates for server authentication.<br></p>
+<p>Forces SSL/TLS encryption for the connection to protect data in transit. Automatically enabled for Azure SQL Database connections.<br />
+Enable this for connections over untrusted networks or when your security policy requires encrypted database connections. Requires proper SSL certificates when TrustServerCertificate is false.<br></p>
 <table>
 <thead>
 <tr>
@@ -840,13 +839,8 @@ Accepted wildcards used by server certificates for server authentication.<br></p
 </tbody>
 </table>
 <h5 id="failoverpartner">-FailoverPartner</h5>
-<p>The name of the failover partner server where database mirroring is configured.<br />
-If the value of this key is &quot;&quot;, then Initial Catalog must be present, and its value must not be &quot;&quot;.<br />
-The server name can be 128 characters or less.<br />
-If you specify a failover partner but the failover partner server is not configured for database mirroring and the primary server (specified with the Server keyword) is not available, then the<br />
-connection will fail.<br />
-If you specify a failover partner and the primary server is not configured for database mirroring, the connection to the primary server (specified with the Server keyword) will succeed if the primary<br />
-server is available.<br></p>
+<p>Specifies the failover partner server name for database mirroring configurations. Limited to 128 characters or less.<br />
+Use this when connecting to databases configured with database mirroring to enable automatic failover if the primary server becomes unavailable. Requires the Database parameter to be specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -874,7 +868,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="isactivedirectoryuniversalauth">-IsActiveDirectoryUniversalAuth</h5>
-<p>Azure related<br></p>
+<p>Enables Azure Active Directory Universal Authentication with Multi-Factor Authentication (MFA) support for Azure SQL connections.<br />
+Use this when connecting to Azure SQL Database or Managed Instance with accounts that require MFA or when using Azure AD guest accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -902,7 +897,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="locktimeout">-LockTimeout</h5>
-<p>Sets the time in seconds required for the connection to time out when the current transaction is locked.<br></p>
+<p>Sets the number of seconds to wait for locks to be released before timing out. Not supported in connection strings - this parameter generates a warning.<br />
+This parameter is included for legacy compatibility but has no effect on the generated connection string.<br></p>
 <table>
 <thead>
 <tr>
@@ -930,7 +926,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="maxpoolsize">-MaxPoolSize</h5>
-<p>Sets the maximum number of connections allowed in the connection pool for this specific connection string.<br></p>
+<p>Sets the maximum number of connections allowed in the connection pool for this connection string. Defaults to 100 if not specified.<br />
+Increase this value for applications with high concurrency requirements, or decrease it to limit resource usage on the SQL Server.<br></p>
 <table>
 <thead>
 <tr>
@@ -958,7 +955,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="minpoolsize">-MinPoolSize</h5>
-<p>Sets the minimum number of connections allowed in the connection pool for this specific connection string.<br></p>
+<p>Sets the minimum number of connections maintained in the connection pool for this connection string. Defaults to 0 if not specified.<br />
+Set this to a higher value when you want to maintain warm connections for faster subsequent connection requests, especially for frequently accessed databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -986,8 +984,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="multipleactiveresultsets">-MultipleActiveResultSets</h5>
-<p>When used, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on<br />
-that connection.<br></p>
+<p>Enables Multiple Active Result Sets (MARS) allowing multiple commands to be executed simultaneously on a single connection.<br />
+Enable this when your application needs to execute multiple queries concurrently on the same connection, such as reading from one result set while executing another query.<br></p>
 <table>
 <thead>
 <tr>
@@ -1015,8 +1013,8 @@ that connection.<br></p>
 </tbody>
 </table>
 <h5 id="multisubnetfailover">-MultiSubnetFailover</h5>
-<p>If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover provides faster detection of and connection to the (currently) active<br />
-server. For more information about SqlClient support for Always On Availability Groups<br></p>
+<p>Enables faster failover detection when connecting to Always On availability groups across different subnets.<br />
+Use this when your availability group replicas are distributed across multiple subnets to reduce connection timeout during failover scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -1044,7 +1042,8 @@ server. For more information about SqlClient support for Always On Availability 
 </tbody>
 </table>
 <h5 id="networkprotocol">-NetworkProtocol</h5>
-<p>Connect explicitly using 'TcpIp','NamedPipes','Multiprotocol','AppleTalk','BanyanVines','Via','SharedMemory' and 'NWLinkIpxSpx'<br></p>
+<p>Forces a specific network protocol for the connection. Valid values include TcpIp, NamedPipes, SharedMemory, and others.<br />
+Use TcpIp for remote connections or NamedPipes for local connections when you need to override default protocol selection or troubleshoot connectivity issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -1076,7 +1075,8 @@ server. For more information about SqlClient support for Always On Availability 
 </tbody>
 </table>
 <h5 id="nonpooledconnection">-NonPooledConnection</h5>
-<p>Request a non-pooled connection<br></p>
+<p>Disables connection pooling for this connection, creating a dedicated connection that isn't shared.<br />
+Use this for long-running operations, debugging scenarios, or when you need to ensure complete isolation of the database connection.<br></p>
 <table>
 <thead>
 <tr>
@@ -1104,7 +1104,8 @@ server. For more information about SqlClient support for Always On Availability 
 </tbody>
 </table>
 <h5 id="packetsize">-PacketSize</h5>
-<p>Sets the size in bytes of the network packets used to communicate with an instance of SQL Server. Must match at server.<br></p>
+<p>Sets the network packet size in bytes for communication with SQL Server. Must be between 512 and 32767 bytes.<br />
+Increase this value for bulk operations or large result sets to improve performance, but ensure the server's network packet size setting can accommodate the specified value.<br></p>
 <table>
 <thead>
 <tr>
@@ -1132,9 +1133,8 @@ server. For more information about SqlClient support for Always On Availability 
 </tbody>
 </table>
 <h5 id="pooledconnectionlifetime">-PooledConnectionLifetime</h5>
-<p>When a connection is returned to the pool, its creation time is compared with the current time, and the connection is destroyed if that time span (in seconds) exceeds the value specified by<br />
-Connection Lifetime. This is useful in clustered configurations to force load balancing between a running server and a server just brought online.<br />
-A value of zero (0) causes pooled connections to have the maximum connection timeout.<br></p>
+<p>Sets the maximum lifetime in seconds for pooled connections. Connections older than this value are destroyed when returned to the pool.<br />
+Use this in clustered environments to force load balancing across cluster nodes or to ensure connections don't remain open indefinitely. Zero means no lifetime limit.<br></p>
 <table>
 <thead>
 <tr>
@@ -1162,8 +1162,8 @@ A value of zero (0) causes pooled connections to have the maximum connection tim
 </tbody>
 </table>
 <h5 id="sqlexecutionmodes">-SqlExecutionModes</h5>
-<p>The SqlExecutionModes enumeration contains values that are used to specify whether the commands sent to the referenced connection to the server are executed immediately or saved in a buffer.<br />
-Valid values include CaptureSql, ExecuteAndCaptureSql and ExecuteSql.<br></p>
+<p>Controls how SQL commands are processed - immediately executed, captured for review, or both. Not supported in connection strings - this parameter generates a warning.<br />
+This parameter is included for legacy compatibility but has no effect on the generated connection string.<br></p>
 <table>
 <thead>
 <tr>
@@ -1195,7 +1195,8 @@ Valid values include CaptureSql, ExecuteAndCaptureSql and ExecuteSql.<br></p>
 </tbody>
 </table>
 <h5 id="statementtimeout">-StatementTimeout</h5>
-<p>Sets the number of seconds a statement is given to run before failing with a time-out error.<br></p>
+<p>Sets the number of seconds before SQL commands timeout. Not supported in connection strings - this parameter generates a warning.<br />
+This parameter is included for legacy compatibility but has no effect on the generated connection string. Use the CommandTimeout property on SqlCommand objects instead.<br></p>
 <table>
 <thead>
 <tr>
@@ -1223,7 +1224,8 @@ Valid values include CaptureSql, ExecuteAndCaptureSql and ExecuteSql.<br></p>
 </tbody>
 </table>
 <h5 id="trustservercertificate">-TrustServerCertificate</h5>
-<p>Sets a value that indicates whether the channel will be encrypted while bypassing walking the certificate chain to validate trust.<br></p>
+<p>Bypasses SSL certificate validation when EncryptConnection is enabled. The connection will be encrypted but the server certificate won't be verified.<br />
+Use this for development environments or when connecting to servers with self-signed certificates, but avoid in production due to security risks.<br></p>
 <table>
 <thead>
 <tr>
@@ -1251,7 +1253,8 @@ Valid values include CaptureSql, ExecuteAndCaptureSql and ExecuteSql.<br></p>
 </tbody>
 </table>
 <h5 id="workstationid">-WorkstationId</h5>
-<p>Sets the name of the workstation connecting to SQL Server.<br></p>
+<p>Sets the workstation identifier that appears in SQL Server system views and logs. Defaults to the local computer name if not specified.<br />
+Use this to identify connections from specific machines or applications when monitoring SQL Server activity or troubleshooting connection issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -1279,7 +1282,8 @@ Valid values include CaptureSql, ExecuteAndCaptureSql and ExecuteSql.<br></p>
 </tbody>
 </table>
 <h5 id="legacy">-Legacy</h5>
-<p>Use this switch to create a connection string using System.Data.SqlClient instead of Microsoft.Data.SqlClient.<br></p>
+<p>Forces the use of the older System.Data.SqlClient provider instead of the modern Microsoft.Data.SqlClient provider.<br />
+Use this only when connecting to applications or tools that specifically require the legacy provider for compatibility reasons.<br></p>
 <table>
 <thead>
 <tr>
@@ -1307,7 +1311,8 @@ Valid values include CaptureSql, ExecuteAndCaptureSql and ExecuteSql.<br></p>
 </tbody>
 </table>
 <h5 id="appendconnectionstring">-AppendConnectionString</h5>
-<p>Appends to the current connection string. Note that you cannot pass authentication information using this method. Use -SqlInstance and, optionally, -SqlCredential to set authentication information.<br></p>
+<p>Adds custom connection string parameters to the generated connection string. Authentication parameters cannot be passed this way.<br />
+Use this when you need to add specialized connection parameters like AttachDbFilename, User Instance, or custom driver-specific settings that aren't available through other parameters.<br></p>
 <table>
 <thead>
 <tr>

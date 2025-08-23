@@ -485,13 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#ConvertTo-DbaTimeline">ConvertTo-DbaTimeline</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Converts InputObject to a html timeline using Google Chart</p>
+<p>Generates interactive HTML timeline visualizations from SQL Server job history and backup history data</p>
 <h2 id="description">Description</h2>
-<p>This function accepts input as pipeline from the following dbatools functions:<br />
-Get-DbaAgentJobHistory<br />
-Get-DbaDbBackupHistory<br />
-(more to come...)<br />
-And generates Bootstrap based, HTML file with Google Chart Timeline</p>
+<p>Transforms SQL Server job execution and backup operation data into visual timeline reports for analysis and troubleshooting. Takes piped output from Get-DbaAgentJobHistory and Get-DbaDbBackupHistory and generates a complete HTML file with an interactive Google Charts timeline.</p>
+<p>Perfect for analyzing job schedules, identifying backup windows, troubleshooting overlapping operations, or creating visual reports for management. The timeline shows execution duration, status, and timing relationships across multiple instances, with hover tooltips displaying detailed information including start/end times and duration calculations.</p>
+<p>Output is a self-contained HTML file that can be viewed in any browser, emailed to stakeholders, or archived for historical analysis. Supports both single and multi-instance scenarios with automatic labeling and color-coded status indicators.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>ConvertTo-DbaTimeline
     [-InputObject] &lt;Object[]&gt;
@@ -526,7 +524,9 @@ PS C:\&gt; Send-MailMessage @messageParameters -BodyAsHtml
 <p>Sends an email to dba@ad.local with the results of Get-DbaDbBackupHistory. Note that viewing these reports may not be supported in all email clients.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Pipe input, must an output from the above functions. <br></p>
+<p>Specifies the SQL Server data to convert into timeline visualization. Accepts piped output from Get-DbaAgentJobHistory or Get-DbaDbBackupHistory.<br />
+Use this to transform job execution history or backup operation data into an interactive HTML timeline chart.<br />
+The function automatically detects the input type and formats the timeline appropriately with status colors and duration calculations. <br></p>
 <table>
 <thead>
 <tr>
@@ -555,9 +555,10 @@ PS C:\&gt; Send-MailMessage @messageParameters -BodyAsHtml
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="excluderowlabel">-ExcludeRowLabel</h5>
-<p>By default, the Timeline shows SqlInstance and item name (agent job or database) in row labels section of the chart.<br />
-When this parameter (ExcludeRowLabel) is set to true the row labels will not be shown which will maximise the chart area for better visualization.<br />
-All relevant details are still available in the tooltip.<br></p>
+<p>Removes the row labels showing SQL instance and item names from the left side of the timeline chart. By default, labels display &quot;[InstanceName] JobName&quot; or &quot;[InstanceName] DatabaseName&quot; for each<br />
+timeline row.<br />
+Use this when you need to maximize chart space for better visualization of timeline data, especially with long instance or job names.<br />
+All label information remains available in the hover tooltips when you mouse over timeline bars.<br></p>
 <table>
 <thead>
 <tr>

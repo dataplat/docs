@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAzAccessToken">New-DbaAzAccessToken</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Simplifies the generation of Azure oauth2 tokens.</p>
+<p>Generates OAuth2 access tokens for Azure SQL Database and other Azure services authentication.</p>
 <h2 id="description">Description</h2>
-<p>Generates an oauth2 access token. Currently supports Managed Identities, Service Principals and IRenewableToken.</p>
+<p>Creates OAuth2 access tokens for connecting to Azure SQL Database and other Azure services without storing passwords in scripts. Supports Managed Identity authentication from Azure VMs, Service Principal authentication for applications, and renewable tokens for long-running connections. The generated tokens can be used directly with Connect-DbaInstance and other dbatools commands to establish secure, modern authentication to Azure resources.</p>
 <p>Want to know more about Access Tokens? This page explains it well: <a href="https://dzone.com/articles/using-managed-identity-to-securely-access-azure-re">https://dzone.com/articles/using-managed-identity-to-securely-access-azure-re</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaAzAccessToken
@@ -523,10 +523,8 @@ PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query &quot;select 1 as test&qu
 Once the connection is made, it is used to perform a test query.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="type">-Type</h5>
-<p>The type of request:<br />
-ManagedIdentity<br />
-ServicePrincipal<br />
-RenewableServicePrincipal <br></p>
+<p>Specifies the authentication method for generating the access token. ManagedIdentity uses Azure VM identity for password-free authentication, ServicePrincipal uses application credentials for<br />
+automated scripts, and RenewableServicePrincipal creates tokens that automatically refresh for long-running connections. <br></p>
 <table>
 <thead>
 <tr>
@@ -559,16 +557,8 @@ RenewableServicePrincipal <br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="subtype">-Subtype</h5>
-<p>The subtype. Options include:<br />
-AzureSqlDb (default)<br />
-ResourceManager<br />
-DataLake<br />
-EventHubs<br />
-KeyVault<br />
-ResourceManager<br />
-ServiceBus<br />
-Storage<br />
-Read more here: <a href="https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/tutorial-windows-vm-access-sql">https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/tutorial-windows-vm-access-sql</a><br></p>
+<p>Determines which Azure service resource to generate the token for. AzureSqlDb creates tokens for Azure SQL Database connections, while other options like KeyVault, Storage, and ResourceManager target<br />
+their respective Azure services. Defaults to AzureSqlDb for database connections.<br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +590,8 @@ Read more here: <a href="https://docs.microsoft.com/en-us/azure/active-directory
 </tbody>
 </table>
 <h5 id="config">-Config</h5>
-<p>The hashtable or json configuration.<br></p>
+<p>Optional configuration object for advanced token generation scenarios. Typically auto-generated based on the Subtype parameter and rarely needs manual specification. Use this only when you need<br />
+custom resource URLs or API versions not covered by standard subtypes.<br></p>
 <table>
 <thead>
 <tr>
@@ -657,7 +648,8 @@ Read more here: <a href="https://docs.microsoft.com/en-us/azure/active-directory
 </tbody>
 </table>
 <h5 id="tenant">-Tenant</h5>
-<p>When using the ServicePrincipal or RenewableServicePrincipal types, a tenant name or ID is required. This field works with both.<br></p>
+<p>Specifies the Azure Active Directory tenant ID or domain name for Service Principal authentication. Required when using ServicePrincipal or RenewableServicePrincipal types. Use your organization's<br />
+tenant ID (GUID format) or domain name like 'contoso.onmicrosoft.com'.<br></p>
 <table>
 <thead>
 <tr>
@@ -685,7 +677,8 @@ Read more here: <a href="https://docs.microsoft.com/en-us/azure/active-directory
 </tbody>
 </table>
 <h5 id="thumbprint">-Thumbprint</h5>
-<p>Thumbprint for connections to Azure MSI<br></p>
+<p>Certificate thumbprint for Managed Service Identity authentication. Use this when your Azure VM or service uses certificate-based authentication instead of the default metadata endpoint. Defaults to<br />
+the value stored in dbatools configuration.<br></p>
 <table>
 <thead>
 <tr>
@@ -713,7 +706,8 @@ Read more here: <a href="https://docs.microsoft.com/en-us/azure/active-directory
 </tbody>
 </table>
 <h5 id="store">-Store</h5>
-<p>Store where the Azure MSI certificate is stored<br></p>
+<p>Specifies the certificate store location for MSI certificates. Choose CurrentUser for user-specific certificates or LocalMachine for system-wide certificates. Use with Thumbprint parameter for<br />
+certificate-based Managed Service Identity authentication.<br></p>
 <table>
 <thead>
 <tr>

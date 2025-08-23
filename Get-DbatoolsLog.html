@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbatoolsLog">Get-DbatoolsLog</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns log entries for dbatools</p>
+<p>Retrieves internal log entries and error messages from dbatools module execution</p>
 <h2 id="description">Description</h2>
-<p>Returns log entries for dbatools. Handy when debugging or developing a script using it.</p>
+<p>Retrieves log entries from dbatools' internal logging system, allowing you to troubleshoot command execution and track what happened during script runs. Use this when dbatools commands aren't behaving as expected or when you need to see detailed execution information for debugging purposes. The function can filter logs by specific functions, modules, targets, execution history, or message levels, making it easier to isolate issues during SQL Server automation tasks.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbatoolsLog
     [[-FunctionName] &lt;String&gt;]
@@ -525,8 +525,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Returns all log entries within the last 5 executions that contained the tag &quot;fail&quot;<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="functionname">-FunctionName</h5>
-<p>Default: &quot;*&quot;<br />
-Only messages written by similar functions will be returned.<br></p>
+<p>Filters log entries to show only messages from dbatools functions matching this pattern. Supports wildcards.<br />
+Use this when troubleshooting specific commands like 'Backup-DbaDatabase' or when you want to see all backup-related functions with 'Backup-Dba*'.<br></p>
 <table>
 <thead>
 <tr>
@@ -554,8 +554,8 @@ Only messages written by similar functions will be returned.<br></p>
 </tbody>
 </table>
 <h5 id="modulename">-ModuleName</h5>
-<p>Default: &quot;*&quot;<br />
-Only messages written by commands from similar modules will be returned.<br></p>
+<p>Filters log entries to show only messages from modules matching this pattern. Supports wildcards.<br />
+Use this when working with multiple PowerShell modules and you only want to see dbatools-related log entries.<br></p>
 <table>
 <thead>
 <tr>
@@ -583,7 +583,8 @@ Only messages written by commands from similar modules will be returned.<br></p>
 </tbody>
 </table>
 <h5 id="target">-Target</h5>
-<p>Only messages handling the specified target will be returned.<br></p>
+<p>Filters log entries to show only messages related to a specific target object like a server name, database name, or other SQL Server component.<br />
+Use this when troubleshooting issues with a particular SQL Server instance or database to see only relevant log entries.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +612,8 @@ Only messages written by commands from similar modules will be returned.<br></p>
 </tbody>
 </table>
 <h5 id="tag">-Tag</h5>
-<p>Only messages containing one of these tags will be returned.<br></p>
+<p>Filters log entries to show only messages that contain any of the specified tags.<br />
+Use this to find specific types of operations like 'backup', 'restore', or 'migration' when tracking down issues with particular dbatools workflows.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,10 +641,8 @@ Only messages written by commands from similar modules will be returned.<br></p>
 </tbody>
 </table>
 <h5 id="last">-Last</h5>
-<p>Only messages written by the last X executions will be returned.<br />
-Uses Get-History to determine execution. Ignores Get-message commands.<br />
-By default, this will also include messages from other runspaces. If your command executes in parallel, that's useful.<br />
-If it doesn't and you were offloading executions to other runspaces, consider also filtering by runspace using '-Runspace'<br></p>
+<p>Returns log entries from only the last X PowerShell command executions in your current session.<br />
+Use this to focus on recent activity when troubleshooting the most recent dbatools commands you ran. Excludes Get-DbatoolsLog commands from the execution count to avoid confusion.<br></p>
 <table>
 <thead>
 <tr>
@@ -670,7 +670,8 @@ If it doesn't and you were offloading executions to other runspaces, consider al
 </tbody>
 </table>
 <h5 id="lasterror">-LastError</h5>
-<p>Only retrieves the last error message type written.<br></p>
+<p>Returns only the most recent error message from the dbatools logging system.<br />
+Use this as a quick way to see what went wrong with your last dbatools command execution without scrolling through all log entries.<br></p>
 <table>
 <thead>
 <tr>
@@ -698,8 +699,8 @@ If it doesn't and you were offloading executions to other runspaces, consider al
 </tbody>
 </table>
 <h5 id="skip">-Skip</h5>
-<p>How many executions to skip when specifying '-Last'.<br />
-Has no effect without the '-Last' parameter.<br></p>
+<p>Specifies how many recent executions to skip when using the -Last parameter.<br />
+Use this when you want to see log entries from earlier executions, like '-Last 3 -Skip 2' to see the 3rd, 4th, and 5th most recent executions.<br></p>
 <table>
 <thead>
 <tr>
@@ -727,10 +728,8 @@ Has no effect without the '-Last' parameter.<br></p>
 </tbody>
 </table>
 <h5 id="runspace">-Runspace</h5>
-<p>The guid of the runspace to return messages from.<br />
-By default, messages from all runspaces are returned.<br />
-Run the following line to see the list of guids:<br />
-Get-Runspace | ft Id, Name, InstanceId -AutoSize<br></p>
+<p>Filters log entries to show only messages from the specified PowerShell runspace GUID.<br />
+Use this when troubleshooting parallel or background dbatools operations to isolate messages from specific execution threads.<br></p>
 <table>
 <thead>
 <tr>
@@ -758,10 +757,8 @@ Get-Runspace | ft Id, Name, InstanceId -AutoSize<br></p>
 </tbody>
 </table>
 <h5 id="level">-Level</h5>
-<p>Limit the message selection by level.<br />
-Message levels have a numeric value, making it easier to select a range:<br />
--Level (1..6)<br />
-Will select the first 6 levels (Critical - SomewhatVerbose).<br></p>
+<p>Filters log entries by message severity level (Critical, Error, Warning, Info, Verbose, etc.).<br />
+Use this to focus on specific severity levels, like only errors and warnings, or to see verbose details during troubleshooting. Supports arrays and ranges like (1..6).<br></p>
 <table>
 <thead>
 <tr>
@@ -789,7 +786,8 @@ Will select the first 6 levels (Critical - SomewhatVerbose).<br></p>
 </tbody>
 </table>
 <h5 id="raw">-Raw</h5>
-<p>By default, messages such as SQL statements are flattened. Use raw to see the output without flattened formatting.<br></p>
+<p>Returns log messages in their original format without flattening multiline content like SQL statements.<br />
+Use this when you need to see the exact formatting of SQL queries or error messages for detailed troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -817,7 +815,8 @@ Will select the first 6 levels (Critical - SomewhatVerbose).<br></p>
 </tbody>
 </table>
 <h5 id="errors">-Errors</h5>
-<p>Instead of log entries, the error entries will be retrieved<br></p>
+<p>Returns error entries from dbatools' error tracking system instead of regular log entries.<br />
+Use this when you specifically need to see exceptions and errors that occurred during dbatools command execution, separate from informational logging.<br></p>
 <table>
 <thead>
 <tr>

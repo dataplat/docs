@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaProductKey">Get-DbaProductKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Server Product Keys from local or destination SQL Servers.</p>
+<p>Retrieves SQL Server product keys from registry data for license compliance and inventory management.</p>
 <h2 id="description">Description</h2>
-<p>This command find the product key for all installed instances. Clustered instances are supported as well.</p>
+<p>Decodes SQL Server product keys from registry DigitalProductID entries across all installed instances on target computers. This is essential for license compliance auditing, asset inventory during migrations, and generating compliance reports for auditors. The command handles different SQL Server versions (2005+), supports clustered instances, and automatically identifies Express editions that don't require product keys. Works by connecting to each SQL instance to determine version and edition, then accessing registry data remotely to decode the binary product key information.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaProductKey
     [-ComputerName] &lt;DbaInstanceParameter[]&gt;
@@ -506,7 +506,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets SQL Server versions, editions and product keys for all instances within each server or workstation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances. <br></p>
+<p>Specifies the SQL Server instances or computer names to retrieve product keys from. Accepts multiple values for bulk operations.<br />
+Use this when you need to audit license compliance across multiple servers or gather product key inventory during migrations. <br></p>
 <table>
 <thead>
 <tr>

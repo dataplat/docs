@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaComputerCertificate">Get-DbaComputerCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Simplifies finding computer certificates that are candidates for using with SQL Server's network encryption</p>
+<p>Retrieves X.509 certificates from Windows certificate stores that can be used for SQL Server TLS encryption</p>
 <h2 id="description">Description</h2>
-<p>Gets computer certificates on localhost that are candidates for using with SQL Server's network encryption</p>
+<p>Scans Windows certificate stores to find X.509 certificates suitable for enabling SQL Server network encryption. By default, returns only certificates with Server Authentication capability from the LocalMachine\My store, which are the certificates SQL Server can actually use for TLS connections. This saves you from manually browsing certificate stores and checking enhanced key usage extensions when configuring Force Encryption or setting up secure SQL Server connections.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaComputerCertificate
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -518,7 +518,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets computer certificates on sql2016 that match thumbprints 8123472E32AB412ED4288888B83811DB8F504DED or 04BFF8B3679BB01A986E097868D8D494D70A46D6<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances. Defaults to localhost. If target is a cluster, you must specify the distinct nodes.<br></p>
+<p>Specifies the target computer(s) to scan for certificates. Defaults to localhost.<br />
+Use this when you need to check certificates on remote SQL Server machines or when configuring network encryption across multiple instances.<br />
+For SQL Server clusters, specify each individual cluster node separately since certificates are stored per machine, not per cluster resource.<br></p>
 <table>
 <thead>
 <tr>
@@ -574,7 +576,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="store">-Store</h5>
-<p>Certificate store - defaults to LocalMachine<br></p>
+<p>Specifies which Windows certificate store location to search. Defaults to LocalMachine.<br />
+Use LocalMachine for certificates that SQL Server service accounts can access, or CurrentUser for user-specific certificates.<br />
+SQL Server typically requires certificates in LocalMachine store for network encryption to work properly.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +606,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="folder">-Folder</h5>
-<p>Certificate folder - defaults to My (Personal)<br></p>
+<p>Specifies which certificate folder within the store to search. Defaults to My (Personal certificates).<br />
+Use My for personal certificates with private keys, Root for trusted root certificates, or other folders based on certificate type.<br />
+SQL Server network encryption typically uses certificates from the My folder since they contain the required private keys.<br></p>
 <table>
 <thead>
 <tr>
@@ -630,7 +636,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The type of certificates to return. All or Service. Default is Service since this is SQL specific.<br></p>
+<p>Filters certificates by their intended usage. Service returns only certificates with Server Authentication capability, All returns every certificate.<br />
+Use Service (default) to find certificates that SQL Server can actually use for network encryption and TLS connections.<br />
+Service certificates have the required Enhanced Key Usage extension (1.3.6.1.5.5.7.3.1) that enables them for server authentication scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -662,7 +670,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The path to a certificate - basically changes the path into a certificate object<br></p>
+<p>Specifies the file system path to a certificate file (.cer, .crt, .pfx) to load and analyze.<br />
+Use this when you need to examine a certificate file before installing it to a certificate store.<br />
+This bypasses the Store and Folder parameters since the certificate is loaded directly from the file system.<br></p>
 <table>
 <thead>
 <tr>
@@ -690,7 +700,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="thumbprint">-Thumbprint</h5>
-<p>Return certificate based on thumbprint<br></p>
+<p>Filters results to return only certificates with the specified thumbprint(s). Accepts multiple thumbprints.<br />
+Use this when you need to verify specific certificates exist or check their properties before configuring SQL Server network encryption.<br />
+The thumbprint is the unique SHA-1 hash identifier that SQL Server uses in its certificate configuration.<br></p>
 <table>
 <thead>
 <tr>

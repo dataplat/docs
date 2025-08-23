@@ -485,20 +485,21 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbatoolsSupportPackage">New-DbatoolsSupportPackage</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a package of troubleshooting information that can be used by dbatools to help debug issues.</p>
+<p>Creates a comprehensive diagnostic package for troubleshooting dbatools module issues and bugs.</p>
 <h2 id="description">Description</h2>
-<p>This function creates an extensive debugging package that can help with reproducing and fixing issues.</p>
-<p>The file will be created on the desktop (or in the home directory if $home/Desktop does not exist) by default and will contain quite a bit of information:</p>
+<p>This function creates an extensive diagnostic package specifically designed to help the dbatools team troubleshoot module-related issues, bugs, or unexpected behavior. When you encounter problems with dbatools commands or need to submit a bug report, this package provides all the environmental and runtime information needed for effective debugging.</p>
+<p>The resulting compressed file contains comprehensive system and PowerShell environment details that are essential for reproducing and diagnosing issues. This saves you from manually collecting multiple pieces of information and ensures nothing important gets missed when reporting problems.</p>
+<p>The package includes:</p>
 <ul>
-<li>OS Information</li>
-<li>Hardware Information (CPU, Ram, things like that)</li>
-<li>.NET Information</li>
-<li>PowerShell Information</li>
-<li>Your input history</li>
-<li>The In-Memory message log</li>
-<li>The In-Memory error log</li>
-<li>Screenshot of the console buffer (Basically, everything written in your current console, even if you have to scroll upwards to see it.</li>
+<li>Operating system and hardware information (CPU, RAM, OS version)</li>
+<li>PowerShell and .NET framework versions and loaded modules</li>
+<li>Your PowerShell command history from the current session</li>
+<li>dbatools internal message and error logs</li>
+<li>Complete console buffer contents (everything currently visible in your PowerShell window)</li>
+<li>Loaded assemblies and their versions</li>
+<li>Any additional variables you specify</li>
 </ul>
+<p>The output file is automatically created on your desktop (or home directory if desktop doesn't exist) as a timestamped ZIP archive. Always start a fresh PowerShell session and reproduce the minimal steps to trigger your issue before running this command - this keeps the diagnostic data focused and avoids including unrelated information or sensitive data from your session history.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbatoolsSupportPackage
     [[-Path] &lt;String&gt;]
@@ -519,7 +520,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Creates a large support pack in order to help us troubleshoot stuff.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>The folder where to place the output xml in.<br></p>
+<p>Specifies the directory where the support package ZIP file will be created. Defaults to your desktop, or home directory if desktop doesn't exist.<br />
+Use this when you need the diagnostic file saved to a specific location for easier access or compliance requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -547,8 +549,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="variables">-Variables</h5>
-<p>Name of additional variables to attach.<br />
-This allows you to add the content of variables to the support package, if you believe them to be relevant to the case.<br></p>
+<p>Specifies additional PowerShell variables to include in the diagnostic package by name. Only captures variables that exist in your current session.<br />
+Use this when specific variables contain connection strings, configuration settings, or data relevant to reproducing your issue.<br></p>
 <table>
 <thead>
 <tr>
@@ -576,7 +578,8 @@ This allows you to add the content of variables to the support package, if you b
 </tbody>
 </table>
 <h5 id="passthru">-PassThru</h5>
-<p>Returns file object that was created during execution.<br></p>
+<p>Returns the FileInfo object for the created ZIP file instead of just displaying its location.<br />
+Use this when you need to programmatically work with the support package file, such as uploading it automatically or getting its size.<br></p>
 <table>
 <thead>
 <tr>

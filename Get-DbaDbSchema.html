@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbSchema">Get-DbaDbSchema</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Finds the database schema SMO object(s) based on the given filter params.</p>
+<p>Retrieves database schema objects from SQL Server instances for inventory, security auditing, and management tasks</p>
 <h2 id="description">Description</h2>
-<p>Finds the database schema SMO object(s) based on the given filter params.</p>
+<p>Returns SQL Server Management Object (SMO) schema objects from one or more databases, allowing you to inspect schema ownership, enumerate database organization, and identify schema-level security configurations. This function is essential for database documentation, security auditing when you need to track who owns which schemas, and migration planning where schema ownership and structure must be preserved. You can filter results by specific schema names, schema owners, or databases, and optionally include system schemas like dbo, sys, and INFORMATION_SCHEMA which are excluded by default.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbSchema
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -609,7 +609,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases to retrieve schemas from. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases instead of all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +638,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The name(s) of the schema(s)<br></p>
+<p>Filters results to include only schemas with the specified names. Accepts multiple schema names.<br />
+Use this when you need to check specific schemas like custom application schemas or verify particular schema configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +667,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schemaowner">-SchemaOwner</h5>
-<p>The name(s) of the database user(s) that own(s) the schema(s).<br></p>
+<p>Filters results to schemas owned by the specified database users or roles. Accepts multiple owner names.<br />
+Use this for security audits to identify all schemas owned by specific users, or when troubleshooting schema ownership issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -693,7 +696,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemdatabases">-IncludeSystemDatabases</h5>
-<p>Include the system databases.<br></p>
+<p>Includes system databases (master, model, msdb, tempdb) in the schema retrieval.<br />
+Use this when you need to audit or document schema configurations across all databases including system databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -721,7 +725,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemschemas">-IncludeSystemSchemas</h5>
-<p>Include the system schemas.<br></p>
+<p>Includes built-in system schemas like dbo, sys, guest, and INFORMATION_SCHEMA in the results.<br />
+Use this when you need complete schema inventory including system schemas, or when specifically working with dbo schema objects.<br></p>
 <table>
 <thead>
 <tr>
@@ -749,7 +754,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase via pipeline input for processing.<br />
+Use this to chain database operations or when you already have database objects and want to retrieve their schemas efficiently.<br></p>
 <table>
 <thead>
 <tr>

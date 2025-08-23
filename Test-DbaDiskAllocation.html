@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaDiskAllocation">Test-DbaDiskAllocation</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Checks all disks on a computer to see if they are formatted with allocation units of 64KB.</p>
+<p>Validates disk allocation unit sizes against SQL Server best practice recommendations.</p>
 <h2 id="description">Description</h2>
-<p>Checks all disks on a computer for disk allocation units that match best practice recommendations. If one server is checked, only $true or $false is returned. If multiple servers are checked, each server's name and an IsBestPractice field are returned.</p>
+<p>Examines all NTFS volumes on target servers to verify they are formatted with 64KB allocation units, which is the recommended cluster size for optimal SQL Server performance. When checking a single server, returns a simple true/false result. For multiple servers, returns detailed information including server name, disk details, and compliance status for each volume.</p>
+<p>The function can automatically detect SQL Server instances and identify which disks contain database files, helping you focus on storage that directly impacts SQL Server performance. System drives are automatically excluded from best practice validation since they typically don't require the 64KB allocation unit size.</p>
+<p>This validation is essential during SQL Server deployment planning and storage configuration audits, as improper allocation unit sizes can significantly impact database I/O performance.</p>
 <p>References:<br />
 <a href="https://technet.microsoft.com/en-us/library/dd758814(v=sql.100).aspx">https://technet.microsoft.com/en-us/library/dd758814(v=sql.100).aspx</a> - &quot;The performance question here is usually not one of correlation per the formula, but whether the cluster size has been explicitly defined at 64 KB, which is a best practice for SQL Server.&quot;</p>
 <h2 id="syntax">Syntax</h2>
@@ -519,7 +521,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Scans all disks not hosting SQL Server data or log files on server sqlserver2014a for best practice allocation unit size.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The server(s) to check disk configuration on. <br></p>
+<p>Specifies the target server(s) to examine for disk allocation unit compliance. Accepts multiple server names for bulk validation.<br />
+Use this to verify storage configuration across your SQL Server environment during deployment or storage audits. <br></p>
 <table>
 <thead>
 <tr>
@@ -548,7 +551,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="nosqlcheck">-NoSqlCheck</h5>
-<p>If this switch is enabled, the disk(s) will not be checked for SQL Server data or log files.<br></p>
+<p>Skips detection of SQL Server database files and examines all NTFS volumes regardless of their SQL Server usage.<br />
+Use this when you want to validate allocation units on all drives, not just those containing SQL Server data or log files.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaRegServerGroup">Remove-DbaRegServerGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets list of Server Groups objects stored in SQL Server Central Management Server (CMS).</p>
+<p>Removes server groups from SQL Server Central Management Server (CMS).</p>
 <h2 id="description">Description</h2>
-<p>Returns an array of Server Groups found in the CMS.</p>
+<p>Deletes specified server groups from Central Management Server, including all nested subgroups and registered servers within those groups. This permanently removes the organizational structure you've built in CMS, so use with caution. The function works with both local registered servers and CMS-based groups, and supports piping from Get-DbaRegServerGroup for targeted removal operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaRegServerGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -571,7 +571,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Specifies one or more groups to include from SQL Server Central Management Server.<br></p>
+<p>Specifies the name of one or more server groups to remove from Central Management Server or local registered servers. Supports hierarchical paths like &quot;HR\Development&quot; to target subgroups within<br />
+parent groups.<br />
+Use this when you know the exact group names to delete and want to remove specific organizational structures from your CMS or local registered server configuration.<br></p>
 <table>
 <thead>
 <tr>
@@ -599,7 +601,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows results from Get-DbaRegServerGroup to be piped in<br></p>
+<p>Accepts ServerGroup objects from Get-DbaRegServerGroup for pipeline operations. This allows you to first filter or query specific server groups, then remove them in a controlled manner.<br />
+Use this approach when you need to perform complex filtering, review groups before deletion, or process large numbers of groups with conditional logic.<br></p>
 <table>
 <thead>
 <tr>

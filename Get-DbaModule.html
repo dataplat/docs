@@ -486,10 +486,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaModule">Get-DbaModule</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays all objects in sys.sys_modules after specified modification date.  Works on SQL Server 2008 and above.</p>
+<p>Retrieves database modules (stored procedures, functions, views, triggers) modified after a specified date</p>
 <h2 id="description">Description</h2>
-<p>Quickly find modules (Stored Procs, Functions, Views, Constraints, Rules, Triggers, etc) that have been modified in a database, or across all databases.<br />
-Results will exclude the module definition, but can be queried explicitly.</p>
+<p>Queries sys.sql_modules and sys.objects to find database modules that have been modified within a specified timeframe, helping DBAs track recent code changes for troubleshooting, auditing, or deployment verification.<br />
+Essential for identifying which stored procedures, functions, views, or triggers were altered during maintenance windows or after application deployments.<br />
+Returns metadata including modification dates, schema names, and object types, with the actual module definition hidden by default but available when needed.<br />
+Supports filtering by specific module types and can exclude system objects to focus on user-created code changes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaModule
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -596,7 +598,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to search for modified modules. Accepts database names or wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases rather than scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -624,7 +627,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude.<br></p>
+<p>Excludes specific databases from the module search. Useful when you want to search most databases but skip certain ones like test or archive databases.<br />
+Commonly used to exclude databases under maintenance or those known to have frequent module changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -652,7 +656,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="modifiedsince">-ModifiedSince</h5>
-<p>DateTime value to use as minimum modified date of module.<br></p>
+<p>Returns only modules modified after this date and time. Defaults to 1900-01-01 to include all modules.<br />
+Essential for tracking recent code changes after deployments, maintenance windows, or troubleshooting sessions.<br></p>
 <table>
 <thead>
 <tr>
@@ -680,7 +685,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Limit by specific type of module. Valid choices include: View, TableValuedFunction, DefaultConstraint, StoredProcedure, Rule, InlineTableValuedFunction, Trigger, ScalarFunction<br></p>
+<p>Filters results to specific module types only. Valid choices include: View, TableValuedFunction, DefaultConstraint, StoredProcedure, Rule, InlineTableValuedFunction, Trigger, ScalarFunction.<br />
+Use this when investigating specific types of database objects, such as finding all modified stored procedures after an application release.<br></p>
 <table>
 <thead>
 <tr>
@@ -712,7 +718,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemdatabases">-ExcludeSystemDatabases</h5>
-<p>Allows you to suppress output on system databases<br></p>
+<p>Excludes system databases (master, model, msdb, tempdb) from the search. Focus on user databases only.<br />
+Recommended for routine auditing since system database changes are typically handled by SQL Server updates rather than application deployments.<br></p>
 <table>
 <thead>
 <tr>
@@ -740,7 +747,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemobjects">-ExcludeSystemObjects</h5>
-<p>Allows you to suppress output on system objects<br></p>
+<p>Excludes Microsoft-shipped system objects from results. Shows only user-created modules.<br />
+Use this to filter out built-in SQL Server objects and focus on custom business logic that your team maintains.<br></p>
 <table>
 <thead>
 <tr>
@@ -768,7 +776,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase for pipeline operations. Allows chaining commands together.<br />
+Useful for complex filtering scenarios where you first select databases with specific criteria, then search for modules within those databases.<br></p>
 <table>
 <thead>
 <tr>

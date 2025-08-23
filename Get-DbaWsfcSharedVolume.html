@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaWsfcSharedVolume">Get-DbaWsfcSharedVolume</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets information about Cluster Shared Volumes in a failover cluster.</p>
+<p>Retrieves Cluster Shared Volume configuration and status from Windows Server Failover Clusters hosting SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Gets information about Cluster Shared Volumes in a failover cluster.</p>
+<p>Retrieves detailed configuration and operational information about Cluster Shared Volumes (CSVs) from Windows Server Failover Clusters. CSVs provide the shared storage foundation for SQL Server Failover Cluster Instances (FCIs) and other clustered applications, making this function essential for monitoring storage health and troubleshooting cluster storage issues.</p>
+<p>DBAs use this when validating CSV health before SQL Server installations, investigating storage-related performance problems in clustered environments, or documenting shared storage configurations for disaster recovery planning. The function returns CSV properties along with cluster context including state information and fully qualified cluster names.</p>
 <p>All Windows Server Failover Clustering (Wsfc) commands require local admin on each member node.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaWsfcSharedVolume
@@ -506,7 +507,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets shared volume (CSV) information from the failover cluster cluster01<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target cluster name. Can be a node or the cluster name itself.<br></p>
+<p>Specifies the target Windows Server Failover Cluster to query for Cluster Shared Volume information. Accepts either individual cluster node names or the cluster name itself.<br />
+Use this when you need to check CSV health and configuration on remote clusters hosting SQL Server FCIs. Defaults to the local computer if not specified.<br></p>
 <table>
 <thead>
 <tr>

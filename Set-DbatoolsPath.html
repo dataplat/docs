@@ -504,7 +504,9 @@ Set-DbatoolsPath -Name &lt;String&gt; -Path &lt;String&gt; -Register
 <p>Configures C:\temp as the current temp path. (does not override $Env:TEMP !)<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="name">-Name</h5>
-<p>Name the path should be stored under. <br></p>
+<p>Specifies the alias name to associate with the path for easy retrieval.<br />
+Use descriptive names like 'backups', 'scripts', or 'logs' to organize commonly used directory paths.<br />
+The name can be referenced later with Get-DbatoolsPath to quickly access the stored path. <br></p>
 <table>
 <thead>
 <tr>
@@ -532,7 +534,9 @@ Set-DbatoolsPath -Name &lt;String&gt; -Path &lt;String&gt; -Register
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The path that should be returned under the name. <br></p>
+<p>Specifies the directory path to store under the given name.<br />
+Can be any valid file system path including network shares and mapped drives.<br />
+Use this to centralize path management for backup locations, script directories, or output folders. <br></p>
 <table>
 <thead>
 <tr>
@@ -560,7 +564,9 @@ Set-DbatoolsPath -Name &lt;String&gt; -Path &lt;String&gt; -Register
 </tbody>
 </table>
 <h5 id="register">-Register</h5>
-<p>Registering a path in order for it to persist across sessions. <br></p>
+<p>Persists the path configuration across PowerShell sessions and module reloads.<br />
+Without this switch, the path mapping only exists for the current session.<br />
+Essential when setting up permanent path aliases for team environments or automated scripts. <br></p>
 <table>
 <thead>
 <tr>
@@ -589,9 +595,9 @@ Set-DbatoolsPath -Name &lt;String&gt; -Path &lt;String&gt; -Register
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="scope">-Scope</h5>
-<p>The configuration scope it should be registered under.<br />
-Defaults to UserDefault.<br />
-Configuration scopes are the default locations configurations are being stored at.<br></p>
+<p>Determines where the persistent configuration is stored when using -Register.<br />
+UserDefault stores the setting for the current user only, while other scopes affect system-wide or module-level settings.<br />
+Choose the appropriate scope based on whether the path should be available to all users or just the current user.<br></p>
 <table>
 <thead>
 <tr>

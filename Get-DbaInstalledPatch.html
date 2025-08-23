@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaInstalledPatch">Get-DbaInstalledPatch</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Retrives a historical list of all SQL Patches (CUs, Service Packs &amp; Hot-fixes) installed on a Computer.</p>
+<p>Retrieves installed SQL Server patches from Windows Registry for patch compliance and audit reporting.</p>
 <h2 id="description">Description</h2>
-<p>Retrives a historical list of all SQL Patches (CUs, Service Packs &amp; Hot-fixes) installed on a Computer.</p>
-<p>To test to see if your build is up to date, use Test-DbaBuild.</p>
+<p>Queries the Windows Registry to retrieve a complete history of SQL Server patches installed on one or more computers. This includes Cumulative Updates (CUs), Service Packs, and Hotfixes that have been applied to any SQL Server instance on the target machines.</p>
+<p>Essential for patch compliance audits, pre-upgrade planning, and troubleshooting environments where you need to verify what patches have been installed and when. The function returns patch names, versions, and installation dates so you can quickly assess patch levels across your SQL Server estate without manually checking each server.</p>
+<p>To test if your build is up to date, use Test-DbaBuild.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaInstalledPatch
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -515,7 +516,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 a special customizable date datatype for InstallDate so you'll need InstallDate.Date<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>Allows you to specify a comma separated list of servers to query.<br></p>
+<p>Specifies the target computers to query for SQL Server patch information. Accepts single computer names, comma-separated lists, or pipeline input from text files.<br />
+Use this to audit patch levels across multiple servers for compliance reporting or pre-upgrade planning.<br />
+Defaults to the local computer when not specified.<br></p>
 <table>
 <thead>
 <tr>

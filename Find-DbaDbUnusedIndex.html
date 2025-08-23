@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaDbUnusedIndex">Find-DbaDbUnusedIndex</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Find unused indexes</p>
+<p>Identifies database indexes with low usage statistics that may be candidates for removal</p>
 <h2 id="description">Description</h2>
-<p>This command will help you to find Unused indexes on a database or a list of databases</p>
-<p>For now only supported for CLUSTERED and NONCLUSTERED indexes</p>
+<p>Analyzes index usage statistics from sys.dm_db_index_usage_stats to identify indexes with minimal activity that consume storage space and slow down data modifications without providing query performance benefits.</p>
+<p>This function helps DBAs optimize database performance by finding indexes that are rarely or never used, so you can safely remove them to reduce maintenance overhead, speed up INSERT/UPDATE/DELETE operations, and free up disk space. The function uses customizable thresholds for seeks, scans, and lookups to define what constitutes &quot;unused,&quot; with safety checks to ensure SQL Server has been running long enough (7+ days) for reliable statistics.</p>
+<p>Supports clustered and non-clustered indexes on SQL Server 2005 and higher, with additional data compression information available on SQL Server 2008+. Results include index size, row count, and detailed usage patterns to help prioritize which indexes to drop first.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaDbUnusedIndex
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -584,7 +585,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for unused indexes. Accepts wildcards for pattern matching.<br />
+Use this when you want to focus on specific databases rather than scanning the entire instance, which is helpful for large environments or targeted maintenance windows.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +614,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Excludes specific databases from the unused index analysis. Accepts wildcards for pattern matching.<br />
+Commonly used to skip system databases, read-only databases, or databases undergoing maintenance that shouldn't be modified.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,8 +643,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="ignoreuptime">-IgnoreUptime</h5>
-<p>Less than 7 days uptime can mean that analysis of unused indexes is unreliable, and normally no results will be returned. By setting this option results will be returned even if the Instance has been<br />
-running for less than 7 days.<br></p>
+<p>Bypasses the 7-day uptime check that normally prevents analysis on recently restarted instances.<br />
+Use this when you need results from a server with recent restarts, but be aware that usage statistics may not reflect normal workload patterns.<br></p>
 <table>
 <thead>
 <tr>
@@ -669,12 +672,8 @@ running for less than 7 days.<br></p>
 </tbody>
 </table>
 <h5 id="seeks">-Seeks</h5>
-<p>Specify a custom threshold for user seeks. The default for this parameter is 1.<br />
-The valid values are between 1 and 1000000 to provide flexibility on the definition of 'unused' indexes.<br />
-Note: The resulting WHERE clause uses the AND operator:<br />
-user_seeks &lt; $Seeks<br />
-AND user_scans &lt; $Scans<br />
-AND user_lookups &lt; $Lookups<br></p>
+<p>Sets the threshold for user seeks below which an index is considered unused. Default is 1.<br />
+User seeks occur when the query optimizer uses the index to efficiently locate specific rows. Increase this value to find indexes with very low seek activity rather than completely unused ones.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,12 +701,8 @@ AND user_lookups &lt; $Lookups<br></p>
 </tbody>
 </table>
 <h5 id="scans">-Scans</h5>
-<p>Specify a custom threshold for user scans. The default for this parameter is 1.<br />
-The valid values are between 1 and 1000000 to provide flexibility on the definition of 'unused' indexes.<br />
-Note: The resulting WHERE clause uses the AND operator:<br />
-user_seeks &lt; $Seeks<br />
-AND user_scans &lt; $Scans<br />
-AND user_lookups &lt; $Lookups<br></p>
+<p>Sets the threshold for user scans below which an index is considered unused. Default is 1.<br />
+User scans happen when queries read multiple rows through the index, often for range queries or aggregations. Higher values help identify indexes with minimal scan activity.<br></p>
 <table>
 <thead>
 <tr>
@@ -735,12 +730,8 @@ AND user_lookups &lt; $Lookups<br></p>
 </tbody>
 </table>
 <h5 id="lookups">-Lookups</h5>
-<p>Specify a custom threshold for user lookups. The default for this parameter is 1.<br />
-The valid values are between 1 and 1000000 to provide flexibility on the definition of 'unused' indexes.<br />
-Note: The resulting WHERE clause uses the AND operator:<br />
-user_seeks &lt; $Seeks<br />
-AND user_scans &lt; $Scans<br />
-AND user_lookups &lt; $Lookups<br></p>
+<p>Sets the threshold for user lookups below which an index is considered unused. Default is 1.<br />
+User lookups occur when a nonclustered index is used to locate rows that are then retrieved from the clustered index. This typically indicates bookmark lookup operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -768,7 +759,8 @@ AND user_lookups &lt; $Lookups<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase for pipeline operations.<br />
+This allows you to chain commands and apply complex database filtering logic before analyzing unused indexes.<br></p>
 <table>
 <thead>
 <tr>

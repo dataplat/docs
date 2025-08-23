@@ -485,9 +485,16 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaMultiTool">Install-DbaMultiTool</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Installs or updates the DBA MultiTool stored procedures.</p>
+<p>Installs five essential T-SQL stored procedures for database documentation, index optimization, and administrative tasks.</p>
 <h2 id="description">Description</h2>
-<p>Downloads, extracts and installs the DBA MultiTool stored procedures.</p>
+<p>Downloads and installs the DBA MultiTool collection of T-SQL stored procedures into a specified database. This toolkit provides five key utilities that help DBAs with common documentation and optimization tasks that would otherwise require manual T-SQL scripting.</p>
+<p>The installed procedures include:<br />
+• sp_helpme - Enhanced version of sp_help that provides detailed object information<br />
+• sp_doc - Generates comprehensive database documentation<br />
+• sp_sizeoptimiser - Analyzes and recommends optimal database file sizing<br />
+• sp_estindex - Estimates potential storage savings from index compression<br />
+• sp_help_revlogin - Creates scripts to recreate logins with their original SIDs and passwords</p>
+<p>These procedures are particularly valuable for database migrations, compliance reporting, capacity planning, and general administrative documentation. The function automatically handles downloading the latest version from GitHub and can install across multiple instances simultaneously.</p>
 <p>DBA MultiTool links:<br />
 <a href="https://dba-multitool.org">https://dba-multitool.org</a><br />
 <a href="https://github.com/LowlyDBA/dba-multitool/">https://github.com/LowlyDBA/dba-multitool/</a></p>
@@ -594,10 +601,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="branch">-Branch</h5>
-<p>Specifies an alternate branch of the DBA MultiTool to install.<br />
-Allowed values:<br />
-main (default)<br />
-development<br></p>
+<p>Specifies which branch of the DBA MultiTool repository to download and install. Defaults to 'main' for stable releases.<br />
+Use 'development' only when you need to test upcoming features or bug fixes before they are officially released.<br />
+The development branch may contain untested code and should not be used in production environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -629,7 +635,8 @@ development<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database to install DBA MultiTool stored procedures into.<br></p>
+<p>Specifies the target database where the five DBA MultiTool stored procedures will be installed. Defaults to 'master' database if not specified.<br />
+Choose a dedicated DBA or utility database to keep administrative procedures organized and separate from application databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -657,8 +664,9 @@ development<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install DBA MultiTool from. This <em>should</em> be the zip file as distributed by the maintainers.<br />
-If this parameter is not specified, the latest version will be downloaded and installed from <a href="https://github.com/LowlyDBA/dba-multitool/">https://github.com/LowlyDBA/dba-multitool/</a>.<br></p>
+<p>Specifies the path to a local zip file containing the DBA MultiTool scripts instead of downloading from GitHub.<br />
+Use this when installing in environments without internet access, when you need to install a specific version, or when your organization requires using pre-approved software packages.<br />
+The file must be the official zip distribution from the DBA MultiTool maintainers.<br></p>
 <table>
 <thead>
 <tr>
@@ -686,7 +694,9 @@ If this parameter is not specified, the latest version will be downloaded and in
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the DBA MultiTool will be downloaded from the internet even if previously cached.<br></p>
+<p>Forces a fresh download of the DBA MultiTool from GitHub, ignoring any locally cached version.<br />
+Use this when you need to ensure you have the absolute latest version or when troubleshooting installation issues with cached files.<br />
+Without this switch, the function will use the cached version if it exists to improve performance and reduce network usage.<br></p>
 <table>
 <thead>
 <tr>

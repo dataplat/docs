@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaWsfcResourceType">Get-DbaWsfcResourceType</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets information about one or more resource types in a failover cluster.</p>
+<p>Retrieves available resource types from Windows Server Failover Cluster for SQL Server FCI configuration.</p>
 <h2 id="description">Description</h2>
-<p>Gets information about one or more resource types in a failover cluster.</p>
+<p>Retrieves detailed information about all resource types available in a Windows Server Failover Cluster. Resource types define what kinds of cluster resources can be created, including SQL Server instances, network names, IP addresses, and shared storage. This information is essential when configuring or troubleshooting SQL Server Failover Cluster Instances (FCI), as it shows which resource types are installed and their dependencies.</p>
+<p>Returns resource type properties including display names, DLL locations, and required dependency relationships. This helps DBAs understand the available building blocks for creating clustered SQL Server resources and diagnose configuration issues.</p>
 <p>All Windows Server Failover Clustering (Wsfc) commands require local admin on each member node.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaWsfcResourceType
@@ -506,7 +507,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets resource type information from the failover cluster cluster01<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target cluster name. Can be a node or the cluster name itself.<br></p>
+<p>Specifies the target Windows Server Failover Cluster by providing either a cluster node name or the cluster name itself.<br />
+Use this when connecting to a specific cluster to retrieve its available resource types for SQL Server FCI planning or troubleshooting.<br />
+Defaults to the local computer name if not specified.<br></p>
 <table>
 <thead>
 <tr>

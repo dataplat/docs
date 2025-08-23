@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaInstanceAuditSpecification">Get-DbaInstanceAuditSpecification</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Security Audit Specification information for each instance(s) of SQL Server.</p>
+<p>Retrieves server-level audit specifications from SQL Server instances for compliance and security monitoring</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaInstanceAuditSpecification command gets SQL Security Audit Specification information for each instance(s) of SQL Server.</p>
+<p>Returns all server-level audit specifications configured on SQL Server instances, including their enabled status, associated audit names, and configuration details. This helps DBAs inventory audit configurations for compliance reporting, security assessments, and ensuring proper event monitoring is in place. Server audit specifications define which events are captured by SQL Server Audit at the instance level, such as login attempts, permission changes, and database access patterns.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaInstanceAuditSpecification
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

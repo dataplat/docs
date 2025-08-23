@@ -578,8 +578,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaRegServer, Get-DbaRegServerGroup, CSVs and other objects.<br />
-If importing from CSV or other object, a column named ServerName is required. Optional columns include Name, Description and Group.<br></p>
+<p>Accepts registered server or server group objects from Get-DbaRegServer, Get-DbaRegServerGroup, or custom objects via pipeline.<br />
+Use this to export specific servers or groups that have been filtered or modified before export.<br />
+For custom objects, requires a ServerName column with optional Name, Description, and Group columns.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +608,9 @@ If importing from CSV or other object, a column named ServerName is required. Op
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br></p>
+<p>Specifies the directory where the exported registered server files will be saved.<br />
+Uses the dbatools default export directory if not specified, typically your user profile's Documents folder.<br />
+Automatically generates timestamped filenames when exporting multiple servers or groups.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +638,9 @@ If importing from CSV or other object, a column named ServerName is required. Op
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file. The file must end with .xml or .regsrvr<br></p>
+<p>Specifies the complete file path for the exported registered server file, including filename and extension.<br />
+Must end with .xml or .regsrvr extension to be compatible with SQL Server Management Studio imports.<br />
+When exporting multiple groups, the group name is automatically appended to avoid file conflicts.<br></p>
 <table>
 <thead>
 <tr>
@@ -663,7 +668,9 @@ If importing from CSV or other object, a column named ServerName is required. Op
 </tbody>
 </table>
 <h5 id="credentialpersistencetype">-CredentialPersistenceType</h5>
-<p>Used to specify how the login and passwords are persisted. Valid values include None, PersistLoginName and PersistLoginNameAndPassword.<br></p>
+<p>Controls how login credentials are stored in the exported registered server file.<br />
+Use 'PersistLoginName' to save usernames only, or 'PersistLoginNameAndPassword' to include passwords for automated connections.<br />
+Defaults to 'None' for security, requiring manual credential entry when connecting.<br></p>
 <table>
 <thead>
 <tr>
@@ -695,7 +702,9 @@ If importing from CSV or other object, a column named ServerName is required. Op
 </tbody>
 </table>
 <h5 id="group">-Group</h5>
-<p>Specifies one or more groups to include.<br></p>
+<p>Filters export to include only registered servers from the specified server group names.<br />
+Use this when you want to export servers from specific organizational groups like 'Production', 'Development', or 'QA'.<br />
+Accepts wildcards and multiple group names to export several groups in a single operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -723,7 +732,9 @@ If importing from CSV or other object, a column named ServerName is required. Op
 </tbody>
 </table>
 <h5 id="excludegroup">-ExcludeGroup</h5>
-<p>Specifies one or more groups to exclude.<br></p>
+<p>Excludes registered servers from the specified server group names during export.<br />
+Useful when exporting most groups but need to skip sensitive environments like 'Production' or 'Customer-Facing'.<br />
+Can be combined with the Group parameter to fine-tune which servers are included in the export.<br></p>
 <table>
 <thead>
 <tr>
@@ -751,7 +762,9 @@ If importing from CSV or other object, a column named ServerName is required. Op
 </tbody>
 </table>
 <h5 id="overwrite">-Overwrite</h5>
-<p>Specifies to overwrite the output file (FilePath) if it already exists.<br></p>
+<p>Allows the function to replace an existing file at the specified FilePath location.<br />
+Required when the target export file already exists, preventing accidental data loss.<br />
+Without this switch, the function will stop with an error if the destination file is found.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbatoolsConfigValue">Get-DbatoolsConfigValue</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns the configuration value stored under the specified name.</p>
+<p>Retrieves a specific dbatools configuration value by its exact name.</p>
 <h2 id="description">Description</h2>
-<p>Returns the configuration value stored under the specified name.<br />
-It requires the full name (<Module>.<Name>) and is usually only called by functions.</p>
+<p>Retrieves the actual value stored in a specific dbatools configuration setting using its full name (Module.Name format). This function is primarily used internally by dbatools functions to access their configuration settings, but can also be used by DBAs in custom scripts to retrieve specific module preferences like connection timeouts, default file paths, or email settings. Unlike Get-DbatoolsConfig which lists multiple configurations, this function returns the raw value of a single setting with optional fallback support.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbatoolsConfigValue
     [-FullName] &lt;String&gt;
@@ -510,7 +509,8 @@ It requires the full name (<Module>.<Name>) and is usually only called by functi
 <p>Returns the configured value for 'Default.CoffeeMilk'. If no such value is configured, it returns '0' instead.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="fullname">-FullName</h5>
-<p>The full name (<Module>.<Name>) of the configured value to return. <br></p>
+<p>Specifies the exact configuration setting name in Module.Name format (like 'sql.connection.timeout' or 'path.dbatoolsdata').<br />
+Use this to retrieve specific dbatools module settings that control behavior like connection timeouts, default file paths, or email configurations. <br></p>
 <table>
 <thead>
 <tr>
@@ -539,8 +539,8 @@ It requires the full name (<Module>.<Name>) and is usually only called by functi
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="fallback">-Fallback</h5>
-<p>A fallback value to use, if no value was registered to a specific configuration element.<br />
-This basically is a default value that only applies on a &quot;per call&quot; basis, rather than a system-wide default.<br></p>
+<p>Provides a default value to return when the specified configuration setting doesn't exist or is set to null.<br />
+Use this in scripts when you need a reliable value even if the configuration hasn't been set, such as providing a default timeout of 30 seconds when no custom timeout is configured.<br></p>
 <table>
 <thead>
 <tr>
@@ -568,9 +568,8 @@ This basically is a default value that only applies on a &quot;per call&quot; ba
 </tbody>
 </table>
 <h5 id="notnull">-NotNull</h5>
-<p>By default, this function returns null if one tries to retrieve the value from either a Configuration that does not exist or a Configuration whose value was set to null.<br />
-However, sometimes it may be important that some value was returned.<br />
-By specifying this parameter, the function will throw an error if no value was found at all.<br></p>
+<p>Forces the function to throw an error instead of returning null when no configuration value is found.<br />
+Use this when your script requires a specific configuration setting to be present and should fail gracefully rather than continue with null values that could cause unexpected behavior.<br></p>
 <table>
 <thead>
 <tr>

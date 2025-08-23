@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaAgentSchedule">Copy-DbaAgentSchedule</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaAgentSchedule migrates shared job schedules from one SQL Server to another.</p>
+<p>Migrates SQL Agent shared job schedules between SQL Server instances for job schedule standardization.</p>
 <h2 id="description">Description</h2>
-<p>All shared job schedules are copied.</p>
-<p>If the associated credential for the account does not exist on the destination, it will be skipped. If the shared job schedule already exists on the destination, it will be skipped unless -Force is used.</p>
+<p>Copies shared job schedules (not job-specific schedules) from the source SQL Server Agent to one or more destination instances using T-SQL scripting. This is essential when standardizing job schedules across multiple servers or migrating Agent configurations to new instances. Existing schedules are skipped by default unless -Force is specified, and schedules with associated jobs cannot be overwritten even with Force to prevent breaking existing job assignments. Use this instead of manually recreating complex recurring schedules with specific timing requirements across your SQL Server environment.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaAgentSchedule
     [[-Source] &lt;DbaInstanceParameter&gt;]
@@ -522,7 +521,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets a list of schedule, outputs to a gridview which can be selected from, then copies to SqlInstance<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Specifies one or more destination SQL Server instances where the shared job schedules will be copied. This parameter accepts multiple instances, allowing you to deploy schedules to several servers<br />
+simultaneously.<br />
+Use this when standardizing schedules across multiple instances or when migrating Agent configurations to new servers. <br></p>
 <table>
 <thead>
 <tr>
@@ -551,7 +552,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br></p>
+<p>Specifies the source SQL Server instance containing the shared job schedules to copy. When specified, all shared schedules (or those filtered by Schedule/Id parameters) will be copied from this<br />
+instance.<br />
+Use this parameter when copying schedules from a specific server, or omit it when piping schedules from Get-DbaAgentSchedule.<br></p>
 <table>
 <thead>
 <tr>
@@ -579,9 +582,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Specifies alternative credentials for connecting to the source SQL Server instance. Use this when the current Windows user lacks sufficient permissions or when connecting with SQL Server<br />
+authentication.<br />
+Accepts credentials created with Get-Credential or saved credential objects. Required when copying from instances that don't accept your current Windows authentication.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,9 +612,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Specifies alternative credentials for connecting to the destination SQL Server instances. Use this when the current Windows user lacks sufficient permissions on the target servers or when connecting<br />
+with SQL Server authentication.<br />
+Accepts credentials created with Get-Credential or saved credential objects. Required when copying to instances that don't accept your current Windows authentication.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schedule">-Schedule</h5>
-<p>Copy only specific schedules. Note that SQL Server allows multiple schedules with the same name. Use Id for more accurate schedule copies.<br></p>
+<p>Filters the operation to copy only schedules with specific names. Accepts an array of schedule names using wildcard patterns for flexible matching.<br />
+Use this when you need to copy only certain schedules instead of all shared schedules. Since SQL Server allows duplicate schedule names, combine with Id parameter for precise targeting.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +671,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="id">-Id</h5>
-<p>Copy only specific schedule.<br></p>
+<p>Filters the operation to copy only schedules with specific numeric IDs. Accepts an array of schedule IDs for targeting multiple specific schedules.<br />
+Use this instead of schedule names when you need precise identification, especially when duplicate schedule names exist on the source instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -695,7 +700,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAgentSchedule<br></p>
+<p>Accepts job schedule objects from the pipeline, typically from Get-DbaAgentSchedule. When provided, these specific schedule objects will be copied instead of querying the source instance.<br />
+Use this for advanced scenarios like selective copying based on complex filtering or when working with schedules from multiple source instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -723,7 +729,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Operator will be dropped and recreated on Destination.<br></p>
+<p>Forces the overwrite of existing schedules on the destination instances by dropping and recreating them. Without this switch, existing schedules are skipped.<br />
+Use this when you need to update existing schedules with new configurations. Note that schedules currently assigned to jobs cannot be overwritten, even with Force enabled.<br></p>
 <table>
 <thead>
 <tr>

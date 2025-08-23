@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbCertificate">New-DbaDbCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new database certificate</p>
+<p>Creates a new database certificate for encryption and security purposes</p>
 <h2 id="description">Description</h2>
-<p>Creates a new database certificate. If no database is specified, the certificate will be created in master.</p>
+<p>Creates a new database certificate within a specified database using SQL Server Management Objects. Database certificates are essential for implementing Transparent Data Encryption (TDE), encrypting stored procedures and functions, securing Service Broker dialogs, and enabling column-level encryption. The certificate can be password-protected or secured by the database master key, with configurable expiration dates and subject information. If no database is specified, the certificate will be created in the master database.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbCertificate
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -577,7 +577,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Optional name to create the certificate. Defaults to database name.<br></p>
+<p>Specifies the name for the certificate. Defaults to the database name if not provided.<br />
+Use descriptive names that indicate the certificate's purpose, such as 'TDE_Certificate' or 'ColumnEncryption_Cert'.<br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +606,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where the certificate will be created. Defaults to master.<br></p>
+<p>Specifies the database where the certificate will be created. Defaults to master if not specified.<br />
+Use this when you need certificates in specific databases for TDE, column-level encryption, or Service Broker security.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +635,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subject">-Subject</h5>
-<p>Optional subject that will be used when creating all certificates<br></p>
+<p>Specifies the certificate subject field for identification purposes. Defaults to '[DatabaseName] Database Certificate'.<br />
+Use meaningful subjects like 'CN=MyApp TDE Certificate' to help identify certificate purposes in production environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -661,8 +664,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="startdate">-StartDate</h5>
-<p>Optional start date that will be used when creating all certificates<br />
-By default, certs will start immediately<br></p>
+<p>Specifies when the certificate becomes valid for use. Defaults to the current date and time.<br />
+Set future start dates when you need to prepare certificates in advance for scheduled encryption implementations.<br></p>
 <table>
 <thead>
 <tr>
@@ -690,8 +693,8 @@ By default, certs will start immediately<br></p>
 </tbody>
 </table>
 <h5 id="expirationdate">-ExpirationDate</h5>
-<p>Optional expiration that will be used when creating all certificates<br />
-By default, certs will last 5 years<br></p>
+<p>Specifies when the certificate expires and becomes invalid. Defaults to 5 years from the start date.<br />
+Plan expiration dates carefully as expired certificates will prevent access to encrypted data and require certificate renewal procedures.<br></p>
 <table>
 <thead>
 <tr>
@@ -719,7 +722,8 @@ By default, certs will last 5 years<br></p>
 </tbody>
 </table>
 <h5 id="activeforservicebrokerdialog">-ActiveForServiceBrokerDialog</h5>
-<p>Microsoft has not provided a description so we can only assume the cert is active for service broker dialog<br></p>
+<p>Enables the certificate for Service Broker dialog security and message encryption. Disabled by default.<br />
+Use this when implementing Service Broker applications that require encrypted message communication between services.<br></p>
 <table>
 <thead>
 <tr>
@@ -747,7 +751,8 @@ By default, certs will last 5 years<br></p>
 </tbody>
 </table>
 <h5 id="securepassword">-SecurePassword</h5>
-<p>Optional password - if no password is supplied, the password will be protected by the master key<br></p>
+<p>Specifies a password to encrypt the certificate's private key. If not provided, the database master key protects the certificate.<br />
+Use passwords when you need to backup/restore certificates across instances or when the database master key is not available.<br></p>
 <table>
 <thead>
 <tr>
@@ -775,7 +780,8 @@ By default, certs will last 5 years<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase for pipeline operations.<br />
+Use this to create certificates across multiple databases efficiently by piping database objects from Get-DbaDatabase.<br></p>
 <table>
 <thead>
 <tr>

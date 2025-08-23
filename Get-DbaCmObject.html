@@ -485,18 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaCmObject">Get-DbaCmObject</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Retrieves Wmi/Cim-Style information from computers.</p>
+<p>Retrieves Windows system information from SQL Server hosts using WMI/CIM with intelligent connection fallback.</p>
 <h2 id="description">Description</h2>
-<p>This function centralizes all requests for information retrieved from Get-WmiObject or Get-CimInstance.<br />
-It uses different protocols as available in this order:</p>
-<ul>
-<li>Cim over WinRM</li>
-<li>Cim over DCOM</li>
-<li>Wmi</li>
-<li>Wmi over PowerShell Remoting<br />
-It remembers channels that didn't work and will henceforth avoid them. It remembers invalid credentials and will avoid reusing them.<br />
-Much of its behavior can be configured using Test-DbaCmConnection.</li>
-</ul>
+<p>Queries Windows Management Instrumentation (WMI) or Common Information Model (CIM) classes on SQL Server hosts to gather system-level information like hardware specs, operating system details, services, and performance counters. This function automatically tries multiple connection protocols in order of preference (CIM over WinRM, CIM over DCOM, WMI, then WMI over PowerShell Remoting) and remembers which methods work for each server to optimize future connections.</p>
+<p>Essential for collecting host-level information that complements SQL Server monitoring, such as checking available memory, CPU utilization, disk space, or Windows service status across your SQL Server infrastructure. The intelligent credential and connection caching prevents repeated authentication failures and speeds up bulk operations across multiple servers.</p>
+<p>Much of its behavior can be configured using Test-DbaCmConnection to pre-test and configure optimal connection methods for your environment.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaCmObject
     [-ClassName] &lt;String&gt;
@@ -534,7 +527,9 @@ Get-DbaCmObject -Query &lt;String&gt;
 It will use the Credentials stored in $cred to connect, unless they are known to not work, in which case they will default to windows credentials (unless another default has been set).<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="classname">-ClassName</h5>
-<p>The name of the class to retrieve. <br></p>
+<p>Specifies the WMI or CIM class name to query from the target servers. Common classes include Win32_OperatingSystem for OS details, Win32_ComputerSystem for hardware info, or Win32_Service for Windows<br />
+services.<br />
+Use this when you need to retrieve all instances and properties of a specific Windows management class across your SQL Server infrastructure. <br></p>
 <table>
 <thead>
 <tr>
@@ -562,7 +557,8 @@ It will use the Credentials stored in $cred to connect, unless they are known to
 </tbody>
 </table>
 <h5 id="query">-Query</h5>
-<p>The Wmi/Cim query to run against the server. <br></p>
+<p>Specifies a custom WQL (WMI Query Language) query to execute against the target servers. Allows for complex filtering and specific property selection beyond simple class retrieval.<br />
+Use this when you need advanced filtering like &quot;SELECT Name, State FROM Win32_Service WHERE StartMode='Auto'&quot; to get specific data rather than entire class instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -591,7 +587,8 @@ It will use the Credentials stored in $cred to connect, unless they are known to
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The computer(s) to connect to. Defaults to localhost.<br></p>
+<p>Specifies the target computer names or SQL Server host names to query for Windows management information. Accepts multiple values and pipeline input.<br />
+Defaults to the local machine when not specified, but typically used to gather system-level data from remote SQL Server hosts for infrastructure monitoring.<br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +644,8 @@ It will use the Credentials stored in $cred to connect, unless they are known to
 </tbody>
 </table>
 <h5 id="namespace">-Namespace</h5>
-<p>The namespace of the class to use.<br></p>
+<p>Specifies the WMI namespace path where the target class or query should be executed. The default &quot;root\cimv2&quot; contains most Windows system classes.<br />
+Change this when querying specialized namespaces like &quot;root\SQLSERVER&quot; for SQL Server-specific WMI classes or &quot;root\MSCluster&quot; for cluster information.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,7 +673,8 @@ It will use the Credentials stored in $cred to connect, unless they are known to
 </tbody>
 </table>
 <h5 id="donotuse">-DoNotUse</h5>
-<p>Connection Protocols that should not be used.<br></p>
+<p>Excludes specific connection protocols from the automatic fallback sequence. Valid values are CimRM, CimDCOM, Wmi, and PowerShellRemoting.<br />
+Use this when certain protocols are blocked by network policies or cause issues in your environment, forcing the function to skip problematic connection methods.<br></p>
 <table>
 <thead>
 <tr>
@@ -703,10 +702,8 @@ It will use the Credentials stored in $cred to connect, unless they are known to
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Overrides some checks that might otherwise halt execution as a precaution</p>
-<ul>
-<li>Ignores timeout on bad connections<br></li>
-</ul>
+<p>Bypasses timeout protections on connections that have previously failed, allowing retry attempts on servers marked as problematic.<br />
+Use this when you suspect connection issues have been resolved or when you need to override cached failure states during troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -734,9 +731,8 @@ It will use the Credentials stored in $cred to connect, unless they are known to
 </tbody>
 </table>
 <h5 id="silentlycontinue">-SilentlyContinue</h5>
-<p>Use in conjunction with the -EnableException switch.<br />
-By default, Get-DbaCmObject will throw a terminating exception when connecting to a target is impossible in exception enabled mode.<br />
-Setting this switch will cause it write a non-terminating exception and continue with the next computer.<br></p>
+<p>Converts terminating connection failures into non-terminating errors when used with EnableException, allowing processing to continue with remaining servers.<br />
+Use this when querying multiple servers where some may be unavailable, and you want to collect data from accessible servers rather than stopping on the first failure.<br></p>
 <table>
 <thead>
 <tr>

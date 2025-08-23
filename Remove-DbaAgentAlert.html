@@ -485,11 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaAgentAlert">Remove-DbaAgentAlert</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes SQL Agent agent alert(s).</p>
+<p>Removes SQL Server Agent alerts from specified instances.</p>
 <h2 id="description">Description</h2>
-<p>Removes the SQL Agent alert(s) that have passed through the pipeline.<br />
-If not used with a pipeline, Get-DbaAgentAlert will be executed with the parameters provided<br />
-and the returned SQL Agent alert(s) will be removed.</p>
+<p>Deletes SQL Server Agent alerts that monitor for specific errors, performance conditions, or system events.<br />
+Useful for cleaning up obsolete alerts, removing test configurations, or managing alert policies across multiple instances.<br />
+Can remove specific alerts by name, exclude certain alerts, or work with piped input from Get-DbaAgentAlert for selective removal.<br />
+Returns detailed results showing which alerts were successfully removed and any errors encountered.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgentAlert
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -553,7 +554,9 @@ Remove-DbaAgentAlert -InputObject &lt;Alert[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaAgentAlert. <br></p>
+<p>Accepts SQL Agent alert objects from the pipeline, typically from Get-DbaAgentAlert.<br />
+Use this for selective removal operations where you first query alerts with specific criteria and then remove the filtered results.<br />
+Enables advanced scenarios like interactive selection using Out-GridView or complex filtering logic. <br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +615,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alert">-Alert</h5>
-<p>Specifies one or more SQL Agent alert(s) to delete. If unspecified, all accounts will be removed.<br></p>
+<p>Specifies the names of specific SQL Agent alerts to remove from the target instances.<br />
+Use this when you need to remove particular alerts rather than all alerts on the server.<br />
+Accepts an array of alert names for bulk removal operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +645,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludealert">-ExcludeAlert</h5>
-<p>Specifies one or more SQL Agent alert(s) to exclude.<br></p>
+<p>Excludes specific SQL Agent alerts from removal when processing all alerts on an instance.<br />
+Useful for bulk cleanup operations where you want to preserve certain critical alerts.<br />
+Only applies when the Alert parameter is not specified, allowing you to remove all alerts except those listed here.<br></p>
 <table>
 <thead>
 <tr>

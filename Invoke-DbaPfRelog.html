@@ -567,7 +567,8 @@ avoid naming conflicts with piped input.<br></p>
 <p>Relogs all the log files from the DataCollector01 on the local computer and allows overwrite.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the pathname of an existing performance counter log or performance counter path. You can specify multiple input files.<br></p>
+<p>Specifies the file path to Windows performance counter log files (.blg format) that need to be converted. Accepts multiple file paths and supports pipeline input.<br />
+Use this when you have perfmon binary logs that need to be converted to readable formats like CSV or TSV for analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -595,7 +596,8 @@ avoid naming conflicts with piped input.<br></p>
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Specifies the pathname of the output file or SQL database where the counters will be written. Defaults to the same directory as the source.<br></p>
+<p>Specifies the output file path or directory where converted performance data will be saved. Creates necessary directories automatically if they don't exist.<br />
+When omitted, files are saved in the same directory as the source with the appropriate extension (.tsv, .csv, etc.).<br></p>
 <table>
 <thead>
 <tr>
@@ -623,9 +625,9 @@ avoid naming conflicts with piped input.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The output format. Defaults to tsv. Options include tsv, csv, bin, and sql.<br />
-For a SQL database, the output file specifies the DSN!counter_log. You can specify the database location by using the ODBC manager to configure the DSN (Database System Name).<br />
-For more information, read here: <a href="https://technet.microsoft.com/en-us/library/bb490958.aspx">https://technet.microsoft.com/en-us/library/bb490958.aspx</a><br></p>
+<p>Specifies the output format for the converted performance data. Defaults to 'tsv' (tab-separated values).<br />
+Use 'csv' for Excel compatibility, 'tsv' for easy parsing in PowerShell, 'bin' for binary format, or 'sql' to write directly to a SQL database via ODBC.<br />
+For SQL output, specify the destination as 'DSN!counter_log' where DSN is configured in ODBC Manager.<br></p>
 <table>
 <thead>
 <tr>
@@ -657,7 +659,8 @@ For more information, read here: <a href="https://technet.microsoft.com/en-us/li
 </tbody>
 </table>
 <h5 id="append">-Append</h5>
-<p>If this switch is enabled, output will be appended to the specified file instead of overwriting. This option does not apply to SQL format where the default is always to append.<br></p>
+<p>Appends performance data to an existing output file instead of overwriting it. Only works with binary (-Type bin) format.<br />
+Use this when consolidating multiple perfmon logs into a single file for comprehensive analysis over time periods.<br></p>
 <table>
 <thead>
 <tr>
@@ -685,7 +688,8 @@ For more information, read here: <a href="https://technet.microsoft.com/en-us/li
 </tbody>
 </table>
 <h5 id="allowclobber">-AllowClobber</h5>
-<p>If this switch is enabled, the destination file will be overwritten if it exists.<br></p>
+<p>Overwrites existing output files without prompting. Required when the destination file already exists and you want to replace it.<br />
+Use this in automated scripts or when you need to refresh converted performance data files.<br></p>
 <table>
 <thead>
 <tr>
@@ -713,7 +717,8 @@ For more information, read here: <a href="https://technet.microsoft.com/en-us/li
 </tbody>
 </table>
 <h5 id="performancecounter">-PerformanceCounter</h5>
-<p>Specifies the performance counter path to log.<br></p>
+<p>Specifies specific performance counters to extract from the log files. Accepts counter paths like '\Processor(_Total)% Processor Time'.<br />
+Use this to filter large perfmon logs and extract only the counters you need for analysis, reducing output file size.<br></p>
 <table>
 <thead>
 <tr>
@@ -741,8 +746,8 @@ For more information, read here: <a href="https://technet.microsoft.com/en-us/li
 </tbody>
 </table>
 <h5 id="performancecounterpath">-PerformanceCounterPath</h5>
-<p>Specifies the pathname of the text file that lists the performance counters to be included in a relog file. Use this option to list counter paths in an input file, one per line. Default setting is<br />
-all counters in the original log file are relogged.<br></p>
+<p>Specifies a text file containing performance counter paths to extract, one counter per line. Alternative to specifying counters directly.<br />
+Use this when you have a standard set of counters for monitoring SQL Server performance and want to consistently extract the same metrics across multiple log files.<br></p>
 <table>
 <thead>
 <tr>
@@ -770,7 +775,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="interval">-Interval</h5>
-<p>Specifies sample intervals in &quot;n&quot; records. Includes every nth data point in the relog file. Default is every data point.<br></p>
+<p>Specifies the sampling interval by including every nth data point from the original log. Reduces output size by skipping intermediate samples.<br />
+Use this when working with high-frequency perfmon logs where you need less granular data for trend analysis rather than detailed monitoring.<br></p>
 <table>
 <thead>
 <tr>
@@ -798,7 +804,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="begintime">-BeginTime</h5>
-<p>This is is Get-Date object and we format it for you.<br></p>
+<p>Specifies the start time for data extraction using a DateTime object. Only performance data from this time forward will be included in the output.<br />
+Use this to extract specific time periods from large perfmon logs, such as during a known performance incident or maintenance window.<br></p>
 <table>
 <thead>
 <tr>
@@ -826,7 +833,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="endtime">-EndTime</h5>
-<p>Specifies end time for copying last record from the input file. This is is Get-Date object and we format it for you.<br></p>
+<p>Specifies the end time for data extraction using a DateTime object. Performance data after this time will be excluded from the output.<br />
+Combine with BeginTime to extract data from specific time ranges, useful for analyzing performance during particular events or time periods.<br></p>
 <table>
 <thead>
 <tr>
@@ -854,7 +862,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="configpath">-ConfigPath</h5>
-<p>Specifies the pathname of the settings file that contains command-line parameters.<br></p>
+<p>Specifies a configuration file containing relog command-line parameters for complex or frequently-used conversion settings.<br />
+Use this when you have standardized performance log processing requirements that need consistent parameters across multiple operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -882,7 +891,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="summary">-Summary</h5>
-<p>If this switch is enabled, the performance counters and time ranges of log files specified in the input file will be displayed.<br></p>
+<p>Displays summary information about the performance log files including available counters and time ranges without performing the conversion.<br />
+Use this to examine perfmon logs before processing them, helping you determine what counters are available and the time span covered.<br></p>
 <table>
 <thead>
 <tr>
@@ -910,7 +920,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts the output of Get-DbaPfDataCollector and Get-DbaPfDataCollectorSet as input via the pipeline.<br></p>
+<p>Accepts data collector objects from Get-DbaPfDataCollector and Get-DbaPfDataCollectorSet via pipeline input for automatic log file discovery.<br />
+Use this to convert performance logs directly from active or configured data collectors without manually specifying file paths.<br></p>
 <table>
 <thead>
 <tr>
@@ -938,7 +949,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="multithread">-Multithread</h5>
-<p>If this switch is enabled, processing will be done in parallel. This may speed up large batches or large files.<br></p>
+<p>Processes multiple performance log files in parallel to improve performance when converting large batches of files.<br />
+Use this when converting many perfmon logs simultaneously, especially beneficial on multi-core systems with large performance monitoring datasets.<br></p>
 <table>
 <thead>
 <tr>
@@ -966,7 +978,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="alltime">-AllTime</h5>
-<p>If this switch is enabled and a datacollector or datacollectorset is passed in via the pipeline, collects all logs, not just the latest.<br></p>
+<p>Processes all available log files from data collectors instead of just the most recent ones when used with pipeline input from Get-DbaPfDataCollector.<br />
+Use this when you need to convert historical performance data from all collection periods, not just the latest monitoring session.<br></p>
 <table>
 <thead>
 <tr>
@@ -994,7 +1007,8 @@ all counters in the original log file are relogged.<br></p>
 </tbody>
 </table>
 <h5 id="raw">-Raw</h5>
-<p>If this switch is enabled, the results of the DOS command instead of Get-ChildItem will be displayed. This does not run in parallel.<br></p>
+<p>Displays the raw output from the relog command instead of returning file objects. Useful for debugging conversion issues or seeing detailed progress.<br />
+Use this when troubleshooting relog operations or when you need to see the exact command-line output and statistics from the conversion process.<br></p>
 <table>
 <thead>
 <tr>

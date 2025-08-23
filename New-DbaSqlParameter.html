@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaSqlParameter">New-DbaSqlParameter</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new SQL parameter.</p>
+<p>Creates a SqlParameter object for use with parameterized queries and stored procedures.</p>
 <h2 id="description">Description</h2>
-<p>Creates a new SQL parameter.</p>
+<p>Creates a Microsoft.Data.SqlClient.SqlParameter object with specified properties like data type, direction, size, and value. This is essential for executing parameterized queries and stored procedures safely through Invoke-DbaQuery, preventing SQL injection while providing precise control over parameter behavior. Supports all SqlParameter properties including output parameters, table-valued parameters, and column encryption for secure data handling.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaSqlParameter
     [[-CompareInfo] &lt;String&gt;]
@@ -528,7 +528,8 @@ PS C:\&gt; $output.Value
 <p>Creates an output parameter and uses it to invoke a stored procedure.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="compareinfo">-CompareInfo</h5>
-<p>Sets the CompareInfo object that defines how string comparisons should be performed for this parameter.<br></p>
+<p>Defines how string comparisons are performed when this parameter is used in SQL operations. Controls case sensitivity, accent sensitivity, and other collation behaviors.<br />
+Use this when you need specific string comparison rules that differ from the database's default collation settings.<br></p>
 <table>
 <thead>
 <tr>
@@ -560,7 +561,8 @@ PS C:\&gt; $output.Value
 </tbody>
 </table>
 <h5 id="dbtype">-DbType</h5>
-<p>Sets the SqlDbType of the parameter.<br></p>
+<p>Specifies the .NET data type for the parameter using System.Data.DbType enumeration. This is an alternative to SqlDbType for cross-database compatibility.<br />
+Use SqlDbType instead for SQL Server-specific operations, as it provides better type mapping and performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -592,7 +594,8 @@ PS C:\&gt; $output.Value
 </tbody>
 </table>
 <h5 id="direction">-Direction</h5>
-<p>Sets a value that indicates whether the parameter is input-only, output-only, bidirectional, or a stored procedure return value parameter.<br></p>
+<p>Specifies whether the parameter passes data into the query (Input), returns data from a stored procedure (Output), or both (InputOutput).<br />
+Required when creating output parameters for stored procedures that return values through parameters rather than result sets.<br></p>
 <table>
 <thead>
 <tr>
@@ -654,8 +657,8 @@ This property provides additional protection against security attacks that invol
 </tbody>
 </table>
 <h5 id="isnullable">-IsNullable</h5>
-<p>Sets a value that indicates whether the parameter accepts null values.<br />
-IsNullable is not used to validate the parameter's value and will not prevent sending or receiving a null value when executing a command.<br></p>
+<p>Indicates whether the parameter can accept null values, but does not enforce null validation during query execution.<br />
+This is primarily used for metadata purposes and DataAdapter operations, not for runtime null checking.<br></p>
 <table>
 <thead>
 <tr>
@@ -683,7 +686,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="localeid">-LocaleId</h5>
-<p>Sets the locale identifier that determines conventions and language for a particular region.<br></p>
+<p>Specifies the locale identifier (LCID) that determines regional formatting conventions for the parameter value.<br />
+Use this when working with locale-specific data formatting, particularly for date, time, and numeric values that need specific regional representation.<br></p>
 <table>
 <thead>
 <tr>
@@ -711,7 +715,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="offset">-Offset</h5>
-<p>Sets the offset to the Value property.<br></p>
+<p>Specifies the starting position within the parameter value when working with binary or text data types.<br />
+Useful when you need to read or write data starting from a specific byte position rather than the beginning of the value.<br></p>
 <table>
 <thead>
 <tr>
@@ -739,7 +744,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="parametername">-ParameterName</h5>
-<p>Sets the name of the SqlParameter.<br></p>
+<p>Specifies the name of the parameter as it appears in the SQL query or stored procedure, including the '@' prefix.<br />
+Must match exactly with parameter names defined in your SQL statements for proper parameter binding.<br></p>
 <table>
 <thead>
 <tr>
@@ -767,7 +773,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="precision">-Precision</h5>
-<p>Sets the maximum number of digits used to represent the Value property.<br></p>
+<p>Defines the total number of digits for numeric data types like decimal or numeric columns.<br />
+Required when working with precise financial calculations or when the target column has specific precision requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -795,7 +802,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="scale">-Scale</h5>
-<p>Sets the number of decimal places to which Value is resolved.<br></p>
+<p>Specifies the number of decimal places for numeric data types, working together with Precision.<br />
+Essential for financial data and calculations where exact decimal representation is required to prevent rounding errors.<br></p>
 <table>
 <thead>
 <tr>
@@ -823,7 +831,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="size">-Size</h5>
-<p>Sets the maximum size, in bytes, of the data within the column.<br></p>
+<p>Defines the maximum length for variable-length data types like varchar, nvarchar, or varbinary columns.<br />
+Use -1 for MAX data types (varchar(max), nvarchar(max)) to handle large text or binary data without size restrictions.<br></p>
 <table>
 <thead>
 <tr>
@@ -851,7 +860,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="sourcecolumn">-SourceColumn</h5>
-<p>Sets the name of the source column mapped to the DataSet and used for loading or returning the Value.<br></p>
+<p>Maps the parameter to a specific column name in a DataTable or DataSet for bulk operations.<br />
+Used primarily with DataAdapter operations when you need to map parameter values to specific columns during data updates.<br></p>
 <table>
 <thead>
 <tr>
@@ -879,7 +889,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="sourcecolumnnullmapping">-SourceColumnNullMapping</h5>
-<p>Sets a value which indicates whether the source column is nullable. This allows SqlCommandBuilder to correctly generate Update statements for nullable columns.<br></p>
+<p>Indicates whether the source column allows null values, helping SqlCommandBuilder generate correct UPDATE statements.<br />
+Important for DataAdapter scenarios where the framework needs to understand column nullability for proper SQL generation.<br></p>
 <table>
 <thead>
 <tr>
@@ -907,7 +918,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="sourceversion">-SourceVersion</h5>
-<p>Sets the DataRowVersion to use when you load Value.<br></p>
+<p>Specifies which version of data to use from a DataRow when the parameter value comes from a DataSet.<br />
+Use 'Current' for modified data, 'Original' for unchanged data, or 'Proposed' for uncommitted changes during DataAdapter operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -939,7 +951,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="sqldbtype">-SqlDbType</h5>
-<p>Sets the SqlDbType of the parameter.<br></p>
+<p>Specifies the SQL Server data type for the parameter, ensuring proper type mapping and optimal performance.<br />
+Prefer this over DbType for SQL Server operations as it provides exact type matching with SQL Server's native data types.<br></p>
 <table>
 <thead>
 <tr>
@@ -971,7 +984,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="sqlvalue">-SqlValue</h5>
-<p>Sets the value of the parameter as an SQL type.<br></p>
+<p>Sets the parameter value using SQL Server-specific data types (like SqlString, SqlInt32) instead of standard .NET types.<br />
+Use this when you need to handle SQL null values explicitly or work with SQL Server-specific type behaviors that differ from .NET types.<br></p>
 <table>
 <thead>
 <tr>
@@ -999,7 +1013,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="typename">-TypeName</h5>
-<p>Sets the type name for a table-valued parameter.<br></p>
+<p>Specifies the user-defined table type name when passing DataTable objects as table-valued parameters to stored procedures.<br />
+The type name must match a table type defined in the database schema and is essential for bulk data operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -1027,7 +1042,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="udttypename">-UdtTypeName</h5>
-<p>Sets a string that represents a user-defined type as a parameter.<br></p>
+<p>Specifies the name of a user-defined data type (UDT) or CLR type when working with custom SQL Server data types.<br />
+Required when passing complex objects or custom data structures that extend beyond standard SQL Server data types.<br></p>
 <table>
 <thead>
 <tr>
@@ -1055,7 +1071,8 @@ IsNullable is not used to validate the parameter's value and will not prevent se
 </tbody>
 </table>
 <h5 id="value">-Value</h5>
-<p>Sets the value of the parameter.<br></p>
+<p>Specifies the actual data value to pass to the SQL parameter, automatically handling type conversion from .NET to SQL types.<br />
+The most commonly used parameter property for passing data into queries and stored procedures safely.<br></p>
 <table>
 <thead>
 <tr>

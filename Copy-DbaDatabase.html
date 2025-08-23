@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaDatabase">Copy-DbaDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Migrates SQL Server databases from one SQL Server to another.</p>
+<p>Migrates SQL Server databases between instances using backup/restore or detach/attach methods.</p>
 <h2 id="description">Description</h2>
-<p>This script provides the ability to migrate databases using detach/copy/attach or backup/restore. This script works with named instances, clusters and SQL Server Express Edition.</p>
-<p>By default, databases will be migrated to the destination SQL Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure. Filestreams and filegroups are also migrated. Safety is emphasized.</p>
+<p>Moves user databases from one SQL Server instance to another, supporting both on-premises and Azure SQL Managed Instance destinations. Ideal for server migrations, environment refreshes, disaster recovery testing, and cloud migrations where you need to relocate entire databases with their data and structure intact.</p>
+<p>Offers two migration methods: backup/restore (safer, supports cross-version migrations) and detach/attach (faster, requires same SQL Server version). The backup/restore method creates copy-only backups to avoid breaking your existing backup chain, while detach/attach physically moves database files via administrative shares.</p>
+<p>Automatically handles file path mapping, preserves database properties like ownership chaining and trustworthy settings, and includes safety checks for Availability Groups, mirroring, and replication. By default, databases are placed in the destination server's default data and log directories, but you can preserve the original folder structure.</p>
+<p>Works with named instances, clusters, SQL Server Express Edition, and Azure blob storage for cloud scenarios. Supports multiple destination servers, database renaming, and batch operations for migrating multiple databases efficiently.</p>
 <p>If you are experiencing issues with Copy-DbaDatabase, please use Backup-DbaDatabase | Restore-DbaDatabase instead.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaDatabase
@@ -597,9 +599,9 @@ Migrates Mydb from instance sql2014 to AzureDb on the specified Azure SQL Manage
 <p>Copies database t from sqlcs to the same server (sqlcs) using the detach/copy/attach method. The new database will be named t_copy and the original database will be reattached.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You may specify multiple servers.<br />
-Note that when using -BackupRestore with multiple servers, the backup will only be performed once and backups will be deleted at the end (if you didn't specify -NoBackupCleanup).<br />
-When using -DetachAttach with multiple servers, -Reattach must be specified. <br></p>
+<p>Specifies one or more destination SQL Server instances where databases will be migrated.<br />
+Supports on-premises instances and Azure SQL Managed Instances for cloud migrations.<br />
+When targeting multiple destinations, backups are performed once and shared across all targets. <br></p>
 <table>
 <thead>
 <tr>
@@ -627,8 +629,9 @@ When using -DetachAttach with multiple servers, -Reattach must be specified. <br
 </tbody>
 </table>
 <h5 id="backuprestore">-BackupRestore</h5>
-<p>If this switch is enabled, the copy-only backup and restore method will be used to migrate the database(s). This method requires that you specify either -SharedPath or -UseLastBackup.<br />
-Backups will be immediately deleted after use unless -NoBackupCleanup is specified. <br></p>
+<p>Uses backup and restore method for database migration, creating copy-only backups to preserve existing backup chains.<br />
+This is the safest method for cross-version migrations and works with Azure blob storage.<br />
+Requires either -SharedPath for backup location or -UseLastBackup to use existing backups. <br></p>
 <table>
 <thead>
 <tr>
@@ -656,8 +659,9 @@ Backups will be immediately deleted after use unless -NoBackupCleanup is specifi
 </tbody>
 </table>
 <h5 id="detachattach">-DetachAttach</h5>
-<p>If this switch is enabled, the detach/copy/attach method is used to perform database migrations. No files are deleted on Source. If Destination attachment fails, the Source database will be<br />
-reattached. File copies are performed over administrative shares (\server\x$\mssql) using BITS. If a database is being mirrored, the mirror will be broken prior to migration. <br></p>
+<p>Uses detach/copy/attach method for database migration by moving physical database files.<br />
+This method is faster than backup/restore but requires same SQL Server versions and administrative share access.<br />
+Source databases are automatically reattached if destination attachment fails. <br></p>
 <table>
 <thead>
 <tr>
@@ -686,7 +690,8 @@ reattached. File copies are performed over administrative shares (\server\x$\mss
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server.<br></p>
+<p>Specifies the source SQL Server instance containing the databases to migrate.<br />
+Supports named instances, clusters, and SQL Server Express editions.<br></p>
 <table>
 <thead>
 <tr>
@@ -714,9 +719,8 @@ reattached. File copies are performed over administrative shares (\server\x$\mss
 </tbody>
 </table>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Specifies credentials for connecting to the source SQL Server instance when Windows authentication is not available.<br />
+Use this when the source server requires SQL authentication or when running under a different security context.<br></p>
 <table>
 <thead>
 <tr>
@@ -744,9 +748,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Specifies credentials for connecting to the destination SQL Server instance when Windows authentication is not available.<br />
+Required for Azure SQL Managed Instance destinations or when destination requires SQL authentication.<br></p>
 <table>
 <thead>
 <tr>
@@ -774,7 +777,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Migrates only specified databases. This list is auto-populated from the server for tab completion. Multiple databases may be specified as a collection.<br></p>
+<p>Specifies which user databases to migrate by name.<br />
+Use this when you need to migrate specific databases rather than all databases on the instance.<br />
+Supports tab completion from the source instance and accepts multiple database names.<br></p>
 <table>
 <thead>
 <tr>
@@ -802,7 +807,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Excludes specified databases when performing -AllDatabases migrations. This list is auto-populated from the Source for tab completion.<br></p>
+<p>Specifies databases to exclude when using -AllDatabases.<br />
+Use this to skip problematic databases like those in use, under maintenance, or containing sensitive data.<br></p>
 <table>
 <thead>
 <tr>
@@ -830,7 +836,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alldatabases">-AllDatabases</h5>
-<p>If this switch is enabled, all user databases will be migrated. System and support databases will not be migrated. Requires -BackupRestore or -DetachAttach.<br></p>
+<p>Migrates all user databases from the source instance, excluding system databases (master, model, msdb, tempdb).<br />
+Use this for full server migrations or when moving all business databases to a new instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -858,7 +865,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="advancedbackupparams">-AdvancedBackupParams</h5>
-<p>Provide additional parameters to the backup command as a hashtable.<br></p>
+<p CompressBackup="$true">Specifies additional parameters for the backup operation as a hashtable.<br />
+Use this to enable compression (@), checksum verification, or other backup options.<br></p>
 <table>
 <thead>
 <tr>
@@ -886,8 +894,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sharedpath">-SharedPath</h5>
-<p>Specifies the network location for the backup files. The SQL Server service accounts must have read/write permission on this path.<br />
-Can be either a full path 'c:\backups', a UNC path '\server\backups' or an Azure storage Account 'https://example.blob.core.windows.net/sql/'<br></p>
+<p>Specifies the storage location accessible by both source and destination SQL Server instances.<br />
+Accepts local paths (C:\Backups), UNC shares (\server\backups), or Azure blob storage URLs.<br />
+SQL Server service accounts on both instances must have read/write permissions to this location.<br></p>
 <table>
 <thead>
 <tr>
@@ -915,8 +924,9 @@ Can be either a full path 'c:\backups', a UNC path '\server\backups' or an Azure
 </tbody>
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
-<p>The name of the credential on the SQL instance that can write to the AzureBaseUrl, only needed if using Storage access keys<br />
-If using SAS credentials, the command will look for a credential with a name matching the AzureBaseUrl<br></p>
+<p>Specifies the SQL Server credential name for Azure blob storage authentication.<br />
+Required when using storage access keys with Azure blob storage paths.<br />
+For SAS tokens, the credential name should match the Azure storage URL.<br></p>
 <table>
 <thead>
 <tr>
@@ -944,7 +954,8 @@ If using SAS credentials, the command will look for a credential with a name mat
 </tbody>
 </table>
 <h5 id="withreplace">-WithReplace</h5>
-<p>If this switch is enabled, the restore is executed with WITH REPLACE.<br></p>
+<p>Overwrites existing databases at the destination with the same name.<br />
+Use this when refreshing existing databases or when you want to replace destination databases completely.<br></p>
 <table>
 <thead>
 <tr>
@@ -972,7 +983,8 @@ If using SAS credentials, the command will look for a credential with a name mat
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>If this switch is enabled, the restore is executed with WITH NORECOVERY. Ideal for staging.<br></p>
+<p>Restores databases in NORECOVERY mode, leaving them ready for additional transaction log restores.<br />
+Use this for staging environments or when setting up log shipping scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -1000,7 +1012,8 @@ If using SAS credentials, the command will look for a credential with a name mat
 </tbody>
 </table>
 <h5 id="nobackupcleanup">-NoBackupCleanup</h5>
-<p>If this switch is enabled, backups generated by this cmdlet will not be deleted after they are restored. The default behavior is to delete these backups.<br></p>
+<p>Preserves backup files after migration instead of automatically deleting them.<br />
+Use this when you want to keep backups for additional restores or compliance requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -1028,7 +1041,9 @@ If using SAS credentials, the command will look for a credential with a name mat
 </tbody>
 </table>
 <h5 id="numberfiles">-NumberFiles</h5>
-<p>Number of files to split the backup. Default is 3.<br></p>
+<p>Specifies how many backup files to create for each database backup to improve performance.<br />
+Default is 3 files, which provides good parallelism for most databases.<br />
+Increase for very large databases or high-performance storage systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -1056,7 +1071,8 @@ If using SAS credentials, the command will look for a credential with a name mat
 </tbody>
 </table>
 <h5 id="reattach">-Reattach</h5>
-<p>If this switch is enabled, all databases are reattached to Source after DetachAttach migration.<br></p>
+<p>Reattaches databases to the source instance after successful detach/attach migration.<br />
+Required when using -DetachAttach with multiple destination servers to restore source functionality.<br></p>
 <table>
 <thead>
 <tr>
@@ -1084,8 +1100,8 @@ If using SAS credentials, the command will look for a credential with a name mat
 </tbody>
 </table>
 <h5 id="setsourcereadonly">-SetSourceReadOnly</h5>
-<p>If this switch is enabled, all migrated databases are set to ReadOnly on Source prior to detach/attach &amp; backup/restore.<br />
-If -Reattach is used, databases are set to read-only after reattaching.<br></p>
+<p>Sets source databases to read-only before migration to prevent data changes during the process.<br />
+Use this to ensure data consistency when databases must remain accessible at the source during migration.<br></p>
 <table>
 <thead>
 <tr>
@@ -1113,10 +1129,9 @@ If -Reattach is used, databases are set to read-only after reattaching.<br></p>
 </tbody>
 </table>
 <h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
-<p>If this switch is enabled, databases will be migrated to a data and log directory structure on Destination mirroring that used on Source. By default, the default data and log directories for<br />
-Destination will be used when the databases are migrated.<br />
-The structure on Source  will be kept exactly, so consider this if you're migrating between different versions and use part of Microsoft's default Sql structure (MSSql12.INSTANCE, etc)<br />
-To reuse Destination folder structure, use the -WithReplace switch.<br></p>
+<p>Maintains the exact file path structure from the source instance on the destination.<br />
+Use this when destination servers have identical drive layouts or when preserving specific organizational folder structures.<br />
+The destination instance must have matching directory paths available.<br></p>
 <table>
 <thead>
 <tr>
@@ -1144,9 +1159,8 @@ To reuse Destination folder structure, use the -WithReplace switch.<br></p>
 </tbody>
 </table>
 <h5 id="includesupportdbs">-IncludeSupportDbs</h5>
-<p>If this switch is enabled, ReportServer, ReportServerTempDb, SSISDB, and distribution databases will be copied if they exist on Source. A log file named $SOURCE-$destinstance-$date-Sqls.csv will be<br />
-written to the current directory.<br />
-Use of this switch requires -BackupRestore or -DetachAttach as well.<br></p>
+<p>Migrates SQL Server feature databases including ReportServer, ReportServerTempDB, SSISDB, and distribution databases.<br />
+Use this when migrating servers that host Reporting Services, Integration Services, or replication components.<br></p>
 <table>
 <thead>
 <tr>
@@ -1174,7 +1188,9 @@ Use of this switch requires -BackupRestore or -DetachAttach as well.<br></p>
 </tbody>
 </table>
 <h5 id="uselastbackup">-UseLastBackup</h5>
-<p>Use the last full, diff and logs instead of performing backups. Note that the backups must exist in a location accessible by all destination servers, such a network share.<br></p>
+<p>Uses existing backups from backup history instead of creating new ones.<br />
+The most recent full, differential, and log backups must be accessible to all destination servers.<br />
+Useful for migration scenarios where fresh backups already exist.<br></p>
 <table>
 <thead>
 <tr>
@@ -1202,7 +1218,8 @@ Use of this switch requires -BackupRestore or -DetachAttach as well.<br></p>
 </tbody>
 </table>
 <h5 id="continue">-Continue</h5>
-<p>If specified, will to attempt to restore transaction log backups on top of existing database(s) in Recovering or Standby states. Only usable with -UseLastBackup<br></p>
+<p>Continues restoration by applying transaction log backups to databases in RECOVERING or STANDBY states.<br />
+Use this with -UseLastBackup when resuming interrupted restore operations or applying additional log backups.<br></p>
 <table>
 <thead>
 <tr>
@@ -1230,7 +1247,8 @@ Use of this switch requires -BackupRestore or -DetachAttach as well.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaDatabase<br></p>
+<p>Accepts database objects piped from Get-DbaDatabase for migration.<br />
+Use this to migrate databases filtered by specific criteria like size, compatibility level, or other properties.<br></p>
 <table>
 <thead>
 <tr>
@@ -1258,9 +1276,9 @@ Use of this switch requires -BackupRestore or -DetachAttach as well.<br></p>
 </tbody>
 </table>
 <h5 id="nocopyonly">-NoCopyOnly</h5>
-<p>If this switch is enabled, backups will be taken without COPY_ONLY. This will break the LSN backup chain, which will interfere with the restore chain of the database.<br />
-By default this switch is disabled, so backups will be taken with COPY_ONLY. This will preserve the LSN backup chain.<br />
-For more details please refer to this MSDN article - <a href="https://msdn.microsoft.com/en-us/library/ms191495.aspx">https://msdn.microsoft.com/en-us/library/ms191495.aspx</a><br></p>
+<p>Creates regular backups instead of copy-only backups, which affects the database's backup chain.<br />
+Only use this when you want migration backups to be part of the regular backup sequence.<br />
+Default copy-only behavior preserves existing backup chains and is recommended for migrations.<br></p>
 <table>
 <thead>
 <tr>
@@ -1288,7 +1306,8 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="keepcdc">-KeepCDC</h5>
-<p>Indicates whether CDC information should be copied as part of the database<br></p>
+<p>Preserves Change Data Capture (CDC) configuration and data during migration.<br />
+Use this when destination databases need to maintain CDC tracking for auditing or replication.<br></p>
 <table>
 <thead>
 <tr>
@@ -1316,7 +1335,8 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="keepreplication">-KeepReplication</h5>
-<p>Indicates whether replication configuration should be copied as part of the database copy operation<br></p>
+<p>Preserves replication configuration during database migration.<br />
+Use this when migrating publisher or subscriber databases that participate in replication topologies.<br></p>
 <table>
 <thead>
 <tr>
@@ -1344,7 +1364,8 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="setsourceoffline">-SetSourceOffline</h5>
-<p>If this switch is enabled, the Source database will be set to Offline after being copied.<br></p>
+<p>Sets source databases to offline status after successful migration.<br />
+Use this for cutover scenarios where source databases should be unavailable after migration.<br></p>
 <table>
 <thead>
 <tr>
@@ -1372,10 +1393,9 @@ For more details please refer to this MSDN article - <a href="https://msdn.micro
 </tbody>
 </table>
 <h5 id="newname">-NewName</h5>
-<p>If a single database is being copied, this will be used to rename the database during the copy process. Any occurrence of the original database name in the physical file names will be replaced with<br />
-NewName<br />
-If specified with multiple databases a warning will be raised and the copy stopped<br />
-This option is mutually exclusive of Prefix<br></p>
+<p>Renames the database during migration when copying a single database.<br />
+The database name and physical file names are updated to use the new name.<br />
+Cannot be used with multiple databases or together with -Prefix parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -1403,8 +1423,9 @@ This option is mutually exclusive of Prefix<br></p>
 </tbody>
 </table>
 <h5 id="prefix">-Prefix</h5>
-<p>All copied database names and physical files will be prefixed with this string<br />
-This option is mutually exclusive of NewName<br></p>
+<p>Adds a prefix to all migrated database names and their physical file names.<br />
+Use this to distinguish migrated databases (e.g., 'DEV_' prefix for development copies).<br />
+Cannot be used together with -NewName parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -1432,9 +1453,9 @@ This option is mutually exclusive of NewName<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, existing databases on Destination with matching names from Source will be dropped.<br />
-If using -DetachReattach, mirrors will be broken and the database(s) dropped from Availability Groups.<br />
-If using -SetSourceReadonly, this will instantly roll back any open transactions that may be stopping the process.<br></p>
+<p>Forcibly overwrites existing databases at the destination and bypasses safety checks.<br />
+Breaks database mirroring, removes databases from Availability Groups, and rolls back blocking transactions.<br />
+Use with caution as this will permanently destroy existing destination databases.<br></p>
 <table>
 <thead>
 <tr>

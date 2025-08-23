@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDatabase">Remove-DbaDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Drops a user database, hopefully even the really stuck ones.</p>
+<p>Removes user databases using multiple fallback methods to handle stuck or locked databases.</p>
 <h2 id="description">Description</h2>
-<p>Tries a bunch of different ways to remove a user created database or two or more.</p>
+<p>Removes user databases by attempting three different drop methods in sequence until one succeeds. First tries the standard KillDatabase() method, then attempts to set the database to single-user mode with rollback immediate before dropping, and finally uses the SMO Drop() method. This approach handles databases that are stuck due to active connections, replication, mirroring, or other locks that prevent normal removal. System databases are automatically excluded from removal operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDatabase
     [-SqlCredential &lt;PSCredential&gt;]
@@ -566,7 +566,8 @@ Remove-DbaDatabase
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed. <br></p>
+<p>Specifies the user database(s) to remove from the SQL Server instance. Accepts multiple database names and supports wildcards for pattern matching.<br />
+Use this when you need to remove specific databases rather than all user databases. System databases (master, model, msdb, tempdb, resource) are automatically excluded and cannot be removed. <br></p>
 <table>
 <thead>
 <tr>
@@ -594,7 +595,8 @@ Remove-DbaDatabase
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of databases (such as returned by Get-DbaDatabase), to be removed. <br></p>
+<p>Accepts database objects from the pipeline, typically from Get-DbaDatabase or other dbatools database commands.<br />
+Use this for pipeline operations when you want to filter databases first, then remove the filtered results. This provides more flexibility than specifying database names directly. <br></p>
 <table>
 <thead>
 <tr>

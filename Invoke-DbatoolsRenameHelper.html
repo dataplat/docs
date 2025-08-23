@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbatoolsRenameHelper">Invoke-DbatoolsRenameHelper</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Older dbatools command names have been changed. This script helps keep up.</p>
+<p>Updates PowerShell scripts to replace deprecated dbatools command and parameter names with current equivalents.</p>
 <h2 id="description">Description</h2>
-<p>Older dbatools command names have been changed. This script helps keep up.</p>
+<p>Automatically scans and updates PowerShell script files to replace old dbatools command names and parameter names that have been renamed over time. This function searches through your scripts for over 200 deprecated command names and dozens of parameter renames, then updates the file content with the current naming conventions. Instead of manually hunting through scripts to update commands like Get-SqlMaxMemory to Get-DbaMaxMemory or Copy-SqlLogin to Copy-DbaLogin, this function handles the bulk replacement work for you.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbatoolsRenameHelper
     [-InputObject] &lt;FileInfo[]&gt;
@@ -513,7 +513,9 @@ If so, then the command name within the text is updated and the resulting change
 the resulting changes would be written to disk as Ascii encoded.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>A piped in object from Get-ChildItem <br></p>
+<p>Specifies the PowerShell script files to scan and update for deprecated dbatools command and parameter names.<br />
+Accept file objects from Get-ChildItem when you need to process multiple scripts containing outdated dbatools commands.<br />
+Use this when modernizing existing automation scripts or migrating legacy PowerShell code to current dbatools naming conventions. <br></p>
 <table>
 <thead>
 <tr>
@@ -542,16 +544,9 @@ the resulting changes would be written to disk as Ascii encoded.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="encoding">-Encoding</h5>
-<p>Specifies the file encoding. The default is UTF8.<br />
-Valid values are:<br />
--- ASCII: Uses the encoding for the ASCII (7-bit) character set.<br />
--- BigEndianUnicode: Encodes in UTF-16 format using the big-endian byte order.<br />
--- Byte: Encodes a set of characters into a sequence of bytes.<br />
--- String: Uses the encoding type for a string.<br />
--- Unicode: Encodes in UTF-16 format using the little-endian byte order.<br />
--- UTF7: Encodes in UTF-7 format.<br />
--- UTF8: Encodes in UTF-8 format.<br />
--- Unknown: The encoding type is unknown or invalid. The data can be treated as binary.<br></p>
+<p>Sets the character encoding used when writing the updated script files back to disk. Defaults to UTF8.<br />
+Use this when your PowerShell scripts require specific encoding formats for compatibility with source control systems or deployment processes.<br />
+Most modern environments work well with the default UTF8 encoding, but legacy systems may require ASCII or other specific encodings.<br></p>
 <table>
 <thead>
 <tr>

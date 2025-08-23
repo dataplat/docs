@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaDbCertificate">Copy-DbaDbCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaDbCertificate migrates certificates from one SQL Server to another.</p>
+<p>Copies database-level certificates from source SQL Server to destination servers, including private keys and master key dependencies.</p>
 <h2 id="description">Description</h2>
-<p>By default, all certificates are copied.</p>
-<p>If the certificate already exists on the destination, it will be skipped.</p>
+<p>Transfers database certificates between SQL Server instances by backing them up from source databases and restoring them to matching databases on destination servers. This function handles the complex certificate migration process that's essential when moving databases with Transparent Data Encryption (TDE) or other certificate-based security features.</p>
+<p>The function backs up each certificate with its private key to a shared network path accessible by both source and destination SQL Server service accounts. It automatically creates database master keys on the destination if they don't exist and you provide the MasterKeyPassword parameter. Existing certificates are skipped unless you use the Force parameter to overwrite them.</p>
+<p>This is particularly useful for database migration projects, disaster recovery setup, and maintaining encryption consistency across environments where manual certificate management would be time-consuming and error-prone.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaDbCertificate
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -530,7 +531,8 @@ PS C:\&gt; Copy-DbaDbCertificate @params1 -Confirm:$false -OutVariable results
 <p>Copies database certificates for matching databases on sql02 and creates master keys if needed<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>The source SQL Server instance containing the database certificates to copy. Requires sysadmin privileges to access certificate metadata and backup operations.<br />
+Use this to specify where the certificates currently exist that need to be migrated to other servers. <br></p>
 <table>
 <thead>
 <tr>
@@ -558,7 +560,8 @@ PS C:\&gt; Copy-DbaDbCertificate @params1 -Confirm:$false -OutVariable results
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>The destination SQL Server instance(s) where certificates will be restored. Accepts multiple servers for bulk certificate deployment.<br />
+Requires sysadmin privileges to create master keys and restore certificates to matching databases. <br></p>
 <table>
 <thead>
 <tr>
@@ -587,9 +590,8 @@ PS C:\&gt; Copy-DbaDbCertificate @params1 -Confirm:$false -OutVariable results
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the source SQL Server instance. Use this when the current Windows user lacks sufficient privileges or when connecting with SQL authentication.<br />
+Essential for cross-domain scenarios or when running under service accounts that don't have source server access.<br></p>
 <table>
 <thead>
 <tr>
@@ -617,9 +619,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to destination SQL Server instance(s). Required when destination servers are in different domains or when using SQL authentication.<br />
+Must have permissions to create database master keys and restore certificates in target databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +648,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process.<br></p>
+<p>Specifies which databases to include when copying certificates. Only certificates from these databases will be migrated to matching databases on destination servers.<br />
+Use this to limit certificate copying to specific databases rather than processing all databases with certificates.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,7 +677,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude.<br></p>
+<p>Excludes specific databases from certificate copying operations. Certificates in these databases will be skipped even if they exist on the source.<br />
+Useful when you want to copy most database certificates but exclude system databases or specific application databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -703,7 +706,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="certificate">-Certificate</h5>
-<p>The certificate(s) to process.<br></p>
+<p>Specifies which certificates to copy by name. Only these named certificates will be processed across all included databases.<br />
+Use this to migrate specific certificates like TDE certificates while leaving other database certificates untouched.<br></p>
 <table>
 <thead>
 <tr>
@@ -731,7 +735,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludecertificate">-ExcludeCertificate</h5>
-<p>The certificate(s) to exclude.<br></p>
+<p>Excludes specific certificates from the copying process by name. These certificates will be skipped in all databases.<br />
+Commonly used to exclude system-generated certificates or certificates that should remain environment-specific.<br></p>
 <table>
 <thead>
 <tr>
@@ -759,7 +764,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sharedpath">-SharedPath</h5>
-<p>Specifies the network location for the backup files. The SQL Server service accounts on both Source and Destination must have read/write permission to access this location.<br></p>
+<p>Network path where certificate backup files will be temporarily stored during the copy operation. Both source and destination SQL Server service accounts must have full access to this location.<br />
+Required because certificates cannot be directly transferred between instances and must be backed up to disk first.<br></p>
 <table>
 <thead>
 <tr>
@@ -787,7 +793,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="masterkeypassword">-MasterKeyPassword</h5>
-<p>The password to encrypt the exported key. This must be a SecureString.<br></p>
+<p>Password for creating database master keys on destination servers when they don't exist. Required for certificates that use master key encryption.<br />
+Essential for TDE scenarios where certificates depend on database master keys for private key protection.<br></p>
 <table>
 <thead>
 <tr>
@@ -815,7 +822,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="encryptionpassword">-EncryptionPassword</h5>
-<p>A string value that specifies the secure password to encrypt the private key.<br></p>
+<p>Secure password used to encrypt the private key during certificate backup operations. If not provided, a random password is generated automatically.<br />
+Specify this when you need consistent encryption passwords across multiple certificate operations or for compliance requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -843,7 +851,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="decryptionpassword">-DecryptionPassword</h5>
-<p>Secure string used to decrypt the private key.<br></p>
+<p>Password required to decrypt the private key when restoring certificates to destination databases. Must match the password used when the certificate was originally backed up.<br />
+Use this when copying certificates that were previously backed up with a specific encryption password.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDeprecatedFeature">Get-DbaDeprecatedFeature</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays usage information relating to deprecated features for SQL Server 2005 and above.</p>
+<p>Identifies deprecated SQL Server features currently in use with their usage counts from performance counters.</p>
 <h2 id="description">Description</h2>
-<p>Displays usage information relating to deprecated features for SQL Server 2005 and above.<br />
-More information: <a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance-monitor/sql-server-deprecated-features-object">https://learn.microsoft.com/en-us/sql/relational-databases/performance-monitor/sql-server-deprecated-features-object</a></p>
+<p>Queries the sys.dm_os_performance_counters system view to identify which deprecated SQL Server features have been used on your instances and how frequently they've been accessed. This information is essential for upgrade planning, as deprecated features may be removed in future SQL Server versions and could cause application failures.</p>
+<p>The function returns only features that have been used (usage count greater than zero), helping you prioritize which code needs to be modernized before upgrading SQL Server. Common deprecated features include old JOIN syntax, legacy data types, and obsolete T-SQL functions.</p>
+<p>More information: <a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance-monitor/sql-server-deprecated-features-object">https://learn.microsoft.com/en-us/sql/relational-databases/performance-monitor/sql-server-deprecated-features-object</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDeprecatedFeature
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

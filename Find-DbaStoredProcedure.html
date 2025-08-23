@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaStoredProcedure">Find-DbaStoredProcedure</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns all stored procedures that contain a specific case-insensitive string or regex pattern.</p>
+<p>Searches stored procedure definitions for specific text patterns or regex expressions across SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>This function can either run against specific databases or all databases searching all user or user and system stored procedures.</p>
+<p>Searches through stored procedure source code to find specific strings, patterns, or regex expressions within the procedure definitions. This is particularly useful for finding hardcoded values, deprecated function calls, security vulnerabilities, or specific business logic across your database environment. The function examines the actual T-SQL code stored in sys.sql_modules and can search across multiple databases simultaneously. Results include the matching line numbers and context, making it easy to locate exactly where patterns appear within each procedure. You can scope searches to specific databases and choose whether to include system stored procedures and system databases in the search.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaStoredProcedure
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -550,7 +550,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="pattern">-Pattern</h5>
-<p>String pattern that you want to search for in the stored procedure text body <br></p>
+<p>Specifies the text pattern or regular expression to search for within stored procedure definitions. Supports full regex syntax for complex pattern matching.<br />
+Use this to find hardcoded values, deprecated functions, security vulnerabilities, or specific business logic across procedure source code. <br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to search for stored procedures containing the pattern. Accepts database names and supports wildcards.<br />
+When omitted, searches all user databases on the instance. Use this to focus searches on specific databases when you know where procedures are located.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +639,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies databases to skip during the stored procedure search. Accepts database names and supports wildcards.<br />
+Use this when you want to search most databases but exclude specific ones like test environments or databases with sensitive procedures.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,8 +668,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemobjects">-IncludeSystemObjects</h5>
-<p>By default, system stored procedures are ignored but you can include them within the search using this parameter.<br />
-Warning - this will likely make it super slow if you run it on all databases.<br></p>
+<p>Includes system stored procedures (those shipped with SQL Server) in the search results. By default, only user-created procedures are searched.<br />
+Use this when investigating system procedures or when patterns might exist in Microsoft-provided code. Warning: this significantly slows performance when searching multiple databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -694,7 +697,8 @@ Warning - this will likely make it super slow if you run it on all databases.<br
 </tbody>
 </table>
 <h5 id="includesystemdatabases">-IncludeSystemDatabases</h5>
-<p>By default system databases are ignored but you can include them within the search using this parameter<br></p>
+<p>Includes system databases (master, model, msdb, tempdb) in the search scope. By default, only user databases are searched.<br />
+Use this when investigating system procedures or when your pattern might exist in maintenance scripts stored in system databases.<br></p>
 <table>
 <thead>
 <tr>

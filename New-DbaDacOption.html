@@ -527,7 +527,9 @@ PS C:\&gt; Publish-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $op
 <p>Uses DacOption object to set Deployment Options and publish the db.dacpac dacpac file as DB1 on sql2016<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="action">-Action</h5>
-<p>Choosing an intended action: Publish or Export. <br></p>
+<p>Determines whether you're exporting from a database or publishing to a database.<br />
+Use Export when extracting a package from an existing database for backup or migration purposes.<br />
+Use Publish when deploying a package to create or update a target database. <br></p>
 <table>
 <thead>
 <tr>
@@ -560,7 +562,9 @@ PS C:\&gt; Publish-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $op
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="type">-Type</h5>
-<p>Selecting the type of the export: Dacpac (default) or Bacpac.<br></p>
+<p>Specifies the package type to create: Dacpac (schema and data) or Bacpac (data only). Defaults to Dacpac.<br />
+Use Dacpac when you need to capture database schema structure along with optional data for deployment scenarios.<br />
+Use Bacpac when you only need to export and import data without schema changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -592,7 +596,9 @@ PS C:\&gt; Publish-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $op
 </tbody>
 </table>
 <h5 id="publishxml">-PublishXml</h5>
-<p>Specifies the publish profile which will include options and sqlCmdVariables.<br></p>
+<p>Path to a DAC publish profile XML file that contains deployment options and SQLCMD variables.<br />
+These profiles are typically created in SQL Server Data Tools (SSDT) and control how the deployment behaves.<br />
+When specified, the profile's settings override any DeployOptions specified in the Property parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -620,10 +626,10 @@ PS C:\&gt; Publish-DbaDacPackage -SqlInstance sql2016 -Database DB1 -Options $op
 </tbody>
 </table>
 <h5 id="property">-Property</h5>
-<p DeployOptions="@{ConnectionTimeout=5">A Hashtable that would be used to initialize Options object properties.<br />
-If you want to specify DeployOptions parameters, which is a property of the options object,<br />
-add the DeployOptions key with an appropriate hashtable as a value:<br />
-@}<br></p>
+<p CommandTimeout="0;" DeployOptions="@{DropObjectsNotInSource=$true">Hashtable of properties to configure the DAC options object, such as CommandTimeout or ExtractAllTableData.<br />
+For Publish actions, use the DeployOptions key to set deployment behaviors like DropObjectsNotInSource or BlockOnPossibleDataLoss.<br />
+Common properties include CommandTimeout for long operations and ExtractAllTableData when exporting data with schema.<br />
+Example: @}<br></p>
 <table>
 <thead>
 <tr>

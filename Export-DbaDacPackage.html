@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaDacPackage">Export-DbaDacPackage</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports a dacpac from a server.</p>
+<p>Creates DACPAC or BACPAC deployment packages from SQL Server databases using SqlPackage</p>
 <h2 id="description">Description</h2>
-<p>Using SQLPackage, export a dacpac from an instance of SQL Server.</p>
-<p>Note - Extract from SQL Server is notoriously flaky - for example if you have three part references to external databases it will not work.</p>
+<p>Creates database deployment packages for version control, migrations, and schema distribution. Generates DACPAC files containing database schema definitions or BACPAC files that include both schema and data. This automates the SqlPackage utility so you don't have to remember complex command-line syntax or manage connection strings manually.</p>
+<p>Perfect for creating deployable packages from development databases, capturing schema snapshots for source control, or preparing migration artifacts for different environments. The function handles multiple databases in batch operations and provides flexible table filtering when you only need specific objects.</p>
+<p>Uses Microsoft DAC Services under the hood with automatic SqlPackage installation if needed. Note that extraction can fail with three-part references to external databases or complex cross-database dependencies.</p>
 <p>For help with the extract action parameters and properties, refer to <a href="https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-extract">https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-extract</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaDacPackage -SqlInstance &lt;DbaInstanceParameter[]&gt;
@@ -604,7 +605,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to export as DACPAC or BACPAC packages. Accepts multiple database names and supports wildcards.<br />
+Use this to target specific databases instead of processing all user databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +634,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies databases to skip during export operations. Works with both Database and AllUserDatabases parameters.<br />
+Use this to exclude system databases, maintenance databases, or any databases you don't want to package.<br></p>
 <table>
 <thead>
 <tr>
@@ -660,7 +663,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="alluserdatabases">-AllUserDatabases</h5>
-<p>Run command against all user databases<br></p>
+<p>Exports packages for all user databases on the instance, automatically excluding system databases.<br />
+Use this for bulk operations when you want to create deployment packages for every application database.<br></p>
 <table>
 <thead>
 <tr>
@@ -688,7 +692,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br></p>
+<p>Specifies the directory where DACPAC or BACPAC files will be saved. Defaults to the configured DbatoolsExport path.<br />
+Use this when you want to organize exports in a specific location or when working with multiple databases that need consistent file placement.<br></p>
 <table>
 <thead>
 <tr>
@@ -716,7 +721,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file.<br></p>
+<p>Specifies the complete file path including filename for the export package. Overrides both Path and automatic file naming.<br />
+Use this when you need a specific filename or when exporting a single database to a predetermined location.<br></p>
 <table>
 <thead>
 <tr>
@@ -744,7 +750,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="dacoption">-DacOption</h5>
-<p>Export options for a corresponding export type. Can be created by New-DbaDacOption -Type Dacpac | Bacpac<br></p>
+<p>Configures advanced export settings using a DacExtractOptions or DacExportOptions object created by New-DbaDacOption.<br />
+Use this to control extraction behavior like command timeouts, table data inclusion, or specific schema elements to include or exclude.<br></p>
 <table>
 <thead>
 <tr>
@@ -772,8 +779,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="extendedparameters">-ExtendedParameters</h5>
-<p>Optional parameters used to extract the DACPAC. More information can be found at<br />
-<a href="https://msdn.microsoft.com/en-us/library/hh550080.aspx">https://msdn.microsoft.com/en-us/library/hh550080.aspx</a><br></p>
+<p>Passes additional command-line parameters directly to SqlPackage.exe for advanced scenarios (e.g., '/OverwriteFiles:true /Quiet:true').<br />
+Use this when you need SqlPackage options not available through DacOption or when integrating with existing SqlPackage workflows.<br></p>
 <table>
 <thead>
 <tr>
@@ -801,8 +808,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="extendedproperties">-ExtendedProperties</h5>
-<p>Optional properties used to extract the DACPAC. More information can be found at<br />
-<a href="https://msdn.microsoft.com/en-us/library/hh550080.aspx">https://msdn.microsoft.com/en-us/library/hh550080.aspx</a><br></p>
+<p>Passes additional property settings directly to SqlPackage.exe for fine-tuned control over extraction behavior.<br />
+Use this when you need to set specific SqlPackage properties that aren't exposed through the standard DacOption parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -830,7 +837,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Selecting the type of the export: Dacpac (default) or Bacpac.<br></p>
+<p>Specifies the package type to create: Dacpac (schema-only) or Bacpac (schema and data). Defaults to Dacpac.<br />
+Use Dacpac for version control and schema deployments, or Bacpac when you need to include table data for migrations or testing.<br></p>
 <table>
 <thead>
 <tr>
@@ -862,7 +870,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>List of the tables to include into the export. Should be provided as an array of strings: dbo.Table1, Table2, Schema1.Table3.<br></p>
+<p>Specifies which tables to include in the export package. Provide as schema.table format (e.g., 'dbo.Users', 'Sales.Orders').<br />
+Use this when you only need specific tables rather than the entire database, such as for partial deployments or data subsets.<br></p>
 <table>
 <thead>
 <tr>

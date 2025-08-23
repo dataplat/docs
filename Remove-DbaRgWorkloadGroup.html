@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaRgWorkloadGroup">Remove-DbaRgWorkloadGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a workload group from the Resource Governor on the specified SQL Server.</p>
+<p>Removes workload groups from SQL Server Resource Governor</p>
 <h2 id="description">Description</h2>
-<p>Removes a workload group from the Resource Governor on the specified SQL Server.<br />
-A workload group represents a subset of the resources of an instance of the Database Engine.</p>
+<p>Removes specified workload groups from SQL Server Resource Governor and automatically reconfigures the Resource Governor so changes take effect immediately.<br />
+Workload groups define resource allocation policies for incoming requests, and removing them eliminates those resource controls.<br />
+Useful for cleaning up test environments, removing deprecated resource policies, or simplifying Resource Governor configurations during performance tuning.<br />
+Works with both internal and external resource pools, and can process multiple workload groups through pipeline input from Get-DbaRgWorkloadGroup.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaRgWorkloadGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -573,7 +575,8 @@ A workload group represents a subset of the resources of an instance of the Data
 </tbody>
 </table>
 <h5 id="workloadgroup">-WorkloadGroup</h5>
-<p>Name of the workload group to be removed.<br></p>
+<p>Specifies the name of the workload group(s) to remove from Resource Governor.<br />
+Use this when you need to eliminate specific resource allocation policies or clean up deprecated workload configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -601,7 +604,8 @@ A workload group represents a subset of the resources of an instance of the Data
 </tbody>
 </table>
 <h5 id="resourcepool">-ResourcePool</h5>
-<p>Name of the resource pool the workload group is in.<br></p>
+<p>Specifies the resource pool containing the workload group to be removed. Defaults to &quot;default&quot; pool.<br />
+Required when workload groups exist in custom resource pools rather than the default SQL Server resource pool.<br></p>
 <table>
 <thead>
 <tr>
@@ -629,7 +633,8 @@ A workload group represents a subset of the resources of an instance of the Data
 </tbody>
 </table>
 <h5 id="resourcepooltype">-ResourcePoolType</h5>
-<p>Internal or External.<br></p>
+<p>Specifies whether to target Internal or External resource pools. Defaults to &quot;Internal&quot;.<br />
+Use &quot;External&quot; when removing workload groups that manage external script execution resources like R or Python jobs.<br></p>
 <table>
 <thead>
 <tr>
@@ -661,8 +666,8 @@ A workload group represents a subset of the resources of an instance of the Data
 </tbody>
 </table>
 <h5 id="skipreconfigure">-SkipReconfigure</h5>
-<p>Resource Governor requires a reconfiguriation for workload group changes to take effect.<br />
-Use this switch to skip issuing a reconfigure for the Resource Governor.<br></p>
+<p>Skips the automatic Resource Governor reconfiguration that makes workload group changes take effect immediately.<br />
+Use this when removing multiple workload groups in sequence to avoid repeated reconfigurations, but remember to manually reconfigure afterwards.<br></p>
 <table>
 <thead>
 <tr>
@@ -690,7 +695,8 @@ Use this switch to skip issuing a reconfigure for the Resource Governor.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows input to be piped from Get-DbaRgWorkloadGroup.<br></p>
+<p>Accepts workload group objects piped from Get-DbaRgWorkloadGroup for removal.<br />
+Use this approach when you need to filter workload groups first or when processing multiple groups across different resource pools.<br></p>
 <table>
 <thead>
 <tr>

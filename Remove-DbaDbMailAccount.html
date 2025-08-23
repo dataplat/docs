@@ -485,11 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbMailAccount">Remove-DbaDbMailAccount</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes database mail account(s).</p>
+<p>Removes Database Mail accounts from SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Removes the database mail account(s) that have passed through the pipeline.<br />
-If not used with a pipeline, Get-DbaDbMailAccount will be executed with the parameters provided<br />
-and the returned database mail account(s) will be removed.</p>
+<p>Permanently deletes Database Mail accounts from the specified SQL Server instances, removing them from the MSDB database configuration.<br />
+This command is useful when decommissioning obsolete email accounts, cleaning up after application retirement, or consolidating accounts during email system migrations.<br />
+When used without pipeline input, it automatically retrieves accounts using Get-DbaDbMailAccount with the provided parameters before removal.<br />
+Returns detailed status information for each removal operation, including success/failure status and any error messages encountered.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbMailAccount
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -553,7 +554,9 @@ Remove-DbaDbMailAccount -InputObject &lt;MailAccount[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbMailAccount. <br></p>
+<p>Accepts Database Mail account objects from the pipeline, typically from Get-DbaDbMailAccount.<br />
+Use this approach when you need to filter or review accounts before removal using PowerShell pipeline operations.<br />
+Provides more flexibility than specifying account names directly. <br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +615,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="account">-Account</h5>
-<p>Specifies one or more database mail account(s) to delete. If unspecified, all accounts will be removed.<br></p>
+<p>Specifies one or more Database Mail account names to remove from the SQL Server instance.<br />
+Use this when you need to remove specific accounts rather than all accounts on the server.<br />
+Accepts multiple account names as a string array for bulk removal operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +645,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeaccount">-ExcludeAccount</h5>
-<p>Specifies one or more database mail account(s) to exclude.<br></p>
+<p>Specifies Database Mail account names to exclude from removal when processing all accounts on the instance.<br />
+Use this when you want to remove most accounts but keep certain ones active for ongoing operations.<br />
+Only applies when the Account parameter is not specified.<br></p>
 <table>
 <thead>
 <tr>

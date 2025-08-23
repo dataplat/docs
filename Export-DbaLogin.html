@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaLogin">Export-DbaLogin</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports Windows and SQL Logins to a T-SQL file. Export includes login, SID, password, default database, default language, server permissions, server roles, db permissions, db roles.</p>
+<p>Generates T-SQL scripts to recreate SQL Server logins with their complete security context for migration and disaster recovery.</p>
 <h2 id="description">Description</h2>
-<p>Exports Windows and SQL Logins to a T-SQL file. Export includes login, SID, password, default database, default language, server permissions, server roles, db permissions, db roles.</p>
+<p>Creates executable T-SQL scripts that recreate SQL Server and Windows logins along with their complete security configuration. The export includes login properties (SID, hashed passwords, default database), server-level permissions and role memberships, database user mappings and roles, plus SQL Agent job ownership assignments. This addresses the common challenge where restoring databases doesn't restore the associated logins, leaving applications unable to connect. DBAs use this for server migrations, disaster recovery scenarios, and maintaining consistent security across environments.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaLogin
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -616,7 +616,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase, Get-DbaLogin and more.<br></p>
+<p>Accepts piped objects from Get-DbaLogin, Get-DbaDatabase, or Connect-DbaInstance commands.<br />
+Use this when you want to export logins from specific objects rather than specifying instances directly.<br></p>
 <table>
 <thead>
 <tr>
@@ -644,7 +645,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The login(s) to process. Options for this list are auto-populated from the server. If unspecified, all logins will be processed.<br></p>
+<p>Specifies which SQL Server logins to export by name. Accepts wildcards and arrays.<br />
+When specified, only these logins are processed instead of all server logins. Use this to target specific accounts for migration or backup.<br></p>
 <table>
 <thead>
 <tr>
@@ -672,7 +674,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludelogin">-ExcludeLogin</h5>
-<p>The login(s) to exclude. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies login names to skip during export. Accepts wildcards and arrays.<br />
+Use this to exclude system accounts, service accounts, or other logins that shouldn't be migrated to the target environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -700,7 +703,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Limits export to logins that have user mappings in the specified databases. Accepts database names or database objects.<br />
+When specified, only logins with permissions or user accounts in these databases are exported, reducing script size for targeted migrations.<br></p>
 <table>
 <thead>
 <tr>
@@ -728,7 +732,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludejobs">-ExcludeJobs</h5>
-<p>If this switch is enabled, Agent job ownership will not be exported.<br></p>
+<p>Excludes SQL Agent job ownership assignments from the export script.<br />
+Use this when migrating logins to servers where the associated jobs don't exist or will be owned by different accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -756,7 +761,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>If this switch is enabled, mappings for databases will not be exported.<br></p>
+<p>Excludes database user mappings and permissions from the export script.<br />
+Use this when you only need server-level login definitions without their database-specific permissions and role memberships.<br></p>
 <table>
 <thead>
 <tr>
@@ -784,7 +790,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludepassword">-ExcludePassword</h5>
-<p>If this switch is enabled, hashed passwords will not be exported.<br></p>
+<p>Excludes hashed password values from SQL login export, replacing them with placeholder text.<br />
+Use this for security compliance when sharing scripts or when passwords will be reset after migration.<br></p>
 <table>
 <thead>
 <tr>
@@ -812,8 +819,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="defaultdatabase">-DefaultDatabase</h5>
-<p>If this switch is enabled, all logins will be scripted with specified default database,<br />
-that could help to successfully import logins on server that is missing default database for login.<br></p>
+<p>Overrides the default database for all exported logins with the specified database name.<br />
+Use this when migrating to servers where the original default databases don't exist, preventing login creation failures.<br></p>
 <table>
 <thead>
 <tr>
@@ -841,8 +848,8 @@ that could help to successfully import logins on server that is missing default 
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br />
-Will default to Path.DbatoolsExport Configuration entry<br></p>
+<p>Specifies the directory where export files will be saved. Defaults to the Path.DbatoolsExport configuration setting.<br />
+Files are automatically named based on instance and timestamp unless FilePath is specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -870,8 +877,8 @@ Will default to Path.DbatoolsExport Configuration entry<br></p>
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file. If left blank then filename based on Instance name and date is created.<br />
-If more than one instance is input then this parameter should be blank.<br></p>
+<p>Specifies the complete file path for the export script. Cannot be used when exporting from multiple instances.<br />
+Use this when you need precise control over the output file location and name.<br></p>
 <table>
 <thead>
 <tr>
@@ -899,16 +906,8 @@ If more than one instance is input then this parameter should be blank.<br></p>
 </tbody>
 </table>
 <h5 id="encoding">-Encoding</h5>
-<p>Specifies the file encoding. The default is UTF8.<br />
-Valid values are:<br />
--- ASCII: Uses the encoding for the ASCII (7-bit) character set.<br />
--- BigEndianUnicode: Encodes in UTF-16 format using the big-endian byte order.<br />
--- Byte: Encodes a set of characters into a sequence of bytes.<br />
--- String: Uses the encoding type for a string.<br />
--- Unicode: Encodes in UTF-16 format using the little-endian byte order.<br />
--- UTF7: Encodes in UTF-7 format.<br />
--- UTF8: Encodes in UTF-8 format.<br />
--- Unknown: The encoding type is unknown or invalid. The data can be treated as binary.<br></p>
+<p>Sets the character encoding for the output file. Defaults to UTF8.<br />
+Choose the appropriate encoding based on your deployment environment requirements and any special characters in login names.<br></p>
 <table>
 <thead>
 <tr>
@@ -940,7 +939,8 @@ Valid values are:<br />
 </tbody>
 </table>
 <h5 id="noclobber">-NoClobber</h5>
-<p>If this switch is enabled, a file already existing at the path specified by Path will not be overwritten.<br></p>
+<p>Prevents overwriting existing files at the specified Path location.<br />
+Use this as a safety measure when you don't want to accidentally replace existing login export scripts.<br></p>
 <table>
 <thead>
 <tr>
@@ -968,7 +968,8 @@ Valid values are:<br />
 </tbody>
 </table>
 <h5 id="append">-Append</h5>
-<p>If this switch is enabled, content will be appended to a file already existing at the path specified by Path. If the file does not exist, it will be created.<br></p>
+<p>Adds the generated script to an existing file instead of overwriting it.<br />
+Use this to combine login exports from multiple instances into a single deployment script.<br></p>
 <table>
 <thead>
 <tr>
@@ -996,7 +997,8 @@ Valid values are:<br />
 </tbody>
 </table>
 <h5 id="batchseparator">-BatchSeparator</h5>
-<p>Batch separator for scripting output. Uses the value from configuration Formatting.BatchSeparator by default. This is normally &quot;GO&quot;<br></p>
+<p>Sets the T-SQL batch separator used between statements. Defaults to 'GO' from the Formatting.BatchSeparator configuration.<br />
+Specify an empty string to remove batch separators when the target system doesn't support them.<br></p>
 <table>
 <thead>
 <tr>
@@ -1024,7 +1026,8 @@ Valid values are:<br />
 </tbody>
 </table>
 <h5 id="destinationversion">-DestinationVersion</h5>
-<p>To say to which version the script should be generated. If not specified will use instance major version.<br></p>
+<p>Generates T-SQL syntax compatible with the specified SQL Server version. Defaults to the source instance version.<br />
+Use this when migrating to older SQL Server versions that require different syntax for role assignments or other features.<br></p>
 <table>
 <thead>
 <tr>
@@ -1056,7 +1059,8 @@ Valid values are:<br />
 </tbody>
 </table>
 <h5 id="noprefix">-NoPrefix</h5>
-<p>Do not include a Prefix<br></p>
+<p>Excludes the standard dbatools header comment from the generated script.<br />
+Use this when you need clean T-SQL output without metadata comments for automated deployment systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -1084,7 +1088,8 @@ Valid values are:<br />
 </tbody>
 </table>
 <h5 id="passthru">-Passthru</h5>
-<p>Output script to console<br></p>
+<p>Returns the generated T-SQL script to the PowerShell pipeline instead of saving to file.<br />
+Use this to capture the script in a variable, pipe to other commands, or display directly in the console.<br></p>
 <table>
 <thead>
 <tr>
@@ -1112,7 +1117,8 @@ Valid values are:<br />
 </tbody>
 </table>
 <h5 id="objectlevel">-ObjectLevel</h5>
-<p>Include object-level permissions for each user associated with copied login.<br></p>
+<p>Includes detailed object-level permissions for each database user associated with the exported logins.<br />
+Use this for complete permission migration when you need granular security settings preserved in the target environment.<br></p>
 <table>
 <thead>
 <tr>

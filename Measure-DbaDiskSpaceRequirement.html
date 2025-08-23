@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Measure-DbaDiskSpaceRequirement">Measure-DbaDiskSpaceRequirement</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Calculate the space needed to copy and possibly replace a database from one SQL server to another.</p>
+<p>Calculates disk space requirements for database migration between SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Returns a file list from source and destination where source file may overwrite destination. Complex scenarios where a new file may exist is taken into account.<br />
-This command will accept a hash object in pipeline with the following keys: Source, SourceDatabase, Destination. Using this command will provide a way to prepare before a complex migration with multiple databases from different sources and destinations.</p>
+<p>Analyzes database files on source and destination instances to calculate space requirements before migration. Shows file size differences, mount points, and identifies potential overwrites when copying databases between SQL Server instances.</p>
+<p>The function compares data and log files from the source database against existing files on the destination, accounting for scenarios where files exist only on source, only on destination, or on both sides. This prevents migration failures due to insufficient disk space and helps plan storage allocation.</p>
+<p>Accepts pipeline input with Source, Database, and Destination properties, making it ideal for bulk migration planning from CSV files, SQL queries, or PowerShell objects.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Measure-DbaDiskSpaceRequirement
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -527,7 +528,8 @@ PS C:\&gt; Invoke-DbaCmd -SqlInstance DBA -Database Migrations -Query $qry | Mea
 <p>Using a SQL table. We are DBA after all!<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. <br></p>
+<p>Specifies the source SQL Server instance containing the database to analyze for migration.<br />
+This is where the database currently exists and from which file sizes will be measured. <br></p>
 <table>
 <thead>
 <tr>
@@ -555,7 +557,8 @@ PS C:\&gt; Invoke-DbaCmd -SqlInstance DBA -Database Migrations -Query $qry | Mea
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database to copy. It MUST exist. <br></p>
+<p>Specifies the name of the database to analyze on the source instance.<br />
+The database must exist on the source server as the function reads actual file sizes from this database. <br></p>
 <table>
 <thead>
 <tr>
@@ -583,7 +586,8 @@ PS C:\&gt; Invoke-DbaCmd -SqlInstance DBA -Database Migrations -Query $qry | Mea
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server instance. <br></p>
+<p>Specifies the destination SQL Server instance where the database will be migrated.<br />
+Used to determine target file paths, check for existing databases with the same name, and calculate mount point requirements. <br></p>
 <table>
 <thead>
 <tr>
@@ -642,8 +646,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationdatabase">-DestinationDatabase</h5>
-<p>The database name at destination.<br />
-May or may not be present, if unspecified it will default to the database name provided in SourceDatabase.<br></p>
+<p>Specifies the database name to use on the destination instance if different from the source database name.<br />
+When omitted, the destination database will use the same name as the source database.<br />
+Useful when migrating databases that need to be renamed or when avoiding naming conflicts on the destination server.<br></p>
 <table>
 <thead>
 <tr>

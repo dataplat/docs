@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaMaxMemory">Test-DbaMaxMemory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Calculates the recommended value for SQL Server 'Max Server Memory' configuration setting. Works on SQL Server 2000-2014.</p>
+<p>Calculates recommended SQL Server max memory settings to prevent OS memory pressure and optimize performance.</p>
 <h2 id="description">Description</h2>
-<p>Inspired by Jonathan Kehayias's post about SQL Server Max memory (<a href="http://bit.ly/sqlmemcalc">http://bit.ly/sqlmemcalc</a>), this script displays a SQL Server's: total memory, currently configured SQL max memory, and the calculated recommendation.</p>
-<p>Jonathan notes that the formula used provides a <em>general recommendation</em> that doesn't account for everything that may be going on in your specific environment.</p>
+<p>Analyzes server memory and SQL Server instances to calculate optimal max memory configuration settings. Uses a tiered algorithm that reserves appropriate memory for the operating system based on total server memory, accounting for multiple SQL instances and other SQL services like SSAS, SSRS, or SSIS. Compares current max memory settings against recommended values to help identify misconfigured servers that could cause memory pressure or performance issues. Based on Jonathan Kehayias's memory calculation methodology, this provides general recommendations that should be validated against your specific environment and workload requirements.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaMaxMemory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

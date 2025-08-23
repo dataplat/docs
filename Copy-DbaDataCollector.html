@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaDataCollector">Copy-DbaDataCollector</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Migrates user SQL Data Collector collection sets. SQL Data Collector configuration is on the agenda, but it's hard.</p>
+<p>Copies SQL Data Collector collection sets from one instance to another</p>
 <h2 id="description">Description</h2>
-<p>By default, all data collector objects are migrated. If the object already exists on the destination, it will be skipped unless -Force is used.</p>
-<p>The -CollectionSet parameter is auto-populated for command-line completion and can be used to copy only specific objects.</p>
+<p>Copies SQL Data Collector collection sets between SQL Server instances, allowing you to replicate performance monitoring configurations across your environment. This command scripts out the collection set definitions from the source instance and recreates them on the destination, preserving all collection items, schedules, and upload settings.</p>
+<p>By default, all user-defined collection sets are migrated. If a collection set already exists on the destination, it will be skipped unless -Force is used to drop and recreate it. Collection sets that were running on the source will automatically be started on the destination after migration.</p>
+<p>The -CollectionSet parameter is auto-populated for command-line completion and can be used to copy only specific collection sets. Note that Data Collector must already be configured and enabled on the destination instance before running this command.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaDataCollector
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -526,7 +527,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Copies two Collection Sets, Server Activity and Table Usage Analysis, from sqlserver2014a to sqlcluster.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2008 or higher. <br></p>
+<p>Source SQL Server instance containing the Data Collector collection sets to copy. Requires sysadmin access and SQL Server 2008 or higher.<br />
+The Data Collector feature must be configured on this instance for collection sets to exist. <br></p>
 <table>
 <thead>
 <tr>
@@ -554,7 +556,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination Sql Server. You must have sysadmin access and server version must be SQL Server version 2008 or higher. <br></p>
+<p>Destination SQL Server instance(s) where collection sets will be created. Requires sysadmin access and SQL Server 2008 or higher.<br />
+The Data Collector feature must already be configured and enabled on the destination before running this command. <br></p>
 <table>
 <thead>
 <tr>
@@ -583,7 +586,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+<p>Login credentials for the source SQL Server instance. Accepts PowerShell credentials (Get-Credential).<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
@@ -613,7 +616,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+<p>Login credentials for the destination SQL Server instance(s). Accepts PowerShell credentials (Get-Credential).<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
@@ -643,7 +646,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="collectionset">-CollectionSet</h5>
-<p>The collection set(s) to process - this list is auto-populated from the server. If unspecified, all collection sets will be processed.<br></p>
+<p>Specific collection set names to copy from the source instance. Supports tab completion with available collection sets.<br />
+When omitted, all user-defined collection sets are copied (system collection sets are always excluded).<br></p>
 <table>
 <thead>
 <tr>
@@ -671,7 +675,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludecollectionset">-ExcludeCollectionSet</h5>
-<p>The collection set(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Collection set names to exclude from the copy operation. Supports tab completion with available collection sets.<br />
+Useful when you want to copy most collection sets but skip specific ones due to environment differences.<br></p>
 <table>
 <thead>
 <tr>
@@ -699,7 +704,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="noserverreconfig">-NoServerReconfig</h5>
-<p>Upcoming parameter to enable server reconfiguration<br></p>
+<p>Reserved parameter for future Data Collector server configuration copying functionality.<br />
+Currently has no effect as server-level configuration copying is not yet implemented.<br></p>
 <table>
 <thead>
 <tr>
@@ -727,7 +733,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If collection sets exists on destination server, it will be dropped and recreated.<br></p>
+<p>Drops and recreates collection sets that already exist on the destination server.<br />
+Without this switch, existing collection sets are skipped to prevent accidental data loss.<br></p>
 <table>
 <thead>
 <tr>

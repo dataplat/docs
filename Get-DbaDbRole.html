@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbRole">Get-DbaDbRole</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get the database roles for each instance(s) of SQL Server.</p>
+<p>Retrieves database roles from SQL Server instances for security auditing and permission analysis.</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaDbRole returns connected SMO object for database roles for each instance(s) of SQL Server.</p>
+<p>Retrieves all database roles (both fixed and custom) from one or more SQL Server databases, returning detailed role information for security audits and compliance reporting. This function examines the roles collection in each accessible database, allowing you to identify custom roles, exclude built-in fixed roles, or focus on specific roles by name. Essential for documenting role structures across environments, troubleshooting permission issues, and ensuring consistent security configurations during migrations or standardization projects.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbRole
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -590,7 +590,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. This list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to examine for role information. Accepts wildcards for pattern matching.<br />
+Use this when you need to audit roles in specific databases rather than scanning all databases on the instance.<br />
+Particularly useful for focusing on user databases while skipping system databases, or for compliance audits of specific applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -618,7 +620,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude. This list is auto-populated from the server.<br></p>
+<p>Excludes specified databases from role enumeration. Accepts wildcards for pattern matching.<br />
+Use this to skip databases you don't need to audit, such as development databases during production security reviews.<br />
+Commonly used to exclude system databases or databases with known standard configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -646,7 +650,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="role">-Role</h5>
-<p>The role(s) to process. If unspecified, all roles will be processed.<br></p>
+<p>Specifies which database roles to retrieve by name. Accepts wildcards for pattern matching.<br />
+Use this when investigating specific roles across databases, such as checking for custom application roles or finding all instances of a particular role name.<br />
+Particularly useful for security audits focusing on elevated permissions like 'db_owner' or custom admin roles.<br></p>
 <table>
 <thead>
 <tr>
@@ -674,7 +680,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excluderole">-ExcludeRole</h5>
-<p>The role(s) to exclude.<br></p>
+<p>Excludes specified roles from the results by name. Accepts wildcards for pattern matching.<br />
+Use this to filter out roles you're not interested in, such as excluding standard fixed roles when focusing on custom application roles.<br />
+Helpful for reducing noise in reports when you want to see only non-standard or suspicious role configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,7 +710,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludefixedrole">-ExcludeFixedRole</h5>
-<p>Excludes all fixed roles.<br></p>
+<p>Excludes all built-in fixed database roles from the results, showing only custom user-defined roles.<br />
+Use this when auditing custom role implementations or when you need to focus on application-specific security configurations.<br />
+Fixed roles like db_owner, db_datareader, and db_datawriter are filtered out, along with the public role.<br></p>
 <table>
 <thead>
 <tr>
@@ -730,7 +740,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase through the pipeline for role enumeration.<br />
+Use this when you need to chain database selection criteria with role analysis, such as filtering databases by size, compatibility level, or other properties first.<br />
+Allows for more complex filtering scenarios than the basic Database parameter provides.<br></p>
 <table>
 <thead>
 <tr>

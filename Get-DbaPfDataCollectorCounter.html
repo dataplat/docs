@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaPfDataCollectorCounter">Get-DbaPfDataCollectorCounter</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets Performance Counters.</p>
+<p>Retrieves performance counter configurations from Windows Performance Monitor Data Collector Sets.</p>
 <h2 id="description">Description</h2>
-<p>Gets Performance Counters.</p>
+<p>Retrieves the list of performance counters that are configured within Windows Performance Monitor Data Collector Sets. This is useful for auditing performance monitoring configurations, verifying which SQL Server and system counters are being collected, and understanding your performance data collection setup. The function extracts counter details from existing Data Collector objects, showing you exactly which performance metrics are being tracked for troubleshooting and capacity planning.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPfDataCollectorCounter
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -525,7 +525,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets all counters for the 'System Correlation' CollectorSet.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer. Defaults to localhost.<br></p>
+<p>Specifies the target server(s) where Performance Monitor Data Collector Sets are configured.<br />
+Use this to audit performance counters on remote SQL Server instances or retrieve counter configurations from multiple servers at once.<br></p>
 <table>
 <thead>
 <tr>
@@ -582,7 +583,8 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="collectorset">-CollectorSet</h5>
-<p>The Collector Set name.<br></p>
+<p>Filters results to specific Data Collector Set names such as 'System Correlation' or custom SQL performance monitoring sets.<br />
+Use this when you need to examine counters for particular monitoring scenarios rather than reviewing all configured performance data collection.<br></p>
 <table>
 <thead>
 <tr>
@@ -610,7 +612,8 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="collector">-Collector</h5>
-<p>The Collector name.<br></p>
+<p>Filters results to specific Data Collector names within a Collector Set.<br />
+Use this to narrow down results when a Collector Set contains multiple data collectors and you only need counter details from specific ones.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +641,8 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="counter">-Counter</h5>
-<p>The Counter name to capture. This must be in the form of '\Processor(_Total)% Processor Time'.<br></p>
+<p>Searches for specific performance counter names using the exact Windows Performance Monitor format like '\SQLServer:Buffer Manager\Page life expectancy' or '\Processor(_Total)% Processor Time'.<br />
+Use this to verify if critical SQL Server or system performance counters are being monitored in your data collection setup.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +670,8 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts the object output by Get-DbaPfDataCollectorSet via the pipeline.<br></p>
+<p>Accepts Data Collector objects from Get-DbaPfDataCollector via the pipeline to extract counter configurations.<br />
+Use this for chaining commands when you want to drill down from Collector Sets to specific Data Collectors and then to their individual performance counters.<br></p>
 <table>
 <thead>
 <tr>

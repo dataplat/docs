@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbView">Remove-DbaDbView</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a database view(s) from each database and SQL Server instance.</p>
+<p>Removes database views from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Removes a database view(s), with supported piping from Get-DbaDbView.</p>
+<p>Removes one or more database views from specified databases and SQL Server instances. This function streamlines the cleanup of obsolete views during database refactoring, development cleanup, or schema maintenance tasks. You can specify views individually by name or use pipeline input from Get-DbaDbView for bulk operations. Each removal operation includes detailed status reporting and supports WhatIf testing to preview changes before execution.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbView
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -548,7 +548,8 @@ PS C:\&gt; $views | Remove-DbaDbView
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbView. <br></p>
+<p>Accepts view objects from Get-DbaDbView for pipeline operations. Use this for complex filtering scenarios or bulk removals.<br />
+This approach provides better control over which specific views get removed compared to using name-based targeting. <br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +608,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases to search for views to remove. Accepts multiple database names.<br />
+Use this to limit view removal to specific databases instead of searching all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="view">-View</h5>
-<p>The name(s) of the view(s).<br></p>
+<p>Specifies the names of the views to remove. Accepts multiple view names and supports wildcards for pattern matching.<br />
+When targeting views in specific schemas, use the two-part naming convention like 'dbo.ViewName'.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbLogSpace">Get-DbaDbLogSpace</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets information on the database transaction log usage for each instance(s) of SQL Server.</p>
+<p>Retrieves transaction log space usage and capacity information from SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>Returns transaction log size and space used for each database on the SQL Server instance(s).</p>
-<p>This can be used to monitor how much of your allocated transaction log space is in use, and whether it is nearing the point where it will need to grow.</p>
+<p>Collects detailed transaction log metrics including total size, used space percentage, and used space in bytes for databases across SQL Server instances. Uses the sys.dm_db_log_space_usage DMV on SQL Server 2012+ or DBCC SQLPERF(logspace) on older versions.</p>
+<p>Essential for proactive log space monitoring to prevent unexpected transaction log growth, identify databases approaching log capacity limits, and plan log file sizing. Helps DBAs avoid transaction failures caused by full transaction logs and optimize log file allocation strategies.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbLogSpace
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -584,7 +584,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to check for transaction log space usage. Accepts wildcards for pattern matching.<br />
+Use this when you need to monitor specific databases instead of checking all databases on the instance, particularly useful for focusing on high-growth or critical databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server.<br></p>
+<p>Specifies databases to skip when checking transaction log space usage. Accepts wildcards for pattern matching.<br />
+Use this to exclude databases you don't need to monitor regularly, such as test databases, read-only databases, or databases with known stable log usage patterns.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemdatabase">-ExcludeSystemDatabase</h5>
-<p>Allows you to suppress output on system databases.<br></p>
+<p>Excludes system databases (master, model, msdb, tempdb) from the transaction log space report.<br />
+Use this when focusing on user databases only, as system database log usage is typically managed differently and may not require the same monitoring attention.<br></p>
 <table>
 <thead>
 <tr>

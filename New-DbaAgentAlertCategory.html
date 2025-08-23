@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAgentAlertCategory">New-DbaAgentAlertCategory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>New-DbaAgentAlertCategory creates a new alert category.</p>
+<p>Creates new SQL Agent alert categories for organizing and managing database alerts.</p>
 <h2 id="description">Description</h2>
-<p>New-DbaAgentAlertCategory makes it possible to create a Agent Alert category that can be used with Alerts.<br />
-It returns an array of the alert categories created .</p>
+<p>Creates custom alert categories in SQL Server Agent to help organize and group related alerts for better management and monitoring.<br />
+Alert categories allow DBAs to logically group alerts by function, severity, or responsibility, making it easier to assign different categories to different teams or escalation procedures.<br />
+This is particularly useful in environments with many alerts where categorization helps with organization, reporting, and maintenance workflows.<br />
+Returns the newly created alert category objects that can be immediately used when configuring SQL Agent alerts.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaAgentAlertCategory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -542,7 +544,9 @@ It returns an array of the alert categories created .</p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>The name of the category <br></p>
+<p>Specifies the name or names of the alert categories to create in SQL Server Agent.<br />
+Use descriptive names that reflect how you organize alerts, such as 'Database Errors', 'Performance Issues', or 'Security Events'.<br />
+Multiple categories can be created in a single operation by providing an array of category names. <br></p>
 <table>
 <thead>
 <tr>
@@ -601,7 +605,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.<br></p>
+<p>Bypasses confirmation prompts and creates the alert categories without user interaction.<br />
+Use this parameter in automated scripts or when you're confident about the category names being created.<br></p>
 <table>
 <thead>
 <tr>

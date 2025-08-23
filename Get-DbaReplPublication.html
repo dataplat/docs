@@ -486,9 +486,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaReplPublication">Get-DbaReplPublication</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays all publications on a server.</p>
+<p>Retrieves replication publications from SQL Server instances, including transactional, merge, and snapshot publications.</p>
 <h2 id="description">Description</h2>
-<p>Quickly find all transactional, merge, and snapshot publications on a server or filter by database, name or type.</p>
+<p>Scans SQL Server instances to identify and return all replication publications configured as publishers. This function examines each database's replication options to locate published databases, then retrieves detailed information about their publications including associated articles and subscriptions. DBAs use this to audit replication topology, troubleshoot publication configuration issues, and document existing replication setup across their environment. Results can be filtered by specific databases, publication names, or publication types to focus on particular replication components.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaReplPublication
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -584,7 +584,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to examine for replication publications. Accepts wildcards and multiple database names.<br />
+Use this when you need to focus on specific databases instead of scanning all published databases on the instance.<br />
+Only databases that have replication enabled will return publication information.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +614,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the publication.<br></p>
+<p>Filters results to publications with the specified name. Accepts multiple publication names for batch processing.<br />
+Use this when you need to check the status or configuration of specific publications rather than viewing all publications in a database.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +643,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Limit by specific type of publication. Valid choices include: Transactional, Merge, Snapshot.<br></p>
+<p>Limits results to specific publication types: Transactional, Merge, or Snapshot.<br />
+Use this to focus on a particular replication methodology when troubleshooting or auditing specific replication scenarios.<br />
+Transactional publications provide real-time data synchronization, while Merge publications handle bidirectional conflicts and Snapshot publications provide point-in-time data distribution.<br></p>
 <table>
 <thead>
 <tr>

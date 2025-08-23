@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbQueryStoreOption">Get-DbaDbQueryStoreOption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get the Query Store configuration for Query Store enabled databases.</p>
+<p>Retrieves Query Store configuration settings from databases across SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Retrieves and returns the Query Store configuration for every database that has the Query Store feature enabled.</p>
-<p>Due to SMO limitations, the model database is not checked.</p>
+<p>Returns the complete Query Store configuration for user databases, including capture modes, storage limits, cleanup policies, and retention settings. This function helps DBAs audit Query Store configurations across their environment, identify databases with suboptimal settings, and ensure consistent Query Store policies. Query Store settings directly impact query performance monitoring, plan regression detection, and storage consumption, so regular configuration reviews are essential for maintaining optimal performance insights.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbQueryStoreOption
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -575,7 +574,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which user databases to retrieve Query Store configuration from. Accepts database names, wildcards, or arrays for multiple databases.<br />
+Use this when you need to audit Query Store settings for specific databases rather than scanning your entire instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +603,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific databases from Query Store configuration retrieval. System databases (master, tempdb, model) are automatically excluded.<br />
+Useful for skipping databases that you know don't need Query Store monitoring or have restricted access permissions.<br></p>
 <table>
 <thead>
 <tr>

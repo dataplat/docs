@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaRandomizedType">Get-DbaRandomizedType</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get the randomized types and sub types</p>
+<p>Lists available data types and subtypes for generating realistic test data during database masking operations</p>
 <h2 id="description">Description</h2>
-<p>Retrieves the types and sub types available</p>
+<p>Returns all available randomizer types and subtypes that can be used with Get-DbaRandomizedValue for data masking and test data generation. These types include realistic data patterns like Person names, Address components, Finance data, Internet values, and Random data types. This command helps you discover what fake data options are available when building data masking rules or generating test datasets for non-production environments.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaRandomizedType
     [[-RandomizedType] &lt;String[]&gt;]
@@ -514,7 +514,9 @@ Find all the sub types for Person<br></p>
 Get all the types and subtypes that known by &quot;LastName&quot;<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="randomizedtype">-RandomizedType</h5>
-<p>Filter the randomized types<br></p>
+<p>Filters results to specific main data categories for realistic test data generation.<br />
+Use this when you need to focus on particular data types like Person, Address, Finance, Internet, or Random data.<br />
+Available types include Address, Commerce, Company, Database, Date, Finance, Hacker, Image, Internet, Lorem, Name, Person, Phone, Random, System, and more.<br></p>
 <table>
 <thead>
 <tr>
@@ -542,7 +544,9 @@ Get all the types and subtypes that known by &quot;LastName&quot;<br></p>
 </tbody>
 </table>
 <h5 id="randomizedsubtype">-RandomizedSubType</h5>
-<p>Filter the randomized sub types<br></p>
+<p>Filters results to specific data subtypes within the main categories for precise data masking scenarios.<br />
+Use this when you need exact data patterns like FirstName, LastName, Email, CreditCardNumber, or ZipCode.<br />
+Subtypes provide granular control over the fake data generation for targeted column masking.<br></p>
 <table>
 <thead>
 <tr>
@@ -570,7 +574,9 @@ Get all the types and subtypes that known by &quot;LastName&quot;<br></p>
 </tbody>
 </table>
 <h5 id="pattern">-Pattern</h5>
-<p>Get the types and sub types based on a pattern<br></p>
+<p>Searches both main types and subtypes using pattern matching to find relevant data generators.<br />
+Use this when you're unsure of exact type names or want to discover related options like searching 'Addr' to find Address-related types.<br />
+Supports wildcard matching against both Type and SubType columns for flexible discovery.<br></p>
 <table>
 <thead>
 <tr>

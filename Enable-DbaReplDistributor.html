@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Enable-DbaReplDistributor">Enable-DbaReplDistributor</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Enables replication distribution for the target SQL instances.</p>
+<p>Configures a SQL Server instance as a replication distributor with distribution database</p>
 <h2 id="description">Description</h2>
-<p>Enables replication distribution for the target SQL instances.</p>
+<p>Configures the specified SQL Server instance to act as a replication distributor by creating the distribution database and installing the distributor role. This is the first step in setting up SQL Server replication, as the distributor manages the flow of replicated transactions between publishers and subscribers. Once configured, the instance can store replication metadata, track publication and subscription information, and coordinate data movement for transactional and snapshot replication scenarios.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Enable-DbaReplDistributor
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -571,8 +571,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="distributiondatabase">-DistributionDatabase</h5>
-<p>Name of the distribution database that will be created.<br />
-Default is 'distribution'.<br></p>
+<p>Specifies the name of the distribution database that will be created to store replication metadata and transaction logs.<br />
+This database holds subscription information, publication details, and queued transactions for distribution to subscribers.<br />
+Defaults to 'distribution' if not specified, which is the standard convention for most replication configurations.<br></p>
 <table>
 <thead>
 <tr>

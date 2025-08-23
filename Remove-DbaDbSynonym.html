@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbSynonym">Remove-DbaDbSynonym</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes synonym(s) from database(s) / instance(s) of SQL Server.</p>
+<p>Removes database synonyms from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>The Remove-DbaDbSynonym removes synonym(s) from database(s) / instance(s) of SQL Server.</p>
+<p>Removes one or more database synonyms from SQL Server databases by executing DROP SYNONYM commands. Synonyms are database objects that provide alternate names for tables, views, or other objects, often used to simplify complex object names or provide abstraction layers. This function helps clean up obsolete synonyms during database refactoring, migrations, or general maintenance activities, so you don't have to manually script DROP statements across multiple databases or instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbSynonym
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -586,7 +586,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. This list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to remove synonyms from. Accepts wildcards for pattern matching.<br />
+Use this to target specific databases instead of processing all databases on the instance. If unspecified, all databases will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,7 +615,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude. This list is auto-populated from the server.<br></p>
+<p>Specifies databases to skip during synonym removal operations.<br />
+Use this when you want to process most databases but exclude specific ones like system databases or production databases during maintenance windows.<br></p>
 <table>
 <thead>
 <tr>
@@ -642,7 +644,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The schema(s) to process. If unspecified, all schemas will be processed.<br></p>
+<p>Specifies which schemas to target for synonym removal within the selected databases.<br />
+Use this to limit removal to synonyms in specific schemas like 'dbo', 'reporting', or custom application schemas. If unspecified, all schemas will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -670,7 +673,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeschema">-ExcludeSchema</h5>
-<p>The schema(s) to exclude.<br></p>
+<p>Specifies schemas to skip during synonym removal operations.<br />
+Use this to avoid removing synonyms from critical schemas while processing others, such as excluding 'sys' or application-specific schemas.<br></p>
 <table>
 <thead>
 <tr>
@@ -698,7 +702,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="synonym">-Synonym</h5>
-<p>The synonym(s) to process. If unspecified, all synonyms will be processed.<br></p>
+<p>Specifies the exact synonym names to remove from the target databases.<br />
+Use this when you need to remove specific synonyms by name rather than all synonyms. Supports multiple synonym names for bulk operations. If unspecified, all synonyms will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -726,7 +731,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesynonym">-ExcludeSynonym</h5>
-<p>The synonym(s) to exclude.<br></p>
+<p>Specifies synonym names to skip during the removal operation.<br />
+Use this when you want to remove most synonyms but preserve specific ones that are still in use by applications or reports.<br></p>
 <table>
 <thead>
 <tr>
@@ -754,7 +760,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaDbSynonym or Get-DbaDatabase<br></p>
+<p>Accepts piped input from Get-DbaDbSynonym, Get-DbaDatabase, or SQL Server instances.<br />
+Use this to remove synonyms that were identified by Get-DbaDbSynonym or to process multiple server instances from pipeline input. This enables more precise control over which synonyms to remove.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaPowerPlan">Set-DbaPowerPlan</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the SQL Server OS's Power Plan.</p>
+<p>Configures Windows power plan on SQL Server host computers to optimize database performance.</p>
 <h2 id="description">Description</h2>
-<p>Sets the SQL Server OS's Power Plan. Defaults to High Performance which is best practice.</p>
-<p>If your organization uses a different power plan that is considered best practice, specify -PowerPlan.</p>
+<p>Changes the Windows power plan on SQL Server host machines using WMI and PowerShell remoting. Defaults to High Performance, which prevents CPU throttling that can severely impact database query performance and response times.</p>
+<p>Windows power plans control CPU frequency scaling, and the default &quot;Balanced&quot; plan can cause significant performance degradation under SQL Server workloads. This function ensures your SQL Server hosts are configured for optimal performance rather than power savings.</p>
+<p>If your organization has a custom power plan considered best practice, you can specify it with -PowerPlan. The function will skip computers that already have the target power plan active.</p>
 <p>References:<br />
 <a href="https://support.microsoft.com/en-us/kb/2207548">https://support.microsoft.com/en-us/kb/2207548</a><br />
 <a href="http://www.sqlskills.com/blogs/glenn/windows-power-plan-effects-on-newer-intel-processors/">http://www.sqlskills.com/blogs/glenn/windows-power-plan-effects-on-newer-intel-processors/</a></p>
@@ -529,7 +530,9 @@ PS C:\&gt; Set-DbaPowerPlan -ComputerName sql2017 -Credential $cred
 <p>Uses the Power Plan of oldserver as best practice and sets the Power Plan of newserver1 and newserver2 accordingly.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The server(s) to set the Power Plan on. <br></p>
+<p>Specifies the Windows host computers where SQL Server instances are running to configure the power plan.<br />
+Accepts multiple server names and connects via WMI and PowerShell remoting to change OS-level power settings.<br />
+Use the actual Windows computer names, not SQL Server instance names. <br></p>
 <table>
 <thead>
 <tr>
@@ -586,8 +589,9 @@ PS C:\&gt; Set-DbaPowerPlan -ComputerName sql2017 -Credential $cred
 </tbody>
 </table>
 <h5 id="powerplan">-PowerPlan</h5>
-<p>If your organization uses a different Power Plan that's considered best practice, specify it here.<br />
-Use Get-DbaPowerPlan -List to get all available Power Plans on a computer.<br></p>
+<p>Specifies the Windows power plan to set on the target computers. Defaults to &quot;High Performance&quot; when not specified.<br />
+Use this when your organization has a custom power plan or specific requirements beyond the default recommendation.<br />
+Run Get-DbaPowerPlan -ComputerName <server> -List to see all available power plans on each computer before setting.<br></p>
 <table>
 <thead>
 <tr>

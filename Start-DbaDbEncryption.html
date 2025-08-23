@@ -485,15 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Start-DbaDbEncryption">Start-DbaDbEncryption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Combo command that encrypts all instances on a database and backs up all keys and certs</p>
+<p>Implements Transparent Data Encryption (TDE) on user databases with automated key infrastructure and backup management</p>
 <h2 id="description">Description</h2>
-<p>Combo command that encrypts all instances on a database and backs up all keys and certs</p>
-<ul>
-<li>Ensures a database master key exists in the master database and backs it up</li>
-<li>Ensures a database certificate or asymmetric key exists in the master database and backs it up</li>
-<li>Creates a database encryption key in the target database and backs it up</li>
-<li>Enables database encryption on the target database and backs it up</li>
-</ul>
+<p>Automates the complete TDE implementation process from start to finish, handling all the complex key management steps that would otherwise require multiple manual commands. This function sets up the entire encryption infrastructure including master keys, certificates or asymmetric keys, database encryption keys, and automatically backs up all encryption components to protect against data loss.</p>
+<p>The function performs these operations in sequence: ensures a service master key exists in the master database and backs it up, creates or validates a database certificate or asymmetric key in master and backs it up, creates a database encryption key in each target database, and finally enables encryption on the databases. This eliminates the tedious manual process of running separate commands for each TDE component and ensures you don't miss critical backup steps that could leave your encrypted databases unrecoverable.</p>
+<p>Most valuable for compliance initiatives where you need to encrypt multiple databases quickly while maintaining proper key backup procedures. Also essential for disaster recovery planning since it ensures all encryption keys are properly backed up during the initial setup process.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Start-DbaDbEncryption
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -537,7 +533,9 @@ PS C:\&gt; Start-DbaDbEncryption @params
 Then encrypts all user databases on sql01, creating master keys and certificates as needed, and backing all of them up to C:\temp, securing them with the password set in $certbackuppass<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="backuppath">-BackupPath</h5>
-<p>The path (accessible by and relative to the SQL Server) where master keys and certificates are backed up <br></p>
+<p>Directory path where master key and certificate backup files will be stored, accessible by the SQL Server service account.<br />
+Critical for disaster recovery as these backups are required to restore TDE-encrypted databases.<br />
+Ensure this path has appropriate security permissions and is included in your backup strategy. <br></p>
 <table>
 <thead>
 <tr>
@@ -565,9 +563,9 @@ Then encrypts all user databases on sql01, creating master keys and certificates
 </tbody>
 </table>
 <h5 id="masterkeysecurepassword">-MasterKeySecurePassword</h5>
-<p>A master service key will be created and backed up if one does not exist<br />
-MasterKeySecurePassword is the secure string (password) used to create the key<br />
-This parameter is required even if no master keys are made, as we won't know if master key creation will be required until each server is processed <br></p>
+<p>Secure password used to create and protect the service master key in the master database if one doesn't exist.<br />
+Required for all TDE operations because the function cannot determine if master key creation is needed until runtime.<br />
+This password protects the root of the encryption hierarchy and is critical for disaster recovery. <br></p>
 <table>
 <thead>
 <tr>
@@ -595,7 +593,9 @@ This parameter is required even if no master keys are made, as we won't know if 
 </tbody>
 </table>
 <h5 id="backupsecurepassword">-BackupSecurePassword</h5>
-<p>This command will perform backups of all maskter keys and certificates. Use this parameter to set the backup password <br></p>
+<p>Secure password used to encrypt backup files for master keys and certificates created during TDE setup.<br />
+Essential for disaster recovery as these backups are required to restore encrypted databases on different servers.<br />
+Must be stored securely as losing this password makes the encrypted data unrecoverable. <br></p>
 <table>
 <thead>
 <tr>
@@ -682,9 +682,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="encryptorname">-EncryptorName</h5>
-<p>The name of the encryptor (Certificate or Asymmetric Key) in master that will be used. Tries to find one if one is not specified. If certificate does not exist and -Force is specified, one will be<br />
-created with the given Encryptor Name.<br />
-In order to encrypt the database encryption key with an asymmetric key, you must use an asymmetric key that resides on an extensible key management provider.<br></p>
+<p>Specifies the name of the certificate or asymmetric key in the master database that will encrypt the database encryption keys.<br />
+If not specified, the function will automatically find an existing certificate or asymmetric key. When used with -Force, creates a new certificate with this name if none exists.<br />
+For asymmetric keys, the key must reside on an extensible key management provider to encrypt database encryption keys.<br></p>
 <table>
 <thead>
 <tr>
@@ -712,7 +712,8 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 </tbody>
 </table>
 <h5 id="encryptortype">-EncryptorType</h5>
-<p>Type of Encryptor - either Asymmetric or Certificate<br></p>
+<p>Determines whether to use a certificate or asymmetric key for TDE encryption. Defaults to Certificate.<br />
+Certificate is the most common choice for standard TDE implementations. Use AsymmetricKey when integrating with extensible key management providers.<br></p>
 <table>
 <thead>
 <tr>
@@ -744,7 +745,8 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database or databases that will be encrypted<br></p>
+<p>Specifies which user databases to encrypt with Transparent Data Encryption (TDE). Accepts single database names, arrays, or wildcards.<br />
+Use this when you need to encrypt specific databases instead of all user databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -772,7 +774,8 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 </tbody>
 </table>
 <h5 id="certificatesubject">-CertificateSubject</h5>
-<p>Optional subject that will be used when creating all certificates<br></p>
+<p>Sets the subject field for TDE certificates created during the encryption process.<br />
+Use this to standardize certificate naming for compliance or organizational requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -800,8 +803,8 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 </tbody>
 </table>
 <h5 id="certificatestartdate">-CertificateStartDate</h5>
-<p>Optional start date that will be used when creating all certificates<br />
-By default, certs will start immediately<br></p>
+<p>Specifies when TDE certificates become valid. Defaults to the current date and time.<br />
+Useful for planned encryption rollouts where certificates need to activate at a specific time.<br></p>
 <table>
 <thead>
 <tr>
@@ -829,8 +832,8 @@ By default, certs will start immediately<br></p>
 </tbody>
 </table>
 <h5 id="certificateexpirationdate">-CertificateExpirationDate</h5>
-<p>Optional expiration that will be used when creating all certificates<br />
-By default, certs will last 5 years<br></p>
+<p>Sets when TDE certificates will expire. Defaults to 5 years from the current date.<br />
+Plan certificate renewals well before expiration to avoid service disruptions during database operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -858,7 +861,8 @@ By default, certs will last 5 years<br></p>
 </tbody>
 </table>
 <h5 id="certificateactiveforservicebrokerdialog">-CertificateActiveForServiceBrokerDialog</h5>
-<p>Microsoft has not provided a description so we can only assume the cert is active for service broker dialog<br></p>
+<p>Enables the TDE certificate for Service Broker dialog security in addition to database encryption.<br />
+Use this when your databases utilize Service Broker and need certificate-based dialog security.<br></p>
 <table>
 <thead>
 <tr>
@@ -886,7 +890,8 @@ By default, certs will last 5 years<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase for TDE encryption via pipeline.<br />
+Allows filtering and processing specific databases before encryption, useful for complex selection criteria.<br></p>
 <table>
 <thead>
 <tr>
@@ -914,8 +919,9 @@ By default, certs will last 5 years<br></p>
 </tbody>
 </table>
 <h5 id="alluserdatabases">-AllUserDatabases</h5>
-<p>Run command against all user databases<br />
-This was added to emphasize that all user databases will be encrypted<br></p>
+<p>Encrypts all user databases on the instance, excluding system databases (master, model, tempdb, msdb).<br />
+Use this for compliance initiatives when you need to encrypt every user database quickly.<br />
+System databases are automatically excluded as they cannot be encrypted with TDE.<br></p>
 <table>
 <thead>
 <tr>
@@ -943,7 +949,8 @@ This was added to emphasize that all user databases will be encrypted<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If EncryptorName is specified and certificate does not exist, one will be created with the given Encryptor Name.<br></p>
+<p>Creates a new certificate with the specified EncryptorName if it doesn't exist in the master database.<br />
+Requires EncryptorName to be specified. Use this when you need to establish new TDE infrastructure with specific naming conventions.<br></p>
 <table>
 <thead>
 <tr>

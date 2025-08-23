@@ -485,13 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Import-DbaCsv">Import-DbaCsv</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Efficiently imports very large (and small) CSV files into SQL Server.</p>
+<p>Imports CSV files into SQL Server tables using high-performance bulk copy operations.</p>
 <h2 id="description">Description</h2>
-<p>Import-DbaCsv takes advantage of .NET's super fast SqlBulkCopy class to import CSV files into SQL Server.</p>
-<p>The entire import is performed within a transaction, so if a failure occurs or the script is aborted, no changes will persist.</p>
-<p>If the table or view specified does not exist and -AutoCreateTable, it will be automatically created using slow and inefficient but accommodating data types.</p>
-<p>This importer supports fields spanning multiple lines. The only restriction is that they must be quoted, otherwise it would not be possible to distinguish between malformed data and multi-line values.</p>
-<p>Able to read gzip compressed CSV files if the filename ends with &quot;.csv.gz&quot;</p>
+<p>Import-DbaCsv uses .NET's SqlBulkCopy class to efficiently load CSV data into SQL Server tables, handling files of any size from small datasets to multi-gigabyte imports. The function wraps the entire operation in a transaction, so any failure or interruption rolls back all changes automatically.</p>
+<p>When the target table doesn't exist, you can use -AutoCreateTable to create it on the fly with basic nvarchar(max) columns. For production use, create your table first with proper data types and constraints. The function intelligently maps CSV columns to table columns by name, with fallback to ordinal position when needed.</p>
+<p>Supports various CSV formats including custom delimiters, quoted fields, gzip compression (.csv.gz files), and multi-line values within quoted fields. Column mapping lets you import specific columns or rename them during import, while schema detection can automatically place data in the correct schema based on filename patterns.</p>
+<p>Perfect for ETL processes, data migrations, or loading reference data where you need reliable, fast imports with proper error handling and transaction safety.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Import-DbaCsv
     [[-Path] &lt;Object[]&gt;]
@@ -623,7 +622,8 @@ In this example the first CSV field is inserted into SQL column 'FirstName' and 
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the name of the database the CSV will be imported into. Options for this this parameter are  auto-populated from the server. <br></p>
+<p>Specifies the target database for the CSV import. The database must exist on the SQL Server instance.<br />
+Use this to direct your data load to the appropriate database, whether it's a staging, ETL, or production database. <br></p>
 <table>
 <thead>
 <tr>
@@ -652,7 +652,8 @@ In this example the first CSV field is inserted into SQL column 'FirstName' and 
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies path to the CSV file(s) to be imported. Multiple files may be imported at once.<br></p>
+<p>Specifies the file path to CSV files for import. Supports single files, multiple files, or pipeline input from Get-ChildItem.<br />
+Accepts .csv files and compressed .csv.gz files for large datasets with automatic decompression.<br></p>
 <table>
 <thead>
 <tr>
@@ -710,11 +711,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>Specifies the SQL table or view where CSV will be imported into.<br />
-If a table name is not specified, the table name will be automatically determined from the filename.<br />
-If the table specified does not exist and -AutoCreateTable, it will be automatically created using slow and inefficient but accommodating data types.<br />
-If the automatically generated table datatypes do not work for you, please create the table prior to import.<br />
-If you want to import specific columns from a CSV, create a view with corresponding columns.<br></p>
+<p>Specifies the destination table name. If omitted, uses the CSV filename as the table name.<br />
+The table will be created automatically with -AutoCreateTable using nvarchar(max) columns, but for production use, create the table first with proper data types and constraints.<br></p>
 <table>
 <thead>
 <tr>
@@ -742,9 +740,8 @@ If you want to import specific columns from a CSV, create a view with correspond
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>Specifies the schema in which the SQL table or view where CSV will be imported into resides. Default is dbo.<br />
-If a schema does not currently exist, it will be created, after a prompt to confirm this. Authorization will be set to dbo by default.<br />
-This parameter overrides -UseFileNameForSchema.<br></p>
+<p>Specifies the target schema for the table. Defaults to 'dbo' if not specified.<br />
+If the schema doesn't exist, it will be created automatically when using -AutoCreateTable. This parameter takes precedence over -UseFileNameForSchema.<br></p>
 <table>
 <thead>
 <tr>
@@ -772,7 +769,8 @@ This parameter overrides -UseFileNameForSchema.<br></p>
 </tbody>
 </table>
 <h5 id="truncate">-Truncate</h5>
-<p>If this switch is enabled, the destination table will be truncated prior to import.<br></p>
+<p>Removes all existing data from the destination table before importing. The truncate operation is part of the transaction.<br />
+Use this for full data refreshes where you want to replace all existing data with the CSV contents.<br></p>
 <table>
 <thead>
 <tr>
@@ -800,8 +798,8 @@ This parameter overrides -UseFileNameForSchema.<br></p>
 </tbody>
 </table>
 <h5 id="delimiter">-Delimiter</h5>
-<p>Specifies the delimiter used in the imported file(s). If no delimiter is specified, comma is assumed.<br />
-Valid delimiters are '<code>t</code>, '|', ';',' ' and ',' (tab, pipe, semicolon, space, and comma).<br></p>
+<p>Sets the field separator character used in the CSV file. Defaults to comma if not specified.<br />
+Common values include comma (,), tab (`t), pipe (|), semicolon (;), or space for different export formats from various systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -829,7 +827,8 @@ Valid delimiters are '<code>t</code>, '|', ';',' ' and ',' (tab, pipe, semicolon
 </tbody>
 </table>
 <h5 id="singlecolumn">-SingleColumn</h5>
-<p>Specifies that the file contains a single column of data. Otherwise, the delimiter check bombs.<br></p>
+<p>Indicates the CSV contains only one column of data without delimiters. Use this for simple lists or single-value imports.<br />
+Prevents the function from failing when no delimiter is found in the file content.<br></p>
 <table>
 <thead>
 <tr>
@@ -857,7 +856,8 @@ Valid delimiters are '<code>t</code>, '|', ';',' ' and ',' (tab, pipe, semicolon
 </tbody>
 </table>
 <h5 id="batchsize">-BatchSize</h5>
-<p>Specifies the batch size for the import. Defaults to 50000.<br></p>
+<p>Controls how many rows are sent to SQL Server in each batch during the bulk copy operation. Defaults to 50,000.<br />
+Larger batches are generally more efficient but use more memory, while smaller batches provide better granular control and error isolation.<br></p>
 <table>
 <thead>
 <tr>
@@ -885,7 +885,8 @@ Valid delimiters are '<code>t</code>, '|', ';',' ' and ',' (tab, pipe, semicolon
 </tbody>
 </table>
 <h5 id="notifyafter">-NotifyAfter</h5>
-<p>Specifies the import row count interval for reporting progress. A notification will be shown after each group of this many rows has been imported.<br></p>
+<p>Sets how often progress notifications are displayed during the import, measured in rows. Defaults to 50,000.<br />
+Lower values provide more frequent updates but may slow the import slightly, while higher values reduce overhead for very large files.<br></p>
 <table>
 <thead>
 <tr>
@@ -913,9 +914,8 @@ Valid delimiters are '<code>t</code>, '|', ';',' ' and ',' (tab, pipe, semicolon
 </tbody>
 </table>
 <h5 id="tablelock">-TableLock</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to acquire a table lock will be used.<br />
-Per Microsoft &quot;Obtain a bulk update lock for the duration of the bulk copy operation. When not<br />
-specified, row locks are used.&quot;<br></p>
+<p>Acquires an exclusive table lock for the duration of the import instead of using row-level locks.<br />
+Improves performance for large imports by reducing lock overhead, but blocks other operations on the table during the import.<br></p>
 <table>
 <thead>
 <tr>
@@ -943,8 +943,8 @@ specified, row locks are used.&quot;<br></p>
 </tbody>
 </table>
 <h5 id="checkconstraints">-CheckConstraints</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to check constraints will be used.<br />
-Per Microsoft &quot;Check constraints while data is being inserted. By default, constraints are not checked.&quot;<br></p>
+<p>Enforces check constraints, foreign keys, and other table constraints during the import. By default, constraints are not checked for performance.<br />
+Enable this when data integrity validation is critical, but expect slower import performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -972,8 +972,8 @@ Per Microsoft &quot;Check constraints while data is being inserted. By default, 
 </tbody>
 </table>
 <h5 id="firetriggers">-FireTriggers</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to allow insert triggers to be executed will be used.<br />
-Per Microsoft &quot;When specified, cause the server to fire the insert triggers for the rows being inserted into the database.&quot;<br></p>
+<p>Executes INSERT triggers on the destination table during the bulk copy operation. By default, triggers are not fired for performance.<br />
+Use this when your triggers perform essential business logic like auditing, logging, or cascading updates that must run during import.<br></p>
 <table>
 <thead>
 <tr>
@@ -1001,8 +1001,8 @@ Per Microsoft &quot;When specified, cause the server to fire the insert triggers
 </tbody>
 </table>
 <h5 id="keepidentity">-KeepIdentity</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to keep identity values from the source will be used.<br />
-Per Microsoft &quot;Preserve source identity values. When not specified, identity values are assigned by the destination.&quot;<br></p>
+<p>Preserves identity column values from the CSV instead of generating new ones. By default, the destination assigns new identity values.<br />
+Use this when migrating data and you need to maintain existing primary key values or referential integrity.<br></p>
 <table>
 <thead>
 <tr>
@@ -1030,8 +1030,8 @@ Per Microsoft &quot;Preserve source identity values. When not specified, identit
 </tbody>
 </table>
 <h5 id="keepnulls">-KeepNulls</h5>
-<p>If this switch is enabled, the SqlBulkCopy option to keep NULL values in the table will be used.<br />
-Per Microsoft &quot;Preserve null values in the destination table regardless of the settings for default values. When not specified, null values are replaced by default values where applicable.&quot;<br></p>
+<p>Preserves NULL values from the CSV instead of replacing them with column default values.<br />
+Use this when your data intentionally contains NULLs that should be maintained, rather than having them replaced by table defaults.<br></p>
 <table>
 <thead>
 <tr>
@@ -1059,7 +1059,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="column">-Column</h5>
-<p>Import only specific columns. To remap column names, use the ColumnMap.<br></p>
+<p>Imports only the specified columns from the CSV file, ignoring all others. Column names must match exactly.<br />
+Use this to selectively load data when you only need certain fields, reducing import time and storage requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -1087,7 +1088,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="columnmap">-ColumnMap</h5>
-<p>By default, the bulk copy tries to automap columns. When it doesn't work as desired, this parameter will help. Check out the examples for more information.<br></p>
+<p>Maps CSV columns to different table column names using a hashtable. Keys are CSV column names, values are table column names.<br />
+Use this when your CSV headers don't match your table structure or when importing from systems with different naming conventions.<br></p>
 <table>
 <thead>
 <tr>
@@ -1115,7 +1117,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="keepordinalorder">-KeepOrdinalOrder</h5>
-<p>By default, the importer will attempt to map exact-match columns names from the source document to the target table. Using this parameter will keep the ordinal order instead.<br></p>
+<p>Maps columns by position rather than by name matching. The first CSV column goes to the first table column, second to second, etc.<br />
+Use this when column names don't match but the order is correct, or when dealing with files that have inconsistent header naming.<br></p>
 <table>
 <thead>
 <tr>
@@ -1143,7 +1146,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="autocreatetable">-AutoCreateTable</h5>
-<p>Creates a table if it does not already exist. The table will be created with sub-optimal data types such as nvarchar(max)<br></p>
+<p>Creates the destination table automatically if it doesn't exist, using nvarchar(max) for all columns.<br />
+Convenient for quick imports or testing, but for production use, create tables manually with appropriate data types, indexes, and constraints.<br></p>
 <table>
 <thead>
 <tr>
@@ -1171,7 +1175,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="noprogress">-NoProgress</h5>
-<p>The progress bar is pretty but can slow down imports. Use this parameter to quietly import.<br></p>
+<p>Disables the progress bar display during import to improve performance, especially for very large files.<br />
+Use this in automated scripts or when maximum import speed is more important than visual progress feedback.<br></p>
 <table>
 <thead>
 <tr>
@@ -1199,8 +1204,8 @@ Per Microsoft &quot;Preserve null values in the destination table regardless of 
 </tbody>
 </table>
 <h5 id="noheaderrow">-NoHeaderRow</h5>
-<p>By default, the first row is used to determine column names for the data being imported.<br />
-Use this switch if the first row contains data and not column names.<br></p>
+<p>Treats the first row as data instead of column headers. Use this when your CSV file starts directly with data rows.<br />
+When enabled, columns are mapped by ordinal position and you'll need to ensure your target table column order matches the CSV.<br></p>
 <table>
 <thead>
 <tr>
@@ -1228,13 +1233,8 @@ Use this switch if the first row contains data and not column names.<br></p>
 </tbody>
 </table>
 <h5 id="usefilenameforschema">-UseFileNameForSchema</h5>
-<p>If this switch is enabled, the script will try to find the schema name in the input file by looking for a period (.) in the file name.<br />
-If used with the -Table parameter you may still specify the target table name. If -Table is not used the file name after the first period will<br />
-be used for the table name.<br />
-For example test.data.csv will import the csv contents to a table in the test schema.<br />
-If it finds one it will use the file name up to the first period as the schema. If there is no period in the filename it will default to dbo.<br />
-If a schema does not currently exist, it will be created, after a prompt to confirm this. Authorization will be set to dbo by default.<br />
-This behaviour will be overridden if the -Schema parameter is specified.<br></p>
+<p>Extracts the schema name from the filename using the first period as a delimiter. For example, 'sales.customers.csv' imports to the 'sales' schema.<br />
+If no period is found, defaults to 'dbo'. The schema will be created if it doesn't exist. This parameter is ignored if -Schema is explicitly specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -1262,8 +1262,8 @@ This behaviour will be overridden if the -Schema parameter is specified.<br></p>
 </tbody>
 </table>
 <h5 id="quote">-Quote</h5>
-<p>Defines the default quote character wrapping every field.<br />
-Default: double-quotes<br></p>
+<p>Specifies the character used to quote fields containing delimiters or special characters. Defaults to double-quote (&quot;).<br />
+Change this when your CSV uses different quoting conventions, such as single quotes from certain export tools.<br></p>
 <table>
 <thead>
 <tr>
@@ -1291,9 +1291,8 @@ Default: double-quotes<br></p>
 </tbody>
 </table>
 <h5 id="escape">-Escape</h5>
-<p>Defines the default escape character letting insert quotation characters inside a quoted field.<br />
-The escape character can be the same as the quote character.<br />
-Default: double-quotes<br></p>
+<p>Specifies the character used to escape quote characters within quoted fields. Defaults to double-quote (&quot;).<br />
+Modify this when dealing with CSV files that use different escaping conventions, such as backslash escaping.<br></p>
 <table>
 <thead>
 <tr>
@@ -1321,8 +1320,8 @@ Default: double-quotes<br></p>
 </tbody>
 </table>
 <h5 id="comment">-Comment</h5>
-<p>Defines the default comment character indicating that a line is commented out.<br />
-Default: hashtag<br></p>
+<p>Specifies the character that marks comment lines to be ignored during import. Defaults to hashtag (#).<br />
+Use this when your CSV files contain comment lines with metadata or instructions that should be skipped.<br></p>
 <table>
 <thead>
 <tr>
@@ -1350,7 +1349,8 @@ Default: hashtag<br></p>
 </tbody>
 </table>
 <h5 id="trimmingoption">-TrimmingOption</h5>
-<p>Determines which values should be trimmed. Default is &quot;None&quot;. Options are All, None, UnquotedOnly and QuotedOnly.<br></p>
+<p>Controls automatic whitespace removal from field values. Options are All, None, UnquotedOnly, or QuotedOnly.<br />
+Use 'All' to clean up data with inconsistent spacing, or 'None' to preserve exact formatting when whitespace is significant.<br></p>
 <table>
 <thead>
 <tr>
@@ -1382,7 +1382,8 @@ Default: hashtag<br></p>
 </tbody>
 </table>
 <h5 id="buffersize">-BufferSize</h5>
-<p>Defines the default buffer size. The default BufferSize is 4096.<br></p>
+<p>Sets the internal buffer size in bytes for reading the CSV file. Defaults to 4096 bytes.<br />
+Increase this value for better performance with very large files, but it will use more memory during the import process.<br></p>
 <table>
 <thead>
 <tr>
@@ -1410,8 +1411,8 @@ Default: hashtag<br></p>
 </tbody>
 </table>
 <h5 id="parseerroraction">-ParseErrorAction</h5>
-<p>By default, the parse error action throws an exception and ends the import.<br />
-You can also choose AdvanceToNextLine which basically ignores parse errors.<br></p>
+<p>Determines how to handle malformed rows during import. 'ThrowException' stops the import, 'AdvanceToNextLine' skips bad rows.<br />
+Use 'AdvanceToNextLine' for importing data with known quality issues where you want to load as much valid data as possible.<br></p>
 <table>
 <thead>
 <tr>
@@ -1443,8 +1444,8 @@ You can also choose AdvanceToNextLine which basically ignores parse errors.<br><
 </tbody>
 </table>
 <h5 id="encoding">-Encoding</h5>
-<p>By default, set to UTF-8.<br />
-The encoding of the file.<br></p>
+<p>Specifies the text encoding of the CSV file. Defaults to UTF-8.<br />
+Change this when dealing with files from legacy systems that use different encodings like ASCII or when dealing with international character sets.<br></p>
 <table>
 <thead>
 <tr>
@@ -1476,7 +1477,8 @@ The encoding of the file.<br></p>
 </tbody>
 </table>
 <h5 id="nullvalue">-NullValue</h5>
-<p>The value which denotes a DbNull-value.<br></p>
+<p>Specifies which text value in the CSV should be treated as SQL NULL. Common values include 'NULL', 'null', or empty strings.<br />
+Use this when your source system exports NULL values as specific text strings that need to be converted to database NULLs.<br></p>
 <table>
 <thead>
 <tr>
@@ -1504,7 +1506,8 @@ The encoding of the file.<br></p>
 </tbody>
 </table>
 <h5 id="maxquotedfieldlength">-MaxQuotedFieldLength</h5>
-<p>The maximum length (in bytes) for any quoted field.<br></p>
+<p>Sets the maximum allowed length in bytes for quoted fields to prevent memory issues with malformed data.<br />
+Increase this when working with legitimate large text fields, or decrease it to catch data quality issues early.<br></p>
 <table>
 <thead>
 <tr>
@@ -1532,7 +1535,8 @@ The encoding of the file.<br></p>
 </tbody>
 </table>
 <h5 id="skipemptyline">-SkipEmptyLine</h5>
-<p>Skip empty lines.<br></p>
+<p>Ignores completely empty lines in the CSV file during import.<br />
+Use this when your source files contain blank lines for formatting that should not create empty rows in your table.<br></p>
 <table>
 <thead>
 <tr>
@@ -1560,7 +1564,8 @@ The encoding of the file.<br></p>
 </tbody>
 </table>
 <h5 id="supportsmultiline">-SupportsMultiline</h5>
-<p>Indicates if the importer should support multiline fields.<br></p>
+<p>Allows field values to span multiple lines when properly quoted, such as addresses or comments with embedded line breaks.<br />
+Enable this when your CSV contains multi-line text data that should be preserved as single field values.<br></p>
 <table>
 <thead>
 <tr>
@@ -1588,7 +1593,8 @@ The encoding of the file.<br></p>
 </tbody>
 </table>
 <h5 id="usecolumndefault">-UseColumnDefault</h5>
-<p>Use the column default values if the field is not in the record.<br></p>
+<p>Applies table column default values when CSV fields are missing or empty.<br />
+Use this when your CSV doesn't include all table columns and you want defaults applied rather than NULLs or import failures.<br></p>
 <table>
 <thead>
 <tr>
@@ -1616,7 +1622,8 @@ The encoding of the file.<br></p>
 </tbody>
 </table>
 <h5 id="notransaction">-NoTransaction</h5>
-<p>Do not use a transaction when performing the import.<br></p>
+<p>Disables the automatic transaction wrapper, allowing partial imports to remain committed even if the operation fails.<br />
+Use this for very large imports where you want to commit data in batches, but be aware that failed imports may leave partial data.<br></p>
 <table>
 <thead>
 <tr>

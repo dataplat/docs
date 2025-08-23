@@ -485,13 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaFirewallRule">Get-DbaFirewallRule</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns firewall rules for SQL Server instances from the target computer.</p>
+<p>Retrieves Windows firewall rules for SQL Server components from target computers for network troubleshooting and security auditing.</p>
 <h2 id="description">Description</h2>
-<p>Returns firewall rules for SQL Server instances from the target computer.<br />
-As the group and the names of the firewall rules are fixed, this command<br />
-only works for rules created with New-DbaFirewallRule.</p>
-<p>This is basically a wrapper around Get-NetFirewallRule executed at the target computer.<br />
-So this only works if Get-NetFirewallRule works on the target computer.</p>
+<p>Retrieves Windows firewall rules for SQL Server components from target computers, helping DBAs troubleshoot connectivity issues and audit network security configurations. This command queries firewall rules for the SQL Server Engine, Browser service, and Dedicated Admin Connection (DAC) to identify which ports are open and what programs are allowed through the firewall.</p>
+<p>Most useful when SQL Server connections are failing and you need to verify firewall rules are correctly configured, or when conducting security audits to document which SQL Server ports are exposed. The command only works with standardized firewall rules created by New-DbaFirewallRule, as it relies on specific group names and naming conventions.</p>
+<p>This is a wrapper around Get-NetFirewallRule executed at the target computer, so the NetSecurity PowerShell module must be available on the remote system. The command returns detailed information including port numbers, protocols, and executable paths for each firewall rule.</p>
 <p>The functionality is currently limited. Help to extend the functionality is welcome.</p>
 <p>As long as you can read this note here, there may be breaking changes in future versions.<br />
 So please review your scripts using this command after updating dbatools.</p>
@@ -586,16 +584,15 @@ The value &quot;AllInstance&quot; only uses the computer name part of SqlInstanc
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Returns firewall rules for the given type(s).<br />
+<p>Specifies which SQL Server firewall rule types to retrieve from the target computer.<br />
+Use this when you need to focus on specific SQL Server components during network troubleshooting or security audits.<br />
 Valid values are:</p>
 <ul>
-<li>Engine - for the SQL Server instance</li>
-<li>Browser - for the SQL Server Browser</li>
-<li>DAC - for the dedicated admin connection (DAC)</li>
-<li>AllInstance - for all firewall rules on the target computer related to SQL Server<br />
-If this parameter is not used, the firewall rule for the SQL Server instance will be returned<br />
-and in case the instance is listening on a port other than 1433,<br />
-also the firewall rule for the SQL Server Browser will be returned.<br></li>
+<li>Engine - Returns firewall rules for the SQL Server Database Engine service</li>
+<li>Browser - Returns firewall rules for the SQL Server Browser service (UDP 1434)</li>
+<li>DAC - Returns firewall rules for the Dedicated Admin Connection</li>
+<li>AllInstance - Returns all SQL Server-related firewall rules on the target computer<br />
+When omitted, returns Engine and DAC rules for the specified instance, plus Browser rules if the instance uses a non-standard port.<br></li>
 </ul>
 <table>
 <thead>

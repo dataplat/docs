@@ -485,14 +485,13 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaAgentJobOwner">Set-DbaAgentJobOwner</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets SQL Agent job owners with a desired login if jobs do not match that owner.</p>
+<p>Updates SQL Server Agent job ownership to ensure jobs are owned by a specific login</p>
 <h2 id="description">Description</h2>
-<p>This function alters SQL Agent Job ownership to match a specified login if their current owner does not match the target login.</p>
-<p>By default, the target login will be 'sa',<br />
-but the the user may specify a different login for ownership.</p>
-<p>This be applied to all local (non MultiServer) jobs or only to a select collection of jobs.</p>
+<p>This function standardizes SQL Agent job ownership by updating jobs that don't match a specified owner login. It's commonly used for security compliance, post-migration cleanup, and environment standardization where consistent job ownership is required.</p>
+<p>By default, jobs are reassigned to the 'sa' account (or the renamed sysadmin account if 'sa' was renamed), but you can specify any valid login. The function automatically detects renamed 'sa' accounts by finding the login with ID 1.</p>
+<p>Only local (non-MultiServer) jobs are processed by default, though you can target specific jobs or exclude certain ones. The function validates that the target login exists and prevents assignment to Windows groups, which cannot own SQL Agent jobs.</p>
+<p>Jobs already owned by the target login are skipped, and detailed status information is returned for each job processed.</p>
 <p>Best practice reference: <a href="https://www.itprotoday.com/sql-server-tip-assign-ownership-jobs-sysadmin-account">https://www.itprotoday.com/sql-server-tip-assign-ownership-jobs-sysadmin-account</a></p>
-<p>If the 'sa' account was renamed, the new name will be used.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaAgentJobOwner
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -591,7 +590,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>Specifies the job(s) to process. Options for this list are auto-populated from the server. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies which SQL Agent jobs to update ownership for. Accepts job names as strings and supports tab completion from the target server.<br />
+Use this when you need to update ownership for specific jobs rather than processing all jobs on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -619,7 +619,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludejob">-ExcludeJob</h5>
-<p>Specifies the job(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies SQL Agent jobs to skip during the ownership update process. Accepts job names as strings with tab completion.<br />
+Useful for excluding critical jobs or jobs that must retain their current ownership for security or operational reasons.<br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +648,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaAgentJob<br></p>
+<p>Accepts SQL Agent job objects from the pipeline, typically from Get-DbaAgentJob output.<br />
+Use this for advanced filtering scenarios where you need to process jobs based on complex criteria like owner, category, or schedule properties.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,7 +677,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>Specifies the login that you wish check for ownership. This defaults to 'sa' or the sysadmin name if sa was renamed. This must be a valid security principal which exists on the target server.<br></p>
+<p>Specifies the target login account that should own the SQL Agent jobs. Defaults to 'sa' or automatically detects the renamed sysadmin account (login ID 1).<br />
+Must be a valid SQL login or Windows account that exists on the server. Cannot be a Windows group as they cannot own SQL Agent jobs.<br></p>
 <table>
 <thead>
 <tr>

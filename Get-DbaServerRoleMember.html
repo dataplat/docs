@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaServerRoleMember">Get-DbaServerRoleMember</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get members of server roles for each instance(s) of SQL Server.</p>
+<p>Retrieves server-level role memberships for security auditing and compliance reporting.</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaServerRoleMember returns connected SMO object for server roles for each instance(s) of SQL Server.</p>
+<p>Returns detailed information about which logins are members of server-level roles like sysadmin, dbcreator, and securityadmin. Essential for security audits, compliance reviews, and troubleshooting permission issues. Shows both the role assignments and provides access to the underlying SMO objects for further analysis. Supports filtering by specific roles or logins to focus on particular security concerns.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaServerRoleMember
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -593,7 +593,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="serverrole">-ServerRole</h5>
-<p>The role(s) to process. If unspecified, all roles will be processed.<br></p>
+<p>Specifies which server roles to check for membership. Accepts role names like 'sysadmin', 'dbcreator', 'securityadmin', or custom server roles.<br />
+Use this when you need to focus your audit on specific high-privilege roles or investigate particular security concerns.<br></p>
 <table>
 <thead>
 <tr>
@@ -621,7 +622,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeserverrole">-ExcludeServerRole</h5>
-<p>The role(s) to exclude.<br></p>
+<p>Excludes specified server roles from the membership report. Useful when you want to see all role memberships except certain roles.<br />
+Commonly used to exclude low-privilege roles like 'public' when focusing on elevated permissions during security reviews.<br></p>
 <table>
 <thead>
 <tr>
@@ -649,7 +651,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The login(s) to process. If unspecified, all logins will be processed.<br></p>
+<p>Filters results to show only server role memberships for specific logins. Accepts login names including Windows accounts, SQL logins, and service accounts.<br />
+Use this when investigating permissions for particular users or troubleshooting access issues for specific accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -677,7 +680,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludefixedrole">-ExcludeFixedRole</h5>
-<p>Filter the fixed server-level roles. Only applies to SQL Server 2017 that supports creation of server-level roles.<br></p>
+<p>Excludes built-in server roles like sysadmin, securityadmin, and dbcreator, showing only custom server roles created by your organization.<br />
+Only available on SQL Server 2017 and later which supports user-defined server roles. Use this to audit custom role assignments in environments with specialized security models.<br></p>
 <table>
 <thead>
 <tr>

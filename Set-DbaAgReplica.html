@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaAgReplica">Set-DbaAgReplica</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the properties for a replica to an availability group on a SQL Server instance.</p>
+<p>Modifies configuration properties of existing availability group replicas.</p>
 <h2 id="description">Description</h2>
-<p>Sets the properties for a replica to an availability group on a SQL Server instance.</p>
-<p>Automatically creates a database mirroring endpoint if required.</p>
+<p>Modifies configuration properties of existing availability group replicas such as availability mode, failover behavior, backup priority, and read-only routing settings. This function is used for ongoing management and tuning of availability groups after initial setup, allowing you to adjust replica behavior without recreating the availability group.</p>
+<p>Common use cases include changing synchronous replicas to asynchronous for performance, adjusting backup priorities to control where backups run, configuring automatic failover settings, and setting up read-only routing for load balancing read workloads across secondary replicas.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaAgReplica
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -594,7 +594,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>The availability group of the replica.<br></p>
+<p>Specifies the name of the availability group that contains the replica to modify.<br />
+Required when using SqlInstance parameter to identify which availability group the replica belongs to.<br></p>
 <table>
 <thead>
 <tr>
@@ -622,7 +623,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="replica">-Replica</h5>
-<p>The replicas to modify.<br></p>
+<p>Specifies the name of the availability group replica to modify. This is the server instance name that hosts the replica.<br />
+Use this when targeting a specific replica within an availability group for configuration changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -650,7 +652,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitymode">-AvailabilityMode</h5>
-<p>Sets the availability mode of the availability group replica. Options are: AsynchronousCommit and SynchronousCommit. SynchronousCommit is default.<br></p>
+<p>Controls the data synchronization mode between primary and secondary replicas. SynchronousCommit ensures zero data loss but may impact performance, while AsynchronousCommit prioritizes performance<br />
+over guaranteed data protection.<br />
+Change this when you need to balance performance requirements against data protection needs across different replicas.<br></p>
 <table>
 <thead>
 <tr>
@@ -682,7 +686,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="failovermode">-FailoverMode</h5>
-<p>Sets the failover mode of the availability group replica. Options are Automatic and Manual.<br></p>
+<p>Determines whether the replica can automatically failover when the primary becomes unavailable. Automatic failover requires SynchronousCommit availability mode and is typically used for high<br />
+availability scenarios.<br />
+Set to Manual when you want to control failover decisions or when using AsynchronousCommit replicas.<br></p>
 <table>
 <thead>
 <tr>
@@ -714,7 +720,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="backuppriority">-BackupPriority</h5>
-<p>Sets the backup priority availability group replica. Default is 50.<br></p>
+<p>Sets the backup priority for this replica on a scale of 0-100, where higher values indicate higher priority for backup operations.<br />
+Use this to control which replica should be preferred for automated backup jobs, with 0 excluding the replica from backup consideration entirely.<br></p>
 <table>
 <thead>
 <tr>
@@ -742,7 +749,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="connectionmodeinprimaryrole">-ConnectionModeInPrimaryRole</h5>
-<p>Sets the connection intent modes of an Availability Replica in primary role.<br></p>
+<p>Controls what types of connections are allowed when this replica is the primary. AllowAllConnections permits both read-write and read-only connections, while AllowReadWriteConnections only allows<br />
+read-write access.<br />
+Typically left as AllowAllConnections unless you need to restrict read-only workloads from connecting to the primary.<br></p>
 <table>
 <thead>
 <tr>
@@ -774,7 +783,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="connectionmodeinsecondaryrole">-ConnectionModeInSecondaryRole</h5>
-<p>Sets the connection modes of an Availability Replica in secondary role.<br></p>
+<p>Determines connection access when this replica is secondary. Options include AllowNoConnections, AllowReadIntentConnectionsOnly (for read-only workloads), or AllowAllConnections.<br />
+Configure this to enable read-only workloads on secondary replicas for reporting or to completely block connections for backup-only replicas.<br></p>
 <table>
 <thead>
 <tr>
@@ -806,9 +816,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="seedingmode">-SeedingMode</h5>
-<p>Specifies how the secondary replica will be initially seeded.<br />
-Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.<br />
-Manual requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica.<br></p>
+<p>Controls the database initialization method for new databases added to the availability group. Automatic performs direct seeding over the network without manual backup/restore steps, while Manual<br />
+requires traditional backup and restore operations.<br />
+Choose Automatic for convenience and reduced administrative overhead, or Manual when you need control over backup/restore timing or have network bandwidth constraints.<br></p>
 <table>
 <thead>
 <tr>
@@ -840,7 +850,8 @@ Manual requires you to create a backup of the database on the primary replica an
 </tbody>
 </table>
 <h5 id="sessiontimeout">-SessionTimeout</h5>
-<p>How many seconds an availability replica waits for a ping response from a connected replica before considering the connection to have failed.<br></p>
+<p>Sets the timeout period in seconds for detecting communication failures between availability replicas. Values below 10 seconds can cause false failure detection in busy environments.<br />
+Increase this value in high-latency network environments or decrease it when you need faster failure detection, keeping the 10-second minimum recommendation in mind.<br></p>
 <table>
 <thead>
 <tr>
@@ -868,7 +879,8 @@ Manual requires you to create a backup of the database on the primary replica an
 </tbody>
 </table>
 <h5 id="endpointurl">-EndpointUrl</h5>
-<p>The endpoint URL.<br></p>
+<p>Specifies the URL endpoint used for data mirroring communication between replicas, typically in the format 'TCP://servername:port'.<br />
+Update this when changing network configurations, server names, or port assignments for availability group communication.<br></p>
 <table>
 <thead>
 <tr>
@@ -896,7 +908,8 @@ Manual requires you to create a backup of the database on the primary replica an
 </tbody>
 </table>
 <h5 id="readonlyroutingconnectionurl">-ReadonlyRoutingConnectionUrl</h5>
-<p>Sets the read only routing connection url for the availability replica.<br></p>
+<p>Specifies the connection string used by the availability group listener to route read-only connections to this secondary replica.<br />
+Required when setting up read-only routing to distribute read workloads across secondary replicas for load balancing.<br></p>
 <table>
 <thead>
 <tr>
@@ -924,7 +937,9 @@ Manual requires you to create a backup of the database on the primary replica an
 </tbody>
 </table>
 <h5 id="readonlyroutinglist">-ReadOnlyRoutingList</h5>
-<p>Sets the read-only routing list for when this replica is in the primary role.<br></p>
+<p>Defines the ordered list of secondary replicas that should receive read-only connections when this replica is primary. Accepts arrays for load-balanced routing or simple arrays for priority-based<br />
+routing.<br />
+Use this to establish read-only routing policies that distribute read workloads across available secondary replicas.<br></p>
 <table>
 <thead>
 <tr>
@@ -952,7 +967,8 @@ Manual requires you to create a backup of the database on the primary replica an
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAgReplica.<br></p>
+<p>Accepts availability group replica objects from Get-DbaAgReplica for pipeline operations.<br />
+Use this to modify multiple replicas or when working with replica objects retrieved from previous commands.<br></p>
 <table>
 <thead>
 <tr>

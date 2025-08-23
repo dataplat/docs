@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaPageFileSetting">Get-DbaPageFileSetting</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns information on the page file configuration of the target computer.</p>
+<p>Retrieves Windows page file configuration from SQL Server host computers for performance analysis.</p>
 <h2 id="description">Description</h2>
-<p>This command uses CIM (or other, related computer management tools) to detect the page file configuration of the target computer(s).</p>
+<p>This command uses CIM to retrieve detailed Windows page file configuration from SQL Server host computers. Page file settings directly impact SQL Server performance during memory pressure scenarios, making this essential for capacity planning and troubleshooting performance issues.</p>
+<p>The function returns comprehensive details including current usage, peak usage, initial and maximum sizes, and whether page files are automatically managed by Windows. This information helps DBAs identify potential memory bottlenecks and validate that page file configurations align with SQL Server best practices.</p>
 <p>Note that this may require local administrator privileges for the relevant computers.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPageFileSetting
@@ -511,8 +512,9 @@ ServerB<br></p>
 <p>Returns a custom object displaying ComputerName, AutoPageFile, FileName, Status, LastModified, LastAccessed, AllocatedBaseSize, InitialSize, MaximumSize, PeakUsage, CurrentUsage  for ServerA<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances.<br />
-This can be the name of a computer, a SMO object, an IP address, an AD Computer object, a connection string or a SQL Instance.<br></p>
+<p>Specifies the target SQL Server host computers to retrieve page file settings from. Accepts computer names, IP addresses, or SQL Server instance names.<br />
+Use this to analyze page file configurations across your SQL Server infrastructure for capacity planning and performance troubleshooting.<br />
+Defaults to the local computer if not specified.<br></p>
 <table>
 <thead>
 <tr>

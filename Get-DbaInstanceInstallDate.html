@@ -485,11 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaInstanceInstallDate">Get-DbaInstanceInstallDate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns the install date of a SQL Instance and Windows Server.</p>
+<p>Retrieves SQL Server installation dates by querying system tables for compliance auditing and infrastructure tracking.</p>
 <h2 id="description">Description</h2>
-<p>This command returns:<br />
-SqlInstallDate<br />
-WindowsInstallDate (use -IncludeWindows)</p>
+<p>Queries system tables (sys.server_principals or sysservers) to determine when SQL Server was originally installed on each target instance. This information is essential for compliance auditing, license management, and tracking hardware refresh cycles. The function automatically handles different SQL Server versions using the appropriate system table, and can optionally retrieve the Windows OS installation date through WMI for complete infrastructure documentation. Returns structured data including computer name, instance name, and precise installation timestamps.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaInstanceInstallDate
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -584,7 +582,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Credential object used to connect to the SQL Server as a different Windows user<br></p>
+<p>Windows credentials used for WMI connection when retrieving Windows OS installation date with -IncludeWindows.<br />
+Only required when the current user lacks WMI access to the target server or when connecting across domains.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includewindows">-IncludeWindows</h5>
-<p>Includes the Windows Server Install date information<br></p>
+<p>Retrieves the Windows OS installation date in addition to SQL Server installation date using WMI.<br />
+Useful for infrastructure audits requiring both application and operating system installation timestamps.<br></p>
 <table>
 <thead>
 <tr>

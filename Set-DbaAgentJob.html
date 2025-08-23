@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaAgentJob">Set-DbaAgentJob</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set-DbaAgentJob updates a job.</p>
+<p>Modifies existing SQL Server Agent job properties and notification settings.</p>
 <h2 id="description">Description</h2>
-<p>Set-DbaAgentJob updates a job in the SQL Server Agent with parameters supplied.</p>
+<p>Updates various properties of SQL Server Agent jobs including job name, description, owner, enabled/disabled status, notification settings, and schedule assignments. This function lets you modify jobs without using SQL Server Management Studio, making it useful for standardizing job configurations across multiple instances or automating job maintenance tasks. You can update individual jobs or perform bulk changes across multiple jobs and SQL Server instances simultaneously.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaAgentJob
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -617,7 +617,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job.<br></p>
+<p>Specifies the name of the SQL Server Agent job to modify. Accepts wildcards and multiple job names.<br />
+Use this to target specific jobs for configuration changes rather than modifying all jobs on an instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -645,7 +646,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schedule">-Schedule</h5>
-<p>Schedule to attach to job. This can be more than one schedule.<br></p>
+<p>Attaches existing shared schedules to the job by name. Accepts multiple schedule names.<br />
+Use this when you need to assign predefined schedules to jobs without recreating scheduling logic.<br></p>
 <table>
 <thead>
 <tr>
@@ -673,7 +675,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="scheduleid">-ScheduleId</h5>
-<p>Schedule ID to attach to job. This can be more than one schedule ID.<br></p>
+<p>Attaches existing shared schedules to the job by their numeric ID. Accepts multiple schedule IDs.<br />
+Use this when you know the specific schedule ID numbers and want to avoid potential name conflicts.<br></p>
 <table>
 <thead>
 <tr>
@@ -701,7 +704,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="newname">-NewName</h5>
-<p>The new name for the job.<br></p>
+<p>Renames the job to the specified name. The new name must be unique within the SQL Server instance.<br />
+Use this when standardizing job names across environments or fixing naming conventions.<br></p>
 <table>
 <thead>
 <tr>
@@ -729,7 +733,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enabled">-Enabled</h5>
-<p>Enabled the job.<br></p>
+<p>Enables the job so it can be executed by SQL Server Agent schedules or manual execution.<br />
+Use this when reactivating disabled jobs or deploying jobs that should run immediately.<br></p>
 <table>
 <thead>
 <tr>
@@ -757,7 +762,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="disabled">-Disabled</h5>
-<p>Disabled the job<br></p>
+<p>Disables the job to prevent it from running on schedule or manual execution.<br />
+Use this when temporarily stopping jobs during maintenance windows or permanently deactivating obsolete jobs.<br></p>
 <table>
 <thead>
 <tr>
@@ -785,7 +791,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="description-1">-Description</h5>
-<p>The description of the job.<br></p>
+<p>Updates the job's description field with explanatory text about the job's purpose or functionality.<br />
+Use this to document what the job does, when it should run, or special requirements for maintenance teams.<br></p>
 <table>
 <thead>
 <tr>
@@ -813,7 +820,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="startstepid">-StartStepId</h5>
-<p>The identification number of the first step to execute for the job.<br></p>
+<p>Sets which job step should execute first when the job runs. Must correspond to an existing step ID within the job.<br />
+Use this when you need to change the job's execution flow or skip initial steps during testing or maintenance.<br></p>
 <table>
 <thead>
 <tr>
@@ -841,7 +849,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>The category of the job.<br></p>
+<p>Assigns the job to a specific job category for organizational purposes. Creates the category if it doesn't exist when used with -Force.<br />
+Use this to group related jobs together for easier management and reporting in SQL Server Management Studio.<br></p>
 <table>
 <thead>
 <tr>
@@ -869,7 +878,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="ownerlogin">-OwnerLogin</h5>
-<p>The name of the login that owns the job.<br></p>
+<p>Changes the job owner to the specified SQL Server login. The login must already exist on the instance.<br />
+Use this when reassigning job ownership for security compliance or when the current owner login is being removed.<br></p>
 <table>
 <thead>
 <tr>
@@ -897,9 +907,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="eventloglevel">-EventLogLevel</h5>
-<p>Specifies when to place an entry in the Microsoft Windows application log for this job.<br />
-Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;<br />
-The text value van either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
+<p>Controls when job execution results are logged to the Windows Application Event Log. Values: Never, OnSuccess, OnFailure, Always (or 0-3).<br />
+Use this to integrate job monitoring with Windows event log monitoring systems or reduce log noise by only logging failures.<br></p>
 <table>
 <thead>
 <tr>
@@ -931,9 +940,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="emaillevel">-EmailLevel</h5>
-<p>Specifies when to send an e-mail upon the completion of this job.<br />
-Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;<br />
-The text value van either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
+<p>Determines when to send email notifications about job completion. Values: Never, OnSuccess, OnFailure, Always (or 0-3).<br />
+Must be used with EmailOperator parameter. Use this to set up automated job failure notifications to the DBA team.<br></p>
 <table>
 <thead>
 <tr>
@@ -965,9 +973,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="netsendlevel">-NetsendLevel</h5>
-<p>Specifies when to send a network message upon the completion of this job.<br />
-Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;<br />
-The text value van either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
+<p>Controls when to send network messages (net send) about job completion. Values: Never, OnSuccess, OnFailure, Always (or 0-3).<br />
+Must be used with NetsendOperator parameter. Note that net send is deprecated and rarely used in modern environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -999,9 +1006,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="pagelevel">-PageLevel</h5>
-<p>Specifies when to send a page upon the completion of this job.<br />
-Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;<br />
-The text value van either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
+<p>Determines when to send pager notifications about job completion. Values: Never, OnSuccess, OnFailure, Always (or 0-3).<br />
+Must be used with PageOperator parameter. Use this for critical jobs requiring immediate attention when they fail.<br></p>
 <table>
 <thead>
 <tr>
@@ -1033,7 +1039,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="emailoperator">-EmailOperator</h5>
-<p>The e-mail name of the operator to whom the e-mail is sent when EmailLevel is reached.<br></p>
+<p>Specifies which SQL Server Agent operator receives email notifications when EmailLevel conditions are met. The operator must already exist.<br />
+Use this to assign job failure notifications to specific DBA team members or distribution lists.<br></p>
 <table>
 <thead>
 <tr>
@@ -1061,7 +1068,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="netsendoperator">-NetsendOperator</h5>
-<p>The name of the operator to whom the network message is sent.<br></p>
+<p>Specifies which SQL Server Agent operator receives network messages when NetsendLevel conditions are met. The operator must already exist.<br />
+Rarely used in modern environments due to the deprecation of the net send functionality.<br></p>
 <table>
 <thead>
 <tr>
@@ -1089,7 +1097,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="pageoperator">-PageOperator</h5>
-<p>The name of the operator to whom a page is sent.<br></p>
+<p>Specifies which SQL Server Agent operator receives pager notifications when PageLevel conditions are met. The operator must already exist.<br />
+Use this for high-priority jobs where immediate mobile notification is required for on-call DBAs.<br></p>
 <table>
 <thead>
 <tr>
@@ -1117,9 +1126,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="deletelevel">-DeleteLevel</h5>
-<p>Specifies when to delete the job.<br />
-Allowed values 0, &quot;Never&quot;, 1, &quot;OnSuccess&quot;, 2, &quot;OnFailure&quot;, 3, &quot;Always&quot;<br />
-The text value van either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
+<p>Controls when the job should automatically delete itself after execution. Values: Never, OnSuccess, OnFailure, Always (or 0-3).<br />
+Use this for one-time jobs like data migrations or temporary maintenance tasks that should clean up after completion.<br></p>
 <table>
 <thead>
 <tr>
@@ -1151,7 +1159,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.<br></p>
+<p>Bypasses validation checks and creates missing job categories when specified with the Category parameter.<br />
+Use this when you want to create new categories during job updates without having to pre-create them separately.<br></p>
 <table>
 <thead>
 <tr>
@@ -1179,7 +1188,8 @@ The text value van either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping job objects<br></p>
+<p>Accepts SQL Server Agent job objects from the pipeline, typically from Get-DbaAgentJob output.<br />
+Use this to chain job operations together or when working with job objects retrieved from other dbatools commands.<br></p>
 <table>
 <thead>
 <tr>

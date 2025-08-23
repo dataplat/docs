@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Add-DbaRegServer">Add-DbaRegServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Adds registered servers to SQL Server Central Management Server (CMS) or Local Server Groups</p>
+<p>Registers SQL Server instances to Central Management Server or Local Server Groups in SSMS</p>
 <h2 id="description">Description</h2>
-<p>Adds registered servers to SQL Server Central Management Server (CMS) or Local Server Groups. If you need more flexibility, look into Import-DbaRegServer which<br />
-accepts multiple kinds of input and allows you to add reg servers from different CMSes.</p>
+<p>Registers SQL Server instances as managed servers within SSMS, either to a Central Management Server (CMS) for enterprise-wide management or to Local Server Groups for personal organization. This allows DBAs to centrally organize and quickly connect to multiple SQL Server instances from SSMS without manually typing connection details each time. The function automatically creates server groups if they don't exist and supports various authentication methods including SQL Server, Windows, and Azure Active Directory. For importing existing registered servers from other sources, use Import-DbaRegServer instead.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Add-DbaRegServer
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -593,7 +592,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="servername">-ServerName</h5>
-<p>Server Name is the actual SQL instance name (labeled Server Name)<br></p>
+<p>Specifies the actual SQL Server instance name or network address that will be used to connect to the server.<br />
+This is the technical identifier that SSMS uses for the physical connection (e.g., &quot;sql01.domain.com,1433&quot; or &quot;sql01\INSTANCE&quot;).<br></p>
 <table>
 <thead>
 <tr>
@@ -621,7 +621,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Name is basically the nickname in SSMS Registered Server interface (labeled Registered Server Name)<br></p>
+<p>Sets the display name that appears in the SSMS Registered Servers tree or CMS interface.<br />
+Use this to give servers meaningful, recognizable names like &quot;Production HR Database&quot; instead of cryptic server names. Defaults to ServerName if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -649,7 +650,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="description-1">-Description</h5>
-<p>Adds a description for the registered server<br></p>
+<p>Provides additional details about the registered server that appear in SSMS properties.<br />
+Use this to document the server's purpose, environment, or important notes like &quot;Primary OLTP for HR applications&quot; or &quot;Read-only replica for reporting&quot;.<br></p>
 <table>
 <thead>
 <tr>
@@ -677,8 +679,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="group">-Group</h5>
-<p>Adds the registered server to a specific group.<br />
-If group does not exist it will be created<br></p>
+<p>Places the registered server into a specific organizational folder within CMS or Local Server Groups.<br />
+Creates nested groups using backslash notation like &quot;Production\OLTP&quot; or &quot;Dev\Testing&quot;. The group structure will be created automatically if it doesn't exist.<br></p>
 <table>
 <thead>
 <tr>
@@ -706,7 +708,8 @@ If group does not exist it will be created<br></p>
 </tbody>
 </table>
 <h5 id="activedirectorytenant">-ActiveDirectoryTenant</h5>
-<p>Active Directory Tenant<br></p>
+<p>Specifies the Azure Active Directory tenant ID when registering servers that use Azure AD authentication.<br />
+Required when connecting to Azure SQL Database or SQL Managed Instance with AAD credentials.<br></p>
 <table>
 <thead>
 <tr>
@@ -734,7 +737,8 @@ If group does not exist it will be created<br></p>
 </tbody>
 </table>
 <h5 id="activedirectoryuserid">-ActiveDirectoryUserId</h5>
-<p>Active Directory User id<br></p>
+<p>Sets the Azure Active Directory user principal name for AAD authentication scenarios.<br />
+Use this when you want the registered server to authenticate with a specific AAD account instead of integrated authentication.<br></p>
 <table>
 <thead>
 <tr>
@@ -762,7 +766,8 @@ If group does not exist it will be created<br></p>
 </tbody>
 </table>
 <h5 id="connectionstring">-ConnectionString</h5>
-<p>SQL Server connection string<br></p>
+<p>Provides a complete SQL Server connection string with all authentication and connection parameters.<br />
+Use this when you need specific connection properties like encryption settings, timeout values, or custom authentication methods not covered by other parameters.<br></p>
 <table>
 <thead>
 <tr>
@@ -790,7 +795,8 @@ If group does not exist it will be created<br></p>
 </tbody>
 </table>
 <h5 id="otherparams">-OtherParams</h5>
-<p>Additional parameters to append to the connection string<br></p>
+<p>Appends additional connection string parameters to the base connection.<br />
+Useful for adding specific connection properties like &quot;MultipleActiveResultSets=True&quot; or &quot;TrustServerCertificate=True&quot; without rebuilding the entire connection string.<br></p>
 <table>
 <thead>
 <tr>
@@ -818,7 +824,8 @@ If group does not exist it will be created<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows the piping of a registered server group<br></p>
+<p>Accepts a server group object from Get-DbaRegServerGroup to specify where the server should be registered.<br />
+Use this when you want to programmatically target a specific group or when piping group objects from other dbatools commands.<br></p>
 <table>
 <thead>
 <tr>
@@ -846,7 +853,8 @@ If group does not exist it will be created<br></p>
 </tbody>
 </table>
 <h5 id="serverobject">-ServerObject</h5>
-<p>SMO Server Objects (from Connect-DbaInstance)<br></p>
+<p>Accepts an existing SMO Server object from Connect-DbaInstance to register that connection.<br />
+This preserves all connection settings and authentication from the original connection, making it ideal for registering servers you've already successfully connected to.<br></p>
 <table>
 <thead>
 <tr>

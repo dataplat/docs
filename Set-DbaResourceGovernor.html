@@ -485,12 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaResourceGovernor">Set-DbaResourceGovernor</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the Resource Governor feature on the specified SQL Server to be enabled or disabled,<br />
-along with specifying an optional classifier function.</p>
+<p>Configures SQL Server Resource Governor to control workload resource allocation and sets classifier functions.</p>
 <h2 id="description">Description</h2>
-<p>In order to utilize Resource Governor, it has to be enabled for an instance and<br />
-have a classifier function specified. This function toggles the enabled status<br />
-and sets the classifier function.</p>
+<p>Configures Resource Governor settings at the SQL Server instance level to control CPU, memory, and I/O resource allocation for different workloads. Resource Governor requires both being enabled on the instance and having an optional classifier function that determines which resource pool and workload group incoming sessions should use based on login properties, application name, or other criteria.</p>
+<p>This function handles the two-step Resource Governor setup process: enabling the feature and optionally assigning a classifier function. The classifier function must be a user-defined function in the master database that returns a workload group name or ID. Without a classifier function, all sessions use the default workload group.</p>
+<p>Commonly used when implementing resource management policies to prevent resource-intensive queries from impacting critical applications, or to allocate guaranteed resources to specific users or applications during peak usage periods.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaResourceGovernor
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -582,7 +581,8 @@ and sets the classifier function.</p>
 </tbody>
 </table>
 <h5 id="enabled">-Enabled</h5>
-<p>Enables the Resource Governor.<br></p>
+<p>Enables Resource Governor on the SQL Server instance to activate workload resource management.<br />
+Use this when you need to enforce resource limits and allocations for different workload groups.<br></p>
 <table>
 <thead>
 <tr>
@@ -610,7 +610,8 @@ and sets the classifier function.</p>
 </tbody>
 </table>
 <h5 id="disabled">-Disabled</h5>
-<p>Disables the Resource Governor.<br></p>
+<p>Disables Resource Governor on the SQL Server instance, removing all resource controls and workload management.<br />
+All sessions will use unlimited resources from the default resource pool when Resource Governor is disabled.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +639,9 @@ and sets the classifier function.</p>
 </tbody>
 </table>
 <h5 id="classifierfunction">-ClassifierFunction</h5>
-<p>Sets the classifier function for Resource Governor.<br></p>
+<p>Specifies the name of a user-defined function in the master database that determines which workload group incoming sessions should use.<br />
+The function must return a workload group name or ID based on session properties like login name or application name. Use 'NULL' to remove the current classifier function and route all sessions to<br />
+the default workload group.<br></p>
 <table>
 <thead>
 <tr>

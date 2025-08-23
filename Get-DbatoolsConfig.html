@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbatoolsConfig">Get-DbatoolsConfig</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Retrieves configuration elements by name.</p>
+<p>Retrieves dbatools module configuration settings and preferences.</p>
 <h2 id="description">Description</h2>
-<p>Retrieves configuration elements by name.<br />
-Can be used to search the existing configuration list.</p>
+<p>Retrieves dbatools module configuration settings that control how dbatools functions behave. These settings include connection timeouts, default paths, email configurations, and other module preferences that affect dbatools operations. Use this command to view current settings, troubleshoot dbatools behavior, or identify what configurations are available for customization with Set-DbatoolsConfig.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbatoolsConfig
     [[-FullName] &lt;String&gt;]
@@ -516,7 +515,9 @@ Get-DbatoolsConfig
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="fullname">-FullName</h5>
 <p>Default: &quot;*&quot;<br />
-Search for configurations using the full name<br></p>
+Specifies the complete configuration key in Module.Name format to retrieve specific dbatools settings.<br />
+Use this to find exact configuration values like &quot;sql.connection.timeout&quot; or &quot;mail.smtpserver&quot; without needing to specify module and name separately.<br />
+Supports wildcards for pattern matching across all configuration keys.<br></p>
 <table>
 <thead>
 <tr>
@@ -545,8 +546,9 @@ Search for configurations using the full name<br></p>
 </table>
 <h5 id="name">-Name</h5>
 <p>Default: &quot;*&quot;<br />
-The name of the configuration element(s) to retrieve.<br />
-May be any string, supports wildcards.<br></p>
+Specifies the configuration name to search for within a specific module.<br />
+Use this with the Module parameter to find settings like &quot;timeout&quot; within the &quot;sql&quot; module or &quot;smtpserver&quot; within the &quot;mail&quot; module.<br />
+Supports wildcards for finding multiple related configuration names.<br></p>
 <table>
 <thead>
 <tr>
@@ -575,7 +577,9 @@ May be any string, supports wildcards.<br></p>
 </table>
 <h5 id="module">-Module</h5>
 <p>Default: &quot;*&quot;<br />
-Search configuration by module.<br></p>
+Specifies which dbatools module's configuration settings to retrieve.<br />
+Use this to focus on specific areas like &quot;sql&quot; for connection settings, &quot;mail&quot; for email configurations, or &quot;path&quot; for default file locations.<br />
+Commonly used modules include sql, mail, path, and logging.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +607,9 @@ Search configuration by module.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Overrides the default behavior and also displays hidden configuration values.<br></p>
+<p>Includes hidden configuration values that are normally not displayed in the output.<br />
+Use this when troubleshooting dbatools behavior or when you need to see internal configuration settings that control advanced module functionality.<br />
+Hidden settings often include debugging flags and internal module state information.<br></p>
 <table>
 <thead>
 <tr>

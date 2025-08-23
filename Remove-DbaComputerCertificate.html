@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaComputerCertificate">Remove-DbaComputerCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a computer certificate - useful for removing easily certs from remote computers</p>
+<p>Removes certificates from Windows certificate stores on local or remote computers</p>
 <h2 id="description">Description</h2>
-<p>Removes a computer certificate from a local or remote computer</p>
+<p>Removes certificates from Windows certificate stores on local or remote computers using PowerShell remoting. This is essential for managing SSL/TLS certificates used by SQL Server instances for encrypted connections and authentication. DBAs commonly use this to clean up expired certificates, remove compromised certificates during security incidents, or manage certificate lifecycle during SQL Server migrations and decommissions. The function targets specific certificates by thumbprint and can work across multiple certificate stores and folders.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaComputerCertificate
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -518,7 +518,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Removes certificate with thumbprint C2BBE81A94FEE7A26FFF86C2DFDAF6BFD28C6C94 in the User\My (Personal) store on Server1<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="thumbprint">-Thumbprint</h5>
-<p>The thumbprint of the certificate object <br></p>
+<p>Specifies the unique thumbprint(s) of the certificate(s) to remove. This is the SHA-1 hash that uniquely identifies each certificate.<br />
+Use Get-DbaComputerCertificate to find thumbprints of certificates you want to remove, commonly needed when cleaning up expired SSL certificates or removing compromised certificates. <br></p>
 <table>
 <thead>
 <tr>
@@ -547,7 +548,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer. Defaults to localhost.<br></p>
+<p>Specifies the target computer(s) where certificates will be removed. Defaults to localhost.<br />
+Use this when managing SSL certificates across multiple SQL Server instances or cleaning up certificates on remote servers during migrations.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +605,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="store">-Store</h5>
-<p>Certificate store - defaults to LocalMachine (otherwise exceptions can be thrown on remote connections)<br></p>
+<p>Specifies the certificate store location where certificates will be removed. Defaults to LocalMachine.<br />
+Use LocalMachine for system-wide certificates (typical for SQL Server SSL certificates) or CurrentUser for user-specific certificates.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +634,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="folder">-Folder</h5>
-<p>Certificate folder<br></p>
+<p>Specifies the certificate store folder (subfolder) where certificates will be removed. Defaults to 'My' (Personal certificates).<br />
+Common folders include 'My' for SSL certificates used by SQL Server, 'Root' for trusted root certificates, or 'TrustedPeople' for trusted person certificates.<br></p>
 <table>
 <thead>
 <tr>

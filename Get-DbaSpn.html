@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaSpn">Get-DbaSpn</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns a list of set service principal names for a given computer/AD account</p>
+<p>Retrieves existing Service Principal Names (SPNs) from Active Directory for SQL Server services</p>
 <h2 id="description">Description</h2>
-<p>Get a list of set SPNs. SPNs are set at the AD account level. You can either retrieve set SPNs for a computer, or any SPNs set for<br />
-a given active directory account. You can query one, or both. You'll get a list of every SPN found for either search term.</p>
+<p>Queries Active Directory to return SPNs that are currently registered for SQL Server services on specified computers or service accounts. This is essential for troubleshooting Kerberos authentication issues, as missing or duplicate SPNs prevent clients from authenticating to SQL Server using integrated security. Use this command to audit your current SPN configuration before making changes with Set-DbaSpn or when investigating authentication failures. The function returns detailed information including the service class (MSSQLSvc), port numbers, and associated Active Directory accounts.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaSpn
     [[-ComputerName] &lt;String[]&gt;]
@@ -515,7 +514,8 @@ a given active directory account. You can query one, or both. You'll get a list 
 <p>Returns a custom object with SearchTerm (ServerName) and the SPNs that were found for multiple computers<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The servers you want to return set SPNs for. This is defaulted automatically to localhost.<br></p>
+<p>Specifies the SQL Server computer names to retrieve registered SPNs for. Defaults to localhost if not specified.<br />
+Use this when you need to audit SPN configuration on specific servers or when troubleshooting Kerberos authentication issues across multiple SQL instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -543,7 +543,8 @@ a given active directory account. You can query one, or both. You'll get a list 
 </tbody>
 </table>
 <h5 id="accountname">-AccountName</h5>
-<p>The accounts you want to retrieve set SPNs for.<br></p>
+<p>Specifies the Active Directory service accounts to search for registered SQL Server SPNs. Accepts both user accounts and computer accounts ending with '$'.<br />
+Use this when you need to audit which SPNs are registered under specific service accounts or when investigating authentication issues related to particular accounts.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbSnapshot">Get-DbaDbSnapshot</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get database snapshots with details</p>
+<p>Retrieves database snapshots with their source databases, creation times, and disk usage</p>
 <h2 id="description">Description</h2>
-<p>Retrieves the list of database snapshot available, along with their base (the db they are the snapshot of) and creation time</p>
+<p>Collects information about all database snapshots on a SQL Server instance, showing which database each snapshot was created from, when it was created, and how much disk space it's consuming. This is useful for snapshot management, cleanup activities, and monitoring storage usage of point-in-time database copies. You can filter results by specific base databases or snapshot names to focus on particular snapshots of interest.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbSnapshot
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -576,7 +576,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Return information for only specific databases<br></p>
+<p>Filters results to snapshots created from specific base databases. Use this when you want to see all snapshots created from particular source databases like 'HR' or 'Accounting'.<br />
+Accepts multiple database names and is useful for focusing on snapshots from databases you're actively managing.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +605,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes snapshots created from specific base databases from the results. Use this to filter out snapshots from databases you don't want to see, such as system databases or databases managed by other<br />
+teams.<br />
+Helpful when you want a comprehensive view but need to omit certain source databases from the output.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +635,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="snapshot">-Snapshot</h5>
-<p>Return information for only specific snapshots<br></p>
+<p>Returns information for specific database snapshots by their snapshot names. Use this when you need details about particular snapshots like 'HR_BeforeUpdate_20240101' or 'Production_Backup_Snapshot'.<br />
+Accepts multiple snapshot names and is ideal for checking the status or disk usage of known snapshots.<br></p>
 <table>
 <thead>
 <tr>
@@ -660,7 +664,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesnapshot">-ExcludeSnapshot</h5>
-<p>The snapshot(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific database snapshots from the results by their snapshot names. Use this to filter out snapshots you don't want to see in the output, such as automated system snapshots or snapshots<br />
+from other environments.<br />
+Helpful for focusing on production snapshots while excluding development or test snapshots.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaWhoIsActive">Invoke-DbaWhoIsActive</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Outputs results of Adam Machanic's sp_WhoIsActive DataTable</p>
+<p>Retrieves real-time information about active SQL Server sessions and currently running queries</p>
 <h2 id="description">Description</h2>
-<p>Output results of Adam Machanic's sp_WhoIsActive</p>
+<p>Executes Adam Machanic's sp_WhoIsActive stored procedure to display detailed information about currently running sessions, active queries, and their resource consumption. This is the go-to command for troubleshooting performance issues, identifying blocking chains, and monitoring SQL Server activity in real-time. Provides comprehensive session details including wait statistics, query plans, lock information, and transaction details that would otherwise require querying multiple DMVs manually.</p>
 <p>This command was built with Adam's permission. To read more about sp_WhoIsActive, please visit:</p>
 <p>Updates: <a href="http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx">http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx</a></p>
 <p>Also, consider donating to Adam if you find this stored procedure helpful: <a href="http://tinyurl.com/WhoIsActiveDonate">http://tinyurl.com/WhoIsActiveDonate</a></p>
@@ -605,7 +605,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where sp_WhoIsActive is installed. Defaults to master. If the sp_WhoIsActive is not installed, the command will warn and exit.<br></p>
+<p>Specifies the database where sp_WhoIsActive is installed. Defaults to master if not specified.<br />
+Use this when you've installed sp_WhoIsActive in a different database like a DBA utilities database.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,10 +634,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filter">-Filter</h5>
-<p>FiltersBoth inclusive and exclusive<br />
-Set either filter to '' to disable<br />
-Session is a session ID, and either 0 or '' can be used to indicate &quot;all&quot; sessions<br />
-All other filter types support % or _ as wildcards<br></p>
+<p>Filters results to include only sessions matching the specified criteria. Supports wildcards (% and _) for pattern matching.<br />
+Use this to focus on specific sessions, applications, databases, logins, or hosts when troubleshooting performance issues.<br />
+For session ID filtering, use 0 or an empty string to include all sessions.<br></p>
 <table>
 <thead>
 <tr>
@@ -664,7 +664,8 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="filtertype">-FilterType</h5>
-<p>Valid filter types are: session, program, database, login, and host<br></p>
+<p>Specifies what type of filtering to apply with the Filter parameter. Valid options: Session, Program, Database, Login, Host.<br />
+Use 'Program' to filter by application name, 'Login' to filter by SQL login, or 'Host' to filter by client machine name.<br></p>
 <table>
 <thead>
 <tr>
@@ -696,10 +697,9 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="notfilter">-NotFilter</h5>
-<p>FiltersBoth inclusive and exclusive<br />
-Set either filter to '' to disable<br />
-Session is a session ID, and either 0 or '' can be used to indicate &quot;all&quot; sessions<br />
-All other filter types support % or _ as wildcards<br></p>
+<p>Excludes sessions matching the specified criteria from results. Supports wildcards (% and _) for pattern matching.<br />
+Use this to exclude specific applications, databases, or users when you want to focus on everything else.<br />
+For session ID filtering, use 0 or an empty string to exclude no sessions.<br></p>
 <table>
 <thead>
 <tr>
@@ -727,7 +727,8 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="notfiltertype">-NotFilterType</h5>
-<p>Valid filter types are: session, program, database, login, and host<br></p>
+<p>Specifies what type of exclusion filtering to apply with the NotFilter parameter. Valid options: Session, Program, Database, Login, Host.<br />
+Use this in combination with NotFilter to exclude sessions by application name, database, login, or host.<br></p>
 <table>
 <thead>
 <tr>
@@ -759,7 +760,8 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="showownspid">-ShowOwnSpid</h5>
-<p>Retrieve data about the calling session?<br></p>
+<p>Includes the current session (the one running sp_WhoIsActive) in the results.<br />
+By default, your own session is excluded to reduce clutter in the output.<br></p>
 <table>
 <thead>
 <tr>
@@ -787,7 +789,8 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="showsystemspids">-ShowSystemSpids</h5>
-<p>Retrieve data about system sessions?<br></p>
+<p>Includes internal SQL Server system sessions in the results.<br />
+Use this when troubleshooting system-level performance issues or investigating background processes.<br></p>
 <table>
 <thead>
 <tr>
@@ -815,10 +818,8 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="showsleepingspids">-ShowSleepingSpids</h5>
-<p>Controls how sleeping SPIDs are handled, based on the idea of levels of interest<br />
-0 does not pull any sleeping SPIDs<br />
-1 pulls only those sleeping SPIDs that also have an open transaction<br />
-2 pulls all sleeping SPIDs<br></p>
+<p>Controls which idle sessions to include based on their transaction status. 0 = no sleeping sessions, 1 = only sleeping sessions with open transactions, 2 = all sleeping sessions.<br />
+Use 1 when investigating blocking issues or long-running transactions, or 2 for comprehensive session auditing.<br></p>
 <table>
 <thead>
 <tr>
@@ -846,8 +847,8 @@ All other filter types support % or _ as wildcards<br></p>
 </tbody>
 </table>
 <h5 id="getfullinnertext">-GetFullInnerText</h5>
-<p>If 1, gets the full stored procedure or running batch, when available<br />
-If 0, gets only the actual statement that is currently running in the batch or procedure<br></p>
+<p>Retrieves the complete SQL batch or stored procedure text instead of just the current statement.<br />
+Use this when you need to see the full context of what's executing, not just the individual statement within a larger batch.<br></p>
 <table>
 <thead>
 <tr>
@@ -875,9 +876,8 @@ If 0, gets only the actual statement that is currently running in the batch or p
 </tbody>
 </table>
 <h5 id="getplans">-GetPlans</h5>
-<p>Get associated query plans for running tasks, if available<br />
-If 1, gets the plan based on the request's statement offset<br />
-If 2, gets the entire plan based on the request's plan_handle<br></p>
+<p>Retrieves execution plans for active queries. 1 = plan for current statement only, 2 = entire plan for the batch or procedure.<br />
+Essential for performance troubleshooting to identify inefficient queries, missing indexes, and optimization opportunities.<br></p>
 <table>
 <thead>
 <tr>
@@ -905,7 +905,8 @@ If 2, gets the entire plan based on the request's plan_handle<br></p>
 </tbody>
 </table>
 <h5 id="getoutercommand">-GetOuterCommand</h5>
-<p>Get the associated outer ad hoc query or stored procedure call, if available<br></p>
+<p>Captures the original command that initiated the current batch, including stored procedure calls with parameters.<br />
+Useful for understanding the full call stack when procedures call other procedures or dynamic SQL.<br></p>
 <table>
 <thead>
 <tr>
@@ -933,7 +934,8 @@ If 2, gets the entire plan based on the request's plan_handle<br></p>
 </tbody>
 </table>
 <h5 id="gettransactioninfo">-GetTransactionInfo</h5>
-<p>Enables pulling transaction log write info and transaction duration<br></p>
+<p>Includes transaction log usage and duration information for active sessions.<br />
+Critical for identifying sessions with long-running transactions that may cause blocking or log space issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -961,11 +963,8 @@ If 2, gets the entire plan based on the request's plan_handle<br></p>
 </tbody>
 </table>
 <h5 id="gettaskinfo">-GetTaskInfo</h5>
-<p>Get information on active tasks, based on three interest levels<br />
-Level 0 does not pull any task-related information<br />
-Level 1 is a lightweight mode that pulls the top non-CXPACKET wait, giving preference to blockers<br />
-Level 2 pulls all available task-based metrics, including:<br />
-number of active tasks, current wait stats, physical I/O, context switches, and blocker information<br></p>
+<p>Controls task and wait information collection. 0 = no task info, 1 = lightweight mode with primary waits and blockers, 2 = comprehensive task metrics including I/O and context switches.<br />
+Use level 1 for general troubleshooting or level 2 for detailed performance analysis when you need full wait statistics.<br></p>
 <table>
 <thead>
 <tr>
@@ -993,7 +992,8 @@ number of active tasks, current wait stats, physical I/O, context switches, and 
 </tbody>
 </table>
 <h5 id="getlocks">-GetLocks</h5>
-<p>Gets associated locks for each request, aggregated in an XML format<br></p>
+<p>Retrieves detailed lock information for each session in XML format.<br />
+Essential for troubleshooting blocking issues and understanding what resources sessions are waiting for or holding.<br></p>
 <table>
 <thead>
 <tr>
@@ -1021,8 +1021,8 @@ number of active tasks, current wait stats, physical I/O, context switches, and 
 </tbody>
 </table>
 <h5 id="getaveragetime">-GetAverageTime</h5>
-<p>Get average time for past runs of an active query<br />
-(based on the combination of plan handle, sql handle, and offset)<br></p>
+<p>Calculates the average execution time for the currently running query based on historical execution data.<br />
+Helps identify queries that are running longer than usual, indicating potential performance degradation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1050,11 +1050,8 @@ number of active tasks, current wait stats, physical I/O, context switches, and 
 </tbody>
 </table>
 <h5 id="getadditonalinfo">-GetAdditonalInfo</h5>
-<p>Get additional non-performance-related information about the session or request text_size, language, date_format, date_first, quoted_identifier, arithabort, ansi_null_dflt_on, ansi_defaults,<br />
-ansi_warnings, ansi_padding, ansi_nulls, concat_null_yields_null, transaction_isolation_level, lock_timeout, deadlock_priority, row_count, command_type<br />
-If a SQL Agent job is running, an subnode called agent_info will be populated with some or all of the following: job_id, job_name, step_id, step_name, msdb_query_error (in the event of an error)<br />
-If @get_task_info is set to 2 and a lock wait is detected, a subnode called block_info will be populated with some or all of the following: lock_type, database_name, object_id, file_id, hobt_id,<br />
-applock_hash, metadata_resource, metadata_class_id, object_name, schema_name<br></p>
+<p>Includes session configuration details like ANSI settings, isolation level, language, and command type information.<br />
+Useful for troubleshooting application-specific issues where session settings affect query behavior or when investigating SQL Agent job activity.<br></p>
 <table>
 <thead>
 <tr>
@@ -1082,9 +1079,8 @@ applock_hash, metadata_resource, metadata_class_id, object_name, schema_name<br>
 </tbody>
 </table>
 <h5 id="findblockleaders">-FindBlockLeaders</h5>
-<p>Walk the blocking chain and count the number of<br />
-total SPIDs blocked all the way down by a given session<br />
-Also enables task_info Level 1, if @get_task_info is set to 0<br></p>
+<p>Identifies the root cause sessions in blocking chains and counts how many sessions each one is blocking.<br />
+Critical for resolving blocking issues by showing you which sessions to focus on first when multiple blocking chains exist.<br></p>
 <table>
 <thead>
 <tr>
@@ -1112,8 +1108,8 @@ Also enables task_info Level 1, if @get_task_info is set to 0<br></p>
 </tbody>
 </table>
 <h5 id="deltainterval">-DeltaInterval</h5>
-<p>Pull deltas on various metrics<br />
-Interval in seconds to wait before doing the second data pull<br></p>
+<p>Captures performance metrics at two points in time separated by the specified interval (in seconds) to show rate-of-change data.<br />
+Excellent for identifying which sessions are actively consuming CPU, I/O, or memory resources during the measurement period.<br></p>
 <table>
 <thead>
 <tr>
@@ -1141,11 +1137,9 @@ Interval in seconds to wait before doing the second data pull<br></p>
 </tbody>
 </table>
 <h5 id="outputcolumnlist">-OutputColumnList</h5>
-<p>List of desired output columns, in desired order<br />
-Note that the final output will be the intersection of all enabled features and all columns in the list. Therefore, only columns associated with enabled features will actually appear in the output.<br />
-Likewise, removing columns from this list may effectively disable features, even if they are turned on<br />
-Each element in this list must be one of the valid output column names. Names must be delimited by square brackets. White space, formatting, and additional characters are allowed, as long as the list<br />
-contains exact matches of delimited valid column names.<br></p>
+<p>Specifies which columns to include in the results and their display order using bracket-delimited column names.<br />
+Customize this to focus on specific metrics or reduce output complexity for your monitoring scenarios.<br />
+Only columns related to enabled features will actually appear in the output.<br></p>
 <table>
 <thead>
 <tr>
@@ -1173,15 +1167,9 @@ contains exact matches of delimited valid column names.<br></p>
 </tbody>
 </table>
 <h5 id="sortorder">-SortOrder</h5>
-<p>Column(s) by which to sort output, optionally with sort directions.<br />
-Valid column choices:<br />
-session_id, physical_io, reads, physical_reads, writes, tempdb_allocations,<br />
-tempdb_current, CPU, context_switches, used_memory, physical_io_delta,<br />
-reads_delta, physical_reads_delta, writes_delta, tempdb_allocations_delta,<br />
-tempdb_current_delta, CPU_delta, context_switches_delta, used_memory_delta,<br />
-tasks, tran_start_time, open_tran_count, blocking_session_id, blocked_session_count,<br />
-percent_complete, host_name, login_name, database_name, start_time, login_time<br />
-Note that column names in the list must be bracket-delimited. Commas and/or white space are not required.<br></p>
+<p>Controls how results are sorted using bracket-delimited column names with optional ASC/DESC direction.<br />
+Sort by CPU, physical_io, or start_time to quickly identify the most resource-intensive or longest-running sessions.<br />
+Defaults to sorting by start_time in ascending order.<br></p>
 <table>
 <thead>
 <tr>
@@ -1209,10 +1197,8 @@ Note that column names in the list must be bracket-delimited. Commas and/or whit
 </tbody>
 </table>
 <h5 id="formatoutput">-FormatOutput</h5>
-<p>Formats some of the output columns in a more &quot;human readable&quot; form<br />
-0 disables output format<br />
-1 formats the output for variable-width fonts<br />
-2 formats the output for fixed-width fonts<br></p>
+<p>Controls output formatting for better readability. 0 = no formatting, 1 = variable-width fonts (default), 2 = fixed-width fonts.<br />
+Use 2 when displaying results in console windows or fixed-width displays for better column alignment.<br></p>
 <table>
 <thead>
 <tr>
@@ -1240,8 +1226,9 @@ Note that column names in the list must be bracket-delimited. Commas and/or whit
 </tbody>
 </table>
 <h5 id="destinationtable">-DestinationTable</h5>
-<p>If set to a non-blank value, the script will attempt to insert into the specified destination table. Please note that the script will not verify that the table exists, or that it has the correct<br />
-schema, before doing the insert. Table can be specified in one, two, or three-part format<br></p>
+<p>Inserts results directly into a specified table instead of returning them to PowerShell.<br />
+Useful for automated monitoring scripts or building historical performance data repositories.<br />
+Table must already exist with the correct schema structure.<br></p>
 <table>
 <thead>
 <tr>
@@ -1269,8 +1256,8 @@ schema, before doing the insert. Table can be specified in one, two, or three-pa
 </tbody>
 </table>
 <h5 id="returnschema">-ReturnSchema</h5>
-<p>If set to 1, no data collection will happen and no result set will be returned; instead, a CREATE TABLE statement will be returned via the @schema parameter, which will match the schema of the result<br />
-set that would be returned by using the same collection of the rest of the parameters. The CREATE TABLE statement will have a placeholder token of &lt;table_name&gt; in place of an actual table name.<br></p>
+<p>Returns a CREATE TABLE statement showing the schema structure needed for the DestinationTable instead of collecting data.<br />
+Use this to generate the correct table structure before setting up automated data collection with DestinationTable.<br></p>
 <table>
 <thead>
 <tr>
@@ -1298,8 +1285,8 @@ set that would be returned by using the same collection of the rest of the param
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>If set to 1, no data collection will happen and no result set will be returned; instead, a CREATE TABLE statement will be returned via the @schema parameter, which will match the schema of the result<br />
-set that would be returned by using the same collection of the rest of the parameters. The CREATE TABLE statement will have a placeholder token of &lt;table_name&gt; in place of an actual table name.<br></p>
+<p>Alternative parameter name for ReturnSchema functionality.<br />
+Returns a CREATE TABLE statement for the result set structure instead of collecting actual data.<br></p>
 <table>
 <thead>
 <tr>
@@ -1327,7 +1314,8 @@ set that would be returned by using the same collection of the rest of the param
 </tbody>
 </table>
 <h5 id="help">-Help</h5>
-<p>Help! What do I do?<br></p>
+<p>Returns detailed help information about sp_WhoIsActive parameters and their usage instead of executing the procedure.<br />
+Use this to understand all available options when you're unsure which parameters to use for your specific troubleshooting scenario.<br></p>
 <table>
 <thead>
 <tr>
@@ -1355,8 +1343,8 @@ set that would be returned by using the same collection of the rest of the param
 </tbody>
 </table>
 <h5 id="as">-As</h5>
-<p>Specifies output type. Valid options for this parameter are 'DataSet', 'DataTable', 'DataRow', 'PSObject'. Default is 'DataRow'.<br />
-PSObject output introduces overhead but adds flexibility for working with results: <a href="https://forums.powershell.org/t/dealing-with-dbnull/2328/2">https://forums.powershell.org/t/dealing-with-dbnull/2328/2</a><br></p>
+<p>Specifies the PowerShell output format. Options: DataSet, DataTable, DataRow (default), PSObject.<br />
+Use PSObject for advanced scripting scenarios where you need better handling of null values and type conversion.<br></p>
 <table>
 <thead>
 <tr>

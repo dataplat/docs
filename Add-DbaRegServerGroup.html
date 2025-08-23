@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Add-DbaRegServerGroup">Add-DbaRegServerGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Adds registered server groups to SQL Server Central Management Server (CMS)</p>
+<p>Creates organizational server groups within SQL Server Central Management Server (CMS)</p>
 <h2 id="description">Description</h2>
-<p>Adds registered server groups to SQL Server Central Management Server (CMS). If you need more flexibility, look into Import-DbaRegServer which accepts multiple kinds of input and allows you to add reg servers and groups from different CMS.</p>
+<p>Creates new server groups in SQL Server Central Management Server to organize registered servers into logical hierarchies. This allows DBAs to group servers by environment, application, location, or any other classification system for easier management at scale. Supports nested group structures using backslash notation (Group\SubGroup) and automatically creates parent groups if they don't exist. If you need to import existing groups and servers from other sources, use Import-DbaRegServer instead.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Add-DbaRegServerGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -519,7 +519,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Creates a registered server group on sql2012 and sql2014 called sub-folder within the HR group of each server<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="name">-Name</h5>
-<p>The name of the registered server group. <br></p>
+<p>Specifies the name for the new server group within Central Management Server. Use descriptive names that reflect your organizational structure like 'Production', 'Development', or 'HR-Databases'.<br />
+Group names can include backslashes to create nested hierarchies (e.g., 'Production\WebServers' creates a WebServers subgroup under Production). <br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="description-1">-Description</h5>
-<p>The description for the registered server group<br></p>
+<p>Provides additional details about the server group's purpose or contents. Use this to document the group's role, maintenance schedules, or contact information.<br />
+Helpful for team environments where multiple DBAs need to understand each group's function.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,8 +636,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="group">-Group</h5>
-<p>The SQL Server Central Management Server group. If no groups are specified, the new group will be created at the root.<br />
-You can pass sub groups using the '' to split the path. Group\SubGroup will create both folders. Folder 'SubGroup' under 'Group' folder.<br></p>
+<p>Specifies the parent group where the new server group will be created. If omitted, creates the group at the root level of Central Management Server.<br />
+Use backslash notation to specify nested paths like 'Production\WebServers' - this automatically creates any missing parent groups in the hierarchy.<br></p>
 <table>
 <thead>
 <tr>
@@ -663,7 +665,8 @@ You can pass sub groups using the '' to split the path. Group\SubGroup will crea
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows results from Get-DbaRegServerGroup to be piped in<br></p>
+<p>Accepts server group objects from Get-DbaRegServerGroup through the pipeline. Use this when you need to create subgroups within existing groups from multiple CMS instances.<br />
+Enables bulk operations where you can pipe existing groups and create new subgroups within each one simultaneously.<br></p>
 <table>
 <thead>
 <tr>

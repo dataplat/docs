@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbDataGeneratorConfig">New-DbaDbDataGeneratorConfig</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Generates a new data generation configuration file.</p>
+<p>Creates JSON configuration files for generating realistic test data in SQL Server database tables</p>
 <h2 id="description">Description</h2>
-<p>Generates a new data generation configuration file. This file is important to apply any data generation to a table in a database.</p>
+<p>Analyzes database table structures and generates JSON configuration files that define how to populate each column with realistic fake data. The function examines column names, data types, constraints, and relationships to intelligently map appropriate data generation rules using the Bogus library. Column names matching common patterns (like &quot;Address&quot;, &quot;Email&quot;, &quot;Phone&quot;) automatically get contextually appropriate fake data types, while other columns get sensible defaults based on their SQL data types.</p>
+<p>These configuration files serve as the blueprint for Invoke-DbaDbDataGenerator, allowing DBAs to create development databases with realistic test data instead of using production data. Perfect for building demo environments, testing applications with meaningful datasets, or creating training databases that mirror production schemas but contain no sensitive information.</p>
+<p>The function handles identity columns, foreign key relationships, unique indexes, and nullable constraints while skipping unsupported column types like computed columns, spatial data types, and XML. Configuration files are saved with the naming convention &quot;servername.databasename.DataGeneratorConfig.json&quot; for easy identification and reuse.</p>
 <p>Read more here:<br />
 <a href="https://sachabarbs.wordpress.com/2018/06/11/bogus-simple-fake-data-tool/">https://sachabarbs.wordpress.com/2018/06/11/bogus-simple-fake-data-tool/</a><br />
 <a href="https://github.com/bchavez/Bogus">https://github.com/bchavez/Bogus</a></p>
@@ -547,8 +549,8 @@ Process only table Customer with all the columns<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Path where to save the generated JSON files.<br />
-The naming convention will be &quot;servername.databasename.tables.json&quot;. <br></p>
+<p>Specifies the directory where JSON configuration files will be saved. Files are named using the pattern &quot;servername.databasename.DataGeneratorConfig.json&quot;.<br />
+Choose a location accessible to your development team since these config files will be used by Invoke-DbaDbDataGenerator to create the actual test data. <br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +609,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Databases to process through<br></p>
+<p>Specifies which databases to analyze for data generation configuration creation. Accepts multiple database names.<br />
+Use this when you need to create test data configs for specific databases instead of all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +638,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>Tables to process. By default all the tables will be processed.<br></p>
+<p>Specifies which tables to include in the data generation configuration. Accepts multiple table names and supports wildcards.<br />
+Use this when you only need test data for specific tables rather than analyzing the entire database schema.<br></p>
 <table>
 <thead>
 <tr>
@@ -663,7 +667,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="resetidentity">-ResetIdentity</h5>
-<p>Resets the identity column for a table to it's starting value. By default it will continue with the next identity.<br></p>
+<p>Controls whether identity columns should reset to their seed values when generating test data. When enabled, identity values start from the original seed.<br />
+Use this when you need predictable, consistent identity values across test data generation runs instead of continuing from existing maximum values.<br></p>
 <table>
 <thead>
 <tr>
@@ -691,7 +696,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="truncatetable">-TruncateTable</h5>
-<p>Truncates the tabel befoe inserting the values.<br></p>
+<p>Enables table truncation before inserting generated test data. When specified, existing data is removed before populating with fake data.<br />
+Use this when you need clean test environments or want to replace all existing data rather than appending to current table contents.<br></p>
 <table>
 <thead>
 <tr>
@@ -719,7 +725,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="rows">-Rows</h5>
-<p>Amount of rows that need to be generated. The default is 1000.<br></p>
+<p>Sets the number of test data rows to generate for each table in the configuration. Defaults to 1000 rows per table.<br />
+Adjust this based on your testing needs - use smaller values for development environments or larger values for performance testing scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -747,7 +754,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Forcefully execute commands when needed.<br></p>
+<p>Allows the function to create the specified Path directory if it doesn't exist. Without this switch, the function will fail if the target directory is missing.<br />
+Use this when setting up new test data workflows where the output directory structure hasn't been established yet.<br></p>
 <table>
 <thead>
 <tr>

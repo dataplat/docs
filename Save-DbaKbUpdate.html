@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Save-DbaKbUpdate">Save-DbaKbUpdate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Downloads patches from Microsoft</p>
+<p>Downloads Microsoft Knowledge Base updates and patches to local storage</p>
 <h2 id="description">Description</h2>
-<p>Downloads patches from Microsoft</p>
+<p>Downloads Microsoft KB updates, cumulative updates, and service packs from Microsoft's servers to your local file system. This function handles SQL Server patches as well as any other Microsoft KB updates, making it easy to stage patches for installation across multiple servers. Supports filtering by architecture (x86, x64, ia64) and language, and can download multiple KBs in a single operation. Use this to build a local patch repository or download specific updates for offline installation scenarios.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Save-DbaKbUpdate
     [[-Name] &lt;String[]&gt;]
@@ -525,7 +525,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Downloads only the english version of KB5003279, which is the Service Pack 3 for SQL Server 2016, to C:\temp.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="name">-Name</h5>
-<p>The KB name or number. For example, KB4057119 or 4057119.<br></p>
+<p>Specifies the Microsoft Knowledge Base article number to download. Accepts KB prefix or just the numeric value (e.g., 'KB4057119' or '4057119').<br />
+Use this to target specific patches, cumulative updates, or service packs for SQL Server or other Microsoft products.<br />
+Supports multiple KB numbers in a single command for batch downloading.<br></p>
 <table>
 <thead>
 <tr>
@@ -553,7 +555,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The directory to save the file.<br></p>
+<p>Specifies the directory where downloaded KB files will be saved. Defaults to the current working directory.<br />
+Use this to organize patches into specific folders or network locations for easier deployment across multiple servers.<br />
+The directory will be created if it doesn't exist.<br></p>
 <table>
 <thead>
 <tr>
@@ -581,7 +585,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>The exact file name to save to, otherwise, it uses the name given by the webserver<br></p>
+<p>Specifies the exact filename and path for the downloaded file, overriding the server-provided filename.<br />
+Use this when you need custom naming conventions or want to save to a specific location with a particular name.<br />
+Cannot be used when downloading multiple KBs or when Architecture is set to 'All'.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +615,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="architecture">-Architecture</h5>
-<p>Defaults to x64. Can be x64, x86, ia64 or &quot;All&quot;<br></p>
+<p>Specifies the CPU architecture for the downloaded files. Valid values are 'x64', 'x86', 'ia64', or 'All'.<br />
+Use 'All' to download files for all available architectures when you need to support mixed environments.<br />
+Most modern SQL Server deployments use 'x64', which is the default.<br></p>
 <table>
 <thead>
 <tr>
@@ -641,9 +649,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="language">-Language</h5>
-<p>Cumulative Updates come in one file for all languages, but Service Packs have a file for every language.<br />
-If you want to download only a specific language, use this parameter.<br />
-You have to use the three letter code that is part of the filename, e. g. &quot;enu&quot; for english or &quot;deu&quot; for german.<br></p>
+<p>Filters downloads to a specific language version using three-letter language codes (e.g., 'enu' for English, 'deu' for German).<br />
+Primarily useful for SQL Server Service Packs which have separate files per language, unlike Cumulative Updates which are language-neutral.<br />
+Only downloads files matching the specified language code when multiple language versions are available.<br></p>
 <table>
 <thead>
 <tr>
@@ -671,7 +679,9 @@ You have to use the three letter code that is part of the filename, e. g. &quot;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaKbUpdate<br></p>
+<p>Accepts pipeline input from Get-DbaKbUpdate, allowing you to filter and select specific files before downloading.<br />
+Use this workflow to preview available downloads with Get-DbaKbUpdate, then pipe selected results for download.<br />
+Particularly useful when working with KBs that have multiple file options.<br></p>
 <table>
 <thead>
 <tr>

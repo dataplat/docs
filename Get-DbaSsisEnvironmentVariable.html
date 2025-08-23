@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaSsisEnvironmentVariable">Get-DbaSsisEnvironmentVariable</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>This command gets specified SSIS Environment and all its variables</p>
+<p>Retrieves environment variables from SSIS Catalog with decrypted sensitive values</p>
 <h2 id="description">Description</h2>
-<p>This command gets all variables from specified environment from SSIS Catalog. All sensitive values are decrypted.<br />
-The function communicates directly with SSISDB database, &quot;SQL Server Integration Services&quot; service isn't queried there.<br />
-Each parameter (besides SqlInstance and SqlCredential) acts as the filter to only include or exclude particular element</p>
+<p>Retrieves all variables from specified SSIS environments stored in the SSISDB catalog database. All sensitive values are automatically decrypted and returned in plaintext for configuration management and troubleshooting purposes.</p>
+<p>This function queries the SSISDB database directly using symmetric keys and certificates to decrypt sensitive variable values, bypassing the standard SMO limitations that only return encrypted values. This is essential for SSIS environment configuration audits, parameter validation, and deployment verification.</p>
+<p>The function communicates directly with SSISDB database - the SQL Server Integration Services service isn't queried. Each parameter (besides SqlInstance and SqlCredential) acts as a filter to include or exclude specific environments or folders.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaSsisEnvironmentVariable
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -610,7 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="environment">-Environment</h5>
-<p>The SSIS Environments names that we want to get variables from<br></p>
+<p>Specifies one or more SSIS environment names to retrieve variables from within the SSISDB catalog.<br />
+Use this when you need variables from specific environments like 'DEV', 'QA', or 'PROD' rather than all environments in a folder.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,8 +639,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="environmentexclude">-EnvironmentExclude</h5>
-<p>The SSIS Environments to exclude. Acts as a filter for environments, best used without 'Environment' parameter<br />
-to get variables for all environments but excluded ones<br></p>
+<p>Excludes specified SSIS environment names from the results when retrieving variables.<br />
+Most effective when used without the Environment parameter to get all environments except those specified.<br />
+Helpful when you want to audit all non-production environments or exclude specific environments from configuration reviews.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +669,9 @@ to get variables for all environments but excluded ones<br></p>
 </tbody>
 </table>
 <h5 id="folder">-Folder</h5>
-<p>The Folders names that contain the environments<br></p>
+<p>Specifies one or more SSISDB catalog folder names that contain the environments you want to query.<br />
+Use this to limit your search to specific project folders when you have environments organized by application or team.<br />
+If omitted, the function searches all folders in the SSISDB catalog.<br></p>
 <table>
 <thead>
 <tr>
@@ -695,8 +699,9 @@ to get variables for all environments but excluded ones<br></p>
 </tbody>
 </table>
 <h5 id="folderexclude">-FolderExclude</h5>
-<p>The Folders names to exclude. Acts as a filter for folders containing environments, best user without 'Folder' parameter<br />
-to get variables for all folders but excluded ones<br></p>
+<p>Excludes specified SSISDB catalog folder names from the search when retrieving environment variables.<br />
+Most effective when used without the Folder parameter to search all folders except those specified.<br />
+Useful when you want to exclude test folders, archived projects, or specific application folders from your audit.<br></p>
 <table>
 <thead>
 <tr>

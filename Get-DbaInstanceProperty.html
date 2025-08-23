@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaInstanceProperty">Get-DbaInstanceProperty</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Server instance properties of one or more instance(s) of SQL Server.</p>
+<p>Retrieves comprehensive SQL Server instance configuration properties for auditing and comparison</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaInstanceProperty command gets SQL Server instance properties from the SMO object sqlserver.</p>
+<p>Retrieves all instance-level configuration properties from SQL Server's Information, UserOptions, and Settings collections via SMO. This gives you a complete inventory of server settings like default file paths, memory configuration, security options, and user defaults in a standardized format. Essential for configuration audits, compliance reporting, environment comparisons, and troubleshooting configuration-related issues across multiple instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaInstanceProperty
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -587,7 +587,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="instanceproperty">-InstanceProperty</h5>
-<p>SQL Server instance property(ies) to include.<br></p>
+<p>Specifies which SQL Server instance properties to include from Information, UserOptions, and Settings collections. Accepts wildcards and arrays.<br />
+Use this to focus on specific configuration properties like DefaultFile, MaxWorkerThreads, or LoginMode when auditing particular settings across instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -615,7 +616,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeinstanceproperty">-ExcludeInstanceProperty</h5>
-<p>SQL Server instance property(ies) to exclude.<br></p>
+<p>Specifies which SQL Server instance properties to exclude from the results. Accepts wildcards and arrays.<br />
+Use this to filter out noisy or irrelevant properties when you need a cleaner view of configuration data for reporting or comparison.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbMirrorFailover">Invoke-DbaDbMirrorFailover</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Failover a mirrored database</p>
+<p>Fails over database mirroring configurations to the mirror server</p>
 <h2 id="description">Description</h2>
-<p>Failover a mirrored database</p>
+<p>Performs a database mirroring failover by switching roles between the primary and mirror servers. For synchronous mirroring, sets safety level to Full and executes a clean failover without data loss. For asynchronous mirroring or emergency situations, use -Force to allow a forced failover that may result in data loss. This is essential for planned maintenance, disaster recovery scenarios, and testing your high availability setup.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbMirrorFailover
     [[-SqlInstance] &lt;DbaInstanceParameter&gt;]
@@ -573,7 +573,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database or databases to mirror<br></p>
+<p>Specifies which mirrored databases to fail over to their mirror partners. Accepts multiple database names.<br />
+Use this when you need to fail over specific databases rather than piping database objects from Get-DbaDatabase.<br></p>
 <table>
 <thead>
 <tr>
@@ -601,7 +602,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase through the pipeline for failover operations.<br />
+This enables you to filter databases using Get-DbaDatabase and pipe the results directly to perform failovers.<br></p>
 <table>
 <thead>
 <tr>
@@ -629,7 +631,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Force Failover and allow data loss<br></p>
+<p>Forces an immediate failover that allows data loss, primarily for asynchronous mirroring or emergency situations.<br />
+Without this switch, the function performs a safe synchronous failover by setting safety to Full before failing over.<br></p>
 <table>
 <thead>
 <tr>

@@ -486,9 +486,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaReplDistributor">Get-DbaReplDistributor</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the information about a replication distributor for a given SQL Server instance.</p>
+<p>Retrieves replication distributor configuration and status information from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>This function locates and enumerates distributor information for a given SQL Server instance.</p>
+<p>Connects to SQL Server instances and retrieves detailed information about their replication distributor configuration, including distributor status, distribution database details, and publisher relationships. This is essential for DBAs managing replication topologies who need to quickly identify which servers act as distributors, where the distribution database is located, and whether remote publishers are configured. The function returns comprehensive distributor properties that help with replication troubleshooting, topology documentation, and configuration audits.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaReplDistributor
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -510,7 +510,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Pipe a SQL Server instance to Get-DbaReplDistributor to retrieve distributor information.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. <br></p>
+<p>The target SQL Server instance or instances to check for replication distributor configuration.<br />
+Use this to identify which servers in your environment are configured as distributors, where the distribution database is located, and whether they support remote publishers. <br></p>
 <table>
 <thead>
 <tr>

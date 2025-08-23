@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbUser">Remove-DbaDbUser</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Drop database user</p>
+<p>Removes database users from SQL Server databases with intelligent schema ownership handling</p>
 <h2 id="description">Description</h2>
-<p>If user is the owner of a schema with the same name and if if the schema does not have any underlying objects the schema will be<br />
-dropped.  If user owns more than one schema, the owner of the schemas that does not have the same name as the user, will be<br />
-changed to 'dbo'. If schemas have underlying objects, you must specify the -Force parameter so the user can be dropped.</p>
+<p>Safely removes database users from SQL Server databases while automatically handling schema ownership conflicts that would normally prevent user deletion. This eliminates the manual process of identifying and resolving schema ownership issues before removing users.</p>
+<p>When a user owns schemas, the function intelligently manages the cleanup: schemas with the same name as the user are dropped (if empty), while other owned schemas have their ownership transferred to 'dbo'. If schemas contain objects, use -Force to allow ownership transfer and proceed with user removal.</p>
+<p>The function works across multiple databases and instances, making it ideal for cleanup operations during user deprovisioning or database migrations where you need to remove users without leaving orphaned objects or broken ownership chains.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbUser
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -560,7 +560,8 @@ Remove-DbaDbUser -InputObject &lt;User[]&gt;
 </tbody>
 </table>
 <h5 id="user">-User</h5>
-<p>Specifies the list of users to remove. <br></p>
+<p>Specifies the database user(s) to remove from the target databases. Accepts multiple user names for bulk operations.<br />
+The function will automatically handle schema ownership conflicts that typically prevent user deletion. <br></p>
 <table>
 <thead>
 <tr>
@@ -588,7 +589,8 @@ Remove-DbaDbUser -InputObject &lt;User[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Support piping from Get-DbaDbUser. <br></p>
+<p>Accepts user objects from Get-DbaDbUser for pipeline operations. This allows for advanced filtering scenarios.<br />
+Use this when you need to remove users based on complex criteria like creation date, permissions, or other user properties. <br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +649,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies the database(s) from which to remove the specified users. Accepts wildcards for pattern matching.<br />
+When omitted, the function processes all accessible databases on the instance to find and remove the specified users.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,7 +678,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies the database(s) to skip during user removal operations. Use this to protect critical databases like system databases.<br />
+Commonly used to exclude model, tempdb, or production databases during bulk user cleanup operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -703,7 +707,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If enabled this will force the change of the owner to 'dbo' for any schema which owner is the User.<br></p>
+<p>Forces schema ownership transfer to 'dbo' when the user owns schemas containing database objects. Without this, user removal fails if owned schemas contain objects.<br />
+Use this during user deprovisioning when you need to ensure complete cleanup regardless of schema dependencies.<br></p>
 <table>
 <thead>
 <tr>

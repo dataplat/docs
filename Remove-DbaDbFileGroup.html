@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbFileGroup">Remove-DbaDbFileGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes the specified filegroup(s).</p>
+<p>Removes empty filegroups from SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>Removes the specified filegroup(s). It is required that the filegroup is empty before it can be removed.</p>
+<p>Removes one or more filegroups from SQL Server databases after validating they contain no data files. This command is useful for cleaning up unused filegroups after moving data to different filegroups or during database reorganization projects. The function performs safety checks to ensure filegroups are empty before removal and provides detailed error messages if removal fails due to dependencies or constraints.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbFileGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -577,7 +577,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases to target for filegroup removal. Required when using SqlInstance parameter.<br />
+Use this to limit the operation to specific databases instead of all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +606,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filegroup">-FileGroup</h5>
-<p>The name(s) of the filegroup(s).<br></p>
+<p>Specifies the name(s) of the filegroup(s) to remove from the target databases. Required when specifying databases directly.<br />
+Only empty filegroups (containing no data files) can be removed. Common scenarios include removing filegroups after data migration or database cleanup projects.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +635,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase and Get-DbaDbFileGroup.<br></p>
+<p>Accepts database or filegroup objects from Get-DbaDatabase or Get-DbaDbFileGroup for pipeline operations.<br />
+Use this when you need to remove filegroups from a filtered set of databases or when working with specific filegroup objects.<br></p>
 <table>
 <thead>
 <tr>

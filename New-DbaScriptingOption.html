@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaScriptingOption">New-DbaScriptingOption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new Microsoft.SqlServer.Management.Smo.ScriptingOptions object</p>
+<p>Creates a customizable SMO ScriptingOptions object for controlling T-SQL script generation</p>
 <h2 id="description">Description</h2>
-<p>Creates a new Microsoft.SqlServer.Management.Smo.ScriptingOptions object. Basically saves you the time from remembering the SMO assembly name ;)</p>
+<p>Creates a Microsoft.SqlServer.Management.Smo.ScriptingOptions object that controls how SQL Server objects get scripted into T-SQL CREATE statements. This object lets you customize what gets included when using Export-DbaScript and other dbatools scripting commands - things like whether to include indexes, triggers, permissions, dependencies, or batch separators. Perfect for creating deployment scripts where you need specific control over what gets scripted and how it's formatted.</p>
 <p>See <a href="https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.management.smo.scriptingoptions.aspx">https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.management.smo.scriptingoptions.aspx</a> for more information</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaScriptingOption

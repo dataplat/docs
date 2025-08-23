@@ -549,7 +549,8 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where the publication is located. <br></p>
+<p>Specifies the publisher database that contains the replication publication.<br />
+This is the source database where the published data originates from. <br></p>
 <table>
 <thead>
 <tr>
@@ -577,7 +578,8 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 </tbody>
 </table>
 <h5 id="publicationname">-PublicationName</h5>
-<p>The name of the publication. <br></p>
+<p>Specifies the exact name of the replication publication to remove the subscription from.<br />
+Must match an existing publication name on the publisher database. <br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +607,8 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 </tbody>
 </table>
 <h5 id="subscribersqlinstance">-SubscriberSqlInstance</h5>
-<p>The subscriber SQL Server instance. <br></p>
+<p>Specifies the SQL Server instance that receives replicated data from the publisher.<br />
+Use this to identify which subscriber instance should have its subscription removed. <br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +636,8 @@ PS C:\&gt; Remove-DbaReplSubscription @sub
 </tbody>
 </table>
 <h5 id="subscriptiondatabase">-SubscriptionDatabase</h5>
-<p>The database where the subscription is located. <br></p>
+<p>Specifies the database on the subscriber instance that receives the replicated data.<br />
+This is the target database where the subscription will be removed from. <br></p>
 <table>
 <thead>
 <tr>
@@ -693,6 +697,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </table>
 <h5 id="subscribersqlcredential">-SubscriberSqlCredential</h5>
 <p>Login to the subscriber instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Required when the subscriber instance uses different authentication than the publisher.<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>

@@ -486,16 +486,18 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Connect-DbaInstance">Connect-DbaInstance</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a robust, reusable SQL Server object.</p>
+<p>Creates a persistent SQL Server Management Object (SMO) connection for database operations.</p>
 <h2 id="description">Description</h2>
-<p>This command creates a robust, reusable sql server object.</p>
-<p>It is robust because it initializes properties that do not cause enumeration by default. It also supports both Windows and SQL Server authentication methods, and detects which to use based upon the provided credentials.</p>
-<p>By default, this command also sets the connection's ApplicationName property  to &quot;dbatools PowerShell module - dbatools.io - custom connection&quot;. If you're doing anything that requires profiling, you can look for this client name.</p>
-<p>Alternatively, you can pass in whichever client name you'd like using the -ClientName parameter. There are a ton of other parameters for you to explore as well.</p>
-<p>See <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx</a><br />
-and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx</a>,<br />
-and <a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx</a></p>
-<p>To execute SQL commands, you can use $server.ConnectionContext.ExecuteReader($sql) or $server.Databases['master'].ExecuteNonQuery($sql)</p>
+<p>This command creates a reusable SQL Server Management Object (SMO) that serves as the foundation for most dbatools operations. Think of it as your entry point for connecting to SQL Server instances, whether on-premises, in Azure, or anywhere else.</p>
+<p>The returned SMO server object handles authentication automatically, detecting whether to use Windows integrated security, SQL authentication, or Azure Active Directory based on your credentials. It supports connection pooling by default for better performance and can handle complex scenarios like failover partners, dedicated admin connections, and multi-subnet environments.</p>
+<p>This is the connection object you'll pass to other dbatools commands like Get-DbaDatabase, Invoke-DbaQuery, or Backup-DbaDatabase. Rather than each command establishing its own connection, you create one persistent connection here and reuse it, which is both faster and more reliable.</p>
+<p>The connection includes helpful properties for scripting like ComputerName, IsAzure, and ConnectedAs, plus it automatically sets an identifiable ApplicationName in your connection string so you can track dbatools sessions in profiler or extended events.</p>
+<p>For Azure connections, it handles the various authentication methods including service principals, managed identities, and access tokens. For on-premises instances, it supports Windows authentication (including alternative credentials), SQL logins, and dedicated administrator connections for emergency access.</p>
+<p>Reference documentation:<br />
+<a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring.aspx</a><br />
+<a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnectionstringbuilder.aspx</a><br />
+<a href="https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx">https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.aspx</a></p>
+<p>To execute SQL commands directly: $server.ConnectionContext.ExecuteReader($sql) or $server.Databases['master'].ExecuteNonQuery($sql)</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Connect-DbaInstance
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -709,7 +711,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. This list is auto-populated from the server.<br></p>
+<p>Specifies the initial database context for the connection instead of connecting to the default database.<br />
+Useful when you need to connect directly to a specific database or when the login's default database is unavailable.<br></p>
 <table>
 <thead>
 <tr>
@@ -737,8 +740,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="applicationintent">-ApplicationIntent</h5>
-<p>Declares the application workload type when connecting to a server.<br />
-Valid values are &quot;ReadOnly&quot; and &quot;ReadWrite&quot;.<br></p>
+<p>Declares the application workload type when connecting to an Always On Availability Group.<br />
+Use &quot;ReadOnly&quot; to route connections to readable secondary replicas for reporting workloads, reducing load on the primary replica.<br></p>
 <table>
 <thead>
 <tr>
@@ -770,7 +773,8 @@ Valid values are &quot;ReadOnly&quot; and &quot;ReadWrite&quot;.<br></p>
 </tbody>
 </table>
 <h5 id="azureunsupported">-AzureUnsupported</h5>
-<p>Terminate if Azure is detected but not supported<br></p>
+<p>Causes the connection to fail if the target is detected as Azure SQL Database.<br />
+Use this to prevent operations that are incompatible with Azure SQL Database from attempting to connect to cloud instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -798,7 +802,8 @@ Valid values are &quot;ReadOnly&quot; and &quot;ReadWrite&quot;.<br></p>
 </tbody>
 </table>
 <h5 id="batchseparator">-BatchSeparator</h5>
-<p>A string to separate groups of SQL statements being executed. By default, this is &quot;GO&quot;.<br></p>
+<p>Sets the batch separator for multi-statement SQL execution, defaulting to &quot;GO&quot;.<br />
+Change this when working with scripts that use different batch separators or when &quot;GO&quot; conflicts with your SQL content.<br></p>
 <table>
 <thead>
 <tr>
@@ -826,8 +831,8 @@ Valid values are &quot;ReadOnly&quot; and &quot;ReadWrite&quot;.<br></p>
 </tbody>
 </table>
 <h5 id="clientname">-ClientName</h5>
-<p>By default, this command sets the client's ApplicationName property to &quot;dbatools PowerShell module - dbatools.io&quot;. If you're doing anything that requires profiling, you can look for this client name.<br />
-Using -ClientName allows you to set your own custom client application name.<br></p>
+<p>Sets a custom application name in the connection string for identification in SQL Server monitoring tools.<br />
+Use this to distinguish dbatools sessions from other applications when analyzing connections in Profiler, Extended Events, or sys.dm_exec_sessions.<br></p>
 <table>
 <thead>
 <tr>
@@ -855,9 +860,8 @@ Using -ClientName allows you to set your own custom client application name.<br>
 </tbody>
 </table>
 <h5 id="connecttimeout">-ConnectTimeout</h5>
-<p>The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error.<br />
-Valid values are integers between 0 and 2147483647.<br />
-When opening a connection to a Azure SQL Database, set the connection timeout to 30 seconds.<br></p>
+<p>Sets the connection timeout in seconds before the connection attempt fails.<br />
+Increase this for slow networks or busy servers, or decrease it for faster failure detection in automated scripts. Azure SQL Database connections typically need 30 seconds.<br></p>
 <table>
 <thead>
 <tr>
@@ -885,10 +889,8 @@ When opening a connection to a Azure SQL Database, set the connection timeout to
 </tbody>
 </table>
 <h5 id="encryptconnection">-EncryptConnection</h5>
-<p>If this switch is enabled, SQL Server uses SSL encryption for all data sent between the client and server.<br />
-Beginning in .NET Framework 4.5, when TrustServerCertificate is false and EncryptConnection is true, the server name (or IP address) in a SQL Server SSL certificate must exactly match the server name<br />
-(or IP address) specified in the connection string. Otherwise, the connection attempt will fail. For information about support for certificates whose subject starts with a wildcard character (*), see<br />
-Accepted wildcards used by server certificates for server authentication. <a href="https://support.microsoft.com/en-us/help/258858/accepted-wildcards-used-by-server-certificates-for-server-authenticati">https://support.microsoft.com/en-us/help/258858/accepted-wildcards-used-by-server-certificates-for-server-authenticati</a><br></p>
+<p>Forces SSL encryption for all data transmitted between client and server.<br />
+Required for many compliance scenarios and recommended for connections over untrusted networks. Ensure server certificates are properly configured to avoid connection failures.<br></p>
 <table>
 <thead>
 <tr>
@@ -916,13 +918,8 @@ Accepted wildcards used by server certificates for server authentication. <a hre
 </tbody>
 </table>
 <h5 id="failoverpartner">-FailoverPartner</h5>
-<p>The name of the failover partner server where database mirroring is configured.<br />
-If the value of this key is &quot;&quot; (an empty string), then Initial Catalog must be present in the connection string, and its value must not be &quot;&quot;.<br />
-The server name can be 128 characters or less.<br />
-If you specify a failover partner but the failover partner server is not configured for database mirroring and the primary server (specified with the Server keyword) is not available, then the<br />
-connection will fail.<br />
-If you specify a failover partner and the primary server is not configured for database mirroring, the connection to the primary server (specified with the Server keyword) will succeed if the primary<br />
-server is available.<br></p>
+<p>Specifies the failover partner server name for database mirroring configurations.<br />
+Use this when connecting to databases configured for database mirroring to enable automatic failover if the primary server becomes unavailable.<br></p>
 <table>
 <thead>
 <tr>
@@ -950,7 +947,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="locktimeout">-LockTimeout</h5>
-<p>Sets the time in seconds required for the connection to time out when the current transaction is locked.<br></p>
+<p>Sets the lock timeout in seconds for transactions on this connection.<br />
+Use this to control how long statements wait for locks before timing out, which helps prevent long-running blocking scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -978,7 +976,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="maxpoolsize">-MaxPoolSize</h5>
-<p>Sets the maximum number of connections allowed in the connection pool for this specific connection string.<br></p>
+<p>Sets the maximum number of connections allowed in the connection pool for this connection string.<br />
+Increase this for applications with high concurrency requirements, but be mindful of server resource limits and licensing constraints.<br></p>
 <table>
 <thead>
 <tr>
@@ -1006,7 +1005,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="minpoolsize">-MinPoolSize</h5>
-<p>Sets the minimum number of connections allowed in the connection pool for this specific connection string.<br></p>
+<p>Sets the minimum number of connections maintained in the connection pool for this connection string.<br />
+Use this to pre-warm the connection pool for better performance when you know connections will be used frequently.<br></p>
 <table>
 <thead>
 <tr>
@@ -1034,7 +1034,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="minimumversion">-MinimumVersion</h5>
-<p>Terminate if the target SQL Server instance version does not meet version requirements<br></p>
+<p>Specifies the minimum SQL Server version required for the connection to succeed.<br />
+Use this to ensure scripts only run against SQL Server versions that support the required features, preventing compatibility issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -1062,8 +1063,8 @@ server is available.<br></p>
 </tbody>
 </table>
 <h5 id="multipleactiveresultsets">-MultipleActiveResultSets</h5>
-<p>If this switch is enabled, an application can maintain multiple active result sets (MARS).<br />
-If this switch is not enabled, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection.<br></p>
+<p>Enables Multiple Active Result Sets (MARS) allowing multiple commands to be executed simultaneously on a single connection.<br />
+Use this when you need to execute multiple queries concurrently without opening additional connections, though it can impact performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -1091,9 +1092,8 @@ If this switch is not enabled, an application must process or cancel all result 
 </tbody>
 </table>
 <h5 id="multisubnetfailover">-MultiSubnetFailover</h5>
-<p>If this switch is enabled, and your application is connecting to an AlwaysOn availability group (AG) on different subnets, detection of and connection to the currently active server will be faster.<br />
-For more information about SqlClient support for Always On Availability Groups, see<br />
-<a href="https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery">https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery</a><br></p>
+<p>Enables faster detection and connection to the active server in Always On Availability Groups across multiple subnets.<br />
+Essential for AG configurations where replicas are in different subnets, reducing connection time during failover scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -1121,8 +1121,8 @@ For more information about SqlClient support for Always On Availability Groups, 
 </tbody>
 </table>
 <h5 id="networkprotocol">-NetworkProtocol</h5>
-<p>Explicitly sets the network protocol used to connect to the server.<br />
-Valid values are &quot;TcpIp&quot;,&quot;NamedPipes&quot;,&quot;Multiprotocol&quot;,&quot;AppleTalk&quot;,&quot;BanyanVines&quot;,&quot;Via&quot;,&quot;SharedMemory&quot; and &quot;NWLinkIpxSpx&quot;<br></p>
+<p>Specifies the network protocol for connecting to SQL Server.<br />
+Use &quot;TcpIp&quot; for remote connections, &quot;NamedPipes&quot; for local connections with better security, or &quot;SharedMemory&quot; for fastest local connections. Most modern environments use TcpIp.<br></p>
 <table>
 <thead>
 <tr>
@@ -1154,7 +1154,8 @@ Valid values are &quot;TcpIp&quot;,&quot;NamedPipes&quot;,&quot;Multiprotocol&qu
 </tbody>
 </table>
 <h5 id="nonpooledconnection">-NonPooledConnection</h5>
-<p>If this switch is enabled, a non-pooled connection will be requested.<br></p>
+<p>Creates a dedicated connection that bypasses connection pooling.<br />
+Use this for long-running operations, dedicated admin connections, or when you need to ensure the connection isn't shared with other processes.<br></p>
 <table>
 <thead>
 <tr>
@@ -1182,7 +1183,8 @@ Valid values are &quot;TcpIp&quot;,&quot;NamedPipes&quot;,&quot;Multiprotocol&qu
 </tbody>
 </table>
 <h5 id="packetsize">-PacketSize</h5>
-<p>Sets the size in bytes of the network packets used to communicate with an instance of SQL Server. Must match at server.<br></p>
+<p>Sets the network packet size in bytes for communication with SQL Server.<br />
+Increase from the default 4096 bytes to improve performance for large data transfers, but ensure the server is configured to support the same packet size.<br></p>
 <table>
 <thead>
 <tr>
@@ -1210,9 +1212,8 @@ Valid values are &quot;TcpIp&quot;,&quot;NamedPipes&quot;,&quot;Multiprotocol&qu
 </tbody>
 </table>
 <h5 id="pooledconnectionlifetime">-PooledConnectionLifetime</h5>
-<p>When a connection is returned to the pool, its creation time is compared with the current time and the connection is destroyed if that time span (in seconds) exceeds the value specified by Connection<br />
-Lifetime. This is useful in clustered configurations to force load balancing between a running server and a server just brought online.<br />
-A value of zero (0) causes pooled connections to have the maximum connection timeout.<br></p>
+<p>Sets the maximum lifetime in seconds for pooled connections before they're discarded and recreated.<br />
+Use this in clustered environments to force load balancing or to refresh connections periodically. Zero means unlimited lifetime.<br></p>
 <table>
 <thead>
 <tr>
@@ -1240,8 +1241,8 @@ A value of zero (0) causes pooled connections to have the maximum connection tim
 </tbody>
 </table>
 <h5 id="sqlexecutionmodes">-SqlExecutionModes</h5>
-<p>The SqlExecutionModes enumeration contains values that are used to specify whether the commands sent to the referenced connection to the server are executed immediately or saved in a buffer.<br />
-Valid values include &quot;CaptureSql&quot;, &quot;ExecuteAndCaptureSql&quot; and &quot;ExecuteSql&quot;.<br></p>
+<p>Controls how SQL commands are processed by the connection.<br />
+Use &quot;CaptureSql&quot; to generate scripts without execution, &quot;ExecuteAndCaptureSql&quot; to both execute and log commands, or &quot;ExecuteSql&quot; for normal execution.<br></p>
 <table>
 <thead>
 <tr>
@@ -1273,9 +1274,8 @@ Valid values include &quot;CaptureSql&quot;, &quot;ExecuteAndCaptureSql&quot; an
 </tbody>
 </table>
 <h5 id="statementtimeout">-StatementTimeout</h5>
-<p>Sets the number of seconds a statement is given to run before failing with a timeout error.<br />
-The default is read from the configuration 'sql.execution.timeout' that is currently set to 0 (unlimited).<br />
-If you want to change this to 10 minutes, use: Set-DbatoolsConfig -FullName 'sql.execution.timeout' -Value 600<br></p>
+<p>Sets the timeout in seconds for SQL statement execution before canceling the command.<br />
+Use this to prevent runaway queries from blocking operations indefinitely. Zero means unlimited, but set reasonable limits for production environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -1303,7 +1303,8 @@ If you want to change this to 10 minutes, use: Set-DbatoolsConfig -FullName 'sql
 </tbody>
 </table>
 <h5 id="trustservercertificate">-TrustServerCertificate</h5>
-<p>When this switch is enabled, the channel will be encrypted while bypassing walking the certificate chain to validate trust.<br></p>
+<p>Bypasses certificate validation when using encrypted connections.<br />
+Use this for development environments or when connecting to servers with self-signed certificates, but avoid in production for security reasons.<br></p>
 <table>
 <thead>
 <tr>
@@ -1331,7 +1332,8 @@ If you want to change this to 10 minutes, use: Set-DbatoolsConfig -FullName 'sql
 </tbody>
 </table>
 <h5 id="workstationid">-WorkstationId</h5>
-<p>Sets the name of the workstation connecting to SQL Server.<br></p>
+<p>Sets the workstation name visible in SQL Server monitoring and session information.<br />
+Use this to identify the source of connections in sys.dm_exec_sessions or when troubleshooting connection issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -1359,8 +1361,8 @@ If you want to change this to 10 minutes, use: Set-DbatoolsConfig -FullName 'sql
 </tbody>
 </table>
 <h5 id="alwaysencrypted">-AlwaysEncrypted</h5>
-<p>Sets &quot;Column Encryption Setting=enabled&quot; on the connection so you can work with Always Encrypted values.<br />
-For more information, see <a href="https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider">https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/develop-using-always-encrypted-with-net-framework-data-provider</a><br></p>
+<p>Enables Always Encrypted support for accessing encrypted columns in databases with column-level encryption.<br />
+Required when working with sensitive data protected by Always Encrypted, allowing proper decryption of encrypted column values.<br></p>
 <table>
 <thead>
 <tr>
@@ -1388,7 +1390,8 @@ For more information, see <a href="https://docs.microsoft.com/en-us/sql/relation
 </tbody>
 </table>
 <h5 id="appendconnectionstring">-AppendConnectionString</h5>
-<p>Appends to the current connection string. Note that you cannot pass authentication information using this method. Use -SqlInstance and optionally -SqlCredential to set authentication information.<br></p>
+<p>Adds custom connection string parameters to the generated connection string.<br />
+Use this for advanced connection properties like custom timeout values, SSL settings, or application-specific parameters that aren't covered by other parameters.<br></p>
 <table>
 <thead>
 <tr>
@@ -1416,7 +1419,8 @@ For more information, see <a href="https://docs.microsoft.com/en-us/sql/relation
 </tbody>
 </table>
 <h5 id="sqlconnectiononly">-SqlConnectionOnly</h5>
-<p>Instead of returning a rich SMO server object, this command will only return a SqlConnection object when setting this switch.<br></p>
+<p>Returns only a SqlConnection object instead of the full SMO server object.<br />
+Use this when you only need basic connection functionality and want to reduce memory overhead or avoid SMO initialization.<br></p>
 <table>
 <thead>
 <tr>
@@ -1444,9 +1448,8 @@ For more information, see <a href="https://docs.microsoft.com/en-us/sql/relation
 </tbody>
 </table>
 <h5 id="azuredomain">-AzureDomain</h5>
-<p>By default, this is set to database.windows.net<br />
-In the event your AzureSqlDb is not on a database.windows.net domain, you can set a custom domain using the AzureDomain parameter.<br />
-This tells Connect-DbaInstance to login to the database using the method that works best with Azure.<br></p>
+<p>Specifies the domain for Azure SQL Database connections, defaulting to database.windows.net.<br />
+Use this when connecting to Azure SQL instances in sovereign clouds or custom domains that require different authentication methods.<br></p>
 <table>
 <thead>
 <tr>
@@ -1474,7 +1477,8 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </tbody>
 </table>
 <h5 id="tenant">-Tenant</h5>
-<p>The TenantId for an Azure Instance<br></p>
+<p>Specifies the Azure Active Directory tenant ID for Azure SQL Database authentication.<br />
+Required when using service principal authentication or when your account exists in multiple Azure AD tenants.<br></p>
 <table>
 <thead>
 <tr>
@@ -1502,11 +1506,8 @@ This tells Connect-DbaInstance to login to the database using the method that wo
 </tbody>
 </table>
 <h5 id="accesstoken">-AccessToken</h5>
-<p>Connect to an Azure SQL Database or an Azure SQL Managed Instance with an AccessToken, that has to be generated with Get-AzAccessToken or New-DbaAzAccessToken.<br />
-Supports both String (Azure PowerShell v13 and earlier) and SecureString (Azure PowerShell v14+) token formats.<br />
-The function automatically detects the token type and converts SecureString tokens to the required plain text format internally.<br />
-Note that the token is valid for only one hour and cannot be renewed automatically.<br />
-Note that the returned SMO is not a fully functional SMO. It can only be used in a limited list of commands like Invoke-DbaQuery, Import-DbaCsv or Write-DbaDbTableData.<br></p>
+<p>Authenticates to Azure SQL Database using an access token generated by Get-AzAccessToken or New-DbaAzAccessToken.<br />
+Use this for service principal authentication or when integrating with Azure automation that provides pre-generated tokens. Tokens expire after one hour and cannot be renewed.<br></p>
 <table>
 <thead>
 <tr>
@@ -1534,9 +1535,8 @@ Note that the returned SMO is not a fully functional SMO. It can only be used in
 </tbody>
 </table>
 <h5 id="dedicatedadminconnection">-DedicatedAdminConnection</h5>
-<p>Connects using &quot;ADMIN:&quot; to create a dedicated admin connection (DAC) as a non-pooled connection.<br />
-If the instance is on a remote server, the remote access has to be enabled via &quot;Set-DbaSpConfigure -Name RemoteDacConnectionsEnabled -Value $true&quot; or &quot;sp_configure 'remote admin connections', 1&quot;.<br />
-The connection will not be closed if the variable holding the Server SMO is going out of scope, so it is very important to call .ConnectionContext.Disconnect() to close the connection. See example.<br></p>
+<p>Creates a dedicated administrator connection (DAC) for emergency access to SQL Server.<br />
+Use this when SQL Server is unresponsive to regular connections, allowing you to diagnose and resolve critical issues. Remember to manually disconnect the connection when finished.<br></p>
 <table>
 <thead>
 <tr>
@@ -1564,9 +1564,8 @@ The connection will not be closed if the variable holding the Server SMO is goin
 </tbody>
 </table>
 <h5 id="disableexception">-DisableException</h5>
-<p>By default in most of our commands, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
-This command, however, gifts you  with &quot;sea of red&quot; exceptions, by default, because it is useful for advanced scripting.<br />
-Using this switch turns our &quot;nice by default&quot; feature on which makes errors into pretty warnings.<br></p>
+<p>Changes exception handling from throwing errors to displaying warnings.<br />
+Use this in interactive sessions where you want graceful error handling instead of script-stopping exceptions, which is the default behavior for this command.<br></p>
 <table>
 <thead>
 <tr>

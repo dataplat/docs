@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaEndpoint">Get-DbaEndpoint</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns endpoint objects from a SQL Server instance.</p>
+<p>Retrieves SQL Server endpoints with network connectivity details for troubleshooting and documentation.</p>
 <h2 id="description">Description</h2>
-<p>Returns endpoint objects from a SQL Server instance.</p>
+<p>Retrieves all SQL Server endpoints including DatabaseMirroring, ServiceBroker, Soap, and TSql types with their network configuration details. This function provides essential information for troubleshooting connectivity issues, documenting high availability setups, and performing security audits. It automatically resolves DNS names and constructs connection strings (FQDN format) for endpoints that have TCP listeners, making it easier to validate network accessibility and plan firewall configurations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaEndpoint
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -570,7 +570,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="endpoint">-Endpoint</h5>
-<p>Return only specific endpoints.<br></p>
+<p>Specifies one or more endpoint names to retrieve instead of returning all endpoints. Accepts exact endpoint names and supports multiple values.<br />
+Use this when you need to examine specific endpoints like 'Mirroring' or 'AlwaysOn_health' rather than scanning all configured endpoints.<br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +599,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Return only specific types of endpoints. Options include: DatabaseMirroring, ServiceBroker, Soap, and TSql.<br></p>
+<p>Filters endpoints by their functional type. Valid options: DatabaseMirroring, ServiceBroker, Soap, and TSql.<br />
+Use this to focus on specific endpoint categories, such as 'DatabaseMirroring' for Always On AG troubleshooting or 'ServiceBroker' for message queuing configurations.<br></p>
 <table>
 <thead>
 <tr>

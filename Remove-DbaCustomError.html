@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaCustomError">Remove-DbaCustomError</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a user defined message from sys.messages. This command does not support Azure SQL Database.</p>
+<p>Removes user-defined error messages from the sys.messages system catalog</p>
 <h2 id="description">Description</h2>
-<p>This command provides a wrapper for the sp_dropmessage system procedure that allows for user defined messages to be removed from sys.messages.</p>
+<p>Removes custom error messages that applications have added to SQL Server's sys.messages catalog, cleaning up obsolete or unwanted user-defined messages with IDs between 50001 and 2147483647. This is essential when decommissioning applications, cleaning up test environments, or managing custom error message lifecycles during application deployments. You can remove messages for specific languages or all language versions of a message ID at once.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaCustomError
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -588,7 +588,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="messageid">-MessageID</h5>
-<p>An integer between 50001 and 2147483647.<br></p>
+<p>Specifies the custom error message ID to remove from the sys.messages catalog.<br />
+Must be between 50001 and 2147483647, which is the valid range for user-defined error messages.<br />
+Use this to target specific custom errors that applications have registered with SQL Server.<br></p>
 <table>
 <thead>
 <tr>
@@ -616,7 +618,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="language">-Language</h5>
-<p>Language for the message to be removed. The valid values for Language are contained in the Name and Alias columns from sys.syslanguages.<br></p>
+<p>Specifies which language version of the custom error message to remove.<br />
+Accepts language names or aliases from sys.syslanguages (like 'English', 'French', 'Deutsch').<br />
+Use 'All' to remove all language versions of the message ID at once. Defaults to 'English'.<br></p>
 <table>
 <thead>
 <tr>

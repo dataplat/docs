@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaDatabase">Find-DbaDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Find database/s on multiple servers that match criteria you input</p>
+<p>Searches multiple SQL Server instances for databases matching name, owner, or Service Broker GUID patterns</p>
 <h2 id="description">Description</h2>
-<p>Allows you to search SQL Server instances for database that have either the same name, owner or service broker guid.</p>
-<p>There a several reasons for the service broker guid not matching on a restored database primarily using alter database new broker. or turn off broker to return a guid of 0000-0000-0000-0000.</p>
+<p>Performs database discovery and inventory across multiple SQL Server instances by searching for databases that match specific criteria. You can search by database name (using regex patterns), database owner, or Service Broker GUID to locate databases across environments.</p>
+<p>This is particularly useful for tracking databases across development, test, and production environments, finding databases by ownership for security audits, or identifying databases with matching Service Broker GUIDs. The function returns detailed information including database size, object counts (tables, views, stored procedures), and creation details.</p>
+<p>Service Broker GUIDs can become mismatched on restored databases when using ALTER DATABASE...NEW_BROKER or when Service Broker is disabled, which resets the GUID to all zeros. This function helps identify such scenarios during database migrations and troubleshooting.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaDatabase
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -545,7 +546,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="pattern">-Pattern</h5>
-<p>Value that is searched for. This is a regular expression match but you can just use a plain ol string like 'dbareports' <br></p>
+<p>The search value to match against the specified property. Supports regular expressions for flexible pattern matching.<br />
+Use simple strings like 'Sales' or 'Test', or regex patterns like '^prod.*db$' to match databases starting with 'prod' and ending with 'db'. <br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +606,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="property">-Property</h5>
-<p>What you would like to search on. Either Database Name, Owner, or Service Broker GUID. Database name is the default.<br></p>
+<p>Specifies which database property to search against: Name, Owner, or ServiceBrokerGuid. Defaults to Name for database name searches.<br />
+Use Owner when tracking down databases by their owner for security audits, or ServiceBrokerGuid when identifying databases with matching Service Broker configurations across environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -636,7 +639,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="exact">-Exact</h5>
-<p>Search for an exact match instead of a pattern<br></p>
+<p>Forces an exact string match instead of pattern matching. Use this when you need to find databases with names that exactly match your search term.<br />
+Particularly useful when searching for database names that contain regex special characters or when you want precise matches without wildcards.<br></p>
 <table>
 <thead>
 <tr>

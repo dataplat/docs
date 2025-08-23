@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDirectory">New-DbaDirectory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates new path as specified by the path variable</p>
+<p>Creates directories on SQL Server machines using the SQL Server service account</p>
 <h2 id="description">Description</h2>
-<p>Uses master.dbo.xp_create_subdir to create the path<br />
-Returns $true if the path can be created, $false otherwise</p>
+<p>Creates directories on local or remote SQL Server machines by executing the xp_create_subdir extended stored procedure. This is particularly useful when you need to create backup directories, log shipping paths, or database file locations where the SQL Server service account needs to have access. The function checks if the path already exists before attempting creation and returns the success status for each operation.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDirectory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -542,7 +541,9 @@ PS C:\&gt; New-DbaDirectory -SqlInstance sqlcluster -SqlCredential $credential -
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The Path to tests. Can be a file or directory. <br></p>
+<p>Specifies the full directory path to create on the SQL Server machine using the SQL Server service account.<br />
+Use this when you need to create backup directories, database file paths, or log shipping folders where SQL Server needs access.<br />
+The function will check if the path already exists and skip creation if it does. <br></p>
 <table>
 <thead>
 <tr>

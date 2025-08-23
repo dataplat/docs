@@ -485,9 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbForeignKey">Get-DbaDbForeignKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database Foreign Keys.</p>
+<p>Retrieves foreign key constraints from SQL Server database tables</p>
 <h2 id="description">Description</h2>
-<p>Gets database Foreign Keys.</p>
+<p>Retrieves all foreign key constraint definitions from tables across one or more SQL Server databases.<br />
+Essential for documenting referential integrity relationships, analyzing table dependencies before migrations, and troubleshooting cascade operations.<br />
+Returns detailed foreign key properties including referenced tables, schema information, and constraint status (enabled/disabled, checked/unchecked).<br />
+Supports filtering by database and excluding system tables to focus on user-defined constraints.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbForeignKey
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -583,7 +586,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get Foreign Keys from specific database(s)<br></p>
+<p>Specifies which databases to scan for foreign key constraints. Accepts database names, wildcards, or arrays.<br />
+Use this when you need to focus on specific databases rather than scanning all accessible databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +615,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server<br></p>
+<p>Excludes specific databases from the foreign key scan. Useful for skipping large databases, test environments, or databases known to have no relevant constraints.<br />
+Commonly used to exclude system databases like master, model, msdb, and tempdb when focusing on user databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +644,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemtable">-ExcludeSystemTable</h5>
-<p>This switch removes all system objects from the tables collection<br></p>
+<p>Excludes system tables from the foreign key analysis, focusing only on user-created tables.<br />
+Use this switch when documenting application schemas or analyzing business logic relationships, as system table foreign keys are typically not relevant for most DBA tasks.<br></p>
 <table>
 <thead>
 <tr>

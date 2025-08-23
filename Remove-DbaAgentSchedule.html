@@ -485,11 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaAgentSchedule">Remove-DbaAgentSchedule</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes job schedules.</p>
+<p>Removes SQL Server Agent schedules from one or more instances.</p>
 <h2 id="description">Description</h2>
-<p>Removes the schedules that have passed through the pipeline.</p>
-<p>If not used with a pipeline, Get-DbaAgentSchedule will be executed with the parameters provided<br />
-and the returned schedules will be removed.</p>
+<p>Removes SQL Server Agent schedules from the msdb database, handling both unused schedules and those currently assigned to jobs. The function first removes schedule associations from any jobs using the schedule, then drops the schedule itself to prevent orphaned references. Use this when cleaning up unused schedules during maintenance, consolidating multiple schedules, or removing schedules as part of job reorganization. By default, schedules in use by jobs are protected and require the -Force parameter to remove.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgentSchedule
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -590,8 +588,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schedule">-Schedule</h5>
-<p>The name of the job schedule.<br />
-Please note that there can be several schedules with the same name. These differ then only in the Id or the ScheduleUid.<br></p>
+<p>Specifies the name(s) of SQL Server Agent schedules to remove from the msdb database.<br />
+Use this when you know the schedule name but need to be aware that multiple schedules can share the same name.<br />
+When multiple schedules have identical names, you'll need to use -Id or -ScheduleUid to target a specific schedule.<br></p>
 <table>
 <thead>
 <tr>
@@ -619,7 +618,9 @@ Please note that there can be several schedules with the same name. These differ
 </tbody>
 </table>
 <h5 id="scheduleuid">-ScheduleUid</h5>
-<p>The unique identifier of the schedule.<br></p>
+<p>Specifies the unique GUID identifier of specific SQL Server Agent schedules to remove.<br />
+Use this when you need to target an exact schedule, especially when multiple schedules share the same name.<br />
+The ScheduleUid ensures you're removing the precise schedule without ambiguity.<br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +648,9 @@ Please note that there can be several schedules with the same name. These differ
 </tbody>
 </table>
 <h5 id="id">-Id</h5>
-<p>The Id of the schedule.<br></p>
+<p>Specifies the numeric schedule ID(s) to remove from SQL Server Agent.<br />
+Use this when you have the specific schedule ID number, typically obtained from Get-DbaAgentSchedule output.<br />
+The ID provides an alternative to name-based removal when dealing with duplicate schedule names.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,7 +678,9 @@ Please note that there can be several schedules with the same name. These differ
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of schedules (such as returned by Get-DbaAgentSchedule), to be removed.<br></p>
+<p>Accepts schedule objects from the pipeline, typically from Get-DbaAgentSchedule output.<br />
+Use this when you want to filter schedules first with Get-DbaAgentSchedule, then pipe the results for removal.<br />
+This approach allows for complex filtering and review before deletion.<br></p>
 <table>
 <thead>
 <tr>
@@ -733,7 +738,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Remove the schedules even if they where used in one or more jobs.<br></p>
+<p>Bypasses the protection that prevents removal of schedules currently assigned to jobs.<br />
+Without this parameter, schedules in use by jobs are protected and will not be removed.<br />
+Use this when you need to clean up schedules and automatically remove their job associations first.<br></p>
 <table>
 <thead>
 <tr>

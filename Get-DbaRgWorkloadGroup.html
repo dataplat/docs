@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaRgWorkloadGroup">Get-DbaRgWorkloadGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets all Resource Governor workload group objects</p>
+<p>Retrieves Resource Governor workload groups from SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Gets all Resource Governor workload group objects</p>
+<p>Retrieves Resource Governor workload groups along with their configuration settings including CPU limits, memory grants, and parallelism controls. Workload groups define how resource requests are classified and managed within resource pools, allowing DBAs to control resource consumption for different types of workloads. This function is essential for monitoring and troubleshooting Resource Governor configurations to ensure optimal performance isolation between competing workloads.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaRgWorkloadGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -568,7 +568,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows input to be piped from Get-DbaRgResourcePool<br></p>
+<p>Accepts resource pool objects from Get-DbaRgResourcePool to retrieve workload groups from specific pools only.<br />
+Use this to filter workload groups when you need to examine groups within particular resource pools instead of all workload groups across the instance.<br></p>
 <table>
 <thead>
 <tr>

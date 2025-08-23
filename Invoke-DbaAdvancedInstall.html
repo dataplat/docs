@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaAdvancedInstall">Invoke-DbaAdvancedInstall</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Designed for internal use, implements parallel execution for Install-DbaInstance.</p>
+<p>Executes SQL Server installation on a single computer with automated restart handling.</p>
 <h2 id="description">Description</h2>
-<p>Invokes an install process for a single computer and restarts it if needed</p>
+<p>Performs the complete SQL Server installation workflow on a target computer, including pre and post-installation restart management. This internal function handles copying configuration files to remote machines, executing setup.exe with specified parameters, configuring TCP ports, enabling volume maintenance tasks, and managing required system restarts. It provides detailed installation logging and error reporting to track the success or failure of each installation attempt.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaAdvancedInstall
     [[-ComputerName] &lt;String&gt;]
@@ -518,7 +518,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Invokes update actions on SQL1 after restarting it.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>Target computer with SQL instance or instances.<br></p>
+<p>Specifies the target computer where SQL Server will be installed.<br />
+Can be a hostname, FQDN, or IP address for remote installations.<br></p>
 <table>
 <thead>
 <tr>
@@ -546,7 +547,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="instancename">-InstanceName</h5>
-<p>Instance name to be used for the installation<br></p>
+<p>Specifies the name for the SQL Server instance being installed.<br />
+Use 'MSSQLSERVER' for the default instance or provide a custom name for named instances.<br />
+This parameter is used for post-installation configuration like port changes and service restarts.<br></p>
 <table>
 <thead>
 <tr>
@@ -574,7 +577,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="port">-Port</h5>
-<p>After successful installation, changes SQL Server TCP port to this value. Overrides the port specified in -SqlInstance.<br></p>
+<p>Sets the TCP port for the SQL Server instance after installation completes.<br />
+Use this when you need a specific port for firewall rules or application connectivity requirements.<br />
+The service will be automatically restarted to apply the new port setting.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +607,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="installationpath">-InstallationPath</h5>
-<p>Path to setup.exe<br></p>
+<p>Specifies the full path to the SQL Server setup.exe file.<br />
+This should point to the setup.exe in your SQL Server installation media or extracted ISO.<br></p>
 <table>
 <thead>
 <tr>
@@ -630,7 +636,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="configurationpath">-ConfigurationPath</h5>
-<p>Path to Configuration.ini on a local machine<br></p>
+<p>Specifies the path to the SQL Server configuration file (Configuration.ini) on the local machine.<br />
+This file contains all installation settings and will be copied to the target computer during remote installations.<br />
+Generate this file using SQL Server Installation Center or create it manually with your desired settings.<br></p>
 <table>
 <thead>
 <tr>
@@ -658,7 +666,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="argumentlist">-ArgumentList</h5>
-<p>Array of command line arguments for setup.exe<br></p>
+<p>Provides additional command-line arguments to pass directly to setup.exe.<br />
+Use this for installation options not covered by other parameters, such as /IACCEPTSQLSERVERLICENSETERMS.<br />
+These arguments supplement the configuration file settings.<br></p>
 <table>
 <thead>
 <tr>
@@ -686,7 +696,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="version">-Version</h5>
-<p>Canonic version of SQL Server, e.g. 10.50, 11.0<br></p>
+<p>Specifies the SQL Server version being installed using the canonical version number.<br />
+Examples: 10.50 for SQL Server 2008 R2, 11.0 for SQL Server 2012, 13.0 for SQL Server 2016.<br />
+This helps the function locate installation logs and perform version-specific operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -746,8 +758,9 @@ Full list of parameters can be found here: <a href="https://docs.microsoft.com/e
 </tbody>
 </table>
 <h5 id="restart">-Restart</h5>
-<p>Restart computer automatically after a successful installation of Sql Server and wait until it comes back online.<br />
-Using this parameter is the only way to chain-install more than 1 instance, since every single patch will require a restart of said computer.<br></p>
+<p>Automatically restarts the target computer when required by the SQL Server installation and waits for it to come back online.<br />
+Essential for multi-instance installations since most SQL Server components require a restart to complete installation.<br />
+Without this parameter, you must manually restart the computer when installation exit code 3010 is returned.<br></p>
 <table>
 <thead>
 <tr>
@@ -775,7 +788,9 @@ Using this parameter is the only way to chain-install more than 1 instance, sinc
 </tbody>
 </table>
 <h5 id="performvolumemaintenancetasks">-PerformVolumeMaintenanceTasks</h5>
-<p>Allow SQL Server service account to perform Volume Maintenance tasks.<br></p>
+<p>Grants the SQL Server service account the 'Perform Volume Maintenance Tasks' privilege after installation.<br />
+This enables instant file initialization, significantly improving database file creation and growth performance.<br />
+Recommended for production environments where large databases are created or restored frequently.<br></p>
 <table>
 <thead>
 <tr>
@@ -803,7 +818,9 @@ Using this parameter is the only way to chain-install more than 1 instance, sinc
 </tbody>
 </table>
 <h5 id="saveconfiguration">-SaveConfiguration</h5>
-<p>Save installation configuration file in a custom location. Will not be preserved otherwise.<br></p>
+<p>Specifies a path where the installation configuration file will be saved for future reference.<br />
+Use this to preserve your installation settings for documentation or to replicate the same configuration on other servers.<br />
+The temporary configuration file is normally deleted after installation completes.<br></p>
 <table>
 <thead>
 <tr>
@@ -831,13 +848,9 @@ Using this parameter is the only way to chain-install more than 1 instance, sinc
 </tbody>
 </table>
 <h5 id="authentication">-Authentication</h5>
-<p>Chooses an authentication protocol for remote connections.<br />
-If the protocol fails to establish a connection<br />
-Defaults:</p>
-<ul>
-<li>CredSSP when -Credential is specified - due to the fact that repository Path is usually a network share and credentials need to be passed to the remote host to avoid the double-hop issue.</li>
-<li>Default when -Credential is not specified. Will likely fail if a network path is specified.<br></li>
-</ul>
+<p>Specifies the authentication protocol for PowerShell remoting to the target computer.<br />
+CredSSP is used by default when credentials are provided to handle network share access during installation.<br />
+Change to Kerberos or Negotiate if your environment restricts CredSSP usage.<br></p>
 <table>
 <thead>
 <tr>
@@ -898,7 +911,9 @@ Must be specified for any remote connection if installation media is located on 
 </tbody>
 </table>
 <h5 id="sacredential">-SaCredential</h5>
-<p>Securely provide the password for the sa account when using mixed mode authentication.<br></p>
+<p>Provides the sa account password when installing SQL Server with mixed mode authentication.<br />
+Pass a PSCredential object with 'sa' as the username and your desired password.<br />
+Required only when your configuration file specifies mixed mode authentication (SECURITYMODE=SQL).<br></p>
 <table>
 <thead>
 <tr>
@@ -926,7 +941,9 @@ Must be specified for any remote connection if installation media is located on 
 </tbody>
 </table>
 <h5 id="nopendingrenamecheck">-NoPendingRenameCheck</h5>
-<p>Disables pending rename validation when checking for a pending reboot.<br></p>
+<p>Skips the check for pending file rename operations when determining if a reboot is required.<br />
+Use this switch if you encounter false positive reboot requirements due to pending renames that don't affect SQL Server installation.<br />
+Only disable this check if you're certain no critical system files are waiting to be renamed.<br></p>
 <table>
 <thead>
 <tr>

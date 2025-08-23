@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaExternalProcess">Get-DbaExternalProcess</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets OS processes created by SQL Server</p>
+<p>Retrieves operating system processes spawned by SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Gets OS processes created by SQL Server</p>
-<p>Helps when finding hung sessions with External Wait Types</p>
+<p>Identifies and returns all child processes created by SQL Server, such as those spawned by xp_cmdshell, BCP operations, SSIS packages, or other external utilities.</p>
+<p>This is particularly useful when troubleshooting sessions with External Wait Types, where SQL Server is waiting for an external process to complete. When sessions appear hung with wait types like WAITFOR_RESULTS or EXTERNAL_SCRIPT_NETWORK_IO, this command helps identify the specific external processes that may be causing the delay.</p>
+<p>The function queries WMI to find the SQL Server process (sqlservr.exe) and then locates all processes where SQL Server is the parent process, providing details about memory usage and resource consumption.</p>
 <p><a href="https://web.archive.org/web/20201027122300/http://vickyharp.com/2013/12/killing-sessions-with-external-wait-types/">https://web.archive.org/web/20201027122300/http://vickyharp.com/2013/12/killing-sessions-with-external-wait-types/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaExternalProcess
@@ -507,7 +508,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets OS processes created by SQL Server on SERVER01 and SERVER02<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server host computer <br></p>
+<p>Specifies the SQL Server host computer(s) to check for external processes spawned by SQL Server.<br />
+Use this when troubleshooting hung sessions or investigating resource usage from processes like xp_cmdshell, BCP, or SSIS operations.<br />
+Accepts multiple computer names and SQL Server instance names with automatic computer resolution. <br></p>
 <table>
 <thead>
 <tr>

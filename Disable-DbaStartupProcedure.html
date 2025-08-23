@@ -485,11 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Disable-DbaStartupProcedure">Disable-DbaStartupProcedure</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Disables the automatic execution of procedure(s) that are set to execute automatically each time the SQL Server service is started</p>
+<p>Removes stored procedures from SQL Server's automatic startup execution list</p>
 <h2 id="description">Description</h2>
-<p>Used to revoke the designation of one or more stored procedures to automatically execute when the SQL Server service is started.<br />
-Equivalent to running the system stored procedure sp_procoption with @OptionValue = off<br />
-Returns the SMO StoredProcedure object for procedures affected.</p>
+<p>Prevents stored procedures from automatically executing when the SQL Server service starts by clearing their startup designation in the master database.<br />
+This is essential when troubleshooting startup issues or removing procedures that were previously configured to run at service startup.<br />
+Equivalent to running sp_procoption with @OptionValue = off, but provides object-based management with detailed status reporting.<br />
+Returns enhanced SMO StoredProcedure objects showing the action results and current startup status.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Disable-DbaStartupProcedure
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -579,7 +580,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="startupprocedure">-StartupProcedure</h5>
-<p>The Procedure(s) to process.<br></p>
+<p>Specifies the stored procedure names to remove from automatic startup execution. Accepts schema-qualified names like '[dbo].[MyStartupProc]'.<br />
+Use this when you know the specific procedure names that need their startup designation disabled.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +609,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Piped objects from Get-DbaStartup<br></p>
+<p>Accepts stored procedure objects from Get-DbaStartupProcedure via pipeline input.<br />
+Use this when working with the results of Get-DbaStartupProcedure to disable multiple startup procedures at once.<br></p>
 <table>
 <thead>
 <tr>

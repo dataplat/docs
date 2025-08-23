@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaForceNetworkEncryption">Get-DbaForceNetworkEncryption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets Force Encryption settings for a SQL Server instance</p>
+<p>Retrieves Force Network Encryption configuration from SQL Server's network settings</p>
 <h2 id="description">Description</h2>
-<p>Gets Force Encryption settings for a SQL Server instance. Note that this requires access to the Windows Server - not the SQL instance itself.</p>
-<p>This setting is found in Configuration Manager.</p>
+<p>Retrieves the Force Network Encryption setting and associated certificate from SQL Server's network configuration stored in the Windows registry. This setting determines whether SQL Server requires all client connections to use encryption, preventing unencrypted communication.</p>
+<p>Useful for security audits and compliance checks to verify that network encryption policies are properly configured across your SQL Server estate. The function accesses the SuperSocketNetLib registry key where SQL Server stores its network security settings, requiring Windows-level access rather than SQL Server authentication.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaForceNetworkEncryption
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]

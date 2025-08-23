@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbAssembly">Get-DbaDbAssembly</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Database Assembly information for each instance(s) of SQL Server.</p>
+<p>Retrieves CLR assemblies registered in SQL Server databases for security auditing and inventory management.</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaDbAssembly command gets SQL Database Assembly information for each instance(s) of SQL Server.</p>
+<p>Retrieves detailed information about Common Language Runtime (CLR) assemblies that have been registered in SQL Server databases. This function helps DBAs audit custom .NET assemblies for security compliance, track assembly versions, and identify potentially unsafe or unauthorized code deployed to their SQL Server instances. Returns key properties including assembly security level, owner, creation date, and version information across all accessible databases.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbAssembly
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -575,7 +575,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. If unspecified, all accessible databases will be processed.<br></p>
+<p>Specifies which databases to scan for CLR assemblies. Accepts wildcards for pattern matching.<br />
+Use this when auditing assemblies in specific databases rather than scanning the entire instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +604,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Specify an Assembly to be fetched. If not specified all Assemblies will be returned<br></p>
+<p>Filters results to assemblies with matching names. Supports exact assembly name matching only.<br />
+Use this when investigating specific assemblies during security audits or troubleshooting CLR-related issues.<br></p>
 <table>
 <thead>
 <tr>

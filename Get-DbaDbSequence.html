@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbSequence">Get-DbaDbSequence</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Finds a sequence.</p>
+<p>Retrieves SQL Server sequence objects and their configuration details from specified databases.</p>
 <h2 id="description">Description</h2>
-<p>Finds a sequence in the database(s) specified.</p>
+<p>Retrieves sequence objects from SQL Server databases, returning detailed information about each sequence including data type, start value, increment value, and schema location. Sequences provide a flexible alternative to IDENTITY columns for generating sequential numeric values, allowing values to be shared across multiple tables and offering more control over numbering behavior. This function helps DBAs inventory sequences across databases, verify sequence configurations, and identify sequences that may need maintenance or optimization.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbSequence
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -588,7 +588,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases to search for sequence objects. Accepts wildcards and multiple database names.<br />
+Use this when you need to limit the search to specific databases instead of scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -616,7 +617,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sequence">-Sequence</h5>
-<p>The name of the sequence.<br></p>
+<p>Filters results to sequences with specific names. Accepts multiple sequence names and supports exact name matching.<br />
+Use this when you need to find specific sequences across databases rather than retrieving all sequences.<br></p>
 <table>
 <thead>
 <tr>
@@ -644,7 +646,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The name of the schema for the sequence. The default is dbo.<br></p>
+<p>Filters results to sequences within specific schemas. Accepts multiple schema names for searching across different schemas.<br />
+Use this when you need to examine sequences in particular schemas, such as application-specific schemas or custom organizational structures.<br></p>
 <table>
 <thead>
 <tr>
@@ -672,7 +675,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase pipeline input, allowing you to target specific databases already retrieved.<br />
+Use this approach when you need to chain commands or work with databases that meet specific criteria from previous filtering operations.<br></p>
 <table>
 <thead>
 <tr>

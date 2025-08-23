@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaBuild">Test-DbaBuild</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns SQL Server Build &quot;compliance&quot; level on a build.</p>
+<p>Tests SQL Server build versions against patching compliance requirements</p>
 <h2 id="description">Description</h2>
-<p>Returns info about the specific build of a SQL instance, including the SP, the CU and the reference KB, End Of Support, wherever possible. It adds a Compliance property as true/false, and adds details about the &quot;targeted compliance&quot;.<br />
-The build data used can be found here: <a href="https://dbatools.io/builds">https://dbatools.io/builds</a></p>
+<p>Evaluates SQL Server instances or build versions against organizational patching policies to determine compliance status. Returns detailed build information including service pack level, cumulative update, reference KB, and end-of-support dates with a compliance flag. Helps DBAs audit patch levels across environments and identify instances that fall below minimum security or stability requirements. You can test against specific minimum builds, relative currency policies (like &quot;no more than 1 SP behind&quot;), or require the latest available build.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaBuild
     [[-Build] &lt;Version[]&gt;]
@@ -547,7 +546,9 @@ Output columns CUTarget and SPTarget are not relevant (empty), only the BuildTar
 <p>Integrate with other cmdlets to have builds checked for all your registered servers on sqlserver2014a.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="build">-Build</h5>
-<p>Instead of connecting to a real instance, pass a string identifying the build to get the info back.<br></p>
+<p>Specifies one or more SQL Server build version numbers to test for compliance instead of connecting to live instances.<br />
+Use this when you want to check specific build versions like &quot;12.0.5540&quot; without querying actual servers.<br />
+Accepts version strings in the format major.minor.build or major.minor.build.revision.<br></p>
 <table>
 <thead>
 <tr>
@@ -575,7 +576,9 @@ Output columns CUTarget and SPTarget are not relevant (empty), only the BuildTar
 </tbody>
 </table>
 <h5 id="minimumbuild">-MinimumBuild</h5>
-<p>This is the build version to test &quot;compliance&quot; against. Anything below this is flagged as not compliant.<br></p>
+<p>Sets the baseline build version that defines compliance requirements for your environment.<br />
+Any SQL Server instance running a build version below this threshold will be flagged as non-compliant.<br />
+Commonly used to enforce minimum security patch levels across your SQL Server estate.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,8 +606,9 @@ Output columns CUTarget and SPTarget are not relevant (empty), only the BuildTar
 </tbody>
 </table>
 <h5 id="maxbehind">-MaxBehind</h5>
-<p>Instead of using a specific MinimumBuild here you can pass &quot;how many service packs and cu back&quot; is the targeted compliance level. You can use xxSP or xxCU or both, where xx is a number. See the<br />
-Examples for more information.<br></p>
+<p>Defines compliance based on how many service packs or cumulative updates behind the latest release is acceptable.<br />
+Use format like &quot;1SP&quot;, &quot;2CU&quot;, or &quot;1SP 1CU&quot; to specify maximum allowed gaps from current releases.<br />
+This approach automatically adjusts compliance targets as new patches are released, unlike fixed MinimumBuild values.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +636,9 @@ Examples for more information.<br></p>
 </tbody>
 </table>
 <h5 id="latest">-Latest</h5>
-<p>Shortcut for specifying the very most up-to-date build available.<br></p>
+<p>Requires SQL Server instances to be running the most current build available for their version.<br />
+Use this for environments with strict currency requirements where any outdated build is considered non-compliant.<br />
+Automatically determines the latest available build for each SQL Server major version.<br></p>
 <table>
 <thead>
 <tr>
@@ -718,7 +724,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="update">-Update</h5>
-<p>Looks online for the most up to date reference, replacing the local one.<br></p>
+<p>Downloads the latest SQL Server build reference data from online sources before performing compliance checks.<br />
+Use this periodically to ensure your compliance testing includes recently released patches and cumulative updates.<br />
+The updated reference data is cached locally for subsequent function calls.<br></p>
 <table>
 <thead>
 <tr>
@@ -746,7 +754,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="quiet">-Quiet</h5>
-<p>Makes the function just return $true/$false. It's useful if you use Test-DbaBuild in your own scripts.<br></p>
+<p>Returns only boolean compliance results ($true/$false) instead of detailed build information objects.<br />
+Designed for use in automated scripts where you only need to know pass/fail status.<br />
+Useful for integration with monitoring systems or compliance dashboards.<br></p>
 <table>
 <thead>
 <tr>

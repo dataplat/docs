@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Disable-DbaReplPublishing">Disable-DbaReplPublishing</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Disables publishing for the target SQL instances.</p>
+<p>Disables replication publishing on SQL Server instances and removes publisher configuration.</p>
 <h2 id="description">Description</h2>
-<p>Disables publishing for the target SQL instances.</p>
+<p>Removes the publisher role from SQL Server instances that are currently configured for replication publishing. This function safely dismantles the publishing configuration by removing the publisher from the distributor, which stops all publication activity on the target instance. Use this when decommissioning replication setups or troubleshooting publisher configuration issues that require a clean restart.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Disable-DbaReplPublishing
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -574,9 +574,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Specifies whether the Publisher is uninstalled from the Distributor without verifying that Publisher has also uninstalled the Distributor, if the Publisher is on a separate server.<br />
-If true, all the replication objects associated with the Publisher are dropped even if the Publisher is on a remote server that cannot be reached.<br />
-If false, replication first verifies that the remote Publisher has uninstalled the Distributor.<br></p>
+<p>Forces the removal of publisher configuration without verifying the distributor connection status.<br />
+Use this when the distributor server is unreachable or when you need to forcibly clean up orphaned replication objects.<br />
+Without this switch, the function will fail if it cannot communicate with the distributor to perform proper cleanup verification.<br></p>
 <table>
 <thead>
 <tr>

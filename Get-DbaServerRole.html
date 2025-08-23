@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaServerRole">Get-DbaServerRole</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the list of server-level roles.</p>
+<p>Retrieves server-level security roles and their members from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Gets the list of server-level roles for SQL Server instance.</p>
+<p>Retrieves all server-level security roles from SQL Server instances, including role members, creation dates, and ownership details. This function helps DBAs audit server-level permissions, identify role membership for compliance reporting, and distinguish between built-in fixed roles (like sysadmin, serveradmin) and custom user-defined roles. Supports filtering to specific roles or excluding fixed roles to focus on custom security configurations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaServerRole
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -571,7 +571,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="serverrole">-ServerRole</h5>
-<p>Server-Level role to filter results to that role only.<br></p>
+<p>Specifies one or more server-level roles to include in the results. Accepts role names like 'sysadmin', 'dbcreator', or custom role names.<br />
+Use this when you need to audit specific roles rather than retrieving all server roles from the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -599,7 +600,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeserverrole">-ExcludeServerRole</h5>
-<p>Server-Level role to exclude from results.<br></p>
+<p>Specifies one or more server-level roles to exclude from the results. Useful for filtering out roles you don't need to audit.<br />
+Commonly used to exclude built-in roles like 'public' when focusing on administrative roles with elevated permissions.<br></p>
 <table>
 <thead>
 <tr>
@@ -627,7 +629,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludefixedrole">-ExcludeFixedRole</h5>
-<p>Filter the fixed server-level roles. Only applies to SQL Server 2017 that supports creation of server-level roles.<br></p>
+<p>Excludes built-in fixed server roles from the results, showing only custom user-defined server roles.<br />
+Use this when auditing custom security configurations or identifying roles created by your organization rather than SQL Server's default roles.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgReplica">Get-DbaAgReplica</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns the availability group replica object found on the server.</p>
+<p>Retrieves availability group replica configuration and status information from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Returns the availability group replica object found on the server.</p>
+<p>Retrieves detailed information about availability group replicas including their current role, connection state, synchronization status, and failover configuration. This function helps DBAs monitor replica health, verify failover readiness, and troubleshoot availability group issues without manually querying system views. Returns comprehensive replica properties like backup priority, endpoint URLs, session timeouts, and read-only routing lists for availability group management and compliance reporting.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgReplica
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -574,7 +574,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Specify the availability groups to query.<br></p>
+<p>Specifies which availability groups to query for replica information. Accepts multiple values and wildcards for pattern matching.<br />
+Use this when you need to focus on specific availability groups instead of retrieving replicas from all AGs on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +603,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="replica">-Replica</h5>
-<p>Return only specific replicas.<br></p>
+<p>Filters results to return only the specified replica names. Accepts multiple values for querying specific replicas across availability groups.<br />
+Use this when troubleshooting specific replicas or when you only need information about particular secondary replicas in your environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -630,7 +632,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaAvailabilityGroup.<br></p>
+<p>Accepts availability group objects piped from Get-DbaAvailabilityGroup, allowing for more efficient processing in pipeline scenarios.<br />
+Use this when chaining commands or when you already have availability group objects and want to retrieve their replica details without additional server queries.<br></p>
 <table>
 <thead>
 <tr>

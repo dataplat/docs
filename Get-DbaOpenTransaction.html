@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaOpenTransaction">Get-DbaOpenTransaction</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays all open transactions.</p>
+<p>Retrieves detailed information about open database transactions across SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>This command is based on open transaction script published by Paul Randal.<br />
+<p>Queries SQL Server dynamic management views to identify open transactions that may be causing blocking, consuming transaction log space, or impacting performance. Returns comprehensive details including session information, database context, transaction duration, log space usage, and the last executed query with its execution plan.</p>
+<p>This is particularly useful when troubleshooting blocking issues, investigating long-running transactions, or monitoring transaction log growth. The function helps DBAs quickly identify which sessions are holding transactions open and assess their potential impact on system performance.</p>
+<p>This command is based on the open transaction monitoring script published by Paul Randal.<br />
 Reference: <a href="https://www.sqlskills.com/blogs/paul/script-open-transactions-with-text-and-plans/">https://www.sqlskills.com/blogs/paul/script-open-transactions-with-text-and-plans/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaOpenTransaction

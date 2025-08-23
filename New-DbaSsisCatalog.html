@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaSsisCatalog">New-DbaSsisCatalog</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Enables the SSIS Catalog on a SQL Server 2012+</p>
+<p>Creates and enables the SSIS Catalog (SSISDB) database on SQL Server 2012+ instances</p>
 <h2 id="description">Description</h2>
-<p>After installing the SQL Server Engine and SSIS you still have to enable the SSIS Catalog. This function will enable the catalog and gives the option of supplying the password.</p>
+<p>Creates the SSIS Catalog database (SSISDB) which is required before you can deploy, manage, or execute SSIS packages on the server. Installing SQL Server with SSIS doesn't automatically create this catalog - it's a separate post-installation step that requires CLR integration and a secure password for the master key. This function handles the entire setup process, including prerequisite validation, so you don't have to manually run SQL scripts or navigate through SQL Server Management Studio wizards.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaSsisCatalog
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -575,7 +575,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Use a credential object instead of a securepassword<br></p>
+<p>Provides an alternative way to supply the master password using a PSCredential object instead of SecurePassword. The username portion is ignored - only the password from the credential is used.<br />
+This approach simplifies password input by allowing you to use Get-Credential, which presents a secure password prompt dialog.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +604,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="securepassword">-SecurePassword</h5>
-<p>Required password that will be used for the security key in SSISDB.<br></p>
+<p>Specifies the master password that encrypts the SSIS catalog database master key. This password is required to access and decrypt sensitive data like connection strings and package parameters stored<br />
+in SSISDB.<br />
+Use Read-Host -AsSecureString or ConvertTo-SecureString to create this value securely without exposing the password in plain text.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +634,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="ssiscatalog">-SsisCatalog</h5>
-<p>SSIS catalog name. By default, this is SSISDB.<br></p>
+<p>Specifies the name for the SSIS catalog database that will be created. Defaults to 'SSISDB' which is the Microsoft standard name.<br />
+Only change this if your organization has specific naming requirements, as most SSIS tooling and documentation assumes the standard SSISDB name.<br></p>
 <table>
 <thead>
 <tr>

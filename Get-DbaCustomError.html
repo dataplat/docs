@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaCustomError">Get-DbaCustomError</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Custom Error Message information for each instance(s) of SQL Server.</p>
+<p>Retrieves user-defined error messages from SQL Server instances for auditing and documentation.</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaCustomError command gets SQL Custom Error Message information for each instance(s) of SQL Server.</p>
+<p>Retrieves all custom error messages that have been added to SQL Server using sp_addmessage or through SQL Server Management Studio. These user-defined error messages are stored in the sys.messages system catalog and are commonly used by applications for business logic validation and custom error handling. This function helps DBAs inventory custom errors across multiple instances during migrations, troubleshooting, or compliance audits.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaCustomError
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbPartitionScheme">Remove-DbaDbPartitionScheme</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a database partition scheme(s) from each database and SQL Server instance.</p>
+<p>Removes database partition schemes from SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>Removes a database partition scheme(s), with supported piping from Get-DbaDbPartitionScheme.</p>
+<p>Removes partition schemes from specified databases across one or more SQL Server instances. Partition schemes define how partitioned tables and indexes map to filegroups, and this function helps clean up unused schemes during database reorganization or migration projects.</p>
+<p>The function integrates seamlessly with Get-DbaDbPartitionScheme through pipeline support, allowing you to first identify partition schemes and then selectively remove them. This is particularly useful when consolidating databases or simplifying partition strategies.</p>
+<p>Each removal operation includes confirmation prompts by default to prevent accidental deletion of partition schemes that may still be referenced by tables or indexes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbPartitionScheme
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
@@ -523,7 +525,8 @@ Remove-DbaDbPartitionScheme
 <p>Using a pipeline this command gets all partition schemes on SRV1, lets the user select those to remove and then removes the selected partition schemes.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbPartitionScheme. <br></p>
+<p>Accepts partition scheme objects piped from Get-DbaDbPartitionScheme for targeted removal operations.<br />
+Use this for selective removal workflows where you first identify specific partition schemes and then remove only those schemes. <br></p>
 <table>
 <thead>
 <tr>
@@ -610,7 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases to scan for partition schemes to remove. Accepts multiple database names.<br />
+Use this when you need to remove partition schemes from specific databases rather than all databases on the instance, such as during database decommissioning or partition strategy simplification.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<p>Specifies databases to skip when scanning for partition schemes to remove. Accepts multiple database names.<br />
+Use this to exclude system databases or specific databases you want to preserve during bulk partition scheme cleanup operations.<br></p>
 <table>
 <thead>
 <tr>

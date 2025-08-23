@@ -485,12 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbccStatistic">Get-DbaDbccStatistic</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Execution of Database Console Command DBCC SHOW_STATISTICS</p>
+<p>Retrieves statistics information from tables and indexed views for query performance analysis</p>
 <h2 id="description">Description</h2>
-<p>Executes the command DBCC SHOW_STATISTICS against defined objects and returns results</p>
-<p>Reclaims space from dropped variable-length columns in tables or indexed views</p>
-<p>Read more:<br />
-- <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-cleantable-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-cleantable-transact-sql</a></p>
+<p>Executes DBCC SHOW_STATISTICS to extract detailed information about statistics objects, including distribution histograms, density vectors, and header information. This helps DBAs diagnose query performance issues when the optimizer makes poor execution plan choices due to outdated or skewed statistics. You can analyze specific statistics objects or scan all statistics across databases to identify when UPDATE STATISTICS should be run. Returns different data sets based on the selected option: StatHeader shows when statistics were last updated and row counts, DensityVector reveals data uniqueness patterns, Histogram displays value distribution across column ranges, and StatsStream provides the raw binary statistics data.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbccStatistic
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -586,7 +583,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for statistics information. Accepts multiple database names as an array.<br />
+When omitted, the function processes all accessible databases on the instance, which is useful for instance-wide statistics analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,8 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="object">-Object</h5>
-<p>The table or indexed view for which to display statistics information.<br />
-Any two part object name should be formatted as 'Schema.ObjectName'<br></p>
+<p>Specifies the table or indexed view to analyze for statistics information. Use this to focus on a specific object rather than all tables in the database.<br />
+Format two-part names as 'Schema.ObjectName' (e.g., 'dbo.Orders'). When specified without Target, all statistics on the object are analyzed.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,8 +641,8 @@ Any two part object name should be formatted as 'Schema.ObjectName'<br></p>
 </tbody>
 </table>
 <h5 id="target">-Target</h5>
-<p>Name of the index, statistics, or column for which to display statistics information.<br />
-Target can be enclosed in brackets, single quotes, double quotes, or no quotes<br></p>
+<p>Specifies the exact statistics object, index, or column name to analyze. Use this when you need to examine a specific statistic rather than all statistics on an object.<br />
+Accepts statistics names (like '_WA_Sys_CustomerID'), index names (like 'IX_Orders_CustomerID'), or column names. Can be enclosed in brackets, quotes, or left unquoted.<br></p>
 <table>
 <thead>
 <tr>
@@ -672,9 +670,8 @@ Target can be enclosed in brackets, single quotes, double quotes, or no quotes<b
 </tbody>
 </table>
 <h5 id="option">-Option</h5>
-<p>Used to limit the result sets returned by the statement to the specified option.<br />
-Options are 'StatHeader', 'DensityVector', 'Histogram', 'StatsStream'<br />
-Default of StatHeader<br></p>
+<p>Controls which type of statistics data to return from DBCC SHOW_STATISTICS. Defaults to 'StatHeader' which shows when statistics were last updated and row counts.<br />
+Use 'Histogram' to analyze data distribution patterns, 'DensityVector' to examine column uniqueness, or 'StatsStream' to get raw binary statistics data for advanced analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -706,7 +703,8 @@ Default of StatHeader<br></p>
 </tbody>
 </table>
 <h5 id="noinformationalmessages">-NoInformationalMessages</h5>
-<p>Suppresses all informational messages.<br></p>
+<p>Suppresses informational messages from DBCC SHOW_STATISTICS output, providing cleaner results focused only on the statistics data.<br />
+Use this when running automated scripts or when you only need the statistics data without additional DBCC messaging.<br></p>
 <table>
 <thead>
 <tr>

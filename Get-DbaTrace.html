@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaTrace">Get-DbaTrace</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets a list of trace(s) from specified SQL Server Instance</p>
+<p>Retrieves SQL Server trace information including status, file paths, and configuration details</p>
 <h2 id="description">Description</h2>
-<p>This function returns a list of traces on a SQL Server instance and identifies the default trace file</p>
+<p>Queries the sys.traces system view to return detailed information about active and configured traces on a SQL Server instance. This includes trace status, file locations, buffer settings, event counts, and timing data. Commonly used for monitoring trace activity, auditing trace configurations, and locating the default system trace file for troubleshooting and compliance purposes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaTrace
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -570,7 +570,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="id">-Id</h5>
-<p>The id(s) of the Trace<br></p>
+<p>Specifies the trace ID(s) to retrieve information for. Accepts single values or arrays of trace IDs.<br />
+Use this when you need to check specific traces instead of retrieving all configured traces on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +599,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="default">-Default</h5>
-<p>Switch that will only return the information for the default system trace<br></p>
+<p>Returns only the default system trace (usually trace ID 1) which SQL Server automatically creates for auditing DDL operations.<br />
+Use this when you need to locate the default trace file for troubleshooting schema changes, login events, or security auditing.<br></p>
 <table>
 <thead>
 <tr>

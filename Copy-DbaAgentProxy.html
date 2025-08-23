@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaAgentProxy">Copy-DbaAgentProxy</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaAgentProxy migrates proxy accounts from one SQL Server to another.</p>
+<p>Copies SQL Server Agent proxy accounts from one instance to another.</p>
 <h2 id="description">Description</h2>
-<p>By default, all proxy accounts are copied. The -ProxyAccounts parameter is auto-populated for command-line completion and can be used to copy only specific proxy accounts.</p>
-<p>If the associated credential for the account does not exist on the destination, it will be skipped. If the proxy account already exists on the destination, it will be skipped unless -Force is used.</p>
+<p>Migrates SQL Server Agent proxy accounts between instances, enabling job steps to run under different security contexts than the SQL Agent service account. By default, all proxy accounts are copied, but you can specify individual accounts to migrate or exclude specific ones. The function requires that associated credentials already exist on the destination server before copying proxy accounts. If a proxy account already exists on the destination, it will be skipped unless you use -Force to overwrite it.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaAgentProxy
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -639,7 +638,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="proxyaccount">-ProxyAccount</h5>
-<p>Only migrate specific proxy accounts<br></p>
+<p>Specifies which proxy accounts to copy from the source server. Accepts an array of proxy account names.<br />
+Use this when you only need to migrate specific proxy accounts instead of all available accounts on the source server.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +667,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeproxyaccount">-ExcludeProxyAccount</h5>
-<p>Migrate all proxy accounts except the ones explicitly excluded<br></p>
+<p>Specifies proxy accounts to skip during migration. Accepts an array of proxy account names to exclude.<br />
+Use this when you want to copy most proxy accounts but need to avoid migrating specific ones that may conflict or aren't needed on the destination.<br></p>
 <table>
 <thead>
 <tr>
@@ -695,7 +696,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Operator will be dropped and recreated on Destination.<br></p>
+<p>Forces overwriting of existing proxy accounts on the destination server by dropping and recreating them.<br />
+Use this when you need to update proxy accounts that already exist on the destination with the current configuration from the source server.<br></p>
 <table>
 <thead>
 <tr>

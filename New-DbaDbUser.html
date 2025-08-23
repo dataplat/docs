@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbUser">New-DbaDbUser</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new user for the specified database(s).</p>
+<p>Creates database users with support for SQL logins, contained users, and Azure AD authentication.</p>
 <h2 id="description">Description</h2>
-<p>Creates a new user for the specified database(s) with provided specifications.</p>
+<p>Creates database users across one or more databases, supporting multiple authentication types including traditional SQL login mapping, contained users with passwords, and Azure Active Directory external provider authentication. This command handles the common DBA task of provisioning database access without requiring manual T-SQL scripts for each database. You can create users mapped to existing SQL logins, standalone contained users for partially contained databases, or Azure AD users for cloud environments. The function automatically validates that specified logins and schemas exist before attempting user creation.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbUser
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -606,7 +606,8 @@ New-DbaDbUser
 </tbody>
 </table>
 <h5 id="user">-User</h5>
-<p>When specified, the user will have this name. If not specified but -Login is used, the user will have the same name as the login. <br></p>
+<p>Sets the name of the database user to be created. Required for contained users, external provider users, and users without logins.<br />
+If not specified when using -Login, the user name will match the login name. <br></p>
 <table>
 <thead>
 <tr>
@@ -634,7 +635,8 @@ New-DbaDbUser
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>When specified, the user will be associated to this SQL login. <br></p>
+<p>Maps the database user to an existing SQL Server login for authentication.<br />
+The login must already exist on the instance before creating the user. <br></p>
 <table>
 <thead>
 <tr>
@@ -690,8 +692,8 @@ New-DbaDbUser
 </tbody>
 </table>
 <h5 id="externalprovider">-ExternalProvider</h5>
-<p>When specified, the user will be created for Azure AD Authentication.<br />
-Equivalent to T-SQL: 'CREATE USER [claudio@********.onmicrosoft.com] FROM EXTERNAL PROVIDER` <br></p>
+<p>Creates a user for Azure Active Directory authentication in Azure SQL databases or SQL Server with AAD integration.<br />
+The User parameter should contain the full AAD principal name (user@domain.com or groupname). <br></p>
 <table>
 <thead>
 <tr>
@@ -750,7 +752,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more database(s) to process. If unspecified, all user databases will be processed.<br></p>
+<p>Specifies which databases to create the user in. Accepts multiple database names separated by commas.<br />
+If not specified, the user will be created in all user databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -778,7 +781,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies one or more database(s) to exclude from processing.<br></p>
+<p>Excludes specific databases from user creation when processing all databases on an instance.<br />
+Use this to skip databases where you don't want the user created, such as read-only or archived databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -806,7 +810,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystem">-IncludeSystem</h5>
-<p>If this switch is enabled, also system databases will be processed.<br></p>
+<p>Creates the user in system databases (master, model, msdb, tempdb) in addition to user databases.<br />
+Typically used when creating maintenance or administrative users that need access to system databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -834,7 +839,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="defaultschema">-DefaultSchema</h5>
-<p>The default database schema for the user. If not specified this value will default to dbo.<br></p>
+<p>Sets the default schema that will be used when the user creates objects without specifying a schema.<br />
+Defaults to 'dbo' if not specified. The schema must already exist in the target database.<br></p>
 <table>
 <thead>
 <tr>
@@ -862,7 +868,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If user exists, drop and recreate.<br></p>
+<p>Drops and recreates the user if it already exists in the database.<br />
+Use this when you need to reset a user's properties or when automation scripts need to ensure a clean user state.<br></p>
 <table>
 <thead>
 <tr>

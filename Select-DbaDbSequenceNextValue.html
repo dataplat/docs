@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Select-DbaDbSequenceNextValue">Select-DbaDbSequenceNextValue</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Selects the next value from a sequence.</p>
+<p>Retrieves and increments the next value from a SQL Server sequence object.</p>
 <h2 id="description">Description</h2>
-<p>Selects the next value from a sequence.</p>
+<p>Executes a SELECT NEXT VALUE FOR statement against the specified sequence, which increments the sequence counter and returns the next value in the series.<br />
+This is useful for testing sequence behavior, troubleshooting sequence issues, or retrieving sequence values for application logic.<br />
+Note that calling this function will permanently increment the sequence counter, so it's not just a read operation.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Select-DbaDbSequenceNextValue
     [[-SqlInstance] &lt;DbaInstanceParameter&gt;]
@@ -515,7 +517,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Using a pipeline this command selects the next value from the sequence TestSchema.TestSequence in the TestDB database on the sqldev01 instance.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sequence">-Sequence</h5>
-<p>The name of the sequence. <br></p>
+<p>Specifies the name of the sequence object to increment and retrieve the next value from.<br />
+Accepts multiple sequence names when you need to get next values from several sequences in the same operation.<br />
+This will permanently increment each sequence's internal counter. <br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database.<br></p>
+<p>Specifies the database containing the sequence object you want to increment.<br />
+Required when using SqlInstance parameter to identify which database contains the target sequence.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +636,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The name of the schema for the sequence. The default is dbo.<br></p>
+<p>Specifies the schema that contains the sequence object. Defaults to 'dbo' if not specified.<br />
+Use this when your sequence is created in a custom schema other than the default dbo schema.<br></p>
 <table>
 <thead>
 <tr>
@@ -659,7 +665,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase via pipeline input.<br />
+Use this to chain database selection with sequence operations when working with multiple databases or complex filtering scenarios.<br></p>
 <table>
 <thead>
 <tr>

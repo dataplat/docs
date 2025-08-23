@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaTopResourceUsage">Get-DbaTopResourceUsage</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns the top 20 resource consumers for cached queries based on four different metrics: duration, frequency, IO, and CPU.</p>
+<p>Identifies the most resource-intensive cached queries from sys.dm_exec_query_stats for performance troubleshooting</p>
 <h2 id="description">Description</h2>
-<p>Returns the top 20 resource consumers for cached queries based on four different metrics: duration, frequency, IO, and CPU.</p>
+<p>Analyzes cached query performance by examining sys.dm_exec_query_stats to find your worst-performing queries across four key metrics: total duration, execution frequency, IO operations, and CPU time. Each metric returns the top consumers (default 20) grouped by query hash, so you can quickly spot patterns in problematic queries that are dragging down server performance.</p>
+<p>When your SQL Server is running slowly, this command helps you skip the guesswork and zero in on the specific queries consuming the most resources. Instead of manually writing complex DMV queries, you get formatted results showing query text, execution plans, database context, and performance metrics in one output.</p>
+<p>You can focus on specific databases, exclude system objects like replication procedures, or analyze just one metric type (like Duration) when investigating particular performance issues. The results include actual query text and execution plans, so you can immediately start optimizing the problematic SQL.</p>
 <p>This command is based off of queries provided by Michael J. Swart at <a href="http://michaeljswart.com/go/Top20">http://michaeljswart.com/go/Top20</a></p>
 <p>Per Michael: &quot;I've posted queries like this before, and others have written many other versions of this query. All these queries are based on sys.dm_exec_query_stats.&quot;</p>
 <h2 id="syntax">Syntax</h2>
@@ -587,7 +589,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for resource-intensive queries. Accepts multiple database names.<br />
+Use this when troubleshooting performance issues in specific databases rather than analyzing server-wide query performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -615,7 +618,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies databases to skip when analyzing query performance across the SQL Server instance.<br />
+Use this to exclude test databases, archived databases, or other databases that aren't relevant to your performance investigation.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,7 +647,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>By default, all Types run but you can specify one or more of the following: Duration, Frequency, IO, or CPU<br></p>
+<p>Specifies which resource usage metrics to analyze: Duration, Frequency, IO, CPU, or All (default).<br />
+Use specific types when investigating particular performance symptoms - Duration for slow queries, Frequency for high-activity queries, IO for disk bottlenecks, or CPU for processor-intensive<br />
+operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,7 +681,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="limit">-Limit</h5>
-<p>By default, these query the Top 20 worst offenders (though more than 20 results can be returned if each of the top 20 have more than 1 subsequent result)<br></p>
+<p>Controls how many top resource-consuming query hashes to return for each metric type (default is 20).<br />
+Increase this value when you need to analyze more queries, or decrease it to focus on only the most problematic queries during initial performance triage.<br></p>
 <table>
 <thead>
 <tr>
@@ -733,7 +740,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="excludesystem">-ExcludeSystem</h5>
-<p>This will exclude system objects like replication procedures from being returned.<br></p>
+<p>Excludes system objects like replication procedures (sp_MS% objects) from the query analysis results.<br />
+Use this when you want to focus on application queries rather than system maintenance operations that may consume resources.<br></p>
 <table>
 <thead>
 <tr>

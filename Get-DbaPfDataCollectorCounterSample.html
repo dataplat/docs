@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaPfDataCollectorCounterSample">Get-DbaPfDataCollectorCounterSample</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets Performance Counter Samples.</p>
+<p>Retrieves real-time performance counter samples from SQL Server systems for monitoring and troubleshooting.</p>
 <h2 id="description">Description</h2>
-<p>Gets Performance Counter Samples.</p>
+<p>Collects performance counter data from Windows Performance Monitor collector sets and individual counters on SQL Server systems. This function wraps PowerShell's Get-Counter cmdlet to provide structured performance data that DBAs use for monitoring CPU, memory, disk I/O, and SQL Server-specific metrics. You can capture single snapshots for quick checks or continuous samples for ongoing monitoring during troubleshooting sessions. The output integrates seamlessly with Get-DbaPfDataCollectorCounter to build comprehensive performance monitoring workflows.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPfDataCollectorCounterSample
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -533,7 +533,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets a single sample for all counters for the 'System Correlation' CollectorSet.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer. Defaults to localhost.<br></p>
+<p>The target computer where performance counters will be collected. Defaults to localhost.<br />
+Use this when monitoring remote SQL Server systems or collecting performance data from multiple servers simultaneously.<br></p>
 <table>
 <thead>
 <tr>
@@ -590,7 +591,8 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="collectorset">-CollectorSet</h5>
-<p>The Collector Set name.<br></p>
+<p>Specifies which Performance Monitor Data Collector Set to sample counters from. Accepts wildcard patterns for matching multiple sets.<br />
+Use this to focus on specific pre-configured collector sets like 'System Performance' or custom SQL Server monitoring sets instead of sampling all available counters.<br></p>
 <table>
 <thead>
 <tr>
@@ -618,7 +620,8 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="collector">-Collector</h5>
-<p>The Collector name.<br></p>
+<p>Specifies which individual Data Collector within a Collector Set to sample from. Accepts wildcard patterns.<br />
+Use this when you need samples from specific collectors rather than all collectors in a set, such as targeting only SQL Server-related collectors.<br></p>
 <table>
 <thead>
 <tr>
@@ -646,7 +649,8 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="counter">-Counter</h5>
-<p>The Counter name. This must be in the form of '\Processor(_Total)% Processor Time'.<br></p>
+<p>Specifies individual performance counter paths to sample in the standard format like '\Processor(_Total)% Processor Time' or '\SQLServer:Buffer Manager\Page life expectancy'.<br />
+Use this when you need specific counters for targeted troubleshooting rather than sampling all available counters from collector sets.<br></p>
 <table>
 <thead>
 <tr>
@@ -674,8 +678,8 @@ $scred = Get-Credential, then pass $scred object to the -Credential parameter.<b
 </tbody>
 </table>
 <h5 id="continuous">-Continuous</h5>
-<p>If this switch is enabled, samples will be retrieved continuously until you press CTRL+C. By default, this command gets only one counter sample. You can use the SampleInterval parameter to set the<br />
-interval for continuous sampling.<br></p>
+<p>Enables continuous sampling until you press CTRL+C instead of taking a single snapshot. Combine with SampleInterval to control timing between samples.<br />
+Use this during active troubleshooting sessions when you need to monitor performance trends in real-time, such as during query execution or system load events.<br></p>
 <table>
 <thead>
 <tr>
@@ -703,7 +707,8 @@ interval for continuous sampling.<br></p>
 </tbody>
 </table>
 <h5 id="listset">-ListSet</h5>
-<p>Gets the specified performance counter sets on the computers. Enter the names of the counter sets. Wildcards are permitted.<br></p>
+<p>Lists available performance counter sets on the target computers without collecting samples. Supports wildcard patterns for filtering.<br />
+Use this to discover what counter sets are available before running collection commands, especially useful when working with unfamiliar systems or custom monitoring configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -731,8 +736,8 @@ interval for continuous sampling.<br></p>
 </tbody>
 </table>
 <h5 id="maxsamples">-MaxSamples</h5>
-<p>Specifies the number of samples to get from each counter. The default is 1 sample. To get samples continuously (no maximum sample size), use the Continuous parameter.<br />
-To collect a very large data set, consider running a Get-DbaPfDataCollectorCounterSample command as a Windows PowerShell background job.<br></p>
+<p>Specifies the maximum number of samples to collect from each counter before stopping. Default is 1 sample.<br />
+Use this when you need a specific number of data points for analysis, such as collecting 60 samples at 1-second intervals to get one minute of baseline performance data.<br></p>
 <table>
 <thead>
 <tr>
@@ -760,7 +765,8 @@ To collect a very large data set, consider running a Get-DbaPfDataCollectorCount
 </tbody>
 </table>
 <h5 id="sampleinterval">-SampleInterval</h5>
-<p>Specifies the time between samples in seconds. The minimum value and the default value are 1 second.<br></p>
+<p>Sets the time interval between samples in seconds with a minimum and default of 1 second.<br />
+Use this to control sampling frequency based on your monitoring needs - shorter intervals for active troubleshooting or longer intervals for baseline collection to reduce overhead.<br></p>
 <table>
 <thead>
 <tr>

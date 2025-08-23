@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Publish-DbaDacPackage">Publish-DbaDacPackage</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>The Publish-DbaDacPackage command takes a dacpac or bacpac and publishes it to a database.</p>
+<p>Deploys DACPAC or BACPAC files to SQL Server databases using the DacFx framework</p>
 <h2 id="description">Description</h2>
-<p>Publishes the dacpac taken from SSDT project or Export-DbaDacPackage. Changing the schema to match the dacpac and also to run any scripts in the dacpac (pre/post deploy scripts) or bacpac.</p>
+<p>Deploys database schema changes from DACPAC files created by SSDT projects or Export-DbaDacPackage, automatically updating target database structure and executing embedded pre/post deployment scripts. Also imports data from BACPAC files for complete database restoration scenarios. This replaces manual schema synchronization and deployment processes, making it essential for CI/CD pipelines and environment promotions. You can generate deployment scripts without applying changes for review, or use publish profiles to control deployment behavior and variable substitution.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Publish-DbaDacPackage
     [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
@@ -556,7 +556,8 @@ PS C:\&gt; Publish-DbaDacPackage -SqlInstance &quot;local&quot; -Database WideWo
 <p>Does not deploy the changes, but will generate the deployment script that would be executed against WideWorldImporters.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the filesystem path to the DACPAC <br></p>
+<p>Specifies the filesystem path to the DACPAC or BACPAC file to deploy. The function automatically detects file type based on the extension.<br />
+Use this to point to your compiled database project (.dacpac) or exported database backup with data (.bacpac). <br></p>
 <table>
 <thead>
 <tr>
@@ -584,7 +585,8 @@ PS C:\&gt; Publish-DbaDacPackage -SqlInstance &quot;local&quot; -Database WideWo
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the name of the database being published. <br></p>
+<p>Specifies the target database name(s) to deploy the DACPAC or BACPAC to. Accepts multiple database names for deploying the same package to multiple databases.<br />
+The database will be created if it doesn't exist, or updated to match the schema if it already exists. <br></p>
 <table>
 <thead>
 <tr>
@@ -670,7 +672,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="publishxml">-PublishXml</h5>
-<p>Specifies the publish profile which will include options and sqlCmdVariables.<br></p>
+<p>Specifies the path to a publish profile XML file that defines deployment options and SqlCmd variables. Created by SQL Server Data Tools (SSDT) or New-DbaDacProfile.<br />
+Use this to control deployment behavior like dropping objects not in source, ignoring permissions, or setting variable values for different environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -698,7 +701,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="connectionstring">-ConnectionString</h5>
-<p>Specifies the connection string to the database you are upgrading. This is not required if SqlInstance is specified.<br></p>
+<p>Specifies the connection string to connect to the target SQL Server instance. Alternative to using SqlInstance and SqlCredential parameters.<br />
+Use this when you need specific connection properties or when connecting through alternative authentication methods not supported by SqlInstance.<br></p>
 <table>
 <thead>
 <tr>
@@ -726,7 +730,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="generatedeploymentreport">-GenerateDeploymentReport</h5>
-<p>If this switch is enabled, the publish XML report  will be generated.<br></p>
+<p>Creates an XML deployment report showing what changes were made during the deployment. The report is saved to the OutputPath directory.<br />
+Use this for deployment auditing, troubleshooting failed deployments, or documenting changes applied to production databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -754,7 +759,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="scriptonly">-ScriptOnly</h5>
-<p>If this switch is enabled the publish script will be generated.<br></p>
+<p>Generates the deployment script without executing it against the target database. The script is saved to the OutputPath directory for review.<br />
+Use this for change approval processes, manual deployment scenarios, or to review what changes would be applied before executing them.<br></p>
 <table>
 <thead>
 <tr>
@@ -782,7 +788,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Selecting the type of the export: Dacpac (default) or Bacpac.<br></p>
+<p>Specifies whether to deploy a DACPAC (schema only) or BACPAC (schema and data) file. Defaults to DACPAC.<br />
+Use DACPAC for deploying database schema changes from development to production, or BACPAC for full database restore including data.<br></p>
 <table>
 <thead>
 <tr>
@@ -814,7 +821,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="outputpath">-OutputPath</h5>
-<p>Specifies the filesystem path (directory) where output files will be generated.<br></p>
+<p>Specifies the directory where deployment scripts and reports will be saved when using ScriptOnly or GenerateDeploymentReport. Defaults to the dbatools export path configuration.<br />
+Use this to organize output files in a specific location for review, version control, or automated deployment processes.<br></p>
 <table>
 <thead>
 <tr>
@@ -842,7 +850,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="includesqlcmdvars">-IncludeSqlCmdVars</h5>
-<p>If this switch is enabled, SqlCmdVars in publish.xml will have their values overwritten.<br></p>
+<p>Enables replacement of SqlCmd variables in the publish profile with their actual values during deployment.<br />
+Use this when your deployment scripts or publish profile contain variables like $(Environment) or $(ServerName) that need to be substituted with environment-specific values.<br></p>
 <table>
 <thead>
 <tr>
@@ -870,7 +879,8 @@ Only SQL authentication is supported. When not specified, uses Trusted Authentic
 </tbody>
 </table>
 <h5 id="dacoption">-DacOption</h5>
-<p>Export options for a corresponding export type. Can be created by New-DbaDacOption -Type Dacpac | Bacpac<br></p>
+<p>Specifies deployment options object controlling how the deployment behaves. Created using New-DbaDacOption with specific deployment settings.<br />
+Use this to programmatically control deployment behavior instead of using a publish profile XML file, such as dropping objects not in source or ignoring permissions.<br></p>
 <table>
 <thead>
 <tr>
@@ -928,7 +938,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="dacfxpath">-DacFxPath</h5>
-<p>Path to the dac dll. If this is omitted, then the version of dac dll which is packaged with dbatools is used.<br></p>
+<p>Specifies the path to a specific version of the Microsoft.SqlServer.Dac.dll library to use for deployment operations.<br />
+Use this when you need a specific DacFx version for compatibility with your SQL Server version or to use features from a newer DacFx release.<br></p>
 <table>
 <thead>
 <tr>

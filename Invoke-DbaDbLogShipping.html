@@ -697,7 +697,8 @@ You must have sysadmin access and server version must be SQL Server version 2000
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Database to set up log shipping for. <br></p>
+<p>Specifies which database(s) to configure for log shipping. The database must be in FULL recovery model.<br />
+Use this to target specific databases rather than setting up log shipping for all databases on the source instance. <br></p>
 <table>
 <thead>
 <tr>
@@ -725,8 +726,8 @@ You must have sysadmin access and server version must be SQL Server version 2000
 </tbody>
 </table>
 <h5 id="sharedpath">-SharedPath</h5>
-<p>The backup unc path to place the backup files. This is the root directory.<br />
-A directory with the name of the database will be created in this path. <br></p>
+<p>Specifies the network share path where transaction log backup files will be stored. Must be in UNC format (\server\share).<br />
+The function automatically creates a subdirectory for each database under this path. Both source and destination instances need access to this location. <br></p>
 <table>
 <thead>
 <tr>
@@ -875,7 +876,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="localpath">-LocalPath</h5>
-<p>If the backup path is locally for the source server you can also set this value.<br></p>
+<p>Sets the local backup path on the source server when different from the shared path.<br />
+Use this when the source server accesses the backup location via a local path but other servers need to access it via the network share.<br></p>
 <table>
 <thead>
 <tr>
@@ -903,9 +905,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="backupjob">-BackupJob</h5>
-<p>Name of the backup that will be created in the SQL Server agent.<br />
-The parameter works as a prefix where the name of the database will be added to the backup job name.<br />
-The default is &quot;LSBackup_[databasename]&quot;<br></p>
+<p>Specifies the prefix for the SQL Agent backup job name that performs transaction log backups.<br />
+The database name is automatically appended to create the full job name. Defaults to 'LSBackup_' if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -933,7 +934,8 @@ The default is &quot;LSBackup_[databasename]&quot;<br></p>
 </tbody>
 </table>
 <h5 id="backupretention">-BackupRetention</h5>
-<p>The backup retention period in minutes. Default is 4320 / 72 hours<br></p>
+<p>Sets how long backup files are retained before deletion, specified in minutes.<br />
+Defaults to 4320 minutes (72 hours). Consider storage capacity and recovery requirements when setting this value.<br></p>
 <table>
 <thead>
 <tr>
@@ -991,8 +993,8 @@ Default is &quot;LSBackupSchedule_[databasename]&quot;<br></p>
 </tbody>
 </table>
 <h5 id="backupscheduledisabled">-BackupScheduleDisabled</h5>
-<p>Parameter to set the backup schedule to disabled upon creation.<br />
-By default the schedule is enabled.<br></p>
+<p>Creates the backup job schedule in a disabled state, preventing automatic execution.<br />
+Use this when you want to manually control when log shipping backup jobs start running.<br></p>
 <table>
 <thead>
 <tr>
@@ -1020,8 +1022,8 @@ By default the schedule is enabled.<br></p>
 </tbody>
 </table>
 <h5 id="backupschedulefrequencytype">-BackupScheduleFrequencyType</h5>
-<p>A value indicating when a job is to be executed.<br />
-Allowed values are &quot;Daily&quot;, &quot;AgentStart&quot;, &quot;IdleComputer&quot;<br></p>
+<p>Controls how often the backup job runs. Accepts 'Daily' (most common), 'AgentStart', or 'IdleComputer'.<br />
+Daily scheduling allows for regular transaction log backups to maintain the log shipping chain.<br></p>
 <table>
 <thead>
 <tr>
@@ -1114,7 +1116,8 @@ Allowed values are &quot;Time&quot;, &quot;Seconds&quot;, &quot;Minutes&quot;, &
 </tbody>
 </table>
 <h5 id="backupschedulefrequencysubdayinterval">-BackupScheduleFrequencySubdayInterval</h5>
-<p>The number of sub-day type periods to occur between each execution of the backup job.<br></p>
+<p>Specifies the interval between backup job executions within a day when using Minutes, Seconds, or Hours frequency.<br />
+For example, setting 15 with FrequencySubdayType of 'Minutes' creates backups every 15 minutes.<br></p>
 <table>
 <thead>
 <tr>
@@ -1318,8 +1321,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="backupthreshold">-BackupThreshold</h5>
-<p>Is the length of time, in minutes, after the last backup before a threshold alert error is raised.<br />
-The default is 60.<br></p>
+<p>Sets the alert threshold in minutes for detecting backup delays. An alert is raised if no backup occurs within this timeframe.<br />
+Defaults to 60 minutes. Use shorter intervals for critical databases requiring frequent log backups.<br></p>
 <table>
 <thead>
 <tr>
@@ -1347,7 +1350,8 @@ The default is 60.<br></p>
 </tbody>
 </table>
 <h5 id="compressbackup">-CompressBackup</h5>
-<p>Do the backups need to be compressed. By default the backups are not compressed.<br></p>
+<p>Enables backup compression for transaction log backups to reduce file size and network transfer time.<br />
+Only available on SQL Server 2008 and later. Uses server default compression setting if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -1375,8 +1379,8 @@ The default is 60.<br></p>
 </tbody>
 </table>
 <h5 id="copydestinationfolder">-CopyDestinationFolder</h5>
-<p>The path to copy the transaction log backup files to. This is the root directory.<br />
-A directory with the name of the database will be created in this path.<br></p>
+<p>Specifies the destination folder path where backup files are copied on the secondary server.<br />
+The function creates a database-specific subdirectory under this path. Defaults to the secondary server's backup directory if not provided.<br></p>
 <table>
 <thead>
 <tr>
@@ -1819,7 +1823,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="disconnectusers">-DisconnectUsers</h5>
-<p>If this parameter is set in combinations of standby the users will be disconnected during restore.<br></p>
+<p>Forces disconnection of users from the secondary database during transaction log restore operations.<br />
+Use this with standby mode when you need to ensure restores complete successfully despite active connections.<br></p>
 <table>
 <thead>
 <tr>
@@ -1847,7 +1852,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="fullbackuppath">-FullBackupPath</h5>
-<p>Path to an existing full backup. Use this when an existing backup needs to used to initialize the database on the secondary instance.<br></p>
+<p>Specifies the path to an existing full database backup to initialize the secondary database.<br />
+Use this when you have a recent backup available and want to avoid creating a new full backup for initialization.<br></p>
 <table>
 <thead>
 <tr>
@@ -1875,8 +1881,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="generatefullbackup">-GenerateFullBackup</h5>
-<p>If the database is not initialized on the secondary instance it can be done by creating a new full backup and<br />
-restore it for you.<br></p>
+<p>Creates a new full backup of the source database and restores it to initialize the secondary database.<br />
+Use this when no existing backup is available or when you want to ensure the secondary starts with the most current data.<br></p>
 <table>
 <thead>
 <tr>
@@ -1904,8 +1910,8 @@ restore it for you.<br></p>
 </tbody>
 </table>
 <h5 id="historyretention">-HistoryRetention</h5>
-<p>Is the length of time in minutes in which the history is retained.<br />
-The default value is 14420<br></p>
+<p>Sets how long log shipping history information is kept in the monitor server, specified in minutes.<br />
+Defaults to 14420 minutes (approximately 10 days). Longer retention provides more historical data for troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -1933,8 +1939,8 @@ The default value is 14420<br></p>
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>If this parameter is set the database will be in recovery mode. The database will not be readable.<br />
-This setting is default.<br></p>
+<p>Keeps the secondary database in NORECOVERY mode, making it unavailable for read access but ready for continuous log restores.<br />
+This is the default mode and maintains the fastest restore performance for log shipping.<br></p>
 <table>
 <thead>
 <tr>
@@ -1962,8 +1968,8 @@ This setting is default.<br></p>
 </tbody>
 </table>
 <h5 id="noinitialization">-NoInitialization</h5>
-<p>If this parameter is set the secondary database will not be initialized.<br />
-The database needs to be on the secondary instance in recovery mode.<br></p>
+<p>Skips secondary database initialization, assuming the database already exists in NORECOVERY mode on the destination.<br />
+Use this when you have manually restored the database or used a different method to initialize it.<br></p>
 <table>
 <thead>
 <tr>
@@ -1991,8 +1997,8 @@ The database needs to be on the secondary instance in recovery mode.<br></p>
 </tbody>
 </table>
 <h5 id="primarymonitorserver">-PrimaryMonitorServer</h5>
-<p>Is the name of the monitor server for the primary server.<br />
-Defaults to monitor on the instance provided via SourceSqlInstance param.<br></p>
+<p>Specifies the SQL Server instance that monitors the primary server's log shipping operations.<br />
+Defaults to the source instance itself. Use a dedicated monitor server in production environments for centralized monitoring.<br></p>
 <table>
 <thead>
 <tr>
@@ -2110,9 +2116,8 @@ The default is 1 or Windows.<br></p>
 </tbody>
 </table>
 <h5 id="restoredatafolder">-RestoreDataFolder</h5>
-<p>Folder to be used to restore the database data files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.<br />
-If the parameter is not set the default data folder of the secondary instance will be used.<br />
-If the folder is set but doesn't exist we will try to create the folder.<br></p>
+<p>Sets the destination folder for database data files during secondary database initialization.<br />
+Only used with GenerateFullBackup or UseExistingFullBackup. Defaults to the secondary instance's default data directory if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -2140,9 +2145,8 @@ If the folder is set but doesn't exist we will try to create the folder.<br></p>
 </tbody>
 </table>
 <h5 id="restorelogfolder">-RestoreLogFolder</h5>
-<p>Folder to be used to restore the database log files. Only used when parameter GenerateFullBackup or UseExistingFullBackup are set.<br />
-If the parameter is not set the default transaction log folder of the secondary instance will be used.<br />
-If the folder is set but doesn't exist we will try to create the folder.<br></p>
+<p>Sets the destination folder for database log files during secondary database initialization.<br />
+Only used with GenerateFullBackup or UseExistingFullBackup. Defaults to the secondary instance's default log directory if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -2170,8 +2174,8 @@ If the folder is set but doesn't exist we will try to create the folder.<br></p>
 </tbody>
 </table>
 <h5 id="restoredelay">-RestoreDelay</h5>
-<p>In case a delay needs to be set for the restore.<br />
-The default is 0.<br></p>
+<p>Introduces a delay in minutes before applying transaction log restores on the secondary database.<br />
+Defaults to 0 (no delay). Use this to create a time buffer for recovering from accidental data changes on the primary.<br></p>
 <table>
 <thead>
 <tr>
@@ -2199,8 +2203,8 @@ The default is 0.<br></p>
 </tbody>
 </table>
 <h5 id="restorealertthreshold">-RestoreAlertThreshold</h5>
-<p>The amount of minutes after which an alert will be raised is no restore has taken place.<br />
-The default is 45 minutes.<br></p>
+<p>Sets the alert threshold in minutes for detecting restore operation delays on the secondary database.<br />
+An alert is generated if no restore occurs within this timeframe. Defaults to 45 minutes.<br></p>
 <table>
 <thead>
 <tr>
@@ -2643,8 +2647,8 @@ Example: '140000' for 02:00:00 PM.<br></p>
 </tbody>
 </table>
 <h5 id="restorethreshold">-RestoreThreshold</h5>
-<p>The number of minutes allowed to elapse between restore operations before an alert is generated.<br />
-The default value = 45<br></p>
+<p>Specifies the maximum time in minutes allowed between restore operations before triggering an alert.<br />
+Defaults to 45 minutes. Set this based on your RTO requirements and backup frequency.<br></p>
 <table>
 <thead>
 <tr>
@@ -2672,7 +2676,8 @@ The default value = 45<br></p>
 </tbody>
 </table>
 <h5 id="secondarydatabaseprefix">-SecondaryDatabasePrefix</h5>
-<p>The secondary database can be renamed to include a prefix.<br></p>
+<p>Adds a prefix to the secondary database name to distinguish it from the primary database.<br />
+Useful when the secondary database resides on the same instance as the primary or for naming conventions.<br></p>
 <table>
 <thead>
 <tr>
@@ -2700,7 +2705,8 @@ The default value = 45<br></p>
 </tbody>
 </table>
 <h5 id="secondarydatabasesuffix">-SecondaryDatabaseSuffix</h5>
-<p>The secondary database can be renamed to include a suffix.<br></p>
+<p>Adds a suffix to the secondary database name to distinguish it from the primary database.<br />
+Common suffixes include '_LS' for log shipping or '_DR' for disaster recovery. Automatically applied when source and destination are the same instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -2847,8 +2853,8 @@ The default is 1 or Windows.<br></p>
 </tbody>
 </table>
 <h5 id="standby">-Standby</h5>
-<p>If this parameter is set the database will be set to standby mode making the database readable.<br />
-If not set the database will be in recovery mode.<br></p>
+<p>Places the secondary database in STANDBY mode, allowing read-only access for reporting purposes.<br />
+Users are disconnected during log restores. Alternative to NORECOVERY mode when you need read access to secondary data.<br></p>
 <table>
 <thead>
 <tr>
@@ -2876,7 +2882,8 @@ If not set the database will be in recovery mode.<br></p>
 </tbody>
 </table>
 <h5 id="standbydirectory">-StandbyDirectory</h5>
-<p>Directory to place the standby file(s) in<br></p>
+<p>Specifies the directory where standby files (.tuf) are created when using STANDBY mode.<br />
+Required when using the Standby parameter. These files contain uncommitted transactions that are temporarily backed out during restore operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -2904,8 +2911,8 @@ If not set the database will be in recovery mode.<br></p>
 </tbody>
 </table>
 <h5 id="useexistingfullbackup">-UseExistingFullBackup</h5>
-<p>If the database is not initialized on the secondary instance it can be done by selecting an existing full backup<br />
-and restore it for you.<br></p>
+<p>Uses the most recent full backup from backup history to initialize the secondary database.<br />
+The function automatically locates and uses the latest full backup of the source database for initialization.<br></p>
 <table>
 <thead>
 <tr>
@@ -2933,7 +2940,8 @@ and restore it for you.<br></p>
 </tbody>
 </table>
 <h5 id="usebackupfolder">-UseBackupFolder</h5>
-<p>This enables the user to specify a specific backup folder containing one or more backup files to initialize the database on the secondary instance.<br></p>
+<p>Specifies a folder containing backup files (full and/or differential) to initialize the secondary database.<br />
+The function processes all backup files in the folder to bring the secondary database up to the latest available point in time.<br></p>
 <table>
 <thead>
 <tr>
@@ -2961,8 +2969,8 @@ and restore it for you.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.<br />
-It will also remove the any present schedules with the same name for the specific job.<br></p>
+<p>Bypasses confirmations and applies default values for missing parameters like copy destination folder.<br />
+Also removes existing schedules with the same name and sets automatic database suffix when source and destination instances are identical.<br></p>
 <table>
 <thead>
 <tr>

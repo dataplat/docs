@@ -485,11 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaUserPermission">Get-DbaUserPermission</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays detailed permissions information for the server and database roles and securables.</p>
+<p>Audits comprehensive security permissions across SQL Server instances using DISA STIG methodology</p>
 <h2 id="description">Description</h2>
-<p>This command will display all server logins, server level securables, database logins and database securables.</p>
-<p>DISA STIG implementors will find this command useful as it uses Permissions.sql provided by DISA.</p>
-<p>Note that if you Ctrl-C out of this command and end it prematurely, it will leave behind a STIG schema in tempdb.</p>
+<p>Performs a comprehensive security audit by analyzing all server logins, server-level permissions, database users, database roles, and object-level permissions across SQL Server instances. Creates temporary STIG (Security Technical Implementation Guide) objects in tempdb to gather detailed permission information for both direct and inherited access rights.</p>
+<p>This command is essential for security compliance audits, particularly for organizations implementing DISA STIG requirements. It reveals the complete permission landscape including role memberships, explicit grants/denials, and securable object permissions, giving DBAs the detailed visibility needed for access reviews and compliance reporting.</p>
+<p>The function uses DISA-provided Permissions.sql scripts to ensure thorough analysis of security configurations. By default, it excludes public/guest permissions and system objects to focus on meaningful security grants, but these can be included for complete visibility.</p>
+<p>Note that if you interrupt this command prematurely (Ctrl-C), it will leave behind a STIG schema in tempdb that should be manually cleaned up.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaUserPermission
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -581,7 +582,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to audit for user permissions and role memberships. Accepts multiple database names and supports wildcards.<br />
+Use this when you need to focus the security audit on specific databases rather than scanning the entire instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies databases to skip during the security audit. Useful for excluding databases that don't require security review.<br />
+Common scenarios include excluding development databases or databases with known compliant configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemdatabase">-ExcludeSystemDatabase</h5>
-<p>Allows you to suppress output on system databases<br></p>
+<p>Excludes system databases (master, model, msdb, tempdb) from the security audit. Focuses the output on user databases only.<br />
+Use this when compliance requirements only apply to application databases and not SQL Server system databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includepublicguest">-IncludePublicGuest</h5>
-<p>Allows you to include output for public and guest grants.<br></p>
+<p>Includes permissions granted to the public database role and guest user account in the audit results.<br />
+Use this for complete security visibility, as public and guest permissions affect all users and can create unintended access paths.<br></p>
 <table>
 <thead>
 <tr>
@@ -693,7 +698,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemobjects">-IncludeSystemObjects</h5>
-<p>Allows you to include output on sys schema objects.<br></p>
+<p>Includes permissions on system schema objects (sys, INFORMATION_SCHEMA) in the audit results.<br />
+Enable this when security policies require auditing access to metadata views and system functions that could expose sensitive information.<br></p>
 <table>
 <thead>
 <tr>
@@ -721,7 +727,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesecurables">-ExcludeSecurables</h5>
-<p>Allows you to exclude object-level permissions from the output, and only return role permission(s).<br></p>
+<p>Excludes object-level permissions (tables, views, procedures, functions) from the audit and returns only role memberships.<br />
+Use this for high-level security reviews focused on role-based access rather than granular object permissions.<br></p>
 <table>
 <thead>
 <tr>

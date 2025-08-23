@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbSynonym">New-DbaDbSynonym</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Create new synonym for each database(s) / instance(s) of SQL Server.</p>
+<p>Creates database synonyms to provide alternate names for tables, views, procedures, and other database objects.</p>
 <h2 id="description">Description</h2>
-<p>The New-DbaDbSynonym creates new synonym on database(s) / instance(s) of SQL Server.</p>
+<p>Creates database synonyms that serve as alternate names or aliases for database objects like tables, views, stored procedures, and functions. Synonyms simplify object references by providing shorter names, hiding complex schema structures, or creating abstraction layers for applications. You can create synonyms that reference objects in the same database, different databases, or even on linked servers, making cross-database and cross-server object access more manageable for applications and users.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbSynonym
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -540,7 +540,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Will create a new synonym named synObj1 within dbo schema in all user databases on sql2017a instance for Obj1 object in the respective databases.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="baseobject">-BaseObject</h5>
-<p>The object name. Can be table, view, stored procedure, function, etc. <br></p>
+<p>The name of the database object that the synonym will reference. Supports tables, views, stored procedures, functions, and other schema-scoped objects.<br />
+This is the actual object that users will access through the synonym name, enabling abstraction and simplified references. <br></p>
 <table>
 <thead>
 <tr>
@@ -627,7 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. This list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to create the synonym in. Accepts wildcards for pattern matching.<br />
+When omitted, synonyms will be created in all accessible databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -655,7 +657,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific databases from synonym creation when processing multiple databases.<br />
+Useful when you want to create synonyms across most databases but skip system databases or specific user databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -683,7 +686,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="synonym">-Synonym</h5>
-<p>The synonym to create.<br></p>
+<p>The name of the synonym to create. This becomes the alternate name that applications and users will reference.<br />
+Choose meaningful names that follow your organization's naming conventions and make object access more intuitive.<br></p>
 <table>
 <thead>
 <tr>
@@ -711,7 +715,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The schema of the synonym. If not specified will assume the default dbo.<br></p>
+<p>The schema where the synonym will be created. Defaults to 'dbo' if not specified.<br />
+Consider using application-specific schemas to organize synonyms logically and control access through schema permissions.<br></p>
 <table>
 <thead>
 <tr>
@@ -739,7 +744,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="baseserver">-BaseServer</h5>
-<p>The linked server name. If specified then BaseDatabase and BaseSchema are required.<br></p>
+<p>The linked server name when creating cross-server synonyms. Requires BaseDatabase and BaseSchema parameters.<br />
+Use this to create synonyms that reference objects on remote SQL Server instances through established linked server connections.<br></p>
 <table>
 <thead>
 <tr>
@@ -767,7 +773,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="basedatabase">-BaseDatabase</h5>
-<p>The object parent database name. If specified then BaseSchema is required.<br></p>
+<p>The database containing the target object that the synonym will reference. Requires BaseSchema when specified.<br />
+Use this for cross-database synonyms or when creating synonyms on linked servers to reference objects in specific databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -795,7 +802,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="baseschema">-BaseSchema</h5>
-<p>The object parent schema name.<br></p>
+<p>The schema containing the target object that the synonym will reference.<br />
+Required when BaseDatabase is specified, ensuring the synonym points to the correct object in complex multi-schema environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -823,7 +831,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaDatabase<br></p>
+<p>Accepts database objects piped from Get-DbaDatabase for creating synonyms across multiple databases.<br />
+Useful for batch operations when you need to create the same synonym in multiple databases selected by specific criteria.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaWsfcNode">Get-DbaWsfcNode</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets information about one or more nodes, or servers, in a failover cluster.</p>
+<p>Retrieves detailed node information from Windows Server Failover Clusters hosting SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Gets information about one or more nodes, or servers, in a failover cluster.</p>
+<p>Retrieves configuration and status details for individual nodes (servers) within Windows Server Failover Clusters that host SQL Server FCIs or Availability Groups. This function connects to cluster nodes to gather essential node properties including ownership details, version information, and operational status.</p>
+<p>DBAs use this when troubleshooting cluster node issues, validating node configurations before SQL Server failover operations, or auditing cluster member server details. The function returns key node metadata needed for capacity planning, patch management coordination, and high availability troubleshooting.</p>
 <p>All Windows Server Failover Clustering (Wsfc) commands require local admin on each member node.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaWsfcNode
@@ -510,7 +511,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Shows all node values, including the ones not shown in the default view<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target cluster name. Can be a node or the cluster name itself.<br></p>
+<p>Specifies the Windows Server Failover Cluster or individual cluster node to query for node information. Accepts either the cluster name or any member node name.<br />
+Use this when you need to connect to a specific cluster hosting SQL Server FCIs or Availability Groups to retrieve node details.<br></p>
 <table>
 <thead>
 <tr>

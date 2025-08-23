@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaManagementObject">Test-DbaManagementObject</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Tests to see if the SMO version specified exists on the computer.</p>
+<p>Verifies if specific SQL Server Management Objects (SMO) library versions are installed on target computers.</p>
 <h2 id="description">Description</h2>
-<p>The Test-DbaManagementObject returns True if the Version is on the computer, and False if it does not exist.</p>
+<p>Checks the Global Assembly Cache (GAC) for Microsoft.SqlServer.Smo assemblies of specified versions. This function helps DBAs ensure the required SMO libraries are available before executing scripts that depend on specific SQL Server client tool versions. Returns detailed results showing which versions exist on each target computer, preventing runtime errors when SMO-dependent automation runs against systems with missing or incompatible client libraries.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaManagementObject
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -506,7 +506,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Returns True if the version exists, if it does not exist it will return False<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="versionnumber">-VersionNumber</h5>
-<p>This is the specific version number you are looking for and the return will be True. <br></p>
+<p>Specifies the major version number(s) of SQL Server SMO assemblies to verify in the Global Assembly Cache.<br />
+Common values include 11 (SQL 2012), 12 (SQL 2014), 13 (SQL 2016), 14 (SQL 2017), 15 (SQL 2019), and 16 (SQL 2022). <br></p>
 <table>
 <thead>
 <tr>
@@ -535,7 +536,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The name of the target you would like to check<br></p>
+<p>Specifies the target computer(s) to check for SMO assemblies. Accepts pipeline input and defaults to the local computer.<br />
+Use this when verifying SMO library versions across multiple servers in your environment.<br></p>
 <table>
 <thead>
 <tr>

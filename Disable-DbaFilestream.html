@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Disable-DbaFilestream">Disable-DbaFilestream</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the status of FileStream on specified SQL Server instances both at the server level and the instance level</p>
+<p>Disables SQL Server FileStream functionality at both the service and instance levels</p>
 <h2 id="description">Description</h2>
-<p>Connects to the specified SQL Server instances, and sets the status of the FileStream feature to the required value</p>
-<p>To perform the action, the SQL Server instance must be restarted. By default we will prompt for confirmation for this action, this can be overridden with the -Force switch</p>
+<p>Disables the FileStream feature completely by setting the FilestreamAccessLevel configuration to 0 (disabled) and modifying the corresponding Windows service settings. This is useful when FileStream was previously enabled but is no longer needed, during security hardening, or when troubleshooting FileStream-related issues.</p>
+<p>The function handles both standalone and clustered SQL Server instances, automatically detecting cluster nodes and applying changes across all nodes. Since disabling FileStream requires changes at both the SQL instance configuration level and the Windows service level, a SQL Server service restart is required for the changes to take effect.</p>
+<p>By default, the function will prompt for confirmation before making changes due to the high impact nature of this operation. Use -Force to bypass confirmation and automatically restart the SQL Server service, or run without -Force to make the configuration changes and restart manually later.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Disable-DbaFilestream
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -605,7 +606,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Restart SQL Instance after changes. Use this parameter with care as it overrides whatif.<br></p>
+<p>Bypasses confirmation prompts and automatically restarts the SQL Server service to apply FileStream configuration changes immediately.<br />
+Without this parameter, the function makes configuration changes but requires you to manually restart the SQL service later for changes to take effect.<br />
+Use with caution in production environments as it causes service downtime during the restart.<br></p>
 <table>
 <thead>
 <tr>

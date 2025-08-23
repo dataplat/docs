@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaRgResourcePool">Get-DbaRgResourcePool</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets Resource Governor Pool objects, including internal or external</p>
+<p>Retrieves SQL Server Resource Governor resource pools with their CPU, memory, and IOPS configuration settings</p>
 <h2 id="description">Description</h2>
-<p>Gets Resource Governor Pool objects, including internal or external</p>
+<p>Retrieves detailed information about SQL Server Resource Governor resource pools, including both internal (CPU/memory) and external (R/Python) pools. Shows current configuration settings for minimum and maximum CPU percentages, memory percentages, and IOPS limits per volume. Essential for monitoring resource allocation, troubleshooting performance bottlenecks, and auditing resource governance policies across your SQL Server instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaRgResourcePool
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -573,7 +573,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Internal or External<br></p>
+<p>Specifies whether to retrieve Internal resource pools (CPU/memory) or External resource pools (R/Python services).<br />
+Internal pools control SQL Server workloads, while External pools govern Machine Learning Services resource consumption.<br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +606,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows input to be piped from Get-DbaResourceGovernor<br></p>
+<p>Accepts Resource Governor objects from Get-DbaResourceGovernor for pipeline processing.<br />
+Use this when you need to filter or process resource pools from multiple instances collected earlier in your script.<br></p>
 <table>
 <thead>
 <tr>

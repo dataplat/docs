@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaConnectionStringBuilder">New-DbaConnectionStringBuilder</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns a Microsoft.Data.SqlClient.SqlConnectionStringBuilder with the string specified</p>
+<p>Creates a SqlConnectionStringBuilder object for constructing properly formatted SQL Server connection strings</p>
 <h2 id="description">Description</h2>
-<p>Creates a Microsoft.Data.SqlClient.SqlConnectionStringBuilder from a connection string.</p>
+<p>Creates a Microsoft.Data.SqlClient.SqlConnectionStringBuilder object from either an existing connection string or individual connection parameters. This allows you to programmatically build, modify, or validate connection strings without manually concatenating string values. The function handles authentication methods, encryption settings, connection pooling, and other SQL Server connection options, making it useful for scripts that need to connect to different SQL Server instances with varying configurations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaConnectionStringBuilder
     [[-ConnectionString] &lt;String[]&gt;]
@@ -521,7 +521,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 Returns a connection string builder that can be used to connect to the local sql server instance on the default port.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="connectionstring">-ConnectionString</h5>
-<p>A Connection String<br></p>
+<p>Specifies an existing SQL Server connection string to use as the foundation for the builder object. The function will parse this string and populate the builder with its values.<br />
+Use this when you need to modify or validate an existing connection string rather than building one from scratch.<br></p>
 <table>
 <thead>
 <tr>
@@ -549,7 +550,8 @@ Returns a connection string builder that can be used to connect to the local sql
 </tbody>
 </table>
 <h5 id="applicationname">-ApplicationName</h5>
-<p>The application name to tell SQL Server the connection is associated with.<br></p>
+<p>Sets the application name that identifies your script or application to SQL Server in monitoring tools and logs. Defaults to &quot;dbatools Powershell Module&quot;.<br />
+Useful for tracking connection sources in SQL Server's sys.dm_exec_sessions and activity monitor when troubleshooting performance or connection issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -577,7 +579,8 @@ Returns a connection string builder that can be used to connect to the local sql
 </tbody>
 </table>
 <h5 id="datasource">-DataSource</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
+<p>Specifies the SQL Server instance name for the connection string. Can include server name, instance name, and port (e.g., &quot;ServerName\InstanceName,1433&quot;).<br />
+Use this to set or override the server target when building connection strings for different environments or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,7 +637,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="initialcatalog">-InitialCatalog</h5>
-<p>The initial database on the server to connect to.<br></p>
+<p>Sets the default database context for the connection. When specified, queries will execute in this database unless explicitly changed.<br />
+Use this when your script needs to work with a specific database rather than connecting to the server's default database.<br></p>
 <table>
 <thead>
 <tr>
@@ -662,7 +666,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="integratedsecurity">-IntegratedSecurity</h5>
-<p>Sets to use windows authentication.<br></p>
+<p>Enables Windows Authentication for the connection, using the current user's Windows credentials to authenticate to SQL Server.<br />
+Use this when connecting to SQL Server instances configured for Windows Authentication mode or mixed mode with your current Windows account.<br></p>
 <table>
 <thead>
 <tr>
@@ -690,7 +695,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="username">-UserName</h5>
-<p>Sql User Name to connect with. Consider using SqlCredential instead.<br></p>
+<p>Specifies the SQL Server login name for SQL Server Authentication. Cannot be used with SqlCredential parameter.<br />
+Consider using SqlCredential parameter instead for better security as it avoids exposing credentials in plain text.<br></p>
 <table>
 <thead>
 <tr>
@@ -718,7 +724,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="password">-Password</h5>
-<p>Password to use to connect with. Consider using SqlCredential instead.<br></p>
+<p>Specifies the password for SQL Server Authentication when using the UserName parameter. Cannot be used with SqlCredential parameter.<br />
+Consider using SqlCredential parameter instead for better security as it avoids exposing passwords in plain text or command history.<br></p>
 <table>
 <thead>
 <tr>
@@ -746,7 +753,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="multipleactiveresultsets">-MultipleActiveResultSets</h5>
-<p>Enable Multiple Active Result Sets.<br></p>
+<p>Enables Multiple Active Result Sets (MARS) allowing multiple commands to be executed concurrently on a single connection.<br />
+Use this when your script needs to execute overlapping commands or maintain multiple data readers on the same connection simultaneously.<br></p>
 <table>
 <thead>
 <tr>
@@ -774,7 +782,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="columnencryptionsetting">-ColumnEncryptionSetting</h5>
-<p>Enable Always Encrypted.<br></p>
+<p>Enables Always Encrypted functionality for the connection, allowing access to encrypted columns in SQL Server databases.<br />
+Use this when connecting to databases with Always Encrypted columns that your application needs to decrypt and work with.<br></p>
 <table>
 <thead>
 <tr>
@@ -806,7 +815,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="legacy">-Legacy</h5>
-<p>Use this switch to create a connection string using System.Data.SqlClient instead of Microsoft.Data.SqlClient.<br></p>
+<p>Creates the connection string builder using the older System.Data.SqlClient library instead of the newer Microsoft.Data.SqlClient library.<br />
+Use this only when working with legacy applications or frameworks that specifically require the older SQL Client library for compatibility.<br></p>
 <table>
 <thead>
 <tr>
@@ -834,7 +844,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="nonpooledconnection">-NonPooledConnection</h5>
-<p>If this switch is enabled, a non-pooled connection will be requested.<br></p>
+<p>Disables connection pooling, creating a dedicated connection that bypasses the connection pool. By default, connections are pooled for better performance.<br />
+Use this for diagnostic scenarios or when you need to ensure complete connection isolation, though it may impact performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -862,7 +873,8 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tbody>
 </table>
 <h5 id="workstationid">-WorkstationID</h5>
-<p>Set the Workstation Id that is associated with the connection.<br></p>
+<p>Sets the workstation identifier that appears in SQL Server logs and monitoring tools to identify the source computer. Defaults to the current computer name.<br />
+Useful for tracking connections by source machine in sys.dm_exec_sessions or when troubleshooting connection issues in multi-server environments.<br></p>
 <table>
 <thead>
 <tr>

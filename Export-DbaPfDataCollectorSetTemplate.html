@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaPfDataCollectorSetTemplate">Export-DbaPfDataCollectorSetTemplate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports a new Data Collector Set XML Template.</p>
+<p>Exports Windows Performance Monitor Data Collector Set configurations as reusable XML templates.</p>
 <h2 id="description">Description</h2>
-<p>Exports a Data Collector Set XML Template from Get-DbaPfDataCollectorSet. Exports to &quot;$home\Documents\Performance Monitor Templates&quot; by default.</p>
+<p>Exports Data Collector Set configurations from Windows Performance Monitor as XML template files that can be imported on other SQL Server hosts. This allows you to standardize performance monitoring across your SQL Server environment by saving custom counter collections, sampling intervals, and output settings as portable templates. Particularly useful for creating consistent performance baselines and troubleshooting configurations that can be quickly deployed when performance issues arise.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaPfDataCollectorSetTemplate
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -513,7 +513,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Exports the 'System Correlation' data collector set from sql2017 to C:\temp.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer. Defaults to localhost.<br></p>
+<p>Specifies the target computer(s) to export data collector sets from. Defaults to localhost.<br />
+Use this to export performance monitoring templates from remote SQL Server hosts for standardization across your environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -570,7 +571,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="collectorset">-CollectorSet</h5>
-<p>The name of the collector set(s) to export.<br></p>
+<p>Specifies the name(s) of specific data collector sets to export. If not specified, all collector sets will be exported.<br />
+Use this when you only need to export particular performance monitoring configurations rather than all available sets.<br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +600,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br></p>
+<p>Specifies the directory where XML template files will be created. Each collector set exports as a separate XML file.<br />
+Defaults to the configured dbatools export path, typically used when exporting multiple collector sets.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,7 +629,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file.<br></p>
+<p>Specifies the complete file path including filename for the exported XML template. Use instead of Path when exporting a single collector set.<br />
+Automatically appends .xml extension if not provided, ideal for creating named templates for specific monitoring scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -654,7 +658,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts the object output by Get-DbaPfDataCollectorSetTemplate via the pipeline.<br></p>
+<p>Accepts data collector set objects from Get-DbaPfDataCollectorSet via pipeline input. Enables pipeline workflows for filtering and processing collector sets.<br />
+Use this when you need to chain commands together, such as filtering collector sets before exporting them.<br></p>
 <table>
 <thead>
 <tr>

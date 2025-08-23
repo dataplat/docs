@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaCustomError">New-DbaCustomError</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a user defined message in sys.messages. This command does not support Azure SQL Database.</p>
+<p>Creates custom error messages in SQL Server's sys.messages table for standardized application and stored procedure error handling</p>
 <h2 id="description">Description</h2>
-<p>This command provides a wrapper for the sp_addmessage system procedure that allows for user defined messages to be added to sys.messages.</p>
-<p>Note: See the remarks section of the documentation for sp_addmessage regarding the addition of non-English messages. The U.S. English message needs to be added first and the severity must be the same.</p>
+<p>Creates custom error messages in SQL Server's sys.messages table using sp_addmessage, enabling standardized error handling across applications and stored procedures. This replaces the need to manually execute sp_addmessage for each custom message you want to define.</p>
+<p>Custom error messages are essential for application development and database maintenance workflows where you need consistent, meaningful error reporting. Instead of generic SQL Server errors, you can define specific messages like &quot;Customer record not found&quot; or &quot;Data validation failed for field X&quot; that make troubleshooting much easier for both developers and DBAs.</p>
+<p>You can assign custom message IDs between 50001 and 2147483647, set severity levels from 1-25, and optionally enable logging to both the Windows Application Log and SQL Server Error Log. The function supports multiple languages and can create messages across multiple SQL Server instances simultaneously.</p>
+<p>Note: When adding non-English messages, the U.S. English version must be created first with the same severity level. This command does not support Azure SQL Database.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaCustomError
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -596,7 +598,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="messageid">-MessageID</h5>
-<p>An integer between 50001 and 2147483647.<br></p>
+<p>Specifies the unique identifier for the custom error message, ranging from 50001 to 2147483647. Choose an ID that doesn't conflict with existing custom messages in your environment.<br />
+Use sequential numbering for organization, such as 60000-60999 for application errors and 61000-61999 for stored procedure validation errors.<br></p>
 <table>
 <thead>
 <tr>
@@ -624,7 +627,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="severity">-Severity</h5>
-<p>Severity level between 1 and 25.<br></p>
+<p>Sets the severity level from 1 to 25, which determines how SQL Server handles the error when raised. Levels 1-10 are informational, 11-16 are user errors that can be corrected, 17-19 are non-fatal<br />
+resource errors, and 20-25 are fatal system errors.<br />
+Most custom application errors use severity 16, while validation errors often use 11-15 depending on whether the application should continue processing.<br></p>
 <table>
 <thead>
 <tr>
@@ -652,7 +657,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="messagetext">-MessageText</h5>
-<p>Error message text with max length of 255 characters.<br></p>
+<p>Defines the error message text displayed when the custom error is raised, with a maximum length of 255 characters. Use clear, actionable language that helps developers and users understand what went<br />
+wrong.<br />
+Include parameter placeholders using printf-style formatting (like %s, %d) when the message needs dynamic values at runtime.<br></p>
 <table>
 <thead>
 <tr>
@@ -680,7 +687,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="language">-Language</h5>
-<p>Language for this message. The valid values for Language are contained in the Name and Alias columns from sys.syslanguages.<br></p>
+<p>Specifies the language for the error message using values from sys.syslanguages (Name or Alias columns). Defaults to 'English' if not specified.<br />
+Create the U.S. English version first before adding other languages, as SQL Server requires the English version to exist with the same severity level before non-English versions can be added.<br></p>
 <table>
 <thead>
 <tr>
@@ -708,7 +716,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="withlog">-WithLog</h5>
-<p>Always write this message to the Windows application log and the SQL Server Error Log when it occurs.<br></p>
+<p>Enables automatic logging of this error message to both the Windows Application Log and SQL Server Error Log whenever the error is raised.<br />
+Use this for critical errors that require audit trails or monitoring alerts, but avoid for frequently occurring validation errors to prevent log flooding.<br></p>
 <table>
 <thead>
 <tr>

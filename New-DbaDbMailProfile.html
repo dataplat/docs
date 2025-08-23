@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbMailProfile">New-DbaDbMailProfile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new database mail profile</p>
+<p>Creates a new Database Mail profile for organizing SQL Server email notifications</p>
 <h2 id="description">Description</h2>
-<p>Creates a new database mail profile, and optionally associates it to a database mail account</p>
+<p>Creates a new Database Mail profile on SQL Server instances, which serves as a container for organizing mail accounts used by SQL Server for notifications, alerts, and reports. Database Mail profiles allow you to group multiple mail accounts and set priorities for failover scenarios. You can optionally associate an existing mail account to the profile during creation, making this useful for setting up complete email notification systems or organizing different notification types into separate profiles.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbMailProfile
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -539,7 +539,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="profile">-Profile</h5>
-<p>The name of the profile to be created. <br></p>
+<p>Specifies the name for the new Database Mail profile. Profile names must be unique within each SQL Server instance.<br />
+Use descriptive names like 'DBA Alerts', 'Application Notifications', or 'Backup Reports' to organize different types of email notifications. <br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +599,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="description-1">-Description</h5>
-<p>Sets the description of the purpose of the mail profile.<br></p>
+<p>Provides a detailed description explaining the purpose or intended use of the Database Mail profile.<br />
+This helps document what types of emails will be sent through this profile, making it easier for other DBAs to understand the profile's purpose.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,7 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="mailaccountname">-MailAccountName</h5>
-<p>Associates a db mail account to link to this db mail profile.<br></p>
+<p>Specifies an existing Database Mail account to associate with this profile during creation.<br />
+The mail account must already exist on the SQL Server instance and will be used to send emails through this profile.<br></p>
 <table>
 <thead>
 <tr>
@@ -654,7 +657,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="mailaccountpriority">-MailAccountPriority</h5>
-<p>Sets the priority of the linked db mail account when linking to this db mail profile.<br></p>
+<p>Sets the priority level for the associated mail account within the profile, with 1 being the highest priority.<br />
+Lower priority accounts serve as failover options when higher priority accounts are unavailable. Defaults to 1 if not specified.<br></p>
 <table>
 <thead>
 <tr>

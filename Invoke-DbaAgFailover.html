@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaAgFailover">Invoke-DbaAgFailover</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Failover an availability group.</p>
+<p>Performs manual failover of an availability group to make the target instance the new primary replica.</p>
 <h2 id="description">Description</h2>
-<p>Failover an availability group.</p>
+<p>Performs manual failover of an availability group to make the specified SQL Server instance the new primary replica. The function connects to the target instance (which must be a secondary replica) and promotes it to primary, while the current primary becomes secondary.</p>
+<p>By default, performs a safe failover that waits for all committed transactions to be synchronized to the target replica, preventing data loss. When the -Force parameter is used, performs a forced failover that may result in data loss if transactions haven't been synchronized to the target replica.</p>
+<p>This is commonly used during planned maintenance windows, disaster recovery scenarios, or when rebalancing availability group workloads across replicas. The target instance must already be configured as a secondary replica in the availability group.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaAgFailover
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -576,7 +578,9 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Only failover specific availability groups.<br></p>
+<p>Specifies the name(s) of the availability groups to failover on the target instance. Accepts multiple availability group names.<br />
+Use this when you need to failover specific availability groups rather than all groups on the instance.<br />
+Required when using SqlInstance parameter to identify which availability groups should be failed over.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +608,9 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAvailabilityGroup<br></p>
+<p>Accepts availability group objects from Get-DbaAvailabilityGroup for pipeline operations.<br />
+Use this approach when you want to filter or select specific availability groups before failover.<br />
+Allows for more complex scenarios like failing over multiple groups across different instances in a single operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +638,9 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Force Failover and allow data loss<br></p>
+<p>Performs a forced failover that allows potential data loss by not waiting for transaction synchronization.<br />
+Use this during disaster recovery scenarios when the primary replica is unavailable and you need immediate failover.<br />
+Without this switch, the function performs a safe failover that waits for all committed transactions to synchronize, preventing data loss.<br></p>
 <table>
 <thead>
 <tr>

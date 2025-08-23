@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Restore-DbaDbSnapshot">Restore-DbaDbSnapshot</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Restores databases from snapshots</p>
+<p>Restores SQL Server databases from database snapshots, reverting to the snapshot's point-in-time state</p>
 <h2 id="description">Description</h2>
-<p>Restores the database from the snapshot, discarding every modification made to the database<br />
-NB: Restoring to a snapshot will result in every other snapshot of the same database to be dropped<br />
-It also fixes some long-standing bugs in SQL Server when restoring from snapshots</p>
+<p>Restores SQL Server databases to their exact state when a database snapshot was created, discarding all changes made since that point. This is particularly useful for quickly reverting development databases after testing, rolling back problematic changes, or returning to a known good state without restoring from backup files.</p>
+<p>The function uses SQL Server's RESTORE DATABASE FROM DATABASE_SNAPSHOT command and automatically handles SQL Server's requirement that all other snapshots of the same database be dropped before restoration. It also fixes a SQL Server bug where log file growth settings get reset to their defaults during snapshot restoration.</p>
+<p>When Force is specified, the command will terminate active connections to both the target database and snapshot to ensure the restore operation completes successfully.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Restore-DbaDbSnapshot
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -588,7 +588,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Restores from the last snapshot databases with this names only. You can pass either Databases or Snapshots<br></p>
+<p>Specifies which databases to restore from their most recent snapshots. Accepts multiple database names and wildcards for pattern matching.<br />
+Use this when you want to restore specific databases to their snapshot state rather than working with snapshot names directly.<br></p>
 <table>
 <thead>
 <tr>
@@ -616,7 +617,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific databases from being restored when using wildcard patterns or restoring multiple databases.<br />
+Helpful when you want to restore most databases from snapshots but skip certain critical production databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -644,7 +646,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="snapshot">-Snapshot</h5>
-<p>Restores databases from snapshots with this names only. You can pass either Databases or Snapshots<br></p>
+<p>Specifies the exact snapshot names to restore from, giving you precise control over which snapshot is used for each database.<br />
+Use this when you need to restore from specific snapshots rather than automatically using the most recent ones.<br></p>
 <table>
 <thead>
 <tr>
@@ -672,7 +675,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from other Snapshot commands<br></p>
+<p>Accepts snapshot objects from other dbatools commands like Get-DbaDbSnapshot through the PowerShell pipeline.<br />
+This enables you to filter and select specific snapshots before restoring, such as using Out-GridView for interactive selection.<br></p>
 <table>
 <thead>
 <tr>
@@ -700,9 +704,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If restoring from a snapshot involves dropping any other snapshot, you need to explicitly<br />
-use -Force to let this command delete the ones not involved in the restore process.<br />
-Also, -Force will forcibly kill all running queries that prevent the restore process.<br></p>
+<p>Automatically drops other snapshots of the same database that would prevent the restore operation, as required by SQL Server.<br />
+Also terminates active connections to both the target database and snapshot to ensure the restore completes successfully.<br />
+Required when multiple snapshots exist for the database being restored or when active sessions could block the operation.<br></p>
 <table>
 <thead>
 <tr>

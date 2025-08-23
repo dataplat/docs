@@ -485,11 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaUptime">Get-DbaUptime</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns the uptime of the SQL Server instance, and if required the hosting windows server</p>
+<p>Retrieves uptime information for SQL Server instances and their hosting Windows servers</p>
 <h2 id="description">Description</h2>
-<p>By default, this command returns for each SQL Server instance passed in:<br />
-SQL Instance last startup time, Uptime as a PS TimeSpan, Uptime as a formatted string<br />
-Hosting Windows server last startup time, Uptime as a PS TimeSpan, Uptime as a formatted string</p>
+<p>This function determines SQL Server uptime by checking the tempdb creation date and calculates Windows server uptime using CIM/WMI calls to get the last boot time. Essential for monitoring system stability, troubleshooting unexpected restarts, and generating compliance reports that require uptime documentation. Returns both raw TimeSpan objects for calculations and formatted strings for reporting, covering both the SQL Server service and the underlying Windows host.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaUptime
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -578,7 +576,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Allows you to login to the computer (not SQL Server instance) using alternative Windows credentials.<br></p>
+<p>Specifies Windows credentials to connect to the hosting server for retrieving Windows boot time and uptime information.<br />
+Use this when you need different credentials to access the Windows server than your current PowerShell session, such as when querying servers in different domains or when running under a service<br />
+account that lacks WMI access.<br></p>
 <table>
 <thead>
 <tr>

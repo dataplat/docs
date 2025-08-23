@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentServer">Get-DbaAgentServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Agent Server information for each instance(s) of SQL Server.</p>
+<p>Retrieves SQL Server Agent service configuration and status information</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaAgentServer returns connected SMO object for SQL Agent Server information for each instance(s) of SQL Server.</p>
+<p>Returns detailed SQL Server Agent configuration including service state, logging levels, job history settings, and service accounts. This is essential for auditing Agent configurations across multiple instances, troubleshooting job failures, and documenting environment settings for compliance or migration planning. The function provides a standardized view of Agent properties that would otherwise require connecting to each instance individually through SSMS.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentServer
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

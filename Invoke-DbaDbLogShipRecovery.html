@@ -485,18 +485,14 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbLogShipRecovery">Invoke-DbaDbLogShipRecovery</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Invoke-DbaDbLogShipRecovery recovers log shipped databases to a normal state to act upon a migration or disaster.</p>
+<p>Brings log shipped secondary databases online for disaster recovery or planned migration scenarios</p>
 <h2 id="description">Description</h2>
-<p>By default all the databases for a particular instance are recovered.<br />
-If the database is in the right state, either standby or recovering, the process will try to recover the database.</p>
-<p>At first the function will check if the backup source directory can still be reached.<br />
-If so it will look up the last transaction log backup for the database. If that backup file is not the last copied file the log shipping copy job will be started.<br />
-If the directory cannot be reached for the function will continue to the restoring process.<br />
-After the copy job check is performed the job is disabled to prevent the job to run.</p>
-<p>For the restore the log shipping status is checked in the msdb database.<br />
-If the last restored file is not the same as the last file name found, the log shipping restore job will be executed.<br />
-After the restore job check is performed the job is disabled to prevent the job to run</p>
-<p>The last part is to set the database online by restoring the databases with recovery</p>
+<p>Recovers log shipped secondary databases from standby or restoring state to normal operational state. This function is essential for disaster recovery scenarios when you need to bring secondary databases online after a primary server failure, or for planned migrations where you want to switch roles between primary and secondary servers.</p>
+<p>The recovery process handles the complete workflow automatically. First, it checks if the backup source directory is still accessible. If so, it ensures all available transaction log backups are copied by running the log shipping copy job. If the source directory is unreachable (common in disaster scenarios), it proceeds with available backups.</p>
+<p>Next, it runs the log shipping restore job to apply any remaining transaction log backups that haven't been restored yet. Both the copy and restore jobs are monitored until completion, then disabled to prevent them from running again.</p>
+<p>Finally, unless you specify -NoRecovery, the database is brought online by executing RESTORE DATABASE WITH RECOVERY. This makes the database fully accessible for reads and writes.</p>
+<p>By default, all log shipped databases on the target instance are recovered. You can specify individual databases using the -Database parameter. The function requires that SQL Server Agent is running and will validate the service status before proceeding.</p>
+<p>All operations are tracked through the msdb database log shipping tables to ensure consistency and proper sequencing of the recovery steps.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbLogShipRecovery
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -565,8 +561,8 @@ After the restore job check is performed the job is disabled to prevent the job 
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Database to perform the restore for. This value can also be piped enabling multiple databases to be recovered.<br />
-If this value is not supplied all databases will be recovered.<br></p>
+<p>Specifies the log-shipped secondary databases to recover. Accepts multiple database names and wildcards for pattern matching.<br />
+Use this when you need to recover specific databases instead of all log-shipped databases on the instance. Without specifying -Database, you must use -Force to recover all log-shipped databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -624,8 +620,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>Allows you to choose to not restore the database to a functional state (Normal) in the final steps of the process.<br />
-By default the database is restored to a functional state (Normal).<br></p>
+<p>Prevents the final RESTORE DATABASE WITH RECOVERY step that brings the database fully online. The database remains in restoring state after log shipping jobs complete.<br />
+Use this when you need to apply additional transaction logs manually or perform other operations before bringing the database online. By default, databases are fully recovered and made available for<br />
+read-write operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -683,7 +680,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Use this parameter to force the function to continue and perform any adjusting actions to successfully execute<br></p>
+<p>Bypasses the safety requirement to specify individual databases and processes all log-shipped databases on the instance. Also sets confirmation preference to none.<br />
+Use this in disaster recovery scenarios when you need to quickly recover all log-shipped databases without interactive prompts. Without -Force, you must explicitly specify database names using<br />
+-Database.<br></p>
 <table>
 <thead>
 <tr>
@@ -711,7 +710,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piped input from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase through the pipeline. This allows you to filter databases using Get-DbaDatabase and pipe them directly to the recovery function.<br />
+Particularly useful when you need to recover databases based on specific criteria like database state or properties rather than just database names.<br></p>
 <table>
 <thead>
 <tr>
@@ -739,8 +739,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="delay">-Delay</h5>
-<p>Set the delay in seconds to wait for the copy and/or restore jobs.<br />
-By default the delay is 5 seconds<br></p>
+<p>Sets the polling interval in seconds to check if the log shipping copy and restore jobs have completed. The function waits this long between status checks.<br />
+Use a shorter delay for faster recovery monitoring or a longer delay to reduce system load during job execution. Default is 5 seconds, which balances responsiveness with system performance.<br></p>
 <table>
 <thead>
 <tr>

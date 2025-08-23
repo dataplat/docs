@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbVirtualLogFile">Get-DbaDbVirtualLogFile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns database virtual log file information for database files on a SQL instance.</p>
+<p>Retrieves detailed virtual log file (VLF) metadata from transaction logs for performance analysis and troubleshooting.</p>
 <h2 id="description">Description</h2>
-<p>Having a transaction log file with too many virtual log files (VLFs) can hurt database performance.</p>
-<p>Too many VLFs can cause transaction log backups to slow down and can also slow down database recovery and, in extreme cases, even affect insert/update/delete performance.</p>
+<p>This function uses DBCC LOGINFO to return detailed metadata about each virtual log file (VLF) within database transaction logs. The output includes VLF size, file offsets, sequence numbers, status, and parity information that's essential for analyzing transaction log structure and performance.</p>
+<p>Having a transaction log file with too many virtual log files (VLFs) can hurt database performance. Too many VLFs can cause transaction log backups to slow down and can also slow down database recovery and, in extreme cases, even affect insert/update/delete performance.</p>
+<p>Common use cases include identifying databases with excessive VLF counts (typically over 50-100), analyzing VLF size distribution to spot fragmentation issues, and monitoring VLF status during active transactions. This data helps DBAs make informed decisions about log file growth settings and maintenance schedules.</p>
 <p>References:<br />
 <a href="http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/">http://www.sqlskills.com/blogs/kimberly/transaction-log-vlfs-too-many-or-too-few/</a><br />
 <a href="http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx">http://blogs.msdn.com/b/saponsqlserver/archive/2012/02/22/too-many-virtual-log-files-vlfs-can-cause-slow-database-recovery.aspx</a></p>
@@ -584,7 +585,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for VLF information. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases instead of checking all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +614,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies which databases to skip during VLF analysis. Accepts wildcards for pattern matching.<br />
+Use this to exclude problematic databases or those you don't need to monitor for VLF issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +643,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemdbs">-IncludeSystemDBs</h5>
-<p>If this switch is enabled, system database information will be displayed.<br></p>
+<p>Include system databases (master, model, msdb, tempdb) in the VLF analysis.<br />
+By default, only user databases are checked since system database VLF counts are typically less critical for performance tuning.<br></p>
 <table>
 <thead>
 <tr>

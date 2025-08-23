@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaXESession">Remove-DbaXESession</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes Extended Events sessions.</p>
+<p>Removes Extended Events sessions from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>This script removes Extended Events sessions on a SQL Server instance.</p>
+<p>Removes Extended Events sessions from SQL Server instances, giving you the option to target specific sessions by name or remove all user-created sessions at once. This function preserves critical system sessions (system_health, telemetry_xevents, and AlwaysOn_health) when using the AllSessions parameter, so you can safely clean up monitoring sessions without breaking SQL Server's built-in diagnostics. Useful for removing outdated monitoring configurations or cleaning up test sessions that are no longer needed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaXESession
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -563,7 +563,9 @@ Remove-DbaXESession -InputObject &lt;Session[]&gt;
 </tbody>
 </table>
 <h5 id="session">-Session</h5>
-<p>Specifies a list of Extended Events sessions to remove. <br></p>
+<p>Specifies one or more Extended Events session names to remove from the target instance.<br />
+Use this when you want to selectively remove specific monitoring sessions rather than all user sessions.<br />
+Accepts session names as strings, with support for arrays to remove multiple sessions in one command. <br></p>
 <table>
 <thead>
 <tr>
@@ -591,7 +593,9 @@ Remove-DbaXESession -InputObject &lt;Session[]&gt;
 </tbody>
 </table>
 <h5 id="allsessions">-AllSessions</h5>
-<p>If this switch is enabled, all Extended Events sessions will be removed except the packaged sessions AlwaysOn_health, system_health, telemetry_xevents. <br></p>
+<p>Removes all user-created Extended Events sessions while preserving critical system sessions.<br />
+Use this for cleanup operations when you want to clear all monitoring sessions without breaking SQL Server's built-in diagnostics.<br />
+Automatically excludes system_health, telemetry_xevents, and AlwaysOn_health sessions to maintain server functionality. <br></p>
 <table>
 <thead>
 <tr>
@@ -619,7 +623,9 @@ Remove-DbaXESession -InputObject &lt;Session[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts a collection of XEsession objects as output by Get-DbaXESession. <br></p>
+<p>Accepts Extended Events session objects directly from Get-DbaXESession for pipeline operations.<br />
+Use this when you need to filter sessions with Get-DbaXESession first, then remove the filtered results.<br />
+Enables complex filtering scenarios and integration with other dbatools XE functions. <br></p>
 <table>
 <thead>
 <tr>

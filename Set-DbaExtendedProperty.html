@@ -485,38 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaExtendedProperty">Set-DbaExtendedProperty</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set extended property values</p>
+<p>Updates the value of existing extended properties on SQL Server database objects</p>
 <h2 id="description">Description</h2>
-<p>Set extended property values</p>
-<p>You can set extended properties on all these different types of objects:</p>
-<p>Aggregate<br />
-Assembly<br />
-Column<br />
-Constraint<br />
-Contract<br />
-Database<br />
-Event Notification<br />
-Filegroup<br />
-Function<br />
-Index<br />
-Logical File Name<br />
-Message Type<br />
-Parameter<br />
-Partition Function<br />
-Partition Scheme<br />
-Procedure<br />
-Queue<br />
-Remote Service Binding<br />
-Route<br />
-Rule<br />
-Schema<br />
-Service<br />
-Synonym<br />
-Table<br />
-Trigger<br />
-Type<br />
-View<br />
-Xml Schema Collection</p>
+<p>Updates the value of existing extended properties on SQL Server database objects. Extended properties store custom metadata like application versions, documentation, or business rules directly with database objects. This function modifies the values of properties that already exist, making it useful for maintaining application version numbers, updating documentation, or batch-modifying metadata across multiple objects.</p>
+<p>Works with extended properties on all SQL Server object types including databases, tables, views, stored procedures, functions, columns, indexes, schemas, and many others. The function accepts extended property objects from Get-DbaExtendedProperty through the pipeline, so you can easily filter and update specific properties across your environment.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaExtendedProperty
     [-InputObject] &lt;ExtendedProperty[]&gt;
@@ -540,7 +512,8 @@ Xml Schema Collection</p>
 <p>Sets the value of appversion to 1.1.0 on the mytable table of the mydb database<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaExtendedProperty <br></p>
+<p>Accepts extended property objects from Get-DbaExtendedProperty to update their values. Use this to pipeline specific extended properties that you want to modify.<br />
+Typically used after filtering extended properties by name, object type, or other criteria to batch update property values across multiple database objects. <br></p>
 <table>
 <thead>
 <tr>
@@ -568,7 +541,8 @@ Xml Schema Collection</p>
 </tbody>
 </table>
 <h5 id="value">-Value</h5>
-<p>The new value for the extended property <br></p>
+<p>Specifies the new value to assign to the extended property. Accepts any string value including version numbers, descriptions, or configuration data.<br />
+Common uses include updating application version numbers, modifying documentation text, or changing configuration values stored as extended properties. <br></p>
 <table>
 <thead>
 <tr>

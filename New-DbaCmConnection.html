@@ -481,16 +481,18 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaCmConnection">New-DbaCmConnection</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Generates a connection object for use in remote computer management.</p>
+<p>Creates and configures connection objects for remote computer management using CIM/WMI protocols.</p>
 <h2 id="description">Description</h2>
-<p>Generates a connection object for use in remote computer management.<br />
-Those objects are used for the purpose of cim/wmi queries, caching which protocol worked, optimizing performance and minimizing authentication errors.</p>
-<p>New-DbaCmConnection will create a NEW object and overwrite any existing ones for the specified computer.<br />
-Furthermore, information stored in the input beyond the computername will be discarded in favor of the new settings.</p>
-<p>Unless the connection cache has been disabled, all connections will automatically be registered in the cache, so no further action is necessary.<br />
-The output is primarily for information purposes, however it may be used to pass objects and circumvent the cache with those.</p>
-<p>NOTE: Generally, this function need not be used, as a first connection to a computer using any connecting function such as &quot;Get-DbaCmObject&quot; will automatically register a new default connection for it.</p>
-<p>This function exists to be able to preconfigure connections.</p>
+<p>Creates connection objects that optimize remote computer management for SQL Server environments using CIM and WMI protocols.<br />
+These objects cache successful authentication methods and connection protocols, reducing authentication errors and improving performance when connecting to multiple SQL Server instances across different servers.</p>
+<p>The function pre-configures connection settings including credentials, preferred protocols (CIM over WinRM or DCOM), and failover behavior.<br />
+This eliminates the need to repeatedly authenticate and negotiate protocols when running dbatools commands against remote SQL Server instances.</p>
+<p>New-DbaCmConnection creates a new connection object and overwrites any existing cached connection for the specified computer.<br />
+All connection information beyond the computer name gets replaced with the new settings you specify.</p>
+<p>Unless connection caching has been disabled globally, all connections are automatically stored in the connection cache for reuse.<br />
+The returned object is primarily informational, though it can be used to bypass the cache if needed.</p>
+<p>Note: This function is typically optional since dbatools commands like Get-DbaCmObject automatically create default connections when first connecting to a computer.<br />
+Use this function when you need to pre-configure specific authentication or protocol settings before running other dbatools commands.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaCmConnection
     [-ComputerName &lt;DbaCmConnectionParameter[]&gt;]
@@ -553,7 +555,9 @@ Essentially, this configures all connections to those computers to prefer failur
 </ul>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The computer to build the connection object for.<br></p>
+<p>Specifies the target computer name or IP address where SQL Server instances are running.<br />
+Use this to pre-configure connection settings before running other dbatools commands against remote SQL Server hosts.<br />
+Accepts pipeline input for bulk configuration of multiple servers.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,8 +613,9 @@ Essentially, this configures all connections to those computers to prefer failur
 </tbody>
 </table>
 <h5 id="usewindowscredentials">-UseWindowsCredentials</h5>
-<p>Whether using the default windows credentials is legit.<br />
-Not setting this will not exclude using windows credentials, but only not pre-confirm them as working.<br></p>
+<p>Confirms that the current Windows user credentials are valid for connecting to the target computer.<br />
+Use this when your current domain account has administrative rights on the SQL Server host.<br />
+Pre-validates these credentials to avoid authentication delays during subsequent dbatools operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,8 +643,9 @@ Not setting this will not exclude using windows credentials, but only not pre-co
 </tbody>
 </table>
 <h5 id="overrideexplicitcredential">-OverrideExplicitCredential</h5>
-<p>Setting this will enable the credential override.<br />
-The override will cause the system to ignore explicitly specified credentials, so long as known, good credentials are available.<br></p>
+<p>Forces the connection to use cached working credentials instead of any explicitly provided credentials.<br />
+Use this when you want to ensure consistent authentication across multiple dbatools commands.<br />
+Prevents authentication failures when mixed credentials are accidentally specified in scripts.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,8 +673,9 @@ The override will cause the system to ignore explicitly specified credentials, s
 </tbody>
 </table>
 <h5 id="disabledconnectiontypes">-DisabledConnectionTypes</h5>
-<p>Explicitly disable connection types.<br />
-These types will then not be used for connecting to the computer.<br></p>
+<p>Specifies which connection protocols to disable when connecting to the remote computer.<br />
+Use this to force specific connection methods when certain protocols are blocked by network policies.<br />
+Common values include 'CimRM' to disable CIM over WinRM or 'CimDCOM' to disable DCOM connections.<br></p>
 <table>
 <thead>
 <tr>
@@ -696,7 +703,9 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="disablebadcredentialcache">-DisableBadCredentialCache</h5>
-<p>Will prevent the caching of credentials if set to true.<br></p>
+<p>Prevents failed credentials from being stored in the credential cache.<br />
+Use this in environments where credentials change frequently or when testing different authentication methods.<br />
+Helps avoid repeated authentication attempts with known bad credentials.<br></p>
 <table>
 <thead>
 <tr>
@@ -724,7 +733,9 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="disablecimpersistence">-DisableCimPersistence</h5>
-<p>Will prevent Cim-Sessions to be reused.<br></p>
+<p>Forces creation of new CIM sessions for each connection instead of reusing existing sessions.<br />
+Use this when troubleshooting connection issues or when working with servers that have session limits.<br />
+May impact performance but ensures fresh connections for each dbatools operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -752,7 +763,9 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="disablecredentialautoregister">-DisableCredentialAutoRegister</h5>
-<p>Will prevent working credentials from being automatically cached<br></p>
+<p>Prevents successful credentials from being automatically stored in the connection cache.<br />
+Use this for one-time operations where you don't want credentials persisted for future use.<br />
+Useful in high-security environments where credential caching is not permitted.<br></p>
 <table>
 <thead>
 <tr>
@@ -780,8 +793,9 @@ These types will then not be used for connecting to the computer.<br></p>
 </tbody>
 </table>
 <h5 id="enablecredentialfailover">-EnableCredentialFailover</h5>
-<p>Will enable automatic failing over to known to work credentials, when using bad credentials.<br />
-By default, passing bad credentials will cause the Computer Management functions to interrupt with a warning (Or exception if in silent mode).<br></p>
+<p>Automatically switches to cached working credentials when the initially provided credentials fail.<br />
+Use this to ensure dbatools operations continue even if incorrect credentials are accidentally specified.<br />
+Prevents script interruptions due to authentication failures when multiple credential sets are available.<br></p>
 <table>
 <thead>
 <tr>
@@ -809,7 +823,9 @@ By default, passing bad credentials will cause the Computer Management functions
 </tbody>
 </table>
 <h5 id="windowscredentialsarebad">-WindowsCredentialsAreBad</h5>
-<p>Will prevent the windows credentials of the currently logged on user from being used for the remote connection.<br></p>
+<p>Explicitly marks the current Windows user credentials as invalid for this computer connection.<br />
+Use this when your domain account lacks privileges on the target SQL Server host.<br />
+Forces the use of alternative credentials and prevents authentication attempts with insufficient privileges.<br></p>
 <table>
 <thead>
 <tr>
@@ -837,8 +853,9 @@ By default, passing bad credentials will cause the Computer Management functions
 </tbody>
 </table>
 <h5 id="cimwinrmoptions">-CimWinRMOptions</h5>
-<p>Specify a set of options to use when connecting to the target computer using CIM over WinRM.<br />
-Use 'New-CimSessionOption' to create such an object.<br></p>
+<p>Configures advanced WinRM connection settings for CIM sessions to the target computer.<br />
+Use this to specify custom ports, authentication methods, or SSL settings required by your network configuration.<br />
+Create the options object using New-CimSessionOption with specific timeout, encryption, or proxy settings.<br></p>
 <table>
 <thead>
 <tr>
@@ -866,8 +883,9 @@ Use 'New-CimSessionOption' to create such an object.<br></p>
 </tbody>
 </table>
 <h5 id="cimdcomoptions">-CimDCOMOptions</h5>
-<p>Specify a set of options to use when connecting to the target computer using CIM over DCOM.<br />
-Use 'New-CimSessionOption' to create such an object.<br></p>
+<p>Configures advanced DCOM connection settings for legacy CIM sessions to the target computer.<br />
+Use this when connecting to older Windows servers or when WinRM is not available.<br />
+Create the options object using New-CimSessionOption with DCOM-specific authentication and timeout settings.<br></p>
 <table>
 <thead>
 <tr>

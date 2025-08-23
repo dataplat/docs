@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaInstanceUserOption">Get-DbaInstanceUserOption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Instance user options of one or more instance(s) of SQL Server.</p>
+<p>Retrieves instance-level user option defaults that affect new database connections</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaInstanceUserOption command gets SQL Instance user options from the SMO object sqlserver.</p>
+<p>Returns the default user options configured at the SQL Server instance level that are automatically applied to new database connections. These settings include ANSI compliance options like ANSI_NULLS, QUOTED_IDENTIFIER, date format preferences, and other connection-level defaults. This is useful when standardizing connection behavior across environments or troubleshooting why applications behave differently on different instances. Unlike Get-DbaDbccUserOption which shows current session settings, this command shows the instance defaults that would be inherited by new connections.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaInstanceUserOption
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

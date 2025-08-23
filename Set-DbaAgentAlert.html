@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaAgentAlert">Set-DbaAgentAlert</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set-DbaAgentAlert updates the status of a SQL Agent Alert.</p>
+<p>Modifies properties of existing SQL Agent alerts including enabled status and name.</p>
 <h2 id="description">Description</h2>
-<p>Set-DbaAgentAlert updates an alert in the SQL Server Agent with parameters supplied.</p>
+<p>Modifies existing SQL Agent alerts on one or more SQL Server instances, allowing you to enable, disable, or rename alerts without using SQL Server Management Studio. This function is particularly useful for bulk operations across multiple servers, standardizing alert configurations between environments, or temporarily disabling noisy alerts during maintenance windows. The function works with the JobServer.Alerts collection and uses the SMO Alter() method to commit changes to existing alerts. You can specify alerts by name or pipe in alert objects from other dbatools commands like Get-DbaAgentAlert.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaAgentAlert
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -583,7 +583,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alert">-Alert</h5>
-<p>The name of the alert.<br></p>
+<p>Specifies the name(s) of the SQL Agent alerts to modify. Accepts multiple alert names for bulk operations.<br />
+Use this when you need to update specific alerts by name across one or more instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="newname">-NewName</h5>
-<p>The new name for the alert.<br></p>
+<p>Sets a new name for the alert being modified. Only works when modifying a single alert.<br />
+Use this when standardizing alert names across environments or fixing naming conventions.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +641,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enabled">-Enabled</h5>
-<p>Enabled the alert.<br></p>
+<p>Enables the specified SQL Agent alert(s) by setting IsEnabled to true.<br />
+Use this to reactivate alerts after maintenance or to ensure critical alerts are active across all instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +670,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="disabled">-Disabled</h5>
-<p>Disabled the alert.<br></p>
+<p>Disables the specified SQL Agent alert(s) by setting IsEnabled to false.<br />
+Use this during maintenance windows or to silence noisy alerts that are firing incorrectly.<br></p>
 <table>
 <thead>
 <tr>
@@ -695,7 +699,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.<br></p>
+<p>Bypasses confirmation prompts by setting ConfirmPreference to 'none'.<br />
+Use this in automated scripts where you want to suppress interactive prompts.<br></p>
 <table>
 <thead>
 <tr>
@@ -723,7 +728,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping alert objects<br></p>
+<p>Accepts SQL Agent alert objects from the pipeline, typically from Get-DbaAgentAlert.<br />
+Use this when you want to filter alerts first, then modify the results in a pipeline operation.<br></p>
 <table>
 <thead>
 <tr>

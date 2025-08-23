@@ -528,7 +528,9 @@ Register-DbatoolsConfig
 to be able to pipe the output and register them in registry for the current user.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="module">-Module</h5>
-<p>The name of the module, whose settings should be written to registry. <br></p>
+<p>Module name containing the configuration settings to register, such as &quot;Message&quot; or &quot;SqlInstance&quot;.<br />
+Use this to register all configuration settings for a particular dbatools module at once.<br />
+Combine with -Name parameter to filter which settings within the module get registered. <br></p>
 <table>
 <thead>
 <tr>
@@ -557,8 +559,9 @@ to be able to pipe the output and register them in registry for the current user
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="config">-Config</h5>
-<p>The configuration object to write to registry.<br />
-Can be retrieved using Get-DbatoolsConfig.<br></p>
+<p>Configuration object(s) to persist to registry or file system for future PowerShell sessions.<br />
+Accepts pipeline input from Get-DbatoolsConfig to save specific settings like connection timeouts or SSL preferences.<br />
+Use this when you have configuration objects you want to make permanent across dbatools sessions.<br></p>
 <table>
 <thead>
 <tr>
@@ -586,7 +589,9 @@ Can be retrieved using Get-DbatoolsConfig.<br></p>
 </tbody>
 </table>
 <h5 id="fullname">-FullName</h5>
-<p>The full name of the setting to be written to registry.<br></p>
+<p>Complete configuration setting name to register, such as &quot;sql.connection.trustcert&quot; or &quot;message.consoleoutput.disable&quot;.<br />
+Specify this when you know the exact setting name and want to persist that specific configuration.<br />
+Use Get-DbatoolsConfig to discover available configuration names in your environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,8 +619,9 @@ Can be retrieved using Get-DbatoolsConfig.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Default: &quot;*&quot;<br />
-Used in conjunction with the -Module parameter to restrict the number of configuration items written to registry.<br></p>
+<p>Filters which configuration settings get registered when used with -Module parameter. Supports wildcards.<br />
+Use this to register only specific settings within a module rather than all module settings.<br />
+Defaults to &quot;*&quot; which includes all settings for the specified module.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,9 +649,9 @@ Used in conjunction with the -Module parameter to restrict the number of configu
 </tbody>
 </table>
 <h5 id="scope">-Scope</h5>
-<p>Default: UserDefault<br />
-Who will be affected by this export how? Current user or all? Default setting or enforced?<br />
-Legal values: UserDefault, UserMandatory, SystemDefault, SystemMandatory<br></p>
+<p>Determines where the configuration is stored and who can access it.<br />
+UserDefault applies to current user only, while SystemDefault affects all users on the machine.<br />
+Use UserMandatory or SystemMandatory to enforce settings that cannot be overridden by individual users.<br></p>
 <table>
 <thead>
 <tr>

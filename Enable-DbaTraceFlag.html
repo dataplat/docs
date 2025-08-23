@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Enable-DbaTraceFlag">Enable-DbaTraceFlag</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Enable Global Trace Flag(s)</p>
+<p>Enables one or more trace flags globally on SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>The function will set one or multiple trace flags on the SQL Server instance(s) listed.<br />
-These are not persisted after a restart, use Set-DbaStartupParameter to set them to persist after restarts.</p>
+<p>Activates trace flags at the global level using DBCC TRACEON, affecting all connections and sessions on the target SQL Server instances.<br />
+Commonly used for troubleshooting performance issues, enabling specific SQL Server behaviors, or applying recommended trace flags for your environment.<br />
+Changes take effect immediately but are lost after a SQL Server restart - use Set-DbaStartupParameter to make trace flags persistent across restarts.<br />
+The function automatically checks for already-enabled trace flags to prevent duplicate operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Enable-DbaTraceFlag
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -541,7 +543,9 @@ These are not persisted after a restart, use Set-DbaStartupParameter to set them
 </tbody>
 </table>
 <h5 id="traceflag">-TraceFlag</h5>
-<p>Trace flag number(s) to enable globally <br></p>
+<p>Specifies one or more trace flag numbers to enable globally across all sessions on the SQL Server instance.<br />
+Use specific trace flag numbers like 3226 (suppress backup log messages), 1117/1118 (tempdb optimization), or 4199 (query optimizer fixes).<br />
+Multiple trace flags can be specified as an array to enable several flags in a single operation. <br></p>
 <table>
 <thead>
 <tr>

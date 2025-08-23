@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgListener">Get-DbaAgListener</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns availability group listeners.</p>
+<p>Retrieves availability group listener configurations including IP addresses and port numbers.</p>
 <h2 id="description">Description</h2>
-<p>Returns availability group listeners.</p>
+<p>Retrieves availability group listener configurations from SQL Server instances, providing essential network details needed for client connections and troubleshooting. This function returns listener names, port numbers, IP configurations, and associated availability groups, which is crucial for validating listener setup and diagnosing connection issues. Use this when you need to document your AG infrastructure, verify listener configurations after setup, or troubleshoot client connectivity problems.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgListener
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -574,7 +574,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Specify the availability groups to query.<br></p>
+<p>Specifies which availability groups to include when retrieving listener information. Supports wildcards for pattern matching.<br />
+Use this when you only need listener details for specific availability groups rather than all groups on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +603,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="listener">-Listener</h5>
-<p>Return only specific listeners.<br></p>
+<p>Specifies which availability group listeners to return by name. Accepts multiple listener names for filtering results.<br />
+Use this when you need to examine specific listeners during troubleshooting or when documenting particular AG configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -630,7 +632,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaAvailabilityGroup.<br></p>
+<p>Accepts availability group objects from Get-DbaAvailabilityGroup for pipeline operations.<br />
+Use this when chaining commands to get listener details for specific availability groups you've already retrieved.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaAgentJobCategory">Set-DbaAgentJobCategory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set-DbaAgentJobCategory changes a job category.</p>
+<p>Renames SQL Server Agent job categories to standardize naming conventions across instances.</p>
 <h2 id="description">Description</h2>
-<p>Set-DbaAgentJobCategory makes it possible to change a job category.</p>
+<p>Renames existing SQL Server Agent job categories by updating their names in the msdb database. This is particularly useful for standardizing job category naming conventions across multiple environments or correcting categories that were created with inconsistent names. The function validates that source categories exist and prevents renaming to names that already exist, helping maintain clean job organization within SQL Server Agent.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaAgentJobCategory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -573,7 +573,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>The name of the category<br></p>
+<p>Specifies the existing job category name(s) to rename. The category must already exist in the SQL Server Agent on the target instance.<br />
+Use this to identify which job categories need standardized naming across your environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -601,7 +602,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="newname">-NewName</h5>
-<p>New name of the job category<br></p>
+<p>Specifies the new name(s) for the job category. The new name cannot already exist on the target instance.<br />
+When renaming multiple categories, provide names in the same order as the Category parameter values.<br></p>
 <table>
 <thead>
 <tr>
@@ -629,7 +631,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.<br></p>
+<p>Bypasses confirmation prompts and performs the rename operation without asking for user confirmation.<br />
+Use this when scripting bulk category renames where manual confirmation would be impractical.<br></p>
 <table>
 <thead>
 <tr>

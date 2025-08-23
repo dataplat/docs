@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaDiskAlignment">Test-DbaDiskAlignment</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Verifies that your non-dynamic disks are aligned according to physical constraints.</p>
+<p>Tests disk partition alignment to identify I/O performance issues that can impact SQL Server.</p>
 <h2 id="description">Description</h2>
-<p>Verifies that your non-dynamic disks are aligned according to physical constraints.</p>
-<p>Returns one row per computer, partition and stripe size with.</p>
+<p>Tests disk partition alignment by checking if partition starting offsets align properly with common stripe unit sizes (64KB, 128KB, 256KB, 512KB, 1024KB). Misaligned disk partitions can cause significant SQL Server I/O performance degradation, particularly on high-transaction systems.</p>
+<p>The function connects to Windows computers via CIM and examines each disk partition's starting offset. It can optionally focus only on partitions that contain SQL Server data or log files. Results show whether each partition follows alignment best practices and calculates the modulo for common stripe sizes.</p>
+<p>Returns detailed alignment analysis including partition size, offset calculations, and recommendations. This helps identify storage configuration issues before they impact database performance.</p>
 <p>Please refer to your storage vendor best practices before following any advice below.</p>
 <p>By default issues with disk alignment should be resolved by a new installation of Windows Server 2008, Windows Vista, or later operating systems, but verifying disk alignment continues to be recommended as a best practice.<br />
 While some versions of Windows use different starting alignments, if you are starting anew 1MB is generally the best practice offset for current operating systems (because it ensures that the partition offset % common stripe unit sizes == 0 )</p>
@@ -521,7 +522,8 @@ While some versions of Windows use different starting alignments, if you are sta
 <p>Tests the disk alignment of multiple servers<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer or computers. <br></p>
+<p>Specifies the Windows computer(s) to test for disk partition alignment issues. Accepts multiple server names for batch processing.<br />
+Use this to identify storage configuration problems that could impact SQL Server I/O performance across your environment. <br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="nosqlcheck">-NoSqlCheck</h5>
-<p>If this switch is enabled, the disk(s) will not be checked for SQL Server data or log files.<br></p>
+<p>Tests alignment on all disk partitions instead of limiting the check to only those containing SQL Server data or log files.<br />
+Use this when you want a comprehensive disk alignment assessment for the entire server, not just SQL Server storage.<br></p>
 <table>
 <thead>
 <tr>

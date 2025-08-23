@@ -561,7 +561,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAvailabilityGroup. <br></p>
+<p>Accepts availability group objects from Get-DbaAvailabilityGroup for pipeline operations. This is the target availability group where the replica will be added.<br />
+Use pipeline scenarios like 'Get-DbaAvailabilityGroup -AvailabilityGroup &quot;AG1&quot; | Add-DbaAgReplica -SqlInstance server2' for streamlined replica management. <br></p>
 <table>
 <thead>
 <tr>
@@ -620,8 +621,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the replica. Defaults to the SQL Server instance name.<br />
-This parameter is only supported if the replica is added to just one instance.<br></p>
+<p>Sets the display name for the availability group replica being added. Defaults to the SQL Server instance's domain instance name.<br />
+Use this when you need a custom replica name that differs from the server name, such as for clarity in multi-subnet scenarios.<br />
+This parameter is only supported when adding a replica to a single instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -649,9 +651,9 @@ This parameter is only supported if the replica is added to just one instance.<b
 </tbody>
 </table>
 <h5 id="clustertype">-ClusterType</h5>
-<p>Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.<br />
-Options include: Wsfc, External or None.<br />
-Defaults to Wsfc (Windows Server Failover Cluster).<br />
+<p>Specifies the underlying clustering technology for the availability group. Only supported in SQL Server 2017 and above.<br />
+Use 'Wsfc' for traditional Windows Server Failover Cluster setups, 'External' for Linux Pacemaker clusters, or 'None' for read-scale availability groups.<br />
+Defaults to 'Wsfc' which handles most Windows-based high availability scenarios.<br />
 The default can be changed with:<br />
 Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
 <table>
@@ -685,7 +687,9 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '..
 </tbody>
 </table>
 <h5 id="availabilitymode">-AvailabilityMode</h5>
-<p>Sets the availability mode of the availability group replica. Options are: AsynchronousCommit and SynchronousCommit. SynchronousCommit is default.<br></p>
+<p>Controls how the replica commits transactions relative to the primary replica. SynchronousCommit waits for secondary confirmation before committing, ensuring zero data loss but higher latency.<br />
+AsynchronousCommit commits immediately on primary without waiting for secondary confirmation, providing better performance but potential data loss during failover.<br />
+Defaults to SynchronousCommit for maximum data protection.<br></p>
 <table>
 <thead>
 <tr>
@@ -717,7 +721,10 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '..
 </tbody>
 </table>
 <h5 id="failovermode">-FailoverMode</h5>
-<p>Sets the failover mode of the availability group replica. Options are Automatic and Manual. Automatic is default.<br></p>
+<p>Determines whether the replica can automatically fail over when the primary becomes unavailable. Automatic failover requires SynchronousCommit availability mode and provides seamless high<br />
+availability.<br />
+Manual failover requires DBA intervention but works with both synchronous and asynchronous commit modes.<br />
+Defaults to Automatic for immediate failover capabilities.<br></p>
 <table>
 <thead>
 <tr>
@@ -749,7 +756,9 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '..
 </tbody>
 </table>
 <h5 id="backuppriority">-BackupPriority</h5>
-<p>Sets the backup priority availability group replica. Default is 50.<br></p>
+<p>Sets the replica's preference for hosting backups within the availability group, ranging from 0-100 where higher values indicate higher priority.<br />
+Use this to designate specific replicas for backup operations, such as setting secondary replicas to higher values to offload backup workloads from the primary.<br />
+Defaults to 50, giving all replicas equal backup preference.<br></p>
 <table>
 <thead>
 <tr>
@@ -777,7 +786,9 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '..
 </tbody>
 </table>
 <h5 id="connectionmodeinprimaryrole">-ConnectionModeInPrimaryRole</h5>
-<p>Specifies the connection intent mode of an Availability Replica in primary role. AllowAllConnections by default.<br></p>
+<p>Controls which client connections are allowed when this replica is the primary. AllowAllConnections permits both read-write and read-only connections.<br />
+AllowReadWriteConnections restricts access to connections that specify read-write intent, blocking read-only connection attempts.<br />
+Defaults to AllowAllConnections for maximum compatibility with existing applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -809,9 +820,9 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '..
 </tbody>
 </table>
 <h5 id="connectionmodeinsecondaryrole">-ConnectionModeInSecondaryRole</h5>
-<p>Specifies the connection modes of an Availability Replica in secondary role.<br />
-Options include: AllowNoConnections, AllowReadIntentConnectionsOnly,  AllowAllConnections<br />
-Defaults to AllowNoConnections.<br />
+<p>Controls client access to secondary replicas for read operations. AllowNoConnections blocks all client connections to the secondary.<br />
+AllowReadIntentConnectionsOnly permits only connections that specify ApplicationIntent=ReadOnly, ideal for reporting workloads.<br />
+AllowAllConnections allows any client connection regardless of intent. Defaults to AllowNoConnections for security and performance.<br />
 The default can be changed with:<br />
 Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ConnectionModeInSecondaryRole' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
 <table>
@@ -845,9 +856,9 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ConnectionModeInSeconda
 </tbody>
 </table>
 <h5 id="seedingmode">-SeedingMode</h5>
-<p>Specifies how the secondary replica will be initially seeded.<br />
-Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.<br />
-Manual requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica.<br></p>
+<p>Controls how databases are initially synchronized on the secondary replica. Requires SQL Server 2016 or later.<br />
+Automatic seeding transfers data directly over the network without manual backup/restore operations, ideal for large databases or automated deployments.<br />
+Manual seeding requires you to manually backup databases on the primary and restore them on the secondary, providing more control over the timing and process.<br></p>
 <table>
 <thead>
 <tr>
@@ -879,8 +890,9 @@ Manual requires you to create a backup of the database on the primary replica an
 </tbody>
 </table>
 <h5 id="endpoint">-Endpoint</h5>
-<p>By default, this command will attempt to find a DatabaseMirror endpoint. If one does not exist, it will create it.<br />
-If an endpoint must be created, the name &quot;hadr_endpoint&quot; will be used. If an alternative is preferred, use Endpoint.<br></p>
+<p>Specifies the name of the database mirroring endpoint to use for availability group communication. Automatically locates existing endpoints or creates one if needed.<br />
+Use this when you need a custom endpoint name instead of the default &quot;hadr_endpoint&quot; that gets created automatically.<br />
+Each SQL Server instance requires a database mirroring endpoint for Always On availability group replication.<br></p>
 <table>
 <thead>
 <tr>
@@ -908,11 +920,9 @@ If an endpoint must be created, the name &quot;hadr_endpoint&quot; will be used.
 </tbody>
 </table>
 <h5 id="endpointurl">-EndpointUrl</h5>
-<p>By default, the property Fqdn of Get-DbaEndpoint is used as EndpointUrl.<br />
-Use EndpointUrl if a different URL is required due to special network configurations.<br />
-EndpointUrl has to be an array of strings in format 'TCP://system-address:port', one entry for every instance.<br />
-See details at: <a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica</a><br />
-If an endpoint must be created, EndpointUrl will be used for configuration, if system-address is an ipv4 address.<br></p>
+<p>Overrides the default endpoint URL with custom network addresses for availability group communication. Defaults to the FQDN from the existing endpoint.<br />
+Required for special network configurations like multi-subnet deployments, NAT environments, or when replicas need specific IP addresses for cross-network communication.<br />
+Must be in format 'TCP://system-address:port' with one entry per instance. When creating new endpoints, IPv4 addresses in the URL will be used for endpoint configuration.<br></p>
 <table>
 <thead>
 <tr>
@@ -940,7 +950,8 @@ If an endpoint must be created, EndpointUrl will be used for configuration, if s
 </tbody>
 </table>
 <h5 id="passthru">-Passthru</h5>
-<p>Don't create the replica, just pass thru an object that can be further customized before creation.<br></p>
+<p>Returns the replica object without actually creating it in the availability group, allowing for additional customization before final creation.<br />
+Use this when you need to modify replica properties that aren't exposed as direct parameters before adding it to the availability group.<br></p>
 <table>
 <thead>
 <tr>
@@ -968,8 +979,9 @@ If an endpoint must be created, EndpointUrl will be used for configuration, if s
 </tbody>
 </table>
 <h5 id="readonlyroutinglist">-ReadOnlyRoutingList</h5>
-<p>Sets the read only routing ordered list of replica server names to use when redirecting read-only connections through this availability replica.<br />
-This parameter is only supported if the replica is added to just one instance.<br></p>
+<p>Defines the priority order of replica server names for routing read-only connections when this replica serves as the primary. Requires SQL Server 2016 or later.<br />
+Use this to direct reporting queries to specific secondary replicas, creating an ordered list like @('Server2', 'Server3') to balance read-only workloads.<br />
+This parameter is only supported when adding a replica to a single instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -997,8 +1009,9 @@ This parameter is only supported if the replica is added to just one instance.<b
 </tbody>
 </table>
 <h5 id="readonlyroutingconnectionurl">-ReadonlyRoutingConnectionUrl</h5>
-<p>Sets the read only routing connection url for the availability replica.<br />
-This parameter is only supported if the replica is added to just one instance.<br></p>
+<p>Specifies the connection URL that clients use when connecting to this replica for read-only operations via read-only routing. Requires SQL Server 2016 or later.<br />
+Must be in format 'TCP://system-address:port' and typically differs from the regular endpoint URL when using custom network configurations for read workloads.<br />
+This parameter is only supported when adding a replica to a single instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -1026,8 +1039,9 @@ This parameter is only supported if the replica is added to just one instance.<b
 </tbody>
 </table>
 <h5 id="certificate">-Certificate</h5>
-<p>Specifies that the endpoint is to authenticate the connection using the certificate specified by certificate_name to establish identity for authorization.<br />
-The far endpoint must have a certificate with the public key matching the private key of the specified certificate.<br></p>
+<p>Configures certificate-based authentication for the database mirroring endpoint instead of Windows authentication. Requires the certificate name to exist on the SQL Server instance.<br />
+Use this in environments where SQL Server instances run under different domain accounts or in workgroup configurations where Windows authentication isn't feasible.<br />
+The remote replica must have a matching certificate with the corresponding public key for secure communication.<br></p>
 <table>
 <thead>
 <tr>
@@ -1055,8 +1069,9 @@ The far endpoint must have a certificate with the public key matching the privat
 </tbody>
 </table>
 <h5 id="configurexesession">-ConfigureXESession</h5>
-<p>Configure the AlwaysOn_health extended events session to start automatically as the SSMS wizard would do.<br />
-<a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/always-on-extended-events#BKMK_alwayson_health">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/always-on-extended-events#BKMK_alwayson_health</a><br></p>
+<p>Automatically configures the AlwaysOn_health extended events session to start with SQL Server, matching the behavior of the SSMS availability group wizard.<br />
+Use this to enable automatic collection of availability group health data for monitoring and troubleshooting replica connectivity, failover events, and performance issues.<br />
+The session captures critical Always On events and is essential for proactive availability group management.<br></p>
 <table>
 <thead>
 <tr>
@@ -1084,7 +1099,9 @@ The far endpoint must have a certificate with the public key matching the privat
 </tbody>
 </table>
 <h5 id="sessiontimeout">-SessionTimeout</h5>
-<p>How many seconds an availability replica waits for a ping response from a connected replica before considering the connection to have failed.<br></p>
+<p>Sets the timeout period in seconds for detecting replica connectivity failures. The replica waits this long for ping responses before marking a connection as failed.<br />
+Lower values provide faster failure detection but may cause false failures under network stress. Higher values prevent false failures but delay failover detection.<br />
+Microsoft recommends keeping this at 10 seconds or higher for stable operations.<br></p>
 <table>
 <thead>
 <tr>

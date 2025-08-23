@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaDbOwner">Test-DbaDbOwner</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Checks database owners against a login to validate which databases do not match that owner.</p>
+<p>Identifies databases with incorrect ownership for security compliance and best practice enforcement.</p>
 <h2 id="description">Description</h2>
-<p>This function will check all databases on an instance against a SQL login to validate if that<br />
-login owns those databases or not. By default, the function will check against 'sa' for<br />
-ownership, but the user can pass a specific login if they use something else.</p>
+<p>This function compares the current owner of each database against a target login and returns only databases that do NOT match the expected owner. By default, it checks against 'sa' (or the renamed sysadmin account if 'sa' was changed), but you can specify any valid login.</p>
+<p>This addresses a common security compliance requirement where databases should be owned by a specific account rather than individual user accounts. Mismatched ownership can cause issues with scheduled jobs, maintenance plans, and security policies.</p>
+<p>The function automatically detects if the 'sa' account was renamed and uses the actual sysadmin login name. It returns detailed information including current owner, target owner, and ownership status for easy identification of databases requiring ownership changes.</p>
 <p>Best Practice reference: <a href="http://weblogs.sqlteam.com/dang/archive/2008/01/13/Database-Owner-Troubles.aspx">http://weblogs.sqlteam.com/dang/archive/2008/01/13/Database-Owner-Troubles.aspx</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaDbOwner
@@ -578,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to check for ownership compliance. Accepts wildcards for pattern matching.<br />
+Use this when you need to audit ownership for specific databases rather than all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies databases to skip during the ownership compliance check. Accepts wildcards for pattern matching.<br />
+Useful for excluding system databases or databases with intentionally different ownership from standard policy.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,7 +636,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="targetlogin">-TargetLogin</h5>
-<p>Specifies the login that you wish check for ownership. This defaults to 'sa' or the sysadmin name if sa was renamed. This must be a valid security principal which exists on the target server.<br></p>
+<p>Specifies the expected database owner login for compliance checking. Defaults to 'sa' or the renamed sysadmin account if 'sa' was changed.<br />
+Use this to enforce organizational standards where databases should be owned by a service account or specific login rather than individual users.<br></p>
 <table>
 <thead>
 <tr>
@@ -662,7 +665,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaDatabase.<br></p>
+<p>Accepts database objects piped from Get-DbaDatabase for ownership verification.<br />
+Use this to check ownership on a pre-filtered set of databases or when chaining with other database operations.<br></p>
 <table>
 <thead>
 <tr>

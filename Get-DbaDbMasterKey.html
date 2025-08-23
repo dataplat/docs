@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbMasterKey">Get-DbaDbMasterKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets specified database master key</p>
+<p>Retrieves database master key information from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Gets specified database master key</p>
+<p>Retrieves database master key objects and their metadata from one or more SQL Server databases. Database master keys are used to encrypt sensitive data through features like Transparent Data Encryption (TDE), column-level encryption, and certificate-based encryption. This function helps DBAs inventory encryption keys across their environment for security audits, compliance reporting, and encryption management. Returns key details including creation date, last modified date, and server encryption status.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbMasterKey
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -570,7 +570,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Get master key from specific database<br></p>
+<p>Specifies which databases to check for database master keys. Accepts wildcards for pattern matching.<br />
+Use this when you need to audit encryption keys for specific databases instead of scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +599,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies databases to skip when checking for master keys. Accepts wildcards for pattern matching.<br />
+Use this to exclude system databases or databases you know don't use encryption features during security audits.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,7 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Database object piped in from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase through the pipeline for master key analysis.<br />
+Use this when you need to check master keys for databases that match specific criteria like compatibility level or size.<br></p>
 <table>
 <thead>
 <tr>

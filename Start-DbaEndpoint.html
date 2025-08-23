@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Start-DbaEndpoint">Start-DbaEndpoint</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Starts endpoints on a SQL Server instance.</p>
+<p>Starts stopped SQL Server endpoints for Database Mirroring, Service Broker, and other network services.</p>
 <h2 id="description">Description</h2>
-<p>Starts endpoints on a SQL Server instance.</p>
+<p>Starts stopped SQL Server endpoints that are required for Database Mirroring, Service Broker, SOAP, and custom TCP connections. Endpoints must be in a started state to accept network connections and facilitate features like Availability Groups, database mirroring partnerships, and Service Broker message routing. This function is commonly used after maintenance windows, server restarts, or when troubleshooting connectivity issues where endpoints were inadvertently stopped.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Start-DbaEndpoint
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -576,7 +576,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="endpoint">-Endpoint</h5>
-<p>Only start specific endpoints.<br></p>
+<p>Specifies the names of specific endpoints to start on the target SQL Server instance.<br />
+Use this when you only need to start particular endpoints like Database Mirroring or Service Broker endpoints rather than all endpoints on the server.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +605,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="allendpoints">-AllEndpoints</h5>
-<p>Start all endpoints on an instance.<br></p>
+<p>Starts all endpoints on the target SQL Server instance regardless of their current state or type.<br />
+This is required when using the SqlInstance parameter and you want to start all endpoints rather than specific ones.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +634,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-Endpoint.<br></p>
+<p>Accepts endpoint objects from the pipeline, typically from Get-DbaEndpoint cmdlet output.<br />
+Use this to start endpoints that have already been retrieved and filtered by other dbatools commands.<br></p>
 <table>
 <thead>
 <tr>

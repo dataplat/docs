@@ -485,14 +485,15 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbShrink">Invoke-DbaDbShrink</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Shrinks all files in a database. This is a command that should rarely be used.</p>
+<p>Reduces the physical size of database files by removing unused space from data and log files.</p>
 <ul>
 <li>Shrinks can cause severe index fragmentation (to the tune of 99%)</li>
 <li>Shrinks can cause massive growth in the database's transaction log</li>
 <li>Shrinks can require a lot of time and system resources to perform data movement</li>
 </ul>
 <h2 id="description">Description</h2>
-<p>Shrinks all files in a database. Databases should be shrunk only when completely necessary.</p>
+<p>Reduces database file sizes by removing unused space from data files, log files, or both. This function targets specific files within databases and can reclaim substantial disk space when databases have grown significantly beyond their current data requirements.</p>
+<p>Use this function sparingly and only when disk space recovery is critical, such as after large data deletions, index rebuilds, or when preparing databases for migration. The function supports chunked shrinking operations to minimize performance impact and provides detailed fragmentation statistics to help assess the operation's effects.</p>
 <p>Many awesome SQL people have written about why you should not shrink your data files. Paul Randal and Kalen Delaney wrote great posts about this topic:</p>
 <p><a href="http://www.sqlskills.com/blogs/paul/why-you-should-not-shrink-your-data-files">http://www.sqlskills.com/blogs/paul/why-you-should-not-shrink-your-data-files</a><br />
 <a href="https://www.itprotoday.com/sql-server/shrinking-data-files">https://www.itprotoday.com/sql-server/shrinking-data-files</a></p>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to shrink on the target instance. Accepts wildcard patterns and multiple database names.<br />
+Use this when you need to shrink specific databases rather than all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,7 +636,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server.<br></p>
+<p>Excludes specific databases from the shrink operation when processing multiple databases. Accepts wildcard patterns.<br />
+Useful when shrinking all user databases but want to skip critical production databases or those with specific maintenance windows.<br></p>
 <table>
 <thead>
 <tr>
@@ -662,7 +665,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="alluserdatabases">-AllUserDatabases</h5>
-<p>Run command against all user databases.<br></p>
+<p>Targets all user databases on the instance, excluding system databases (master, model, msdb, tempdb).<br />
+Use this for maintenance operations across an entire instance while preserving system database integrity.<br></p>
 <table>
 <thead>
 <tr>
@@ -690,7 +694,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="percentfreespace">-PercentFreeSpace</h5>
-<p>Specifies how much free space to leave, defaults to 0.<br></p>
+<p>Sets the percentage of free space to maintain in the database files after shrinking, ranging from 0-99. Defaults to 0.<br />
+Leave some free space (10-20%) to accommodate normal database growth and reduce the need for frequent auto-growth events.<br></p>
 <table>
 <thead>
 <tr>
@@ -718,15 +723,9 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="shrinkmethod">-ShrinkMethod</h5>
-<p>Specifies the method that is used to shrink the database<br />
-Default<br />
-Data in pages located at the end of a file is moved to pages earlier in the file. Files are truncated to reflect allocated space.<br />
-EmptyFile<br />
-Migrates all of the data from the referenced file to other files in the same filegroup. (DataFile and LogFile objects only).<br />
-NoTruncate<br />
-Data in pages located at the end of a file is moved to pages earlier in the file.<br />
-TruncateOnly<br />
-Data distribution is not affected. Files are truncated to reflect allocated space, recovering free space at the end of any file.<br></p>
+<p>Controls how SQL Server performs the shrink operation. Default moves data pages and truncates files.<br />
+EmptyFile migrates all data to other files in the filegroup. NoTruncate moves pages but doesn't truncate. TruncateOnly reclaims space without moving data.<br />
+Use TruncateOnly when possible as it's the least resource-intensive and doesn't cause data movement or fragmentation.<br></p>
 <table>
 <thead>
 <tr>
@@ -758,10 +757,8 @@ Data distribution is not affected. Files are truncated to reflect allocated spac
 </tbody>
 </table>
 <h5 id="filetype">-FileType</h5>
-<p>Specifies the files types that will be shrunk<br />
-All - All Data and Log files are shrunk, using database shrink (Default)<br />
-Data - Just the Data files are shrunk using file shrink<br />
-Log - Just the Log files are shrunk using file shrink<br></p>
+<p>Determines which database files to target for shrinking: All (data and log files), Data (only data files), or Log (only log files). Defaults to All.<br />
+Use Data when you only need to reclaim space from data files after large deletions. Use Log to specifically target transaction log files after maintenance operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -793,9 +790,8 @@ Log - Just the Log files are shrunk using file shrink<br></p>
 </tbody>
 </table>
 <h5 id="stepsize">-StepSize</h5>
-<p>Measured in bits - but no worries! PowerShell has a very cool way of formatting bits. Just specify something like: 1MB or 10GB. See the examples for more information.<br />
-If specified, this will chunk a larger shrink operation into multiple smaller shrinks.<br />
-If shrinking a file by a large amount there are benefits of doing multiple smaller chunks.<br></p>
+<p>Breaks large shrink operations into smaller chunks of the specified size. Use PowerShell size notation like 100MB or 1GB.<br />
+Chunked shrinks reduce resource contention and allow for better progress monitoring during large shrink operations. Recommended for databases being shrunk by several gigabytes.<br></p>
 <table>
 <thead>
 <tr>
@@ -823,7 +819,8 @@ If shrinking a file by a large amount there are benefits of doing multiple small
 </tbody>
 </table>
 <h5 id="statementtimeout">-StatementTimeout</h5>
-<p>Timeout in minutes. Defaults to infinity (shrinks can take a while).<br></p>
+<p>Sets the command timeout in minutes for the shrink operation. Defaults to 0 (infinite timeout).<br />
+Large database shrinks can take hours to complete, so the default allows operations to run without timing out.<br></p>
 <table>
 <thead>
 <tr>
@@ -851,7 +848,8 @@ If shrinking a file by a large amount there are benefits of doing multiple small
 </tbody>
 </table>
 <h5 id="excludeindexstats">-ExcludeIndexStats</h5>
-<p>Exclude statistics about fragmentation.<br></p>
+<p>Skips collecting index fragmentation statistics before and after the shrink operation.<br />
+Use this to speed up the shrink process when you don't need fragmentation analysis or are planning to rebuild indexes immediately afterward.<br></p>
 <table>
 <thead>
 <tr>
@@ -879,7 +877,8 @@ If shrinking a file by a large amount there are benefits of doing multiple small
 </tbody>
 </table>
 <h5 id="excludeupdateusage">-ExcludeUpdateUsage</h5>
-<p>Exclude DBCC UPDATE USAGE for database.<br></p>
+<p>Skips running DBCC UPDATEUSAGE before the shrink operation to ensure accurate space usage statistics.<br />
+Use this to reduce operation time when space usage statistics are already current or when immediate shrinking is more important than precision.<br></p>
 <table>
 <thead>
 <tr>
@@ -937,7 +936,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of databases (such as returned by Get-DbaDatabase)<br></p>
+<p>Accepts database objects from the pipeline, typically from Get-DbaDatabase output.<br />
+Use this for advanced filtering scenarios or when combining multiple database operations in a pipeline.<br></p>
 <table>
 <thead>
 <tr>

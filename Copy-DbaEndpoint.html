@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaEndpoint">Copy-DbaEndpoint</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaEndpoint migrates server endpoints from one SQL Server to another.</p>
+<p>Copies SQL Server endpoints from source instance to destination instances for migration scenarios.</p>
 <h2 id="description">Description</h2>
-<p>By default, all endpoints are copied.</p>
-<p>If the endpoint already exists on the destination, it will be skipped unless -Force is used.</p>
+<p>Migrates user-defined endpoints (excluding system endpoints) from a source SQL Server to one or more destination servers. This includes Service Broker, Database Mirroring, and Availability Group endpoints that are essential for high availability configurations.</p>
+<p>Existing endpoints on the destination are skipped by default to prevent conflicts, but can be overwritten using the -Force parameter. The function scripts the complete endpoint definition from the source and recreates it on each destination server.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaEndpoint
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -522,7 +522,8 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 <p>Shows what would happen if the command were executed using force.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>Specifies the source SQL Server instance containing endpoints to copy. Must have sysadmin access to enumerate and script endpoint definitions.<br />
+Use this to identify the server containing Service Broker, Database Mirroring, or Availability Group endpoints needed on other instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -550,7 +551,8 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Specifies one or more destination SQL Server instances where endpoints will be created. Must have sysadmin access to create endpoint objects.<br />
+Use this to deploy endpoints across multiple servers in Always On configurations or Service Broker scenarios requiring identical endpoint definitions. <br></p>
 <table>
 <thead>
 <tr>
@@ -579,9 +581,8 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Specifies alternative credentials for connecting to the source SQL Server instance. Required when Windows Authentication is not available or sufficient.<br />
+Use this when the source server requires SQL authentication or when running under a service account that lacks access to the source instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,9 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Specifies alternative credentials for connecting to destination SQL Server instances. Applied to all destination servers when Windows Authentication is insufficient.<br />
+Use this when destination servers require SQL authentication or when deploying endpoints across environments with different security contexts.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +639,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="endpoint">-Endpoint</h5>
-<p>The endpoint(s) to process. This list is auto-populated from the server. If unspecified, all endpoints will be processed.<br></p>
+<p>Specifies which endpoints to copy from the source instance. Accepts endpoint names and supports wildcards for pattern matching.<br />
+Use this when you need to migrate specific endpoints like Database Mirroring or Service Broker endpoints rather than copying all user-defined endpoints.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +668,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeendpoint">-ExcludeEndpoint</h5>
-<p>The endpoint(s) to exclude. This list is auto-populated from the server.<br></p>
+<p>Specifies which endpoints to skip during the copy operation. Takes precedence over the Endpoint parameter when both are specified.<br />
+Use this to exclude problematic or environment-specific endpoints while copying most other endpoints from the source instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -695,7 +697,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, existing endpoints on Destination with matching names from Source will be dropped.<br></p>
+<p>Drops and recreates existing endpoints on destination instances when name conflicts occur. By default, existing endpoints are skipped to prevent disruption.<br />
+Use this when updating endpoint configurations or when you need to overwrite outdated endpoint definitions on destination servers.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbSchema">Remove-DbaDbSchema</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Drops one or more schemas from the specified database(s).</p>
+<p>Removes database schemas from one or more SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>Drops one or more schemas from the specified database(s). As noted in the remarks section of the documentation for DROP SCHEMA there must not be any objects in the schema.</p>
+<p>Removes database schemas from SQL Server databases using the DROP SCHEMA T-SQL command. This function is useful for cleaning up unused schemas during database maintenance, development environment resets, or application decommissioning. The schema must be completely empty before removal - any tables, views, functions, or other objects within the schema will prevent the drop operation from succeeding. You'll need to remove or relocate all schema objects first before running this command.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbSchema
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -514,7 +514,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Passes in the example1 db via pipeline and removes the TestSchema1 and TestSchema2 schemas.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="schema">-Schema</h5>
-<p>The name(s) of the schema(s) <br></p>
+<p>Specifies the name(s) of the schema(s) to remove from the target databases. The schema must be completely empty before removal.<br />
+Any tables, views, functions, stored procedures, or other objects within the schema must be dropped or moved first. <br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +603,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies the target database(s) where schemas will be removed. Required when using SqlInstance parameter.<br />
+Use this to limit schema removal to specific databases rather than affecting all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -630,7 +632,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase via pipeline input. Use this when you need to work with pre-filtered database collections.<br />
+Eliminates the need to specify SqlInstance and Database parameters when database objects are already available.<br></p>
 <table>
 <thead>
 <tr>

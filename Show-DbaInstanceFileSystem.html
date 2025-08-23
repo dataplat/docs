@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Show-DbaInstanceFileSystem">Show-DbaInstanceFileSystem</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Shows file system on remote SQL Server in a local GUI and returns the selected directory name</p>
+<p>Displays a GUI tree view for browsing remote SQL Server file systems and returns the selected directory path</p>
 <h2 id="description">Description</h2>
-<p>Similar to the remote file system popup you see when browsing a remote SQL Server in SQL Server Management Studio, this function allows you to traverse the remote SQL Server's file structure.</p>
-<p>Show-DbaInstanceFileSystem uses SQL Management Objects to browse the directories and what you see is limited to the permissions of the account running the command.</p>
+<p>Similar to the remote file system popup you see when browsing a remote SQL Server in SQL Server Management Studio, this function allows you to traverse the remote SQL Server's file structure. This replaces the need to manually type or guess directory paths when setting up backup locations, restore operations, or specifying data and log file paths.</p>
+<p>Show-DbaInstanceFileSystem uses SQL Management Objects to browse the directories and what you see is limited to the permissions of the account running the command. The function opens a Windows Presentation Framework GUI with a familiar tree view interface, complete with drive and folder icons, making it easy to navigate and select the correct directory path for your SQL Server operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Show-DbaInstanceFileSystem
     [-SqlInstance] &lt;DbaInstanceParameter&gt;

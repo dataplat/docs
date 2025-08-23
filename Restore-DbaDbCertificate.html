@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Restore-DbaDbCertificate">Restore-DbaDbCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Imports certificates from .cer files using SMO.</p>
+<p>Restores database certificates from .cer and .pvk files into SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>Imports certificates from.cer files using SMO.</p>
+<p>Restores database certificates and their associated private keys from backup files into SQL Server databases. This function is essential for recovering certificates used in TDE (Transparent Data Encryption), backup encryption, Always Encrypted, and other SQL Server security features after database migrations, disaster recovery, or server rebuilds.</p>
+<p>The function automatically locates matching private key files (.pvk) for each certificate (.cer) when processing directories, or you can specify key file paths explicitly. Handles password-protected private keys with secure credential management, and allows you to re-encrypt keys during the restore process if needed.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Restore-DbaDbCertificate
     [-SqlInstance] &lt;DbaInstanceParameter&gt;
@@ -546,7 +547,8 @@ PS C:\&gt; Restore-DbaDbCertificate -SqlInstance Server1 -Path \\Server1\Certifi
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The Path the contains the certificate and private key files. The path can be a directory or a specific certificate. <br></p>
+<p>Specifies the file system path to certificate files (.cer) or a directory containing multiple certificates. When pointing to a directory, the function processes all .cer files found within it.<br />
+Use this to restore certificates from your certificate backup location after disaster recovery or server migrations. <br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +607,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="keyfilepath">-KeyFilePath</h5>
-<p>The Path the contains the private key file. If one is not specified, we will try to find it for you.<br></p>
+<p>Specifies the path to the private key file (.pvk) associated with the certificate. If not provided, the function automatically searches for a matching .pvk file in the same directory as the<br />
+certificate.<br />
+Only specify this when your private key files are stored in a different location from your certificate files.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="encryptionpassword">-EncryptionPassword</h5>
-<p>If specified this will be used to encrypt the private key.<br></p>
+<p>Sets a new password to encrypt the private key after restoration to SQL Server. If not specified, the restored certificate will be encrypted with the database master key.<br />
+Use this when you want to change the private key encryption method or set a specific password for the restored certificate.<br></p>
 <table>
 <thead>
 <tr>
@@ -661,7 +666,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where the certificate imports into. Defaults to master.<br></p>
+<p>Specifies the target database where the certificate will be restored. Defaults to the master database if not specified.<br />
+Use this when restoring certificates for specific database features like TDE, Always Encrypted, or application-specific encryption within user databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -689,7 +695,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The optional name for the certificate, otherwise, it will be guessed from the certificate file name.<br></p>
+<p>Specifies a custom name for the restored certificate in SQL Server. If not provided, the function derives the name from the certificate file name, removing instance and database prefixes.<br />
+Use this when you need the certificate to have a specific name that differs from the backup file naming convention.<br></p>
 <table>
 <thead>
 <tr>
@@ -717,7 +724,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="decryptionpassword">-DecryptionPassword</h5>
-<p>Secure string used to decrypt the private key.<br></p>
+<p>Provides the password required to decrypt the private key file (.pvk) during certificate restoration. This password was set when the certificate was originally backed up.<br />
+Required for all certificate restores since private keys are encrypted by default when exported from SQL Server.<br></p>
 <table>
 <thead>
 <tr>

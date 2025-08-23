@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaReplArticle">Get-DbaReplArticle</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the information about publication articles.</p>
+<p>Retrieves detailed information about replication articles from SQL Server publications.</p>
 <h2 id="description">Description</h2>
-<p>This function locates and enumerates articles' information.</p>
-<p>Can specify a database, publication or article name.</p>
+<p>Retrieves comprehensive details about articles within SQL Server replication publications, helping DBAs audit and manage replication topology. Articles define which tables, views, or stored procedures are included in a publication for data distribution to subscribers.</p>
+<p>This function examines all accessible databases on the specified instances and returns article properties including name, type, schema, source objects, and partitioning details. Use this when troubleshooting replication issues, documenting replication setup, or verifying which objects are being replicated across your environment.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaReplArticle
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -584,7 +584,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more database(s) to process. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to examine for replication articles. Only articles from publications in these databases will be returned.<br />
+Use this when you need to focus on replication articles within specific databases rather than scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="publication">-Publication</h5>
-<p>Specifies one or more publication(s) to process. If unspecified, all publications will be processed.<br></p>
+<p>Filters results to articles within specific replication publications. Only articles from these named publications will be returned.<br />
+Use this when troubleshooting a specific publication or when you need to audit articles within particular publications rather than all publications in the database.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>Specifies one or more schema(s) to process. If unspecified, all schemas will be processed.<br></p>
+<p>Filters articles by the schema of their source objects (tables, views, or procedures). Only articles whose source objects belong to these schemas will be returned.<br />
+Use this when you need to examine replication articles for objects within specific schemas, such as when troubleshooting schema-specific replication issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,7 +671,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Specify the name of one or more article(s) to process. If unspecified, all articles will be processed.<br></p>
+<p>Filters results to articles with specific names. Only articles matching these exact names will be returned.<br />
+Use this when you need to examine specific replication articles by name, such as when troubleshooting issues with particular replicated objects.<br></p>
 <table>
 <thead>
 <tr>

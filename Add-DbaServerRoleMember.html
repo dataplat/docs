@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Add-DbaServerRoleMember">Add-DbaServerRoleMember</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Adds a login to a server-level role(s) for each instance(s) of SQL Server.</p>
+<p>Adds logins or server roles to server-level roles for SQL Server security administration.</p>
 <h2 id="description">Description</h2>
-<p>Adds a login to a server-level role(s) for each instance(s) of SQL Server.</p>
+<p>Grants server-level role membership to SQL logins or nests server roles within other server roles. Use this command when setting up security permissions, implementing role-based access control, or managing server-level privileges across multiple SQL Server instances. Supports both built-in roles (sysadmin, dbcreator, etc.) and custom server roles, so you don't have to manually assign permissions through SSMS or T-SQL scripts.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Add-DbaServerRoleMember
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -596,7 +596,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="serverrole">-ServerRole</h5>
-<p>The server-level role(s) to process.<br></p>
+<p>Specifies the server-level role(s) that will receive new members. Accepts both built-in roles (sysadmin, dbcreator, securityadmin, etc.) and custom server roles.<br />
+Use this when you need to grant server-level permissions by adding logins or nesting roles within these target roles.<br></p>
 <table>
 <thead>
 <tr>
@@ -624,7 +625,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The login(s) to add to server-level role(s) specified.<br></p>
+<p>Specifies the SQL Server login(s) to be granted membership in the target server roles. Accepts Windows accounts, SQL logins, and Active Directory accounts.<br />
+Use this when you need to give specific users or service accounts server-level permissions rather than nesting entire roles.<br></p>
 <table>
 <thead>
 <tr>
@@ -652,7 +654,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="role">-Role</h5>
-<p>The role(s) to add to server-level role(s) specified.<br></p>
+<p>Specifies existing server-level role(s) to be nested as members within the target ServerRole(s). Creates a role hierarchy where one role inherits permissions from another.<br />
+Use this when implementing role-based security designs where you want to group permissions through role membership rather than individual login assignments.<br></p>
 <table>
 <thead>
 <tr>
@@ -680,7 +683,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaServerRole or New-DbaServerRole<br></p>
+<p>Accepts server role objects piped from Get-DbaServerRole or New-DbaServerRole commands. Allows you to chain commands together for workflow automation.<br />
+Use this when you want to operate on roles retrieved by other dbatools commands rather than specifying role names as strings.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbPartitionFunction">Get-DbaDbPartitionFunction</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database Partition Functions.</p>
+<p>Retrieves partition function definitions and metadata from SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>Gets database Partition Functions.</p>
+<p>Retrieves partition function definitions and their metadata from one or more SQL Server databases. Partition functions define how table or index data is distributed across multiple partitions based on the values of a partitioning column. This function returns details like creation date, function name, and number of partitions, making it useful for documenting partitioning schemes, analyzing partition distribution strategies, and auditing partitioned table configurations before maintenance operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbPartitionFunction
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -583,7 +583,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get users from specific database(s).<br></p>
+<p>Specifies which databases to search for partition functions. Accepts multiple database names as an array.<br />
+Use this when you need to examine partition functions in specific databases rather than scanning all accessible databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<p>Specifies which databases to skip when searching for partition functions. Accepts multiple database names as an array.<br />
+Use this to avoid scanning system databases or databases where you know partition functions don't exist, improving performance on instances with many databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +641,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="partitionfunction">-PartitionFunction</h5>
-<p>The name(s) of the partition function(s).<br></p>
+<p>Specifies which partition functions to retrieve by name. Accepts multiple function names as an array and supports wildcards.<br />
+Use this when you need details about specific partition functions rather than retrieving all partition functions from the target databases.<br></p>
 <table>
 <thead>
 <tr>

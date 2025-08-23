@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaDbDisabledIndex">Find-DbaDbDisabledIndex</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Find Disabled indexes</p>
+<p>Identifies disabled indexes across SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>This command will help you to find disabled indexes on a database or a list of databases.</p>
+<p>Scans SQL Server databases to locate indexes that have been disabled, returning detailed information including database, schema, table, and index names. Disabled indexes consume storage space but aren't maintained during data modifications, making them candidates for cleanup or re-enabling. This is useful for database maintenance, performance troubleshooting, and identifying indexes that were disabled during bulk operations but never re-enabled.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaDbDisabledIndex
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -582,7 +582,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to scan for disabled indexes. Accepts multiple database names and supports wildcards.<br />
+When not specified, all accessible user databases on the instance will be scanned.<br></p>
 <table>
 <thead>
 <tr>
@@ -610,7 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Excludes specific databases from the disabled index scan. Useful when you want to scan most databases but skip certain ones like staging or temp databases.<br />
+Accepts multiple database names to exclude from the operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="noclobber">-NoClobber</h5>
-<p>If this switch is enabled, the output file will not be overwritten.<br></p>
+<p>Prevents overwriting existing output files when used with file export functionality.<br />
+Note: This parameter is currently not implemented in the function logic.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="append">-Append</h5>
-<p>If this switch is enabled, content will be appended to the output file.<br></p>
+<p>Appends results to existing output files instead of overwriting them when used with file export functionality.<br />
+Note: This parameter is currently not implemented in the function logic.<br></p>
 <table>
 <thead>
 <tr>

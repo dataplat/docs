@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbCompression">Get-DbaDbCompression</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets tables and indexes size and current compression settings.</p>
+<p>Retrieves compression settings, sizes, and row counts for tables and indexes across SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>This function gets the current size and compression for all objects in the specified database(s), if no database is specified it will return all objects in all user databases.</p>
+<p>This function analyzes data compression usage across your SQL Server databases by examining tables, indexes, and their physical partitions. It returns detailed information including current compression type (None, Row, Page, Columnstore), space usage, and row counts for each object. This is essential for compression optimization analysis, identifying candidates for compression to save storage space, and generating compliance reports on compression usage across your database environment.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbCompression
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -579,7 +579,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for compression information. Accepts multiple database names as an array.<br />
+Use this when you want to focus compression analysis on specific databases rather than scanning all user databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +608,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<p>Specifies which databases to skip during compression analysis. Accepts multiple database names as an array.<br />
+Use this to exclude system databases, maintenance databases, or other databases you don't want included in compression reporting.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>The table(s) to process. If unspecified, all tables will be processed.<br></p>
+<p>Specifies which tables to analyze for compression information. Accepts multiple table names as an array.<br />
+Use this when you need compression details for specific tables rather than all tables in the target databases, particularly useful for large databases where you want to focus on specific objects.<br></p>
 <table>
 <thead>
 <tr>

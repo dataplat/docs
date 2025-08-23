@@ -485,13 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaInstance">Export-DbaInstance</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports SQL Server <em>ALL</em> database restore scripts, logins, database mail profiles/accounts, credentials, SQL Agent objects, linked servers,<br />
-Central Management Server objects, server configuration settings (sp_configure), user objects in systems databases,<br />
-system triggers and backup devices from one SQL Server to another.</p>
+<p>Exports complete SQL Server instance configuration as T-SQL scripts for migration or disaster recovery</p>
 <h2 id="description">Description</h2>
-<p>Export-DbaInstance consolidates most of the export scripts in dbatools into one command.</p>
-<p>This is useful when you're looking to Export entire instances. It less flexible than using the underlying functions.<br />
-Think of it as an easy button. Unless an -Exclude is specified, it exports:</p>
+<p>Export-DbaInstance consolidates most of the export scripts in dbatools into one command that captures everything needed to recreate or migrate a SQL Server instance.</p>
+<p>This command saves hours of manual work when migrating instances to new servers, creating disaster recovery scripts, or documenting configurations for compliance. It generates individual T-SQL script files for each component type, organized in a timestamped folder structure that's perfect for version control or automated deployment pipelines.</p>
+<p>Unless an -Exclude is specified, it exports:</p>
 <p>All database 'restore from backup' scripts.  Note: if a database does not have a backup the 'restore from backup' script won't be generated.<br />
 All logins.<br />
 All database mail objects.<br />
@@ -513,12 +511,19 @@ All Custom Errors (User Defined Messages).<br />
 All Server Roles.<br />
 All Availability Groups.<br />
 All OLEDB Providers.</p>
-<p>The exported files are written to a folder with a naming convention of &quot;machinename$instance-yyyyMMddHHmmss&quot;.</p>
-<p>This command supports the following use cases related to the output files:</p>
+<p>The exported files are written to a folder using the naming convention &quot;machinename$instance-yyyyMMddHHmmss&quot;, making it easy to identify the source instance and export timestamp.</p>
+<p>This command is particularly valuable for:</p>
+<ul>
+<li>Instance migrations when moving to new hardware or cloud platforms</li>
+<li>Creating standardized development and test environments that match production</li>
+<li>Disaster recovery planning by maintaining current configuration snapshots</li>
+<li>Compliance documentation that automatically captures security settings and configurations</li>
+<li>Change management workflows where you need baseline configurations before major updates</li>
+</ul>
+<p>Two folder management options are supported:</p>
 <ol>
-<li>Export files to a new timestamped folder. This is the default behavior and results in a simple historical archive within the local filesystem.</li>
-<li>Export files to an existing folder and overwrite pre-existing files. This can be accomplished using the -Force parameter.<br />
-This results in a single folder location with the latest exported files. These files can then be checked into a source control system if needed.</li>
+<li>Default behavior creates new timestamped folders for historical archiving</li>
+<li>Using -Force overwrites files in the same location, ideal for scheduled exports that feed into version control systems</li>
 </ol>
 <p>For more granular control, please use one of the -Exclude parameters and use the other functions available within the dbatools module.</p>
 <h2 id="syntax">Syntax</h2>
@@ -650,7 +655,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br></p>
+<p>Specifies the root directory where export files will be created in a timestamped subfolder.<br />
+Defaults to the dbatools export path configuration setting, typically Documents\DbatoolsExport.<br></p>
 <table>
 <thead>
 <tr>
@@ -678,7 +684,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>If this switch is used, databases will be left in the No Recovery state to enable further backups to be added.<br></p>
+<p>Generates database restore scripts with NORECOVERY option, leaving databases in restoring state.<br />
+Essential for log shipping scenarios or when you need to apply additional transaction log backups after the initial restore.<br></p>
 <table>
 <thead>
 <tr>
@@ -706,7 +713,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
-<p>Optional AzureCredential to connect to blob storage holding the backups<br></p>
+<p>Specifies the Azure storage credential name for accessing backups stored in Azure Blob Storage.<br />
+Required when generating restore scripts for databases backed up to Azure storage containers.<br></p>
 <table>
 <thead>
 <tr>
@@ -734,7 +742,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includedbmasterkey">-IncludeDbMasterKey</h5>
-<p>Exports the db master key then logs into the server to copy it to the $Path<br></p>
+<p>Exports database master keys from system databases and copies them to the export directory.<br />
+Critical for environments using Transparent Data Encryption (TDE) or encrypted backups where master keys are required for restoration.<br></p>
 <table>
 <thead>
 <tr>
@@ -762,29 +771,10 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="exclude">-Exclude</h5>
-<p>Exclude one or more objects to export<br />
-Databases<br />
-Logins<br />
-AgentServer<br />
-Credentials<br />
-LinkedServers<br />
-SpConfigure<br />
-CentralManagementServer<br />
-DatabaseMail<br />
-SysDbUserObjects<br />
-SystemTriggers<br />
-BackupDevices<br />
-Audits<br />
-Endpoints<br />
-ExtendedEvents<br />
-PolicyManagement<br />
-ResourceGovernor<br />
-ServerAuditSpecifications<br />
-CustomErrors<br />
-ServerRoles<br />
-AvailabilityGroups<br />
-ReplicationSettings<br />
-OleDbProvider<br></p>
+<p>Skips specific object types from the export to reduce scope or avoid problematic areas.<br />
+Useful when you only need certain components or when specific features cause export issues in your environment.<br />
+Valid values: Databases, Logins, AgentServer, Credentials, LinkedServers, SpConfigure, CentralManagementServer, DatabaseMail, SysDbUserObjects, SystemTriggers, BackupDevices, Audits, Endpoints,<br />
+ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, CustomErrors, ServerRoles, AvailabilityGroups, ReplicationSettings, OleDbProvider.<br></p>
 <table>
 <thead>
 <tr>
@@ -816,7 +806,8 @@ OleDbProvider<br></p>
 </tbody>
 </table>
 <h5 id="batchseparator">-BatchSeparator</h5>
-<p>Batch separator for scripting output. &quot;GO&quot; by default based on (Get-DbatoolsConfigValue -FullName 'formatting.batchseparator').<br></p>
+<p>Defines the T-SQL batch separator used in generated scripts, defaults to &quot;GO&quot;.<br />
+Change this if your deployment tools or target environment requires a different batch separator like semicolon or custom delimiter.<br></p>
 <table>
 <thead>
 <tr>
@@ -844,7 +835,8 @@ OleDbProvider<br></p>
 </tbody>
 </table>
 <h5 id="scriptingoption">-ScriptingOption</h5>
-<p>Add scripting options to scripting output for all objects except Registered Servers and Extended Events.<br></p>
+<p>Provides a Microsoft.SqlServer.Management.Smo.ScriptingOptions object to customize script generation behavior.<br />
+Use this to control advanced scripting options like check constraints, triggers, indexes, or permissions that aren't controlled by other parameters.<br></p>
 <table>
 <thead>
 <tr>
@@ -872,7 +864,8 @@ OleDbProvider<br></p>
 </tbody>
 </table>
 <h5 id="noprefix">-NoPrefix</h5>
-<p>If this switch is used, the scripts will not include prefix information containing creator and datetime.<br></p>
+<p>Removes header comments from generated scripts that normally include creation timestamp and dbatools version.<br />
+Use this for cleaner scripts when feeding into version control systems or automated deployment pipelines that don't need metadata headers.<br></p>
 <table>
 <thead>
 <tr>
@@ -900,7 +893,8 @@ OleDbProvider<br></p>
 </tbody>
 </table>
 <h5 id="excludepassword">-ExcludePassword</h5>
-<p>If this switch is used, the scripts will not include passwords for Credentials, LinkedServers or Logins.<br></p>
+<p>Omits passwords from exported scripts for logins, credentials, and linked servers, replacing them with placeholder text.<br />
+Essential for security compliance when export scripts will be stored in version control or shared with other team members.<br></p>
 <table>
 <thead>
 <tr>
@@ -928,7 +922,8 @@ OleDbProvider<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Overwrite files in the location specified by -Path. Note: The Server Name is used when creating the folder structure.<br></p>
+<p>Overwrites existing export files and uses a static folder name without timestamp.<br />
+Ideal for scheduled exports that always write to the same location, such as automated backup documentation or CI/CD integration.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaBackupDevice">Copy-DbaBackupDevice</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copies backup devices one by one. Copies both SQL code and the backup file itself.</p>
+<p>Migrates SQL Server backup devices between instances including both device definitions and physical files</p>
 <h2 id="description">Description</h2>
-<p>Backups are migrated using Admin shares. If the destination directory does not exist, SQL Server's default backup directory will be used.</p>
-<p>If a backup device with same name exists on destination, it will not be dropped and recreated unless -Force is used.</p>
+<p>Copies SQL Server backup devices from one instance to another, handling both the logical device definition and the physical backup files. This simplifies server migrations and disaster recovery setup by ensuring backup devices are available on target instances.</p>
+<p>Physical backup files are transferred using admin shares, and if the original directory structure doesn't exist on the destination, files are automatically placed in SQL Server's default backup directory. Existing backup devices are skipped unless -Force is specified to overwrite them.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaBackupDevice
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -521,7 +521,8 @@ name exists on sqlcluster, it will be dropped and recreated because -Force was u
 <p>Shows what would happen if the command were executed using force.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>Specifies the source SQL Server instance containing the backup devices to copy. The source instance must be SQL Server 2000 or higher with sysadmin access required.<br />
+Use this when migrating backup devices from an existing SQL Server to consolidate backup infrastructure or during server migrations. <br></p>
 <table>
 <thead>
 <tr>
@@ -549,7 +550,8 @@ name exists on sqlcluster, it will be dropped and recreated because -Force was u
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Specifies one or more destination SQL Server instances where backup devices will be created. Each destination instance must be SQL Server 2000 or higher with sysadmin access required.<br />
+Use this to specify target servers during migrations, disaster recovery setup, or when standardizing backup device configurations across multiple instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -578,9 +580,9 @@ name exists on sqlcluster, it will be dropped and recreated because -Force was u
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Specifies alternative credentials for connecting to the source SQL Server instance. Accepts PowerShell credentials created with Get-Credential.<br />
+Use this when the source server requires different authentication than your current Windows session, such as SQL Server authentication or a different domain account.<br />
+Supports Windows Authentication, SQL Server Authentication, Active Directory Password, and Active Directory Integrated. For MFA support, use Connect-DbaInstance first.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,9 +610,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Specifies alternative credentials for connecting to the destination SQL Server instances. Accepts PowerShell credentials created with Get-Credential.<br />
+Use this when destination servers require different authentication than your current Windows session, such as SQL Server authentication or different domain accounts.<br />
+Supports Windows Authentication, SQL Server Authentication, Active Directory Password, and Active Directory Integrated. For MFA support, use Connect-DbaInstance first.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="backupdevice">-BackupDevice</h5>
-<p>BackupDevice to be copied. Auto-populated list of devices. If not provided all BackupDevice(s) will be copied.<br></p>
+<p>Specifies which backup devices to copy from the source instance. Accepts an array of backup device names and supports tab completion with available devices.<br />
+Use this to selectively copy specific backup devices instead of migrating all devices, which is helpful when you only need certain backup configurations on the destination.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, backup device(s) will be dropped and recreated if they already exists on destination.<br></p>
+<p>Forces the recreation of backup devices that already exist on the destination instance by dropping them first. Without this switch, existing backup devices are skipped.<br />
+Use this when you need to overwrite existing backup device configurations with updated settings from the source, such as changing file paths or device properties during migrations.<br></p>
 <table>
 <thead>
 <tr>

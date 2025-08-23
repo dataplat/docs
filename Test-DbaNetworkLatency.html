@@ -576,7 +576,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="query">-Query</h5>
-<p>Specifies the query to be executed. By default, &quot;SELECT TOP 100 * FROM INFORMATION_SCHEMA.TABLES&quot; will be executed on master. To execute in other databases, use fully qualified object names.<br></p>
+<p>Specifies the SQL query to execute for latency testing. Defaults to &quot;SELECT TOP 100 * FROM INFORMATION_SCHEMA.TABLES&quot; which provides consistent results across all SQL Server versions.<br />
+Use a custom query when you need to test latency with queries similar to your actual workload, or when testing against specific databases using fully qualified object names.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +605,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="count">-Count</h5>
-<p>Specifies how many times the query should be executed. By default, the query is executed three times.<br></p>
+<p>Specifies how many times the query should be executed to calculate average latency measurements. Defaults to 3 executions.<br />
+Increase this value when you need more precise average measurements or when testing intermittent network issues. Higher counts provide better statistical accuracy but take longer to complete.<br></p>
 <table>
 <thead>
 <tr>

@@ -529,7 +529,9 @@ Remove-DbaAgentProxy
 <p>Using a pipeline this command gets all SQL Agent proxies on SRV1, lets the user select those to remove and then removes the selected SQL Agent proxies.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaAgentProxy. <br></p>
+<p>Accepts SQL Agent proxy objects from the pipeline, typically from Get-DbaAgentProxy.<br />
+Use this parameter set when you need to filter or select specific proxies before removal.<br />
+Enables advanced scenarios like interactive selection through Out-GridView or complex filtering logic. <br></p>
 <table>
 <thead>
 <tr>
@@ -616,7 +618,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="proxy">-Proxy</h5>
-<p>Specifies one or more SQL Agent proxy(s) to delete. If unspecified, all accounts will be removed.<br></p>
+<p>Specifies one or more SQL Agent proxy account names to remove. Accepts wildcards for pattern matching.<br />
+Use this when you need to remove specific proxy accounts instead of all proxies on the instance.<br />
+Common examples include service account proxies or job-specific proxy accounts that are no longer needed.<br></p>
 <table>
 <thead>
 <tr>
@@ -644,7 +648,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeproxy">-ExcludeProxy</h5>
-<p>Specifies one or more SQL Agent proxy(s) to exclude.<br></p>
+<p>Specifies one or more SQL Agent proxy account names to exclude from removal. Accepts wildcards for pattern matching.<br />
+Use this when removing multiple proxies but want to preserve certain critical proxy accounts.<br />
+Helpful for bulk cleanup operations while protecting production service account proxies.<br></p>
 <table>
 <thead>
 <tr>

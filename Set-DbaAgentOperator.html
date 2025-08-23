@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaAgentOperator">Set-DbaAgentOperator</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Updates/modifies agent operators on an instance.</p>
+<p>Modifies existing SQL Agent operator contact details, pager schedules, and failsafe settings.</p>
 <h2 id="description">Description</h2>
-<p>Updates/modifies agent operators on an instance.</p>
+<p>Modifies existing SQL Agent operators by updating their contact information, pager notification schedules, and failsafe operator configuration. This lets you change email addresses, pager contacts, net send addresses, and specify when pager notifications should be active without having to manually update operators through SQL Server Management Studio. You can also designate an operator as the failsafe operator that receives notifications when the primary assigned operators are unavailable.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaAgentOperator
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -588,7 +588,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="operator">-Operator</h5>
-<p>Name of the operator in SQL Agent.<br></p>
+<p>Specifies the name of the existing SQL Agent operator to modify. Use this when targeting a specific operator by name instead of piping operator objects.<br></p>
 <table>
 <thead>
 <tr>
@@ -616,7 +616,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The new name of the agent operator.<br></p>
+<p>Renames the operator to the specified value. Use this when you need to change an operator's name while preserving all other settings and alert assignments.<br></p>
 <table>
 <thead>
 <tr>
@@ -644,7 +644,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="emailaddress">-EmailAddress</h5>
-<p>The email address the SQL Agent will use to email alerts to the operator.<br></p>
+<p>Sets the email address where SQL Agent will send email notifications for this operator. This is the primary contact method for most alert notifications and job failure messages.<br></p>
 <table>
 <thead>
 <tr>
@@ -672,7 +672,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="netsendaddress">-NetSendAddress</h5>
-<p>The net send address the SQL Agent will use for the operator to net send alerts.<br></p>
+<p>Specifies the network computer name for net send notifications. This legacy notification method sends popup messages to Windows computers on the same network domain.<br></p>
 <table>
 <thead>
 <tr>
@@ -700,7 +700,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="pageraddress">-PagerAddress</h5>
-<p>The pager email address the SQL Agent will use to send alerts to the operator.<br></p>
+<p>Sets the pager email address for urgent notifications. Typically used for SMS gateways or mobile email addresses when immediate notification is required outside normal business hours.<br></p>
 <table>
 <thead>
 <tr>
@@ -728,9 +728,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="pagerday">-PagerDay</h5>
-<p>Defines what days the pager portion of the operator will be used. The default is 'Everyday'. Valid parameters<br />
-are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', and<br />
-'Saturday'.<br></p>
+<p>Controls which days pager notifications are active for this operator. Use 'Weekdays' for business hours coverage, 'Weekend' for off-hours support, or specific days for rotating on-call schedules.<br />
+Valid values are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', and 'Saturday'.<br></p>
 <table>
 <thead>
 <tr>
@@ -762,7 +761,7 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="saturdaystarttime">-SaturdayStartTime</h5>
-<p>This a string that takes the Saturday Pager Start Time.<br></p>
+<p>Sets when pager notifications begin on Saturday in HHMMSS format (e.g., '080000' for 8:00 AM). Use this to define weekend on-call coverage hours for the operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -790,7 +789,7 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="saturdayendtime">-SaturdayEndTime</h5>
-<p>This a string that takes the Saturday Pager End Time.<br></p>
+<p>Sets when pager notifications end on Saturday in HHMMSS format (e.g., '180000' for 6:00 PM). Notifications outside this window will use email instead of pager for the operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -818,7 +817,7 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="sundaystarttime">-SundayStartTime</h5>
-<p>This a string that takes the Sunday Pager Start Time.<br></p>
+<p>Sets when pager notifications begin on Sunday in HHMMSS format (e.g., '080000' for 8:00 AM). Use this to define weekend on-call coverage hours for the operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -846,7 +845,7 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="sundayendtime">-SundayEndTime</h5>
-<p>This a string that takes the Sunday Pager End Time.<br></p>
+<p>Sets when pager notifications end on Sunday in HHMMSS format (e.g., '170000' for 5:00 PM). Notifications outside this window will use email instead of pager for the operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -874,7 +873,7 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="weekdaystarttime">-WeekdayStartTime</h5>
-<p>This a string that takes the Weekdays Pager Start Time.<br></p>
+<p>Sets when pager notifications begin on weekdays (Monday-Friday) in HHMMSS format (e.g., '060000' for 6:00 AM). Use this to define business hours pager coverage for the operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -902,7 +901,7 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="weekdayendtime">-WeekdayEndTime</h5>
-<p>This a string that takes the Weekdays Pager End Time.<br></p>
+<p>Sets when pager notifications end on weekdays (Monday-Friday) in HHMMSS format (e.g., '190000' for 7:00 PM). Notifications outside this window will use email instead of pager for the operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -930,7 +929,8 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="isfailsafeoperator">-IsFailsafeOperator</h5>
-<p>If this switch is enabled, this operator will be your failsafe operator and replace the one that existed before.<br></p>
+<p>Designates this operator as the failsafe operator who receives notifications when primary operators are unavailable. Only one failsafe operator can exist per SQL Server instance, so this replaces any<br />
+existing failsafe operator.<br></p>
 <table>
 <thead>
 <tr>
@@ -958,10 +958,9 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="failsafenotificationmethod">-FailsafeNotificationMethod</h5>
-<p>Defines the notification method(s) for the failsafe operator. The default is 'NotifyEmail'.<br />
-Valid parameter values are 'None', 'NotifyEmail', 'Pager', 'NetSend', 'NotifyAll'.<br />
-Values 'NotifyEmail', 'Pager', 'NetSend' can be specified in any combination.<br />
-Values 'None' and 'NotifyAll' cannot be specified in conjunction with any other value.<br></p>
+<p>Specifies how the failsafe operator receives notifications when primary operators cannot be reached. Use 'NotifyEmail' for standard alerts, 'Pager' for urgent notifications, or 'NotifyAll' for<br />
+maximum coverage.<br />
+Valid values are 'None', 'NotifyEmail', 'Pager', 'NetSend', 'NotifyAll'. Multiple methods can be combined except 'None' and 'NotifyAll' which must be used alone.<br></p>
 <table>
 <thead>
 <tr>
@@ -993,7 +992,7 @@ Values 'None' and 'NotifyAll' cannot be specified in conjunction with any other 
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>SMO Server Objects (pipeline input from Connect-DbaInstance)<br></p>
+<p>Accepts SQL Agent operator objects from the pipeline, typically from Get-DbaAgentOperator. Use this to modify multiple operators or when working with operator objects in a pipeline workflow.<br></p>
 <table>
 <thead>
 <tr>

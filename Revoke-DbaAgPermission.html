@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Revoke-DbaAgPermission">Revoke-DbaAgPermission</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Revokes endpoint and availability group permissions to a login.</p>
+<p>Revokes permissions from SQL Server logins on database mirroring endpoints or availability groups.</p>
 <h2 id="description">Description</h2>
-<p>Revokes endpoint and availability group permissions to a login.</p>
+<p>Removes specific permissions from SQL Server logins on either database mirroring endpoints or availability groups. This is commonly needed when service accounts change roles, security policies require permission reductions, or during availability group maintenance and troubleshooting. For endpoints, you can revoke most standard permissions like Connect, Alter, and Control. For availability groups, only Alter, Control, TakeOwnership, and ViewDefinition permissions can be revoked.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Revoke-DbaAgPermission
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -520,7 +520,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Revokes the selected logins Connect permissions on the DatabaseMirroring endpoint for sql2017a.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="type">-Type</h5>
-<p>Specify type: Endpoint or AvailabilityGroup. Endpoint will modify the DatabaseMirror endpoint type. <br></p>
+<p>Determines whether to revoke permissions on database mirroring endpoints or availability groups. This parameter is mandatory.<br />
+Use 'Endpoint' to revoke permissions on the DatabaseMirroring endpoint, typically needed for Always On setup or mirroring configurations.<br />
+Use 'AvailabilityGroup' to revoke permissions directly on specific availability group objects for more granular security control. <br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +613,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The login or logins to modify.<br></p>
+<p>Specifies the SQL Server logins or Windows accounts to remove permissions from. Required when using the SqlInstance parameter.<br />
+Use this when you need to revoke access from service accounts, developers, or other principals that no longer need endpoint or availability group permissions.<br />
+If the specified login doesn't exist, the function will attempt to create it first.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +643,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Only modify specific availability groups.<br></p>
+<p>Specifies which availability groups to target for permission revocation. Required when using Type 'AvailabilityGroup'.<br />
+Use this to limit the scope when you only want to revoke permissions on specific AGs rather than all availability groups in the instance.<br />
+Accepts multiple availability group names for bulk operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,25 +673,10 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="permission">-Permission</h5>
-<p>Revokes one or more permissions:<br />
-Alter<br />
-Connect<br />
-Control<br />
-CreateAnyDatabase<br />
-CreateSequence<br />
-Delete<br />
-Execute<br />
-Impersonate<br />
-Insert<br />
-Receive<br />
-References<br />
-Select<br />
-Send<br />
-TakeOwnership<br />
-Update<br />
-ViewChangeTracking<br />
-ViewDefinition<br />
-Connect is default.<br></p>
+<p>Specifies which permissions to revoke from the targeted logins. Defaults to 'Connect' if not specified.<br />
+For endpoints, most permissions are valid including Connect, Alter, and Control. CreateAnyDatabase is not supported for endpoints.<br />
+For availability groups, only Alter, Control, TakeOwnership, and ViewDefinition are supported.<br />
+Use Connect for basic endpoint access, Alter for configuration changes, Control for full permissions, or ViewDefinition for read-only metadata access.<br></p>
 <table>
 <thead>
 <tr>
@@ -717,7 +708,9 @@ Connect is default.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaLogin.<br></p>
+<p>Accepts SQL Server login objects from the pipeline, typically from Get-DbaLogin.<br />
+Use this approach when you want to filter or select specific logins before revoking permissions, or when combining with other dbatools commands.<br />
+This parameter provides an alternative to specifying SqlInstance and Login parameters directly.<br></p>
 <table>
 <thead>
 <tr>

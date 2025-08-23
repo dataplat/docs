@@ -485,11 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgDatabase">Get-DbaAgDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets availability group databases from one or more SQL Server instances.</p>
+<p>Retrieves availability group database information and synchronization status from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Gets availability group databases from one or more SQL Server instances.</p>
-<p>Default view provides most common set of properties for information on the database in an availability group.</p>
-<p>Information returned on the database will be specific to that replica, whether it is primary or a secondary.</p>
+<p>Retrieves detailed information about databases participating in SQL Server availability groups, including their synchronization state, failover readiness, and replica-specific status. This function queries the availability group configuration from each SQL Server instance to return database-level health and status information that varies depending on whether the replica is primary or secondary.</p>
+<p>Use this command to monitor availability group database health, troubleshoot synchronization issues, verify failover readiness, or generate compliance reports showing which databases are properly synchronized across your availability group replicas. The returned data includes critical operational details like suspension status, join state, and synchronization health that help DBAs quickly identify databases requiring attention.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgDatabase
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -576,7 +575,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Specify the availability groups to query.<br></p>
+<p>Specifies which availability groups to query for database information. Accepts multiple availability group names.<br />
+Use this to limit results to specific availability groups when you have multiple AGs on the same instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +604,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specify the database or databases to return. This list is auto-populated from the server for tab completion. Multiple databases can be specified. If none are specified all databases will be processed.<br></p>
+<p>Specifies which availability group databases to return information for. Accepts multiple database names with tab completion.<br />
+Use this to focus on specific databases when troubleshooting AG issues or monitoring particular applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +633,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaAvailabilityGroup.<br></p>
+<p>Accepts availability group objects from Get-DbaAvailabilityGroup via pipeline input.<br />
+Use this when you want to chain commands to get database details from already retrieved availability groups.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaDbTableData">Export-DbaDbTableData</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports data from tables</p>
+<p>Generates INSERT statements from table data for migration and deployment scripts</p>
 <h2 id="description">Description</h2>
-<p>Exports data from tables</p>
+<p>Creates executable INSERT statements from existing table data, making it easy to move data between SQL Server instances or environments. This is particularly useful for migrating reference tables, lookup data, or configuration tables where you need the actual data values rather than just the table structure. The generated scripts include proper USE database context and can be saved to files or piped to other commands for further processing.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaDbTableData
     [-InputObject] &lt;Table[]&gt;
@@ -523,7 +523,8 @@ Script does not include Batch Separator and will not compile<br></p>
 <p>Exports only data from 'dbo.Table1' and 'dbo.Table2' in MyDatabase to C:\temp\export.sql and uses the SQL login &quot;sqladmin&quot; to login to sql2016<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Pipeline input from Get-DbaDbTable <br></p>
+<p>Accepts table objects from Get-DbaDbTable through the pipeline.<br />
+Use this to process specific tables you've already identified rather than specifying table names again. <br></p>
 <table>
 <thead>
 <tr>
@@ -552,7 +553,8 @@ Script does not include Batch Separator and will not compile<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br></p>
+<p>Sets the directory where output files will be created when not using FilePath.<br />
+Defaults to the dbatools export directory configured in module settings.<br></p>
 <table>
 <thead>
 <tr>
@@ -580,7 +582,8 @@ Script does not include Batch Separator and will not compile<br></p>
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file.<br></p>
+<p>Specifies the complete path and filename for the output SQL script.<br />
+Use this when you need the INSERT statements saved to a specific file location for deployment or version control.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,7 +611,8 @@ Script does not include Batch Separator and will not compile<br></p>
 </tbody>
 </table>
 <h5 id="encoding">-Encoding</h5>
-<p>Specifies the file encoding. The default is UTF8.<br />
+<p>Controls the character encoding of the exported SQL file. Defaults to UTF8.<br />
+Use UTF8 for compatibility with most modern SQL tools, or ASCII for older systems that don't support Unicode.<br />
 Valid values are:</p>
 <ul>
 <li>ASCII: Uses the encoding for the ASCII (7-bit) character set.</li>
@@ -651,7 +655,8 @@ Valid values are:</p>
 </tbody>
 </table>
 <h5 id="batchseparator">-BatchSeparator</h5>
-<p>Specifies the Batch Separator to use. Default is None<br></p>
+<p>Adds batch separators (like GO) between INSERT statements in the output script.<br />
+Use this when creating deployment scripts that will be executed in SQL Server Management Studio or sqlcmd.<br></p>
 <table>
 <thead>
 <tr>
@@ -679,7 +684,8 @@ Valid values are:</p>
 </tbody>
 </table>
 <h5 id="noprefix">-NoPrefix</h5>
-<p>Do not include a Prefix<br></p>
+<p>Excludes the USE database statement and other prefixes from the generated script.<br />
+Use this when combining output with other scripts or when the database context is already established.<br></p>
 <table>
 <thead>
 <tr>
@@ -707,7 +713,8 @@ Valid values are:</p>
 </tbody>
 </table>
 <h5 id="passthru">-Passthru</h5>
-<p>Output script to console<br></p>
+<p>Displays the generated INSERT statements in the PowerShell console in addition to file output.<br />
+Useful for reviewing the script content before execution or when piping to other commands.<br></p>
 <table>
 <thead>
 <tr>
@@ -735,7 +742,8 @@ Valid values are:</p>
 </tbody>
 </table>
 <h5 id="noclobber">-NoClobber</h5>
-<p>Do not overwrite file<br></p>
+<p>Prevents overwriting existing files at the specified FilePath.<br />
+Use this as a safety measure to avoid accidentally replacing important deployment scripts.<br></p>
 <table>
 <thead>
 <tr>
@@ -763,7 +771,8 @@ Valid values are:</p>
 </tbody>
 </table>
 <h5 id="append">-Append</h5>
-<p>Append to file<br></p>
+<p>Adds the INSERT statements to the end of an existing file instead of creating a new one.<br />
+Useful when building comprehensive deployment scripts from multiple table exports or combining with other SQL operations.<br></p>
 <table>
 <thead>
 <tr>

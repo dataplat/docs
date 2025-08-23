@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaAgentServer">Set-DbaAgentServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set-DbaAgentServer updates properties of a SQL Agent Server.</p>
+<p>Configures SQL Server Agent service properties and operational settings</p>
 <h2 id="description">Description</h2>
-<p>Set-DbaAgentServer updates properties in the SQL Server Server with parameters supplied.</p>
+<p>Modifies SQL Server Agent configuration settings including logging levels, mail profiles, CPU monitoring thresholds, job history retention, and service restart behaviors. Use this to standardize agent configurations across multiple instances, set up proper alerting and monitoring thresholds, or configure job history retention policies to prevent MSDB bloat.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaAgentServer
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -606,7 +606,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping agent server objects<br></p>
+<p>Accepts SQL Server Agent JobServer objects from Get-DbaAgentServer for pipeline operations.<br />
+Use this when you need to configure multiple agent servers from a filtered list or modify settings on specific instances already retrieved.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,9 +635,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="agentloglevel">-AgentLogLevel</h5>
-<p>Specifies the agent log level.<br />
-Allowed values 1, &quot;Errors&quot;, 2, &quot;Warnings&quot;, 3, &quot;Errors, Warnings&quot;, 4, &quot;Informational&quot;, 5, &quot;Errors, Informational&quot;, 6, &quot;Warnings, Informational&quot;, 7, &quot;All&quot;<br />
-The text value can either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
+<p>Controls the verbosity of SQL Server Agent logging in the agent error log.<br />
+Use 'Errors' for production environments to minimize log size, 'Errors, Warnings' for standard monitoring, or 'All' when troubleshooting agent job failures.<br />
+Higher logging levels help diagnose job execution issues but increase log file growth.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,9 +669,9 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="agentmailtype">-AgentMailType</h5>
-<p>Specifies the agent mail type.<br />
-Allowed values 0, &quot;SqlAgentMail&quot;, 1, &quot;DatabaseMail&quot;<br />
-The text value can either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
+<p>Specifies whether SQL Server Agent uses legacy SQL Agent Mail or the newer Database Mail for notifications.<br />
+Use 'DatabaseMail' for modern installations as SQL Agent Mail is deprecated and requires MAPI configuration.<br />
+Database Mail provides better security, reliability, and doesn't require Outlook or Exchange MAPI on the server.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,7 +703,9 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="agentshutdownwaittime">-AgentShutdownWaitTime</h5>
-<p>The Agent Shutdown Wait Time value of the server agent. The accepted value range is between 5 and 600.<br></p>
+<p>Sets how long (in seconds) SQL Server waits for SQL Server Agent to shut down during service restart.<br />
+Increase this value if you have long-running jobs that need more time to complete gracefully during shutdown.<br />
+Default is typically 15 seconds; values between 5-600 seconds are supported.<br></p>
 <table>
 <thead>
 <tr>
@@ -730,7 +733,9 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="databasemailprofile">-DatabaseMailProfile</h5>
-<p>The Database Mail Profile to be used. Must exists on database mail profiles.<br></p>
+<p>Specifies which Database Mail profile SQL Server Agent uses for sending job notifications and alerts.<br />
+The profile must already exist in the instance's Database Mail configuration before setting this value.<br />
+Use this to ensure agent notifications use the correct SMTP settings and sender address for your environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -758,7 +763,9 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="errorlogfile">-ErrorLogFile</h5>
-<p>Error log file location<br></p>
+<p>Sets the file path where SQL Server Agent writes its error log.<br />
+Change this when you need agent logs stored in a specific location for centralized monitoring or compliance requirements.<br />
+Ensure the SQL Server Agent service account has write permissions to the specified path.<br></p>
 <table>
 <thead>
 <tr>
@@ -786,7 +793,9 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="idlecpuduration">-IdleCpuDuration</h5>
-<p>Idle CPU Duration value to be used. The accepted value range is between 20 and 86400.<br></p>
+<p>Defines how long (in seconds) the CPU must remain below the idle threshold before SQL Server Agent considers the server idle.<br />
+Use this with CpuPolling to schedule jobs only when the server isn't busy with other workloads.<br />
+Values range from 20 seconds to 24 hours (86400 seconds); typical values are 600-1800 seconds for production servers.<br></p>
 <table>
 <thead>
 <tr>
@@ -814,7 +823,9 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="idlecpupercentage">-IdleCpuPercentage</h5>
-<p>Idle CPU Percentage value to be used. The accepted value range is between 10 and 100.<br></p>
+<p>Sets the CPU usage percentage threshold below which SQL Server Agent considers the server idle.<br />
+Configure this to prevent resource-intensive maintenance jobs from running during peak usage periods.<br />
+Values between 10-100 percent; commonly set to 10-25% for production servers to ensure adequate idle detection.<br></p>
 <table>
 <thead>
 <tr>
@@ -842,8 +853,9 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="cpupolling">-CpuPolling</h5>
-<p>Enable or Disable the Polling.<br />
-Allowed values Enabled, Disabled<br></p>
+<p>Enables or disables CPU idle condition monitoring for job scheduling.<br />
+Enable this to allow jobs with idle CPU conditions to run only when server CPU usage is low.<br />
+Useful for scheduling maintenance tasks like index rebuilds or backups that should avoid peak usage periods.<br></p>
 <table>
 <thead>
 <tr>
@@ -875,7 +887,9 @@ Allowed values Enabled, Disabled<br></p>
 </tbody>
 </table>
 <h5 id="localhostalias">-LocalHostAlias</h5>
-<p>The value for Local Host Alias configuration<br></p>
+<p>Specifies an alias that SQL Server Agent uses to refer to the local server in job steps and notifications.<br />
+Set this when the server has multiple network names or when you want job notifications to reference a specific hostname.<br />
+Commonly used in clustered environments or when the server is accessed by different DNS names.<br></p>
 <table>
 <thead>
 <tr>
@@ -903,7 +917,9 @@ Allowed values Enabled, Disabled<br></p>
 </tbody>
 </table>
 <h5 id="logintimeout">-LoginTimeout</h5>
-<p>The value for Login Timeout configuration. The accepted value range is between 5 and 45.<br></p>
+<p>Sets the timeout (in seconds) for SQL Server Agent connections to SQL Server instances.<br />
+Increase this value if agent jobs frequently fail due to connection timeouts, especially in slow network environments.<br />
+Values range from 5-45 seconds; default is typically 30 seconds.<br></p>
 <table>
 <thead>
 <tr>
@@ -931,8 +947,9 @@ Allowed values Enabled, Disabled<br></p>
 </tbody>
 </table>
 <h5 id="maximumhistoryrows">-MaximumHistoryRows</h5>
-<p>Indicates the Maximum job history log size (in rows). The acceptable value range is between 2 and 999999. To turn off the job history limitations use the value -1 and specify 0 for<br />
-MaximumJobHistoryRows. See the example listed below.<br></p>
+<p>Controls the total number of job history rows retained in MSDB before old entries are purged.<br />
+Set this to prevent MSDB growth from excessive job history; typical values are 10000-100000 rows depending on job frequency.<br />
+Use -1 to disable limits (not recommended for production) or work with MaximumJobHistoryRows to control per-job retention.<br></p>
 <table>
 <thead>
 <tr>
@@ -960,8 +977,9 @@ MaximumJobHistoryRows. See the example listed below.<br></p>
 </tbody>
 </table>
 <h5 id="maximumjobhistoryrows">-MaximumJobHistoryRows</h5>
-<p>Indicates the Maximum job history rows per job. The acceptable value range is between 2 and 999999. To turn off the job history limitations use the value 0 and specify -1 for MaximumHistoryRows. See<br />
-the example listed below.<br></p>
+<p>Sets the maximum number of history rows retained per individual job.<br />
+Prevents any single job from consuming too much history space; typical values are 100-1000 rows per job.<br />
+Use 0 to disable per-job limits when MaximumHistoryRows is set to -1, or set both parameters to control overall history retention.<br></p>
 <table>
 <thead>
 <tr>
@@ -989,7 +1007,9 @@ the example listed below.<br></p>
 </tbody>
 </table>
 <h5 id="netsendrecipient">-NetSendRecipient</h5>
-<p>The Net send recipient value<br></p>
+<p>Specifies the network recipient for legacy net send notifications from SQL Server Agent.<br />
+This feature is deprecated and rarely used in modern environments; Database Mail is the preferred notification method.<br />
+Only configure this if you have legacy monitoring systems that still rely on net send messages.<br></p>
 <table>
 <thead>
 <tr>
@@ -1017,8 +1037,9 @@ the example listed below.<br></p>
 </tbody>
 </table>
 <h5 id="replacealerttokens">-ReplaceAlertTokens</h5>
-<p>Enable or Disable the Token replacement property.<br />
-Allowed values Enabled, Disabled<br></p>
+<p>Controls whether SQL Server Agent replaces tokens in alert notification messages with actual values.<br />
+Enable this to include dynamic information like error details, job names, or server information in alert emails.<br />
+Tokens like $(ESCAPE_SQUOTE(A-ERR)) get replaced with actual error text when notifications are sent.<br></p>
 <table>
 <thead>
 <tr>
@@ -1050,8 +1071,9 @@ Allowed values Enabled, Disabled<br></p>
 </tbody>
 </table>
 <h5 id="saveinsentfolder">-SaveInSentFolder</h5>
-<p>Enable or Disable the copy of the sent messages is save in the Sent Items folder.<br />
-Allowed values Enabled, Disabled<br></p>
+<p>Controls whether copies of agent notification emails are saved to the Database Mail sent items.<br />
+Enable this for audit trails and troubleshooting notification delivery issues.<br />
+Disable to reduce Database Mail storage usage if you don't need to track sent notifications.<br></p>
 <table>
 <thead>
 <tr>
@@ -1083,8 +1105,9 @@ Allowed values Enabled, Disabled<br></p>
 </tbody>
 </table>
 <h5 id="sqlagentautostart">-SqlAgentAutoStart</h5>
-<p>Enable or Disable the SQL Agent Auto Start.<br />
-Allowed values Enabled, Disabled<br></p>
+<p>Controls whether SQL Server Agent service starts automatically when SQL Server starts.<br />
+Enable this on production servers to ensure scheduled jobs and monitoring continue after server restarts.<br />
+Disable only in development environments where automatic job execution isn't desired.<br></p>
 <table>
 <thead>
 <tr>
@@ -1116,7 +1139,9 @@ Allowed values Enabled, Disabled<br></p>
 </tbody>
 </table>
 <h5 id="sqlagentmailprofile">-SqlAgentMailProfile</h5>
-<p>The SQL Server Agent Mail Profile to be used. Must exists on database mail profiles.<br></p>
+<p>Specifies the legacy SQL Agent Mail profile for notifications (deprecated feature).<br />
+Only used when AgentMailType is set to 'SqlAgentMail'; DatabaseMailProfile is preferred for modern installations.<br />
+The profile must exist in the SQL Agent Mail configuration, which requires MAPI setup.<br></p>
 <table>
 <thead>
 <tr>
@@ -1144,8 +1169,9 @@ Allowed values Enabled, Disabled<br></p>
 </tbody>
 </table>
 <h5 id="sqlagentrestart">-SqlAgentRestart</h5>
-<p>Enable or Disable the SQL Agent Restart.<br />
-Allowed values Enabled, Disabled<br></p>
+<p>Controls whether SQL Server Agent automatically restarts if it stops unexpectedly.<br />
+Enable this on production servers to ensure continuous job scheduling and monitoring after agent failures.<br />
+The agent will attempt to restart itself if the service terminates abnormally.<br></p>
 <table>
 <thead>
 <tr>
@@ -1177,8 +1203,9 @@ Allowed values Enabled, Disabled<br></p>
 </tbody>
 </table>
 <h5 id="sqlserverrestart">-SqlServerRestart</h5>
-<p>Enable or Disable the SQL Server Restart.<br />
-Allowed values Enabled, Disabled<br></p>
+<p>Controls whether SQL Server Agent can restart the SQL Server service if it stops unexpectedly.<br />
+Enable this in environments where automatic SQL Server recovery is desired, but use caution on production systems.<br />
+This setting allows the agent to restart the database engine service automatically.<br></p>
 <table>
 <thead>
 <tr>
@@ -1210,8 +1237,9 @@ Allowed values Enabled, Disabled<br></p>
 </tbody>
 </table>
 <h5 id="writeoemerrorlog">-WriteOemErrorLog</h5>
-<p>Enable or Disable the Write OEM Error Log.<br />
-Allowed values Enabled, Disabled<br></p>
+<p>Controls whether SQL Server Agent writes errors to the Windows Application Event Log.<br />
+Enable this to integrate agent errors with centralized Windows event monitoring and alerting systems.<br />
+Useful for environments that rely on Windows Event Log for monitoring and don't use SQL-specific monitoring tools.<br></p>
 <table>
 <thead>
 <tr>

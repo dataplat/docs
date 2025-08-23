@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Enable-DbaDbEncryption">Enable-DbaDbEncryption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Enables encryption on a database</p>
+<p>Enables Transparent Data Encryption (TDE) on SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Enables encryption on a database</p>
+<p>Enables Transparent Data Encryption (TDE) on specified databases to protect data at rest. This is essential for compliance with regulations like HIPAA, PCI-DSS, and organizational security policies. The function automatically creates a Database Encryption Key (DEK) if one doesn't exist, using a certificate from the master database to encrypt it. By default, it verifies that the certificate has been backed up before proceeding, helping prevent data loss scenarios.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Enable-DbaDbEncryption
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -577,7 +577,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database that where encryption will be enabled<br></p>
+<p>Specifies which databases to enable Transparent Data Encryption (TDE) on. Accepts multiple database names.<br />
+Use this when you need to enable encryption on specific databases rather than all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -605,9 +606,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="encryptorname">-EncryptorName</h5>
-<p>If an Encryption Key does not exist in the database, this command will attempt to create one. This parameter specifies the name of the certificate in master that should be used and tries to find one<br />
-if one is not specified.<br />
-In order to encrypt the database encryption key with an asymmetric key, you must use an asymmetric key that resides on an extensible key management provider.<br></p>
+<p>Specifies the certificate name in the master database to use for encrypting the Database Encryption Key (DEK).<br />
+If not specified, the function will attempt to find an existing certificate. Use this when you have multiple certificates and need to specify which one to use for TDE.<br />
+The certificate must exist in the master database and should be backed up to prevent data loss.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +636,8 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables pipeline input from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase through the pipeline.<br />
+Use this when you want to filter databases first with Get-DbaDatabase and then enable TDE on the results.<br></p>
 <table>
 <thead>
 <tr>
@@ -663,8 +665,9 @@ In order to encrypt the database encryption key with an asymmetric key, you must
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>By default, this command will not encrypt a database unless the cert has been backed up<br />
-Use Force to enable encryption even though the specified cert has not been backed up<br></p>
+<p>Bypasses the certificate backup verification check and enables TDE even if the certificate hasn't been backed up.<br />
+Use with extreme caution as this could lead to data loss if the certificate is lost without a backup.<br />
+Only use this in development environments or when you have confirmed the certificate is backed up through other means.<br></p>
 <table>
 <thead>
 <tr>

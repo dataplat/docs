@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaSsisExecutionHistory">Get-DbaSsisExecutionHistory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Retrieves SSIS project and package execution History, and environments from one SQL Server to another.</p>
+<p>Retrieves SSIS package execution history from the SSIS catalog database (SSISDB).</p>
 <h2 id="description">Description</h2>
-<p>Retrieves SSIS project and package execution History, and environments from one SQL Server to another.</p>
-<p>This command gets execution history for SSIS execution given one or more instances and can be filtered by Project, Environment,Folder or Status.</p>
+<p>Retrieves detailed execution history for SSIS packages from the SSIS catalog database, including execution status, timing, and environment details. This function queries the catalog.executions view in SSISDB to provide comprehensive execution information for troubleshooting failed packages, monitoring performance, and analyzing SSIS workloads.</p>
+<p>Useful for identifying failed or long-running packages, tracking execution patterns over time, and investigating SSIS deployment issues. Results can be filtered by project, folder, environment, execution status, or date range to focus on specific troubleshooting scenarios.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaSsisExecutionHistory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -580,7 +580,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="since">-Since</h5>
-<p>Datetime object used to narrow the results to a date<br></p>
+<p>Limits results to executions that started on or after the specified date and time. Accepts datetime objects or strings.<br />
+Use this to focus on recent executions when analyzing current issues or to exclude older historical data from large catalogs.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,7 +609,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="status">-Status</h5>
-<p>Specifies a filter by status (created,running,cancelled,failed,pending,halted,succeeded,stopping,completed)<br></p>
+<p>Filters results to specific execution statuses such as Failed, Succeeded, or Running. Accepts multiple status values.<br />
+Commonly used to find failed executions for troubleshooting or to monitor currently running packages during peak processing times.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="project">-Project</h5>
-<p>Specifies a filter by project<br></p>
+<p>Filters results to specific SSIS projects deployed to the catalog. Accepts an array of project names for multiple projects.<br />
+Use this when troubleshooting issues within particular projects or analyzing execution patterns for specific deployments.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,7 +671,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="folder">-Folder</h5>
-<p>Specifies a filter by folder<br></p>
+<p>Filters results to specific SSIS catalog folders that contain projects and packages. Accepts an array of folder names.<br />
+Useful for focusing on executions within specific organizational folders or when troubleshooting deployments in particular environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -696,7 +700,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="environment">-Environment</h5>
-<p>Specifies a filter by environment<br></p>
+<p>Filters results to specific SSIS environments that were used during package execution. Accepts an array of environment names.<br />
+Use this to analyze executions that used particular environment variables or to troubleshoot environment-specific configuration issues.<br></p>
 <table>
 <thead>
 <tr>

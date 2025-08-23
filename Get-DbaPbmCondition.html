@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaPbmCondition">Get-DbaPbmCondition</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns conditions from policy based management from an instance.</p>
+<p>Retrieves Policy-Based Management conditions from SQL Server instances for compliance monitoring and policy evaluation.</p>
 <h2 id="description">Description</h2>
-<p>Returns conditions from policy based management from an instance.</p>
+<p>Retrieves Policy-Based Management (PBM) conditions from SQL Server instances, which define the rules and criteria used to evaluate database objects for compliance. These conditions form the building blocks of PBM policies and specify what to check (like database settings, table properties, or server configurations) and what values are acceptable. Use this to audit existing conditions, troubleshoot policy failures, or inventory your compliance framework across multiple instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPbmCondition
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -570,7 +570,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="condition">-Condition</h5>
-<p>Filters results to only show specific condition<br></p>
+<p>Filters results to only return conditions that match the specified names. Accepts multiple condition names and supports wildcards.<br />
+Use this when you need to examine specific PBM conditions rather than retrieving all conditions from the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +599,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaPbmStore<br></p>
+<p>Accepts Policy-Based Management store objects from Get-DbaPbmStore via pipeline input. This allows you to chain commands and work with multiple PBM stores efficiently.<br />
+Use this when processing conditions from multiple instances or when working with previously retrieved PBM store objects.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,7 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemobject">-IncludeSystemObject</h5>
-<p>By default system objects are filtered out. Use this parameter to include them.<br></p>
+<p>Includes built-in system conditions in the results, which are filtered out by default. System conditions are predefined by SQL Server for common compliance scenarios.<br />
+Use this when you need to see all available conditions including Microsoft's built-in templates for policy creation.<br></p>
 <table>
 <thead>
 <tr>

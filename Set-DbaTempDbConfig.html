@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaTempDbConfig">Set-DbaTempDbConfig</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets tempdb data and log files according to best practices.</p>
+<p>Configures tempdb database files according to Microsoft best practices for optimal performance</p>
 <h2 id="description">Description</h2>
-<p>Calculates tempdb size and file configurations based on passed parameters, calculated values, and Microsoft best practices. User must declare SQL Server to be configured and total data file size as mandatory values. Function then calculates the number of data files based on logical cores on the target host and create evenly sized data files based on the total data size declared by the user.</p>
-<p>Other parameters can adjust the settings as the user desires (such as different file paths, number of data files, and log file size). No functions that shrink or delete data files are performed. If you wish to do this, you will need to resize tempdb so that it is &quot;smaller&quot; than what the function will size it to before running the function.</p>
+<p>Configures tempdb database files to follow Microsoft's recommended best practices for performance optimization. This function calculates the optimal number of data files based on logical CPU cores (capped at 8) and distributes the specified total data file size evenly across those files. You must specify the target SQL Server instance and total data file size as mandatory parameters.</p>
+<p>The function automatically determines the appropriate number of data files based on your server's logical cores, but you can override this behavior. It validates the current tempdb configuration to ensure it won't conflict with your desired settings - existing files must be smaller than the calculated target size and you cannot have more existing files than the target configuration.</p>
+<p>Additional parameters let you customize file paths, log file size, and growth settings. The function generates ALTER DATABASE statements but does not shrink or delete existing files. If your current tempdb is larger than your target configuration, you'll need to shrink it manually before running this function. A SQL Server restart is required for tempdb changes to take effect.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaTempDbConfig
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -562,7 +563,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="datafilesize">-DataFileSize</h5>
-<p>Specifies the total data file size in megabytes. This is distributed across the total number of data files. <br></p>
+<p>Sets the total size in MB for all tempdb data files combined. This value gets evenly divided across all data files.<br />
+For example, 1000MB with 4 files creates four 250MB files. Choose based on your workload's tempdb usage patterns and available storage. <br></p>
 <table>
 <thead>
 <tr>
@@ -621,7 +623,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="datafilecount">-DataFileCount</h5>
-<p>Specifies the number of data files to create. If this number is not specified, the number of logical cores of the host will be used.<br></p>
+<p>Sets the number of tempdb data files to create. When omitted, automatically uses the logical core count (capped at 8 per Microsoft best practices).<br />
+Override this when you need a specific file count different from core count, though exceeding core count generates a warning as it goes against best practices.<br></p>
 <table>
 <thead>
 <tr>
@@ -649,7 +652,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="logfilesize">-LogFileSize</h5>
-<p>Specifies the log file size in megabytes. If not specified, no change will be made.<br></p>
+<p>Sets the tempdb log file size in MB. When omitted, the existing log file size remains unchanged.<br />
+Use this to resize the log file when current sizing doesn't match your tempdb transaction volume requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -677,7 +681,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="datafilegrowth">-DataFileGrowth</h5>
-<p>Specifies the growth amount for the data file(s) in megabytes. The default is 512 MB.<br></p>
+<p>Controls the growth increment for tempdb data files in MB when they need to expand. Defaults to 512 MB.<br />
+Set this based on your typical tempdb usage spikes to avoid frequent small growths that can impact performance. Use 0 with -DisableGrowth to prevent growth entirely.<br></p>
 <table>
 <thead>
 <tr>
@@ -705,7 +710,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="logfilegrowth">-LogFileGrowth</h5>
-<p>Specifies the growth amount for the log file in megabytes. The default is 512 MB.<br></p>
+<p>Controls the growth increment for the tempdb log file in MB when it needs to expand. Defaults to 512 MB.<br />
+Size this according to your transaction log activity in tempdb to minimize auto-growth events during peak workloads.<br></p>
 <table>
 <thead>
 <tr>
@@ -733,7 +739,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="datapath">-DataPath</h5>
-<p>Specifies the filesystem path(s) in which to create the tempdb data files. If not specified, current tempdb location will be used.<br></p>
+<p>Sets the folder path(s) where tempdb data files will be created. When omitted, uses the current tempdb data file location.<br />
+Specify multiple paths to distribute files across different drives for performance. Files are distributed round-robin across the provided paths.<br></p>
 <table>
 <thead>
 <tr>
@@ -761,7 +768,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="logpath">-LogPath</h5>
-<p>Specifies the filesystem path in which to create the tempdb log file. If not specified, current tempdb location will be used.<br></p>
+<p>Sets the folder path where the tempdb log file will be created. When omitted, uses the current tempdb log file location.<br />
+Consider placing the log file on a separate drive from data files to reduce I/O contention for write-heavy tempdb workloads.<br></p>
 <table>
 <thead>
 <tr>
@@ -789,7 +797,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="outfile">-OutFile</h5>
-<p>Specifies the filesystem path into which the generated T-SQL script will be saved.<br></p>
+<p>Saves the generated T-SQL script to the specified file path instead of executing it.<br />
+Useful for storing configuration scripts in source control or running them later through scheduled maintenance processes.<br></p>
 <table>
 <thead>
 <tr>
@@ -817,7 +826,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="outputscriptonly">-OutputScriptOnly</h5>
-<p>If this switch is enabled, only the T-SQL script to change the tempdb configuration is created and output.<br></p>
+<p>Returns the generated T-SQL script without executing it against the SQL Server instance.<br />
+Use this to review the configuration changes before applying them, or to run the script manually during maintenance windows.<br></p>
 <table>
 <thead>
 <tr>
@@ -845,7 +855,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="disablegrowth">-DisableGrowth</h5>
-<p>If this switch is enabled, the tempdb files will be configured to not grow. This overrides -DataFileGrowth and -LogFileGrowth.<br></p>
+<p>Prevents tempdb files from auto-growing by setting growth to 0. Overrides any values specified for -DataFileGrowth and -LogFileGrowth.<br />
+Use this when you want to pre-size tempdb files appropriately and prevent unexpected growth during production workloads.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaAgSpn">Test-DbaAgSpn</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Tests the SPNs for an availability group listener</p>
+<p>Validates Service Principal Name registration for Availability Group listeners in Active Directory</p>
 <h2 id="description">Description</h2>
-<p>Tests the SPNs for an availability group listener</p>
+<p>Checks whether the required SPNs are properly registered in Active Directory for each Availability Group listener's service account. This function queries AD to verify that both the MSSQLSvc/listener.domain.com and MSSQLSvc/listener.domain.com:port SPNs exist, which are essential for Kerberos authentication to work correctly with AG listeners.</p>
+<p>Use this to troubleshoot client connectivity issues, validate SPN configuration before deployments, or audit security compliance. Missing SPNs will cause authentication failures when clients attempt to connect using integrated Windows authentication through the listener.</p>
 <p><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/listeners-client-connectivity-application-failover?view=sql-server-ver16#SPNs">https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/listeners-client-connectivity-application-failover?view=sql-server-ver16#SPNs</a> was used as a guide</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaAgSpn
@@ -604,7 +605,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>The availability group to test. If not specified, all availability groups will be tested.<br></p>
+<p>Specifies which availability groups to validate SPNs for by name. Use this when you need to check specific AGs instead of all AGs on the instance.<br />
+If not specified, all availability groups will be tested. Accepts multiple AG names for bulk validation.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +634,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="listener">-Listener</h5>
-<p>The availability group listener to test. If not specified, all listeners will be tested.<br></p>
+<p>Specifies which AG listeners to validate SPNs for by listener name. Use this when troubleshooting specific listener connectivity issues.<br />
+If not specified, all listeners within the specified availability groups will be tested. Accepts multiple listener names.<br></p>
 <table>
 <thead>
 <tr>
@@ -660,7 +663,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaAvailabilityGroup.<br></p>
+<p>Accepts availability group objects from Get-DbaAvailabilityGroup for pipeline processing. Use this to chain commands when working with specific AG objects.<br />
+This allows for filtering AGs before SPN validation without needing to specify instance and AG names separately.<br></p>
 <table>
 <thead>
 <tr>

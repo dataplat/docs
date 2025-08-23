@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbUserDefinedTableType">Get-DbaDbUserDefinedTableType</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database user defined table types</p>
+<p>Retrieves user-defined table types from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Gets database user defined table types</p>
+<p>Retrieves user-defined table types from SQL Server databases, which are custom data types used as table-valued parameters in stored procedures and functions. This command helps DBAs audit these schema-bound objects, document their structure and usage, or identify dependencies before making database changes. Returns detailed information including column definitions, ownership, and creation dates across multiple databases and instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbUserDefinedTableType
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -574,7 +574,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get Stored Procedures from specific database(s)<br></p>
+<p>Specifies which databases to retrieve user-defined table types from. Accepts database names and supports wildcards for pattern matching.<br />
+Use this when you need to examine table types in specific databases rather than all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +603,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server<br></p>
+<p>Specifies databases to exclude from the search for user-defined table types. Accepts database names and wildcards.<br />
+Use this when you want to scan most databases but skip specific ones like system databases or inactive databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -630,7 +632,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>[OPTIONAL] When provided, the output will be filtered to return only the types given otherwise returns all the table types.<br></p>
+<p>Filters results to include only specific user-defined table type names. Accepts an array of type names for multiple selections.<br />
+Use this when you need to examine particular table types across databases, such as auditing usage of a specific custom type.<br></p>
 <table>
 <thead>
 <tr>

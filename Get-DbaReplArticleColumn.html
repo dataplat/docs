@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaReplArticleColumn">Get-DbaReplArticleColumn</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the information about replicated article columns.</p>
+<p>Retrieves column-level replication configuration details for SQL Server publication articles.</p>
 <h2 id="description">Description</h2>
-<p>This function enumerates column information for given articles.</p>
+<p>Returns detailed information about which columns are included in replication articles, helping DBAs audit replication configurations and troubleshoot column-specific replication issues. This is particularly useful when working with vertical partitioning scenarios where only specific columns from source tables are replicated to subscribers, or when investigating why certain columns aren't appearing in replicated data.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaReplArticleColumn
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -583,7 +583,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more database(s) to process. If unspecified, all databases will be processed.<br></p>
+<p>Filters results to specific database(s) containing publications. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on replication columns from particular databases rather than scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="publication">-Publication</h5>
-<p>Specifies one or more publication(s) to process. If unspecified, all publications will be processed.<br></p>
+<p>Filters results to specific publication(s) within the specified databases. Accepts wildcards for pattern matching.<br />
+Use this when auditing column replication configuration for particular publications or troubleshooting column-level issues in specific publications.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +641,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="article">-Article</h5>
-<p>Specifies one or more article(s) to process. If unspecified, all articles will be processed.<br></p>
+<p>Filters results to specific article(s) within the publications. Accepts wildcards for pattern matching.<br />
+Use this when you need to examine column replication details for particular tables or views that are published as articles.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +670,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="column">-Column</h5>
-<p>Specifies one or more column(s) to process. If unspecified, all columns will be processed.<br></p>
+<p>Filters results to specific column name(s) across all matched articles. Case-sensitive exact match.<br />
+Use this when investigating whether specific columns are included in replication or troubleshooting missing columns in subscriber databases.<br></p>
 <table>
 <thead>
 <tr>

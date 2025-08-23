@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaDbMirror">Set-DbaDbMirror</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets properties of database mirrors.</p>
+<p>Configures database mirroring partner, witness, safety level, and operational state settings.</p>
 <h2 id="description">Description</h2>
-<p>Sets properties of database mirrors.</p>
+<p>Modifies database mirroring configuration by setting the partner server, witness server, safety level, or changing the mirror state. This function lets you reconfigure existing mirrored databases without manually writing ALTER DATABASE statements. Use it to add or change witness servers for automatic failover, adjust safety levels between synchronous and asynchronous modes, or control mirror states like suspend, resume, and failover operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaDbMirror
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -584,7 +584,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database.<br></p>
+<p>Specifies the database(s) to configure mirroring settings for. Accepts multiple database names.<br />
+Use this to target specific mirrored databases when you need to modify partner, witness, safety level, or state settings.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="partner">-Partner</h5>
-<p>Sets the partner Fully Qualified Domain Name.<br></p>
+<p>Sets the mirroring partner server endpoint in TCP://servername:port format. This establishes or changes the mirror partnership.<br />
+Use this when setting up initial mirroring or changing the partner server after a configuration change or migration.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="witness">-Witness</h5>
-<p>Sets the witness Fully Qualified Domain Name.<br></p>
+<p>Sets the witness server endpoint in TCP://servername:port format to enable automatic failover in high-safety mode.<br />
+Use this to add witness functionality for automatic failover or to change the witness server location.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,7 +671,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="safetylevel">-SafetyLevel</h5>
-<p>Sets the mirroring safety level.<br></p>
+<p>Controls transaction safety mode: 'Full' for synchronous high-safety, 'Off' for asynchronous high-performance.<br />
+Use 'Full' when you need zero data loss with automatic failover, or 'Off' for better performance with potential data loss during failover.<br></p>
 <table>
 <thead>
 <tr>
@@ -700,7 +704,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="state">-State</h5>
-<p>Sets the mirror state.<br></p>
+<p>Changes the operational state of the mirroring session. Options include Suspend, Resume, Failover, or RemoveWitness.<br />
+Use this to temporarily pause mirroring during maintenance, resume after suspension, perform manual failover, or remove witness functionality.<br></p>
 <table>
 <thead>
 <tr>
@@ -732,7 +737,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase pipeline input for batch operations.<br />
+Use this to configure mirroring settings across multiple databases efficiently by piping database objects from other dbatools commands.<br></p>
 <table>
 <thead>
 <tr>

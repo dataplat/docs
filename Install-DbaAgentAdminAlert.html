@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaAgentAdminAlert">Install-DbaAgentAdminAlert</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates SQL Server Agent alerts commonly needed by DBAs</p>
+<p>Creates standard SQL Server Agent alerts for critical system errors and disk I/O failures</p>
 <h2 id="description">Description</h2>
-<p>Creates SQL Server Agent alerts commonly needed by DBAs</p>
-<p>You can specify an operator to use for the alert, or it will use any operator it finds if there is just one.</p>
-<p>Alternatively, if you specify both an operator name and an email, it will create the operator if it does not exist.</p>
+<p>Creates a predefined set of SQL Server Agent alerts that monitor for critical system errors (severity levels 17-25) and disk I/O corruption errors (messages 823-825). These alerts catch serious issues like hardware failures, database corruption, insufficient resources, and fatal system errors that require immediate DBA attention.</p>
+<p>The function automatically creates alerts for severity levels 17-25 and error messages 823-825 unless specifically excluded. It can create missing operators and alert categories as needed, making it easy to establish consistent monitoring across multiple SQL Server instances.</p>
+<p>You can specify an operator to use for the alert, or it will use any operator it finds if there is just one. Alternatively, if you specify both an operator name and an email, it will create the operator if it does not exist.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaAgentAdminAlert
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -581,8 +581,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>The name of the category for the alert. If not specified, the alert will be created in the 'Uncategorized' category.<br />
-If the category does not exist, it will be created.<br></p>
+<p>Assigns the alerts to a specific SQL Server Agent alert category for better organization and management. Defaults to 'Uncategorized' if not specified.<br />
+Use this to group related alerts together, making it easier to manage alert policies and review alert activity in SQL Server Management Studio. If the category doesn't exist, it will be created<br />
+automatically.<br></p>
 <table>
 <thead>
 <tr>
@@ -610,7 +611,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The name of the database to which the alert applies<br></p>
+<p>Restricts the alerts to fire only for errors occurring in the specified database. If not specified, alerts will fire for errors in any database on the instance.<br />
+Use this when you want to monitor only specific critical databases and avoid noise from test or development databases on the same instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +640,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="operator">-Operator</h5>
-<p>The name of the operator to use in the alert<br></p>
+<p>Specifies the SQL Server Agent operator who will receive notifications when these alerts are triggered. The operator must already exist on the target instance unless you also provide OperatorEmail.<br />
+If not specified and only one operator exists on the instance, that operator will be used automatically. Required for alert notifications to function properly.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +669,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="operatoremail">-OperatorEmail</h5>
-<p>If a the specified operator does not exist and an OperatorEmail is specified, the operator will be created<br></p>
+<p>Creates a new SQL Server Agent operator with this email address if the specified operator name doesn't exist. Must be used together with the Operator parameter.<br />
+This allows you to set up both the operator and alerts in a single command when configuring monitoring on a new instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -694,7 +698,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="delaybetweenresponses">-DelayBetweenResponses</h5>
-<p>The delay (in seconds) between responses to the alert<br></p>
+<p>Sets the minimum time in seconds that must pass before the alert can fire again for the same condition. Prevents notification spam when errors occur repeatedly.<br />
+Use this to avoid flooding your inbox during cascading failures or when the same error occurs multiple times in rapid succession.<br></p>
 <table>
 <thead>
 <tr>
@@ -722,7 +727,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="disabled">-Disabled</h5>
-<p>Whether the alert is disabled<br></p>
+<p>Creates the alerts in a disabled state, preventing them from firing until manually enabled. By default, alerts are created in an enabled state.<br />
+Use this when you want to set up the alert infrastructure first and enable specific alerts later after testing or validation.<br></p>
 <table>
 <thead>
 <tr>
@@ -750,7 +756,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="eventdescriptionkeyword">-EventDescriptionKeyword</h5>
-<p>The keyword to search for in the event description<br></p>
+<p>Filters alerts to fire only when the error message text contains this specific keyword or phrase. Applied in addition to the standard severity and message ID criteria.<br />
+Use this to create more targeted alerts that focus on specific error conditions within the broader categories of critical system errors.<br></p>
 <table>
 <thead>
 <tr>
@@ -778,7 +785,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="eventsource">-EventSource</h5>
-<p>The source of the event<br></p>
+<p>Restricts alerts to fire only for errors originating from a specific event source or application. If not specified, alerts will fire regardless of the error source.<br />
+Use this to focus monitoring on specific applications or services that interact with your SQL Server instance when you want to isolate alerts from particular systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -806,7 +814,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="jobid">-JobId</h5>
-<p>The GUID ID of the job to execute when the alert is triggered<br></p>
+<p>Specifies a SQL Server Agent job to execute automatically when any of these alerts fire. Must be a valid job GUID that exists on the target instance.<br />
+Use this to trigger automated response scripts, such as collecting diagnostic information, attempting automatic recovery, or escalating to additional monitoring systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -834,7 +843,9 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="excludeseverity">-ExcludeSeverity</h5>
-<p>Exclude specific severities from the batch. By default, severities 17-25 are included.<br></p>
+<p>Excludes specific error severity levels from the standard alert creation. By default, the function creates alerts for severity levels 17-25 which cover resource issues, internal errors, and fatal<br />
+system problems.<br />
+Use this when you want to skip certain severities, perhaps because you already have custom alerts configured for them or they're not relevant to your environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -862,7 +873,9 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="excludemessageid">-ExcludeMessageId</h5>
-<p>Exclude specific message IDs from the batch. By default, mesasage IDs 823-825 are included.<br></p>
+<p>Excludes specific SQL Server error message IDs from the standard alert creation. By default, the function creates alerts for messages 823-825 which detect disk I/O hardware errors and database<br />
+corruption issues.<br />
+Use this when you want to skip certain message IDs, perhaps because you have existing custom alerts for these errors or they don't apply to your storage configuration.<br></p>
 <table>
 <thead>
 <tr>
@@ -890,7 +903,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="notificationmessage">-NotificationMessage</h5>
-<p>The message to send when the alert is triggered<br></p>
+<p>Customizes the message content sent to operators when an alert fires. If not specified, SQL Server uses the default system-generated message.<br />
+Use this to include specific instructions, contact information, or troubleshooting steps that help your team respond more effectively to critical errors.<br></p>
 <table>
 <thead>
 <tr>
@@ -918,7 +932,8 @@ If the category does not exist, it will be created.<br></p>
 </tbody>
 </table>
 <h5 id="notifymethod">-NotifyMethod</h5>
-<p>The method to use to notify the user of the alert. Valid values are 'None', 'NotifyEmail', 'Pager', 'NetSend', 'NotifyAll'. It is NotifyAll by default.<br></p>
+<p>Specifies how the operator should be notified when the alert fires. Valid options are 'NotifyEmail', 'Pager', 'NetSend', 'NotifyAll', or 'None'. Defaults to 'NotifyAll'.<br />
+Use 'NotifyEmail' for email-only notifications, 'NotifyAll' to use all configured notification methods for the operator, or 'None' to create alerts without notifications (useful for logging only).<br></p>
 <table>
 <thead>
 <tr>

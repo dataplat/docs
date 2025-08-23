@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaMsdtc">Get-DbaMsdtc</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays information about the Distributed Transaction Coordinator (MSDTC) on a server</p>
+<p>Retrieves Microsoft Distributed Transaction Coordinator (MSDTC) service status and configuration details</p>
 <h2 id="description">Description</h2>
-<p>Returns a custom object with Computer name, state of the MSDTC Service, security settings of MSDTC and CID's</p>
-<p>Requires: Windows administrator access on Servers</p>
+<p>Returns comprehensive MSDTC information including service state, security settings, and component identifiers (CIDs) from target servers. MSDTC is essential for SQL Server distributed transactions, linked server operations, and cross-database transactions that span multiple servers or instances.</p>
+<p>This function helps DBAs troubleshoot distributed transaction failures, verify MSDTC configuration for linked servers, and audit security settings across multiple servers. It queries both the Windows service status and registry settings to provide a complete picture of the MSDTC configuration.</p>
+<p>Requires: Windows administrator access on target servers</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaMsdtc
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -519,7 +520,8 @@ PS C:\&gt; $Computers | Get-DbaMsdtc
 <p>Get DTC status for the computer srv0042 and show in a grid view<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer.<br></p>
+<p>Specifies the server or computer names where MSDTC information should be retrieved. Accepts multiple values and supports pipeline input.<br />
+Use this when checking MSDTC configuration across multiple SQL Server hosts, especially when troubleshooting distributed transactions or linked server issues.<br></p>
 <table>
 <thead>
 <tr>

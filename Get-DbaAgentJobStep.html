@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentJobStep">Get-DbaAgentJobStep</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Agent Job Step information for each instance(s) of SQL Server.</p>
+<p>Retrieves detailed SQL Agent job step information including execution status and configuration from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaAgentJobStep returns connected SMO object for SQL Agent Job Step for each instance(s) of SQL Server.</p>
+<p>Collects comprehensive details about SQL Agent job steps across one or more SQL Server instances. Returns information about each step's subsystem type, last execution date, outcome, and current state, which is essential for monitoring job performance and troubleshooting failed automation tasks. You can filter results by specific jobs, exclude disabled jobs, or process job objects from Get-DbaAgentJob to focus on particular maintenance routines or scheduled processes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentJobStep
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -587,7 +587,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The job(s) to process - this list is auto-populated from the server. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies which SQL Agent jobs to include by name when retrieving job steps. Accepts wildcards for pattern matching.<br />
+Use this when you need to examine steps for specific jobs like backup routines or maintenance tasks instead of processing all jobs on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -615,7 +616,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludejob">-ExcludeJob</h5>
-<p>The job(s) to exclude - this list is auto-populated from the server.<br></p>
+<p>Specifies which SQL Agent jobs to exclude by name when retrieving job steps. Accepts wildcards for pattern matching.<br />
+Use this when you want to review most jobs but skip certain ones like test jobs or jobs that generate excessive output.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,7 +645,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Job objects to process. This can be piped from Get-DbaAgentJob.<br></p>
+<p>Accepts SQL Agent job objects from the pipeline, typically from Get-DbaAgentJob output.<br />
+Use this when you want to process job steps for a pre-filtered set of jobs or when building complex pipelines that combine job filtering with step analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -671,7 +674,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedisabledjobs">-ExcludeDisabledJobs</h5>
-<p>Switch will exclude disabled jobs from the output.<br></p>
+<p>Filters out disabled SQL Agent jobs from the results, showing only currently active jobs.<br />
+Use this when troubleshooting production issues or monitoring active automation to avoid reviewing steps from jobs that aren't currently running.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaResourceGovernor">Copy-DbaResourceGovernor</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Migrates Resource Pools</p>
+<p>Copies SQL Server Resource Governor configuration including pools, workload groups, and classifier functions between instances</p>
 <h2 id="description">Description</h2>
-<p>By default, all non-system resource pools are migrated. If the pool already exists on the destination, it will be skipped unless -Force is used.</p>
-<p>The -ResourcePool parameter is auto-populated for command-line completion and can be used to copy only specific objects.</p>
+<p>Migrates your entire SQL Server Resource Governor setup from one instance to another, including custom resource pools, workload groups, and classifier functions. This saves you from manually recreating complex Resource Governor configurations when setting up new servers or during migrations.</p>
+<p>The function copies all non-system resource pools (excludes the built-in &quot;internal&quot; and &quot;default&quot; pools) along with their associated workload groups and settings. It also migrates any custom classifier function you've configured to automatically assign incoming requests to appropriate resource pools.</p>
+<p>If a resource pool already exists on the destination server, it will be skipped unless you use -Force to overwrite it. Resource Governor will be properly reconfigured after the migration to ensure all changes take effect.</p>
+<p>Note that Resource Governor is only available in Enterprise, Datacenter, and Developer editions of SQL Server. The -ResourcePool parameter is auto-populated for command-line completion and can be used to copy only specific objects.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaResourceGovernor
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -521,7 +523,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Shows what would happen if the command were executed.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2008 or higher. <br></p>
+<p>Specifies the source SQL Server instance containing the Resource Governor configuration to copy. Must have sysadmin privileges and be SQL Server 2008 or later.<br />
+Use this to identify which server contains the Resource Governor setup you want to migrate to other instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -549,7 +552,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2008 or higher. <br></p>
+<p>Specifies the destination SQL Server instance(s) where the Resource Governor configuration will be copied. Accepts multiple instances and requires sysadmin privileges on each.<br />
+Use this to define which servers should receive the migrated Resource Governor pools, workload groups, and classifier functions. <br></p>
 <table>
 <thead>
 <tr>
@@ -578,9 +582,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Provides alternative credentials for connecting to the source SQL Server instance. Accepts PowerShell credential objects from Get-Credential.<br />
+Use this when your current Windows credentials don't have access to the source server or when you need to use SQL Server authentication.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,9 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Provides alternative credentials for connecting to the destination SQL Server instance(s). Accepts PowerShell credential objects from Get-Credential.<br />
+Use this when your current Windows credentials don't have access to the destination servers or when you need to use SQL Server authentication.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="resourcepool">-ResourcePool</h5>
-<p>Specifies the resource pool(s) to process. Options for this list are auto-populated from the server. If unspecified, all resource pools will be processed.<br></p>
+<p>Specifies which resource pools to copy by name. Supports tab completion with pools from the source server and accepts multiple pool names.<br />
+Use this when you only want to migrate specific resource pools rather than the entire Resource Governor configuration. Excludes system pools (internal, default) automatically.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excluderesourcepool">-ExcludeResourcePool</h5>
-<p>Specifies the resource pool(s) to exclude. Options for this list are auto-populated from the server<br></p>
+<p>Specifies which resource pools to skip during the copy operation. Supports tab completion and accepts multiple pool names.<br />
+Use this when you want to migrate most of your Resource Governor configuration but exclude certain pools that shouldn't be copied to the destination.<br></p>
 <table>
 <thead>
 <tr>
@@ -694,7 +698,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the policies will be dropped and recreated on Destination.<br></p>
+<p>Drops and recreates existing resource pools, workload groups, and classifier functions on the destination server.<br />
+Use this when you need to overwrite existing Resource Governor objects that would otherwise be skipped due to name conflicts.<br></p>
 <table>
 <thead>
 <tr>

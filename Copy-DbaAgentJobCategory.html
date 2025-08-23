@@ -485,13 +485,14 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaAgentJobCategory">Copy-DbaAgentJobCategory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaAgentJobCategory migrates SQL Agent categories from one SQL Server to another. This is similar to sp_add_category.</p>
+<p>Copies custom SQL Agent categories for jobs, alerts, and operators between SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>By default, all SQL Agent categories for Jobs, Operators and Alerts are copied.</p>
-<p>The -OperatorCategories parameter is auto-populated for command-line completion and can be used to copy only specific operator categories.<br />
-The -AgentCategories parameter is auto-populated for command-line completion and can be used to copy only specific agent categories.<br />
-The -JobCategories parameter is auto-populated for command-line completion and can be used to copy only specific job categories.</p>
-<p>If the category already exists on the destination, it will be skipped unless -Force is used.</p>
+<p>Migrates custom SQL Agent categories from a source SQL Server to one or more destination servers, so you don't have to manually recreate organizational structures during server migrations or environment setups.<br />
+This function copies only user-defined categories (ID &gt;= 100), preserving built-in system categories on the destination.<br />
+Essential for maintaining consistent job categorization across multiple SQL Server instances in enterprise environments.</p>
+<p>You can copy all categories at once or filter by category type (Job, Alert, Operator) or specify individual category names.<br />
+Categories that already exist on the destination will be skipped unless you use -Force to drop and recreate them.<br />
+The function uses SQL Server Management Objects (SMO) to script category definitions and recreate them on the target server.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaAgentJobCategory -Source &lt;DbaInstanceParameter&gt;
     [-SourceSqlCredential &lt;PSCredential&gt;]
@@ -539,7 +540,8 @@ If an operator category with the same name exists on sqlcluster, it will be drop
 <p>Shows what would happen if the command were executed using force.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>The source SQL Server instance from which to copy Agent job categories. Requires sysadmin permissions to access MSDB and read category definitions.<br />
+Use this to specify the server that has the custom categories you want to replicate to other instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -567,7 +569,8 @@ If an operator category with the same name exists on sqlcluster, it will be drop
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>One or more destination SQL Server instances where the Agent job categories will be created. Accepts an array to copy categories to multiple servers simultaneously.<br />
+Requires sysadmin permissions to create categories in each destination server's MSDB database. <br></p>
 <table>
 <thead>
 <tr>
@@ -596,9 +599,8 @@ If an operator category with the same name exists on sqlcluster, it will be drop
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the source SQL Server instance. Use this when your current Windows authentication doesn't have sufficient permissions on the source server.<br />
+Accepts credentials created with Get-Credential for SQL authentication or different Windows accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,9 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the destination SQL Server instances. Use this when different authentication is needed for the destination servers than your current context.<br />
+Accepts credentials created with Get-Credential and applies to all destination servers specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -656,8 +657,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="categorytype">-CategoryType</h5>
-<p>Specifies the Category Type to migrate. Valid options are &quot;Job&quot;, &quot;Alert&quot; and &quot;Operator&quot;. When CategoryType is specified, all categories from the selected type will be migrated. For granular<br />
-migrations, use the three parameters below.<br></p>
+<p>Filters the copy operation to specific category types: Job, Alert, or Operator. When specified, copies all categories of the selected type(s) from the source.<br />
+Use this for bulk migration of entire category types rather than individual category names. Leave empty to copy all category types.<br></p>
 <table>
 <thead>
 <tr>
@@ -689,7 +690,8 @@ migrations, use the three parameters below.<br></p>
 </tbody>
 </table>
 <h5 id="jobcategory">-JobCategory</h5>
-<p>This parameter is auto-populated for command-line completion and can be used to copy only specific job categories.<br></p>
+<p>Specific job category names to copy from the source server. Use this for selective migration when you only need certain job categories.<br />
+Supports tab completion from the source server's existing job categories for convenience.<br></p>
 <table>
 <thead>
 <tr>
@@ -717,7 +719,8 @@ migrations, use the three parameters below.<br></p>
 </tbody>
 </table>
 <h5 id="agentcategory">-AgentCategory</h5>
-<p>This parameter is auto-populated for command-line completion and can be used to copy only specific agent categories.<br></p>
+<p>Specific alert category names to copy from the source server. Use this for selective migration when you only need certain alert categories.<br />
+Note: This parameter is currently not implemented in the function code and will be ignored if used.<br></p>
 <table>
 <thead>
 <tr>
@@ -745,7 +748,8 @@ migrations, use the three parameters below.<br></p>
 </tbody>
 </table>
 <h5 id="operatorcategory">-OperatorCategory</h5>
-<p>This parameter is auto-populated for command-line completion and can be used to copy only specific operator categories.<br></p>
+<p>Specific operator category names to copy from the source server. Use this for selective migration when you only need certain operator categories.<br />
+Supports tab completion from the source server's existing operator categories for convenience.<br></p>
 <table>
 <thead>
 <tr>
@@ -773,7 +777,8 @@ migrations, use the three parameters below.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Category will be dropped and recreated on Destination.<br></p>
+<p>Drops and recreates existing categories on the destination servers instead of skipping them. Use this when you need to overwrite categories that have changed on the source.<br />
+Without this switch, categories that already exist on the destination will be skipped to prevent data loss.<br></p>
 <table>
 <thead>
 <tr>

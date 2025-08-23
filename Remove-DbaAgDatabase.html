@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaAgDatabase">Remove-DbaAgDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a database from an availability group on a SQL Server instance.</p>
+<p>Removes databases from availability groups on SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Removes a database from an availability group on a SQL Server instance.</p>
+<p>Removes databases from availability groups, effectively stopping replication and high availability protection for those databases. This is commonly needed when decommissioning databases, reconfiguring availability group membership during maintenance windows, or troubleshooting replication issues. The function safely removes the database from all replicas in the availability group while preserving the actual database files on each replica. You can target specific databases and availability groups, or use pipeline input from Get-DbaAgDatabase to remove multiple databases efficiently.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgDatabase
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -576,7 +576,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database or databases to remove.<br></p>
+<p>Specifies which databases to remove from their availability groups. Accepts multiple database names as an array.<br />
+Required when using SqlInstance parameter. Use this to target specific databases rather than removing all databases from an availability group.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +605,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Only remove databases from specific availability groups.<br></p>
+<p>Limits the operation to databases within specific availability groups. When specified, only databases belonging to these availability groups will be removed.<br />
+Useful when you have databases with the same name across multiple availability groups and need to target specific groups.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +634,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts availability group database objects from Get-DbaAgDatabase or database objects from Get-DbaDatabase through the pipeline.<br />
+This enables efficient batch operations and complex filtering scenarios using the pipeline.<br></p>
 <table>
 <thead>
 <tr>

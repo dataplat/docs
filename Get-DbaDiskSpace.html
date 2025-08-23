@@ -485,11 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDiskSpace">Get-DbaDiskSpace</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays disk information for all local disk on a server.</p>
+<p>Retrieves disk space and filesystem details from SQL Server host systems for capacity monitoring and performance analysis.</p>
 <h2 id="description">Description</h2>
-<p>Returns a custom object with server name, name of disk, label of disk, total size, free size, percent free, block size and filesystem.</p>
-<p>By default, this function only shows drives of types 2 and 3 (removable disk and local disk).</p>
-<p>Requires Windows administrator access on SQL Servers</p>
+<p>Queries Windows disk volumes on SQL Server systems using WMI to gather critical storage information for database administration. Returns comprehensive disk details including capacity, free space, filesystem type, and optional fragmentation analysis.</p>
+<p>Essential for SQL Server capacity planning, this function helps DBAs monitor disk space before growth limits impact database operations. Use it to verify adequate space for backup operations, identify performance bottlenecks from fragmented volumes hosting data or log files, and maintain compliance documentation for storage utilization.</p>
+<p>By default, only local disks and removable disks are shown (DriveType 2 and 3), which covers most SQL Server storage scenarios. Hidden system volumes are excluded unless the Force parameter is used.</p>
+<p>Requires Windows administrator access on target SQL Server systems.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDiskSpace
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -528,7 +529,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Get all disk and volume space information.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer. Defaults to localhost.<br></p>
+<p>Specifies the SQL Server host systems to query for disk space information. Accepts multiple computer names for bulk monitoring.<br />
+Use this to check storage capacity across your SQL Server environment before database growth or backup operations impact available space.<br></p>
 <table>
 <thead>
 <tr>
@@ -584,8 +586,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="unit">-Unit</h5>
-<p>This parameter has been deprecated and will be removed in 1.0.0<br />
-All properties previously generated through this command are present at the same time, but hidden by default.<br></p>
+<p>This parameter has been deprecated and will be removed in 1.0.0.<br />
+All size properties (Bytes, KB, MB, GB, TB, PB) are now available simultaneously in the output object but hidden by default for cleaner display.<br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +649,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedrive">-ExcludeDrive</h5>
-<p>Filter out drives - format is C:&lt;br&gt;</p>
+<p>Specifies drive letters to exclude from the disk space report, using the format 'C:' or 'D:'.<br />
+Use this to skip system drives or non-SQL storage when focusing on database file locations, or to exclude network drives that may cause timeouts.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,8 +678,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="checkfragmentation">-CheckFragmentation</h5>
-<p>If this switch is enabled, fragmentation of all file systems will be checked.<br />
-This will increase the runtime of the function by seconds or even minutes per volume.<br></p>
+<p>Enables filesystem fragmentation analysis for all volumes, which can impact SQL Server I/O performance when database or log files are stored on fragmented drives.<br />
+This significantly increases runtime (seconds to minutes per volume) but provides critical data for troubleshooting slow database operations or planning defragmentation maintenance.<br></p>
 <table>
 <thead>
 <tr>
@@ -704,8 +707,8 @@ This will increase the runtime of the function by seconds or even minutes per vo
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Enabling this switch will cause the command to include ALL drives.<br />
-By default, only local disks and removable disks are shown, and hidden volumes are excluded.<br></p>
+<p>Includes all drive types and hidden volumes in the results, not just local and removable disks (DriveType 2 and 3).<br />
+Use this when you need complete storage visibility including network drives, CD/DVD drives, or system volumes that might host SQL Server components like backup locations or tempdb files.<br></p>
 <table>
 <thead>
 <tr>

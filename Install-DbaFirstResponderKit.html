@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaFirstResponderKit">Install-DbaFirstResponderKit</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Installs or updates the First Responder Kit stored procedures.</p>
+<p>Downloads and installs Brent Ozar's First Responder Kit diagnostic stored procedures.</p>
 <h2 id="description">Description</h2>
-<p>Downloads, extracts and installs the First Responder Kit stored procedures</p>
+<p>Downloads and installs the First Responder Kit (FRK), a collection of stored procedures designed for SQL Server health checks, performance analysis, and troubleshooting. The FRK includes essential procedures like sp_Blitz for overall health assessment, sp_BlitzCache for query performance analysis, sp_BlitzIndex for index recommendations, and sp_BlitzFirst for real-time performance monitoring.</p>
+<p>This function automatically downloads the latest version from GitHub, caches it locally, and installs the procedures into your specified database. You can install the complete toolkit or select specific procedures based on your needs. The function handles version compatibility automatically, skipping procedures that aren't supported on older SQL Server versions.</p>
+<p>Perfect for DBAs who need standardized diagnostic tools across multiple SQL Server instances without manually downloading and deploying scripts.</p>
 <p>First Responder Kit links:<br />
 <a href="http://FirstResponderKit.org">http://FirstResponderKit.org</a><br />
 <a href="https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit">https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit</a></p>
@@ -611,10 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="branch">-Branch</h5>
-<p>Specifies an alternate branch of the First Responder Kit to install.<br />
-Allowed values:<br />
-main (default)<br />
-dev<br></p>
+<p>Specifies which GitHub branch of the First Responder Kit to download and install. Defaults to 'main' for the stable release.<br />
+Use 'dev' to install the development branch when you need the latest features or bug fixes that haven't been released yet.<br></p>
 <table>
 <thead>
 <tr>
@@ -646,7 +646,8 @@ dev<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database to install the First Responder Kit stored procedures into<br></p>
+<p>Specifies the target database where the First Responder Kit stored procedures will be installed. Defaults to master.<br />
+Consider using a dedicated DBA or utility database instead of master for better organization and maintenance.<br></p>
 <table>
 <thead>
 <tr>
@@ -674,8 +675,8 @@ dev<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install FRK from. This <em>should</em> be the zip file as distributed by the maintainers.<br />
-If this parameter is not specified, the latest version will be downloaded and installed from <a href="https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit">https://github.com/BrentOzarULTD/SQL-Server-First-Responder-Kit</a><br></p>
+<p>Specifies the path to a local zip file containing the First Responder Kit scripts instead of downloading from GitHub.<br />
+Use this when you have a specific version cached locally, when internet access is restricted, or when you need to install a customized version of the toolkit.<br></p>
 <table>
 <thead>
 <tr>
@@ -703,10 +704,9 @@ If this parameter is not specified, the latest version will be downloaded and in
 </tbody>
 </table>
 <h5 id="onlyscript">-OnlyScript</h5>
-<p>Specifies the name(s) of the script(s) to run for installation. Wildcards are permitted.<br />
-This way only part of the First Responder Kit can be installed.<br />
-Using one of the three official Install-* scripts (Install-All-Scripts.sql, Install-Core-Blitz-No-Query-Store.sql, Install-Core-Blitz-With-Query-Store.sql) is possible this way.<br />
-Even removing the First Responder Kit is possible by using the official Uninstall.sql.<br></p>
+<p>Specifies specific script files to install instead of the entire First Responder Kit. Accepts multiple script names and wildcards.<br />
+Use this to install only the procedures you need (like sp_Blitz.sql, sp_BlitzCache.sql) or to run official install scripts (Install-All-Scripts.sql, Install-Azure.sql). Also supports Uninstall.sql to<br />
+remove the toolkit.<br></p>
 <table>
 <thead>
 <tr>
@@ -738,7 +738,8 @@ Even removing the First Responder Kit is possible by using the official Uninstal
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the FRK will be downloaded from the internet even if previously cached.<br></p>
+<p>Forces a fresh download of the First Responder Kit from GitHub even if a cached version already exists locally.<br />
+Use this when you want to ensure you have the absolute latest version or when the cached version may be corrupted.<br></p>
 <table>
 <thead>
 <tr>

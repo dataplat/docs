@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentOperator">Get-DbaAgentOperator</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns all SQL Agent operators on a SQL Server Agent.</p>
+<p>Retrieves SQL Server Agent operators with their notification settings and related jobs and alerts.</p>
 <h2 id="description">Description</h2>
-<p>This function returns SQL Agent operators.</p>
+<p>Retrieves detailed information about SQL Server Agent operators, including email addresses, enabled status, and relationships to jobs and alerts that notify them. Essential for auditing notification configurations, troubleshooting alert delivery issues, and maintaining disaster recovery contact lists. Shows which jobs notify each operator and tracks the last time each operator received email notifications, helping DBAs verify their monitoring and alerting infrastructure is properly configured.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentOperator
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -578,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="operator">-Operator</h5>
-<p>The operator(s) to process - this list is auto-populated from the server. If unspecified, all operators will be processed.<br></p>
+<p>Specifies which SQL Agent operators to retrieve by name. Accepts an array of operator names for targeting specific notification contacts.<br />
+Use this when you need to check configuration or troubleshoot notification issues for particular operators instead of reviewing all operators on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeoperator">-ExcludeOperator</h5>
-<p>The operator(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specified SQL Agent operators from the results by name. Useful for filtering out test operators or disabled contacts during audits.<br />
+Commonly used when reviewing active notification configurations while ignoring legacy or temporary operator accounts.<br></p>
 <table>
 <thead>
 <tr>

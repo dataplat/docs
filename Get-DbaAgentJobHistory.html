@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentJobHistory">Get-DbaAgentJobHistory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets execution history of SQL Agent Job on instance(s) of SQL Server.</p>
+<p>Retrieves SQL Server Agent job execution history from msdb database for troubleshooting and compliance reporting.</p>
 <h2 id="description">Description</h2>
-<p>Get-DbaAgentJobHistory returns all information on the executions still available on each instance(s) of SQL Server submitted.<br />
-The cleanup of SQL Agent history determines how many records are kept.</p>
+<p>Get-DbaAgentJobHistory queries the msdb database to retrieve detailed execution records for SQL Server Agent jobs, helping you troubleshoot failures, monitor performance trends, and generate compliance reports. This function accesses the same historical data you'd find in SQL Server Management Studio's Job Activity Monitor, but with powerful filtering and output options.</p>
+<p>The function is essential when investigating why jobs failed, analyzing execution patterns over time, or preparing audit documentation. You can filter results by specific jobs, date ranges, or outcome types (failed, succeeded, retry, etc.), and optionally include job step details or just summary-level information.</p>
+<p>Results include calculated fields like duration, formatted start/end dates, and readable status descriptions. When used with -WithOutputFile, it resolves SQL Agent token placeholders in output file paths, making it easier to locate job logs for further investigation.</p>
+<p>Historical data availability depends on your SQL Agent history cleanup settings - older executions may have been purged based on your retention configuration.</p>
 <p><a href="https://msdn.microsoft.com/en-us/library/ms201680.aspx">https://msdn.microsoft.com/en-us/library/ms201680.aspx</a><br />
 <a href="https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.management.smo.agent.jobhistoryfilter(v=sql.120).aspx">https://msdn.microsoft.com/en-us/library/microsoft.sqlserver.management.smo.agent.jobhistoryfilter(v=sql.120).aspx</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -604,7 +606,8 @@ with additional properties that show the output filename path<br></p>
 </tbody>
 </table>
 <h5 id="jobcollection">-JobCollection</h5>
-<p>An array of SMO jobs <br></p>
+<p>Accepts an array of SQL Server Management Objects (SMO) job objects instead of job names. Enables pipeline input from Get-DbaAgentJob.<br />
+Use this when you need to filter jobs by complex criteria first, then get their history, such as jobs matching specific patterns or properties. <br></p>
 <table>
 <thead>
 <tr>
@@ -663,7 +666,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job from which the history is wanted. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies specific SQL Agent jobs to retrieve history for by name. Accepts wildcards and arrays for multiple jobs.<br />
+Use this when investigating specific job failures or monitoring particular maintenance routines instead of reviewing all job history.<br></p>
 <table>
 <thead>
 <tr>
@@ -691,7 +695,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludejob">-ExcludeJob</h5>
-<p>The job(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specified jobs from the history results by name. Accepts arrays for multiple job exclusions.<br />
+Useful when you want to review most jobs but skip noisy or less critical ones like frequent maintenance jobs.<br></p>
 <table>
 <thead>
 <tr>
@@ -719,7 +724,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="startdate">-StartDate</h5>
-<p>The DateTime starting from which the history is wanted. If unspecified, all available records will be processed.<br></p>
+<p>Sets the earliest date and time for job history records to include. Defaults to 1900-01-01 to include all available history.<br />
+Specify this when investigating issues within a specific timeframe or when older history isn't relevant to your troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -747,7 +753,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="enddate">-EndDate</h5>
-<p>The DateTime before which the history is wanted. If unspecified, all available records will be processed.<br></p>
+<p>Sets the latest date and time for job history records to include. Defaults to current date and time.<br />
+Use this with StartDate to focus on a specific time window when troubleshooting incidents or analyzing patterns during maintenance windows.<br></p>
 <table>
 <thead>
 <tr>
@@ -775,7 +782,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="outcometype">-OutcomeType</h5>
-<p>The CompletionResult to filter the history for. Valid values are: Failed, Succeeded, Retry, Cancelled, InProgress, Unknown<br></p>
+<p>Filters job history to only show executions with a specific completion result. Valid values are Failed, Succeeded, Retry, Cancelled, InProgress, Unknown.<br />
+Most commonly used with 'Failed' when troubleshooting job failures or 'Succeeded' when verifying successful completion patterns.<br></p>
 <table>
 <thead>
 <tr>
@@ -807,7 +815,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludejobsteps">-ExcludeJobSteps</h5>
-<p>Use this switch to discard all job steps, and return only the job totals<br></p>
+<p>Returns only job-level execution summaries, excluding individual step details. Shows overall job success/failure without step-by-step breakdown.<br />
+Use this when you need high-level job completion status for reporting or when step details aren't needed for your analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -835,8 +844,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="withoutputfile">-WithOutputFile</h5>
-<p>Use this switch to retrieve the output file (only if you want step details). Bonus points, we handle the quirks<br />
-of SQL Agent tokens to the best of our knowledge (<a href="https://technet.microsoft.com/it-it/library/ms175575(v=sql.110).aspx">https://technet.microsoft.com/it-it/library/ms175575(v=sql.110).aspx</a>)<br></p>
+<p>Includes resolved output file paths for job steps that write to files. Automatically resolves SQL Agent token placeholders like $(SQLLOGDIR) to actual paths.<br />
+Essential when you need to locate and review job output files for troubleshooting failures or verifying job step results.<br></p>
 <table>
 <thead>
 <tr>

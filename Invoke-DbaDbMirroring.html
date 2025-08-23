@@ -485,21 +485,22 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbMirroring">Invoke-DbaDbMirroring</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Automates the creation of database mirrors.</p>
+<p>Creates and configures database mirroring between SQL Server instances with full validation and setup</p>
 <h2 id="description">Description</h2>
-<p>Automates the creation of database mirrors.</p>
+<p>Creates database mirroring configurations between SQL Server instances, handling the complete end-to-end setup process that would normally require dozens of manual T-SQL commands and careful validation steps. This function eliminates the complexity and potential errors involved in manually configuring database mirroring partnerships.</p>
+<p>The function performs comprehensive validation before setup and handles all the technical requirements:</p>
 <ul>
-<li>Verifies that a mirror is possible</li>
-<li>Sets the recovery model to Full if needed</li>
-<li>If the database does not exist on mirror, a backup/restore is performed</li>
-<li>Sets up endpoints if necessary</li>
-<li>Creates a login and grants permissions to service accounts if needed</li>
-<li>Starts endpoints if needed</li>
-<li>Sets up partner for mirror</li>
-<li>Sets up partner for primary</li>
-<li>Sets up witness if one is specified</li>
+<li>Verifies that mirroring is possible between the specified instances and databases</li>
+<li>Sets the recovery model to Full if needed (required for mirroring)</li>
+<li>Creates and restores full and log backups to initialize the mirror database if it doesn't exist</li>
+<li>Sets up database mirroring endpoints on all participating instances</li>
+<li>Creates logins and grants CONNECT permissions to service accounts on all endpoints</li>
+<li>Starts endpoints if they're not already running</li>
+<li>Establishes the mirroring partnership between primary and mirror</li>
+<li>Configures witness server if specified for automatic failover scenarios</li>
 </ul>
-<p>NOTE: If a backup / restore is performed, the backups will be left in tact on the network share.</p>
+<p>This saves DBAs significant time when setting up high availability solutions and reduces the risk of configuration errors that can cause mirroring setup failures. The function can work with existing backups or create fresh ones as needed.</p>
+<p>NOTE: If backup/restore is performed, the backup files will remain on the network share for your records.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbMirroring
     [[-Primary] &lt;DbaInstanceParameter&gt;]
@@ -574,7 +575,9 @@ PS C:\&gt; Get-DbaDatabase -SqlInstance sql2017a -Database pubs | Invoke-DbaDbMi
 <p>Mirrors pubs on sql2017a to sql2017b and uses the last full and logs from sql2017a to seed. Doesn't prompt for confirmation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="mirror">-Mirror</h5>
-<p>SQL Server name or SMO object representing the mirror SQL Server. <br></p>
+<p>Specifies the SQL Server instance(s) that will serve as the mirror server(s) in the mirroring partnership.<br />
+This is where the mirrored database copies will be created and maintained.<br />
+Supports multiple mirror instances for creating mirror partnerships with different servers. <br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +606,9 @@ PS C:\&gt; Get-DbaDatabase -SqlInstance sql2017a -Database pubs | Invoke-DbaDbMi
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="primary">-Primary</h5>
-<p>SQL Server name or SMO object representing the primary SQL Server.<br></p>
+<p>Specifies the SQL Server instance that will serve as the primary (principal) server in the mirroring partnership.<br />
+Use this when setting up mirroring from scratch rather than piping database objects from Get-DbaDatabase.<br />
+Must be paired with the Database parameter to identify which databases to mirror.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,9 +636,9 @@ PS C:\&gt; Get-DbaDatabase -SqlInstance sql2017a -Database pubs | Invoke-DbaDbMi
 </tbody>
 </table>
 <h5 id="primarysqlcredential">-PrimarySqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the primary SQL Server instance.<br />
+Required when the current user context doesn't have sufficient permissions on the primary server.<br />
+Accepts PowerShell credential objects created with Get-Credential for SQL Authentication or domain accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -661,9 +666,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="mirrorsqlcredential">-MirrorSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the mirror SQL Server instance(s).<br />
+Required when the current user context doesn't have sufficient permissions on the mirror server.<br />
+Accepts PowerShell credential objects created with Get-Credential for SQL Authentication or domain accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -691,7 +696,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="witness">-Witness</h5>
-<p>SQL Server name or SMO object representing the witness SQL Server.<br></p>
+<p>Specifies the SQL Server instance that will serve as the witness server for automatic failover scenarios.<br />
+Optional parameter that enables high safety mode with automatic failover when all three servers can communicate.<br />
+Leave empty if you only need high safety mode without automatic failover or high performance mode.<br></p>
 <table>
 <thead>
 <tr>
@@ -719,9 +726,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="witnesssqlcredential">-WitnessSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the witness SQL Server instance.<br />
+Required when the current user context doesn't have sufficient permissions on the witness server.<br />
+Accepts PowerShell credential objects created with Get-Credential for SQL Authentication or domain accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -749,7 +756,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database or databases to mirror.<br></p>
+<p>Specifies which database(s) on the primary server to set up for mirroring.<br />
+Required when using the Primary parameter instead of piping from Get-DbaDatabase.<br />
+Supports multiple database names to set up mirroring for several databases in a single operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -777,10 +786,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="endpointencryption">-EndpointEncryption</h5>
-<p>Used to specify the state of encryption on the endpoint. Defaults to required.<br />
-Disabled<br />
-Required<br />
-Supported<br></p>
+<p>Controls the encryption requirement for database mirroring endpoints created during setup.<br />
+Default is 'Required' which enforces encrypted communication between all mirroring partners.<br />
+Use 'Supported' to allow both encrypted and unencrypted connections, or 'Disabled' to prevent encryption.<br></p>
 <table>
 <thead>
 <tr>
@@ -812,13 +820,9 @@ Supported<br></p>
 </tbody>
 </table>
 <h5 id="encryptionalgorithm">-EncryptionAlgorithm</h5>
-<p>Specifies an encryption algorithm used on an endpoint. Defaults to Aes.<br />
-Options are:<br />
-AesRC4<br />
-Aes<br />
-None<br />
-RC4<br />
-RC4Aes<br></p>
+<p>Specifies the encryption algorithm used by database mirroring endpoints for secure communication.<br />
+Default is 'Aes' which provides strong encryption with good performance.<br />
+Consider 'AesRC4' or 'RC4Aes' for compatibility with older SQL Server versions in mixed environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -850,9 +854,9 @@ RC4Aes<br></p>
 </tbody>
 </table>
 <h5 id="sharedpath">-SharedPath</h5>
-<p>The network share where the backups will be backed up and restored from.<br />
-Each SQL Server service account must have access to this share.<br />
-NOTE: If a backup / restore is performed, the backups will be left in tact on the network share.<br></p>
+<p>Network share path accessible by all SQL Server service accounts for backup and restore operations.<br />
+Required when the mirror database doesn't exist and needs to be initialized from backups.<br />
+Must have read/write permissions for the service accounts running SQL Server on primary and mirror instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -880,7 +884,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects piped from Get-DbaDatabase to set up mirroring for specific databases.<br />
+Use this approach when you want to filter databases first or work with existing database objects.<br />
+Alternative to using the Primary and Database parameters.<br></p>
 <table>
 <thead>
 <tr>
@@ -908,7 +914,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="uselastbackup">-UseLastBackup</h5>
-<p>Use the last full backup of database.<br></p>
+<p>Uses the most recent full and log backups from the primary server to initialize the mirror database.<br />
+Avoids creating new backups when recent ones already exist and are sufficient for mirroring setup.<br />
+Requires the primary database to be in Full recovery model with existing backup history.<br></p>
 <table>
 <thead>
 <tr>
@@ -936,7 +944,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Drop and recreate the database on remote servers using fresh backup.<br></p>
+<p>Drops and recreates the mirror database even if it already exists, using fresh backups from the primary.<br />
+Use this when you need to completely reinitialize mirroring or when the existing mirror database is corrupted.<br />
+Requires either SharedPath for new backups or UseLastBackup to use existing ones.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,11 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Enable-DbaStartupProcedure">Enable-DbaStartupProcedure</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets a procedure to execute automatically each time the SQL Server service is started</p>
+<p>Configures stored procedures in the master database to execute automatically when SQL Server service starts</p>
 <h2 id="description">Description</h2>
-<p>Used to designate one or more stored procedures to automatically execute when the SQL Server service is started.<br />
-Equivalent to running the system stored procedure sp_procoption with @OptionValue = on<br />
-Returns the SMO StoredProcedure object for procedures affected.</p>
+<p>Marks stored procedures in the master database for automatic execution during SQL Server startup, eliminating the need to manually run initialization scripts after service restarts.<br />
+This is essential for DBAs who need to ensure critical maintenance procedures, monitoring setup, or custom configurations are applied consistently every time the instance starts.<br />
+The function modifies the procedure's Startup property using SMO, which is equivalent to running sp_procoption with @OptionValue = 'on'.<br />
+Returns detailed information about each procedure processed, including success status and any error conditions encountered.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Enable-DbaStartupProcedure
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -574,7 +575,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="startupprocedure">-StartupProcedure</h5>
-<p>The Procedure(s) to process.<br></p>
+<p>Specifies the stored procedure(s) in the master database to enable for automatic startup execution. Accepts schema-qualified names like '[dbo].[MyStartupProc]' or simple names.<br />
+Use this when you need specific procedures to run automatically after SQL Server service restarts, such as initialization scripts, monitoring setup, or custom configuration procedures.<br />
+Multiple procedures can be specified as an array to enable several startup procedures in a single operation.<br></p>
 <table>
 <thead>
 <tr>

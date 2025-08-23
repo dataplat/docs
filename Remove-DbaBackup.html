@@ -485,12 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaBackup">Remove-DbaBackup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes SQL Server backups from disk.</p>
+<p>Removes SQL Server backup files from disk based on retention policies and file extension criteria.</p>
 <h2 id="description">Description</h2>
-<p>Removes SQL Server backups from disk.</p>
-<p>Provides all of the same functionality for removing SQL backups from disk as a standard maintenance plan would.</p>
-<p>As an addition you have the ability to check the Archive bit on files before deletion. This will allow you to ensure backups have been archived to your archive location before removal.</p>
-<p>Also included is the ability to remove empty folders as part of this cleanup activity.</p>
+<p>Recursively searches backup directories and removes SQL Server backup files older than your specified retention period. This function automates the tedious process of manually cleaning up old backup files to free disk space and maintain storage compliance.</p>
+<p>You can target specific backup types by extension (.bak, .trn, .dif) and define retention periods using flexible time units (hours, days, weeks, months). The Archive bit check ensures files are only deleted after they've been backed up to another location, preventing accidental loss of unarchived backups.</p>
+<p>Replaces the backup cleanup functionality found in SQL Server maintenance plans with more granular control and PowerShell automation. Optionally removes empty backup folders after file cleanup to keep your backup directory structure tidy.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaBackup
     [-Path] &lt;String&gt;
@@ -527,7 +526,8 @@ Archive bit.<br></p>
 <p>'*.bak' files in 'C:\MSSQL\Backup' and all subdirectories that are more than 1 week old will be removed. Any folders left empty will be removed as well.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the name of the base level folder to search for backup files. Deletion of backup files will be recursive from this location. <br></p>
+<p>Specifies the root directory where backup files are stored for cleanup. The function recursively searches all subdirectories from this location.<br />
+Use this to target your primary backup storage location, whether it's a local drive, network share, or mounted backup volume. <br></p>
 <table>
 <thead>
 <tr>
@@ -555,7 +555,8 @@ Archive bit.<br></p>
 </tbody>
 </table>
 <h5 id="backupfileextension">-BackupFileExtension</h5>
-<p>Specifies the filename extension of the backup files you wish to remove (typically 'bak', 'trn' or 'log'). Do not include the period. <br></p>
+<p>Specifies the file extension for the backup type to clean up. Common values are 'bak' for full backups, 'trn' for transaction log backups, or 'dif' for differential backups.<br />
+Use this to target specific backup types during cleanup, allowing you to apply different retention policies for each backup type. Do not include the period. <br></p>
 <table>
 <thead>
 <tr>
@@ -583,18 +584,10 @@ Archive bit.<br></p>
 </tbody>
 </table>
 <h5 id="retentionperiod">-RetentionPeriod</h5>
-<p>Specifies the retention period for backup files. Correct format is ##U.</p>
-<h2 id="is-the-retention-value-and-must-be-an-integer-value">is the retention value and must be an integer value</h2>
-<p>U signifies the units where the valid units are:<br />
-h = hours<br />
-d = days<br />
-w = weeks<br />
-m = months<br />
-Formatting Examples:<br />
-'48h' = 48 hours<br />
-'7d' = 7 days<br />
-'4w' = 4 weeks<br />
-'1m' = 1 month <br></p>
+<p>Defines how long to keep backup files before deletion, formatted as number plus unit (48h, 7d, 4w, 1m).<br />
+Use shorter periods for transaction log backups (24h-48h) and longer periods for full backups (1w-4w) based on your recovery requirements and storage capacity.<br />
+Valid units: h=hours, d=days, w=weeks, m=months<br />
+Examples: '48h' keeps files for 48 hours, '7d' for 7 days, '4w' for 4 weeks, '1m' for 1 month <br></p>
 <table>
 <thead>
 <tr>
@@ -623,8 +616,8 @@ Formatting Examples:<br />
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="checkarchivebit">-CheckArchiveBit</h5>
-<p>If this switch is enabled, the filesystem Archive bit is checked before deletion. If this bit is set (which translates to &quot;it has not been backed up to another location yet&quot;, the file won't be<br />
-deleted.<br></p>
+<p>Prevents deletion of files that haven't been archived to tape or another backup location by checking the Windows Archive bit.<br />
+Use this when you have a two-tier backup strategy where files are first copied to disk, then archived to tape or cloud storage before cleanup.<br></p>
 <table>
 <thead>
 <tr>
@@ -652,7 +645,8 @@ deleted.<br></p>
 </tbody>
 </table>
 <h5 id="removeemptybackupfolder">-RemoveEmptyBackupFolder</h5>
-<p>If this switch is enabled, empty folders will be removed after the cleanup process is complete.<br></p>
+<p>Removes directories that become empty after backup file cleanup to prevent folder structure clutter.<br />
+Use this to maintain a clean backup directory structure, especially when backup files are organized by database or date folders.<br></p>
 <table>
 <thead>
 <tr>

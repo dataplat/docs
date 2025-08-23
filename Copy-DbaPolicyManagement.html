@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaPolicyManagement">Copy-DbaPolicyManagement</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Migrates SQL Policy Based Management Objects, including both policies and conditions.</p>
+<p>Copies Policy-Based Management policies, conditions, and categories between SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>By default, all policies and conditions are copied. If an object already exist on the destination, it will be skipped unless -Force is used.</p>
-<p>The -Policy and -Condition parameters are auto-populated for command-line completion and can be used to copy only specific objects.</p>
+<p>Transfers your entire Policy-Based Management framework from one SQL Server instance to another, including custom policies, conditions, and categories. This streamlines environment standardization and disaster recovery scenarios where you need identical compliance policies across multiple servers.</p>
+<p>By default, all non-system policies and conditions are copied. Existing objects on the destination are skipped unless -Force is used to overwrite them. You can selectively copy specific policies or conditions using the include/exclude parameters, which provide auto-completion from the source server.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaPolicyManagement
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -527,7 +527,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Copies only one policy, 'xp_cmdshell must be disabled' from sqlserver2014a to sqlcluster. No conditions are migrated.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server.You must have sysadmin access and server version must be SQL Server version 2008 or higher. <br></p>
+<p>Specifies the source SQL Server instance containing the Policy-Based Management objects to copy. Must be SQL Server 2008 or higher with sysadmin access.<br />
+Use this to identify which server contains your existing policies, conditions, and categories that need to be replicated to other instances. <br></p>
 <table>
 <thead>
 <tr>
@@ -555,7 +556,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination Sql Server. You must have sysadmin access and server version must be SQL Server version 2008 or higher. <br></p>
+<p>Specifies one or more destination SQL Server instances where Policy-Based Management objects will be created. Must be SQL Server 2008 or higher with sysadmin access.<br />
+Use this when standardizing compliance policies across multiple environments like development, staging, and production servers. <br></p>
 <table>
 <thead>
 <tr>
@@ -584,9 +586,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the source SQL Server instance. Use when the current Windows credentials don't have access to the source.<br />
+Commonly needed when copying from production servers that require SQL Authentication or different Active Directory accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,9 +615,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Alternative credentials for connecting to the destination SQL Server instances. Use when the current Windows credentials don't have access to the destination servers.<br />
+Particularly useful when copying to servers in different domains or when using SQL Authentication on destination instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -644,7 +644,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="policy">-Policy</h5>
-<p>The policy(ies) to process - this list is auto-populated from the server. If unspecified, all policies will be processed.<br></p>
+<p>Specifies which policies to copy by name, with auto-completion from the source server. Only the specified policies and their dependent conditions are copied.<br />
+Use this when you need to copy specific compliance policies rather than the entire Policy-Based Management framework, such as copying only security-related policies.<br></p>
 <table>
 <thead>
 <tr>
@@ -672,7 +673,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludepolicy">-ExcludePolicy</h5>
-<p>The policy(ies) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies which policies to skip during the copy operation, with auto-completion from the source server. All other policies will be copied.<br />
+Use this to exclude environment-specific policies or policies that shouldn't be replicated, such as development-only or deprecated policies.<br></p>
 <table>
 <thead>
 <tr>
@@ -700,7 +702,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="condition">-Condition</h5>
-<p>The condition(s) to process - this list is auto-populated from the server. If unspecified, all conditions will be processed.<br></p>
+<p>Specifies which conditions to copy by name, with auto-completion from the source server. Only the specified conditions are copied without their associated policies.<br />
+Use this when you need to copy reusable conditions that can be referenced by multiple policies, such as server configuration or database naming conditions.<br></p>
 <table>
 <thead>
 <tr>
@@ -728,7 +731,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludecondition">-ExcludeCondition</h5>
-<p>The condition(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies which conditions to skip during the copy operation, with auto-completion from the source server. All other conditions will be copied.<br />
+Use this to exclude conditions that are environment-specific or no longer needed, while copying the rest of your condition library.<br></p>
 <table>
 <thead>
 <tr>
@@ -756,7 +760,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If policies exists on destination server, it will be dropped and recreated.<br></p>
+<p>Overwrites existing policies and conditions on the destination server by dropping and recreating them. Without this switch, existing objects are skipped.<br />
+Use this when updating existing Policy-Based Management objects or when you need to ensure destination objects match the source exactly.<br></p>
 <table>
 <thead>
 <tr>

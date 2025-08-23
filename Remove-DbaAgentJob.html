@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaAgentJob">Remove-DbaAgentJob</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Remove-DbaAgentJob removes a job.</p>
+<p>Removes SQL Server Agent jobs from one or more instances with options to preserve history and schedules.</p>
 <h2 id="description">Description</h2>
-<p>Remove-DbaAgentJob removes a job in the SQL Server Agent.</p>
+<p>Removes SQL Server Agent jobs from the target instances using the sp_delete_job system stored procedure. By default, both job history and unused schedules are deleted along with the job itself. You can optionally preserve job execution history for compliance or troubleshooting purposes, and keep unused schedules that might be reused for other jobs. This function is commonly used when decommissioning applications, cleaning up test environments, or removing obsolete maintenance jobs during server consolidation projects.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgentJob
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -581,7 +581,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job. Can be null if the the job id is being used.<br></p>
+<p>Specifies the name of the SQL Server Agent job to remove. Accepts one or more job names.<br />
+Use this when you know the specific job names you want to delete, rather than piping job objects.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="keephistory">-KeepHistory</h5>
-<p>Specifies to keep the history for the job. By default history is deleted.<br></p>
+<p>Preserves job execution history in the msdb.dbo.sysjobhistory tables when removing the job.<br />
+Use this when you need to retain audit trails or troubleshooting information for compliance or analysis purposes.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,8 +639,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="keepunusedschedule">-KeepUnusedSchedule</h5>
-<p>Specifies to keep the schedules attached to this job if they are not attached to any other job.<br />
-By default the unused schedule is deleted.<br></p>
+<p>Preserves job schedules that aren't used by other jobs when removing this job.<br />
+Use this when you plan to reuse the schedule for new jobs or want to maintain schedule definitions for documentation purposes.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +668,8 @@ By default the unused schedule is deleted.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts piped input from Get-DbaAgentJob<br></p>
+<p>Accepts SQL Server Agent job objects from the pipeline, typically from Get-DbaAgentJob.<br />
+Use this approach when you need to filter jobs with complex criteria before removal or when processing jobs from multiple instances.<br></p>
 <table>
 <thead>
 <tr>

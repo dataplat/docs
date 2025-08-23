@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Backup-DbaDbMasterKey">Backup-DbaDbMasterKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Backs up specified database master key.</p>
+<p>Exports database master keys to encrypted backup files for disaster recovery and compliance.</p>
 <h2 id="description">Description</h2>
-<p>Backs up specified database master key.</p>
+<p>Creates encrypted backup files of database master keys from one or more SQL Server databases. Database master keys are essential for Transparent Data Encryption (TDE), column-level encryption, and other SQL Server encryption features.</p>
+<p>This function is critical for disaster recovery planning since losing a database master key makes encrypted data permanently inaccessible. The exported keys are password-protected and can be restored using Restore-DbaDbMasterKey or T-SQL commands.</p>
+<p>Works with databases that contain master keys and saves backup files to the server's default backup directory or a specified path. Each backup file uses a unique naming convention to prevent overwrites during multiple exports.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Backup-DbaDbMasterKey
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -609,7 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Backup master key from specific database(s).<br></p>
+<p>Specifies which databases to export master keys from. Only databases containing master keys will be processed.<br />
+Use this when you need to backup encryption keys from specific databases rather than all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server.<br></p>
+<p>Excludes specific databases from master key backup operations. Auto-completes with available database names.<br />
+Useful when backing up master keys from most databases but skipping test, development, or non-encrypted databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +669,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="securepassword">-SecurePassword</h5>
-<p>The password to encrypt the exported key. This must be a SecureString.<br></p>
+<p>Password used to encrypt the exported master key backup files. Must be provided as a SecureString object.<br />
+This password will be required when restoring the master keys, so store it securely with your backup documentation.<br />
+If not specified, you'll be prompted to enter the password interactively for each database.<br></p>
 <table>
 <thead>
 <tr>
@@ -693,7 +699,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The directory to export the key. If no path is specified, the default backup directory for the instance will be used.<br></p>
+<p>Directory path where master key backup files will be saved. Accepts local paths or UNC network shares.<br />
+Defaults to the SQL Server instance's configured backup directory if not specified.<br />
+The SQL Server service account must have write permissions to the specified location.<br></p>
 <table>
 <thead>
 <tr>
@@ -721,8 +729,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filebasename">-FileBaseName</h5>
-<p>Override the default naming convention with a fixed name for the database master key, useful when exporting a single one.<br />
-&quot;.key&quot; will be appended to the filename.<br></p>
+<p>Overrides the default file naming convention with a custom base name for the backup file.<br />
+Useful when exporting a single database's master key and you want a specific filename for documentation or automation.<br />
+The &quot;.key&quot; extension is automatically appended to whatever name you specify.<br></p>
 <table>
 <thead>
 <tr>
@@ -750,7 +759,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Database object piped in from Get-DbaDatabase<br></p>
+<p>Accepts database objects piped from Get-DbaDatabase or other dbatools database commands.<br />
+Allows you to filter databases using Get-DbaDatabase parameters before piping to this function for master key backup.<br></p>
 <table>
 <thead>
 <tr>

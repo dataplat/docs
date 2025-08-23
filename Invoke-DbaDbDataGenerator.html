@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbDataGenerator">Invoke-DbaDbDataGenerator</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Invoke-DbaDbDataGenerator generates random data for tables</p>
+<p>Generates realistic test data for SQL Server database tables using configuration-driven rules</p>
 <h2 id="description">Description</h2>
-<p>Invoke-DbaDbDataMasking is able to generate random data for tables.</p>
+<p>Populates database tables with randomly generated but realistic test data based on JSON configuration files. Uses the Bogus library to create fake but believable data like names, addresses, phone numbers, and dates that respect column constraints and data types. Perfect for creating development environments, testing scenarios, or demo databases without using production data. Handles identity columns, unique indexes, nullable fields, and foreign key relationships while maintaining data integrity.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDbDataGenerator
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -517,7 +517,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 Apply the data generation configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2. Prompt for confirmation for each table.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="filepath">-FilePath</h5>
-<p>Configuration file that contains the which tables and columns need to be masked <br></p>
+<p>Path to the JSON configuration file that defines data generation rules for tables and columns. Accepts local file paths or HTTP URLs.<br />
+This file specifies which tables to populate, how many rows to generate, and the data generation rules for each column. <br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +605,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Databases to process through<br></p>
+<p>Specifies which databases to generate data for. If not provided, uses database names from the configuration file.<br />
+Use this to limit data generation to specific databases when your config file covers multiple databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +634,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="locale">-Locale</h5>
-<p>Set the local to enable certain settings in the masking<br></p>
+<p>Sets the locale for generating culture-specific fake data like names, addresses, and phone numbers. Defaults to 'en' for English.<br />
+Change this when you need realistic data for specific regions, such as 'de' for German or 'fr' for French test data.<br></p>
 <table>
 <thead>
 <tr>
@@ -660,7 +663,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="characterstring">-CharacterString</h5>
-<p>The characters to use in string data. 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789' by default<br></p>
+<p>Defines the character set used for generating random string values. Defaults to alphanumeric characters.<br />
+Customize this when you need specific character patterns for testing, such as restricting to only uppercase letters or including special characters.<br></p>
 <table>
 <thead>
 <tr>
@@ -688,7 +692,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>Tables to process. By default all the tables will be processed<br></p>
+<p>Limits data generation to specific tables only, overriding the full table list in the configuration file.<br />
+Useful when you need to populate just certain tables for testing or during incremental development work.<br></p>
 <table>
 <thead>
 <tr>
@@ -716,7 +721,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="column">-Column</h5>
-<p>Columns to process. By default all the columns will be processed<br></p>
+<p>Restricts data generation to specific columns within the processed tables.<br />
+Use this to generate data for only certain columns during testing or when troubleshooting specific column configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -744,7 +750,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludetable">-ExcludeTable</h5>
-<p>Exclude specific tables even if it's listed in the config file.<br></p>
+<p>Skips specific tables even if they're included in the configuration file.<br />
+Use this to temporarily exclude problematic tables during testing or when you want to process most tables but skip a few.<br></p>
 <table>
 <thead>
 <tr>
@@ -772,7 +779,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludecolumn">-ExcludeColumn</h5>
-<p>Exclude specific columns even if it's listed in the config file.<br></p>
+<p>Skips specific columns even if they're included in the configuration file.<br />
+Helpful when troubleshooting column-specific issues or when you want to exclude sensitive columns temporarily.<br></p>
 <table>
 <thead>
 <tr>
@@ -800,8 +808,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="maxvalue">-MaxValue</h5>
-<p>Force a max length of strings instead of relying on datatype maxes. Note if a string datatype has a lower MaxValue, that will be used instead.<br />
-Useful for adhoc updates and testing, otherwise, the config file should be used.<br></p>
+<p>Overrides the maximum length for string columns, ignoring the data type's natural limits. Lower data type limits still take precedence.<br />
+Useful for testing with shorter strings or when you need consistent string lengths across different environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -829,7 +837,8 @@ Useful for adhoc updates and testing, otherwise, the config file should be used.
 </tbody>
 </table>
 <h5 id="exactlength">-ExactLength</h5>
-<p>Mask string values to the same length. So 'Tate' will be replaced with 4 random characters.<br></p>
+<p>Forces generated strings to match the exact length of existing data in the column.<br />
+Use this when you need to preserve string length patterns for testing applications that expect specific data formats.<br></p>
 <table>
 <thead>
 <tr>
@@ -857,7 +866,8 @@ Useful for adhoc updates and testing, otherwise, the config file should be used.
 </tbody>
 </table>
 <h5 id="modulusfactor">-ModulusFactor</h5>
-<p>Calculating the next nullable by using the remainder from the modulus. Default is every 10.<br></p>
+<p>Controls how frequently nullable columns receive NULL values by using modulus calculation. Default is every 10th row gets NULL.<br />
+Adjust this to increase or decrease NULL frequency in your test data to match realistic data distribution patterns.<br></p>
 <table>
 <thead>
 <tr>

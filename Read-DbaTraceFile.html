@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Read-DbaTraceFile">Read-DbaTraceFile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Reads SQL Server trace files</p>
+<p>Parses SQL Server trace files and extracts events for security auditing and performance analysis</p>
 <h2 id="description">Description</h2>
-<p>Using the fn_trace_gettable function, a trace file is read and returned as a PowerShell object</p>
-<p>This function returns the whole of the trace file. The information is presented in the format that the trace subsystem uses.</p>
+<p>Reads SQL Server trace files (.trc) using the fn_trace_gettable function and returns events as PowerShell objects for analysis. This function is essential for DBAs who need to investigate security incidents, audit database access, troubleshoot performance issues, or extract compliance data from trace files.</p>
+<p>The function can read both active trace files and archived trace files, including SQL Server's default trace that automatically captures configuration changes, login failures, and other critical events. You can filter results by database, login, application, event type, or use custom WHERE clauses to pinpoint specific activities.</p>
+<p>Common use cases include analyzing failed login attempts for security breaches, identifying slow-running queries affecting performance, tracking schema changes for change management, and extracting audit trails for compliance reporting.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Read-DbaTraceFile
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -591,7 +592,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Path to the trace file. This path is relative to the SQL Server instance.<br></p>
+<p>Specifies the full path to the trace file (.trc) on the SQL Server instance.<br />
+When omitted, reads from the default system trace that automatically captures configuration changes and security events.<br />
+Use this when analyzing specific trace files created by custom traces or archived default traces.<br></p>
 <table>
 <thead>
 <tr>
@@ -619,7 +622,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Search for results only with specific DatabaseName. Uses IN for comparisons.<br></p>
+<p>Filters trace events to show only those affecting specific databases by name.<br />
+Use this to focus analysis on particular databases when investigating issues or tracking changes.<br />
+Accepts multiple database names and supports wildcards for pattern matching.<br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +652,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>Search for results only with specific Logins. Uses IN for comparisons.<br></p>
+<p>Filters trace events to show only those performed by specific SQL Server logins.<br />
+Essential for security investigations to track activities by suspected user accounts or service accounts.<br />
+Accepts multiple login names for comprehensive user activity analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,7 +682,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="spid">-Spid</h5>
-<p>Search for results only with specific Spids. Uses IN for comparisons.<br></p>
+<p>Filters trace events to show only those from specific Session Process IDs (SPIDs).<br />
+Useful for tracking all activities within particular database sessions or troubleshooting specific connection issues.<br />
+Accepts multiple SPID values to monitor several concurrent sessions.<br></p>
 <table>
 <thead>
 <tr>
@@ -703,7 +712,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="eventclass">-EventClass</h5>
-<p>Search for results only with specific EventClasses. Uses IN for comparisons.<br></p>
+<p>Filters trace events by event class numbers to focus on specific types of database activities.<br />
+Common values include login events (14), logout events (15), SQL statements (10-12), and security audit events (102-111).<br />
+Use this to narrow analysis to particular event types like failed logins or DDL changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -731,7 +742,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="objecttype">-ObjectType</h5>
-<p>Search for results only with specific ObjectTypes. Uses IN for comparisons.<br></p>
+<p>Filters trace events by the type of database object being accessed or modified.<br />
+Common values include tables, views, stored procedures, functions, and triggers.<br />
+Use this when investigating changes to specific types of database objects during schema modifications.<br></p>
 <table>
 <thead>
 <tr>
@@ -759,7 +772,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="errorid">-ErrorId</h5>
-<p>Search for results only with specific Errors. Filters 'Error in ($ErrorId)'  Uses IN for comparisons.<br></p>
+<p>Filters trace events to show only those with specific SQL Server error numbers.<br />
+Common values include login failures (18456), permission denied (229), and deadlock victims (1205).<br />
+Use this to focus on particular error conditions when troubleshooting recurring issues or security events.<br></p>
 <table>
 <thead>
 <tr>
@@ -787,7 +802,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="eventsequence">-EventSequence</h5>
-<p>Search for results only with specific EventSequences. Uses IN for comparisons.<br></p>
+<p>Filters trace events by their sequence number within the trace file.<br />
+Use this to retrieve specific events when you know their exact sequence numbers from previous analysis.<br />
+Helpful for pinpointing events that occurred at precise moments during an incident.<br></p>
 <table>
 <thead>
 <tr>
@@ -815,7 +832,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="textdata">-TextData</h5>
-<p>Search for results only with specific TextData. Uses LIKE for comparisons.<br></p>
+<p>Filters trace events by searching within the SQL statements or command text using pattern matching.<br />
+Use this to find specific queries, stored procedure calls, or SQL commands that contain particular keywords.<br />
+Supports partial text matching, making it ideal for finding all queries containing specific table names or SQL constructs.<br></p>
 <table>
 <thead>
 <tr>
@@ -843,7 +862,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="applicationname">-ApplicationName</h5>
-<p>Search for results only with specific ApplicationNames. Uses LIKE for comparisons.<br></p>
+<p>Filters trace events by the application name that initiated the database connection.<br />
+Use this to isolate activities from specific applications like SQL Server Management Studio, custom applications, or services.<br />
+Supports pattern matching to group similar application names or versions together.<br></p>
 <table>
 <thead>
 <tr>
@@ -871,7 +892,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="objectname">-ObjectName</h5>
-<p>Search for results only with specific ObjectNames. Uses LIKE for comparisons.<br></p>
+<p>Filters trace events by the name of the database object being accessed or modified.<br />
+Use this to track all operations against specific tables, views, procedures, or other database objects.<br />
+Supports pattern matching to find objects with similar naming conventions or prefixes.<br></p>
 <table>
 <thead>
 <tr>
@@ -899,7 +922,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="where">-Where</h5>
-<p>Custom where clause - use without the word &quot;WHERE&quot;. Here are the available columns:<br />
+<p>Specifies a custom SQL WHERE clause for complex filtering beyond the standard parameters.<br />
+Use this for advanced queries combining multiple conditions, date ranges, or custom logic that other parameters cannot achieve.<br />
+Do not include the word &quot;WHERE&quot; - it is added automatically. Here are the available columns:<br />
 TextData<br />
 BinaryData<br />
 DatabaseID<br />

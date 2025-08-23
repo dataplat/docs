@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaSysDbUserObject">Export-DbaSysDbUserObject</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports all user objects found in source SQL Server's master, msdb and model databases to the FilePath.</p>
+<p>Discovers and exports user-created objects from SQL Server system databases (master, model, msdb) to SQL script files.</p>
 <h2 id="description">Description</h2>
-<p>Exports all user objects found in source SQL Server's master, msdb and model databases to the FilePath.</p>
+<p>Scans the master, model, and msdb system databases to identify tables, views, stored procedures, functions, triggers, and other objects that were created by users rather than SQL Server itself. This function helps DBAs document custom objects that may have been inadvertently created in system databases, which is critical for server migrations, compliance audits, and maintaining clean system database environments. The exported SQL scripts can be used to recreate these objects on other instances or to review what custom code exists in your system databases.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaSysDbUserObject
     [-SqlInstance] &lt;DbaInstanceParameter&gt;
@@ -572,7 +572,8 @@ Windows and SQL Authentication supported. Accepts credential objects (Get-Creden
 </tbody>
 </table>
 <h5 id="includedependencies">-IncludeDependencies</h5>
-<p>Specifies whether dependent objects are also scripted out.<br></p>
+<p>Includes dependent objects in the scripted output when exporting user objects.<br />
+Use this when your custom objects have dependencies that need to be recreated together on the target instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +601,8 @@ Windows and SQL Authentication supported. Accepts credential objects (Get-Creden
 </tbody>
 </table>
 <h5 id="batchseparator">-BatchSeparator</h5>
-<p>Batch separator for scripting output. &quot;GO&quot; by default.<br></p>
+<p>Sets the batch separator used between SQL statements in the exported script files. Defaults to &quot;GO&quot;.<br />
+Change this when you need compatibility with specific SQL tools that use different batch separators.<br></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +630,8 @@ Windows and SQL Authentication supported. Accepts credential objects (Get-Creden
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br></p>
+<p>Specifies the directory where the exported SQL script file will be created. Uses the dbatools default export path if not specified.<br />
+Provide this when you need the script saved to a specific location for documentation or deployment purposes.<br></p>
 <table>
 <thead>
 <tr>
@@ -656,7 +659,8 @@ Windows and SQL Authentication supported. Accepts credential objects (Get-Creden
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file.<br></p>
+<p>Specifies the complete file path including filename for the exported SQL script.<br />
+Use this instead of Path when you need precise control over the output file name and location.<br></p>
 <table>
 <thead>
 <tr>
@@ -684,7 +688,8 @@ Windows and SQL Authentication supported. Accepts credential objects (Get-Creden
 </tbody>
 </table>
 <h5 id="noprefix">-NoPrefix</h5>
-<p>If this switch is used, the scripts will not include prefix information containing creator and datetime.<br></p>
+<p>Excludes header information from the exported scripts, removing creator details and timestamp comments.<br />
+Use this when you need clean scripts without metadata for version control or when the header information is not needed.<br></p>
 <table>
 <thead>
 <tr>
@@ -712,7 +717,8 @@ Windows and SQL Authentication supported. Accepts credential objects (Get-Creden
 </tbody>
 </table>
 <h5 id="scriptingoptionsobject">-ScriptingOptionsObject</h5>
-<p>Add scripting options to scripting output.<br></p>
+<p>Provides a custom ScriptingOptions object to control how objects are scripted, including permissions, indexes, and constraints.<br />
+Use this when you need specific scripting behavior beyond the default options, such as excluding certain object properties.<br></p>
 <table>
 <thead>
 <tr>
@@ -740,7 +746,8 @@ Windows and SQL Authentication supported. Accepts credential objects (Get-Creden
 </tbody>
 </table>
 <h5 id="noclobber">-NoClobber</h5>
-<p>Do not overwrite file.<br></p>
+<p>Prevents overwriting existing files at the target location and throws an error if the file already exists.<br />
+Use this as a safety measure when you want to avoid accidentally replacing existing script files.<br></p>
 <table>
 <thead>
 <tr>
@@ -768,7 +775,8 @@ Windows and SQL Authentication supported. Accepts credential objects (Get-Creden
 </tbody>
 </table>
 <h5 id="passthru">-PassThru</h5>
-<p>Output script to console.<br></p>
+<p>Outputs the generated SQL scripts directly to the PowerShell console instead of saving to a file.<br />
+Use this when you want to review the scripts immediately or pipe them to other cmdlets for further processing.<br></p>
 <table>
 <thead>
 <tr>

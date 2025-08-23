@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaCycleErrorLog">Invoke-DbaCycleErrorLog</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Cycles the current instance or agent log.</p>
+<p>Cycles the current SQL Server error log and/or SQL Agent error log to start fresh log files</p>
 <h2 id="description">Description</h2>
-<p>Cycles the current error log for the instance (SQL Server) and/or SQL Server Agent.</p>
+<p>Archives the current error log files and creates new ones for SQL Server instance and/or SQL Agent. This operation is typically performed during maintenance windows to manage log file sizes and establish clean baselines for troubleshooting. When cycled, the current error log becomes the archived log (errorlog.1) and a new error log starts capturing events.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaCycleErrorLog
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -575,8 +575,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The log to cycle.<br />
-Accepts: instance or agent.<br></p>
+<p>Specifies which error log to cycle: 'instance' for SQL Server instance log, 'agent' for SQL Agent log.<br />
+When omitted, cycles both logs simultaneously which is the typical maintenance approach.<br />
+Use specific values when you need to manage log sizes independently or troubleshoot specific services.<br></p>
 <table>
 <thead>
 <tr>

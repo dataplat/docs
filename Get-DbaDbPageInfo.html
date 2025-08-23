@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbPageInfo">Get-DbaDbPageInfo</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get-DbaDbPageInfo will return page information for a database</p>
+<p>Retrieves detailed page allocation information from SQL Server databases for storage analysis and troubleshooting</p>
 <h2 id="description">Description</h2>
-<p>Get-DbaDbPageInfo is able to return information about the pages in a database.<br />
-It's possible to return the information for multiple databases and filter on specific databases, schemas and tables.</p>
+<p>This function queries the sys.dm_db_database_page_allocations dynamic management view to return detailed information about page allocation, including page type, free space percentage, allocation status, and mixed page allocation indicators.<br />
+Use this when troubleshooting storage issues, analyzing space utilization patterns, or investigating page-level performance problems in your databases.<br />
+Results can be filtered by specific databases, schemas, and tables to focus your analysis on problem areas.<br />
+Requires SQL Server 2012 or higher as it depends on the sys.dm_db_database_page_allocations DMV.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbPageInfo
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -576,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Filter to only get specific databases<br></p>
+<p>Specifies which databases to analyze for page allocation information. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases rather than scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>Filter to only get specific schemas<br></p>
+<p>Limits the analysis to tables within specific schemas only. Multiple schema names can be provided.<br />
+Helpful when troubleshooting page issues in specific application schemas or when you want to exclude system schemas from results.<br></p>
 <table>
 <thead>
 <tr>
@@ -632,7 +636,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>Filter to only get specific tables<br></p>
+<p>Restricts page information retrieval to specific tables only. Can be combined with Schema parameter for precise targeting.<br />
+Use this when investigating page allocation problems for known problematic tables or when performing focused storage analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -660,7 +665,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects piped from Get-DbaDatabase, allowing you to chain commands together.<br />
+This enables scenarios like getting databases from multiple instances and then analyzing their page information in a single pipeline.<br></p>
 <table>
 <thead>
 <tr>

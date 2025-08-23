@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbSnapshot">New-DbaDbSnapshot</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates database snapshots</p>
+<p>Creates database snapshots for point-in-time recovery and testing scenarios</p>
 <h2 id="description">Description</h2>
-<p>Creates database snapshots without hassles</p>
+<p>Creates read-only database snapshots that capture the state of a database at a specific moment in time. Snapshots provide a fast way to revert databases to a previous state without restoring from backup files, making them ideal for pre-maintenance snapshots, testing scenarios, or quick rollback points.</p>
+<p>The function automatically generates snapshot file names with timestamps and handles the underlying file structure creation. Snapshots share pages with the source database until changes occur, making them storage-efficient for short-term use. Note that snapshots are not a replacement for regular backups and should be dropped when no longer needed to avoid performance impacts.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbSnapshot
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -589,7 +590,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to create snapshots for. Accepts an array of database names.<br />
+Use this when you need snapshots for specific databases rather than all databases on the instance.<br />
+Cannot be used together with AllDatabases parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -617,7 +620,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific databases from snapshot creation when using AllDatabases.<br />
+Useful when you want to snapshot most databases but skip certain ones like development or staging databases.<br />
+Accepts an array of database names to exclude from the operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -645,7 +650,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alldatabases">-AllDatabases</h5>
-<p>Creates snapshot for all eligible databases<br></p>
+<p>Creates snapshots for all user databases on the instance that support snapshotting.<br />
+Automatically excludes system databases (master, model, tempdb), snapshots, and databases with memory-optimized filegroups.<br />
+Use this when you need to create snapshots for disaster recovery or before major maintenance operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -673,8 +680,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The specific snapshot name you want to create. Works only if you target a single database. If you need to create multiple snapshot,<br />
-you must use the NameSuffix parameter<br></p>
+<p>Sets a custom name for the database snapshot. Only works when targeting a single database.<br />
+Use this when you need a meaningful snapshot name like 'Sales_PreUpgrade' instead of the default timestamped name.<br />
+For multiple databases, use NameSuffix parameter instead to avoid naming conflicts.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,8 +710,9 @@ you must use the NameSuffix parameter<br></p>
 </tbody>
 </table>
 <h5 id="namesuffix">-NameSuffix</h5>
-<p>When you pass a simple string, it'll be appended to use it to build the name of the snapshot. By default snapshots are created with yyyyMMdd_HHmmss suffix<br />
-You can also pass a standard placeholder, in which case it'll be interpolated (e.g. '{0}' gets replaced with the database name)<br></p>
+<p>Customizes the suffix appended to database names when creating snapshots. Defaults to yyyyMMdd_HHmmss format.<br />
+Use simple strings like '_PrePatch' or templates with {0} placeholder where {0} represents the database name.<br />
+Examples: '<em>BeforeMaintenance' creates 'HR_BeforeMaintenance', or 'Snap</em>{0}_v1' creates 'Snap_HR_v1'.<br></p>
 <table>
 <thead>
 <tr>
@@ -731,7 +740,9 @@ You can also pass a standard placeholder, in which case it'll be interpolated (e
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Snapshot files will be created here (by default the file structure will be created in the same folder as the base db)<br></p>
+<p>Specifies the directory where snapshot files will be stored. Defaults to the same location as the source database files.<br />
+Use this when you need snapshots on different storage for performance or capacity reasons.<br />
+The SQL Server service account must have write access to the specified path.<br></p>
 <table>
 <thead>
 <tr>
@@ -759,10 +770,9 @@ You can also pass a standard placeholder, in which case it'll be interpolated (e
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Databases with Filestream FG can be snapshotted, but the Filestream FG is marked offline<br />
-in the snapshot. To create a &quot;partial&quot; snapshot, you need to pass -Force explicitly<br />
-NB: You can't then restore the Database from the newly-created snapshot.<br />
-For details, check <a href="https://msdn.microsoft.com/en-us/library/bb895334.aspx">https://msdn.microsoft.com/en-us/library/bb895334.aspx</a><br></p>
+<p>Creates partial snapshots for databases containing FILESTREAM filegroups. FILESTREAM data is excluded and marked offline in the snapshot.<br />
+Use this when you need to snapshot databases with FILESTREAM for testing or point-in-time analysis of non-FILESTREAM data.<br />
+Warning: Databases cannot be restored from partial snapshots due to the missing FILESTREAM data.<br></p>
 <table>
 <thead>
 <tr>
@@ -790,7 +800,9 @@ For details, check <a href="https://msdn.microsoft.com/en-us/library/bb895334.as
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows Piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase for pipeline operations.<br />
+Enables scenarios like filtering databases with specific criteria before creating snapshots.<br />
+Example: Get-DbaDatabase -SqlInstance sql01 | Where-Object Size -gt 1000 | New-DbaDbSnapshot<br></p>
 <table>
 <thead>
 <tr>

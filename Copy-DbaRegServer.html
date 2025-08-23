@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaRegServer">Copy-DbaRegServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Migrates SQL Server Central Management groups and server instances from one SQL Server to another.</p>
+<p>Copies Central Management Server groups and registered server instances between SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Copy-DbaRegServer copies all groups, subgroups, and server instances from one SQL Server to another.</p>
+<p>Migrates registered servers and server groups from a source Central Management Server to a destination CMS, preserving the hierarchical structure of groups and subgroups. This eliminates the need to manually recreate complex server organization structures when setting up new environments or consolidating server management. The function handles conflicts by either skipping existing items or dropping and recreating them when Force is specified.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaRegServer
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -523,7 +523,8 @@ migrating instance is &quot;sqlcluster&quot;, it will be switched to &quot;sqlse
 If SwitchServerName is not specified, &quot;sqlcluster&quot; will be skipped.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>Source SQL Server instance containing the Central Management Server to copy from. You must have sysadmin access and server version must be SQL Server version 2000 or higher.<br />
+This is where your existing CMS groups and registered servers are currently stored. <br></p>
 <table>
 <thead>
 <tr>
@@ -551,7 +552,8 @@ If SwitchServerName is not specified, &quot;sqlcluster&quot; will be skipped.<br
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Destination SQL Server instance where CMS groups and registered servers will be copied to. You must have sysadmin access and the server must be SQL Server 2000 or higher.<br />
+This instance will become the new Central Management Server containing the migrated server registrations. <br></p>
 <table>
 <thead>
 <tr>
@@ -580,9 +582,8 @@ If SwitchServerName is not specified, &quot;sqlcluster&quot; will be skipped.<br
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the source SQL Server instance when Windows Authentication is not available. Accepts PowerShell credentials (Get-Credential).<br />
+Use this when the source server requires SQL Authentication or different Windows credentials than your current session.<br></p>
 <table>
 <thead>
 <tr>
@@ -610,9 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the destination SQL Server instance when Windows Authentication is not available. Accepts PowerShell credentials (Get-Credential).<br />
+Use this when the destination server requires SQL Authentication or different Windows credentials than your current session.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,8 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="group">-Group</h5>
-<p>This is an auto-populated array that contains your Central Management Server top-level groups on Source. You can specify one, many or none.<br />
-If Group is not specified, all groups in your Central Management Server will be copied.<br></p>
+<p>Specifies which top-level CMS groups to copy from the source server. Accepts one or more group names as an array.<br />
+When omitted, all groups and their registered servers are copied. Use this to selectively migrate specific environments like 'Production' or 'Development' groups.<br></p>
 <table>
 <thead>
 <tr>
@@ -669,8 +669,9 @@ If Group is not specified, all groups in your Central Management Server will be 
 </tbody>
 </table>
 <h5 id="switchservername">-SwitchServerName</h5>
-<p>If this switch is enabled, all instance names will be changed from Source to Destination.<br />
-Central Management Server does not allow you to add a shared registered server with the same name as the Configuration Server.<br></p>
+<p>Replaces source server name references with the destination server name during migration.<br />
+Use this when the source CMS server itself is registered within the groups and you want it renamed to the destination server name. Prevents conflicts since CMS cannot register itself as a managed<br />
+server.<br></p>
 <table>
 <thead>
 <tr>
@@ -698,7 +699,8 @@ Central Management Server does not allow you to add a shared registered server w
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, group(s) will be dropped and recreated if they already exists on destination.<br></p>
+<p>Drops and recreates existing groups and registered servers at the destination instead of skipping them.<br />
+Use this to overwrite conflicting CMS configurations when consolidating multiple Central Management Servers or updating existing registrations.<br></p>
 <table>
 <thead>
 <tr>

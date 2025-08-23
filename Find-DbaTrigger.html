@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaTrigger">Find-DbaTrigger</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns all triggers that contain a specific case-insensitive string or regex pattern.</p>
+<p>Searches trigger code across server, database, and object levels for specific text patterns or regex matches.</p>
 <h2 id="description">Description</h2>
-<p>This function search on Instance, Database and Object level.<br />
-If you specify one or more databases, search on Server level will not be preformed.</p>
+<p>Searches through SQL Server trigger definitions to find specific text patterns, supporting both literal strings and regular expressions. Examines triggers at three levels: server-level triggers, database-level DDL triggers, and object-level DML triggers on tables and views.</p>
+<p>This is particularly useful when you need to find triggers that reference specific objects before making schema changes, locate hardcoded values that need updating, or audit trigger code for compliance requirements. The function returns matching lines with line numbers, making it easy to pinpoint exactly where patterns occur in trigger code.</p>
+<p>When you specify specific databases, server-level trigger searches are skipped to focus the search scope. The function uses efficient SQL queries against system catalog views to examine trigger definitions without loading all trigger objects into memory.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaTrigger
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -552,7 +553,9 @@ If you specify one or more databases, search on Server level will not be preform
 </tbody>
 </table>
 <h5 id="pattern">-Pattern</h5>
-<p>String pattern that you want to search for in the trigger text body <br></p>
+<p>The text pattern or regular expression to search for within trigger definitions. Supports full regex syntax for complex pattern matching.<br />
+Use this to find triggers containing specific table names, column references, or code patterns before making schema changes.<br />
+Results show matching lines with line numbers to pinpoint exactly where the pattern occurs. <br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +614,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to search for triggers. Accepts an array of database names for targeting specific databases.<br />
+When specified, server-level triggers are automatically excluded from the search to focus on database and object-level triggers.<br />
+If omitted, searches all user databases plus any server-level triggers.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +644,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific databases from the trigger search. Accepts an array of database names to skip during processing.<br />
+Use this when you want to search most databases but avoid specific ones like staging or temporary databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,7 +673,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="triggerlevel">-TriggerLevel</h5>
-<p>Allows specify the trigger level that you want to search. By default is All (Server, Database, Object).<br></p>
+<p>Controls which types of triggers to search: Server (instance-level logon triggers), Database (DDL triggers), Object (DML triggers on tables and views), or All.<br />
+Use specific levels to narrow your search when you know what type of trigger contains the pattern you're looking for.<br />
+Defaults to All, which searches server-level triggers, database DDL triggers, and object-level DML triggers.<br></p>
 <table>
 <thead>
 <tr>
@@ -699,8 +707,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemobjects">-IncludeSystemObjects</h5>
-<p>By default, system triggers are ignored but you can include them within the search using this parameter.<br />
-Warning - this will likely make it super slow if you run it on all databases.<br></p>
+<p>Includes system-created triggers in the search results. By default, only user-created triggers are searched.<br />
+Use this when you need to examine built-in triggers for troubleshooting or audit purposes.<br />
+Warning: This significantly impacts performance when searching across multiple databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -728,7 +737,8 @@ Warning - this will likely make it super slow if you run it on all databases.<br
 </tbody>
 </table>
 <h5 id="includesystemdatabases">-IncludeSystemDatabases</h5>
-<p>By default system databases are ignored but you can include them within the search using this parameter<br></p>
+<p>Includes system databases (master, model, msdb, tempdb) in the trigger search. By default, only user databases are searched.<br />
+Use this when troubleshooting system-level issues or when you need to examine triggers in system databases for audit purposes.<br></p>
 <table>
 <thead>
 <tr>

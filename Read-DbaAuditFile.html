@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Read-DbaAuditFile">Read-DbaAuditFile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Read Audit details from *.sqlaudit files.</p>
+<p>Parses SQL Server audit files (.sqlaudit) into structured event data for security analysis and compliance reporting.</p>
 <h2 id="description">Description</h2>
-<p>Read Audit details from *.sqlaudit files.</p>
+<p>Reads and parses SQL Server audit files (.sqlaudit) created by SQL Server Audit functionality, converting binary audit data into readable PowerShell objects. Each audit event is returned with its timestamp, event details, fields, and actions in a structured format that's easy to filter, export, or analyze. This is essential for security investigations, compliance reporting, and monitoring database access patterns since SQL Server audit files are stored in a proprietary binary format that can't be read directly. Works with local files, UNC paths, or can be piped from Get-DbaInstanceAudit to automatically locate and read audit files from remote instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Read-DbaAuditFile
     [-Path] &lt;Object[]&gt;
@@ -513,7 +513,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Reads remote Audit details by accessing the file over the admin UNC share.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>The path to the *.sqlaudit file. This is relative to the computer executing the command. UNC paths are supported. <br></p>
+<p>Specifies the path to SQL Server audit files (.sqlaudit) to read and parse. Accepts file paths, FileInfo objects from Get-ChildItem, or Audit objects from Get-DbaInstanceAudit.<br />
+Supports UNC paths for reading remote files and automatically expands wildcards to process multiple related audit files. Use this when you need to analyze audit data from specific files or when<br />
+piping from other dbatools audit commands. <br></p>
 <table>
 <thead>
 <tr>
@@ -542,7 +544,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="raw">-Raw</h5>
-<p>If this switch is enabled, the enumeration object will be returned.<br></p>
+<p>Returns the unprocessed enumeration object instead of structured PowerShell objects.<br />
+Use this when you need access to the raw audit data structure for custom processing or when working with audit parsing tools that expect the native format.<br></p>
 <table>
 <thead>
 <tr>

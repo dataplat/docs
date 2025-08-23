@@ -485,25 +485,26 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Rename-DbaDatabase">Rename-DbaDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Changes database name, logical file names, file group names and physical file names (optionally handling the move). BETA VERSION.</p>
+<p>Renames database names, filegroups, logical files, and physical files using customizable templates with placeholder support.</p>
 <h2 id="description">Description</h2>
-<p>Can change every database metadata that can be renamed.<br />
-The ultimate goal is choosing to have a default template to enforce in your environment<br />
-so your naming convention for every bit can be put in place in no time.<br />
-The process is as follows (it follows the hierarchy of the entities):</p>
+<p>Systematically renames all database components using template-based naming conventions to enforce consistent standards across your SQL Server environment.<br />
+This function addresses the common challenge of standardizing database naming when inheriting inconsistent systems or implementing new naming policies.</p>
+<p>The renaming process follows SQL Server's object hierarchy and executes in this order:</p>
 <ul>
-<li>database name is changed (optionally, forcing users out)</li>
-<li>filegroup name(s) are changed accordingly</li>
-<li>logical name(s) are changed accordingly</li>
-<li>physical file(s) are changed accordingly</li>
-<li>if Move is specified, the database will be taken offline and the move will initiate, then it will be taken online</li>
-<li>if Move is not specified, the database remains online (unless SetOffline), and you are in charge of moving files<br />
-If any of the above fails, the process stops.<br />
-Please take a backup of your databases BEFORE using this, and remember to backup AFTER (also a FULL backup of master)</li>
+<li>Database name is changed (optionally forcing users out)</li>
+<li>Filegroup names are changed accordingly</li>
+<li>Logical file names are changed accordingly</li>
+<li>Physical file names are changed accordingly</li>
+<li>If Move is specified, the database goes offline for file operations, then back online</li>
+<li>If Move is not specified, the database remains online (unless SetOffline), and you handle file moves manually</li>
 </ul>
-<p>It returns an object for each database with all the renames done, plus hidden properties showing a &quot;human&quot; representation of them.</p>
-<p>It's better you store the resulting object in a variable so you can inspect it in case of issues, e.g. &quot;$result = Rename-DbaDatabase .....&quot;</p>
-<p>To get a grasp without worrying of what would happen under the hood, use &quot;Rename-DbaDatabase .... -Preview | Select-Object *&quot;</p>
+<p>The function uses powerful template placeholders like <DBN> for database name, <FGN> for filegroup name, <DATE> for current date, and <FT> for file type.<br />
+When naming conflicts occur, automatic counters are appended to ensure uniqueness.<br />
+If any step fails, the entire process stops to prevent partial renames that could leave your database in an inconsistent state.</p>
+<p>Always backup your databases before using this function, and take a full backup of master after completion.<br />
+The function returns detailed objects showing all completed renames, with hidden properties providing human-readable summaries.</p>
+<p>Store results in a variable for troubleshooting: &quot;$result = Rename-DbaDatabase .....&quot;<br />
+Use the -Preview parameter first to see exactly what changes would occur: &quot;Rename-DbaDatabase .... -Preview | Select-Object *&quot;</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Rename-DbaDatabase -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
@@ -625,7 +626,8 @@ The db is then set offline (watch out!). The function tries to do a simple renam
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts piped database objects <br></p>
+<p>Accepts database objects from the pipeline, typically from Get-DbaDatabase. Allows for advanced filtering and database selection before renaming.<br />
+Use this when you need complex database selection logic or when chaining database operations in a pipeline. <br></p>
 <table>
 <thead>
 <tr>
@@ -684,7 +686,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Targets only specified databases<br></p>
+<p>Specifies which databases to include in the renaming operation. Accepts database names, wildcards, or arrays of database names.<br />
+Use this when you need to rename specific databases instead of all user databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -712,7 +715,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Excludes only specified databases<br></p>
+<p>Specifies databases to exclude from the renaming operation. Accepts database names, wildcards, or arrays of database names.<br />
+Use this to protect specific databases when using -AllDatabases or when you want to process most databases except certain ones.<br></p>
 <table>
 <thead>
 <tr>
@@ -740,7 +744,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alldatabases">-AllDatabases</h5>
-<p>If you want to apply the naming convention system wide, you need to pass this parameter<br></p>
+<p>Applies the renaming operation to all user databases on the SQL Server instance. System databases are automatically excluded.<br />
+Use this switch when standardizing naming conventions across your entire instance rather than targeting specific databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -768,11 +773,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="databasename">-DatabaseName</h5>
-<p>Pass a template to rename the database name. Valid placeholders are:</p>
-<ul>
-<li><DBN> current database name</li>
-<li><DATE> date (yyyyMMdd)<br></li>
-</ul>
+<p>Specifies a template for renaming database names using placeholder substitution. Creates new database names based on the template pattern.<br />
+Use this when you need to standardize database names according to organizational naming conventions. Common patterns include adding prefixes, suffixes, or date stamps.<br />
+Valid placeholders are: <DBN> (current database name), <DATE> (current date in yyyyMMdd format).<br></p>
 <table>
 <thead>
 <tr>
@@ -800,13 +803,10 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filegroupname">-FileGroupName</h5>
-<p>Pass a template to rename file group name. Valid placeholders are:</p>
-<ul>
-<li><FGN> current filegroup name</li>
-<li><DBN> current database name</li>
-<li><DATE> date (yyyyMMdd)<br />
-If distinct names cannot be generated, a counter will be appended (0001, 0002, 0003, etc)<br></li>
-</ul>
+<p>Specifies a template for renaming filegroup names within databases using placeholder substitution. Note that the PRIMARY filegroup cannot be renamed due to SQL Server restrictions.<br />
+Use this when you need consistent filegroup naming across databases or when implementing data organization strategies that require specific filegroup names.<br />
+Valid placeholders are: <FGN> (current filegroup name), <DBN> (current database name), <DATE> (current date in yyyyMMdd format). If distinct names cannot be generated, a counter is appended (0001,<br />
+0002, etc).<br></p>
 <table>
 <thead>
 <tr>
@@ -834,15 +834,10 @@ If distinct names cannot be generated, a counter will be appended (0001, 0002, 0
 </tbody>
 </table>
 <h5 id="logicalname">-LogicalName</h5>
-<p>Pass a template to rename logical name. Valid placeholders are:</p>
-<ul>
-<li><FT> file type (ROWS, LOG)</li>
-<li><LGN> current logical name</li>
-<li><FGN> current filegroup name</li>
-<li><DBN> current database name</li>
-<li><DATE> date (yyyyMMdd)<br />
-If distinct names cannot be generated, a counter will be appended (0001, 0002, 0003, etc)<br></li>
-</ul>
+<p>Specifies a template for renaming the logical names of database files using placeholder substitution. Logical names are used internally by SQL Server to reference files.<br />
+Use this when you need consistent logical file naming for backup operations, maintenance scripts, or troubleshooting, as logical names are referenced in many SQL commands.<br />
+Valid placeholders are: <FT> (file type: ROWS, LOG, MMO, FS), <LGN> (current logical name), <FGN> (current filegroup name), <DBN> (current database name), <DATE> (current date in yyyyMMdd format). If<br />
+distinct names cannot be generated, a counter is appended (0001, 0002, etc).<br></p>
 <table>
 <thead>
 <tr>
@@ -870,16 +865,10 @@ If distinct names cannot be generated, a counter will be appended (0001, 0002, 0
 </tbody>
 </table>
 <h5 id="filename">-FileName</h5>
-<p>Pass a template to rename file name. Valid placeholders are:</p>
-<ul>
-<li><FNN> current file name (the basename, without directory nor extension)</li>
-<li><FT> file type (ROWS, LOG, MMO, FS)</li>
-<li><LGN> current logical name</li>
-<li><FGN> current filegroup name</li>
-<li><DBN> current database name</li>
-<li><DATE> date (yyyyMMdd)<br />
-If distinct names cannot be generated, a counter will be appended (0001, 0002, 0003, etc)<br></li>
-</ul>
+<p>Specifies a template for renaming physical database file names on disk using placeholder substitution. Changes only the file name, preserving the original directory and file extension.<br />
+Use this when you need to align physical file names with your database naming standards for easier file management, monitoring, and disaster recovery operations.<br />
+Valid placeholders are: <FNN> (current file name without directory or extension), <FT> (file type: ROWS, LOG, MMO, FS), <LGN> (current logical name), <FGN> (current filegroup name), <DBN> (current<br />
+database name), <DATE> (current date in yyyyMMdd format). If distinct names cannot be generated, a counter is appended (0001, 0002, etc).<br></p>
 <table>
 <thead>
 <tr>
@@ -907,33 +896,10 @@ If distinct names cannot be generated, a counter will be appended (0001, 0002, 0
 </tbody>
 </table>
 <h5 id="replacebefore">-ReplaceBefore</h5>
-<p>If you pass this switch, all upper level &quot;current names&quot; will be inspected and replaced BEFORE doing the<br />
-rename according to the template in the current level (remember the hierarchy):<br />
-Let's say you have a database named &quot;dbatools_HR&quot;, composed by 3 files</p>
-<ul>
-<li>dbatools_HR_Data.mdf</li>
-<li>dbatools_HR_Index.ndf</li>
-<li>dbatools_HR_log.ldf<br />
-Rename-DbaDatabase .... -Database &quot;dbatools_HR&quot; -DatabaseName &quot;dbatools_HRARCHIVE&quot; -FileName '<DBN><FNN>'<br />
-would end up with this logic:</li>
-<li>database --&gt; no placeholders specified</li>
-<li>dbatools_HR to dbatools_HRARCHIVE</li>
-<li>filenames placeholders specified<br />
-<DBN><FNN> --&gt; current database name + current filename&quot;</li>
-<li>dbatools_HR_Data.mdf to dbatools_HRARCHIVEdbatools_HR_Data.mdf</li>
-<li>dbatools_HR_Index.mdf to dbatools_HRARCHIVEdbatools_HR_Data.mdf</li>
-<li>dbatools_HR_log.ldf to dbatools_HRARCHIVEdbatools_HR_log.ldf<br />
-Passing this switch, instead, e.g.<br />
-Rename-DbaDatabase .... -Database &quot;dbatools_HR&quot; -DatabaseName &quot;dbatools_HRARCHIVE&quot; -FileName '<DBN><FNN>' -ReplaceBefore<br />
-end up with this logic instead:</li>
-<li>database --&gt; no placeholders specified</li>
-<li>dbatools_HR to dbatools_HRARCHIVE</li>
-<li>filenames placeholders specified,<br />
-<DBN><FNN>, plus -ReplaceBefore --&gt; current database name + replace OLD &quot;upper level&quot; names inside the current filename</li>
-<li>dbatools_HR_Data.mdf to dbatools_HRARCHIVE_Data.mdf</li>
-<li>dbatools_HR_Index.mdf to dbatools_HRARCHIVE_Data.mdf</li>
-<li>dbatools_HR_log.ldf to dbatools_HRARCHIVE_log.ldf<br></li>
-</ul>
+<p>Modifies how placeholder substitution works by removing old database, filegroup, and logical names from current names before applying templates. This prevents duplicate naming components in nested<br />
+scenarios.<br />
+Use this when your existing names already contain components that would be duplicated by the template placeholders, resulting in cleaner final names.<br />
+For example, with -ReplaceBefore, renaming database &quot;HR_DB&quot; to &quot;PROD_HR&quot; and using template &quot;<DBN>_Data&quot; results in &quot;PROD_HR_Data&quot; instead of &quot;PROD_HR_HR_DB_Data&quot;.<br></p>
 <table>
 <thead>
 <tr>
@@ -961,7 +927,8 @@ end up with this logic instead:</li>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Kills any open session to be able to do renames.<br></p>
+<p>Terminates all active connections to target databases to allow renaming operations to proceed. Required when databases have active connections that would prevent rename operations.<br />
+Use this when you need to force database renames in production environments where applications may maintain persistent connections.<br></p>
 <table>
 <thead>
 <tr>
@@ -989,9 +956,8 @@ end up with this logic instead:</li>
 </tbody>
 </table>
 <h5 id="move">-Move</h5>
-<p>If you want this function to move files, else you're the one in charge of it.<br />
-This enables the same functionality as SetOffline, killing open transactions and putting the database<br />
-offline, then do the actual rename and setting it online again afterwards<br></p>
+<p>Automatically moves physical database files to match renamed file names. Sets the database offline, performs file operations, then brings the database back online.<br />
+Use this for a complete automated renaming solution when you want the function to handle all file operations. Requires PowerShell remoting access to the SQL Server's file system.<br></p>
 <table>
 <thead>
 <tr>
@@ -1019,7 +985,8 @@ offline, then do the actual rename and setting it online again afterwards<br></p
 </tbody>
 </table>
 <h5 id="setoffline">-SetOffline</h5>
-<p>Kills any open session and sets the database offline to be able to move files<br></p>
+<p>Forces the database offline after renaming operations to prepare for manual file moves. Terminates active connections and sets database state to offline.<br />
+Use this when you need to rename physical files but want to handle the file movement operations manually rather than having the function move them automatically.<br></p>
 <table>
 <thead>
 <tr>
@@ -1047,7 +1014,8 @@ offline, then do the actual rename and setting it online again afterwards<br></p
 </tbody>
 </table>
 <h5 id="preview">-Preview</h5>
-<p>Shows the renames without performing any operation (recommended to find your way around this function parameters ;-) )<br></p>
+<p>Displays what renaming operations would be performed without executing any changes to the databases. Shows the complete rename plan including all affected components.<br />
+Use this first to verify your templates and parameters will produce the desired results before committing to actual database changes.<br></p>
 <table>
 <thead>
 <tr>

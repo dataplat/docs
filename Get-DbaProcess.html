@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaProcess">Get-DbaProcess</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>This command displays SQL Server processes.</p>
+<p>Retrieves active SQL Server processes and sessions with detailed connection and activity information.</p>
 <h2 id="description">Description</h2>
-<p>This command displays processes associated with a spid, login, host, program or database.</p>
+<p>Displays comprehensive information about SQL Server processes including session details, connection properties, timing data, and the last executed SQL statement. This function combines data from multiple system views to provide a complete picture of current database activity.</p>
+<p>Use this to monitor active connections, identify blocking processes, track application connections, troubleshoot performance issues, or audit database access patterns. The output includes connection timing, network transport details, authentication schemes, client information, and recent query activity.</p>
+<p>You can filter results by login name, hostname, program name, database, or specific session IDs to focus on particular processes of interest. This is especially useful for identifying connection leaks, monitoring specific applications, or investigating security concerns.</p>
 <p>Thanks to Michael J Swart at <a href="https://sqlperformance.com/2017/07/sql-performance/find-database-connection-leaks">https://sqlperformance.com/2017/07/sql-performance/find-database-connection-leaks</a> for the query to get the last executed SQL statement, minutesasleep and host process ID.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaProcess
@@ -501,6 +503,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-Program] &lt;String[]&gt;]
     [-ExcludeSystemSpids]
     [-EnableException]
+    [-Intersect]
     [&lt;CommonParameters&gt;]
 
 </code></pre>
@@ -584,7 +587,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="spid">-Spid</h5>
-<p>Specifies one or more process IDs (Spid) to be displayed. Options for this parameter are auto-populated from the server.<br></p>
+<p>Filters results to specific process IDs (SPIDs) you want to monitor. Also includes any processes that are blocked by the specified SPIDs.<br />
+Use this when investigating specific connections or troubleshooting blocking issues where you need to see both the blocker and blocked processes.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,8 +616,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludespid">-ExcludeSpid</h5>
-<p>Specifies one ore more process IDs to exclude from display. Options for this parameter are auto-populated from the server.<br />
-This is the last filter to run, so even if a Spid matches another filter, it will be excluded by this filter.<br></p>
+<p>Excludes specific process IDs (SPIDs) from the results, even if they match other filter criteria.<br />
+Use this to remove known processes like monitoring tools, maintenance jobs, or your own session from the output. This filter is applied last, overriding all other inclusion filters.<br></p>
 <table>
 <thead>
 <tr>
@@ -641,7 +645,8 @@ This is the last filter to run, so even if a Spid matches another filter, it wil
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more databases with active processes to look for. Options for this parameter are auto-populated from the server.<br></p>
+<p>Filters results to sessions currently connected to specific databases.<br />
+Use this when monitoring activity on particular databases, investigating database-specific performance issues, or auditing access to sensitive databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -669,7 +674,8 @@ This is the last filter to run, so even if a Spid matches another filter, it wil
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>Specifies one or more Login names with active processes to look for. Options for this parameter are auto-populated from the server.<br></p>
+<p>Filters results to sessions connected with specific SQL Server login names or Windows authentication accounts.<br />
+Use this to monitor connections from specific applications, service accounts, or users when investigating security concerns or connection patterns.<br></p>
 <table>
 <thead>
 <tr>
@@ -697,7 +703,8 @@ This is the last filter to run, so even if a Spid matches another filter, it wil
 </tbody>
 </table>
 <h5 id="hostname">-Hostname</h5>
-<p>Specifies one or more hostnames with active processes to look for. Options for this parameter are auto-populated from the server.<br></p>
+<p>Filters results to sessions originating from specific client machines or server names.<br />
+Use this when tracking connections from particular workstations, application servers, or investigating connection leaks from specific hosts.<br></p>
 <table>
 <thead>
 <tr>
@@ -725,7 +732,8 @@ This is the last filter to run, so even if a Spid matches another filter, it wil
 </tbody>
 </table>
 <h5 id="program">-Program</h5>
-<p>Specifies one or more program names with active processes to look for. Options for this parameter are auto-populated from the server.<br></p>
+<p>Filters results to sessions created by specific client applications such as 'Microsoft SQL Server Management Studio' or custom application names.<br />
+Use this to monitor connections from particular applications, identify connection patterns, or troubleshoot application-specific database issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -753,7 +761,8 @@ This is the last filter to run, so even if a Spid matches another filter, it wil
 </tbody>
 </table>
 <h5 id="excludesystemspids">-ExcludeSystemSpids</h5>
-<p>If this switch is enabled, system Spids will be ignored.<br></p>
+<p>Excludes system processes (SPIDs 1-50) from the results to focus only on user connections and application processes.<br />
+Use this when you want to see only actual user sessions and application connections, filtering out SQL Server internal processes like checkpoints, log writers, and system tasks.<br></p>
 <table>
 <thead>
 <tr>
@@ -784,6 +793,34 @@ This is the last filter to run, so even if a Spid matches another filter, it wil
 <p>By default, when something goes wrong we try to catch it, interpret it and give you a friendly warning message.<br />
 This avoids overwhelming you with &quot;sea of red&quot; exceptions, but is inconvenient because it basically disables advanced scripting.<br />
 Using this switch turns this &quot;nice by default&quot; feature off and enables you to catch exceptions with your own try/catch.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="intersect">-Intersect</h5>
+<p>If this switch is enabled, take the intersection of Spid, Login, Hostname, Program, and Database rather than the union.<br></p>
 <table>
 <thead>
 <tr>

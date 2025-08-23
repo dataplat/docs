@@ -485,14 +485,16 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaFirewallRule">New-DbaFirewallRule</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new inbound firewall rule for a SQL Server instance and adds the rule to the target computer.</p>
+<p>Creates Windows firewall rules for SQL Server instances to allow network connectivity</p>
 <h2 id="description">Description</h2>
-<p>Creates a new inbound firewall rule for a SQL Server instance and adds the rule to the target computer.</p>
-<p>This is basically a wrapper around New-NetFirewallRule executed at the target computer.<br />
-So this only works if New-NetFirewallRule works on the target computer.</p>
-<p>Both DisplayName and Name are set to the same value, since DisplayName is required<br />
-but only Name uniquely defines the rule, thus avoiding duplicate rules with different settings.<br />
-The names and the group for all rules are fixed to be able to get them back with Get-DbaFirewallRule.</p>
+<p>Creates inbound Windows firewall rules for SQL Server instances, Browser service, and Dedicated Admin Connection (DAC) to allow network connectivity.<br />
+This automates the tedious post-installation task of configuring firewall access for SQL Server, eliminating the need to manually determine ports and create rules through Windows Firewall GUI or netsh commands.</p>
+<p>The function intelligently detects whether instances use static or dynamic ports and creates appropriate rules.<br />
+For static ports, it creates port-based rules; for dynamic ports, it creates program-based rules targeting sqlservr.exe.<br />
+When instances use non-default ports, it automatically includes a Browser service rule so clients can discover the instance.</p>
+<p>This is a wrapper around New-NetFirewallRule executed remotely on the target computer via Invoke-Command2.<br />
+Both DisplayName and Name are set to the same value to ensure unique rule identification and prevent duplicates.<br />
+All rules use the &quot;SQL Server&quot; group for easy management with Get-DbaFirewallRule.</p>
 <p>The functionality is currently limited. Help to extend the functionality is welcome.</p>
 <p>As long as you can read this note here, there may be breaking changes in future versions.<br />
 So please review your scripts using this command after updating dbatools.</p>
@@ -614,17 +616,10 @@ but configures the firewall rule for the domain profile only.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Creates firewall rules for the given type(s).<br />
-Valid values are:</p>
-<ul>
-<li>Engine - for the SQL Server instance</li>
-<li>Browser - for the SQL Server Browser</li>
-<li>DAC - for the dedicated admin connection (DAC)<br />
-If this parameter is not used:</li>
-<li>The firewall rule for the SQL Server instance will be created.</li>
-<li>In case the instance is listening on a port other than 1433, also the firewall rule for the SQL Server Browser will be created if not already in place.</li>
-<li>In case the DAC is configured for listening remotely, also the firewall rule for the DAC will be created.<br></li>
-</ul>
+<p>Specifies which firewall rule types to create for SQL Server network access.<br />
+Use this when you need to create specific rules instead of the automatic detection behavior.<br />
+Valid values are Engine (SQL Server instance), Browser (SQL Server Browser service), and DAC (Dedicated Admin Connection). When omitted, the function automatically creates Engine rules plus Browser<br />
+rules for non-default ports and DAC rules when remote DAC is enabled.<br></p>
 <table>
 <thead>
 <tr>
@@ -656,10 +651,10 @@ If this parameter is not used:</li>
 </tbody>
 </table>
 <h5 id="configuration">-Configuration</h5>
-<p>A hashtable with custom configuration parameters that are used when calling New-NetFirewallRule.<br />
-These will override the default settings.<br />
-Parameters Name, DisplayName and Group are not allowed here and will be silently ignored.<br />
-<a href="https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule">https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule</a><br></p>
+<p Profile="Domain" RemoteAddress="192.168.1.0/24">Provides custom settings to override the default firewall rule configuration when calling New-NetFirewallRule.<br />
+Use this when you need to restrict rules to specific network profiles (Domain, Private, Public) or modify other advanced firewall settings.<br />
+Common examples include @ to limit rules to domain networks only, or @ to restrict source IPs. The Name, DisplayName, and Group parameters are<br />
+reserved and will be ignored if specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -687,8 +682,9 @@ Parameters Name, DisplayName and Group are not allowed here and will be silently
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If the rule to be created already exists, a warning is displayed.<br />
-If this switch is enabled, the rule will be deleted and created again.<br></p>
+<p>Forces recreation of firewall rules that already exist by deleting and recreating them.<br />
+Use this when you need to update existing rules with new settings or when troubleshooting connectivity issues.<br />
+Without this switch, the function will warn you about existing rules and skip their creation.<br></p>
 <table>
 <thead>
 <tr>

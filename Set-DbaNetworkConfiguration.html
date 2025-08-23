@@ -485,17 +485,13 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaNetworkConfiguration">Set-DbaNetworkConfiguration</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the network configuration of a SQL Server instance.</p>
+<p>Modifies SQL Server network protocol settings including TCP/IP, Named Pipes, and Shared Memory configurations.</p>
 <h2 id="description">Description</h2>
-<p>Sets the network configuration of a SQL Server instance.</p>
-<p>Parameters are available for typical tasks like enabling or disabling a protocol or switching between dynamic and static ports.<br />
-The object returned by Get-DbaNetworkConfiguration can be used to adjust settings of the properties<br />
-and then passed to this command via pipeline or -InputObject parameter.</p>
-<p>A change to the network configuration with SQL Server requires a restart to take effect,<br />
-support for this can be done via the RestartService parameter.</p>
-<p>Remote SQL WMI is used by default, with PS Remoting used as a fallback.</p>
-<p>For a detailed explanation of the different properties see the documentation at:<br />
-<a href="https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration">https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration</a></p>
+<p>Modifies SQL Server network protocol settings through WMI, allowing you to enable or disable network protocols and configure TCP/IP properties like static or dynamic ports. This replaces the need to manually use SQL Server Configuration Manager for network changes.</p>
+<p>Common DBA scenarios include switching instances from dynamic to static ports for firewall rules, enabling TCP/IP for remote connections, or configuring specific IP addresses for multi-homed servers. You can also pass modified objects from Get-DbaNetworkConfiguration to make complex property changes.</p>
+<p>Network configuration changes require a SQL Server service restart to take effect - use the RestartService parameter to handle this automatically, otherwise you'll need to restart the service manually afterward.</p>
+<p>Uses remote SQL WMI by default with PowerShell remoting as a fallback. Requires administrative privileges on the target server.</p>
+<p>For detailed property explanations see: <a href="https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration">https://docs.microsoft.com/en-us/sql/tools/configuration-manager/sql-server-network-configuration</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaNetworkConfiguration
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -576,8 +572,9 @@ Restarts the service if needed.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>The output object from Get-DbaNetworkConfiguration.<br />
-Get-DbaNetworkConfiguration has to be run with -OutputType Full (default) to get the complete object. <br></p>
+<p>Accepts a network configuration object from Get-DbaNetworkConfiguration for making complex property changes.<br />
+Use this when you need to modify specific TCP/IP properties like KeepAlive values or make multiple configuration changes.<br />
+The Get-DbaNetworkConfiguration command must use -OutputType Full to provide the complete configuration object. <br></p>
 <table>
 <thead>
 <tr>
@@ -634,7 +631,9 @@ Get-DbaNetworkConfiguration has to be run with -OutputType Full (default) to get
 </tbody>
 </table>
 <h5 id="enableprotocol">-EnableProtocol</h5>
-<p>Enables one of the following network protocols: SharedMemory, NamedPipes, TcpIp.<br></p>
+<p>Enables a specific SQL Server network protocol for client connections.<br />
+Use SharedMemory for local-only connections, NamedPipes for legacy applications, or TcpIp for remote access.<br />
+TCP/IP is required for remote connections and most modern applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +665,9 @@ Get-DbaNetworkConfiguration has to be run with -OutputType Full (default) to get
 </tbody>
 </table>
 <h5 id="disableprotocol">-DisableProtocol</h5>
-<p>Disables one of the following network protocols: SharedMemory, NamedPipes, TcpIp.<br></p>
+<p>Disables a specific SQL Server network protocol to prevent client connections via that method.<br />
+Commonly used to disable unneeded protocols for security or troubleshooting purposes.<br />
+Be cautious disabling TCP/IP as it will prevent all remote connections to the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -698,10 +699,9 @@ Get-DbaNetworkConfiguration has to be run with -OutputType Full (default) to get
 </tbody>
 </table>
 <h5 id="dynamicportforipall">-DynamicPortForIPAll</h5>
-<p>Configures the instance to listen on a dynamic port for all IP addresses.<br />
-Will enable the TCP/IP protocol if needed.<br />
-Will set TcpIpProperties.ListenAll to $true if needed.<br />
-Will reset the last used dynamic port if already set.<br></p>
+<p>Configures the instance to use a random port assigned by Windows for all IP addresses.<br />
+Use this for non-production environments or when you don't need predictable port numbers.<br />
+Automatically enables TCP/IP protocol and sets ListenAll to true, clearing any existing static port configuration.<br></p>
 <table>
 <thead>
 <tr>
@@ -729,9 +729,9 @@ Will reset the last used dynamic port if already set.<br></p>
 </tbody>
 </table>
 <h5 id="staticportforipall">-StaticPortForIPAll</h5>
-<p>Configures the instance to listen on one or more static ports for all IP addresses.<br />
-Will enable the TCP/IP protocol if needed.<br />
-Will set TcpIpProperties.ListenAll to $true if needed.<br></p>
+<p>Configures the instance to use specific port numbers for all IP addresses instead of dynamic ports.<br />
+Essential for production environments where firewall rules require predictable port numbers.<br />
+Automatically enables TCP/IP protocol and sets ListenAll to true. Accepts multiple ports as comma-separated values.<br></p>
 <table>
 <thead>
 <tr>
@@ -759,9 +759,9 @@ Will set TcpIpProperties.ListenAll to $true if needed.<br></p>
 </tbody>
 </table>
 <h5 id="ipaddress">-IpAddress</h5>
-<p>Configures the instance to listen on specific IP addresses only. Listening on all other IP addresses will be disabled.<br />
-Takes an array of string with either the IP address (for listening on a dynamic port) or IP address and port seperated by &quot;:&quot;.<br />
-IPv6 addresses must be enclosed in square brackets, e.g. [2001:db8:4006:812<span>200e] or [2001:db8:4006:812</span>200e]:1433 to be able to identify the port.<br></p>
+<p>Restricts the instance to listen only on specified IP addresses instead of all available interfaces.<br />
+Use this on multi-homed servers to control which network interfaces accept SQL Server connections.<br />
+Format as &quot;192.168.1.10&quot; for dynamic ports or &quot;192.168.1.10:1433&quot; for static ports. IPv6 addresses need square brackets like &quot;[::1]:1433&quot;.<br></p>
 <table>
 <thead>
 <tr>
@@ -789,8 +789,9 @@ IPv6 addresses must be enclosed in square brackets, e.g. [2001:db8:4006:812<span
 </tbody>
 </table>
 <h5 id="restartservice">-RestartService</h5>
-<p>Every change to the network configuration needs a service restart to take effect.<br />
-This switch will force a restart of the service if the network configuration has changed.<br></p>
+<p>Automatically restarts the SQL Server service when network configuration changes are made.<br />
+Network configuration changes only take effect after a service restart, so use this to avoid manual restarts.<br />
+Without this parameter, you must manually restart the SQL Server service for changes to become active.<br></p>
 <table>
 <thead>
 <tr>

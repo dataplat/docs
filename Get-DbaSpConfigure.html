@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaSpConfigure">Get-DbaSpConfigure</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns all server level system configuration (sys.configuration/sp_configure) information</p>
+<p>Retrieves SQL Server sp_configure settings with default value comparisons for configuration auditing</p>
 <h2 id="description">Description</h2>
-<p>This function returns server level system configuration (sys.configuration/sp_configure) information. The information is gathered through SMO Configuration.Properties.<br />
-The data includes the default value for each configuration, for quick identification of values that may have been changed.</p>
+<p>Retrieves all SQL Server instance-level configuration settings accessible through sp_configure, using SMO to gather comprehensive details about each setting. This function compares current configured and running values against SQL Server defaults to quickly identify which settings have been customized from their out-of-box values.</p>
+<p>Essential for configuration auditing, compliance checks, and ensuring consistency across multiple SQL Server environments. The output includes advanced and basic settings, minimum/maximum allowed values, whether settings are dynamic (require restart), and flags non-default configurations for review.</p>
+<p>Particularly useful when documenting server configurations, troubleshooting performance issues related to memory or parallelism settings, or preparing for server migrations where you need to replicate custom configurations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaSpConfigure
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -584,7 +585,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Return only specific configurations. Name can be either values from (sys.configuration/sp_configure) or from SMO object<br></p>
+<p>Return only specific configuration settings instead of all sp_configure values. Accepts either display names from sp_configure ('max server memory (MB)') or SMO property names ('MaxServerMemory').<br />
+Use this when you need to check specific settings like memory configuration, parallelism, or security options without retrieving the full list.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +614,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludename">-ExcludeName</h5>
-<p>Exclude specific configurations. Name can be either values from (sys.configuration/sp_configure) or from SMO object<br></p>
+<p>Exclude specific configuration settings from the results. Accepts either display names from sp_configure or SMO property names.<br />
+Useful when generating reports or comparisons where you want to hide standard settings and focus on custom configurations.<br></p>
 <table>
 <thead>
 <tr>

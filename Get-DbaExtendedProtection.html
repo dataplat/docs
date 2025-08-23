@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaExtendedProtection">Get-DbaExtendedProtection</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get the Extended Protection setting of the SQL Server network configuration.</p>
+<p>Retrieves Extended Protection authentication settings from SQL Server network configuration.</p>
 <h2 id="description">Description</h2>
-<p>Get the Extended Protection setting of the SQL Server network configuration.</p>
-<p>This setting requires access to the Windows Server and not the SQL Server instance. The setting is found in SQL Server Configuration Manager under the properties of SQL Server Network Configuration &gt; Protocols for &quot;InstanceName&quot;.</p>
+<p>Retrieves the Extended Protection setting for SQL Server instances to help assess authentication security posture. Extended Protection is a Windows authentication enhancement that helps prevent credential relay attacks by validating channel binding and service principal names.</p>
+<p>This function queries the Windows registry directly rather than connecting to SQL Server, so it requires Windows-level access to the target server. The setting corresponds to what you see in SQL Server Configuration Manager under Network Configuration &gt; Protocols properties, but can be checked programmatically across multiple instances for compliance auditing.</p>
+<p>Returns the current setting as both a numeric value (0, 1, 2) and descriptive text (Off, Allowed, Required) to help DBAs understand the security configuration and plan any necessary changes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaExtendedProtection
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -541,7 +542,8 @@ Gets Extended Protection for the SQL2008R2SP2 on sql01. Uses Windows Credentials
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Allows you to login to the computer (not SQL Server instance) using alternative Windows credentials<br></p>
+<p>Specifies alternative Windows credentials for connecting to the target computer to read registry values. This is for Windows computer access, not SQL Server authentication.<br />
+Required when your current Windows account lacks administrative privileges on the target server or when connecting across domains.<br></p>
 <table>
 <thead>
 <tr>

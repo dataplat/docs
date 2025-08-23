@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Show-DbaDbList">Show-DbaDbList</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Shows a list of databases in a GUI.</p>
+<p>Displays available databases in an interactive selection window</p>
 <h2 id="description">Description</h2>
-<p>Shows a list of databases in a GUI. Returns a string holding the name of the selected database. Hitting cancel returns null.</p>
+<p>Creates a Windows Presentation Framework dialog that connects to a SQL Server instance and presents all databases in a visual tree view for selection. This eliminates the need to hardcode database names in scripts or remember exact database names when building interactive tools.</p>
+<p>The function returns the name of the selected database as a string, making it ideal for building user-friendly maintenance scripts, allowing end users to choose databases without SQL Server Management Studio, or creating dynamic tools that work across different environments where database names may vary.</p>
+<p>Clicking OK returns the selected database name, while Cancel returns null, allowing your scripts to handle user cancellation gracefully.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Show-DbaDbList
     [-SqlInstance] &lt;DbaInstanceParameter&gt;
@@ -575,7 +577,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="title">-Title</h5>
-<p>Title of the window being displayed. Default is &quot;Select Database&quot;.<br></p>
+<p>Sets the title text that appears in the window's title bar. Defaults to &quot;Select Database&quot;.<br />
+Use this to customize the dialog title for specific maintenance scripts or to indicate the purpose of the database selection.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +606,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="header">-Header</h5>
-<p>Header text displayed above the database listing. Default is &quot;Select the database:&quot;.<br></p>
+<p>Specifies the instruction text displayed above the database tree view. Defaults to &quot;Select the database:&quot;.<br />
+Customize this to provide context-specific instructions like &quot;Choose database to backup:&quot; or &quot;Select database for maintenance:&quot;.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +635,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="defaultdb">-DefaultDb</h5>
-<p>Specify a database to have selected when the window appears.<br></p>
+<p>Pre-selects a specific database when the selection dialog opens.<br />
+Use this when you have a preferred or most commonly selected database to reduce clicks for end users.<br></p>
 <table>
 <thead>
 <tr>

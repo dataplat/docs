@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbMasterKey">Remove-DbaDbMasterKey</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Deletes specified database master key</p>
+<p>Removes database master keys from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Deletes specified database master key</p>
+<p>Removes database master keys from specified SQL Server databases by executing DROP MASTER KEY. Database master keys are used to encrypt other database-level encryption keys, including those for Transparent Data Encryption (TDE), Always Encrypted, and certificate private keys. This function is typically used when decommissioning database encryption, migrating to different encryption strategies, or cleaning up unused encryption infrastructure during database maintenance or compliance changes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbMasterKey
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -577,7 +577,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where the master key will be removed.<br></p>
+<p>Specifies which databases to remove master keys from. Accepts multiple database names.<br />
+Use this when you need to remove encryption from specific databases during TDE decommissioning or security policy changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +606,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>List of databases to exclude from clearing all master keys<br></p>
+<p>Specifies databases to skip when using the -All parameter to remove master keys from all databases.<br />
+Use this to protect critical databases that must retain their encryption while cleaning up master keys from other databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,7 +635,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="all">-All</h5>
-<p>Purge the master keys from all databases on an instance<br></p>
+<p>Removes master keys from all user databases on the SQL Server instance.<br />
+Use this when decommissioning encryption across an entire instance or during major security architecture changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -661,7 +664,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables pipeline input from Get-DbaDatabase<br></p>
+<p>Accepts master key objects from Get-DbaDbMasterKey through the pipeline.<br />
+Use this approach when you need to filter or inspect master keys before removing them, providing more control over the removal process.<br></p>
 <table>
 <thead>
 <tr>

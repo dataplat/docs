@@ -592,7 +592,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Databases to process through<br></p>
+<p>Specifies the databases to scan for potential PII data. Required parameter - at least one database must be specified.<br />
+Use this to target specific databases rather than scanning entire SQL Server instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -620,7 +621,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="table">-Table</h5>
-<p>Table(s) to process. By default all the tables will be processed<br></p>
+<p>Limits the scan to specific tables within the target databases. Accepts multiple table names.<br />
+Use this when you need to focus PII scanning on known tables containing sensitive data rather than scanning all tables.<br></p>
 <table>
 <thead>
 <tr>
@@ -648,7 +650,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="column">-Column</h5>
-<p>Column(s) to process. By default all the columns will be processed<br></p>
+<p>Restricts the scan to specific columns within the target tables. Accepts multiple column names.<br />
+Use this when you want to validate specific columns suspected of containing PII or to recheck previously identified columns.<br></p>
 <table>
 <thead>
 <tr>
@@ -676,7 +679,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="country">-Country</h5>
-<p>Filter out the patterns and known types for one or more countries<br></p>
+<p>Filters PII pattern matching to specific countries using full country names (e.g., &quot;United States&quot;, &quot;Canada&quot;).<br />
+Use this when your data contains region-specific formats like phone numbers or postal codes that should only match certain countries.<br></p>
 <table>
 <thead>
 <tr>
@@ -704,7 +708,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="countrycode">-CountryCode</h5>
-<p>Filter out the patterns and known types for one or more country code<br></p>
+<p>Filters PII pattern matching to specific countries using ISO country codes (e.g., &quot;US&quot;, &quot;CA&quot;, &quot;GB&quot;).<br />
+Use this for more precise regional filtering when you know the specific country codes for your data regions.<br></p>
 <table>
 <thead>
 <tr>
@@ -732,7 +737,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludetable">-ExcludeTable</h5>
-<p>Exclude certain tables<br></p>
+<p>Prevents scanning of specified tables even if they would otherwise be included in the scan scope.<br />
+Use this to skip known system tables, staging tables, or tables confirmed to not contain PII data.<br></p>
 <table>
 <thead>
 <tr>
@@ -760,7 +766,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludecolumn">-ExcludeColumn</h5>
-<p>Exclude certain columns<br></p>
+<p>Prevents scanning of specified columns even if they would otherwise be included in the scan scope.<br />
+Use this to skip columns like timestamps, IDs, or other fields confirmed to not contain PII data.<br></p>
 <table>
 <thead>
 <tr>
@@ -788,7 +795,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="samplecount">-SampleCount</h5>
-<p>Amount of rows to sample to make an assessment. The default is 100<br></p>
+<p>Sets the number of data rows to examine per column for pattern matching. Default is 100 rows.<br />
+Increase this value for more thorough scanning of large tables, or decrease it to speed up scans of tables with consistent data patterns.<br></p>
 <table>
 <thead>
 <tr>
@@ -816,7 +824,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="knownnamefilepath">-KnownNameFilePath</h5>
-<p>Points to a file containing the custom known names. Custom scan definitions can be specified using the format seen in <dbatools module root>\bin\datamasking\pii-knownnames.json.<br></p>
+<p>Specifies a JSON file path containing custom column name patterns that indicate PII data.<br />
+Use this to add organization-specific column naming conventions that should be flagged as potential PII beyond the default patterns.<br></p>
 <table>
 <thead>
 <tr>
@@ -844,7 +853,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="patternfilepath">-PatternFilePath</h5>
-<p>Points to a file containing the custom patterns. Custom scan definitions can be specified using the format seen in <dbatools module root>\bin\datamasking\pii-patterns.json.<br></p>
+<p>Specifies a JSON file path containing custom regex patterns for identifying PII data within column values.<br />
+Use this to add custom data patterns specific to your organization or industry that aren't covered by the default patterns.<br></p>
 <table>
 <thead>
 <tr>
@@ -872,7 +882,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedefaultknownname">-ExcludeDefaultKnownName</h5>
-<p>Excludes the default known names<br></p>
+<p>Disables the built-in column name patterns for PII detection, using only custom patterns if provided.<br />
+Use this when the default column name patterns generate too many false positives for your specific database schema conventions.<br></p>
 <table>
 <thead>
 <tr>
@@ -900,7 +911,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedefaultpattern">-ExcludeDefaultPattern</h5>
-<p>Excludes the default patterns<br></p>
+<p>Disables the built-in data value patterns for PII detection, using only custom patterns if provided.<br />
+Use this when the default data patterns don't match your data formats or generate excessive false positives.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaTempDbConfig">Test-DbaTempDbConfig</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Evaluates tempdb against several rules to match best practices.</p>
+<p>Tests tempdb configuration against SQL Server best practices and returns compliance status for each rule.</p>
 <h2 id="description">Description</h2>
-<p>Evaluates tempdb against a set of rules to match best practices. The rules are:</p>
+<p>Performs a comprehensive audit of tempdb configuration against Microsoft's recommended best practices, returning detailed compliance results for each rule. This saves DBAs from manually checking multiple tempdb settings and provides clear guidance on which configurations need attention.</p>
+<p>The function evaluates six critical areas of tempdb configuration:</p>
 <ul>
 <li>TF 1118 enabled - Is Trace Flag 1118 enabled (See KB328551).</li>
 <li>File Count - Does the count of data files in tempdb match the number of logical cores, up to 8?</li>
@@ -496,7 +497,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <li>File MaxSize Set (optional) - Do any files have a max size value? Max size could cause tempdb problems if it isn't allowed to grow.</li>
 <li>Data File Size Equal - Are the sizes of all the tempdb data files the same?</li>
 </ul>
-<p>Other rules can be added at a future date.</p>
+<p>Each rule returns the current setting, recommended setting, and whether the configuration follows best practices. This is particularly useful during SQL Server health checks, performance troubleshooting, or compliance audits where tempdb configuration directly impacts system performance.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaTempDbConfig
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

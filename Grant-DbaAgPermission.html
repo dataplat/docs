@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Grant-DbaAgPermission">Grant-DbaAgPermission</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Grants endpoint and availability group permissions to a login.</p>
+<p>Grants specific permissions to logins for availability groups and database mirroring endpoints.</p>
 <h2 id="description">Description</h2>
-<p>Grants endpoint and availability group permissions to a login. If the account is a Windows login and does not exist, it will be automatically added.</p>
+<p>Grants permissions to SQL Server logins for availability groups (Alter, Control, TakeOwnership, ViewDefinition) and database mirroring endpoints (Connect, Alter, Control, and others). Essential for setting up high availability and disaster recovery scenarios where service accounts or users need access to manage or connect to availability group resources. Windows logins are automatically created if they don't exist on the target instance, simplifying multi-server availability group deployments.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Grant-DbaAgPermission
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -520,7 +520,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Grants the selected logins Connect permissions on the DatabaseMirroring endpoint for sql2017a<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="type">-Type</h5>
-<p>Specify the object type to grant the provided Permission. Values accepted are Endpoint and/or AvailabilityGroup. Endpoint type will update the DatabaseMirroring object type found on the instance. <br></p>
+<p>Specifies whether to grant permissions on database mirroring endpoints or availability groups. Use 'Endpoint' for database mirroring endpoint permissions or 'AvailabilityGroup' for AG-level<br />
+permissions.<br />
+Endpoint permissions are needed for replicas to communicate, while AvailabilityGroup permissions control AG management operations. <br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The login or logins to modify.<br></p>
+<p>Specifies the SQL Server logins that will receive the permissions. Windows logins are automatically created if they don't exist on the target instance.<br />
+Use this when you need to grant permissions to specific service accounts or users for availability group operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Only modify specific availability groups.<br></p>
+<p>Specifies which availability groups to grant permissions on. Required when using Type 'AvailabilityGroup'.<br />
+Use this to limit permission grants to specific AGs rather than all availability groups on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -667,26 +671,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="permission">-Permission</h5>
-<p>Grants one or more permissions:<br />
-Alter<br />
-Connect<br />
-Control<br />
-CreateSequence<br />
-CreateAnyDatabase<br />
-Delete<br />
-Execute<br />
-Impersonate<br />
-Insert<br />
-Receive<br />
-References<br />
-Select<br />
-Send<br />
-TakeOwnership<br />
-Update<br />
-ViewChangeTracking<br />
-ViewDefinition<br />
-CreateAnyDatabase<br />
-Connect is default.<br></p>
+<p>Specifies which permissions to grant. Defaults to 'Connect' for basic endpoint access.<br />
+For endpoints: Connect, Alter, Control, and others. For availability groups: Alter, Control, TakeOwnership, ViewDefinition only.<br />
+Use 'CreateAnyDatabase' for AGs to allow automatic seeding of new databases to replicas.<br></p>
 <table>
 <thead>
 <tr>
@@ -718,7 +705,8 @@ Connect is default.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaLogin.<br></p>
+<p>Accepts login objects from Get-DbaLogin pipeline input. Use this when you've already retrieved specific logins and want to grant them permissions.<br />
+Provides an alternative to specifying individual login names with the -Login parameter.<br></p>
 <table>
 <thead>
 <tr>

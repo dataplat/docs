@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Enable-DbaReplPublishing">Enable-DbaReplPublishing</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Enables replication publishing for the target SQL instances.</p>
+<p>Configures a SQL Server instance as a replication publisher on an existing distributor.</p>
 <h2 id="description">Description</h2>
-<p>Enables replication publishing for the target SQL instances.</p>
+<p>Configures a SQL Server instance to publish data for replication by creating the necessary publisher configuration on an existing distributor. This is typically the second step in setting up SQL Server replication, after the distributor has been configured with Enable-DbaReplDistributor. The function sets up the snapshot working directory, configures publisher security authentication, and registers the instance as a publisher with the distribution database. The target instance must already be configured as a distributor before running this command.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Enable-DbaReplPublishing
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -568,8 +568,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="snapshotshare">-SnapshotShare</h5>
-<p>The share used to access snapshot files.<br />
-The default is the ReplData folder within the InstallDataDirectory for the instance.<br></p>
+<p>Specifies the network share path where replication snapshot files will be stored and accessed by subscribers.<br />
+Use this when you need snapshot files in a specific location for network access or storage requirements.<br />
+Defaults to InstallDataDirectory\ReplData if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -597,8 +598,9 @@ The default is the ReplData folder within the InstallDataDirectory for the insta
 </tbody>
 </table>
 <h5 id="publishersqllogin">-PublisherSqlLogin</h5>
-<p>If this is used the PublisherSecurity will be set to use this.<br />
-If not specified WindowsAuthentication will be used - this is the default, and recommended method.<br></p>
+<p>SQL Server login credentials to use for publisher security authentication instead of Windows Authentication.<br />
+Use this when the distributor and publisher are in different domains or when Windows Authentication is not available.<br />
+Windows Authentication is used by default and is the recommended method for security.<br></p>
 <table>
 <thead>
 <tr>

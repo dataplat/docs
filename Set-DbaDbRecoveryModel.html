@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaDbRecoveryModel">Set-DbaDbRecoveryModel</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set-DbaDbRecoveryModel sets the Recovery Model.</p>
+<p>Changes the recovery model for specified databases on SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Set-DbaDbRecoveryModel sets the Recovery Model for all databases except TEMPDB.</p>
+<p>Changes the recovery model setting for one or more databases, allowing you to switch between Simple, Full, and BulkLogged recovery modes. This is commonly used when preparing databases for different backup strategies, reducing transaction log growth in development environments, or configuring production databases for point-in-time recovery. The function excludes tempdb and database snapshots automatically, and requires explicit database specification for safety.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaDbRecoveryModel
     [-SqlCredential &lt;PSCredential&gt;]
@@ -577,9 +577,9 @@ Set-DbaDbRecoveryModel
 </tbody>
 </table>
 <h5 id="recoverymodel">-RecoveryModel</h5>
-<p>Recovery Model to be set. Valid options are 'Simple', 'Full', 'BulkLogged'<br />
-Details about the recovery models can be found here:<br />
-<a href="https://docs.microsoft.com/en-us/sql/relational-databases/backup-restore/recovery-models-sql-server">https://docs.microsoft.com/en-us/sql/relational-databases/backup-restore/recovery-models-sql-server</a> <br></p>
+<p>Sets the recovery model for the specified databases. Choose Simple for minimal transaction log usage in development environments, Full for production databases requiring point-in-time recovery, or<br />
+BulkLogged for bulk operations with reduced logging.<br />
+This change affects backup strategy requirements and transaction log growth patterns for the target databases. <br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +611,8 @@ Details about the recovery models can be found here:<br />
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of databases (such as returned by Get-DbaDatabase) <br></p>
+<p>Accepts database objects from Get-DbaDatabase or similar commands through the pipeline.<br />
+Use this when you need to apply recovery model changes to a filtered set of databases based on specific criteria like size, last backup date, or other properties. <br></p>
 <table>
 <thead>
 <tr>
@@ -670,7 +671,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. if unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to change the recovery model for. Accepts database names as strings or wildcard patterns.<br />
+Use this when you need to target specific databases instead of all databases on the instance. Required unless using -AllDatabases.<br></p>
 <table>
 <thead>
 <tr>
@@ -698,7 +700,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies databases to skip when changing recovery models. Useful when combined with -AllDatabases to exclude specific databases.<br />
+Commonly used to exclude databases that should maintain their current recovery model for operational reasons.<br></p>
 <table>
 <thead>
 <tr>
@@ -726,7 +729,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alldatabases">-AllDatabases</h5>
-<p>This is a parameter that was included for safety, so you don't accidentally set options on all databases without specifying<br></p>
+<p>Required switch when you want to change the recovery model for all databases on the instance.<br />
+This safety parameter prevents accidentally modifying all databases without explicit confirmation. Automatically excludes tempdb and database snapshots.<br></p>
 <table>
 <thead>
 <tr>

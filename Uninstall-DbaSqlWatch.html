@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Uninstall-DbaSqlWatch">Uninstall-DbaSqlWatch</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Uninstalls SqlWatch.</p>
+<p>Completely removes SqlWatch monitoring solution from a SQL Server instance</p>
 <h2 id="description">Description</h2>
-<p>Deletes all user objects, agent jobs, and historical data associated with SqlWatch.</p>
+<p>Performs a complete uninstallation of the SqlWatch performance monitoring solution by removing all associated database objects, SQL Agent jobs, and historical data. This includes dropping all SqlWatch tables (containing performance metrics history), views, stored procedures, functions, Extended Events sessions, Service Broker components, assemblies, and user-defined table types. The function also unpublishes the SqlWatch DACPAC registration to ensure clean removal. Use this when decommissioning SqlWatch or preparing for a fresh installation after configuration issues.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Uninstall-DbaSqlWatch
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -566,7 +566,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database to install SqlWatch into. Defaults to master.<br></p>
+<p>Specifies the database containing the SqlWatch installation to remove. Defaults to master.<br />
+Use this when SqlWatch was installed in a database other than the default master database.<br></p>
 <table>
 <thead>
 <tr>

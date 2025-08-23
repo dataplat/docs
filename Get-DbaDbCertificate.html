@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbCertificate">Get-DbaDbCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database certificates</p>
+<p>Retrieves database-level certificates from SQL Server databases for security auditing and certificate management</p>
 <h2 id="description">Description</h2>
-<p>Gets database certificates</p>
+<p>Retrieves all certificates stored within SQL Server databases, providing detailed information about each certificate including expiration dates, issuers, and encryption properties. This function is essential for DBAs managing Transparent Data Encryption (TDE), Service Broker security, or other database-level encryption features. Use this to audit certificate inventory across your environment, monitor approaching expiration dates for proactive renewal planning, and ensure compliance with security policies that require certificate tracking and rotation.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbCertificate
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -580,7 +580,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Get certificate from specific database<br></p>
+<p>Specifies which databases to search for certificates. Accepts one or more database names as strings.<br />
+Use this when you need to audit certificates in specific databases rather than all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -608,7 +609,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Database(s) to ignore when retrieving certificates<br></p>
+<p>Specifies which databases to skip when retrieving certificates. Accepts one or more database names as strings.<br />
+Useful when you want to audit most databases but exclude system databases or specific databases that don't contain certificates of interest.<br></p>
 <table>
 <thead>
 <tr>
@@ -636,7 +638,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="certificate">-Certificate</h5>
-<p>Get specific certificate by name<br></p>
+<p>Filters results to specific certificates by their name property. Accepts one or more certificate names as strings.<br />
+Use this when you need to check the status of known certificates across multiple databases, such as tracking TDE certificates or Service Broker certificates.<br></p>
 <table>
 <thead>
 <tr>
@@ -664,7 +667,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subject">-Subject</h5>
-<p>Get specific certificate by subject<br></p>
+<p>Filters results to certificates with specific subject names. Accepts one or more subject strings for exact matching.<br />
+Helpful when searching for certificates based on their distinguished name or common name, particularly when certificate names aren't descriptive but subjects are standardized.<br></p>
 <table>
 <thead>
 <tr>
@@ -692,7 +696,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase through the PowerShell pipeline.<br />
+This allows you to chain commands like Get-DbaDatabase | Get-DbaDbCertificate for more complex filtering scenarios.<br></p>
 <table>
 <thead>
 <tr>

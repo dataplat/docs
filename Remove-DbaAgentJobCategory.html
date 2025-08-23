@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaAgentJobCategory">Remove-DbaAgentJobCategory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Remove-DbaAgentJobCategory removes a job category.</p>
+<p>Removes SQL Server Agent job categories from one or more instances.</p>
 <h2 id="description">Description</h2>
-<p>Remove-DbaAgentJobCategory makes it possible to remove a job category.<br />
-Be assured that the category you want to remove is not used with other jobs. If another job uses this category it will be get the category [Uncategorized (Local)].</p>
+<p>Removes custom SQL Server Agent job categories that are no longer needed for job organization and management.<br />
+This is useful when cleaning up obsolete categories after reorganizing jobs or migrating workloads between environments.<br />
+Any jobs currently assigned to a removed category will automatically be reassigned to the default &quot;[Uncategorized (Local)]&quot; category.<br />
+The function provides safety controls and detailed status reporting to ensure successful cleanup operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgentJobCategory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -556,7 +558,8 @@ Remove-DbaAgentJobCategory -InputObject &lt;JobCategory[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaAgentJobCategory. <br></p>
+<p>Accepts SQL Agent job category objects from the pipeline, typically from Get-DbaAgentJobCategory.<br />
+Use this for interactive category selection workflows or when you need to filter categories before removal using Get-DbaAgentJobCategory's filtering options. <br></p>
 <table>
 <thead>
 <tr>
@@ -615,7 +618,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>The name of the category.<br></p>
+<p>Specifies the name of the SQL Agent job category to remove from the instance. Accepts multiple category names for batch operations.<br />
+Use this when you need to clean up specific custom categories that are no longer needed for job organization.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,8 +647,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="categorytype">-CategoryType</h5>
-<p>The type of category. This can be &quot;LocalJob&quot;, &quot;MultiServerJob&quot; or &quot;None&quot;.<br />
-If no category is used all categories types will be removed.<br></p>
+<p>Filters categories by their type: &quot;LocalJob&quot; for single-server jobs, &quot;MultiServerJob&quot; for multi-server administration jobs, or &quot;None&quot; for uncategorized jobs.<br />
+Use this to target specific category types when cleaning up job organization structures. If omitted, all category types will be processed.<br></p>
 <table>
 <thead>
 <tr>

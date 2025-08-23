@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAgentJobStep">New-DbaAgentJobStep</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>New-DbaAgentJobStep creates a new job step for a job</p>
+<p>Creates a new step within an existing SQL Server Agent job with configurable execution options and flow control</p>
 <h2 id="description">Description</h2>
-<p>New-DbaAgentJobStep creates a new job in the SQL Server Agent for a specific job</p>
+<p>Creates individual job steps within SQL Server Agent jobs, allowing you to build complex automation workflows without manually configuring each step through SSMS. Each step can execute different types of commands (T-SQL, PowerShell, SSIS packages, OS commands) and includes retry logic, success/failure branching, and output capture. When you need to add steps to existing jobs or build multi-step processes, this function handles the step ordering and dependency management automatically, including the ability to insert steps between existing ones without breaking the workflow sequence.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaAgentJobStep
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -576,7 +576,8 @@ Internal StepIds will be updated, and any specific OnSuccess/OnFailure step refe
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job to which to add the step. <br></p>
+<p>Specifies the SQL Server Agent job name where the new step will be added. Accepts job names or job objects from Get-DbaAgentJob.<br />
+Use this to target specific jobs when building multi-step automation workflows. <br></p>
 <table>
 <thead>
 <tr>
@@ -604,7 +605,8 @@ Internal StepIds will be updated, and any specific OnSuccess/OnFailure step refe
 </tbody>
 </table>
 <h5 id="stepname">-StepName</h5>
-<p>The name of the step. <br></p>
+<p>Defines a descriptive name for the job step that appears in SQL Server Agent and job history logs.<br />
+Choose meaningful names that clearly identify the step's purpose for easier troubleshooting and maintenance. <br></p>
 <table>
 <thead>
 <tr>
@@ -663,7 +665,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="stepid">-StepId</h5>
-<p>The sequence identification number for the job step. Step identification numbers start at 1 and increment without gaps.<br></p>
+<p>Sets the execution order position for this step within the job sequence. Step numbers start at 1 and must be sequential.<br />
+Use this to control step execution order or when inserting steps between existing ones. If not specified, adds the step at the end.<br></p>
 <table>
 <thead>
 <tr>
@@ -691,9 +694,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subsystem">-Subsystem</h5>
-<p>The subsystem used by the SQL Server Agent service to execute command.<br />
-Allowed values 'ActiveScripting','AnalysisCommand','AnalysisQuery','CmdExec','Distribution','LogReader','Merge','PowerShell','QueueReader','Snapshot','Ssis','TransactSql'<br />
-The default is 'TransactSql'<br></p>
+<p>Determines what execution engine SQL Server Agent uses to run the step command. Defaults to 'TransactSql' for T-SQL scripts.<br />
+Use 'PowerShell' for PowerShell scripts, 'CmdExec' for operating system commands, 'Ssis' for SSIS packages, or replication subsystems for replication tasks.<br />
+Analysis subsystems require SQL Server Analysis Services and the SubSystemServer parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -725,7 +728,8 @@ The default is 'TransactSql'<br></p>
 </tbody>
 </table>
 <h5 id="subsystemserver">-SubsystemServer</h5>
-<p>The subsystems AnalysisScripting, AnalysisCommand, AnalysisQuery ned the server property to be able to apply<br></p>
+<p>Specifies the Analysis Services server name when using AnalysisScripting, AnalysisCommand, or AnalysisQuery subsystems.<br />
+Required for Analysis Services job steps to connect to the appropriate SSAS instance for cube processing or MDX queries.<br></p>
 <table>
 <thead>
 <tr>
@@ -753,7 +757,8 @@ The default is 'TransactSql'<br></p>
 </tbody>
 </table>
 <h5 id="command">-Command</h5>
-<p>The commands to be executed by SQLServerAgent service through subsystem.<br></p>
+<p>Contains the actual code or command that the job step will execute, such as T-SQL scripts, PowerShell code, or operating system commands.<br />
+The command syntax must match the specified subsystem type. For T-SQL steps, include complete SQL statements or stored procedure calls.<br></p>
 <table>
 <thead>
 <tr>
@@ -781,7 +786,8 @@ The default is 'TransactSql'<br></p>
 </tbody>
 </table>
 <h5 id="cmdexecsuccesscode">-CmdExecSuccessCode</h5>
-<p>The value returned by a CmdExec subsystem command to indicate that command executed successfully.<br></p>
+<p>Defines the exit code that indicates successful completion for CmdExec subsystem steps. Most applications return 0 for success.<br />
+Use this when running batch files or executables that return non-zero success codes to prevent the job from failing incorrectly.<br></p>
 <table>
 <thead>
 <tr>
@@ -809,9 +815,9 @@ The default is 'TransactSql'<br></p>
 </tbody>
 </table>
 <h5 id="onsuccessaction">-OnSuccessAction</h5>
-<p>The action to perform if the step succeeds.<br />
-Allowed values  &quot;QuitWithSuccess&quot; (default), &quot;QuitWithFailure&quot;, &quot;GoToNextStep&quot;, &quot;GoToStep&quot;.<br />
-The text value can either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
+<p>Controls job flow when this step completes successfully. Default 'QuitWithSuccess' ends the job with success status.<br />
+Use 'GoToNextStep' for sequential execution, 'GoToStep' to jump to a specific step, or 'QuitWithFailure' for conditional failure handling.<br />
+Essential for building complex workflows with branching logic based on step outcomes.<br></p>
 <table>
 <thead>
 <tr>
@@ -843,7 +849,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="onsuccessstepid">-OnSuccessStepId</h5>
-<p>The ID of the step in this job to execute if the step succeeds and OnSuccessAction is &quot;GoToStep&quot;.<br></p>
+<p>Specifies which step to execute next when OnSuccessAction is set to 'GoToStep' and this step succeeds.<br />
+Use this to create conditional branching in job workflows, such as skipping cleanup steps when data processing completes successfully.<br></p>
 <table>
 <thead>
 <tr>
@@ -871,9 +878,9 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="onfailaction">-OnFailAction</h5>
-<p>The action to perform if the step fails.<br />
-Allowed values  &quot;QuitWithFailure&quot; (default), &quot;QuitWithSuccess&quot;, &quot;GoToNextStep&quot;, &quot;GoToStep&quot;.<br />
-The text value can either be lowercase, uppercase or something in between as long as the text is correct.<br></p>
+<p>Determines job behavior when this step fails. Default 'QuitWithFailure' stops the job and reports failure.<br />
+Use 'GoToNextStep' to continue despite failures, 'GoToStep' for error handling routines, or 'QuitWithSuccess' when failure is acceptable.<br />
+Critical for implementing error handling and recovery procedures in automated processes.<br></p>
 <table>
 <thead>
 <tr>
@@ -905,7 +912,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="onfailstepid">-OnFailStepId</h5>
-<p>The ID of the step in this job to execute if the step fails and OnFailAction is &quot;GoToStep&quot;.<br></p>
+<p>Identifies the step to execute when OnFailAction is 'GoToStep' and this step fails.<br />
+Use this to implement error handling workflows, such as sending notifications or running cleanup procedures when critical steps fail.<br></p>
 <table>
 <thead>
 <tr>
@@ -933,7 +941,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The name of the database in which to execute a Transact-SQL step. The default is 'master'.<br></p>
+<p>Specifies the database context for TransactSql subsystem steps. Defaults to 'master' if not specified.<br />
+Set this to the appropriate database where your T-SQL commands should execute, as it determines schema resolution and object access.<br></p>
 <table>
 <thead>
 <tr>
@@ -961,7 +970,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="databaseuser">-DatabaseUser</h5>
-<p>The name of the user account to use when executing a Transact-SQL step.<br></p>
+<p>Sets the database user context for executing T-SQL steps, overriding the SQL Server Agent service account permissions.<br />
+Use this when the step needs specific database-level permissions that differ from the Agent service account's access rights.<br></p>
 <table>
 <thead>
 <tr>
@@ -989,7 +999,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="retryattempts">-RetryAttempts</h5>
-<p>The number of retry attempts to use if this step fails. The default is 0.<br></p>
+<p>Sets how many times SQL Server Agent will retry this step if it fails before considering it permanently failed.<br />
+Use this for steps that might fail due to temporary issues like network connectivity or resource contention. Defaults to 0 (no retries).<br></p>
 <table>
 <thead>
 <tr>
@@ -1017,7 +1028,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="retryinterval">-RetryInterval</h5>
-<p>The amount of time in minutes between retry attempts. The default is 0.<br></p>
+<p>Defines the wait time in minutes between retry attempts when a step fails. Defaults to 0 (immediate retry).<br />
+Set appropriate intervals to allow temporary issues to resolve, such as waiting for locked resources or network recovery.<br></p>
 <table>
 <thead>
 <tr>
@@ -1045,7 +1057,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="outputfilename">-OutputFileName</h5>
-<p>The name of the file in which the output of this step is saved.<br></p>
+<p>Specifies a file path where the step's output will be written for logging and troubleshooting purposes.<br />
+Use this to capture command results, error messages, or progress information for later analysis when jobs fail or need auditing.<br></p>
 <table>
 <thead>
 <tr>
@@ -1073,8 +1086,8 @@ The text value can either be lowercase, uppercase or something in between as lon
 </tbody>
 </table>
 <h5 id="insert">-Insert</h5>
-<p>This switch indicates the new step is inserted at the specified stepid.<br />
-All following steps will have their IDs incremented by, and success/failure next steps incremented accordingly<br></p>
+<p>Inserts the new step at the specified StepId position, automatically renumbering subsequent steps and updating their references.<br />
+Use this when adding steps to existing jobs without breaking the workflow sequence, such as inserting validation steps between existing processes.<br></p>
 <table>
 <thead>
 <tr>
@@ -1102,7 +1115,9 @@ All following steps will have their IDs incremented by, and success/failure next
 </tbody>
 </table>
 <h5 id="flag">-Flag</h5>
-<h2 id="sets-the-flags-for-the-job-step.flag-description">Sets the flag(s) for the job step.
+<h2 id="controls-how-job-step-output-and-history-are-logged-and-stored.multiple-flags-can-be-specified-for-comprehensive-logging.use-appendallcmdexecoutputtojobhistory-to-capture-command-output-in-job-history-appendtologfile-for-sql-server-error-log-entries-or-appendtotablelog-for-database-table-logging.essential-for-troubleshooting-and-auditing-job-execution-especially-for-steps-that-generate-important-output-or-error-information.flag-description">Controls how job step output and history are logged and stored. Multiple flags can be specified for comprehensive logging.
+Use 'AppendAllCmdExecOutputToJobHistory' to capture command output in job history, 'AppendToLogFile' for SQL Server error log entries, or 'AppendToTableLog' for database table logging.
+Essential for troubleshooting and auditing job execution, especially for steps that generate important output or error information.
 Flag                                    Description</h2>
 <p>AppendAllCmdExecOutputToJobHistory      Job history, including command output, is appended to the job history file.<br />
 AppendToJobHistory                      Job history is appended to the job history file.<br />
@@ -1142,7 +1157,8 @@ ProvideStopProcessEvent                 Job processing is stopped.<br></p>
 </tbody>
 </table>
 <h5 id="proxyname">-ProxyName</h5>
-<p>The name of the proxy that the job step runs as.<br></p>
+<p>Specifies a SQL Server Agent proxy account to use for step execution instead of the Agent service account.<br />
+Use this when steps need specific Windows credentials for file system access, network resources, or applications that require different security contexts.<br></p>
 <table>
 <thead>
 <tr>
@@ -1170,7 +1186,8 @@ ProvideStopProcessEvent                 Job processing is stopped.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.<br></p>
+<p>Bypasses validation checks and overwrites existing steps with the same name or ID.<br />
+Use this when recreating steps during development or when you need to replace existing steps without manual deletion first.<br></p>
 <table>
 <thead>
 <tr>

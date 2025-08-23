@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaDbRecoveryModel">Test-DbaDbRecoveryModel</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Find if database is really a specific recovery model or not.</p>
+<p>Validates whether databases are truly operating in their configured recovery model</p>
 <h2 id="description">Description</h2>
-<p>When you switch a database into FULL recovery model, it will behave like a SIMPLE recovery model until a full backup is taken in order to begin a log backup chain.</p>
-<p>However, you may also desire to validate if a database is SIMPLE or BULK LOGGED on an instance.</p>
+<p>When you switch a database into FULL recovery model, it will behave like a SIMPLE recovery model until a full backup is taken in order to begin a log backup chain. This function identifies the gap between configured and actual recovery model behavior.</p>
+<p>For FULL recovery databases, the function checks if a log backup chain has been established by examining the last_log_backup_lsn in sys.database_recovery_status. Databases without this value are functionally operating in SIMPLE mode despite being configured for FULL recovery.</p>
+<p>This validation is critical for DBAs who need to ensure point-in-time recovery capabilities are actually available, not just configured. It also allows validation of SIMPLE or BULK_LOGGED recovery models on an instance.</p>
 <p>Inspired by Paul Randal's post (<a href="http://www.sqlskills.com/blogs/paul/new-script-is-that-database-really-in-the-full-recovery-mode/">http://www.sqlskills.com/blogs/paul/new-script-is-that-database-really-in-the-full-recovery-mode/</a>)</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaDbRecoveryModel
@@ -551,7 +552,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to test for recovery model validation. Accepts multiple database names and supports wildcards.<br />
+When specified, only these databases will be evaluated instead of all databases on the instance.<br />
+Useful when you need to verify recovery model behavior for specific databases or troubleshoot particular applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -579,7 +582,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies which databases to skip during recovery model validation. Accepts multiple database names and supports wildcards.<br />
+Use this to exclude system databases, test databases, or databases you know are properly configured when testing large instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +641,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="recoverymodel">-RecoveryModel</h5>
-<p>Specifies the type of recovery model you wish to test. By default it will test for FULL Recovery Model.<br></p>
+<p>Specifies which recovery model to validate against configured settings. Valid values are Full, Simple, or Bulk_Logged.<br />
+Defaults to Full recovery model, which also checks if databases have established a log backup chain for true point-in-time recovery.<br />
+Use Simple or Bulk_Logged when auditing databases that should be configured for those specific recovery models.<br></p>
 <table>
 <thead>
 <tr>

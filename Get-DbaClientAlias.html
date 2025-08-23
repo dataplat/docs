@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaClientAlias">Get-DbaClientAlias</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets any SQL Server alias for the specified server(s)</p>
+<p>Retrieves SQL Server client aliases from the Windows registry on local or remote computers</p>
 <h2 id="description">Description</h2>
-<p>Gets SQL Server alias by reading HKLM:\SOFTWARE\Microsoft\MSSQLServer\Client</p>
+<p>Retrieves all configured SQL Server client aliases by reading the Windows registry paths where SQL Server Native Client stores alias definitions. Client aliases allow DBAs to create friendly names that map to actual SQL Server instances, making connection strings simpler and more portable across environments. This is particularly useful when managing multiple instances, non-default ports, or when you need to abstract the actual server names from applications and connection strings.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaClientAlias
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -517,7 +517,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets all SQL Server client aliases on Server1 and Server2<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer where the alias has been created<br></p>
+<p>Specifies the computer(s) to retrieve SQL Server client aliases from. Accepts multiple computers via pipeline input.<br />
+Use this when you need to audit client alias configurations across multiple workstations or servers in your environment.<br></p>
 <table>
 <thead>
 <tr>

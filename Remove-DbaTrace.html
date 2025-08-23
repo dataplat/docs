@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaTrace">Remove-DbaTrace</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Stops and closes the specified trace and deletes its definition from the server.</p>
+<p>Stops and removes SQL Server traces by ID or piped input from Get-DbaTrace.</p>
 <h2 id="description">Description</h2>
-<p>Stops and closes the specified trace and deletes its definition from the server.</p>
+<p>Stops active SQL Server traces and permanently removes their definitions from the server using sp_trace_setstatus. This function helps clean up unnecessary traces that may be consuming server resources or disk space from previous troubleshooting sessions. The default trace is protected and cannot be removed - use Set-DbaSpConfigure to disable it instead. Traces are stopped first, then their definitions are deleted in a two-step process to ensure clean removal.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaTrace
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -575,7 +575,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="id">-Id</h5>
-<p>A list of trace ids.<br></p>
+<p>Specifies the trace IDs to stop and remove from the SQL Server instance. Accepts one or more integer values.<br />
+Use this when you know the specific trace IDs you want to remove, which you can obtain from Get-DbaTrace or SQL Server Profiler.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +604,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter for piping.<br></p>
+<p>Accepts trace objects from Get-DbaTrace via the pipeline for removal operations.<br />
+This enables filtering traces with Get-DbaTrace before removing specific ones, such as removing only traces with certain characteristics.<br></p>
 <table>
 <thead>
 <tr>

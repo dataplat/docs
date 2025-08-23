@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaWsfcDisk">Get-DbaWsfcDisk</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets information about the clustered disks on one or more failover clusters in a given domain.</p>
+<p>Retrieves detailed information about clustered physical disks from Windows Server Failover Clusters.</p>
 <h2 id="description">Description</h2>
-<p>Gets information about the clustered disks on one or more failover clusters in a given domain.</p>
+<p>Retrieves comprehensive disk information from Windows Server Failover Clusters including disk space usage, file systems, mount points, and cluster resource states. This function is essential for DBAs managing SQL Server Failover Cluster Instances who need to monitor storage health and capacity across cluster nodes. Returns detailed disk properties like total size, free space, volume labels, and serial numbers for each clustered disk resource, helping identify storage bottlenecks and plan capacity upgrades.</p>
 <p>All Windows Server Failover Clustering (Wsfc) commands require local admin on each member node.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaWsfcDisk
@@ -506,7 +506,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Gets disk information from the failover cluster cluster01<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target cluster name. Can be a node or the cluster name itself.<br></p>
+<p>Specifies the Windows Server Failover Cluster to query for disk information. Accepts either a cluster node name or the cluster name itself.<br />
+Use this when managing SQL Server Failover Cluster Instances to monitor storage across different cluster environments.<br></p>
 <table>
 <thead>
 <tr>

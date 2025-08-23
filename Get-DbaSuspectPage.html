@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaSuspectPage">Get-DbaSuspectPage</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns data that is stored in SQL for Suspect Pages on the specified SQL Server Instance</p>
+<p>Retrieves suspect page records from msdb database for corruption detection and analysis</p>
 <h2 id="description">Description</h2>
-<p>This function returns any records that were stored due to suspect pages in databases on a SQL Server Instance.</p>
+<p>Queries the msdb.dbo.suspect_pages table to identify database pages that have experienced corruption events such as checksum failures, torn pages, or I/O errors. SQL Server automatically logs corrupt pages to this system table when encountered during read operations, making this function essential for proactive corruption monitoring and troubleshooting. Returns detailed information including the specific database, file, page location, error type, occurrence count, and last detection date to help DBAs prioritize remediation efforts.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaSuspectPage
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -539,7 +539,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="database">-Database</h5>
-<p>The database to return. If unspecified, all records will be returned.<br></p>
+<p>Filters suspect page results to a specific database name. When omitted, returns suspect pages from all databases on the instance.<br />
+Use this when investigating corruption issues in a particular database or when you need to focus troubleshooting efforts on a single database.<br></p>
 <table>
 <thead>
 <tr>

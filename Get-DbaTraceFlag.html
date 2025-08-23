@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaTraceFlag">Get-DbaTraceFlag</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get global Trace Flag(s) information for each instance(s) of SQL Server.</p>
+<p>Retrieves currently enabled global trace flags from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Returns Trace Flags that are enabled globally on each instance(s) of SQL Server as an object.</p>
+<p>Queries SQL Server instances to identify which global trace flags are currently active, returning detailed status information for monitoring and compliance purposes. This is essential for auditing server configurations, troubleshooting performance issues, and ensuring trace flag consistency across environments. You can filter results to specific trace flag numbers or retrieve all enabled flags across multiple instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaTraceFlag
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -573,7 +573,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="traceflag">-TraceFlag</h5>
-<p>Use this switch to filter to a specific Trace Flag.<br></p>
+<p>Specifies one or more trace flag numbers to filter the results. Only returns information for the specified trace flags if they are currently enabled.<br />
+Use this when you need to check the status of specific trace flags rather than reviewing all enabled flags on the instance.<br></p>
 <table>
 <thead>
 <tr>

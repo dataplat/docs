@@ -485,13 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaDiskSpeed">Test-DbaDiskSpeed</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Obtains I/O statistics based on the DMV sys.dm_io_virtual_file_stats</p>
+<p>Analyzes database file I/O performance and identifies storage bottlenecks using SQL Server DMV statistics</p>
 <h2 id="description">Description</h2>
-<p>Obtains I/O statistics based on the DMV sys.dm_io_virtual_file_stats:</p>
-<p><a href="https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-io-virtual-file-stats-transact-sql">https://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-io-virtual-file-stats-transact-sql</a></p>
-<p>This command uses a query from Rich Benner<br />
-<a href="https://github.com/RichBenner/PersonalCode/blob/master/Disk_Speed_Check.sql">https://github.com/RichBenner/PersonalCode/blob/master/Disk_Speed_Check.sql</a></p>
-<p>...and also based on further adaptations referenced at <a href="https://github.com/dataplat/dbatools/issues/6551#issue-623216718">https://github.com/dataplat/dbatools/issues/6551#issue-623216718</a></p>
+<p>Queries sys.dm_io_virtual_file_stats to measure read/write latency, throughput, and overall I/O performance for database files. Returns performance ratings from &quot;Very Good&quot; to &quot;Serious I/O Bottleneck&quot; based on average stall times, helping you quickly identify storage issues that impact SQL Server performance. Can aggregate results by individual file, database, or disk level to pinpoint exactly where I/O problems exist. Essential for troubleshooting slow queries, validating storage upgrades, and proactive performance monitoring.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaDiskSpeed
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -602,7 +598,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to include in the I/O performance analysis. Accepts database names as strings or arrays.<br />
+Use this when you need to focus on specific databases instead of analyzing all databases on the instance.<br />
+Commonly used to isolate performance issues in production databases or exclude system databases from analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -630,7 +628,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies which databases to exclude from the I/O performance analysis. Accepts database names as strings or arrays.<br />
+Use this when you want to analyze most databases but skip specific ones like development databases or those with known issues.<br />
+Helpful for excluding system databases (master, model, msdb) when focusing on user database performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -658,7 +658,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="aggregateby">-AggregateBy</h5>
-<p>Specify the level of aggregation for the statistics. The available options are 'File' (the default), 'Database', and 'Disk'.<br></p>
+<p>Controls how I/O statistics are grouped and summarized in the results. Options are 'File' (default), 'Database', or 'Disk'.<br />
+Use 'File' for detailed analysis of individual data and log files, 'Database' to compare performance across databases, or 'Disk' to identify storage-level bottlenecks.<br />
+File-level analysis helps pinpoint specific problematic files, while disk-level aggregation is useful for storage capacity planning and identifying hardware issues.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaSchemaChangeHistory">Get-DbaSchemaChangeHistory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets DDL changes logged in the system trace.</p>
+<p>Retrieves DDL change history from the SQL Server default system trace</p>
 <h2 id="description">Description</h2>
-<p>Queries the default system trace for any DDL changes in the specified time frame<br />
-Only works with SQL 2005 and later, as the system trace didn't exist before then</p>
+<p>Queries the default system trace to track CREATE, DROP, and ALTER operations performed on database objects, providing a complete audit trail of schema modifications. This helps DBAs identify who made changes, when they occurred, and which objects were affected without needing to manually parse trace files or enable custom auditing. Returns detailed information including login names, timestamps, application sources, and operation types for compliance reporting and troubleshooting. Only works with SQL Server 2005 and later, as the system trace didn't exist before then.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaSchemaChangeHistory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -581,7 +580,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to include when searching for schema changes. Accepts multiple database names and wildcards for pattern matching.<br />
+Use this when you need to focus on specific databases instead of scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +609,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies databases to exclude from the schema change search. Accepts multiple database names for filtering out unwanted databases.<br />
+Use this to skip system databases, test databases, or any databases you don't want included in the change history results.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +638,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="since">-Since</h5>
-<p>A date from which DDL changes should be returned. Default is to start at the beginning of the current trace file<br></p>
+<p>Filters results to show only DDL changes that occurred after the specified date and time. Accepts standard PowerShell date formats.<br />
+Use this to focus on recent changes or changes within a specific time period, especially helpful for troubleshooting recent issues or compliance reporting.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +667,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="object">-Object</h5>
-<p>The name of a SQL Server object you want to look for changes on<br></p>
+<p>Specifies the names of specific database objects to search for in the change history. Accepts multiple object names for targeted searches.<br />
+Use this when investigating changes to particular tables, views, stored procedures, or other database objects rather than reviewing all schema changes.<br></p>
 <table>
 <thead>
 <tr>

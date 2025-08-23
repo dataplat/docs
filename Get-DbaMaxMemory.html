@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaMaxMemory">Get-DbaMaxMemory</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the 'Max Server Memory' configuration setting and the memory of the server.  Works on SQL Server 2000-2014.</p>
+<p>Retrieves SQL Server max memory configuration and compares it to total physical server memory</p>
 <h2 id="description">Description</h2>
-<p>This command retrieves the SQL Server 'Max Server Memory' configuration setting as well as the total physical installed on the server.</p>
-<p>Results are turned in megabytes (MB).</p>
+<p>This command retrieves the SQL Server 'Max Server Memory' configuration setting alongside the total physical memory installed on the server. This comparison helps identify potential memory configuration issues that can impact SQL Server performance.</p>
+<p>Use this function to audit memory settings across your environment, troubleshoot performance issues related to memory pressure, or verify that SQL Server isn't configured to use more memory than physically available. The function is particularly useful for finding instances with the default max memory setting (2147483647 MB) that should be properly configured based on available physical memory.</p>
+<p>Results are returned in megabytes (MB) for both the configured max memory and total physical memory values.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaMaxMemory
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

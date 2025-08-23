@@ -485,26 +485,21 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAvailabilityGroup">New-DbaAvailabilityGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Automates the creation of availability groups.</p>
+<p>Creates SQL Server availability groups with automated replica setup, database seeding, and listener configuration.</p>
 <h2 id="description">Description</h2>
-<p>Automates the creation of availability groups.</p>
+<p>Creates availability groups with full automation, eliminating the manual multi-step process typically required through T-SQL or SSMS. This command handles the entire workflow from initial validation through final configuration, so you don't have to manually coordinate across multiple servers and troubleshoot common setup issues.</p>
+<p>Perfect for setting up high availability environments, disaster recovery solutions, or read-scale deployments. Supports both traditional Windows Server Failover Cluster (WSFC) environments and modern cluster-less configurations for containers and Linux.</p>
 <ul>
-<li>Checks prerequisites</li>
-<li>Creates Availability Group and adds primary replica</li>
-<li>Grants cluster permissions if necessary</li>
-<li>Adds secondary replica if supplied</li>
-<li>Adds databases if supplied
-<ul>
-<li>Performs backup/restore if seeding mode is manual</li>
-<li>Database has to be in full recovery mode (so at least one backup has been taken) if seeding mode is automatic</li>
+<li>Validates prerequisites across all instances</li>
+<li>Creates availability group and configures primary replica</li>
+<li>Sets up database mirroring endpoints with proper authentication</li>
+<li>Adds and joins secondary replicas automatically</li>
+<li>Seeds databases using backup/restore or direct seeding</li>
+<li>Configures listeners with static IP or DHCP</li>
+<li>Grants necessary cluster and endpoint permissions</li>
+<li>Enables AlwaysOn_health extended events sessions</li>
 </ul>
-</li>
-<li>Adds listener to primary if supplied</li>
-<li>Joins secondaries to availability group</li>
-<li>Grants endpoint connect permissions to service accounts</li>
-<li>Grants CreateAnyDatabase permissions if seeding mode is automatic</li>
-<li>Returns Availability Group object from primary</li>
-</ul>
+<p>The command handles the complex coordination between servers that trips up manual setups - endpoint permissions, service account access, database seeding modes, and cluster integration.</p>
 <p>NOTES:</p>
 <ul>
 <li>If a backup / restore is performed, the backups will be left intact on the network share.</li>
@@ -615,7 +610,9 @@ PS C:\&gt; New-DbaAvailabilityGroup @params
 <p>This exact command was used to create an availability group on docker!<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="name">-Name</h5>
-<p>The name of the Availability Group. <br></p>
+<p>Specifies the name for the new availability group.<br />
+This name must be unique across all availability groups in the Windows Server Failover Cluster.<br />
+Choose a descriptive name that reflects the application or purpose, as this will be used for monitoring and management. <br></p>
 <table>
 <thead>
 <tr>
@@ -644,7 +641,9 @@ PS C:\&gt; New-DbaAvailabilityGroup @params
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="primary">-Primary</h5>
-<p>The primary SQL Server instance. Server version must be SQL Server version 2012 or higher.<br></p>
+<p>Specifies the SQL Server instance that will host the primary replica of the availability group.<br />
+This instance must have AlwaysOn Availability Groups enabled and be running SQL Server 2012 or higher.<br />
+Use this when setting up the main server that will handle write operations and coordinate with secondary replicas.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,7 +701,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="secondary">-Secondary</h5>
-<p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.<br></p>
+<p>Specifies one or more SQL Server instances that will host secondary replicas in the availability group.<br />
+All instances must have AlwaysOn enabled and be running SQL Server 2012 or higher.<br />
+These servers will receive synchronized copies of your databases and can serve read-only workloads or provide disaster recovery.<br></p>
 <table>
 <thead>
 <tr>
@@ -760,8 +761,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="iscontained">-IsContained</h5>
-<p>Builds the Availability Group as contained. Only supported in SQL Server 2022 or higher.<br />
-<a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/contained-availability-groups-overview">https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/contained-availability-groups-overview</a><br></p>
+<p>Creates a contained availability group that includes system databases alongside user databases.<br />
+Only supported in SQL Server 2022 and above, this eliminates the need to manually synchronize logins and jobs.<br />
+Use this for simplified management when you need consistent security objects across all replicas.<br></p>
 <table>
 <thead>
 <tr>
@@ -789,7 +791,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="reusesystemdatabases">-ReuseSystemDatabases</h5>
-<p>Used when rebuilding an availability group with the same name, where system databases already exist for the contained availability group.<br></p>
+<p>Reuses existing system databases when recreating a contained availability group with the same name.<br />
+Only applicable with contained availability groups (-IsContained).<br />
+Use this when rebuilding an AG to avoid conflicts with previously created system database copies.<br></p>
 <table>
 <thead>
 <tr>
@@ -817,7 +821,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="dtcsupport">-DtcSupport</h5>
-<p>Indicates whether the DtcSupport is enabled<br></p>
+<p>Enables support for distributed transactions using Microsoft Distributed Transaction Coordinator (DTC).<br />
+Required when applications use distributed transactions that span databases in the availability group.<br />
+Note that DTC support is not available on Linux SQL Server instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -845,11 +851,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="clustertype">-ClusterType</h5>
-<p>Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.<br />
-Options include: Wsfc, External or None.<br />
-Defaults to Wsfc (Windows Server Failover Cluster).<br />
-The default can be changed with:<br />
-Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
+<p>Defines the clustering technology used by the availability group (SQL Server 2017+).<br />
+Options: Wsfc (Windows Server Failover Cluster), External (Linux Pacemaker), or None (no cluster).<br />
+Use 'None' for read-scale scenarios without automatic failover, 'External' for Linux environments, or 'Wsfc' for traditional Windows clustering.<br></p>
 <table>
 <thead>
 <tr>
@@ -881,7 +885,9 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '..
 </tbody>
 </table>
 <h5 id="automatedbackuppreference">-AutomatedBackupPreference</h5>
-<p>Specifies how replicas in the primary role are treated in the evaluation to pick the desired replica to perform a backup.<br></p>
+<p>Controls which replicas are preferred for automated backup operations.<br />
+Options: Primary, Secondary, SecondaryOnly, or None.<br />
+Use 'Secondary' to offload backup I/O from the primary, or 'SecondaryOnly' to ensure backups never impact primary performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -913,16 +919,9 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ClusterType' -Value '..
 </tbody>
 </table>
 <h5 id="failureconditionlevel">-FailureConditionLevel</h5>
-<p>Specifies the different conditions that can trigger an automatic failover in Availability Group.<br />
-Defaults to OnCriticalServerErrors (Level 3).<br />
-From <a href="https://docs.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql</a>:<br />
-Level 1 = OnServerDown<br />
-Level 2 = OnServerUnresponsive<br />
-Level 3 = OnCriticalServerErrors (the default in CREATE AVAILABILITY GROUP and in this command)<br />
-Level 4 = OnModerateServerErrors<br />
-Level 5 = OnAnyQualifiedFailureCondition<br />
-The default can be changed with:<br />
-Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.FailureConditionLevel' -Value 'On...' -Passthru | Register-DbatoolsConfig<br></p>
+<p>Determines what conditions trigger automatic failover in the availability group.<br />
+Default is Level 3 (OnCriticalServerErrors), which balances protection against false positives.<br />
+Use Level 1 for fastest failover, Level 5 for maximum sensitivity, or adjust based on your tolerance for automatic failover events.<br></p>
 <table>
 <thead>
 <tr>
@@ -954,10 +953,9 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.FailureConditionLevel' 
 </tbody>
 </table>
 <h5 id="healthchecktimeout">-HealthCheckTimeout</h5>
-<p>This setting used to specify the length of time, in milliseconds, that the SQL Server resource DLL should wait for information returned by the sp_server_diagnostics stored procedure before reporting<br />
-the Always On Failover Cluster Instance (FCI) as unresponsive.<br />
-Changes that are made to the timeout settings are effective immediately and do not require a restart of the SQL Server resource.<br />
-Defaults to 30000 (30 seconds).<br></p>
+<p>Sets the timeout in milliseconds for health check responses from the sp_server_diagnostics procedure.<br />
+Default is 30000 (30 seconds). Lower values provide faster failure detection but may cause false positives.<br />
+Increase this value in environments with high I/O load or slower storage to prevent unnecessary failovers.<br></p>
 <table>
 <thead>
 <tr>
@@ -985,8 +983,9 @@ Defaults to 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="basic">-Basic</h5>
-<p>Indicates whether the availability group is Basic Availability Group.<br />
-<a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/basic-availability-groups-always-on-availability-groups">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/basic-availability-groups-always-on-availability-groups</a><br></p>
+<p>Creates a Basic Availability Group limited to one database and two replicas.<br />
+Available in SQL Server 2016 Standard Edition and above as an alternative to Database Mirroring.<br />
+Use this for simple two-node high availability scenarios when you don't need multiple databases or advanced features.<br></p>
 <table>
 <thead>
 <tr>
@@ -1014,7 +1013,9 @@ Defaults to 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="databasehealthtrigger">-DatabaseHealthTrigger</h5>
-<p>Indicates whether the availability group triggers the database health.<br></p>
+<p>Enables database-level health monitoring that can trigger automatic failover.<br />
+When enabled, database corruption or other critical database errors can initiate failover.<br />
+Use this for additional protection when database integrity is more critical than minimizing failover events.<br></p>
 <table>
 <thead>
 <tr>
@@ -1042,7 +1043,9 @@ Defaults to 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="passthru">-Passthru</h5>
-<p>Don't create the availability group, just pass thru an object that can be further customized before creation.<br></p>
+<p>Returns the availability group object without creating it, allowing further customization.<br />
+Use this when you need to modify advanced properties or add custom configurations before creating the AG.<br />
+The returned object can be passed to other dbatools commands or have properties modified directly.<br></p>
 <table>
 <thead>
 <tr>
@@ -1070,7 +1073,9 @@ Defaults to 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database or databases to add.<br></p>
+<p>Specifies which databases to add to the availability group during creation.<br />
+Databases must be in Full recovery model and have recent transaction log backups.<br />
+Use this to automatically include databases rather than adding them separately after AG creation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1098,9 +1103,9 @@ Defaults to 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="sharedpath">-SharedPath</h5>
-<p>The network share where the backups will be backed up and restored from.<br />
-Each SQL Server service account must have access to this share.<br />
-NOTE: If a backup / restore is performed, the backups will be left in tact on the network share.<br></p>
+<p>Specifies the network path where database backups will be stored during secondary replica initialization.<br />
+All SQL Server service accounts must have read/write access to this location.<br />
+Required for manual seeding mode when adding databases - backups remain on the share after completion.<br></p>
 <table>
 <thead>
 <tr>
@@ -1128,7 +1133,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="uselastbackup">-UseLastBackup</h5>
-<p>Use the last full and log backup of database. A log backup must be the last backup.<br></p>
+<p>Uses existing backup files instead of creating new ones for database initialization.<br />
+The most recent full backup and subsequent log backups will be restored to secondary replicas.<br />
+Use this to save time and storage when recent backups are already available and accessible.<br></p>
 <table>
 <thead>
 <tr>
@@ -1156,7 +1163,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Drop and recreate the database on remote servers using fresh backup.<br></p>
+<p>Removes existing databases on secondary replicas before restoring from backup.<br />
+Use this when databases already exist on secondary servers but you want to refresh them.<br />
+Requires SharedPath or UseLastBackup to be specified for the restore operation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1184,7 +1193,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="availabilitymode">-AvailabilityMode</h5>
-<p>Sets the availability mode of the availability group replica. Options are: AsynchronousCommit and SynchronousCommit. SynchronousCommit is default.<br></p>
+<p>Controls whether transaction commits wait for secondary replica acknowledgment.<br />
+SynchronousCommit ensures zero data loss but may impact performance over distance.<br />
+Use AsynchronousCommit for disaster recovery replicas or when network latency affects performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -1216,7 +1227,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="failovermode">-FailoverMode</h5>
-<p>Sets the failover mode of the availability group replica. Options are Automatic, Manual and External. Automatic is default.<br></p>
+<p>Determines how failover occurs for the availability group.<br />
+Automatic enables cluster-managed failover with synchronous replicas, Manual requires DBA intervention.<br />
+Use External for Linux environments with Pacemaker cluster management.<br></p>
 <table>
 <thead>
 <tr>
@@ -1248,7 +1261,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="backuppriority">-BackupPriority</h5>
-<p>Sets the backup priority availability group replica. Default is 50.<br></p>
+<p>Sets the priority for backup operations on this replica (0-100, default 50).<br />
+Higher values make this replica more preferred for automated backup jobs.<br />
+Use lower values on primary replicas to offload backup I/O, higher values on dedicated backup servers.<br></p>
 <table>
 <thead>
 <tr>
@@ -1276,7 +1291,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="connectionmodeinprimaryrole">-ConnectionModeInPrimaryRole</h5>
-<p>Specifies the connection intent modes of an Availability Replica in primary role. AllowAllConnections by default.<br></p>
+<p>Controls what connections are allowed to the primary replica.<br />
+AllowAllConnections (default) permits both read-write and read-intent connections.<br />
+Use AllowReadWriteConnections to restrict read-only workloads to secondary replicas only.<br></p>
 <table>
 <thead>
 <tr>
@@ -1308,11 +1325,9 @@ NOTE: If a backup / restore is performed, the backups will be left in tact on th
 </tbody>
 </table>
 <h5 id="connectionmodeinsecondaryrole">-ConnectionModeInSecondaryRole</h5>
-<p>Specifies the connection modes of an Availability Replica in secondary role.<br />
-Options include: AllowNoConnections (Alias: No), AllowReadIntentConnectionsOnly (Alias: Read-intent only),  AllowAllConnections (Alias: Yes)<br />
-Defaults to AllowNoConnections.<br />
-The default can be changed with:<br />
-Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ConnectionModeInSecondaryRole' -Value '...' -Passthru | Register-DbatoolsConfig<br></p>
+<p>Controls what connections are allowed to secondary replicas.<br />
+Default is AllowNoConnections to prevent accidental writes or outdated reads.<br />
+Use AllowReadIntentConnectionsOnly for reporting workloads, or AllowAllConnections for maximum flexibility.<br></p>
 <table>
 <thead>
 <tr>
@@ -1344,9 +1359,9 @@ Set-DbatoolsConfig -FullName 'AvailabilityGroups.Default.ConnectionModeInSeconda
 </tbody>
 </table>
 <h5 id="seedingmode">-SeedingMode</h5>
-<p>Specifies how the secondary replica will be initially seeded.<br />
-Automatic enables direct seeding. This method will seed the secondary replica over the network. This method does not require you to backup and restore a copy of the primary database on the replica.<br />
-Manual requires you to create a backup of the database on the primary replica and manually restore that backup on the secondary replica.<br></p>
+<p>Determines how databases are initialized on secondary replicas.<br />
+Manual (default) uses backup/restore through shared storage, Automatic uses direct network streaming.<br />
+Use Automatic for SQL Server 2016+ to simplify setup when network bandwidth is sufficient and shared storage is limited.<br></p>
 <table>
 <thead>
 <tr>
@@ -1378,8 +1393,9 @@ Manual requires you to create a backup of the database on the primary replica an
 </tbody>
 </table>
 <h5 id="endpoint">-Endpoint</h5>
-<p>By default, this command will attempt to find a DatabaseMirror endpoint. If one does not exist, it will create it.<br />
-If an endpoint must be created, the name &quot;hadr_endpoint&quot; will be used. If an alternative is preferred, use Endpoint.<br></p>
+<p>Specifies the name for the database mirroring endpoint used for availability group communication.<br />
+If not specified, the command searches for existing endpoints or creates 'hadr_endpoint'.<br />
+Use a custom name when you have specific endpoint naming standards or multiple AGs on the same instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -1407,11 +1423,9 @@ If an endpoint must be created, the name &quot;hadr_endpoint&quot; will be used.
 </tbody>
 </table>
 <h5 id="endpointurl">-EndpointUrl</h5>
-<p>By default, the property Fqdn of Get-DbaEndpoint is used as EndpointUrl.<br />
-Use EndpointUrl if different URLs are required due to special network configurations.<br />
-EndpointUrl has to be an array of strings in format 'TCP://system-address:port', one entry for every instance.<br />
-First entry for the primary instance, following entries for secondary instances in the order they show up in Secondary.<br />
-See details regarding the format at: <a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/specify-endpoint-url-adding-or-modifying-availability-replica</a><br></p>
+<p>Specifies custom TCP URLs for availability group endpoints when automatic detection isn't suitable.<br />
+Required format: 'TCP://hostname:port' for each instance (primary first, then secondaries).<br />
+Use this in complex network environments with custom DNS, firewalls, or when instances use non-default ports.<br></p>
 <table>
 <thead>
 <tr>
@@ -1439,8 +1453,9 @@ See details regarding the format at: <a href="https://docs.microsoft.com/en-us/s
 </tbody>
 </table>
 <h5 id="certificate">-Certificate</h5>
-<p>Specifies that the endpoint is to authenticate the connection using the certificate specified by certificate_name to establish identity for authorization.<br />
-The far endpoint must have a certificate with the public key matching the private key of the specified certificate.<br></p>
+<p>Specifies the certificate name for endpoint authentication instead of Windows authentication.<br />
+Both endpoints must have matching certificates with corresponding public/private key pairs.<br />
+Use this for cross-domain scenarios or when Windows authentication is not available between replicas.<br></p>
 <table>
 <thead>
 <tr>
@@ -1468,8 +1483,9 @@ The far endpoint must have a certificate with the public key matching the privat
 </tbody>
 </table>
 <h5 id="configurexesession">-ConfigureXESession</h5>
-<p>Configure the AlwaysOn_health extended events session to start automatically on every replica as the SSMS wizard would do.<br />
-<a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/always-on-extended-events#BKMK_alwayson_health">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/always-on-extended-events#BKMK_alwayson_health</a><br></p>
+<p>Automatically starts the AlwaysOn_health Extended Events session on all replicas.<br />
+This session captures availability group events for monitoring and troubleshooting.<br />
+Use this to match the behavior of the SQL Server Management Studio AG wizard and enable built-in diagnostics.<br></p>
 <table>
 <thead>
 <tr>
@@ -1497,7 +1513,9 @@ The far endpoint must have a certificate with the public key matching the privat
 </tbody>
 </table>
 <h5 id="ipaddress">-IPAddress</h5>
-<p>Sets the IP address of the availability group listener.<br></p>
+<p>Specifies one or more static IP addresses for the availability group listener.<br />
+Each IP should correspond to a different subnet if replicas span multiple subnets.<br />
+Use static IPs when DHCP is not available or when you need predictable listener addresses for applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -1525,7 +1543,9 @@ The far endpoint must have a certificate with the public key matching the privat
 </tbody>
 </table>
 <h5 id="subnetmask">-SubnetMask</h5>
-<p>Sets the subnet IP mask of the availability group listener.<br></p>
+<p>Specifies the subnet mask for static IP listener configuration.<br />
+Default is 255.255.255.0, which works for most standard network configurations.<br />
+Adjust this to match your network's subnet configuration when using custom IP addressing.<br></p>
 <table>
 <thead>
 <tr>
@@ -1553,7 +1573,9 @@ The far endpoint must have a certificate with the public key matching the privat
 </tbody>
 </table>
 <h5 id="port">-Port</h5>
-<p>Sets the number of the port used to communicate with the availability group.<br></p>
+<p>Specifies the TCP port for the availability group listener.<br />
+Default is 1433 (standard SQL Server port). Applications connect to this port to reach the current primary.<br />
+Use a different port when 1433 is already in use or for security through obscurity.<br></p>
 <table>
 <thead>
 <tr>
@@ -1581,7 +1603,9 @@ The far endpoint must have a certificate with the public key matching the privat
 </tbody>
 </table>
 <h5 id="dhcp">-Dhcp</h5>
-<p>Indicates whether the object is DHCP.<br></p>
+<p>Configures the availability group listener to use DHCP for IP address assignment.<br />
+The cluster will request an IP address from DHCP servers on each replica's subnet.<br />
+Use this when static IP management is not desired and DHCP reservations can provide consistent addressing.<br></p>
 <table>
 <thead>
 <tr>

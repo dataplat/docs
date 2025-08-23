@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Add-DbaPfDataCollectorCounter">Add-DbaPfDataCollectorCounter</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Adds a Performance Data Collector Counter.</p>
+<p>Adds performance counters to existing Windows Performance Monitor Data Collector Sets for SQL Server monitoring.</p>
 <h2 id="description">Description</h2>
-<p>Adds a Performance Data Collector Counter.</p>
+<p>Adds specific performance counters to existing Data Collector Sets within Windows Performance Monitor. This allows DBAs to customize their performance monitoring by adding SQL Server-specific counters like disk queue length, processor time, or SQL Server object counters to existing collection sets. The function modifies the Data Collector Set configuration and immediately applies the changes, so you can start collecting the additional performance metrics without recreating your monitoring setup.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Add-DbaPfDataCollectorCounter
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -515,7 +515,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Allows you to select which Data Collector you'd like to add the counter '\LogicalDisk(*)\Avg. Disk Queue Length' on localhost and prompts for confirmation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="counter">-Counter</h5>
-<p>The Counter name. This must be in the form of '\Processor(_Total)% Processor Time'. <br></p>
+<p>Specifies the performance counter path to add to the Data Collector. Must use the full counter path format like '\Processor(_Total)% Processor Time' or '\SQLServer:Buffer Manager\Page life<br />
+expectancy'.<br />
+Use Get-DbaPfAvailableCounter to find available SQL Server and system counters with their exact paths. <br></p>
 <table>
 <thead>
 <tr>
@@ -544,7 +546,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer. Defaults to localhost.<br></p>
+<p>Specifies the target computer where the Data Collector Set is located. Use this when adding counters to performance monitoring on remote SQL Server instances.<br />
+Defaults to localhost if not specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -601,7 +604,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="collectorset">-CollectorSet</h5>
-<p>The Collector Set name.<br></p>
+<p>Specifies the name of the Windows Performance Monitor Data Collector Set that contains the collector you want to modify.<br />
+This is the parent container that organizes related performance data collectors for your monitoring scenario.<br></p>
 <table>
 <thead>
 <tr>
@@ -629,7 +633,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="collector">-Collector</h5>
-<p>The Collector name.<br></p>
+<p>Specifies the name of the individual Data Collector within the CollectorSet where the new counter will be added.<br />
+Each collector can contain multiple performance counters and defines how the data is gathered and stored.<br></p>
 <table>
 <thead>
 <tr>
@@ -657,7 +662,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts the object output by Get-DbaPfDataCollector via the pipeline.<br></p>
+<p>Accepts Data Collector objects from Get-DbaPfDataCollector via the pipeline. This allows you to target specific collectors for counter addition.<br />
+Also accepts counter objects from Get-DbaPfAvailableCounter to add available counters directly.<br></p>
 <table>
 <thead>
 <tr>

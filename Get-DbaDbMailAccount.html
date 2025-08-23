@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbMailAccount">Get-DbaDbMailAccount</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database mail account(s) from SQL Server.</p>
+<p>Retrieves Database Mail account configurations from SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Gets database mail account(s) from SQL Server.</p>
+<p>Retrieves Database Mail account configurations including email addresses, display names, SMTP server settings, and authentication details from SQL Server instances. This function helps DBAs audit email configurations across their environment, troubleshoot mail delivery issues, and document Database Mail settings for compliance or migration purposes. The returned account objects include connection details, server configurations, and account properties that can be used to verify proper Database Mail setup.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbMailAccount
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -579,7 +579,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="account">-Account</h5>
-<p>Specifies one or more account(s) to get. If unspecified, all accounts will be returned.<br></p>
+<p>Specifies one or more Database Mail account names to retrieve. Accepts exact account names and supports multiple values.<br />
+Use this when you need to check specific mail accounts rather than retrieving all configured accounts on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +608,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeaccount">-ExcludeAccount</h5>
-<p>Specifies one or more account(s) to exclude.<br></p>
+<p>Specifies one or more Database Mail account names to exclude from results. Accepts exact account names and supports multiple values.<br />
+Use this when you want to retrieve most accounts but skip specific ones, such as excluding test or deprecated accounts from auditing reports.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts pipeline input from Get-DbaDbMail.<br></p>
+<p>Accepts SqlMail objects from the pipeline, typically from Get-DbaDbMail. Allows you to chain Database Mail commands together.<br />
+Use this when processing multiple instances through Get-DbaDbMail or when working with previously retrieved Database Mail configurations.<br></p>
 <table>
 <thead>
 <tr>

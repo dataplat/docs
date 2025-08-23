@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaExecutionPlan">Get-DbaExecutionPlan</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets execution plans and metadata</p>
+<p>Retrieves cached execution plans and metadata from SQL Server's plan cache</p>
 <h2 id="description">Description</h2>
-<p>Gets execution plans and metadata. Can pipe to Export-DbaExecutionPlan</p>
+<p>Retrieves execution plans from SQL Server's plan cache using Dynamic Management Views (sys.dm_exec_query_stats, sys.dm_exec_query_plan, and sys.dm_exec_text_query_plan). This is essential for performance analysis because it shows you what queries are actually running and how SQL Server is executing them, without having to capture plans in real-time.</p>
+<p>The function returns detailed metadata including database name, object name, creation time, last execution time, query and plan handles, plus the actual XML execution plans. You can filter results by database, creation date, or last execution time to focus on specific queries or time periods. Use this when troubleshooting performance issues, identifying resource-intensive queries, or analyzing query plan changes over time.</p>
+<p>The output can be piped directly to Export-DbaExecutionPlan to save plans as .sqlplan files for detailed analysis in SQL Server Management Studio or other tools.</p>
 <p>Thanks to following for the queries:<br />
 <a href="https://www.simple-talk.com/sql/t-sql-programming/dmvs-for-query-plan-metadata/">https://www.simple-talk.com/sql/t-sql-programming/dmvs-for-query-plan-metadata/</a><br />
 <a href="http://www.scarydba.com/2017/02/13/export-plans-cache-sqlplan-file/">http://www.scarydba.com/2017/02/13/export-plans-cache-sqlplan-file/</a></p>
@@ -590,7 +592,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Return execution plans and metadata for only specific databases.<br></p>
+<p>Specifies which databases to include when retrieving execution plans from the plan cache.<br />
+Use this to focus performance analysis on specific databases instead of scanning all databases on the instance.<br />
+Accepts multiple database names and supports wildcards for pattern matching.<br></p>
 <table>
 <thead>
 <tr>
@@ -618,7 +622,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Return execution plans and metadata for all but these specific databases<br></p>
+<p>Specifies which databases to exclude when retrieving execution plans from the plan cache.<br />
+Useful when you want to analyze most databases but skip system databases like tempdb or specific application databases.<br />
+Accepts multiple database names for flexible filtering.<br></p>
 <table>
 <thead>
 <tr>
@@ -646,7 +652,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sincecreation">-SinceCreation</h5>
-<p>Datetime object used to narrow the results to a date<br></p>
+<p>Filters execution plans to only those created on or after the specified date and time.<br />
+Use this to focus on recent query plan changes after deployments, index modifications, or statistics updates.<br />
+Helps identify new execution plans that may be causing performance issues.<br></p>
 <table>
 <thead>
 <tr>
@@ -674,7 +682,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="sincelastexecution">-SinceLastExecution</h5>
-<p>Datetime object used to narrow the results to a date<br></p>
+<p>Filters execution plans to only those executed on or after the specified date and time.<br />
+Essential for identifying recently active queries when troubleshooting current performance problems.<br />
+Excludes older cached plans that are no longer being used by applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,7 +712,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeemptyqueryplan">-ExcludeEmptyQueryPlan</h5>
-<p>Exclude results with empty query plan<br></p>
+<p>Excludes execution plans that have null or empty XML query plan data.<br />
+Use this to focus only on plans with complete execution plan information for detailed performance analysis.<br />
+Helps avoid incomplete results when you need the actual query plan XML for troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -730,7 +742,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Returns a ton of raw information about the execution plans<br></p>
+<p>Returns all available columns from the Dynamic Management Views instead of the standard curated output.<br />
+Use this when you need access to additional execution statistics, compilation details, or other raw plan cache data.<br />
+Provides comprehensive information for advanced performance analysis and troubleshooting scenarios.<br></p>
 <table>
 <thead>
 <tr>

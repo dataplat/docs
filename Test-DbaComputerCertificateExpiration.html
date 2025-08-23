@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaComputerCertificateExpiration">Test-DbaComputerCertificateExpiration</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Tests for certificates that are expiring soon</p>
+<p>Identifies SSL/TLS certificates that are expired or expiring soon on SQL Server computers</p>
 <h2 id="description">Description</h2>
-<p>Tests for certificates that are expiring soon</p>
-<p>By default, it tests candidates that are ideal for using with SQL Server's network encryption</p>
+<p>Scans computer certificate stores to find certificates that are expired or will expire within a specified timeframe. This function focuses on certificates used for SQL Server network encryption, helping DBAs proactively identify potential connection failures before they occur.</p>
+<p>By default, it examines certificates that are candidates for SQL Server's network encryption feature. You can also check certificates currently in use by SQL Server instances or scan all certificates in the specified store. The function compares each certificate's expiration date against a configurable threshold (30 days by default) and returns detailed information about any certificates requiring attention.</p>
+<p>This is essential for maintaining secure SQL Server connections and preventing unexpected service disruptions caused by expired certificates.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaComputerCertificateExpiration
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -577,7 +578,8 @@ days<br></p>
 </tbody>
 </table>
 <h5 id="store">-Store</h5>
-<p>Certificate store - defaults to LocalMachine<br></p>
+<p>Specifies the certificate store to scan for certificates. Defaults to LocalMachine which contains system-wide certificates.<br />
+Use this when you need to check certificates in different stores like CurrentUser for user-specific certificates.<br></p>
 <table>
 <thead>
 <tr>
@@ -605,7 +607,8 @@ days<br></p>
 </tbody>
 </table>
 <h5 id="folder">-Folder</h5>
-<p>Certificate folder - defaults to My (Personal)<br></p>
+<p>Specifies the certificate folder within the store to examine. Defaults to My (Personal) where SSL certificates are typically stored.<br />
+Common folders include My for personal certificates, Root for trusted root authorities, and CA for intermediate certificate authorities.<br></p>
 <table>
 <thead>
 <tr>
@@ -633,10 +636,9 @@ days<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>The type of certificates to return. All, Service or SQL Server.<br />
-All is all certificates<br />
-Service is certificates that are candidates for SQL Server services (But may be for IIS, etc)<br />
-SQL Server is certificates currently in use by SQL Server<br></p>
+<p>Determines which certificates to examine based on their intended use. Defaults to Service which finds certificates suitable for SQL Server.<br />
+Service finds certificates that meet SQL Server's requirements but may also be used by other services like IIS. SQL Server returns only certificates currently configured for use by SQL Server<br />
+instances. All examines every certificate in the specified store regardless of suitability.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,7 +670,8 @@ SQL Server is certificates currently in use by SQL Server<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>The path to a certificate - basically changes the path into a certificate object<br></p>
+<p>Specifies the file system path to a specific certificate file to examine instead of scanning certificate stores.<br />
+Use this when you have certificate files (.cer, .crt, .pfx) on disk that you want to check for expiration.<br></p>
 <table>
 <thead>
 <tr>
@@ -696,7 +699,8 @@ SQL Server is certificates currently in use by SQL Server<br></p>
 </tbody>
 </table>
 <h5 id="thumbprint">-Thumbprint</h5>
-<p>Return certificate based on thumbprint<br></p>
+<p>Filters results to certificates matching the specified thumbprint values. Accepts multiple thumbprints as an array.<br />
+Use this when you need to check specific certificates you've identified through other means or are monitoring for compliance.<br></p>
 <table>
 <thead>
 <tr>
@@ -724,7 +728,8 @@ SQL Server is certificates currently in use by SQL Server<br></p>
 </tbody>
 </table>
 <h5 id="threshold">-Threshold</h5>
-<p>Number of days before expiration to warn. Defaults to 30.<br></p>
+<p>Sets the number of days before expiration to trigger a warning. Defaults to 30 days.<br />
+Adjust this based on your certificate renewal process - use 90 days if you need longer lead times for procurement and testing.<br></p>
 <table>
 <thead>
 <tr>

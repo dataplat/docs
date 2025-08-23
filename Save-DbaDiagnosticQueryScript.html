@@ -485,12 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Save-DbaDiagnosticQueryScript">Save-DbaDiagnosticQueryScript</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Save-DbaDiagnosticQueryScript downloads the most recent version of all Glenn Berry DMV scripts</p>
+<p>Downloads Glenn Berry's SQL Server Diagnostic Information Queries for performance monitoring and troubleshooting</p>
 <h2 id="description">Description</h2>
-<p>The dbatools module will have the diagnostic queries pre-installed. Use this only to update to a more recent version or specific versions.</p>
-<p>This function is mainly used by Invoke-DbaDiagnosticQuery, but can also be used independently to download the Glenn Berry DMV scripts.</p>
-<p>Use this function to pre-download the scripts from a device with an Internet connection.</p>
-<p>The function Invoke-DbaDiagnosticQuery will try to download these scripts automatically, but it obviously needs an internet connection to do that.</p>
+<p>Downloads the latest versions of Glenn Berry's renowned SQL Server Diagnostic Information Queries from his website. These DMV-based scripts are essential tools for DBAs to assess SQL Server health, identify performance bottlenecks, and gather comprehensive system information across all SQL Server versions including Azure SQL Database and Managed Instance.</p>
+<p>The dbatools module includes diagnostic queries pre-installed, but this function lets you update to more recent versions or download specific versions for your environment. This is particularly valuable since Glenn Berry regularly updates these scripts with new insights and compatibility improvements.</p>
+<p>This function is primarily used by Invoke-DbaDiagnosticQuery, but can also be used independently to download the scripts. Use this to pre-download scripts from a device with internet connection for later use on systems without internet access.</p>
+<p>The function automatically detects and downloads scripts for all available SQL Server versions found on Glenn Berry's resources page, saving them with version-specific filenames for easy identification.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Save-DbaDiagnosticQueryScript
     [[-Path] &lt;FileInfo&gt;]
@@ -508,7 +508,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 If Path is not specified, the &quot;My Documents&quot; location will be used.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the path to the output<br></p>
+<p>Specifies the directory path where Glenn Berry's diagnostic query scripts will be downloaded. Defaults to the current user's Documents folder.<br />
+Use this when you need to organize scripts in a specific location, such as a shared network drive for team access or a local folder structure for different environments.<br></p>
 <table>
 <thead>
 <tr>

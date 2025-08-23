@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaSpConfigure">Export-DbaSpConfigure</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports advanced sp_configure global configuration options to sql file.</p>
+<p>Generates SQL script containing all sp_configure settings for SQL Server instance configuration replication and documentation.</p>
 <h2 id="description">Description</h2>
-<p>Exports advanced sp_configure global configuration options to sql file.</p>
+<p>Creates a complete SQL script file with EXEC sp_configure statements for all server configuration options, including advanced settings. This script can be executed on another SQL Server instance to replicate the exact same configuration settings, making it invaluable for environment standardization, disaster recovery preparation, or compliance documentation. The function temporarily enables 'show advanced options' if needed to capture all available settings, then restores the original setting.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaSpConfigure
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -581,7 +581,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br></p>
+<p>Specifies the directory where the sp_configure script files will be exported. Defaults to the configured DbatoolsExport path.<br />
+Use this when you need to organize configuration scripts in a specific location for documentation or deployment procedures.<br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +610,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file.<br></p>
+<p>Specifies the complete file path including filename for the exported sp_configure script. Overrides the Path parameter when specified.<br />
+Use this when you need precise control over the output filename, especially for automated deployment scripts or standardized naming conventions.<br></p>
 <table>
 <thead>
 <tr>

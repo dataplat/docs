@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaLinkedServer">New-DbaLinkedServer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new linked server.</p>
+<p>Creates a new linked server connection to remote SQL Server instances or heterogeneous data sources.</p>
 <h2 id="description">Description</h2>
-<p>Creates a new linked server. See the Microsoft documentation for sp_addlinkedserver for more details on the parameters.</p>
+<p>Creates a new linked server on a SQL Server instance, allowing you to query remote databases and heterogeneous data sources as if they were local tables. This replaces the need to manually configure linked servers through SSMS or T-SQL scripts, while providing consistent security context management for unmapped logins. The function uses SMO to create the linked server definition and automatically configures the default security mapping based on your specified security context.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaLinkedServer
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -586,7 +586,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="linkedserver">-LinkedServer</h5>
-<p>The name of the linked server.<br></p>
+<p>Specifies the name for the new linked server object in SQL Server. This name must be unique on the SQL Server instance.<br />
+Use a descriptive name that identifies the remote data source or its purpose to help other DBAs understand the connection.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,7 +615,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="serverproduct">-ServerProduct</h5>
-<p>The product name of the data source.<br></p>
+<p>Specifies the product name of the remote data source as it appears in sys.servers.product column.<br />
+Common values include 'SQL Server' for SQL Server instances, 'Oracle' for Oracle databases, or custom names for other OLE DB data sources.<br />
+This is primarily used for documentation and identification purposes in system views.<br></p>
 <table>
 <thead>
 <tr>
@@ -642,7 +645,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="provider">-Provider</h5>
-<p>The unique ID of the provider.<br></p>
+<p>Specifies the OLE DB provider used to connect to the remote data source.<br />
+Common providers include 'SQLNCLI' or 'MSOLEDBSQL' for SQL Server, 'OraOLEDB.Oracle' for Oracle, or 'Microsoft.ACE.OLEDB.12.0' for Access databases.<br />
+The provider must be installed and registered on the SQL Server instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -670,7 +675,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="datasource">-DataSource</h5>
-<p>The name of the data source.<br></p>
+<p>Specifies the network name or connection string for the remote data source.<br />
+For SQL Server instances, this is typically the server name or server\instance format.<br />
+For other data sources, this could be a TNS name for Oracle or a file path for file-based sources.<br></p>
 <table>
 <thead>
 <tr>
@@ -698,7 +705,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="location">-Location</h5>
-<p>The location of the database.<br></p>
+<p>Specifies the physical location information for the data source, typically used for documentation purposes.<br />
+This parameter is rarely required for most linked server configurations and is primarily used with specific OLE DB providers.<br />
+Leave empty unless specifically required by your data source provider.<br></p>
 <table>
 <thead>
 <tr>
@@ -726,7 +735,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="providerstring">-ProviderString</h5>
-<p>The provider connection string.<br></p>
+<p>Specifies additional connection properties passed directly to the OLE DB provider.<br />
+Use this for provider-specific settings like connection pooling, timeouts, or authentication options that cannot be set through other parameters.<br />
+The format and available options depend on the specific OLE DB provider being used.<br></p>
 <table>
 <thead>
 <tr>
@@ -754,7 +765,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="catalog">-Catalog</h5>
-<p>The catalog or default database.<br></p>
+<p>Specifies the default database or catalog name to use when connecting to the remote data source.<br />
+For SQL Server linked servers, this sets the default database context for queries that don't specify a database name.<br />
+This is equivalent to the 'Initial Catalog' connection property in connection strings.<br></p>
 <table>
 <thead>
 <tr>
@@ -874,7 +887,9 @@ are sent to the SQL Server instance in plain text. Check with your security admi
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Connect-DbaInstance.<br></p>
+<p>Accepts SQL Server SMO objects from the pipeline, typically from Connect-DbaInstance.<br />
+This allows you to create linked servers on multiple instances by piping server connections to this function.<br />
+Use this when you need to create the same linked server configuration across multiple SQL Server instances.<br></p>
 <table>
 <thead>
 <tr>

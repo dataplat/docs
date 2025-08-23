@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaManagementObject">Get-DbaManagementObject</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Management Object versions installed on the machine.</p>
+<p>Discovers installed SQL Server Management Object (SMO) assemblies and their load status</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaManagementObject returns an object with the Version and the<br />
-Add-Type Load Template for each version on the server.</p>
+<p>Scans the system for SQL Server Management Object (SMO) assemblies, SqlClient libraries, and SNI modules to help troubleshoot version conflicts and connectivity issues. This function checks both the Global Assembly Cache (GAC) and currently loaded assemblies in the PowerShell session, returning version information, load status, file paths, and ready-to-use Add-Type commands. Particularly useful when diagnosing why different SQL Server tools behave differently or when you need to load specific SMO versions in PowerShell scripts.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaManagementObject
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -511,7 +510,8 @@ Add-Type Load Template for each version on the server.</p>
 <p>Returns just the version specified. If the version does not exist then it will return nothing.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The name of the Windows Server(s) you would like to check.<br></p>
+<p>Specifies the Windows server(s) where you want to scan for SMO assemblies and SQL Client libraries.<br />
+Use this when troubleshooting SMO version conflicts across multiple servers or when checking which SQL Server tools are installed on remote machines.<br></p>
 <table>
 <thead>
 <tr>
@@ -567,8 +567,8 @@ Add-Type Load Template for each version on the server.</p>
 </tbody>
 </table>
 <h5 id="versionnumber">-VersionNumber</h5>
-<p>This is the specific version number you are looking for. The function will look<br />
-for that version only.<br></p>
+<p>Filters results to show only assemblies matching the specified major version number (e.g., 13 for SQL Server 2016, 14 for 2017, 15 for 2019).<br />
+Use this when you need to verify if a specific SQL Server version's SMO libraries are installed, particularly when troubleshooting version compatibility issues between different SQL Server tools.<br></p>
 <table>
 <thead>
 <tr>

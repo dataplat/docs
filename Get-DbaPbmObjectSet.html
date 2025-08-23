@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaPbmObjectSet">Get-DbaPbmObjectSet</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns object sets from policy based management.</p>
+<p>Retrieves Policy-Based Management object sets from SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Returns object sets from policy based management.</p>
+<p>Retrieves object sets from SQL Server's Policy-Based Management (PBM) feature, which define collections of SQL Server objects that policies can target for compliance monitoring. Object sets group related database objects like tables, stored procedures, or views based on specific criteria, allowing you to apply policies consistently across similar objects. This is essential for DBAs implementing standardized configurations and compliance rules across multiple databases and instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPbmObjectSet
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -570,7 +570,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="objectset">-ObjectSet</h5>
-<p>Filters results to only show specific object set<br></p>
+<p>Specifies the name(s) of specific Policy-Based Management object sets to retrieve. Accepts multiple values and supports wildcards.<br />
+Use this when you need to examine particular object sets rather than retrieving all available sets from the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +599,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaPbmStore<br></p>
+<p>Accepts Policy-Based Management store objects from Get-DbaPbmStore via pipeline input for processing multiple stores.<br />
+Use this when you need to process object sets from multiple SQL Server instances or when chaining PBM commands together.<br></p>
 <table>
 <thead>
 <tr>
@@ -626,7 +628,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemobject">-IncludeSystemObject</h5>
-<p>By default system objects are filtered out. Use this parameter to include them.<br></p>
+<p>Includes SQL Server system object sets in the results, which are excluded by default to focus on user-defined sets.<br />
+Use this when you need to audit or examine Microsoft's built-in Policy-Based Management object sets for compliance or educational purposes.<br></p>
 <table>
 <thead>
 <tr>

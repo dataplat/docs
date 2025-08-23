@@ -485,15 +485,17 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Restore-DbaDatabase">Restore-DbaDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Restores a SQL Server Database from a set of backup files.</p>
+<p>Restores SQL Server databases from backup files with intelligent backup chain selection and point-in-time recovery.</p>
 <h2 id="description">Description</h2>
-<p>Upon being passed a list of potential backups files this command will scan the files, select those that contain SQL Server<br />
-backup sets. It will then filter those files down to a set that can perform the requested restore, checking that we have a<br />
-full restore chain to the point in time requested by the caller.</p>
-<p>The function defaults to working on a remote instance. This means that all paths passed in must be relative to the remote instance.<br />
-XpDirTree will be used to perform the file scans.</p>
-<p>Various means can be used to pass in a list of files to be considered. The default is to recursively scan the folder<br />
-passed in.</p>
+<p>Scans backup files and automatically selects the optimal restore sequence to recover databases to a specific point in time.<br />
+This function handles the complex task of building complete backup chains from full, differential, and transaction log backups,<br />
+so you don't have to manually determine which files are needed or in what order to restore them.</p>
+<p>The function excels at disaster recovery scenarios where you need to quickly restore from a collection of backup files.<br />
+It validates backup headers, ensures restore chains are complete, and can recover to any point in time within your backup coverage.<br />
+Whether restoring from local files, network shares, or Azure blob storage, it automatically handles file discovery and validation.</p>
+<p>By default, all file paths must be accessible to the target SQL Server instance. The function uses xp_dirtree for remote file scanning<br />
+and supports various input methods including direct file lists, folder scanning, and pipeline input from other dbatools commands.<br />
+It integrates seamlessly with Ola Hallengren's maintenance solution backup structures for faster processing.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Restore-DbaDatabase -SqlInstance &lt;DbaInstanceParameter&gt;
     [-SqlCredential &lt;PSCredential&gt;]
@@ -749,11 +751,9 @@ Note that Date time needs to be specified in your local SQL Server culture<br></
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Path to SQL Server backup files.<br />
-Paths passed in as strings will be scanned using the desired method, default is a recursive folder scan.<br />
-Accepts multiple paths separated by ','.<br />
-Or it can consist of FileInfo objects, such as the output of Get-ChildItem or Get-Item. This allows you to work with<br />
-your own file structures as needed. <br></p>
+<p>Specifies the location of backup files to restore from, supporting local drives, UNC paths, or Azure blob storage URLs.<br />
+Use this when you need to restore from a specific backup location or when piping backup files from Get-ChildItem.<br />
+Accepts multiple comma-separated paths for complex restore scenarios spanning multiple locations. <br></p>
 <table>
 <thead>
 <tr>
@@ -781,9 +781,9 @@ your own file structures as needed. <br></p>
 </tbody>
 </table>
 <h5 id="pagerestore">-PageRestore</h5>
-<p>Passes in an object from Get-DbaSuspectPages containing suspect pages from a single database.<br />
-Setting this Parameter will cause an Online Page restore if the target Instance is Enterprise Edition, or offline if not.<br />
-This will involve taking a tail log backup, so you must check your restore chain once it has completed. <br></p>
+<p>Performs targeted restoration of specific damaged pages using output from Get-DbaSuspectPages.<br />
+Use this for repairing isolated page corruption without restoring the entire database.<br />
+Enterprise Edition enables online page restore while Standard Edition requires the database offline during repair. <br></p>
 <table>
 <thead>
 <tr>
@@ -811,7 +811,9 @@ This will involve taking a tail log backup, so you must check your restore chain
 </tbody>
 </table>
 <h5 id="pagerestoretailfolder">-PageRestoreTailFolder</h5>
-<p>This parameter passes in a location for the tail log backup required for page level restore. <br></p>
+<p>Specifies where to create the tail log backup required for page restore operations.<br />
+Use this to designate a safe location for the automatic tail log backup that page restore creates.<br />
+The folder must be accessible to the SQL Server service account and have sufficient space for the tail log backup. <br></p>
 <table>
 <thead>
 <tr>
@@ -870,8 +872,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="databasename">-DatabaseName</h5>
-<p>Name to restore the database under.<br />
-Only works with a single database restore. If multiple database are found in the provided paths then we will exit.<br></p>
+<p>Defines the target database name for the restored database when different from the original name.<br />
+Use this when creating a copy of a production database for testing or when restoring to avoid name conflicts.<br />
+Required when restoring a single database to a different name than what's stored in the backup files.<br></p>
 <table>
 <thead>
 <tr>
@@ -899,8 +902,9 @@ Only works with a single database restore. If multiple database are found in the
 </tbody>
 </table>
 <h5 id="destinationdatadirectory">-DestinationDataDirectory</h5>
-<p>Path to restore the SQL Server backups to on the target instance.<br />
-If only this parameter is specified, then all database files (data and log) will be restored to this location.<br></p>
+<p>Sets the target directory path where data files (.mdf, .ndf) will be restored on the destination instance.<br />
+Use this when you need to restore to a different drive or storage location than the original database.<br />
+When specified alone, log files will also be placed here unless DestinationLogDirectory is provided.<br></p>
 <table>
 <thead>
 <tr>
@@ -928,8 +932,9 @@ If only this parameter is specified, then all database files (data and log) will
 </tbody>
 </table>
 <h5 id="destinationlogdirectory">-DestinationLogDirectory</h5>
-<p>Path to restore the database log files to.<br />
-This parameter can only be specified alongside DestinationDataDirectory.<br></p>
+<p>Defines the target directory for transaction log files (.ldf) separate from data files.<br />
+Use this to follow best practices by placing log files on different drives for performance and disaster recovery.<br />
+Must be used together with DestinationDataDirectory for proper file separation.<br></p>
 <table>
 <thead>
 <tr>
@@ -957,8 +962,9 @@ This parameter can only be specified alongside DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="destinationfilestreamdirectory">-DestinationFileStreamDirectory</h5>
-<p>Path to restore FileStream data to.<br />
-This parameter can only be specified alongside DestinationDataDirectory.<br></p>
+<p>Specifies where FILESTREAM data containers will be restored, separate from regular database files.<br />
+Use this when your database contains FILESTREAM data and you need to place it on specific storage.<br />
+Requires DestinationDataDirectory to be specified and the target instance to have FILESTREAM enabled.<br></p>
 <table>
 <thead>
 <tr>
@@ -986,7 +992,9 @@ This parameter can only be specified alongside DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="restoretime">-RestoreTime</h5>
-<p>Specify a DateTime object to which you want the database restored to. Default is to the latest point available in the specified backups.<br></p>
+<p>Sets the point-in-time recovery target for restoring the database to a specific moment.<br />
+Use this for recovering from logical errors, unwanted changes, or data corruption that occurred at a known time.<br />
+Requires a complete backup chain including transaction logs covering the specified time period.<br></p>
 <table>
 <thead>
 <tr>
@@ -1014,7 +1022,9 @@ This parameter can only be specified alongside DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="norecovery">-NoRecovery</h5>
-<p>Indicates if the databases should be recovered after last restore. Default is to recover.<br></p>
+<p>Leaves the database in a restoring state to allow additional transaction log restores or log shipping setup.<br />
+Use this when you need to apply additional log backups, set up availability groups, or prepare for continuous log shipping.<br />
+The database will remain inaccessible until recovered with the RESTORE WITH RECOVERY statement.<br></p>
 <table>
 <thead>
 <tr>
@@ -1042,7 +1052,9 @@ This parameter can only be specified alongside DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="withreplace">-WithReplace</h5>
-<p>Switch indicated is the restore is allowed to replace an existing database.<br></p>
+<p>Allows overwriting an existing database with the same name during the restore operation.<br />
+Use this when you need to refresh a test environment or replace a corrupted database with a backup.<br />
+Essential for disaster recovery scenarios where you're restoring over a damaged database.<br></p>
 <table>
 <thead>
 <tr>
@@ -1070,7 +1082,9 @@ This parameter can only be specified alongside DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="keepreplication">-KeepReplication</h5>
-<p>Indicates whether replication configuration should be restored as part of the database restore operation.<br></p>
+<p>Maintains replication settings and objects when restoring databases involved in replication topologies.<br />
+Use this when restoring publisher or subscriber databases where you need to preserve replication configuration.<br />
+Essential for disaster recovery scenarios involving replicated databases to avoid reconfiguring publications and subscriptions.<br></p>
 <table>
 <thead>
 <tr>
@@ -1098,9 +1112,9 @@ This parameter can only be specified alongside DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="xpdirtree">-XpDirTree</h5>
-<p>Switch that indicated file scanning should be performed by the SQL Server instance using xp_dirtree.<br />
-This will scan recursively from the passed in path.<br />
-You must have sysadmin role membership on the instance for this to work.<br></p>
+<p>Forces backup file discovery to use SQL Server's xp_dirtree instead of PowerShell file system access.<br />
+Use this when backup files are on network shares that PowerShell cannot access but SQL Server can.<br />
+Requires sysadmin privileges and may be needed for environments with strict network security policies.<br></p>
 <table>
 <thead>
 <tr>
@@ -1156,8 +1170,9 @@ You must have sysadmin role membership on the instance for this to work.<br></p>
 </tbody>
 </table>
 <h5 id="outputscriptonly">-OutputScriptOnly</h5>
-<p>Switch indicates that ONLY T-SQL scripts should be generated, no restore takes place.<br />
-Due to the limitations of SMO, this switch cannot be combined with VeriyOnly, and a warning will be raised if it is.<br></p>
+<p>Generates the T-SQL RESTORE statements without executing them, allowing for script review or manual execution.<br />
+Use this to validate restore commands, create deployment scripts, or when you need approval before running restores.<br />
+Helpful for compliance environments where all database changes must be reviewed before execution.<br></p>
 <table>
 <thead>
 <tr>
@@ -1185,8 +1200,9 @@ Due to the limitations of SMO, this switch cannot be combined with VeriyOnly, an
 </tbody>
 </table>
 <h5 id="verifyonly">-VerifyOnly</h5>
-<p>Switch indicate that restore should be verified.<br />
-Due to the limitations of SMO, this switch cannot be combined with OutputScriptOnly, and a warning will be raised if it is.<br></p>
+<p>Validates backup files and restore paths without performing the actual restore operation.<br />
+Use this to test backup file integrity, verify backup chains are complete, and confirm restore feasibility.<br />
+Essential for disaster recovery planning and backup validation routines without impacting production systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -1214,9 +1230,9 @@ Due to the limitations of SMO, this switch cannot be combined with OutputScriptO
 </tbody>
 </table>
 <h5 id="maintenancesolutionbackup">-MaintenanceSolutionBackup</h5>
-<p>Switch to indicate the backup files are in a folder structure as created by Ola Hallengreen's maintenance scripts.<br />
-This switch enables a faster check for suitable backups. Other options require all files to be read first to ensure we have an anchoring full backup.<br />
-Because we can rely on specific locations for backups performed with OlaHallengren's backup solution, we can rely on file locations.<br></p>
+<p>Optimizes backup file scanning for Ola Hallengren's Maintenance Solution folder structure.<br />
+Use this when your backups follow the standard Ola Hallengren folder layout with separate FULL, DIFF, and LOG subdirectories.<br />
+Significantly improves performance by using predictable file locations rather than reading every backup header.<br></p>
 <table>
 <thead>
 <tr>
@@ -1244,10 +1260,9 @@ Because we can rely on specific locations for backups performed with OlaHallengr
 </tbody>
 </table>
 <h5 id="filemapping">-FileMapping</h5>
-<p>A hashtable that can be used to move specific files to a location.<br />
-<code>$FileMapping = @{'DataFile1'='c:\restoredfiles\Datafile1.mdf';'DataFile3'='d:\DataFile3.mdf'}</code><br />
-And files not specified in the mapping will be restored to their original location.<br />
-This Parameter is exclusive with DestinationDataDirectory.<br></p>
+<p>Provides precise control over where individual database files are restored using logical file names.<br />
+Use this when you need granular file placement, such as putting specific filegroups on different drives for performance.<br />
+Create a hashtable mapping logical names to physical paths: @{'DataFile1'='C:\Data\File1.mdf'; 'LogFile1'='D:\Logs\File1.ldf'}<br></p>
 <table>
 <thead>
 <tr>
@@ -1275,7 +1290,9 @@ This Parameter is exclusive with DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="ignorelogbackup">-IgnoreLogBackup</h5>
-<p>This switch tells the function to ignore transaction log backups. The process will restore to the latest full or differential backup point only.<br></p>
+<p>Excludes transaction log backups from the restore operation, stopping at the latest full or differential backup.<br />
+Use this when you only need to restore to a recent backup checkpoint rather than the latest point in time.<br />
+Useful for creating a baseline copy of a database without applying the most recent transactions.<br></p>
 <table>
 <thead>
 <tr>
@@ -1303,7 +1320,9 @@ This Parameter is exclusive with DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="ignorediffbackup">-IgnoreDiffBackup</h5>
-<p>This switch tells the function to ignore differential backups. The process will restore to the latest full and onwards with transaction log backups only.<br></p>
+<p>Skips differential backups and restores using only full backups plus transaction logs.<br />
+Use this when differential backups are corrupted or when you need to restore using a specific full backup as the baseline.<br />
+Results in longer restore times as all transaction log backups since the full backup must be applied.<br></p>
 <table>
 <thead>
 <tr>
@@ -1331,7 +1350,9 @@ This Parameter is exclusive with DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="usedestinationdefaultdirectories">-UseDestinationDefaultDirectories</h5>
-<p>Switch that tells the restore to use the default Data and Log locations on the target server. If they don't exist, the function will try to create them.<br></p>
+<p>Places restored database files in the SQL Server instance's default data and log directories.<br />
+Use this when you want to follow the target instance's standard file location configuration.<br />
+The function will attempt to create directories if they don't exist, ensuring consistent file placement.<br></p>
 <table>
 <thead>
 <tr>
@@ -1359,9 +1380,9 @@ This Parameter is exclusive with DestinationDataDirectory.<br></p>
 </tbody>
 </table>
 <h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
-<p>By default, databases will be migrated to the destination Sql Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure.<br />
-The same structure on the SOURCE will be kept exactly, so consider this if you're migrating between different versions and use part of Microsoft's default Sql structure (MSSql12.INSTANCE, etc).<br />
-*Note, to reuse destination folder structure, specify -WithReplace<br></p>
+<p>Maintains the original database file directory structure from the source server during restore.<br />
+Use this when migrating between servers that share similar drive layouts or when preserving application-specific paths.<br />
+Consider version differences in SQL Server default paths (MSSQL12, MSSQL13, etc.) when restoring between versions.<br></p>
 <table>
 <thead>
 <tr>
@@ -1448,9 +1469,9 @@ Useful if restoring a copy to the same sql server for testing.<br></p>
 </tbody>
 </table>
 <h5 id="trustdbbackuphistory">-TrustDbBackupHistory</h5>
-<p>This switch can be used when piping the output of Get-DbaDbBackupHistory or Backup-DbaDatabase into this command.<br />
-It allows the user to say that they trust that the output from those commands is correct, and skips the file header read portion of the process.<br />
-This means a faster process, but at the risk of not knowing till halfway through the restore that something is wrong with a file.<br></p>
+<p>Bypasses backup header validation when using piped input from Get-DbaDbBackupHistory or similar commands.<br />
+Use this to significantly speed up restores when you're confident in the backup chain integrity.<br />
+Trades verification safety for performance - backup file issues won't be detected until the restore attempt.<br></p>
 <table>
 <thead>
 <tr>
@@ -1478,7 +1499,9 @@ This means a faster process, but at the risk of not knowing till halfway through
 </tbody>
 </table>
 <h5 id="maxtransfersize">-MaxTransferSize</h5>
-<p>Parameter to set the unit of transfer. Values must be a multiple by 64kb.<br></p>
+<p>Controls the size of each data transfer between storage and SQL Server during restore operations.<br />
+Use this to optimize restore performance based on your storage subsystem characteristics.<br />
+Must be a multiple of 64KB with higher values potentially improving performance on high-speed storage.<br></p>
 <table>
 <thead>
 <tr>
@@ -1506,9 +1529,9 @@ This means a faster process, but at the risk of not knowing till halfway through
 </tbody>
 </table>
 <h5 id="blocksize">-BlockSize</h5>
-<p>Specifies the block size to use. Must be one of 0.5kb,1kb,2kb,4kb,8kb,16kb,32kb or 64kb.<br />
-Can be specified in bytes.<br />
-Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail.<br></p>
+<p>Defines the physical block size used for backup file reading during restore operations.<br />
+Use this to match the block size used during backup creation for optimal performance.<br />
+Valid values: 0.5KB, 1KB, 2KB, 4KB, 8KB, 16KB, 32KB, or 64KB, with larger blocks typically faster on modern storage.<br></p>
 <table>
 <thead>
 <tr>
@@ -1536,8 +1559,9 @@ Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https:
 </tbody>
 </table>
 <h5 id="buffercount">-BufferCount</h5>
-<p>Number of I/O buffers to use to perform the operation.<br />
-Refer to <a href="https://msdn.microsoft.com/en-us/library/ms178615.aspx">https://msdn.microsoft.com/en-us/library/ms178615.aspx</a> for more detail.<br></p>
+<p>Sets the number of I/O buffers SQL Server uses for the restore operation to improve throughput.<br />
+Use this to optimize restore performance by allowing more parallel I/O operations.<br />
+Higher values can improve performance but consume more memory - typically set between 2-64 based on available RAM.<br></p>
 <table>
 <thead>
 <tr>
@@ -1623,8 +1647,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="standbydirectory">-StandbyDirectory</h5>
-<p>If a directory is specified the database(s) will be restored into a standby state, with the standby file placed into this directory (which must exist, and be writable by the target Sql Server<br />
-instance).<br></p>
+<p>Places restored databases in STANDBY mode with undo files created in the specified directory.<br />
+Use this for log shipping secondary servers or when you need read-only access during restore operations.<br />
+The directory must exist and be writable by the SQL Server service account for undo file creation.<br></p>
 <table>
 <thead>
 <tr>
@@ -1652,7 +1677,9 @@ instance).<br></p>
 </tbody>
 </table>
 <h5 id="continue">-Continue</h5>
-<p>If specified we will to attempt to recover more transaction log backups onto database(s) in Recovering or Standby states.<br></p>
+<p>Resumes log restore operations on databases currently in RESTORING or STANDBY states.<br />
+Use this to apply additional transaction log backups to advance the recovery point of an existing restore chain.<br />
+Essential for log shipping scenarios or when performing point-in-time recovery in multiple steps.<br></p>
 <table>
 <thead>
 <tr>
@@ -1708,8 +1735,9 @@ instance).<br></p>
 </tbody>
 </table>
 <h5 id="azurecredential">-AzureCredential</h5>
-<p>The name of the SQL Server credential to be used if restoring from an Azure hosted backup using Storage Access Keys.<br />
-If a backup path beginning http is passed in and this parameter is not specified then if a credential with a name matching the URL.<br></p>
+<p>Specifies the SQL Server credential name for authenticating to Azure blob storage during restore operations.<br />
+Use this when restoring from Azure blob storage backups that require authentication beyond SAS tokens.<br />
+The credential must be created on the SQL Server instance with the appropriate storage account access keys.<br></p>
 <table>
 <thead>
 <tr>
@@ -1737,7 +1765,9 @@ If a backup path beginning http is passed in and this parameter is not specified
 </tbody>
 </table>
 <h5 id="replacedbnameinfile">-ReplaceDbNameInFile</h5>
-<p>If specified any occurrence of the original database's name in a data or log file will be replaced with the name specified in the DatabaseName parameter.<br></p>
+<p>Substitutes the original database name with the new DatabaseName in physical file names during restore.<br />
+Use this when restoring databases with descriptive file names to maintain naming consistency.<br />
+Requires DatabaseName parameter and helps avoid confusing file names like &quot;Production_Data.mdf&quot; in test environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -1795,7 +1825,9 @@ This will apply to all file move options, except for FileMapping.<br></p>
 </tbody>
 </table>
 <h5 id="recover">-Recover</h5>
-<p>If set will perform recovery on the indicated database.<br></p>
+<p>Brings databases currently in RESTORING state online by executing RESTORE WITH RECOVERY.<br />
+Use this to complete restore operations that were left in NoRecovery state or to finalize standby databases.<br />
+Makes previously inaccessible databases available for normal read/write operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -1823,7 +1855,9 @@ This will apply to all file move options, except for FileMapping.<br></p>
 </tbody>
 </table>
 <h5 id="keepcdc">-KeepCDC</h5>
-<p>Indicates whether CDC information should be restored as part of the database.<br></p>
+<p>Preserves Change Data Capture (CDC) configuration and data during the restore operation.<br />
+Use this when restoring databases with CDC enabled and you need to maintain change tracking functionality.<br />
+Cannot be combined with NoRecovery or Standby modes as CDC requires the database to be fully recovered.<br></p>
 <table>
 <thead>
 <tr>
@@ -2160,7 +2194,9 @@ This will apply to all file move options, except for FileMapping.<br></p>
 </tbody>
 </table>
 <h5 id="statementtimeout">-StatementTimeout</h5>
-<p>Timeout in minutes. Defaults to infinity (restores can take a while).<br></p>
+<p>Sets the maximum time in minutes to wait for restore operations before timing out.<br />
+Use this to prevent extremely long-running restores from hanging indefinitely in automated scripts.<br />
+Defaults to unlimited since large database restores can take hours depending on size and storage speed.<br></p>
 <table>
 <thead>
 <tr>

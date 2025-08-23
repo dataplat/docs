@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Disable-DbaDbEncryption">Disable-DbaDbEncryption</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Disables encryption on a database</p>
+<p>Disables Transparent Data Encryption (TDE) on SQL Server databases and removes encryption keys</p>
 <h2 id="description">Description</h2>
-<p>Disables encryption on a database</p>
-<p>Encryption is not fully disabled until the Encryption Key is dropped</p>
-<p>Consequently, this command will drop the key by default</p>
+<p>Disables Transparent Data Encryption (TDE) on specified databases by setting EncryptionEnabled to false and monitoring the decryption process until completion. Since TDE is not fully disabled until the Database Encryption Key (DEK) is removed, this command drops the encryption key by default to complete the decryption process.</p>
+<p>This is commonly used when decommissioning databases that no longer require encryption, migrating databases to environments without TDE requirements, or troubleshooting TDE-related performance issues. The function monitors the decryption state and waits for the database to reach an &quot;Unencrypted&quot; state before proceeding with key removal.</p>
+<p>Use the -NoEncryptionKeyDrop parameter if you want to disable TDE but retain the encryption key for future use, though the database will remain in a partially encrypted state until the key is manually dropped.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Disable-DbaDbEncryption
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -578,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database that where encryption will be disabled<br></p>
+<p>Specifies which databases to disable TDE encryption on. Accepts multiple database names as an array.<br />
+Required when using SqlInstance parameter to target specific databases instead of processing all encrypted databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables pipeline input from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase for pipeline processing. This allows you to filter databases using Get-DbaDatabase criteria before disabling TDE.<br />
+Useful when you need to disable encryption on databases that match specific conditions like owner, compatibility level, or encryption status.<br></p>
 <table>
 <thead>
 <tr>
@@ -634,8 +636,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="noencryptionkeydrop">-NoEncryptionKeyDrop</h5>
-<p>Encryption is not fully disabled until the Encryption Key is dropped. Consequently, Disable-DbaDbEncryption will drop the key by default.<br />
-Use this to keep the encryption key. Note that if you keep your key, your database will not be fully decrypted.<br></p>
+<p>Prevents the Database Encryption Key (DEK) from being automatically dropped after disabling TDE. By default, the function removes the DEK to complete the decryption process.<br />
+Use this switch when you need to retain the encryption key for future re-encryption or compliance requirements, though the database will remain in a partially encrypted state until the key is<br />
+manually removed.<br></p>
 <table>
 <thead>
 <tr>

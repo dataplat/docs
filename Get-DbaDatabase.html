@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDatabase">Get-DbaDatabase</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Database information for each database that is present on the target instance(s) of SQL Server.</p>
+<p>Retrieves database objects and metadata from SQL Server instances with advanced filtering and usage analytics.</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaDatabase command gets SQL database information for each database that is present on the target instance(s) of<br />
-SQL Server. If the name of the database is provided, the command will return only the specific database information.</p>
+<p>Retrieves detailed database information from one or more SQL Server instances, returning rich database objects instead of basic metadata queries.<br />
+This command provides comprehensive filtering options for database status, access type, recovery model, backup history, and encryption status, making it essential for database inventory, compliance auditing, and maintenance planning.<br />
+Unlike querying sys.databases directly, this returns full SMO database objects with calculated properties for backup status, usage statistics from DMVs, and consistent formatting across SQL Server versions.<br />
+Supports both on-premises SQL Server (2000+) and Azure SQL Database with automatic compatibility handling.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDatabase
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -621,7 +623,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more database(s) to process. If unspecified, all databases will be processed.<br></p>
+<p>Specifies one or more databases to include in the results. Supports wildcards and exact name matching.<br />
+Use this when you need to retrieve specific databases instead of all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -649,7 +652,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies one or more database(s) to exclude from processing.<br></p>
+<p>Specifies one or more databases to exclude from the results. Supports wildcards and exact name matching.<br />
+Use this to filter out specific databases like test or staging environments from your inventory.<br></p>
 <table>
 <thead>
 <tr>
@@ -677,7 +681,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeuser">-ExcludeUser</h5>
-<p>If this switch is enabled, only databases which are not User databases will be processed.<br />
+<p>Returns only system databases (master, model, msdb, tempdb).<br />
+Use this when you need to focus on system database maintenance tasks or validation.<br />
 This parameter cannot be used with -ExcludeSystem.<br></p>
 <table>
 <thead>
@@ -706,7 +711,8 @@ This parameter cannot be used with -ExcludeSystem.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystem">-ExcludeSystem</h5>
-<p>If this switch is enabled, only databases which are not System databases will be processed.<br />
+<p>Returns only user databases, excluding system databases (master, model, msdb, tempdb).<br />
+Use this when you need to focus on application databases for maintenance, backup, or compliance reporting.<br />
 This parameter cannot be used with -ExcludeUser.<br></p>
 <table>
 <thead>
@@ -735,7 +741,9 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="owner">-Owner</h5>
-<p>Specifies one or more database owners. Only databases owned by the listed owner(s) will be returned.<br></p>
+<p>Filters databases by their database owner (the principal listed as the database owner).<br />
+Use this to find databases owned by specific accounts for security auditing or ownership cleanup.<br />
+Accepts login names like 'sa', 'DOMAIN\user', or service account names.<br></p>
 <table>
 <thead>
 <tr>
@@ -763,7 +771,8 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="encrypted">-Encrypted</h5>
-<p>If this switch is enabled, only databases which have Transparent Data Encryption (TDE) enabled will be returned.<br></p>
+<p>Returns only databases with Transparent Data Encryption (TDE) enabled.<br />
+Use this for compliance reporting or to verify which databases have encryption configured for data protection.<br></p>
 <table>
 <thead>
 <tr>
@@ -791,8 +800,9 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="status">-Status</h5>
-<p>Specifies one or more database statuses to filter on. Only databases in the status(es) listed will be returned. Valid options for this parameter are 'EmergencyMode', 'Normal', 'Offline',<br />
-'Recovering', 'RecoveryPending', 'Restoring', 'Standby', and 'Suspect'.<br></p>
+<p>Filters databases by their current operational status. Returns only databases matching the specified status values.<br />
+Use this to identify databases requiring attention (Suspect, Offline) or in specific states for maintenance planning.<br />
+Valid options: EmergencyMode, Normal, Offline, Recovering, RecoveryPending, Restoring, Standby, Suspect.<br></p>
 <table>
 <thead>
 <tr>
@@ -824,7 +834,9 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="access">-Access</h5>
-<p>Filters databases returned by their access type. Valid options for this parameter are 'ReadOnly' and 'ReadWrite'. If omitted, no filtering is performed.<br></p>
+<p>Filters databases by their read/write access mode. Returns only databases set to the specified access type.<br />
+Use ReadOnly to find reporting databases or those temporarily set to read-only for maintenance.<br />
+Valid options: ReadOnly, ReadWrite.<br></p>
 <table>
 <thead>
 <tr>
@@ -856,7 +868,9 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="recoverymodel">-RecoveryModel</h5>
-<p>Filters databases returned by their recovery model. Valid options for this parameter are 'Full', 'Simple', and 'BulkLogged'.<br></p>
+<p>Filters databases by their recovery model setting, which controls transaction log behavior and backup capabilities.<br />
+Use this to verify recovery model consistency or find databases needing model changes for backup strategy compliance.<br />
+Valid options: Full (point-in-time recovery), Simple (no log backups), BulkLogged (minimal logging for bulk operations).<br></p>
 <table>
 <thead>
 <tr>
@@ -888,7 +902,8 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="nofullbackup">-NoFullBackup</h5>
-<p>If this switch is enabled, only databases without a full backup recorded by SQL Server will be returned. This will also indicate which of these databases only have CopyOnly full backups.<br></p>
+<p>Returns only databases that have never had a full backup or only have CopyOnly full backups recorded in msdb.<br />
+Use this to identify databases at risk due to missing backup coverage for disaster recovery planning.<br></p>
 <table>
 <thead>
 <tr>
@@ -916,7 +931,8 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="nofullbackupsince">-NoFullBackupSince</h5>
-<p>Only databases which haven't had a full backup since the specified DateTime will be returned.<br></p>
+<p>Returns databases that haven't had a full backup since the specified date and time.<br />
+Use this to identify databases with stale backups that may violate your backup policy or RTO requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -944,7 +960,8 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="nologbackup">-NoLogBackup</h5>
-<p>If this switch is enabled, only databases without a log backup recorded by SQL Server will be returned.<br></p>
+<p>Returns databases in Full or BulkLogged recovery model that have never had a transaction log backup.<br />
+Use this to identify databases where transaction logs may be growing unchecked due to missing log backup strategy.<br></p>
 <table>
 <thead>
 <tr>
@@ -972,7 +989,8 @@ This parameter cannot be used with -ExcludeUser.<br></p>
 </tbody>
 </table>
 <h5 id="nologbackupsince">-NoLogBackupSince</h5>
-<p>Only databases which haven't had a log backup since the specified DateTime will be returned.<br></p>
+<p>Returns databases that haven't had a transaction log backup since the specified date and time.<br />
+Use this to find databases with overdue log backups that may cause transaction log growth or RPO violations.<br></p>
 <table>
 <thead>
 <tr>
@@ -1030,7 +1048,9 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="includelastused">-IncludeLastUsed</h5>
-<p>If this switch is enabled, the last used read &amp; write times for each database will be returned. This data is retrieved from sys.dm_db_index_usage_stats which is reset when SQL Server is restarted.<br></p>
+<p>Adds LastRead and LastWrite columns showing when databases were last accessed based on index usage statistics.<br />
+Use this to identify unused or rarely accessed databases for decommissioning or archival decisions.<br />
+Data is retrieved from sys.dm_db_index_usage_stats and resets when SQL Server restarts.<br></p>
 <table>
 <thead>
 <tr>
@@ -1058,7 +1078,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="onlyaccessible">-OnlyAccessible</h5>
-<p>If this switch is enabled, only accessible databases are returned (huge speedup in SMO enumeration)<br></p>
+<p>Returns only databases that are currently accessible, excluding offline or inaccessible databases.<br />
+Use this to improve performance when you only need databases that can be queried, providing significant speedup for SMO enumeration.<br></p>
 <table>
 <thead>
 <tr>

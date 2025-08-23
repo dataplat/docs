@@ -485,16 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaFirewallRule">Remove-DbaFirewallRule</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes firewall rules for SQL Server instances from the target computer.</p>
+<p>Removes Windows firewall rules for SQL Server Engine, Browser, and DAC connections from target computers.</p>
 <h2 id="description">Description</h2>
-<p>Removes firewall rules for SQL Server instances from the target computer.<br />
-As the group and the names of the firewall rules are fixed, this command<br />
-only works for rules created with New-DbaFirewallRule.</p>
-<p>This is basically a wrapper around Remove-NetFirewallRule executed at the target computer.<br />
-So this only works if Remove-NetFirewallRule works on the target computer.</p>
-<p>The functionality is currently limited. Help to extend the functionality is welcome.</p>
-<p>As long as you can read this note here, there may be breaking changes in future versions.<br />
-So please review your scripts using this command after updating dbatools.</p>
+<p>Removes Windows firewall rules for SQL Server components from target computers, cleaning up network access rules when decommissioning instances or changing security configurations. This command only works with firewall rules that were previously created using New-DbaFirewallRule, as it relies on specific naming conventions and rule groups.</p>
+<p>The function can remove rules for SQL Server Engine connections (typically port 1433 for default instances), SQL Server Browser service (UDP port 1434), and Dedicated Admin Connection (DAC) ports. This is particularly useful when decommissioning SQL Server instances, changing network security policies, or troubleshooting connectivity issues.</p>
+<p>This command executes Remove-NetFirewallRule remotely on target computers using PowerShell remoting, so it requires appropriate permissions and network connectivity to the target systems. The function provides detailed status reporting for each removal operation, including success status and any warnings or errors encountered.</p>
+<p>The functionality is currently limited to rules created by dbatools. Future versions may introduce breaking changes, so review scripts after updating dbatools.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaFirewallRule
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -561,7 +557,8 @@ Remove-DbaFirewallRule -InputObject &lt;Object[]&gt;
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>The output object(s) from Get-DbaFirewallRule. <br></p>
+<p>Accepts firewall rule objects from Get-DbaFirewallRule for pipeline-based removal operations.<br />
+Use this when you need to filter or review existing firewall rules before removing them, allowing for more precise control over which rules get deleted. <br></p>
 <table>
 <thead>
 <tr>
@@ -618,17 +615,10 @@ Remove-DbaFirewallRule -InputObject &lt;Object[]&gt;
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Removes firewall rules for the given type(s).<br />
-Valid values are:</p>
-<ul>
-<li>Engine - for the SQL Server instance</li>
-<li>Browser - for the SQL Server Browser</li>
-<li>DAC - for the dedicated admin connection (DAC)</li>
-<li>AllInstance - for all firewall rules on the target computer related to SQL Server<br />
-The default is @('Engine', 'DAC').<br />
-As the Browser might be needed by other instances, the firewall rule for the SQL Server Browser is<br />
-never removed with the firewall rule of the instance but only removed if 'Browser' is used.<br></li>
-</ul>
+<p>Specifies which types of SQL Server firewall rules to remove from the target computer.<br />
+Use this to control exactly which network access rules are cleaned up when decommissioning or reconfiguring SQL Server instances.<br />
+Engine removes rules for SQL Server database connections, Browser removes UDP port 1434 rules for SQL Server Browser service, DAC removes Dedicated Admin Connection rules, and AllInstance removes all<br />
+SQL Server-related rules. Defaults to Engine and DAC since Browser rules are often shared between multiple instances.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Restart-DbaService">Restart-DbaService</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Restarts SQL Server services on a computer.</p>
+<p>Restarts SQL Server services with proper dependency handling and service ordering.</p>
 <h2 id="description">Description</h2>
-<p>Restarts the SQL Server related services on one or more computers. Will follow SQL Server service dependencies.</p>
+<p>Restarts SQL Server services across multiple computers while automatically managing service dependencies and restart order. This function performs a controlled stop-then-restart sequence, ensuring that dependent services like SQL Agent are properly handled when restarting the Database Engine. You can target specific service types (Engine, Agent, SSRS, SSAS, etc.) or restart all SQL Server services on a system, making it ideal for maintenance windows or applying configuration changes that require service restarts.</p>
 <p>Requires Local Admin rights on destination computer(s).</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Restart-DbaService
@@ -541,7 +541,8 @@ Restart-DbaService
 <p>Restarts SQL Server database engine services on sql1 forcing dependent SQL Server Agent services to restart as well.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of services from Get-DbaService <br></p>
+<p>Accepts service objects from Get-DbaService to restart specific services that have already been filtered or identified.<br />
+Use this when you need to restart a predefined set of services, typically by piping results from Get-DbaService with custom filtering or from previously saved service collections. <br></p>
 <table>
 <thead>
 <tr>
@@ -570,7 +571,8 @@ Restart-DbaService
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>Specifies the computer names where SQL Server services will be restarted. Accepts multiple computer names for batch operations.<br />
+Use this when you need to restart services across multiple SQL Server hosts during maintenance windows or after configuration changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +600,8 @@ Restart-DbaService
 </tbody>
 </table>
 <h5 id="instancename">-InstanceName</h5>
-<p>Only affects services that belong to the specific instances.<br></p>
+<p>Restricts the restart operation to services belonging to specific SQL Server instances (like MSSQLSERVER, SQLEXPRESS, or named instances).<br />
+Use this when you have multiple instances on a server but only need to restart services for specific instances, avoiding unnecessary downtime for other instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -655,8 +658,8 @@ Parameters ComputerName and InstanceName will be ignored if SqlInstance is used.
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Use -Type to collect only services of the desired SqlServiceType.<br />
-Can be one of the following: &quot;Agent&quot;, &quot;Browser&quot;, &quot;Engine&quot;, &quot;FullText&quot;, &quot;SSAS&quot;, &quot;SSIS&quot;, &quot;SSRS&quot;, &quot;PolyBase&quot;, &quot;Launchpad&quot;<br></p>
+<p>Specifies which SQL Server service types to restart: Agent, Browser, Engine, FullText, SSAS, SSIS, SSRS, PolyBase, or Launchpad.<br />
+Use this when you need to restart only specific services rather than all SQL Server services, such as restarting just SQL Agent after job configuration changes or only SSRS after report deployment.<br></p>
 <table>
 <thead>
 <tr>
@@ -688,7 +691,8 @@ Can be one of the following: &quot;Agent&quot;, &quot;Browser&quot;, &quot;Engin
 </tbody>
 </table>
 <h5 id="timeout">-Timeout</h5>
-<p>How long to wait for the start/stop request completion before moving on. Specify 0 to wait indefinitely.<br></p>
+<p>Sets the maximum time in seconds to wait for each service stop/start operation to complete before timing out. Defaults to 60 seconds.<br />
+Increase this value for busy systems or when restarting services with large databases that may take longer to shut down gracefully. Set to 0 for infinite wait.<br></p>
 <table>
 <thead>
 <tr>
@@ -744,7 +748,8 @@ Can be one of the following: &quot;Agent&quot;, &quot;Browser&quot;, &quot;Engin
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Will stop dependent SQL Server agents when stopping Engine services.<br></p>
+<p>Automatically includes dependent services (SQL Agent, PolyBase, Launchpad) when restarting Database Engine services to ensure proper shutdown sequence.<br />
+Use this when restarting Engine services to avoid dependency conflicts and ensure all related services restart cleanly, particularly important during major configuration changes or patches.<br></p>
 <table>
 <thead>
 <tr>

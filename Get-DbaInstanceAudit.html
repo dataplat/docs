@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaInstanceAudit">Get-DbaInstanceAudit</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets SQL Security Audit information for each instance(s) of SQL Server.</p>
+<p>Retrieves SQL Server audit objects from instance-level security auditing configurations.</p>
 <h2 id="description">Description</h2>
-<p>The Get-DbaInstanceAudit command gets SQL Security Audit information for each instance(s) of SQL Server.</p>
+<p>Retrieves all configured SQL Server audit objects at the instance level, which define where security audit events are stored and how they're managed. These audits capture login attempts, permission changes, and other security-related activities across the entire SQL Server instance. The function returns detailed information including audit file paths, size limits, rollover settings, and current status, helping DBAs monitor compliance and troubleshoot security configurations without manually querying system views.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaInstanceAudit
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -571,7 +571,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="audit">-Audit</h5>
-<p>Return only specific audits<br></p>
+<p>Specifies which audit objects to retrieve by name. Accepts multiple audit names to return only those specific audits.<br />
+Use this when you need to check configuration or status for particular audits instead of retrieving all instance-level audits.<br></p>
 <table>
 <thead>
 <tr>
@@ -599,7 +600,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeaudit">-ExcludeAudit</h5>
-<p>Exclude specific audits<br></p>
+<p>Specifies which audit objects to exclude from results by name. Accepts multiple audit names to filter out unwanted audits.<br />
+Use this when you want to retrieve most audits but skip specific ones, such as excluding test or temporary audits from compliance reports.<br></p>
 <table>
 <thead>
 <tr>

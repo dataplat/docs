@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Move-DbaDbFile">Move-DbaDbFile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Moves database files from one local drive or folder to another.</p>
+<p>Relocates database files to different drives or folders while maintaining database integrity.</p>
 <h2 id="description">Description</h2>
-<p>Moves database files from one local drive or folder to another.<br />
-It will put database offline, update metadata and set it online again.</p>
+<p>Relocates database data and log files to new locations on the same SQL Server instance. The function takes the database offline, copies files to the new location, updates the database metadata with ALTER DATABASE commands, and brings the database back online.</p>
+<p>This is typically used when you need to move databases to faster storage, free up disk space, or reorganize your file layout without restoring from backup. The function handles both local and remote SQL Server instances, preserves file permissions, and optionally removes the original files after successful moves.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Move-DbaDbFile -SqlInstance &lt;DbaInstanceParameter&gt;
     [-SqlCredential &lt;PSCredential&gt;]
@@ -576,7 +576,8 @@ Before it puts database offline and after copy each file will update database me
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database to be moved. <br></p>
+<p>Specifies the user database whose files will be relocated to new paths.<br />
+System databases (master, model, msdb, tempdb) are not supported for safety reasons. <br></p>
 <table>
 <thead>
 <tr>
@@ -635,9 +636,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filetype">-FileType</h5>
-<p>Define the file type to move; accepted values: Data, Log or Both.<br />
-Default value: Both<br />
-Exclusive, cannot be used in conjunction with FileToMove.<br></p>
+<p>Specifies which file types to relocate: Data, Log, or Both (default).<br />
+Use this with FileDestination when you want to move all files of a specific type to the same directory.<br />
+Cannot be combined with FileToMove parameter as they serve different movement strategies.<br></p>
 <table>
 <thead>
 <tr>
@@ -669,7 +670,9 @@ Exclusive, cannot be used in conjunction with FileToMove.<br></p>
 </tbody>
 </table>
 <h5 id="filedestination">-FileDestination</h5>
-<p>Destination directory of the database file(s).<br></p>
+<p>Sets the target directory where all selected database files will be moved.<br />
+Used with FileType parameter to move all data files, log files, or both to a single location.<br />
+Must be accessible to the SQL Server service account and have sufficient space for the files.<br></p>
 <table>
 <thead>
 <tr>
@@ -697,8 +700,9 @@ Exclusive, cannot be used in conjunction with FileToMove.<br></p>
 </tbody>
 </table>
 <h5 id="filetomove">-FileToMove</h5>
-<p>Pass a hashtable that contains a list of database files and their destination path.<br />
-Key and value should be the logical name and then the path (e.g. 'db1_log' = 'D:\mssql\logs')<br></p>
+<p>Defines specific file movements using a hashtable where keys are logical file names and values are destination directory paths.<br />
+Use this when you need granular control over where each file goes, like separating data and log files to different drives.<br />
+Example: @{'MyDB_Data'='E:\Data'; 'MyDB_Log'='F:\Logs'}<br></p>
 <table>
 <thead>
 <tr>
@@ -726,7 +730,9 @@ Key and value should be the logical name and then the path (e.g. 'db1_log' = 'D:
 </tbody>
 </table>
 <h5 id="deleteaftermove">-DeleteAfterMove</h5>
-<p>Remove the source database file(s) after the successful move operation.<br></p>
+<p>Removes the original database files from their source location after successful relocation.<br />
+Use this to free up disk space on the source drive once files are confirmed copied and database metadata updated.<br />
+Files are only deleted after successful copy and database metadata update to prevent data loss.<br></p>
 <table>
 <thead>
 <tr>
@@ -754,8 +760,9 @@ Key and value should be the logical name and then the path (e.g. 'db1_log' = 'D:
 </tbody>
 </table>
 <h5 id="filestructureonly">-FileStructureOnly</h5>
-<p>Return a hashtable of the Database file structure.<br />
-Modifying the hashtable it can then be utilized with the FileToMove parameter<br></p>
+<p>Returns the current file structure as a hashtable template without performing any file operations.<br />
+Use this to discover logical file names and current paths, then modify the output for use with FileToMove.<br />
+Helpful for planning complex moves or scripting multiple database relocations.<br></p>
 <table>
 <thead>
 <tr>
@@ -783,7 +790,9 @@ Modifying the hashtable it can then be utilized with the FileToMove parameter<br
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Database(s) is set offline as part of the move process, this will utilize WITH ROLLBACK IMMEDIATE and rollback any open transaction running against the database(s).<br></p>
+<p>Forces the database offline using WITH ROLLBACK IMMEDIATE, terminating active transactions and connections.<br />
+Use this when the database has active connections that would prevent it from going offline gracefully.<br />
+Without this switch, the operation may fail if users are connected to the database.<br></p>
 <table>
 <thead>
 <tr>

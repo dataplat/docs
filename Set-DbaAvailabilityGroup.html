@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaAvailabilityGroup">Set-DbaAvailabilityGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets availability group properties on a SQL Server instance.</p>
+<p>Modifies availability group configuration settings including DTC support, backup preferences, and failover conditions</p>
 <h2 id="description">Description</h2>
-<p>Sets availability group properties on a SQL Server instance.</p>
+<p>Modifies configuration properties of existing availability groups without requiring you to script out and recreate the entire AG setup. Commonly used to enable DTC support for distributed transactions, adjust automated backup preferences across replicas, configure failure condition levels for automatic failover, and set health check timeouts for monitoring. This saves time compared to using SQL Server Management Studio or T-SQL ALTER AVAILABILITY GROUP statements for routine configuration changes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaAvailabilityGroup
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -584,7 +584,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Only set specific availability group properties.<br></p>
+<p>Specifies the name(s) of specific availability groups to modify. Accepts multiple AG names as an array.<br />
+Use this to target individual AGs instead of modifying all AGs on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="allavailabilitygroups">-AllAvailabilityGroups</h5>
-<p>Set properties for all availability group on an instance.<br></p>
+<p>Modifies configuration settings for every availability group on the target SQL Server instance.<br />
+Use this switch when you need to apply the same configuration changes across all AGs simultaneously.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="dtcsupportenabled">-DtcSupportEnabled</h5>
-<p>Enables DtcSupport.<br></p>
+<p>Enables or disables Distributed Transaction Coordinator (DTC) support for the availability group.<br />
+Required when applications use distributed transactions across multiple databases in the AG. Set to $false to disable DTC support.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,8 +671,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="clustertype">-ClusterType</h5>
-<p>Cluster type of the Availability Group. Only supported in SQL Server 2017 and above.<br />
-Options include: External, Wsfc or None.<br></p>
+<p>Specifies the clustering technology used by the availability group. Only supported in SQL Server 2017 and above.<br />
+Use 'Wsfc' for Windows Server Failover Clustering, 'External' for third-party cluster managers like Pacemaker on Linux, or 'None' for read-scale AGs without automatic failover.<br></p>
 <table>
 <thead>
 <tr>
@@ -701,7 +704,8 @@ Options include: External, Wsfc or None.<br></p>
 </tbody>
 </table>
 <h5 id="automatedbackuppreference">-AutomatedBackupPreference</h5>
-<p>Specifies how replicas in the primary role are treated in the evaluation to pick the desired replica to perform a backup.<br></p>
+<p>Controls which replica should be preferred for automated backup operations within the availability group.<br />
+Use 'Secondary' to offload backups from the primary, 'SecondaryOnly' to prevent backups on primary, 'Primary' to always backup on primary, or 'None' to disable preference-based backup routing.<br></p>
 <table>
 <thead>
 <tr>
@@ -733,7 +737,9 @@ Options include: External, Wsfc or None.<br></p>
 </tbody>
 </table>
 <h5 id="failureconditionlevel">-FailureConditionLevel</h5>
-<p>Specifies the different conditions that can trigger an automatic failover in Availability Group.<br></p>
+<p>Sets the sensitivity level for automatic failover conditions in the availability group.<br />
+Use 'OnServerDown' for basic failover, 'OnServerUnresponsive' for SQL Service issues, 'OnCriticalServerErrors' for critical SQL errors, 'OnModerateServerErrors' for moderate SQL errors, or<br />
+'OnAnyQualifiedFailureCondition' for maximum sensitivity.<br></p>
 <table>
 <thead>
 <tr>
@@ -765,10 +771,9 @@ Options include: External, Wsfc or None.<br></p>
 </tbody>
 </table>
 <h5 id="healthchecktimeout">-HealthCheckTimeout</h5>
-<p>This setting used to specify the length of time, in milliseconds, that the SQL Server resource DLL should wait for information returned by the sp_server_diagnostics stored procedure before reporting<br />
-the Always On Failover Cluster Instance (FCI) as unresponsive.<br />
-Changes that are made to the timeout settings are effective immediately and do not require a restart of the SQL Server resource.<br />
-Defaults is 30000 (30 seconds).<br></p>
+<p>Sets the timeout in milliseconds for health check responses from sp_server_diagnostics before marking the AG as unresponsive.<br />
+Increase this value for busy systems or slow storage to reduce false failovers. Decrease for faster failover detection in stable environments.<br />
+Default is 30000 (30 seconds). Changes take effect immediately without restart.<br></p>
 <table>
 <thead>
 <tr>
@@ -796,8 +801,8 @@ Defaults is 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="basicavailabilitygroup">-BasicAvailabilityGroup</h5>
-<p>Indicates whether the availability group is Basic Availability Group.<br />
-<a href="https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/basic-availability-groups-always-on-availability-groups">https://docs.microsoft.com/en-us/sql/database-engine/availability-groups/windows/basic-availability-groups-always-on-availability-groups</a><br></p>
+<p>Configures the availability group as a Basic AG with limited functionality for Standard Edition licensing.<br />
+Basic AGs support only one database, two replicas, and no read-access to secondary replicas. Used when full AG features aren't needed or licensed.<br></p>
 <table>
 <thead>
 <tr>
@@ -825,7 +830,8 @@ Defaults is 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="databasehealthtrigger">-DatabaseHealthTrigger</h5>
-<p>Indicates whether the availability group triggers the database health.<br></p>
+<p>Enables database-level health monitoring that can trigger automatic failovers based on individual database health status.<br />
+When enabled, databases that become offline or experience critical errors can initiate AG failover. Useful for comprehensive monitoring beyond SQL Server instance health.<br></p>
 <table>
 <thead>
 <tr>
@@ -853,7 +859,8 @@ Defaults is 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="isdistributedavailabilitygroup">-IsDistributedAvailabilityGroup</h5>
-<p>Indicates whether the availability group is distributed.<br></p>
+<p>Configures the availability group as a Distributed AG that spans multiple WSFC clusters or standalone instances.<br />
+Used for disaster recovery scenarios across geographic locations or different domains. Requires SQL Server 2016 or later.<br></p>
 <table>
 <thead>
 <tr>
@@ -881,7 +888,8 @@ Defaults is 30000 (30 seconds).<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAvailabilityGroup.<br></p>
+<p>Accepts availability group objects from Get-DbaAvailabilityGroup for pipeline operations.<br />
+Use this to pipe specific AG objects directly to the function instead of specifying SqlInstance and AG names separately.<br></p>
 <table>
 <thead>
 <tr>

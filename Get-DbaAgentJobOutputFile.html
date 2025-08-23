@@ -485,11 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentJobOutputFile">Get-DbaAgentJobOutputFile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns the Output File for each step of one or many agent job with the Job Names provided dynamically if<br />
-required for one or more SQL Instances</p>
+<p>Retrieves output file paths configured for SQL Agent job steps</p>
 <h2 id="description">Description</h2>
-<p>This function returns for one or more SQL Instances the output file value for each step of one or many agent job with the Job Names<br />
-provided dynamically. It will not return anything if there is no Output File</p>
+<p>This function returns the file paths where SQL Agent job steps write their output logs. When troubleshooting failed jobs or reviewing execution history, DBAs often need to locate these output files to examine detailed error messages and execution details. The function returns both the local file path and the UNC path for remote access, but only displays job steps that have an output file configured.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentJobOutputFile
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -590,7 +588,8 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The job(s) to process - this list is auto-populated from the server. If unspecified, all jobs will be processed.<br></p>
+<p>Specifies specific SQL Agent jobs to examine for output file configurations. Accepts job names as strings and supports multiple values.<br />
+Use this when you need to check output file paths for specific jobs rather than scanning all jobs on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -618,7 +617,8 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="excludejob">-ExcludeJob</h5>
-<p>The job(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies SQL Agent jobs to exclude from the output file search. Accepts job names as strings and supports multiple values.<br />
+Use this when you want to scan most jobs but skip specific ones, such as excluding system maintenance jobs or jobs you know don't use output files.<br></p>
 <table>
 <thead>
 <tr>

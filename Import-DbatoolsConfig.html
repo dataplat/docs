@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Import-DbatoolsConfig">Import-DbatoolsConfig</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Imports a json configuration file into the configuration system.</p>
+<p>Imports dbatools configuration settings from JSON files or default module paths.</p>
 <h2 id="description">Description</h2>
-<p>Imports a json configuration file into the configuration system.</p>
+<p>Loads dbatools configuration settings from JSON files or retrieves module-specific settings from default configuration locations. This lets you restore saved dbatools preferences, share standardized settings across your team, or apply configuration baselines to multiple servers. You can import from local files, web URLs, or raw JSON strings, with optional filtering to selectively apply only the settings you need.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Import-DbatoolsConfig -Path &lt;String[]&gt;
     [-IncludeFilter &lt;String[]&gt;]
@@ -516,7 +516,9 @@ Import-DbatoolsConfig -ModuleName &lt;String&gt;
 <p>Imports all the module specific settings that have been persisted in any of the default file system paths.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>The path to the json file to import. <br></p>
+<p>Specifies the path to JSON configuration files, web URLs, or raw JSON strings to import settings from.<br />
+Use this to restore saved dbatools preferences, apply team-standard configurations, or load settings from remote locations.<br />
+Accepts local file paths, HTTP/HTTPS URLs, or direct JSON content as strings. <br></p>
 <table>
 <thead>
 <tr>
@@ -544,7 +546,9 @@ Import-DbatoolsConfig -ModuleName &lt;String&gt;
 </tbody>
 </table>
 <h5 id="modulename">-ModuleName</h5>
-<p>Import configuration items specific to a module from the default configuration paths. <br></p>
+<p>Specifies which dbatools module's configuration settings to import from default system locations.<br />
+Use this to restore module-specific settings that were previously saved using Export-DbatoolsConfig.<br />
+Common modules include 'message' for logging preferences and 'sql' for connection defaults. <br></p>
 <table>
 <thead>
 <tr>
@@ -573,7 +577,9 @@ Import-DbatoolsConfig -ModuleName &lt;String&gt;
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="moduleversion">-ModuleVersion</h5>
-<p>The configuration version of the module-settings to load.<br></p>
+<p>Specifies which version of the module configuration schema to load when importing persisted settings.<br />
+Defaults to version 1, which works for most scenarios unless you're working with legacy configuration exports.<br />
+Only change this if you're importing settings exported with a different version of dbatools.<br></p>
 <table>
 <thead>
 <tr>
@@ -601,9 +607,9 @@ Import-DbatoolsConfig -ModuleName &lt;String&gt;
 </tbody>
 </table>
 <h5 id="scope">-Scope</h5>
-<p>Where to import the module specific configuration items form.<br />
-Only file-based scopes are supported for this.<br />
-By default, all locations are queried, with user settings beating system settings.<br></p>
+<p>Controls which configuration storage locations to search when importing module settings.<br />
+Options include FileUserLocal (user profile), FileUserShared (shared user settings), and FileSystem (system-wide).<br />
+User settings override system settings when the same configuration exists in multiple locations.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +637,9 @@ By default, all locations are queried, with user settings beating system setting
 </tbody>
 </table>
 <h5 id="includefilter">-IncludeFilter</h5>
-<p>If specified, only elements with names that are similar (-like) to names in this list will be imported.<br></p>
+<p>Specifies wildcard patterns to selectively import only matching configuration items from the source.<br />
+Use this to import specific settings like 'sql.connection.<em>' for connection-related configs or 'logging.</em>' for logging preferences.<br />
+Supports PowerShell -like wildcard matching with * and ? characters.<br></p>
 <table>
 <thead>
 <tr>
@@ -659,7 +667,9 @@ By default, all locations are queried, with user settings beating system setting
 </tbody>
 </table>
 <h5 id="excludefilter">-ExcludeFilter</h5>
-<p>Elements that are similar (-like) to names in this list will not be imported.<br></p>
+<p>Specifies wildcard patterns to exclude specific configuration items during import.<br />
+Use this to skip sensitive settings like credentials or environment-specific paths when sharing configurations.<br />
+Applied after IncludeFilter, allowing you to include a category but exclude specific items within it.<br></p>
 <table>
 <thead>
 <tr>
@@ -687,7 +697,9 @@ By default, all locations are queried, with user settings beating system setting
 </tbody>
 </table>
 <h5 id="peek">-Peek</h5>
-<p>Rather than applying the setting, return the configuration items that would have been applied.<br></p>
+<p>Returns the configuration items that would be imported without actually applying them to your session.<br />
+Use this to preview configuration changes before applying them, especially when importing from unfamiliar sources.<br />
+Helpful for validating configuration files and understanding what settings will be modified.<br></p>
 <table>
 <thead>
 <tr>

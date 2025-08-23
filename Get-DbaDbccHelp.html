@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbccHelp">Get-DbaDbccHelp</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Execution of Database Console Command DBCC HELP</p>
+<p>Retrieves syntax help and parameter information for DBCC commands</p>
 <h2 id="description">Description</h2>
-<p>Returns the results of DBCC HELP</p>
+<p>Executes DBCC HELP against SQL Server to display syntax, parameters, and usage information for Database Console Commands. This saves you from having to look up DBCC command syntax in documentation, especially for complex commands like CHECKDB, CHECKTABLE, or SHRINKFILE. Supports both documented and undocumented DBCC commands when used with the IncludeUndocumented parameter.</p>
 <p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-help-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-help-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -572,9 +572,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="statement">-Statement</h5>
-<p>Is the name of the DBCC command for which to receive syntax information.<br />
-Provide only the part of the DBCC command that follows DBCC,<br />
-for example, CHECKDB instead of DBCC CHECKDB.<br></p>
+<p>Specifies the DBCC command name to get syntax help for. Provide only the command portion after &quot;DBCC&quot; (e.g., CHECKDB, CHECKTABLE, SHRINKFILE).<br />
+Use this when you need to verify command syntax before running maintenance operations or troubleshooting database issues.<br />
+Common commands include CHECKDB for database integrity, SHRINKFILE for file management, or FREEPROCCACHE for memory management.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,8 +602,9 @@ for example, CHECKDB instead of DBCC CHECKDB.<br></p>
 </tbody>
 </table>
 <h5 id="includeundocumented">-IncludeUndocumented</h5>
-<p>Allows getting help for undocumented DBCC commands. Requires Traceflag 2588<br />
-This only works for SQL Server 2005 or Higher<br></p>
+<p>Enables access to help for undocumented DBCC commands by setting trace flag 2588 for the session.<br />
+Use this when troubleshooting advanced scenarios that require undocumented commands like WRITEPAGE or PAGE.<br />
+Only works on SQL Server 2005 and higher, and should be used with caution as undocumented commands can affect system stability.<br></p>
 <table>
 <thead>
 <tr>

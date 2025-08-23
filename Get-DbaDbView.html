@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbView">Get-DbaDbView</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database views for each SqlInstance.</p>
+<p>Retrieves SQL Server database views with metadata for documentation and analysis.</p>
 <h2 id="description">Description</h2>
-<p>Gets database views for each SqlInstance.</p>
+<p>Retrieves all database views from SQL Server instances along with their schema, creation dates, and modification timestamps. This helps DBAs document database architecture, analyze view dependencies, and audit database objects across multiple servers and databases. The function excludes system views by default when requested, making it useful for focusing on custom business logic views.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbView
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -593,7 +593,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>To get views from specific database(s) - this list is auto populated from the server.<br></p>
+<p>Specifies which databases to search for views. Use this when you need to focus on specific databases instead of scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -621,7 +621,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<p>Specifies databases to skip when retrieving views. Useful when you want results from most databases but need to exclude specific ones like test or staging databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -649,7 +649,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemview">-ExcludeSystemView</h5>
-<p>This switch removes all system objects from the view collection.<br></p>
+<p>Excludes SQL Server system views from results to focus only on user-created views. Essential when documenting custom application views since each database can contain 400+ system views that clutter<br />
+output.<br></p>
 <table>
 <thead>
 <tr>
@@ -677,7 +678,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="view">-View</h5>
-<p>The view(s) to include - all views are selected if not populated<br></p>
+<p>Specifies specific view names to retrieve instead of returning all views. Supports three-part naming (database.schema.view) to target views across different databases and schemas in a single query.<br></p>
 <table>
 <thead>
 <tr>
@@ -705,7 +706,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>Only return views from the specified schema<br></p>
+<p>Filters results to views within specific schemas only. Useful for organizing output when databases have views spread across multiple schemas like dbo, reporting, or application-specific schemas.<br></p>
 <table>
 <thead>
 <tr>
@@ -733,7 +734,7 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase through the pipeline. Allows you to filter databases first with Get-DbaDatabase then retrieve views from only those selected databases.<br></p>
 <table>
 <thead>
 <tr>

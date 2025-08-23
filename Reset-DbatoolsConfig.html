@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Reset-DbatoolsConfig">Reset-DbatoolsConfig</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Reverts a configuration item to its default value.</p>
+<p>Resets dbatools module configuration settings back to their default values.</p>
 <h2 id="description">Description</h2>
-<p>This command can be used to revert a configuration item to the value it was initialized with.<br />
-Generally, this amounts to reverting it to its default value.</p>
+<p>Restores dbatools configuration settings to their original default values, useful when troubleshooting connectivity issues, fixing misconfigured connection strings, or starting fresh after environment changes. This is particularly helpful when dbatools settings have been customized for specific environments and you need to restore the baseline behavior.</p>
+<p>The function can reset individual configuration items, all settings within a specific module, or all dbatools configuration settings at once. This saves you from manually tracking down and reconfiguring individual settings.</p>
 <p>In order for a reset to be possible, two conditions must be met:</p>
 <ul>
 <li>The setting must have been initialized.</li>
@@ -528,8 +528,8 @@ Reset-DbatoolsConfig -Module &lt;String&gt;
 <p>Resets the configuration item named 'MyModule.Group.Setting1'.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="module">-Module</h5>
-<p>The name of the module, from which configurations should be reset.<br />
-Used in conjunction with the -Name parameter to filter a specific set of items. <br></p>
+<p>The name of the module whose configuration settings should be reset (e.g., 'dbatools', 'sql', 'connection').<br />
+Use this when you want to reset all settings within a specific functional area, such as resetting all connection-related settings after environment changes. <br></p>
 <table>
 <thead>
 <tr>
@@ -558,7 +558,8 @@ Used in conjunction with the -Name parameter to filter a specific set of items. 
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="configurationitem">-ConfigurationItem</h5>
-<p>A configuration object as returned by Get-DbatoolsConfig.<br></p>
+<p>One or more configuration objects as returned by Get-DbatoolsConfig.<br />
+Use this when you want to reset specific configuration items that you've already identified through Get-DbatoolsConfig, allowing for precise control over which settings get reset.<br></p>
 <table>
 <thead>
 <tr>
@@ -586,7 +587,8 @@ Used in conjunction with the -Name parameter to filter a specific set of items. 
 </tbody>
 </table>
 <h5 id="fullname">-FullName</h5>
-<p>The full name of the setting to reset, offering the maximum of precision.<br></p>
+<p>The full qualified name of a specific configuration setting to reset (e.g., 'dbatools.Connection.EncryptConnection').<br />
+Use this when you know the exact setting name and want to reset just that one item, providing the most precise targeting of configuration changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -614,7 +616,8 @@ Used in conjunction with the -Name parameter to filter a specific set of items. 
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>Used in conjunction with the -Module parameter to select which settings to reset using wildcard comparison.<br></p>
+<p>A wildcard pattern to match configuration setting names within the specified module (defaults to &quot;<em>&quot; for all settings).<br />
+Use this with the -Module parameter to selectively reset settings, such as using &quot;Encrypt</em>&quot; to reset only encryption-related settings within a module.<br></p>
 <table>
 <thead>
 <tr>

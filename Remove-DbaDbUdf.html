@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbUdf">Remove-DbaDbUdf</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a database user defined function(s) from each database and SQL Server instance.</p>
+<p>Removes user-defined functions from SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>Removes a database user defined function(s), with supported piping from Get-DbaDbUdf.</p>
+<p>Removes user-defined functions from specified databases, providing a clean way to drop obsolete or unwanted UDFs without manual T-SQL scripting. This function is particularly useful during database cleanup operations, code refactoring projects, or when removing deprecated functions that are no longer needed. Supports filtering by schema and function name, and can exclude system UDFs to prevent accidental removal of built-in functions. Works seamlessly with Get-DbaDbUdf for pipeline operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbUdf
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -553,7 +553,8 @@ PS C:\&gt; $udfs | Remove-DbaDbUdf
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDbUdf. <br></p>
+<p>Accepts UDF objects directly from Get-DbaDbUdf pipeline operations.<br />
+Use this when you need to filter or examine UDFs first before removal, enabling complex selection logic not possible with simple name matching. <br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The target database(s).<br></p>
+<p>Specifies which databases to process for UDF removal. Accepts multiple database names and supports wildcards.<br />
+Use this to limit the operation to specific databases instead of processing all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto populated from the server.<br></p>
+<p>Specifies databases to skip during UDF removal operations. Auto-populated with server database names for tab completion.<br />
+Use this when you want to process most databases but exclude specific ones like production or system databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -668,7 +671,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludesystemudf">-ExcludeSystemUdf</h5>
-<p>This switch removes all system objects from the UDF collection.<br></p>
+<p>Excludes system-generated and built-in user-defined functions from removal operations.<br />
+Use this safety switch to prevent accidental deletion of system UDFs that may be required for database functionality.<br></p>
 <table>
 <thead>
 <tr>
@@ -696,7 +700,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The schema(s) to process. If unspecified, all schemas will be processed.<br></p>
+<p>Specifies which schemas to include when removing UDFs. Accepts multiple schema names.<br />
+Use this to target UDFs in specific schemas like 'dbo', 'reporting', or custom application schemas while leaving others untouched.<br></p>
 <table>
 <thead>
 <tr>
@@ -724,7 +729,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeschema">-ExcludeSchema</h5>
-<p>The schema(s) to exclude.<br></p>
+<p>Specifies schemas to skip during UDF removal operations.<br />
+Use this to protect critical schemas from modification while processing UDFs in other schemas throughout the database.<br></p>
 <table>
 <thead>
 <tr>
@@ -752,7 +758,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name(s) of the user defined functions to process. If unspecified, all user defined functions will be processed.<br></p>
+<p>Specifies the exact names of UDFs to remove. Accepts multiple function names and supports wildcards.<br />
+Use this for targeted removal of specific functions like deprecated calculation functions or obsolete business logic UDFs.<br></p>
 <table>
 <thead>
 <tr>
@@ -780,7 +787,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludename">-ExcludeName</h5>
-<p>The name(s) of the user defined functions to exclude.<br></p>
+<p>Specifies UDF names to skip during removal operations. Accepts multiple function names and wildcards.<br />
+Use this to protect specific functions from deletion while removing others that match your criteria.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaDbTable">New-DbaDbTable</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new table in a database</p>
+<p>Creates database tables with columns and constraints using PowerShell hashtables or SMO objects</p>
 <h2 id="description">Description</h2>
-<p>Creates a new table in a database</p>
+<p>Creates new tables in SQL Server databases with specified columns, data types, constraints, and properties. You can define table structure using simple PowerShell hashtables for columns or pass in pre-built SMO column objects for advanced scenarios. The function handles all common column properties including data types, nullability, default values, identity columns, and decimal precision/scale. It also supports advanced table features like memory optimization, temporal tables, file tables, and external tables. If the specified schema doesn't exist, it will be created automatically.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaDbTable
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -720,7 +720,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database or databases where the table will be created<br></p>
+<p>Specifies the database where the new table will be created. Accepts multiple database names to create the same table across several databases.<br />
+Use this when you need to deploy identical table structures to multiple databases in your environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -748,7 +749,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the table<br></p>
+<p>Specifies the name for the new table. Must be a valid SQL Server identifier.<br />
+Use standard naming conventions like avoiding spaces and reserved keywords for better maintainability.<br></p>
 <table>
 <thead>
 <tr>
@@ -776,7 +778,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schema">-Schema</h5>
-<p>The schema for the table, defaults to dbo<br></p>
+<p>Specifies the schema where the table will be created. Defaults to 'dbo' if not specified.<br />
+Use this to organize tables by functional area or security requirements. The schema will be created automatically if it doesn't exist.<br></p>
 <table>
 <thead>
 <tr>
@@ -804,7 +807,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="columnmap">-ColumnMap</h5>
-<p>Hashtable for easy column creation. See Examples for details<br></p>
+<p>Defines table columns using PowerShell hashtables with properties like Name, Type, MaxLength, Nullable, Default, Identity, etc.<br />
+This is the primary method for specifying column structure when you need simple, declarative table creation. See examples for supported hashtable properties.<br></p>
 <table>
 <thead>
 <tr>
@@ -832,7 +836,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="columnobject">-ColumnObject</h5>
-<p>If you want to get fancy, you can build your own column objects and pass them in<br></p>
+<p>Accepts pre-built SMO Column objects for advanced scenarios requiring complex column configurations.<br />
+Use this when you need features not supported by ColumnMap hashtables, such as computed columns or advanced constraints.<br></p>
 <table>
 <thead>
 <tr>
@@ -860,7 +865,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="ansinullsstatus">-AnsiNullsStatus</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Controls ANSI_NULLS setting for the table, affecting how null comparisons are handled in queries.<br />
+Enable this to ensure ANSI-compliant null handling behavior, which is recommended for modern applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -888,7 +894,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="changetrackingenabled">-ChangeTrackingEnabled</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Enables SQL Server Change Tracking on the table to monitor data modifications.<br />
+Use this when you need to track which rows have been inserted, updated, or deleted for synchronization scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -916,7 +923,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="datasourcename">-DataSourceName</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the external data source name for external tables in SQL Server 2016+ or Azure SQL.<br />
+Required when creating external tables that reference data in Hadoop, Azure Blob Storage, or other external systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -944,7 +952,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="durability">-Durability</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Sets the durability level for memory-optimized tables (SCHEMA_AND_DATA or SCHEMA_ONLY).<br />
+Use SCHEMA_ONLY for temporary data that doesn't need to persist across server restarts, or SCHEMA_AND_DATA for permanent memory-optimized tables.<br></p>
 <table>
 <thead>
 <tr>
@@ -972,7 +981,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="externaltabledistribution">-ExternalTableDistribution</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the distribution method for external tables in Azure SQL Data Warehouse or Parallel Data Warehouse.<br />
+Choose between HASH, ROUND_ROBIN, or REPLICATE based on your query patterns and data size requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -1000,7 +1010,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="fileformatname">-FileFormatName</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the external file format name for external tables that read from files.<br />
+Required when creating external tables that reference structured files like CSV, Parquet, or ORC in external storage systems.<br></p>
 <table>
 <thead>
 <tr>
@@ -1028,7 +1039,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filegroup">-FileGroup</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the filegroup where the table data will be stored. Defaults to the database's default filegroup.<br />
+Use this to control storage placement for performance optimization or to separate tables across different storage devices.<br></p>
 <table>
 <thead>
 <tr>
@@ -1056,7 +1068,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filestreamfilegroup">-FileStreamFileGroup</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the FILESTREAM filegroup for tables that store large binary data as files.<br />
+Required when creating tables with FILESTREAM columns for storing documents, images, or other large binary objects.<br></p>
 <table>
 <thead>
 <tr>
@@ -1084,7 +1097,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filestreampartitionscheme">-FileStreamPartitionScheme</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the partition scheme for FILESTREAM data in partitioned tables.<br />
+Use this when you need to partition FILESTREAM data across multiple filegroups for performance or maintenance benefits.<br></p>
 <table>
 <thead>
 <tr>
@@ -1112,7 +1126,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filetabledirectoryname">-FileTableDirectoryName</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Sets the directory name for FileTable functionality, allowing Windows file system access to table data.<br />
+Specify a meaningful name that will appear as a folder in the Windows file system when accessing the table through the file share.<br></p>
 <table>
 <thead>
 <tr>
@@ -1140,7 +1155,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filetablenamecolumncollation">-FileTableNameColumnCollation</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the collation for the name column in FileTable to control file name sorting and comparison.<br />
+Use a case-insensitive collation for Windows-compatible file name handling in FileTable scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -1168,7 +1184,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="filetablenamespaceenabled">-FileTableNamespaceEnabled</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Enables the FileTable namespace, allowing file system access through Windows APIs.<br />
+Set to true when you want applications to access table data through standard file operations like copy, move, and delete.<br></p>
 <table>
 <thead>
 <tr>
@@ -1196,7 +1213,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="historytablename">-HistoryTableName</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the name of the history table for system-versioned temporal tables.<br />
+Required when creating temporal tables that automatically track all data changes for point-in-time queries and auditing.<br></p>
 <table>
 <thead>
 <tr>
@@ -1224,7 +1242,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="historytableschema">-HistoryTableSchema</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the schema for the history table in system-versioned temporal tables.<br />
+Use this to organize history tables in a separate schema for better security and maintenance separation from current data.<br></p>
 <table>
 <thead>
 <tr>
@@ -1252,7 +1271,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="isexternal">-IsExternal</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Creates an external table that references data stored outside SQL Server.<br />
+Use this for querying data in Azure Blob Storage, Hadoop, or other external systems without importing the data into SQL Server.<br></p>
 <table>
 <thead>
 <tr>
@@ -1280,7 +1300,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="isfiletable">-IsFileTable</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Creates a FileTable that combines relational data with Windows file system access.<br />
+Enable this when you need applications to store and manage documents through both T-SQL and standard Windows file operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -1308,7 +1329,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="ismemoryoptimized">-IsMemoryOptimized</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Creates an In-Memory OLTP table stored entirely in memory for high-performance scenarios.<br />
+Use this for tables requiring extremely high transaction throughput with low latency, typically in OLTP workloads.<br></p>
 <table>
 <thead>
 <tr>
@@ -1336,7 +1358,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="issystemversioned">-IsSystemVersioned</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Creates a temporal table that automatically tracks all data changes with system-generated timestamps.<br />
+Enable this for auditing requirements or when you need to query historical versions of data at any point in time.<br></p>
 <table>
 <thead>
 <tr>
@@ -1364,7 +1387,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="location">-Location</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the location path for external tables pointing to files or directories.<br />
+Required for external tables to define where the actual data files are stored in the external system.<br></p>
 <table>
 <thead>
 <tr>
@@ -1392,7 +1416,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="lockescalation">-LockEscalation</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Controls when SQL Server escalates row or page locks to table locks (TABLE, AUTO, or DISABLE).<br />
+Set to DISABLE for high-concurrency scenarios where table-level locks would cause blocking, or AUTO for default behavior.<br></p>
 <table>
 <thead>
 <tr>
@@ -1420,7 +1445,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="owner">-Owner</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the table owner, typically a database user or role with appropriate permissions.<br />
+Use this to set explicit ownership for security or administrative purposes, though schema-contained objects are generally preferred.<br></p>
 <table>
 <thead>
 <tr>
@@ -1448,7 +1474,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="partitionscheme">-PartitionScheme</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the partition scheme for horizontally partitioning large tables across multiple filegroups.<br />
+Use this for very large tables to improve query performance and enable parallel maintenance operations on partition boundaries.<br></p>
 <table>
 <thead>
 <tr>
@@ -1476,7 +1503,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="quotedidentifierstatus">-QuotedIdentifierStatus</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Controls QUOTED_IDENTIFIER setting for the table, affecting how double quotes are interpreted in queries.<br />
+Enable this to use double quotes for identifiers containing spaces or reserved words, following ANSI SQL standards.<br></p>
 <table>
 <thead>
 <tr>
@@ -1504,7 +1532,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="rejectsamplevalue">-RejectSampleValue</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Sets the sample size for reject value calculations in external tables with error handling.<br />
+Specify the number of rows to sample when determining if reject thresholds have been exceeded during external data access.<br></p>
 <table>
 <thead>
 <tr>
@@ -1532,7 +1561,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="rejecttype">-RejectType</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Defines how reject values are calculated for external tables (VALUE or PERCENTAGE).<br />
+Use VALUE for absolute row count limits or PERCENTAGE for proportional error thresholds when accessing external data sources.<br></p>
 <table>
 <thead>
 <tr>
@@ -1560,7 +1590,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="rejectvalue">-RejectValue</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Sets the maximum number or percentage of rejected rows allowed when querying external tables.<br />
+Configure this to control query behavior when encountering data quality issues in external data sources.<br></p>
 <table>
 <thead>
 <tr>
@@ -1588,7 +1619,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="remotedataarchivedatamigrationstate">-RemoteDataArchiveDataMigrationState</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Controls the data migration state for Stretch Database tables (INBOUND, OUTBOUND, or PAUSED).<br />
+Use this to manage how historical data is migrated between on-premises SQL Server and Azure SQL Database.<br></p>
 <table>
 <thead>
 <tr>
@@ -1616,7 +1648,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="remotedataarchiveenabled">-RemoteDataArchiveEnabled</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Enables Stretch Database functionality to automatically migrate cold data to Azure SQL Database.<br />
+Use this for tables with historical data that can be moved to lower-cost cloud storage while remaining queryable.<br></p>
 <table>
 <thead>
 <tr>
@@ -1644,7 +1677,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="remotedataarchivefilterpredicate">-RemoteDataArchiveFilterPredicate</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Defines the filter function determining which rows are eligible for Stretch Database migration.<br />
+Specify a function that returns 1 for rows to migrate, typically based on date criteria for archiving old data.<br></p>
 <table>
 <thead>
 <tr>
@@ -1672,7 +1706,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="remoteobjectname">-RemoteObjectName</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the name of the remote table or object for Stretch Database or external table scenarios.<br />
+Use this when the remote table name differs from the local table name in federated or hybrid configurations.<br></p>
 <table>
 <thead>
 <tr>
@@ -1700,7 +1735,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="remoteschemaname">-RemoteSchemaName</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the schema name in the remote database for Stretch Database tables.<br />
+Define this when the remote Azure SQL Database uses a different schema structure than your local database.<br></p>
 <table>
 <thead>
 <tr>
@@ -1728,7 +1764,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="remotetablename">-RemoteTableName</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Sets the table name in the remote Azure SQL Database for Stretch Database functionality.<br />
+Specify this when you want the archived data to use a different table name in the cloud storage location.<br></p>
 <table>
 <thead>
 <tr>
@@ -1756,7 +1793,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="remotetableprovisioned">-RemoteTableProvisioned</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Indicates whether the remote table for Stretch Database has already been created in Azure SQL Database.<br />
+Set to true if the remote table structure already exists, preventing automatic provisioning during setup.<br></p>
 <table>
 <thead>
 <tr>
@@ -1784,7 +1822,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="shardingcolumnname">-ShardingColumnName</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the column used for sharding data distribution in Azure SQL Database elastic pools.<br />
+Define the column that determines how rows are distributed across multiple database shards for horizontal scaling.<br></p>
 <table>
 <thead>
 <tr>
@@ -1812,7 +1851,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="textfilegroup">-TextFileGroup</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the filegroup for storing text, ntext, and image columns in SQL Server versions before 2016.<br />
+Use this for legacy applications requiring separate storage for large text data, though newer data types are recommended.<br></p>
 <table>
 <thead>
 <tr>
@@ -1840,7 +1880,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="trackcolumnsupdatedenabled">-TrackColumnsUpdatedEnabled</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Enables column-level change tracking to identify which specific columns were modified.<br />
+Use this when you need granular change information beyond just knowing that a row was updated, useful for selective synchronization.<br></p>
 <table>
 <thead>
 <tr>
@@ -1868,7 +1909,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="historyretentionperiod">-HistoryRetentionPeriod</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Sets the retention period for temporal table history data before automatic cleanup.<br />
+Specify the number of time units (days, months, years) to retain historical data for compliance and storage management.<br></p>
 <table>
 <thead>
 <tr>
@@ -1896,7 +1938,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="historyretentionperiodunit">-HistoryRetentionPeriodUnit</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Defines the time unit for history retention period (DAYS, WEEKS, MONTHS, or YEARS).<br />
+Use this with HistoryRetentionPeriod to control how long temporal table history is preserved before automatic deletion.<br></p>
 <table>
 <thead>
 <tr>
@@ -1924,7 +1967,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="dwtabledistribution">-DwTableDistribution</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies the distribution strategy for data warehouse tables (HASH, ROUND_ROBIN, or REPLICATE).<br />
+Choose HASH for large fact tables, ROUND_ROBIN for staging tables, or REPLICATE for small dimension tables in analytical workloads.<br></p>
 <table>
 <thead>
 <tr>
@@ -1952,7 +1996,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="rejectedrowlocation">-RejectedRowLocation</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Specifies where to store rows that exceed reject thresholds when querying external tables.<br />
+Define a location for storing problematic rows for later analysis and data quality troubleshooting.<br></p>
 <table>
 <thead>
 <tr>
@@ -1980,7 +2025,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="onlineheapoperation">-OnlineHeapOperation</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Enables online operations for heap tables during index creation or rebuilding.<br />
+Use this to minimize blocking and maintain table availability during maintenance operations on tables without clustered indexes.<br></p>
 <table>
 <thead>
 <tr>
@@ -2008,7 +2054,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="lowprioritymaxduration">-LowPriorityMaxDuration</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Sets the maximum time in minutes for low-priority lock waits during online operations.<br />
+Specify how long online operations should wait for locks before taking alternative action to balance performance and availability.<br></p>
 <table>
 <thead>
 <tr>
@@ -2036,7 +2083,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="dataconsistencycheck">-DataConsistencyCheck</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Enables data consistency validation during online index operations.<br />
+Use this to ensure data integrity is maintained during concurrent modifications to tables undergoing maintenance operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -2064,7 +2112,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="lowpriorityabortafterwait">-LowPriorityAbortAfterWait</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Defines the action to take when low-priority operations exceed their maximum wait duration.<br />
+Choose how to handle lock conflicts: continue waiting, abort the operation, or kill blocking transactions.<br></p>
 <table>
 <thead>
 <tr>
@@ -2092,7 +2141,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="maximumdegreeofparallelism">-MaximumDegreeOfParallelism</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Limits the number of processors used during table operations like index creation.<br />
+Set this to control resource usage and prevent single operations from consuming all available CPU cores.<br></p>
 <table>
 <thead>
 <tr>
@@ -2120,7 +2170,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="isnode">-IsNode</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Creates a node table for SQL Server 2017+ Graph Database functionality.<br />
+Enable this when building graph databases where the table will store entities and their properties for relationship modeling.<br></p>
 <table>
 <thead>
 <tr>
@@ -2148,7 +2199,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="isedge">-IsEdge</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Creates an edge table for SQL Server 2017+ Graph Database functionality to store relationships.<br />
+Enable this when building graph databases where the table will store connections between node tables.<br></p>
 <table>
 <thead>
 <tr>
@@ -2176,7 +2228,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="isvardecimalstorageformatenabled">-IsVarDecimalStorageFormatEnabled</h5>
-<p>No information provided by Microsoft<br></p>
+<p>Enables variable-length decimal storage format to reduce storage space for decimal and numeric columns.<br />
+Use this for tables with many decimal columns containing leading zeros or small values to optimize storage efficiency.<br></p>
 <table>
 <thead>
 <tr>
@@ -2204,7 +2257,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="passthru">-Passthru</h5>
-<p>Don't create the table, just print the table script on the screen.<br></p>
+<p>Returns the T-SQL script for table creation instead of executing it immediately.<br />
+Use this to review, modify, or save table creation scripts before deployment, or to generate scripts for version control.<br></p>
 <table>
 <thead>
 <tr>
@@ -2232,7 +2286,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piped input from Get-DbaDatabase<br></p>
+<p>Accepts database objects piped from Get-DbaDatabase for creating tables across multiple databases.<br />
+Use this in pipeline scenarios where you want to apply table creation to a filtered set of databases.<br></p>
 <table>
 <thead>
 <tr>

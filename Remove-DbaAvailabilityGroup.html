@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaAvailabilityGroup">Remove-DbaAvailabilityGroup</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes availability groups on a SQL Server instance.</p>
+<p>Removes availability groups from SQL Server instances using DROP AVAILABILITY GROUP.</p>
 <h2 id="description">Description</h2>
-<p>Removes availability groups on a SQL Server instance.</p>
-<p>If possible, remove the availability group only while connected to the server instance that hosts the primary replica.<br />
+<p>Removes availability groups from SQL Server instances by executing the DROP AVAILABILITY GROUP T-SQL command. This is typically used when decommissioning high availability setups, migrating to different solutions, or cleaning up test environments.</p>
+<p>The function handles the complex considerations around properly removing availability groups to avoid leaving databases in problematic states. If possible, remove the availability group only while connected to the server instance that hosts the primary replica.<br />
 When the availability group is dropped from the primary replica, changes are allowed in the former primary databases (without high availability protection).<br />
 Deleting an availability group from a secondary replica leaves the primary replica in the RESTORING state, and changes are not allowed on the databases.</p>
 <p>Avoid dropping an availability group when the Windows Server Failover Clustering (WSFC) cluster has no quorum.<br />
@@ -583,7 +583,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>Only remove specific availability groups.<br></p>
+<p>Specifies the name(s) of specific availability groups to remove. Accepts multiple values and wildcards for pattern matching.<br />
+Use this when you need to remove only certain availability groups rather than all groups on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +612,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="allavailabilitygroups">-AllAvailabilityGroups</h5>
-<p>Remove all availability groups on an instance.<br></p>
+<p>Removes all availability groups found on the specified SQL Server instance.<br />
+Use this switch when decommissioning a server or performing bulk cleanup operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +641,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAvailabilityGroup.<br></p>
+<p>Accepts availability group objects from Get-DbaAvailabilityGroup for pipeline operations.<br />
+Use this when you need to filter or pre-process availability groups before removal.<br></p>
 <table>
 <thead>
 <tr>

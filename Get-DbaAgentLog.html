@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentLog">Get-DbaAgentLog</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the &quot;SQL Agent Error Log&quot; of an instance</p>
+<p>Retrieves SQL Server Agent error log entries for troubleshooting and monitoring</p>
 <h2 id="description">Description</h2>
-<p>Gets the &quot;SQL Agent Error Log&quot; of an instance. Returns all 10 error logs by default.</p>
+<p>Retrieves SQL Server Agent error log entries from the target instance, providing detailed information about agent service activity, job failures, and system events. This function accesses the agent's historical error logs (numbered 0-9, where 0 is the current log) so you don't have to manually navigate through SQL Server Management Studio or query system views. Essential for troubleshooting job failures, monitoring agent service health, and compliance auditing of automated processes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentLog
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -573,7 +573,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="lognumber">-LogNumber</h5>
-<p>An Int32 value that specifies the index number of the error log required. Error logs are listed 0 through 9 where 0 is the current error log and 9 is the oldest.<br></p>
+<p>Specifies which numbered agent error log files to retrieve (0-9). Log 0 contains the most recent entries, while higher numbers contain older historical logs that get cycled as new logs are created.<br />
+Use this when you need to examine historical agent activity or troubleshoot issues that occurred days or weeks ago, rather than just current entries.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaStartupParameter">Set-DbaStartupParameter</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets the Startup Parameters for a SQL Server instance</p>
+<p>Modifies SQL Server startup parameters stored in the Windows registry</p>
 <h2 id="description">Description</h2>
-<p>Modifies the startup parameters for a specified SQL Server Instance</p>
+<p>Changes the startup parameters that SQL Server uses when the service starts, including paths to master database files, error log location, and various startup flags. These parameters are stored in the Windows registry and require elevated permissions to modify.</p>
+<p>This function is commonly used to enable single-user mode for emergency repairs, set trace flags for troubleshooting, relocate system database files during migrations, or adjust memory settings. Changes take effect only after the SQL Server service is restarted.</p>
+<p>The function validates file paths when the instance is online to prevent startup failures, but can work offline with the -Force parameter when you need to modify parameters for instances that won't start.</p>
 <p>For full details of what each parameter does, please refer to this MSDN article - <a href="https://msdn.microsoft.com/en-us/library/ms190737(v=sql.105).aspx">https://msdn.microsoft.com/en-us/library/ms190737(v=sql.105).aspx</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaStartupParameter
@@ -654,9 +656,10 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="masterdata">-MasterData</h5>
-<p>Path to the data file for the Master database<br />
-Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if<br />
-the instance is offline<br></p>
+<p>Specifies the file path to the master database data file (master.mdf). Required when relocating system databases or recovering from corrupted system files.<br />
+Use this when moving SQL Server installations, restoring from backup to different locations, or troubleshooting startup issues caused by missing or corrupted master database files. The path must be<br />
+accessible by the SQL Server service account.<br />
+Will be ignored if SqlInstance is offline unless the Force parameter is used, as the function validates the path accessibility when the instance is online.<br></p>
 <table>
 <thead>
 <tr>
@@ -684,9 +687,10 @@ the instance is offline<br></p>
 </tbody>
 </table>
 <h5 id="masterlog">-MasterLog</h5>
-<p>Path to the log file for the Master database<br />
-Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if<br />
-the instance is offline<br></p>
+<p>Specifies the file path to the master database log file (mastlog.ldf). Required when relocating system databases or recovering from corrupted system files.<br />
+Use this alongside MasterData when moving SQL Server installations or troubleshooting startup failures related to master database corruption. The path must be accessible by the SQL Server service<br />
+account.<br />
+Will be ignored if SqlInstance is offline unless the Force parameter is used, as the function validates the path accessibility when the instance is online.<br></p>
 <table>
 <thead>
 <tr>
@@ -714,9 +718,10 @@ the instance is offline<br></p>
 </tbody>
 </table>
 <h5 id="errorlog">-ErrorLog</h5>
-<p>Path to the SQL Server error log file<br />
-Will be ignored if SqlInstance is offline or the Offline switch is set. To override this behaviour use the Force switch. This is to ensure you understand the risk as we cannot validate the path if<br />
-the instance is offline<br></p>
+<p>Specifies the file path where SQL Server will write its error log files. Controls where diagnostic information, startup messages, and error details are stored.<br />
+Use this when you need to redirect error logs to a different drive for space management, centralized logging, or compliance requirements. The directory must exist and be writable by the SQL Server<br />
+service account.<br />
+Will be ignored if SqlInstance is offline unless the Force parameter is used, as the function validates the path accessibility when the instance is online.<br></p>
 <table>
 <thead>
 <tr>
@@ -744,8 +749,10 @@ the instance is offline<br></p>
 </tbody>
 </table>
 <h5 id="traceflag">-TraceFlag</h5>
-<p>A comma separated list of TraceFlags to be applied at SQL Server startup<br />
-By default these will be appended to any existing trace flags set<br></p>
+<p>Specifies one or more trace flags to enable at SQL Server startup as a comma-separated list. Trace flags control specific SQL Server behaviors and diagnostic features.<br />
+Use this for enabling global trace flags like 1117 (uniform extent allocations), 1118 (reduce tempdb contention), or 3226 (suppress successful backup messages). By default, these flags are appended<br />
+to existing trace flags.<br />
+Use TraceFlagOverride parameter to replace all existing trace flags instead of appending to them.<br></p>
 <table>
 <thead>
 <tr>
@@ -773,8 +780,8 @@ By default these will be appended to any existing trace flags set<br></p>
 </tbody>
 </table>
 <h5 id="commandpromptstart">-CommandPromptStart</h5>
-<p>Shortens startup time when starting SQL Server from the command prompt. Typically, the SQL Server Database Engine starts as a service by calling the Service Control Manager.<br />
-Because the SQL Server Database Engine does not start as a service when starting from the command prompt<br></p>
+<p>Enables faster startup when SQL Server is launched from command prompt rather than as a Windows service. Bypasses Service Control Manager initialization routines.<br />
+Use this when you need to start SQL Server manually for troubleshooting or testing scenarios where you'll be running sqlservr.exe directly from command line instead of using service management tools.<br></p>
 <table>
 <thead>
 <tr>
@@ -802,8 +809,10 @@ Because the SQL Server Database Engine does not start as a service when starting
 </tbody>
 </table>
 <h5 id="minimalstart">-MinimalStart</h5>
-<p>Starts an instance of SQL Server with minimal configuration. This is useful if the setting of a configuration value (for example, over-committing memory) has<br />
-prevented the server from starting. Starting SQL Server in minimal configuration mode places SQL Server in single-user mode<br></p>
+<p>Starts SQL Server with minimal configuration, loading only essential components and services. Automatically places the instance in single-user mode with reduced functionality.<br />
+Use this when SQL Server won't start normally due to configuration problems like excessive memory allocation, corrupted configuration settings, or problematic startup procedures. Essential for<br />
+emergency recovery scenarios.<br />
+Note that many features will be unavailable in minimal start mode, making it suitable only for troubleshooting and corrective actions.<br></p>
 <table>
 <thead>
 <tr>
@@ -831,9 +840,10 @@ prevented the server from starting. Starting SQL Server in minimal configuration
 </tbody>
 </table>
 <h5 id="memorytoreserve">-MemoryToReserve</h5>
-<p>Specifies an integer number of megabytes (MB) of memory that SQL Server will leave available for memory allocations within the SQL Server process,<br />
-but outside the SQL Server memory pool. The memory outside of the memory pool is the area used by SQL Server for loading items such as extended procedure .dll files,<br />
-the OLE DB providers referenced by distributed queries, and automation objects referenced in Transact-SQL statements. The default is 256 MB.<br></p>
+<p>Specifies the amount of memory in megabytes to reserve outside the SQL Server buffer pool for system components and extended procedures.<br />
+Use this when experiencing out-of-memory errors related to extended procedures, OLE DB providers, or CLR assemblies, especially on systems with large amounts of RAM allocated to SQL Server. The<br />
+reserved memory hosts DLL files, distributed query providers, and automation objects.<br />
+Default value is 256 MB, but you may need to increase this on servers with heavy use of extended procedures or CLR integration.<br></p>
 <table>
 <thead>
 <tr>
@@ -861,7 +871,9 @@ the OLE DB providers referenced by distributed queries, and automation objects r
 </tbody>
 </table>
 <h5 id="singleuser">-SingleUser</h5>
-<p>Start Sql Server in single user mode<br></p>
+<p>Starts SQL Server in single-user mode, allowing only one connection at a time. Prevents other users and applications from connecting to the instance.<br />
+Use this for emergency maintenance, database recovery operations, or when you need exclusive access to troubleshoot corruption or perform administrative tasks that require isolation.<br />
+Combine with SingleUserDetails parameter to restrict access to a specific login for additional security during maintenance windows.<br></p>
 <table>
 <thead>
 <tr>
@@ -889,7 +901,9 @@ the OLE DB providers referenced by distributed queries, and automation objects r
 </tbody>
 </table>
 <h5 id="singleuserdetails">-SingleUserDetails</h5>
-<p>The username for single user<br></p>
+<p>Specifies which login or application can connect when SQL Server is in single-user mode. Restricts the single connection to a specific user account.<br />
+Use this to ensure only authorized personnel can access the instance during maintenance windows, preventing applications or other users from grabbing the single available connection.<br />
+Can specify a login name, domain account, or application name. Automatically quoted if the value contains spaces.<br></p>
 <table>
 <thead>
 <tr>
@@ -917,7 +931,9 @@ the OLE DB providers referenced by distributed queries, and automation objects r
 </tbody>
 </table>
 <h5 id="nologgingtowinevents">-NoLoggingToWinEvents</h5>
-<p>Don't use Windows Application events log<br></p>
+<p>Disables SQL Server from writing startup and shutdown messages to the Windows Application Event Log. Only affects system event logging, not SQL Server error log files.<br />
+Use this to reduce event log clutter in environments with frequent SQL Server restarts or when centralized logging systems capture SQL Server events through other means.<br />
+SQL Server will continue writing to its own error log files regardless of this setting.<br></p>
 <table>
 <thead>
 <tr>
@@ -945,7 +961,10 @@ the OLE DB providers referenced by distributed queries, and automation objects r
 </tbody>
 </table>
 <h5 id="startasnamedinstance">-StartAsNamedInstance</h5>
-<p>Allows you to start a named instance of SQL Server<br></p>
+<p>Enables starting a named instance of SQL Server, ensuring proper instance identification and network connectivity for non-default instances.<br />
+Use this when configuring startup parameters for named instances that need to be explicitly identified during startup to avoid conflicts with default instances or other named instances on the same<br />
+server.<br />
+Required for named instances to register properly with SQL Server Browser service and establish correct network endpoints.<br></p>
 <table>
 <thead>
 <tr>
@@ -973,13 +992,10 @@ the OLE DB providers referenced by distributed queries, and automation objects r
 </tbody>
 </table>
 <h5 id="disablemonitoring">-DisableMonitoring</h5>
-<p>Disables the following monitoring features:<br />
-SQL Server performance monitor counters<br />
-Keeping CPU time and cache-hit ratio statistics<br />
-Collecting information for the DBCC SQLPERF command<br />
-Collecting information for some dynamic management views<br />
-Many extended-events event points<br />
-** Warning ** When you use the -x startup option, the information that is available for you to diagnose performance and functional problems with SQL Server is greatly reduced.<br></p>
+<p>Disables SQL Server's internal performance monitoring and statistics collection to reduce overhead on high-performance systems.<br />
+Use this only on production systems where every bit of performance matters and you have alternative monitoring solutions in place. Disables PerfMon counters, CPU statistics, cache-hit ratios, DBCC<br />
+SQLPERF data, some DMVs, and many extended events.<br />
+Warning: This significantly reduces your ability to diagnose performance issues and should only be used when monitoring overhead is confirmed to impact critical workloads.<br></p>
 <table>
 <thead>
 <tr>
@@ -1007,7 +1023,9 @@ Many extended-events event points<br />
 </tbody>
 </table>
 <h5 id="increasedextents">-IncreasedExtents</h5>
-<p>Increases the number of extents that are allocated for each file in a file group.<br></p>
+<p>Increases the number of extents allocated for each file in a file group, improving allocation efficiency for databases with multiple data files.<br />
+Use this on systems with multiple data files per filegroup to reduce allocation contention and improve performance during heavy insert/update operations.<br />
+Particularly beneficial for tempdb configurations with multiple data files or user databases designed with multiple files for performance.<br></p>
 <table>
 <thead>
 <tr>
@@ -1035,7 +1053,9 @@ Many extended-events event points<br />
 </tbody>
 </table>
 <h5 id="traceflagoverride">-TraceFlagOverride</h5>
-<p>Overrides the default behaviour and replaces any existing trace flags. If not trace flags specified will just remove existing ones<br></p>
+<p>Replaces all existing trace flags with only the ones specified in the TraceFlag parameter. Without this switch, new trace flags are appended to existing ones.<br />
+Use this when you need to completely reset the trace flag configuration or remove problematic trace flags that are causing issues.<br />
+If no TraceFlag values are provided with this switch, all existing trace flags will be removed from the startup parameters.<br></p>
 <table>
 <thead>
 <tr>
@@ -1063,8 +1083,9 @@ Many extended-events event points<br />
 </tbody>
 </table>
 <h5 id="startupconfig">-StartupConfig</h5>
-<p>Pass in a previously saved SQL Instance startup config<br />
-using this parameter will set TraceFlagOverride to true, so existing Trace Flags will be overridden<br></p>
+<p>Applies a complete startup configuration object previously captured with Get-DbaStartupParameter. Restores all startup parameters to match the saved configuration.<br />
+Use this to quickly restore previous startup configurations after troubleshooting, rollback changes during maintenance, or standardize startup parameters across multiple instances.<br />
+Automatically enables TraceFlagOverride, so all existing trace flags will be replaced with those from the saved configuration.<br></p>
 <table>
 <thead>
 <tr>
@@ -1092,8 +1113,9 @@ using this parameter will set TraceFlagOverride to true, so existing Trace Flags
 </tbody>
 </table>
 <h5 id="offline">-Offline</h5>
-<p>Setting this switch will try perform the requested actions without connect to the SQL Server Instance, this will speed things up if you know the Instance is offline.<br />
-When working offline, path inputs (MasterData, MasterLog and ErrorLog) will be ignored, unless Force is specified<br></p>
+<p>Performs startup parameter changes without attempting to connect to the SQL Server instance, improving performance when you know the instance is not running.<br />
+Use this when modifying startup parameters for instances that are intentionally stopped or when you want to avoid connection overhead on known offline instances.<br />
+When using this switch, file path parameters (MasterData, MasterLog, ErrorLog) cannot be validated and will be ignored unless the Force parameter is also specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -1121,7 +1143,9 @@ When working offline, path inputs (MasterData, MasterLog and ErrorLog) will be i
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>By default we test the values passed in via MasterData, MasterLog, ErrorLog<br></p>
+<p>Bypasses file path validation for MasterData, MasterLog, and ErrorLog parameters, allowing changes even when paths cannot be verified.<br />
+Use this when configuring startup parameters for offline instances or when you need to set paths that will be valid after a restart but are not currently accessible.<br />
+Exercise caution as invalid paths will prevent SQL Server from starting, requiring manual registry editing to correct.<br></p>
 <table>
 <thead>
 <tr>

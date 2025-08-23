@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAgentProxy">New-DbaAgentProxy</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Adds one or more proxies to SQL Server Agent</p>
+<p>Creates SQL Server Agent proxy accounts to enable job steps to run under different security contexts</p>
 <h2 id="description">Description</h2>
-<p>Adds one or more proxies to SQL Server Agent</p>
+<p>Creates SQL Server Agent proxy accounts that allow job steps to execute under different security contexts than the SQL Agent service account. Proxy accounts use existing SQL Server credentials and can be assigned to specific subsystems like CmdExec, PowerShell, SSIS, or Analysis Services. This enables secure delegation of permissions for automated tasks without granting elevated privileges to the service account itself.</p>
+<p>You can control which users, server roles, or msdb database roles have permission to use each proxy, providing granular security for job execution. The proxy must reference an existing SQL Server credential that contains the Windows account under which job steps will actually run.</p>
 <p>Note: ActiveScripting (ActiveX scripting) was discontinued in SQL Server 2016: <a href="https://docs.microsoft.com/en-us/sql/database-engine/discontinued-database-engine-functionality-in-sql-server">https://docs.microsoft.com/en-us/sql/database-engine/discontinued-database-engine-functionality-in-sql-server</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaAgentProxy
@@ -556,7 +557,8 @@ The proxy is then added to the CmdExec and PowerShell subsystems<br></p>
 </tbody>
 </table>
 <h5 id="name">-Name</h5>
-<p>The name of the proxy or proxies you want to create <br></p>
+<p>Specifies the name for the SQL Agent proxy account being created. The name must be unique within the SQL Server instance.<br />
+Use a descriptive name that indicates the proxy's purpose or the credential it represents for easier management. <br></p>
 <table>
 <thead>
 <tr>
@@ -584,7 +586,8 @@ The proxy is then added to the CmdExec and PowerShell subsystems<br></p>
 </tbody>
 </table>
 <h5 id="proxycredential">-ProxyCredential</h5>
-<p>The associated SQL Server Credential. The credential must be created prior to creating the Proxy. <br></p>
+<p>Specifies the name of an existing SQL Server credential that the proxy will use for authentication. The credential must already exist on the instance.<br />
+This credential defines the Windows account under which job steps will run when using this proxy. <br></p>
 <table>
 <thead>
 <tr>
@@ -643,7 +646,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subsystem">-SubSystem</h5>
-<p>The associated subsystem or subsystems. Defaults to CmdExec.<br />
+<p>Specifies which SQL Agent subsystems can use this proxy account for job step execution. Defaults to CmdExec if not specified.<br />
+Multiple subsystems can be assigned to a single proxy, allowing it to run different types of job steps under the same security context.<br />
 Valid options include:<br />
 ActiveScripting<br />
 AnalysisCommand<br />
@@ -687,7 +691,8 @@ Ssis<br></p>
 </tbody>
 </table>
 <h5 id="description-1">-Description</h5>
-<p>A description of the proxy<br></p>
+<p>Provides a text description for the proxy account to document its purpose or usage requirements.<br />
+Use this to help other DBAs understand when and how this proxy should be used in job steps.<br></p>
 <table>
 <thead>
 <tr>
@@ -715,7 +720,8 @@ Ssis<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The SQL Server login or logins (known as proxy principals) to assign to the proxy<br></p>
+<p>Specifies which SQL Server logins can use this proxy account in their job steps. By default, only sysadmin members can use proxy accounts.<br />
+Add specific logins here to grant non-sysadmin users the ability to create job steps that run under this proxy's security context.<br></p>
 <table>
 <thead>
 <tr>
@@ -743,7 +749,8 @@ Ssis<br></p>
 </tbody>
 </table>
 <h5 id="serverrole">-ServerRole</h5>
-<p>The SQL Server role or roles (known as proxy principals) to assign to the proxy<br></p>
+<p>Specifies which SQL Server fixed server roles can use this proxy account in job steps. Members of these server roles will inherit proxy usage permissions.<br />
+This provides role-based access control for proxy usage without needing to grant permissions to individual logins.<br></p>
 <table>
 <thead>
 <tr>
@@ -771,7 +778,8 @@ Ssis<br></p>
 </tbody>
 </table>
 <h5 id="msdbrole">-MsdbRole</h5>
-<p>The msdb role or roles (known as proxy principals) to assign to the proxy<br></p>
+<p>Specifies which msdb database roles can use this proxy account in job steps. Common roles include SQLAgentUserRole, SQLAgentReaderRole, and SQLAgentOperatorRole.<br />
+This allows you to grant proxy access based on existing Agent role membership rather than individual user assignments.<br></p>
 <table>
 <thead>
 <tr>
@@ -799,7 +807,8 @@ Ssis<br></p>
 </tbody>
 </table>
 <h5 id="disabled">-Disabled</h5>
-<p>Create the proxy as disabled<br></p>
+<p>Creates the proxy account in a disabled state, preventing its immediate use in job steps.<br />
+Use this when you need to set up the proxy configuration first before allowing job steps to use it.<br></p>
 <table>
 <thead>
 <tr>
@@ -827,7 +836,8 @@ Ssis<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Drop and recreate the proxy if it already exists<br></p>
+<p>Drops and recreates the proxy account if one with the same name already exists on the instance.<br />
+Without this switch, the function will skip existing proxy accounts and display a warning message.<br></p>
 <table>
 <thead>
 <tr>

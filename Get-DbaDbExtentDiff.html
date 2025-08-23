@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbExtentDiff">Get-DbaDbExtentDiff</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>What percentage of a database has changed since the last full backup</p>
+<p>Calculates the percentage of database extents modified since the last full backup</p>
 <h2 id="description">Description</h2>
-<p>This is only an implementation of the script created by Paul S. Randal to find what percentage of a database has changed since the last full backup.<br />
-<a href="https://www.sqlskills.com/blogs/paul/new-script-how-much-of-the-database-has-changed-since-the-last-full-backup/">https://www.sqlskills.com/blogs/paul/new-script-how-much-of-the-database-has-changed-since-the-last-full-backup/</a></p>
+<p>Analyzes database extents to determine how much data has changed since the last full backup, helping DBAs decide between differential and full backup strategies. The function examines extent-level modifications (groups of 8 pages) to provide accurate change percentages, which is essential for optimizing backup schedules and storage requirements.</p>
+<p>For SQL Server 2016 SP2 and later, uses the sys.dm_db_file_space_usage DMV for efficient analysis. For older versions, falls back to DBCC PAGE commands to examine differential bitmap pages directly.</p>
+<p>Based on the original script by Paul S. Randal: <a href="https://www.sqlskills.com/blogs/paul/new-script-how-much-of-the-database-has-changed-since-the-last-full-backup/">https://www.sqlskills.com/blogs/paul/new-script-how-much-of-the-database-has-changed-since-the-last-full-backup/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbExtentDiff
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -572,7 +573,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to analyze for extent changes since the last full backup. Accepts multiple database names and supports wildcards.<br />
+Use this when you need to check specific databases rather than analyzing all databases on the instance, which is helpful for large environments or when focusing on particular applications.<br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +602,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies databases to skip during the extent change analysis. Accepts multiple database names and supports wildcards.<br />
+Use this to exclude system databases, read-only databases, or databases where you don't need backup planning analysis, reducing execution time and focusing on relevant databases.<br></p>
 <table>
 <thead>
 <tr>

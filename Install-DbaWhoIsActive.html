@@ -485,11 +485,13 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaWhoIsActive">Install-DbaWhoIsActive</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Automatically installs or updates sp_WhoisActive by Adam Machanic.</p>
+<p>Downloads and installs sp_WhoIsActive stored procedure for real-time SQL Server session monitoring</p>
 <h2 id="description">Description</h2>
-<p>This command downloads, extracts and installs sp_WhoisActive with Adam's permission. To read more about sp_WhoisActive, please visit <a href="http://whoisactive.com">http://whoisactive.com</a> and <a href="http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx">http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx</a></p>
+<p>Installs Adam Machanic's sp_WhoIsActive stored procedure, the most widely-used tool for monitoring active SQL Server sessions in real-time. This procedure provides detailed information about currently running queries, blocking chains, wait statistics, and resource consumption without the overhead of SQL Server Profiler.</p>
+<p>The function automatically downloads the latest version from GitHub or uses a local file you specify. It handles installation to any database you choose, though master is recommended for server-wide availability. When sp_WhoIsActive already exists, the function performs an update instead.</p>
+<p>This eliminates the manual process of downloading, extracting, and deploying the procedure across multiple SQL Server instances. Essential for DBAs who need to quickly troubleshoot performance issues, identify blocking sessions, or monitor query execution in production environments.</p>
+<p>For more information about sp_WhoIsActive, visit <a href="http://whoisactive.com">http://whoisactive.com</a> and <a href="http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx">http://sqlblog.com/blogs/adam_machanic/archive/tags/who+is+active/default.aspx</a></p>
 <p>Please consider donating to Adam if you find this stored procedure helpful: <a href="http://tinyurl.com/WhoIsActiveDonate">http://tinyurl.com/WhoIsActiveDonate</a></p>
-<p>Note that you will be prompted a bunch of times to confirm an action.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaWhoIsActive
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -590,8 +592,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install sp_WhoisActive from. This can be either the zip file as distributed by the website or the expanded SQL script.<br />
-If this parameter is not specified, the latest version will be downloaded and installed from <a href="https://github.com/amachanic/sp_whoisactive/releases">https://github.com/amachanic/sp_whoisactive/releases</a><br></p>
+<p>Specifies the path to a local copy of sp_WhoIsActive instead of downloading from GitHub. Accepts either the zip file or the extracted SQL script.<br />
+Use this when your SQL Server instances don't have internet access, when you need to deploy a specific version, or when you have customized the procedure.<br />
+If not specified, the function automatically downloads the latest version from the official GitHub repository.<br></p>
 <table>
 <thead>
 <tr>
@@ -619,7 +622,9 @@ If this parameter is not specified, the latest version will be downloaded and in
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database to install sp_WhoisActive into. This parameter is mandatory when executing this command unattended.<br></p>
+<p>Specifies the database where sp_WhoIsActive will be installed. Defaults to master database if not specified in interactive mode.<br />
+Installing in master makes the procedure available server-wide, while installing in a user database limits access to that database only.<br />
+When running unattended or in scripts, this parameter is mandatory to avoid interactive prompts.<br></p>
 <table>
 <thead>
 <tr>
@@ -677,7 +682,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, then sp_WhoisActive will be downloaded from the internet even if previously cached.<br></p>
+<p>Forces a fresh download of sp_WhoIsActive from GitHub, bypassing any locally cached version.<br />
+Use this when you need to ensure you have the absolute latest version or when troubleshooting installation issues with cached files.<br></p>
 <table>
 <thead>
 <tr>

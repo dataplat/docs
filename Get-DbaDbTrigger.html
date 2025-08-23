@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbTrigger">Get-DbaDbTrigger</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get all existing database triggers on one or more SQL instances.</p>
+<p>Retrieves database-level DDL triggers from SQL Server instances for security auditing and change tracking analysis.</p>
 <h2 id="description">Description</h2>
-<p>Get all existing database triggers on one or more SQL instances.</p>
+<p>Retrieves all database-level DDL triggers from one or more SQL Server instances. Database triggers fire in response to DDL events like CREATE, ALTER, or DROP statements within a specific database, making them useful for change auditing and security monitoring. This function helps DBAs inventory these triggers for compliance reporting, troubleshooting performance issues, or documenting automated database change tracking mechanisms. Returns trigger details including name, enabled status, and last modification date.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbTrigger
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -574,7 +574,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to scan for DDL triggers. Accepts wildcards for pattern matching.<br />
+Use this when you need to audit triggers in specific databases rather than checking all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +603,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific databases from the trigger scan. Useful for skipping system databases or databases under maintenance.<br />
+Commonly used to exclude tempdb, model, or databases that don't require trigger auditing.<br></p>
 <table>
 <thead>
 <tr>
@@ -630,7 +632,8 @@ For MFA support, please use Connect-DbaInstance..<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allow pipedline input from Get-DbaDatabase<br></p>
+<p>Accepts database objects from Get-DbaDatabase via pipeline input for targeted trigger analysis.<br />
+Use this when you want to process a pre-filtered set of database objects instead of specifying database names.<br></p>
 <table>
 <thead>
 <tr>

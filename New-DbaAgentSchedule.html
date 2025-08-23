@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAgentSchedule">New-DbaAgentSchedule</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>New-DbaAgentSchedule creates a new schedule in the msdb database.</p>
+<p>Creates a new SQL Server Agent schedule for automated job execution</p>
 <h2 id="description">Description</h2>
-<p>New-DbaAgentSchedule will help create a new schedule for a job.<br />
-If the job parameter is not supplied the schedule will not be attached to a job.</p>
+<p>Creates a new schedule in the msdb database that defines when SQL Server Agent jobs should execute. Schedules can be created as standalone objects or immediately attached to existing jobs, allowing you to standardize timing across multiple jobs without recreating the same schedule repeatedly. This replaces the need to manually create schedules through SQL Server Management Studio or T-SQL, while providing comprehensive validation of schedule parameters and frequency options. Supports all SQL Server Agent scheduling options including one-time, daily, weekly, monthly, and relative monthly frequencies with full control over start/end dates, times, and recurrence patterns.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaAgentSchedule
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -594,7 +593,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job that has the schedule.<br></p>
+<p>Specifies existing SQL Server Agent jobs to immediately attach this schedule to after creation.<br />
+Use this when you want to apply the same schedule to multiple jobs without manually attaching it later through SSMS.<br></p>
 <table>
 <thead>
 <tr>
@@ -622,7 +622,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schedule">-Schedule</h5>
-<p>The name of the schedule.<br></p>
+<p>The name for the new schedule that will appear in SQL Server Agent.<br />
+Choose descriptive names like &quot;DailyAt6AM&quot; or &quot;WeeklyMaintenanceWindow&quot; to make schedule management easier for your team.<br></p>
 <table>
 <thead>
 <tr>
@@ -650,7 +651,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="disabled">-Disabled</h5>
-<p>Set the schedule to disabled. Default is enabled<br></p>
+<p>Creates the schedule in a disabled state, preventing any attached jobs from running until the schedule is manually enabled.<br />
+Use this when you need to set up schedules in advance but don't want them active immediately.<br></p>
 <table>
 <thead>
 <tr>
@@ -678,7 +680,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="frequencytype">-FrequencyType</h5>
-<p>A value indicating when a job is to be executed.<br />
+<p>Determines the basic execution pattern for jobs using this schedule.<br />
+Daily runs every day or every N days, Weekly runs on specific days of the week, Monthly runs on specific dates, and MonthlyRelative runs on relative dates like &quot;first Monday.&quot;<br />
+Once/OneTime creates single-execution schedules, while AgentStart/AutoStart and IdleComputer/OnIdle create event-triggered schedules.<br />
 Allowed values: 'Once', 'OneTime', 'Daily', 'Weekly', 'Monthly', 'MonthlyRelative', 'AgentStart', 'AutoStart', 'IdleComputer', 'OnIdle'<br />
 The following synonyms provide flexibility to the allowed values for this function parameter:<br />
 Once=OneTime<br />
@@ -716,7 +720,10 @@ If force is used the default will be &quot;Once&quot;.<br></p>
 </tbody>
 </table>
 <h5 id="frequencyinterval">-FrequencyInterval</h5>
-<p>The days that a job is executed<br />
+<p>Defines which specific days the job executes based on the FrequencyType selected.<br />
+For Daily: use numbers 1-365 for &quot;every N days&quot; or &quot;EveryDay&quot; for daily execution.<br />
+For Weekly: specify day names like &quot;Monday,Friday&quot; or use &quot;Weekdays,&quot; &quot;Weekend,&quot; or &quot;EveryDay.&quot;<br />
+For Monthly: use numbers 1-31 to run on specific dates of each month.<br />
 Allowed values for FrequencyType 'Daily': EveryDay or a number between 1 and 365.<br />
 Allowed values for FrequencyType 'Weekly': Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Weekdays, Weekend or EveryDay.<br />
 Allowed values for FrequencyType 'Monthly': Numbers 1 to 31 for each day of the month.<br />
@@ -749,7 +756,9 @@ If force is used the default will be 1.<br></p>
 </tbody>
 </table>
 <h5 id="frequencysubdaytype">-FrequencySubdayType</h5>
-<p>Specifies the units for the subday FrequencyInterval.<br />
+<p>Sets the time interval unit when jobs need to run multiple times per day.<br />
+Use &quot;Once&quot; for single daily execution, &quot;Hours&quot; for hourly intervals, &quot;Minutes&quot; for minute-based intervals, or &quot;Seconds&quot; for very frequent execution.<br />
+Most maintenance jobs use &quot;Once&quot; while monitoring jobs might use &quot;Minutes&quot; or &quot;Hours.&quot;<br />
 Allowed values: 'Once', 'Time', 'Seconds', 'Second', 'Minutes', 'Minute', 'Hours', 'Hour'<br />
 The following synonyms provide flexibility to the allowed values for this function parameter:<br />
 Once=Time<br />
@@ -787,8 +796,9 @@ Hours=Hour<br></p>
 </tbody>
 </table>
 <h5 id="frequencysubdayinterval">-FrequencySubdayInterval</h5>
-<p>The number of subday type periods to occur between each execution of a job.<br />
-The interval needs to be at least 10 seconds long.<br></p>
+<p>Specifies how often the job repeats within a day when FrequencySubdayType is not &quot;Once.&quot;<br />
+For example, with FrequencySubdayType &quot;Hours&quot; and FrequencySubdayInterval 4, the job runs every 4 hours.<br />
+Minimum interval is 10 seconds for second-based scheduling.<br></p>
 <table>
 <thead>
 <tr>
@@ -816,7 +826,9 @@ The interval needs to be at least 10 seconds long.<br></p>
 </tbody>
 </table>
 <h5 id="frequencyrelativeinterval">-FrequencyRelativeInterval</h5>
-<p>A job's occurrence of FrequencyInterval in each month, if FrequencyInterval is 32 (monthlyrelative).<br />
+<p>Determines which occurrence of a day type to use for MonthlyRelative schedules.<br />
+Use &quot;First&quot; for first occurrence, &quot;Second&quot; for second occurrence, etc., or &quot;Last&quot; for the final occurrence of that day in the month.<br />
+For example, &quot;Second&quot; with &quot;Friday&quot; runs on the second Friday of each month.<br />
 Allowed values: First, Second, Third, Fourth or Last<br></p>
 <table>
 <thead>
@@ -849,7 +861,9 @@ Allowed values: First, Second, Third, Fourth or Last<br></p>
 </tbody>
 </table>
 <h5 id="frequencyrecurrencefactor">-FrequencyRecurrenceFactor</h5>
-<p>The number of weeks or months between the scheduled execution of a job.<br />
+<p>Controls how many weeks or months to skip between executions for Weekly, Monthly, and MonthlyRelative schedules.<br />
+Use 1 for every week/month, 2 for every other week/month, 3 for every third, etc.<br />
+This allows schedules like &quot;every 2 weeks on Monday&quot; or &quot;every 3 months on the 15th.&quot;<br />
 FrequencyRecurrenceFactor is used only if FrequencyType is &quot;Weekly&quot;, &quot;Monthly&quot; or &quot;MonthlyRelative&quot;.<br></p>
 <table>
 <thead>
@@ -878,8 +892,9 @@ FrequencyRecurrenceFactor is used only if FrequencyType is &quot;Weekly&quot;, &
 </tbody>
 </table>
 <h5 id="startdate">-StartDate</h5>
-<p>The date on which execution of a job can begin. Must be a string in the format yyyyMMdd.<br />
-If force is used the start date will be the current day<br></p>
+<p>The earliest date this schedule can execute jobs, formatted as yyyyMMdd (e.g., &quot;20240315&quot; for March 15, 2024).<br />
+Use this to delay schedule activation until a future date or to document when recurring maintenance should begin.<br />
+With -Force, defaults to today's date.<br></p>
 <table>
 <thead>
 <tr>
@@ -907,8 +922,9 @@ If force is used the start date will be the current day<br></p>
 </tbody>
 </table>
 <h5 id="enddate">-EndDate</h5>
-<p>The date on which execution of a job can stop. Must be a string in the format yyyyMMdd.<br />
-If force is used the end date will be '99991231'<br></p>
+<p>The latest date this schedule can execute jobs, formatted as yyyyMMdd (e.g., &quot;20241231&quot; for December 31, 2024).<br />
+Use this for temporary schedules or to automatically deactivate seasonal jobs.<br />
+With -Force, defaults to &quot;99991231&quot; (no expiration).<br></p>
 <table>
 <thead>
 <tr>
@@ -936,10 +952,9 @@ If force is used the end date will be '99991231'<br></p>
 </tbody>
 </table>
 <h5 id="starttime">-StartTime</h5>
-<p>The time on any day to begin execution of a job. Must be a string in the format HHmmss / 24 hour clock.<br />
-Example: '010000' for 01:00:00 AM.<br />
-Example: '140000' for 02:00:00 PM.<br />
-If force is used the start time will be '000000' for midnight.<br></p>
+<p>The time of day when job execution can begin, formatted as HHmmss in 24-hour format (e.g., &quot;143000&quot; for 2:30 PM).<br />
+For subday schedules, this is when the first execution occurs each day.<br />
+With -Force, defaults to &quot;000000&quot; (midnight).<br></p>
 <table>
 <thead>
 <tr>
@@ -967,10 +982,9 @@ If force is used the start time will be '000000' for midnight.<br></p>
 </tbody>
 </table>
 <h5 id="endtime">-EndTime</h5>
-<p>The time on any day to end execution of a job. Must be a string in the format HHmmss / 24 hour clock.<br />
-Example: '010000' for 01:00:00 AM.<br />
-Example: '140000' for 02:00:00 PM.<br />
-If force is used the end time will be '235959' for one second before midnight.<br></p>
+<p>The time of day when job execution must stop, formatted as HHmmss in 24-hour format (e.g., &quot;180000&quot; for 6:00 PM).<br />
+For subday schedules, no new executions start after this time, but running jobs can complete.<br />
+With -Force, defaults to &quot;235959&quot; (one second before midnight).<br></p>
 <table>
 <thead>
 <tr>
@@ -998,7 +1012,8 @@ If force is used the end time will be '235959' for one second before midnight.<b
 </tbody>
 </table>
 <h5 id="owner">-Owner</h5>
-<p>Login to own the job, defaults to login running the command.<br></p>
+<p>The SQL Server login that owns this schedule, which determines permissions for schedule modification.<br />
+Defaults to the login running this command, but you can specify a service account or DBA login for centralized schedule management.<br></p>
 <table>
 <thead>
 <tr>
@@ -1026,8 +1041,8 @@ If force is used the end time will be '235959' for one second before midnight.<b
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>The force parameter will ignore some errors in the parameters and assume defaults.<br />
-It will also remove the any present schedules with the same name for the specific job.<br></p>
+<p>Bypasses parameter validation and applies default values for missing required parameters like dates and times.<br />
+Also removes any existing schedule with the same name before creating the new one, preventing naming conflicts.<br></p>
 <table>
 <thead>
 <tr>

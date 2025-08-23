@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Resume-DbaAgDbDataMovement">Resume-DbaAgDbDataMovement</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Resumes data movement for an availability group database on a SQL Server instance.</p>
+<p>Resumes suspended data synchronization for availability group databases.</p>
 <h2 id="description">Description</h2>
-<p>Resumes data movement for an availability group database on a SQL Server instance.</p>
+<p>Resumes data movement for availability group databases that have been suspended due to errors, maintenance, or storage issues. When data movement is suspended, secondary replicas stop receiving transaction log records from the primary, causing synchronization lag. This function reconnects the synchronization process so secondary replicas can catch up to the primary replica.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Resume-DbaAgDbDataMovement
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -572,7 +572,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="availabilitygroup">-AvailabilityGroup</h5>
-<p>The availability group where the database movement will be resumed.<br></p>
+<p>Specifies the name of the availability group containing the databases with suspended data movement.<br />
+Required when using the SqlInstance parameter to identify which AG context to work within.<br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +601,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database or databases to resume movement upon.<br></p>
+<p>Specifies which availability group databases to resume data movement for. Accepts multiple database names.<br />
+Use this to target specific databases when you don't want to resume movement for all databases in the availability group.<br></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +630,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaAgDatabase<br></p>
+<p>Accepts availability group database objects from Get-DbaAgDatabase for pipeline operations.<br />
+Use this when you want to filter or select specific AG databases before resuming data movement.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaDbCollation">Test-DbaDbCollation</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Compares Database Collations to Server Collation</p>
+<p>Identifies databases with collations that differ from the SQL Server instance default collation</p>
 <h2 id="description">Description</h2>
-<p>Compares Database Collations to Server Collation</p>
+<p>Compares each database's collation against the SQL Server instance's default collation to identify mismatches. Database collation mismatches can cause string comparison issues, join failures, and stored procedure errors when working across databases. This function helps you audit collation consistency across your databases, which is especially important before migrations, mergers, or when troubleshooting application issues related to character sorting and comparison behavior.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaDbCollation
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -578,7 +578,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to check for collation mismatches against the server's default collation. Accepts wildcards for pattern matching.<br />
+Use this when you need to focus collation testing on specific databases rather than scanning all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -606,7 +607,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies which databases to skip during collation testing. Useful for excluding system databases or databases you know have intentional collation differences.<br />
+Common scenarios include skipping databases with different language requirements or legacy databases scheduled for decommission.<br></p>
 <table>
 <thead>
 <tr>

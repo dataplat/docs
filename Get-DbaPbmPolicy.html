@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaPbmPolicy">Get-DbaPbmPolicy</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns policies from Policy-Based Management from an instance.</p>
+<p>Retrieves Policy-Based Management policies from SQL Server instances for compliance auditing and configuration review.</p>
 <h2 id="description">Description</h2>
-<p>Returns details of policies with the option to filter on Category and SystemObjects.</p>
+<p>Retrieves all Policy-Based Management policies configured on SQL Server instances, allowing DBAs to audit compliance configurations and review policy settings across their environment. This function connects to the PBM store and returns policy details including categories, conditions, and evaluation modes. Use this when you need to document existing policies, troubleshoot policy evaluations, or verify compliance configurations without manually navigating through SQL Server Management Studio's Policy-Based Management node.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPbmPolicy
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -575,7 +575,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="policy">-Policy</h5>
-<p>Filters results to only show specific policy<br></p>
+<p>Specifies one or more policy names to retrieve, filtering the results to only those policies. Supports exact name matching for targeted policy retrieval.<br />
+Use this when you need to examine specific policies rather than all policies on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +604,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="category">-Category</h5>
-<p>Filters results to only show policies in the category selected<br></p>
+<p>Filters results to show only policies belonging to specific policy categories. Categories help organize policies by function or compliance framework.<br />
+Use this to focus on policies related to specific areas like security, performance, or maintenance checks.<br></p>
 <table>
 <thead>
 <tr>
@@ -631,7 +633,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaPbmStore<br></p>
+<p>Accepts PBM store objects from Get-DbaPbmStore via pipeline, allowing efficient processing of multiple instances. Enables chaining PBM commands together.<br />
+Use this when building complex PBM workflows or when you already have PBM store objects from previous commands.<br></p>
 <table>
 <thead>
 <tr>
@@ -659,7 +662,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemobject">-IncludeSystemObject</h5>
-<p>By default system objects are filtered out. Use this parameter to INCLUDE them .<br></p>
+<p>Includes Microsoft's built-in system policies in the results, which are excluded by default. System policies cover standard SQL Server best practices.<br />
+Use this when you need to review or document all policies including Microsoft's predefined compliance policies.<br></p>
 <table>
 <thead>
 <tr>

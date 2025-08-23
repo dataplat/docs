@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbccMemoryStatus">Get-DbaDbccMemoryStatus</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the results of DBCC MEMORYSTATUS.  Works on SQL Server 2000-2019.</p>
+<p>Executes DBCC MEMORYSTATUS and returns memory usage details in a structured format</p>
 <h2 id="description">Description</h2>
-<p>This command is used to run the DBCC MEMORYSTATUS comand and collect results in a single usable recordset</p>
+<p>Runs DBCC MEMORYSTATUS against SQL Server instances and parses the output into a structured PowerShell object for analysis. This replaces the need to manually execute DBCC MEMORYSTATUS and interpret its raw text output, making memory troubleshooting and monitoring much easier. The function organizes memory statistics by type (like Memory Manager, Buffer Manager, Resource Pool, etc.) and provides both the metric names and values in a consistent format across multiple instances. Useful for diagnosing memory pressure, understanding memory allocation patterns, and comparing memory usage across environments.</p>
 <p>Reference:<br />
 - <a href="https://blogs.msdn.microsoft.com/timchapman/2012/08/16/how-to-parse-dbcc-memorystatus-via-powershell/">https://blogs.msdn.microsoft.com/timchapman/2012/08/16/how-to-parse-dbcc-memorystatus-via-powershell/</a><br />
 - <a href="https://support.microsoft.com/en-us/help/907877/how-to-use-the-dbcc-memorystatus-command-to-monitor-memory-usage-on-sq">https://support.microsoft.com/en-us/help/907877/how-to-use-the-dbcc-memorystatus-command-to-monitor-memory-usage-on-sq</a></p>

@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaView">Find-DbaView</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns all views that contain a specific case-insensitive string or regex pattern.</p>
+<p>Searches database views for specific text patterns or regular expressions in their definitions.</p>
 <h2 id="description">Description</h2>
-<p>This function can either run against specific databases or all databases searching all user or user and system views.</p>
+<p>Scans view definitions across one or more databases to locate specific text patterns, table references, or code constructs. This helps DBAs identify views that reference particular tables before schema changes, find views containing sensitive data patterns like email addresses or SSNs, or locate views with specific business logic during troubleshooting. The function searches the actual view definition text (TextBody) and returns the matching views along with line numbers showing exactly where the pattern was found, making it easy to understand the context of each match.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaView
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -550,7 +550,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="pattern">-Pattern</h5>
-<p>String pattern that you want to search for in the view text body <br></p>
+<p>Specifies the text pattern or regular expression to search for within view definitions. Supports full regex syntax for complex pattern matching.<br />
+Use this to find views referencing specific tables before schema changes, locate sensitive data patterns like email addresses or SSNs, or identify views containing particular business logic.<br />
+Common patterns include table names, column references, function calls, or data validation expressions. <br></p>
 <table>
 <thead>
 <tr>
@@ -609,7 +611,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to search for views containing the pattern. Accepts wildcards and multiple database names.<br />
+Use this when you need to limit the search scope to specific databases instead of scanning all databases on the instance.<br />
+Particularly useful for large instances where you only need to check certain application databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -637,7 +641,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Specifies databases to skip during the view search operation. Accepts multiple database names.<br />
+Use this to exclude large databases that you know don't contain relevant views, speeding up the search process.<br />
+Common exclusions include development copies, archive databases, or third-party application databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -665,8 +671,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includesystemobjects">-IncludeSystemObjects</h5>
-<p>By default, system views are ignored but you can include them within the search using this parameter.<br />
-Warning - this will likely make it super slow if you run it on all databases.<br></p>
+<p>Includes system views in the search operation alongside user-created views. System views are excluded by default.<br />
+Use this when troubleshooting issues that might involve system view dependencies or when documenting complete database schemas.<br />
+Warning: Including system views significantly slows down the search, especially when scanning multiple databases or large instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -694,7 +701,9 @@ Warning - this will likely make it super slow if you run it on all databases.<br
 </tbody>
 </table>
 <h5 id="includesystemdatabases">-IncludeSystemDatabases</h5>
-<p>By default system databases are ignored but you can include them within the search using this parameter<br></p>
+<p>Includes system databases (master, model, msdb, tempdb) in the view search operation. System databases are excluded by default.<br />
+Use this when investigating SQL Server internals, troubleshooting replication issues, or documenting complete instance configurations.<br />
+Most DBA tasks focus on user databases, so this parameter is typically used for advanced troubleshooting scenarios.<br></p>
 <table>
 <thead>
 <tr>

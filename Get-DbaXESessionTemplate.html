@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaXESessionTemplate">Get-DbaXESessionTemplate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Parses Extended Event XML templates. Defaults to parsing templates in the dbatools template repository (/bin/XEtemplates/).</p>
+<p>Retrieves metadata from Extended Event session templates to help you discover and select pre-built monitoring solutions.</p>
 <h2 id="description">Description</h2>
-<p>Parses Extended Event XML templates. Defaults to parsing templates in the dbatools template repository (/bin/XEtemplates/).</p>
+<p>Retrieves metadata from Extended Event session templates stored in XML format, showing you what pre-built Extended Event sessions are available before importing them to your SQL Server instances. This saves you from manually browsing template files or guessing what monitoring solutions exist for specific scenarios.</p>
+<p>Use this command when you need to set up Extended Event monitoring but want to start with proven templates rather than building sessions from scratch. It's particularly helpful for discovering templates that monitor specific areas like performance, deadlocks, or security events.</p>
+<p>The function parses templates and returns key information including the template name, category, source, SQL Server compatibility, and description. You can filter results by pattern matching or select specific templates by name.</p>
 <p>The default repository contains templates from:<br />
 Microsoft's Templates that come with SSMS<br />
 Jes Borland's &quot;Everyday Extended Events&quot; presentation and GitHub repository (<a href="https://github.com/grrlgeek/extended-events">https://github.com/grrlgeek/extended-events</a>)<br />
@@ -531,7 +533,8 @@ Jonathan M. Kehayias, SQLskills.com<br />
 <p>Returns more information about the template, including the full path/filename.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>The path to the template directory. Defaults to the dbatools template repository (/bin/XEtemplates/).<br></p>
+<p>Specifies the directory path containing Extended Event template XML files. Defaults to the built-in dbatools template repository.<br />
+Use this when you want to browse custom or additional templates stored in your own directory instead of the default collection.<br></p>
 <table>
 <thead>
 <tr>
@@ -559,7 +562,8 @@ Jonathan M. Kehayias, SQLskills.com<br />
 </tbody>
 </table>
 <h5 id="pattern">-Pattern</h5>
-<p>Specify a pattern for filtering. Alternatively, you can use Out-GridView -Passthru to select objects and pipe them to Import-DbaXESessionTemplate<br></p>
+<p>Filters templates by searching for the specified text pattern across template names, categories, sources, and descriptions.<br />
+Use this to quickly find templates related to specific monitoring scenarios like &quot;deadlock&quot;, &quot;performance&quot;, or &quot;security&quot; without browsing all available templates.<br></p>
 <table>
 <thead>
 <tr>
@@ -587,7 +591,8 @@ Jonathan M. Kehayias, SQLskills.com<br />
 </tbody>
 </table>
 <h5 id="template">-Template</h5>
-<p>Specifies one or more of the templates provided by dbatools. Press tab to cycle through the list of options.<br></p>
+<p>Specifies the exact name(s) of specific templates to retrieve, matching the template file names without the .xml extension.<br />
+Use this when you know the specific template names you want to examine, such as &quot;Deadlock_Tracking&quot; or &quot;Query_Duration_Performance&quot;.<br></p>
 <table>
 <thead>
 <tr>

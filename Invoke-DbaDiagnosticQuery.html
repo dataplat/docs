@@ -485,14 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDiagnosticQuery">Invoke-DbaDiagnosticQuery</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Invoke-DbaDiagnosticQuery runs the scripts provided by Glenn Berry's DMV scripts on specified servers</p>
+<p>Executes Glenn Berry's DMV diagnostic queries to assess SQL Server performance and health</p>
 <h2 id="description">Description</h2>
-<p>This is the main function of the Sql Server Diagnostic Queries related functions in dbatools.<br />
-The diagnostic queries are developed and maintained by Glenn Berry and they can be found here along with a lot of documentation:<br />
-<a href="https://glennsqlperformance.com/resources/">https://glennsqlperformance.com/resources/</a></p>
-<p>The most recent version of the diagnostic queries are included in the dbatools module.<br />
-But it is possible to download a newer set or a specific version to an alternative location and parse and run those scripts.<br />
-It will run all or a selection of those scripts on one or multiple servers and return the result as a PowerShell Object</p>
+<p>Runs Glenn Berry's comprehensive collection of DMV-based diagnostic queries to analyze SQL Server performance, configuration, and health issues. These queries help identify common problems like blocking, high CPU usage, memory pressure, index fragmentation, and configuration issues that affect SQL Server performance.</p>
+<p>The diagnostic queries are developed and maintained by Glenn Berry and can be found at <a href="https://glennsqlperformance.com/resources/">https://glennsqlperformance.com/resources/</a> along with extensive documentation. The most recent version of these diagnostic queries are included in the dbatools module, but you can also specify a custom path to run newer versions or specific query collections.</p>
+<p>This function automatically detects your SQL Server version (2005-2025, including Azure SQL Database) and runs the appropriate queries for that platform. You can run all queries, select specific ones interactively, or target only instance-level or database-specific diagnostics. Results are returned as structured PowerShell objects for easy analysis, filtering, and reporting. You can also export the queries as SQL files for manual execution or documentation purposes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaDiagnosticQuery
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -587,7 +584,8 @@ Then it will export the results to Export-DbaDiagnosticQuery.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. If unspecified, all databases will be processed<br></p>
+<p>Specifies which databases to run database-specific diagnostic queries against. Accepts wildcard patterns and multiple database names.<br />
+When omitted, all user databases are processed. System databases are automatically excluded unless explicitly specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -615,7 +613,8 @@ Then it will export the results to Export-DbaDiagnosticQuery.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude<br></p>
+<p>Excludes specific databases from database-level diagnostic query execution. Accepts wildcard patterns and multiple database names.<br />
+Useful when you want to run diagnostics on most databases but skip problematic or maintenance databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,7 +642,8 @@ Then it will export the results to Export-DbaDiagnosticQuery.<br></p>
 </tbody>
 </table>
 <h5 id="excludequery">-ExcludeQuery</h5>
-<p>The Queries to exclude<br></p>
+<p>Excludes specific diagnostic queries from execution by their query names. Accepts multiple query names as an array.<br />
+Use this to skip time-consuming queries like index fragmentation analysis or queries that might cause blocking during peak hours.<br></p>
 <table>
 <thead>
 <tr>
@@ -701,7 +701,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Alternate path for the diagnostic scripts<br></p>
+<p>Specifies a custom directory containing Glenn Berry diagnostic query script files. By default, uses the scripts included with dbatools.<br />
+Use this when you want to run newer diagnostic query versions downloaded from Glenn Berry's website or custom query collections.<br></p>
 <table>
 <thead>
 <tr>
@@ -729,7 +730,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="queryname">-QueryName</h5>
-<p>Only run specific query<br></p>
+<p>Runs only the specified diagnostic queries by their exact query names. Accepts multiple query names as an array.<br />
+Use this when you know exactly which diagnostics you need, such as 'Wait Stats' or 'Top CPU Queries' for targeted performance analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -757,7 +759,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="useselectionhelper">-UseSelectionHelper</h5>
-<p>Provides a grid view with all the queries to choose from and will run the selection made by the user on the Sql Server instance specified.<br></p>
+<p>Opens an interactive grid view showing all available diagnostic queries with descriptions for manual selection.<br />
+Perfect for ad-hoc troubleshooting when you want to run only specific queries relevant to your current performance issue.<br></p>
 <table>
 <thead>
 <tr>
@@ -785,7 +788,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="instanceonly">-InstanceOnly</h5>
-<p>Run only instance level queries<br></p>
+<p>Limits execution to server-level diagnostic queries only, skipping all database-specific queries.<br />
+Ideal for quick instance health checks focusing on server configuration, wait statistics, and instance-wide performance metrics.<br></p>
 <table>
 <thead>
 <tr>
@@ -813,7 +817,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="databasespecific">-DatabaseSpecific</h5>
-<p>Run only database level queries<br></p>
+<p>Limits execution to database-level diagnostic queries only, skipping all instance-level queries.<br />
+Use this when investigating database-specific issues like index fragmentation, table statistics, or database configuration problems.<br></p>
 <table>
 <thead>
 <tr>
@@ -841,7 +846,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludequerytextcolumn">-ExcludeQueryTextColumn</h5>
-<p>Use this switch to exclude the [Complete Query Text] column from relevant queries<br></p>
+<p>Removes the [Complete Query Text] column from diagnostic query results to reduce output size and improve performance.<br />
+Useful when you only need query execution statistics without the actual SQL text, especially for queries with large stored procedures.<br></p>
 <table>
 <thead>
 <tr>
@@ -869,7 +875,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeplancolumn">-ExcludePlanColumn</h5>
-<p>Use this switch to exclude the [Query Plan] column from relevant queries<br></p>
+<p>Removes the [Query Plan] column from diagnostic query results to significantly reduce memory usage and improve performance.<br />
+Essential when processing large result sets or when execution plan XML data is not needed for your analysis.<br></p>
 <table>
 <thead>
 <tr>
@@ -897,7 +904,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="nocolumnparsing">-NoColumnParsing</h5>
-<p>Does not parse the [Complete Query Text] and [Query Plan] columns and disregards the ExcludeQueryTextColumn and NoColumnParsing switches<br></p>
+<p>Disables all column parsing and formatting for [Complete Query Text] and [Query Plan] columns, returning raw data.<br />
+Use this for maximum performance when you need the fastest possible execution and don't require formatted output columns.<br></p>
 <table>
 <thead>
 <tr>
@@ -925,7 +933,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="outputpath">-OutputPath</h5>
-<p>Directory to parsed diagnostics queries to. This will split them based on server, database name, and query.<br></p>
+<p>Specifies the directory path where exported diagnostic query SQL files will be saved when using -ExportQueries.<br />
+Files are automatically organized by server name, database name, and query name for easy identification and manual execution.<br></p>
 <table>
 <thead>
 <tr>
@@ -953,8 +962,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="exportqueries">-ExportQueries</h5>
-<p>Use this switch to export the diagnostic queries to sql files. Instead of running the queries, the server will be evaluated to find the appropriate queries to run based on SQL Version.<br />
-These sql files will then be created in the OutputDirectory<br></p>
+<p>Exports diagnostic queries as individual SQL files instead of executing them, organized by query type and target database.<br />
+Useful for creating a library of diagnostic scripts for offline analysis, sharing with team members, or manual execution during maintenance windows.<br></p>
 <table>
 <thead>
 <tr>

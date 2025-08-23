@@ -485,13 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaCpuRingBuffer">Get-DbaCpuRingBuffer</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Collects CPU data from sys.dm_os_ring_buffers.  Works on SQL Server 2005 and above.</p>
+<p>Retrieves historical CPU utilization data from SQL Server's internal ring buffer for performance analysis</p>
 <h2 id="description">Description</h2>
-<p>This command is based off of Glen Berry's diagnostic query for average CPU</p>
-<p>The sys.dm_os_ring_buffers stores the average CPU utilization history<br />
-by the current instance of SQL Server, plus the summed average CPU utilization<br />
-by all other processes on your machine are captured in one minute increments<br />
-for the past 256 minutes.</p>
+<p>This command queries sys.dm_os_ring_buffers to extract detailed CPU utilization history for performance troubleshooting and capacity planning. Based on Glen Berry's diagnostic query, it provides minute-by-minute CPU usage breakdowns that help identify performance patterns and resource contention.</p>
+<p>The ring buffer stores CPU utilization data in one-minute increments for up to 256 minutes, tracking three key metrics: SQL Server process utilization, other processes utilization, and system idle time. This historical data is invaluable when investigating performance issues, establishing baselines, or determining if high CPU usage originates from SQL Server or other system processes.</p>
+<p>Use this function to analyze CPU trends during specific time periods, correlate CPU spikes with application events, or gather evidence for capacity planning decisions without requiring external monitoring tools.</p>
 <p>Reference: <a href="https://www.sqlskills.com/blogs/glenn/sql-server-diagnostic-information-queries-detailed-day-16//">https://www.sqlskills.com/blogs/glenn/sql-server-diagnostic-information-queries-detailed-day-16//</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaCpuRingBuffer
@@ -589,7 +587,9 @@ Windows Authentication will be used if DestinationSqlCredential is not specified
 </tbody>
 </table>
 <h5 id="collectionminutes">-CollectionMinutes</h5>
-<p>Allows you to specify a Collection Period in Minutes. Default is 60 minutes<br></p>
+<p>Specifies how many minutes of historical CPU data to retrieve from the ring buffer. Defaults to 60 minutes.<br />
+Use this to extend the analysis window when investigating longer-term CPU trends or to focus on recent activity with shorter periods. Maximum available history is typically 256 minutes depending on<br />
+system activity.<br></p>
 <table>
 <thead>
 <tr>

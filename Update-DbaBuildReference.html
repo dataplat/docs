@@ -485,11 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Update-DbaBuildReference">Update-DbaBuildReference</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Updates the local reference looking online for the most up to date.</p>
+<p>Downloads the latest SQL Server build reference database used for patch compliance and version tracking</p>
 <h2 id="description">Description</h2>
-<p>This function updates the local json files containing all the infos about SQL builds.<br />
-It uses the setting 'assets.sqlbuildreference' to fetch it.<br />
-To see your current setting, use Get-DbatoolsConfigValue -Name 'assets.sqlbuildreference'</p>
+<p>Refreshes the comprehensive SQL Server build reference database that powers Get-DbaBuild and Test-DbaBuild functions with current patch level information. This database contains detailed mappings between build numbers, service packs, cumulative updates, KB articles, release dates, and support lifecycle dates for all SQL Server versions.</p>
+<p>DBAs use this to maintain accurate patch compliance reporting and identify outdated installations that need security updates. The function downloads the latest reference data from the dbatools project repository, ensuring you have current information about newly released patches and updated support timelines.</p>
+<p>The reference file is stored locally and automatically updated from newer module versions, but this command ensures you get the very latest patch data between dbatools releases. You can also specify a local file path instead of downloading, useful for air-gapped environments.</p>
+<p>Use Get-DbatoolsConfigValue -Name 'assets.sqlbuildreference' to see the current download URL.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Update-DbaBuildReference
     [[-LocalFile] &lt;String&gt;]
@@ -510,7 +511,9 @@ To see your current setting, use Get-DbatoolsConfigValue -Name 'assets.sqlbuildr
 <p>Uses the given file instead of downloading the file to update the build reference<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="localfile">-LocalFile</h5>
-<p>Specifies the path to a local file to install from instead of downloading from Github.<br></p>
+<p>Specifies the path to a local JSON build reference file to use instead of downloading from the internet.<br />
+Use this in air-gapped environments or when you need to use a specific version of the build reference data.<br />
+The file must be the dbatools-buildref-index.json format containing SQL Server build mappings and patch information.<br></p>
 <table>
 <thead>
 <tr>

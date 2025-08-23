@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaAgentJobOutputFile">Set-DbaAgentJobOutputFile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set the output file for a step within an Agent job.</p>
+<p>Configures the output file path for SQL Server Agent job steps to capture step execution logs.</p>
 <h2 id="description">Description</h2>
-<p>Sets the Output File for a step of an agent job with the Job Names and steps provided dynamically if required</p>
+<p>Modifies the output file location where SQL Server Agent writes job step execution details, error messages, and command output. This centralizes logging for troubleshooting failed jobs, monitoring step execution, and maintaining audit trails without manually editing each job step through SQL Server Management Studio. When no specific step is provided, an interactive selection interface appears for jobs with multiple steps.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaAgentJobOutputFile
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -538,7 +538,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="outputfile">-OutputFile</h5>
-<p>The Full Path to the New Output file. <br></p>
+<p>Specifies the complete file path where SQL Agent should write job step execution output and error messages.<br />
+Use this to centralize job logging in a location accessible for troubleshooting and monitoring. The path must be accessible by the SQL Server service account and should include the filename with<br />
+extension. <br></p>
 <table>
 <thead>
 <tr>
@@ -598,8 +600,8 @@ connection instead of a SQL login, ensure it contains a backslash.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job to process.<br />
-This parameter is not officially mandatory, but you will always be asked to provide a job if you have not.<br></p>
+<p>Specifies the SQL Server Agent job name whose step output files you want to configure.<br />
+Use this to target specific jobs that need centralized logging or troubleshooting. This parameter is not officially mandatory, but you will always be asked to provide a job if you have not.<br></p>
 <table>
 <thead>
 <tr>
@@ -627,10 +629,9 @@ This parameter is not officially mandatory, but you will always be asked to prov
 </tbody>
 </table>
 <h5 id="step">-Step</h5>
-<p>The name of the Agent Job Step to provide Output File Path for.<br />
-Within a job, step names are unique so this is a safe way to select steps.<br />
-Also available dynamically. If you do not specify this parameter and the target job has only one step, then we use that step. If it has more than one, then a GUI will be used to make you pick steps.<br />
-If that GUI does not work, then we use all steps.<br></p>
+<p>Specifies which job step(s) within the target job should have their output file configured.<br />
+Use this when you only want to set output files for specific steps in multi-step jobs. Step names are unique within each job, making this a reliable way to target individual steps. If omitted and the<br />
+job has multiple steps, an interactive GUI will appear for step selection.<br></p>
 <table>
 <thead>
 <tr>

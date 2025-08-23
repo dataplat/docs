@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAgentOperator">New-DbaAgentOperator</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new operator on an instance.</p>
+<p>Creates a new SQL Server Agent operator with notification settings for alerts and job failures.</p>
 <h2 id="description">Description</h2>
-<p>If the operator already exists on the destination, it will not be created unless -Force is used.</p>
+<p>Creates SQL Server Agent operators who receive notifications when alerts fire or jobs fail. Operators are contacts that SQL Server Agent can notify via email, pager, or net send when specific events occur. You can configure pager schedules with different time windows for weekdays, weekends, and specific days to control when pager notifications are sent. This replaces the manual process of creating operators through SQL Server Management Studio and ensures consistent operator setup across multiple instances. If the operator already exists, it will not be created unless -Force is used to drop and recreate it.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>New-DbaAgentOperator
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -531,7 +531,8 @@ for all hours of the day.<br></p>
 Saturday start time of 7am, Saturday end time of 6pm, Sunday start time of 8am, Sunday end time of 5pm, Weekday start time of 6am, and Weekday end time of 7pm.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="operator">-Operator</h5>
-<p>Name of the operator in SQL Agent. <br></p>
+<p>Name of the SQL Server Agent operator to create. This becomes the operator name that shows up in SSMS and can be referenced by alerts and jobs for notifications.<br />
+Use descriptive names like 'DBA Team' or 'On-Call Admin' to identify who receives notifications. <br></p>
 <table>
 <thead>
 <tr>
@@ -618,7 +619,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="emailaddress">-EmailAddress</h5>
-<p>The email address the SQL Agent will use to email alerts to the operator.<br></p>
+<p>Email address where SQL Server Agent sends alert notifications and job failure notifications. This is the primary notification method for most operators.<br />
+Specify a monitored email address or distribution list that reaches the appropriate support staff.<br></p>
 <table>
 <thead>
 <tr>
@@ -646,7 +648,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="netsendaddress">-NetSendAddress</h5>
-<p>The net send address the SQL Agent will use for the operator to net send alerts.<br></p>
+<p>Network address for receiving net send messages from SQL Server Agent. This is a legacy Windows messaging system rarely used in modern environments.<br />
+Most organizations use email notifications instead since net send requires specific network configurations and may not work across subnets.<br></p>
 <table>
 <thead>
 <tr>
@@ -674,7 +677,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="pageraddress">-PagerAddress</h5>
-<p>The pager email address the SQL Agent will use to send alerts to the oeprator.<br></p>
+<p>Email address for pager notifications, typically used for SMS gateways or mobile alerts. This works with email-to-SMS services provided by cellular carriers.<br />
+Configure pager schedules with PagerDay and time parameters to control when these urgent notifications are sent.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,9 +706,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="pagerday">-PagerDay</h5>
-<p>Defines what days the pager portion of the operator will be used. The default is 'Everyday'. Valid parameters<br />
-are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', and<br />
-'Saturday'.<br></p>
+<p>Controls which days pager notifications are active for this operator. Use this to match on-call schedules or business hours when immediate alerts are needed.<br />
+Choose 'Weekdays' for business-hour coverage, 'EveryDay' for 24/7 support, or specific days like 'Monday' through 'Sunday' for rotation schedules.<br></p>
 <table>
 <thead>
 <tr>
@@ -736,7 +739,8 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="saturdaystarttime">-SaturdayStartTime</h5>
-<p>This a string that takes the Saturday Pager Start Time.<br></p>
+<p>Starting time for Saturday pager notifications in HHMMSS format (e.g., '080000' for 8:00 AM). Required when PagerDay includes Saturday, Weekend, or EveryDay.<br />
+Use '000000' for midnight start times or specify business hours to limit when urgent alerts are sent.<br></p>
 <table>
 <thead>
 <tr>
@@ -764,7 +768,8 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="saturdayendtime">-SaturdayEndTime</h5>
-<p>This a string that takes the Saturday Pager End Time.<br></p>
+<p>Ending time for Saturday pager notifications in HHMMSS format (e.g., '180000' for 6:00 PM). Must be specified with SaturdayStartTime.<br />
+Use '235959' for end-of-day coverage or match your organization's Saturday support hours.<br></p>
 <table>
 <thead>
 <tr>
@@ -792,7 +797,8 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="sundaystarttime">-SundayStartTime</h5>
-<p>This a string that takes the Sunday Pager Start Time.<br></p>
+<p>Starting time for Sunday pager notifications in HHMMSS format (e.g., '090000' for 9:00 AM). Required when PagerDay includes Sunday, Weekend, or EveryDay.<br />
+Configure based on your weekend support schedule or emergency-only coverage requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -820,7 +826,8 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="sundayendtime">-SundayEndTime</h5>
-<p>This a string that takes the Sunday Pager End Time.<br></p>
+<p>Ending time for Sunday pager notifications in HHMMSS format (e.g., '170000' for 5:00 PM). Must be specified with SundayStartTime.<br />
+Set to match your organization's weekend support availability or use '235959' for full-day coverage.<br></p>
 <table>
 <thead>
 <tr>
@@ -848,7 +855,8 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="weekdaystarttime">-WeekdayStartTime</h5>
-<p>This a string that takes the Weekdays Pager Start Time.<br></p>
+<p>Starting time for weekday pager notifications in HHMMSS format (e.g., '060000' for 6:00 AM). Required when PagerDay includes Weekdays or individual weekdays.<br />
+Typically set to business hours start time or earlier for critical production monitoring.<br></p>
 <table>
 <thead>
 <tr>
@@ -876,7 +884,8 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="weekdayendtime">-WeekdayEndTime</h5>
-<p>This a string that takes the Weekdays Pager End Time.<br></p>
+<p>Ending time for weekday pager notifications in HHMMSS format (e.g., '190000' for 7:00 PM). Must be specified with WeekdayStartTime.<br />
+Configure to match business hours end time or extend for after-hours support coverage.<br></p>
 <table>
 <thead>
 <tr>
@@ -904,7 +913,8 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="isfailsafeoperator">-IsFailsafeOperator</h5>
-<p>If this switch is enabled, this operator will be your failsafe operator and replace the one that existed before.<br></p>
+<p>Designates this operator as the failsafe operator for the SQL Server instance. The failsafe operator receives notifications when all other operators are unavailable.<br />
+Only one failsafe operator can exist per instance, and this setting replaces any existing failsafe operator configuration.<br></p>
 <table>
 <thead>
 <tr>
@@ -932,8 +942,8 @@ are 'EveryDay', 'Weekdays', 'Weekend', 'Sunday', 'Monday', 'Tuesday', 'Wednesday
 </tbody>
 </table>
 <h5 id="failsafenotificationmethod">-FailsafeNotificationMethod</h5>
-<p>Defines the notification method for the failsafe oeprator.  Value must be NotifyMail or NotifyPager.<br />
-The default is NotifyEmail.<br></p>
+<p>Specifies how the failsafe operator receives notifications when used with IsFailsafeOperator. Choose 'NotifyEmail' for email notifications or 'NotifyPager' for pager alerts.<br />
+Defaults to 'NotifyEmail' which works with most modern notification systems and email-to-SMS gateways.<br></p>
 <table>
 <thead>
 <tr>
@@ -961,7 +971,8 @@ The default is NotifyEmail.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Operator will be dropped and recreated on instance.<br></p>
+<p>Drops and recreates the operator if it already exists on the target instance. Without this switch, the function will skip existing operators to prevent accidental overwrites.<br />
+Use this when updating operator configurations or when you need to ensure consistent settings across multiple environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -989,7 +1000,8 @@ The default is NotifyEmail.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>SMO Server Objects (pipeline input from Connect-DbaInstance)<br></p>
+<p>Accepts SQL Server Management Objects (SMO) server instances from Connect-DbaInstance via pipeline. This allows you to create operators on pre-authenticated server connections.<br />
+Use this when you have existing server connections or need to process multiple instances with specific connection properties.<br></p>
 <table>
 <thead>
 <tr>

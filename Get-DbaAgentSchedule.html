@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentSchedule">Get-DbaAgentSchedule</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns all SQL Agent Shared Schedules on a SQL Server Agent.</p>
+<p>Retrieves SQL Agent shared schedules with detailed timing and recurrence information.</p>
 <h2 id="description">Description</h2>
-<p>This function returns SQL Agent Shared Schedules.</p>
+<p>Retrieves all shared schedules from SQL Server Agent along with human-readable descriptions of their timing patterns. These shared schedules can be reused across multiple jobs to standardize maintenance windows and reduce schedule management overhead. The function provides filtering options by schedule name, unique identifier, or numeric ID, making it useful for schedule auditing, documentation, and troubleshooting automated job execution patterns.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentSchedule
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -583,7 +583,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="schedule">-Schedule</h5>
-<p>Parameter to filter the schedules returned<br></p>
+<p>Specifies one or more schedule names to retrieve from the SQL Agent shared schedules collection.<br />
+Use this when you need to examine specific schedules by their display names, such as checking timing details for maintenance windows or job execution patterns.<br />
+Accepts multiple schedule names and supports wildcards for pattern matching.<br></p>
 <table>
 <thead>
 <tr>
@@ -611,7 +613,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="scheduleuid">-ScheduleUid</h5>
-<p>The unique identifier of the schedule<br></p>
+<p>Specifies the GUID-based unique identifier of one or more shared schedules to retrieve.<br />
+Use this when you need to target schedules by their immutable identifiers, particularly useful for automation scripts or when schedule names might change.<br />
+Each shared schedule has a persistent UID that remains constant even if the schedule is renamed.<br></p>
 <table>
 <thead>
 <tr>
@@ -639,7 +643,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="id">-Id</h5>
-<p>Parameter to filter the schedules returned<br></p>
+<p>Specifies the numeric identifier of one or more shared schedules to retrieve from SQL Agent.<br />
+Use this when you know the internal ID numbers of specific schedules, often obtained from previous queries or database system tables.<br />
+Schedule IDs are assigned sequentially by SQL Server and remain constant unless the schedule is deleted and recreated.<br></p>
 <table>
 <thead>
 <tr>

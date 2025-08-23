@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Start-DbaTrace">Start-DbaTrace</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Starts SQL Server traces</p>
+<p>Starts existing SQL Server traces that are currently stopped</p>
 <h2 id="description">Description</h2>
-<p>Starts SQL Server traces</p>
+<p>Starts SQL Server traces that have been defined but are not currently running. This function activates traces by setting their status to 1 using sp_trace_setstatus, allowing you to begin collecting trace data for performance monitoring, auditing, or troubleshooting. The default trace cannot be started with this function - use Set-DbaSpConfigure to enable it instead.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Start-DbaTrace
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -575,7 +575,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="id">-Id</h5>
-<p>A list of trace ids<br></p>
+<p>Specifies the numeric IDs of specific traces to start. When omitted, all stopped traces on the instance will be started.<br />
+Use this when you need to start only particular traces rather than all available stopped traces.<br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +604,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Internal parameter for piping<br></p>
+<p>Accepts trace objects from the pipeline, typically from Get-DbaTrace. This allows you to filter traces first, then start only the selected ones.<br />
+Use this parameter when piping trace objects or when you have trace objects from a previous Get-DbaTrace command.<br></p>
 <table>
 <thead>
 <tr>

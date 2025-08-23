@@ -485,10 +485,12 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbLogShipError">Get-DbaDbLogShipError</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Get-DbaDbLogShipError returns all the log shipping errors that occurred</p>
+<p>Retrieves log shipping error details from msdb to troubleshoot failed backup, copy, and restore operations</p>
 <h2 id="description">Description</h2>
-<p>When your log shipping fails it's sometimes hard to see why is fails.<br />
-Using this function you'll be able to find out what went wrong in a short amount of time.</p>
+<p>Queries the log shipping monitor error detail table in msdb to return comprehensive error information when log shipping operations fail.<br />
+Identifies which specific action failed (backup on primary, copy, or restore on secondary) along with session details and error messages.<br />
+Saves time by consolidating error details from both primary and secondary instances into a single view, so you don't have to manually query multiple system tables.<br />
+Essential for troubleshooting log shipping failures and determining whether issues occurred during backup, file copy, or database restore phases.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbLogShipError
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -590,8 +592,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Allows you to filter the results to only return the databases you're interested in. This can be one or more values separated by commas.<br />
-This is not a wildcard and should be the exact database name. See examples for more info.<br></p>
+<p>Specifies which databases to include when retrieving log shipping errors. Requires exact database names, not wildcards.<br />
+Use this when troubleshooting specific databases rather than reviewing all log shipped databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -619,8 +621,8 @@ This is not a wildcard and should be the exact database name. See examples for m
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Allows you to filter the results to only return the databases you're not interested in. This can be one or more values separated by commas.<br />
-This is not a wildcard and should be the exact database name.<br></p>
+<p>Excludes specific databases from the log shipping error results. Requires exact database names, not wildcards.<br />
+Useful when you want to see errors for all databases except certain ones, like excluding test databases from production error reviews.<br></p>
 <table>
 <thead>
 <tr>
@@ -648,8 +650,8 @@ This is not a wildcard and should be the exact database name.<br></p>
 </tbody>
 </table>
 <h5 id="action">-Action</h5>
-<p>Filter to get the log shipping action that has occurred like Backup, Copy, Restore.<br />
-By default all the actions are returned.<br></p>
+<p>Filters errors by log shipping operation type: Backup (primary), Copy (between servers), or Restore (secondary).<br />
+Use this to isolate which phase of log shipping is failing when troubleshooting multi-step log shipping workflows.<br></p>
 <table>
 <thead>
 <tr>
@@ -681,7 +683,8 @@ By default all the actions are returned.<br></p>
 </tbody>
 </table>
 <h5 id="datetimefrom">-DateTimeFrom</h5>
-<p>Filter the results based on the date starting from datetime X<br></p>
+<p>Sets the earliest date and time for error records to include in results.<br />
+Essential for focusing on recent failures or analyzing errors that occurred after a specific event or change.<br></p>
 <table>
 <thead>
 <tr>
@@ -709,7 +712,8 @@ By default all the actions are returned.<br></p>
 </tbody>
 </table>
 <h5 id="datetimeto">-DateTimeTo</h5>
-<p>Filter the results based on the date ending with datetime X<br></p>
+<p>Sets the latest date and time for error records to include in results.<br />
+Combined with DateTimeFrom, this creates a specific time window for analyzing log shipping failures during maintenance windows or incidents.<br></p>
 <table>
 <thead>
 <tr>
@@ -737,7 +741,8 @@ By default all the actions are returned.<br></p>
 </tbody>
 </table>
 <h5 id="primary">-Primary</h5>
-<p>Allows to filter the results to only return values that apply to the primary instance.<br></p>
+<p>Returns only errors from backup operations that occur on the primary server.<br />
+Use this when troubleshooting backup failures or primary-side log shipping issues like insufficient disk space or backup device problems.<br></p>
 <table>
 <thead>
 <tr>
@@ -765,7 +770,8 @@ By default all the actions are returned.<br></p>
 </tbody>
 </table>
 <h5 id="secondary">-Secondary</h5>
-<p>Allows to filter the results to only return values that apply to the secondary instance.<br></p>
+<p>Returns only errors from copy and restore operations that occur on secondary servers.<br />
+Use this when troubleshooting file transfer failures or restore issues on the destination server, such as network connectivity or disk space problems.<br></p>
 <table>
 <thead>
 <tr>

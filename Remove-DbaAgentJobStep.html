@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaAgentJobStep">Remove-DbaAgentJobStep</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes a step from the specified SQL Agent job.</p>
+<p>Removes specified job steps from SQL Server Agent jobs.</p>
 <h2 id="description">Description</h2>
-<p>Removes a job step from a SQL Server Agent job.</p>
+<p>Removes individual job steps from SQL Server Agent jobs by step name. This function validates that both the job and step exist before attempting removal, preventing errors when cleaning up outdated or broken job steps. Useful for job maintenance tasks like removing obsolete backup steps, failed notification steps, or deprecated processes without affecting the rest of the job workflow.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaAgentJobStep
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -549,7 +549,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>The name of the job. <br></p>
+<p>Specifies the SQL Agent job(s) from which to remove the step. Accepts multiple job names for bulk operations.<br />
+Use this when you need to remove the same step from multiple jobs, such as cleaning up outdated notification steps across maintenance jobs. <br></p>
 <table>
 <thead>
 <tr>
@@ -577,7 +578,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="stepname">-StepName</h5>
-<p>The name of the job step. <br></p>
+<p>Specifies the exact name of the job step to remove from the specified jobs. Step names are case-sensitive and must match exactly.<br />
+Use this when you need to remove specific steps like obsolete backup verification steps, deprecated notification steps, or failed job components. <br></p>
 <table>
 <thead>
 <tr>

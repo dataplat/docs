@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Start-DbaPfDataCollectorSet">Start-DbaPfDataCollectorSet</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Starts Performance Monitor Data Collector Set.</p>
+<p>Starts Windows Performance Monitor Data Collector Sets on local or remote computers.</p>
 <h2 id="description">Description</h2>
-<p>Starts Performance Monitor Data Collector Set.</p>
+<p>Starts Performance Monitor Data Collector Sets that have been configured to gather system performance data. This is useful for SQL Server performance troubleshooting when you need to collect OS-level metrics like CPU, memory, disk I/O, and network statistics alongside your SQL Server monitoring. The function checks the collector set status before starting and will skip sets that are already running or disabled.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Start-DbaPfDataCollectorSet
     [[-ComputerName] &lt;DbaInstanceParameter[]&gt;]
@@ -522,7 +522,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Starts the 'System Correlation' Collector.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target computer. Defaults to localhost.<br></p>
+<p>Specifies the target computer(s) where Performance Monitor Data Collector Sets will be started. Defaults to localhost.<br />
+Use this when you need to start collector sets on remote SQL Server machines or when managing multiple servers from a central location.<br></p>
 <table>
 <thead>
 <tr>
@@ -579,7 +580,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="collectorset">-CollectorSet</h5>
-<p>The name of the Collector Set to start.<br></p>
+<p>Specifies the name(s) of specific Performance Monitor Data Collector Sets to start. When omitted, all ready collector sets will be started.<br />
+Use this when you only need to start particular collector sets like 'System Performance' or custom sets created for SQL Server monitoring.<br></p>
 <table>
 <thead>
 <tr>
@@ -607,7 +609,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts the object output by Get-DbaPfDataCollectorSet via the pipeline.<br></p>
+<p>Accepts Performance Monitor Data Collector Set objects from Get-DbaPfDataCollectorSet via the pipeline. Objects must contain DataCollectorSetObject property.<br />
+Use this when you want to filter collector sets with Get-DbaPfDataCollectorSet first, then start only the matching sets through the pipeline.<br></p>
 <table>
 <thead>
 <tr>
@@ -635,7 +638,8 @@ $cred = Get-Credential, then pass $cred object to the -Credential parameter.<br>
 </tbody>
 </table>
 <h5 id="nowait">-NoWait</h5>
-<p>If this switch is enabled, the collector is started and the results are returned immediately.<br></p>
+<p>When specified, starts the collector set and returns results immediately without waiting for the startup process to complete.<br />
+Use this when starting multiple collector sets in scripts where you don't need to confirm each one fully initialized before proceeding.<br></p>
 <table>
 <thead>
 <tr>

@@ -485,24 +485,22 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Reset-DbaAdmin">Reset-DbaAdmin</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>This function allows administrators to regain access to SQL Servers in the event that passwords or access was lost.</p>
-<p>Supports SQL Server 2005 and above. Windows administrator access is required.</p>
+<p>Regains administrative access to SQL Server instances when passwords or access has been lost</p>
 <h2 id="description">Description</h2>
-<p>This function allows administrators to regain access to local or remote SQL Servers by either resetting the sa password, adding the sysadmin role to existing login, or adding a new login (SQL or Windows) and granting it sysadmin privileges.</p>
+<p>Recovers access to SQL Server instances when you're locked out due to forgotten passwords, disabled accounts, or authentication issues. This emergency recovery tool stops the SQL Server service and restarts it in single-user mode, allowing exclusive access to reset credentials and restore administrative privileges.</p>
+<p>The function handles both standalone and clustered SQL Server instances, working with SQL authentication logins (like sa) and Windows authentication accounts. It automatically enables mixed mode authentication when working with SQL logins and ensures the target login is enabled, unlocked, and granted sysadmin privileges.</p>
 <p>This is accomplished by stopping the SQL services or SQL Clustered Resource Group, then restarting SQL via the command-line using the /mReset-DbaAdmin parameter which starts the server in Single-User mode and only allows this script to connect.</p>
 <p>Once the service is restarted, the following tasks are performed:</p>
 <ul>
 <li>Login is added if it doesn't exist</li>
 <li>If login is a Windows User, an attempt is made to ensure it exists</li>
-<li>If login is a SQL Login, password policy will be set to OFF when creating the login, and SQL Server authentication will be set to Mixed Mode.</li>
+<li>If login is a SQL Login, password policy will be set to OFF when creating the login, and SQL Server authentication will be set to Mixed Mode</li>
 <li>Login will be enabled and unlocked</li>
 <li>Login will be added to sysadmin role</li>
 </ul>
-<p>If failures occur at any point, a best attempt is made to restart the SQL Server.</p>
-<p>In order to make this script as portable as possible, Microsoft.Data.SqlClient and Get-WmiObject are used (as opposed to requiring the Failover Cluster Admin tools or SMO).</p>
-<p>If using this function against a remote SQL Server, ensure WinRM is configured and accessible. If this is not possible, run the script locally.</p>
-<p>Tested on Windows XP, 7, 8.1, Server 2012 and Windows Server Technical Preview 2.<br />
-Tested on SQL Server 2005 SP4 through 2016 CTP2.</p>
+<p>If failures occur at any point, a best attempt is made to restart the SQL Server normally. The function uses Microsoft.Data.SqlClient and Get-WmiObject for maximum compatibility across different environments without requiring additional tools.</p>
+<p>For remote SQL Server instances, ensure WinRM is configured and accessible. If remote access isn't possible, run the script locally on the target server. Requires Windows administrator access to the server hosting SQL Server.</p>
+<p>Supports SQL Server 2005 and above on clustered and standalone configurations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Reset-DbaAdmin
     [-SqlInstance] &lt;DbaInstanceParameter&gt;
@@ -593,8 +591,10 @@ If the account already exists, it will be added to the sysadmin role and the pas
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>By default, the Login parameter is &quot;sa&quot; but any other SQL or Windows account can be specified. If a login does not currently exist, it will be added.<br />
-When adding a Windows login to remote servers, ensure the SQL Server can add the login (ie, don't add WORKSTATION\Admin to remoteserver\instance. Domain users and Groups are valid input.<br></p>
+<p>Specifies the login account to reset or create with sysadmin privileges. Defaults to &quot;sa&quot; if not specified.<br />
+Use this when you need to regain access through a specific account rather than the default sa login. Accepts both SQL authentication logins (like &quot;sqladmin&quot;) and Windows authentication accounts (like<br />
+&quot;DOMAIN\User&quot; or &quot;DOMAIN\Group&quot;).<br />
+If the login doesn't exist, it will be created automatically. For Windows logins on remote servers, use domain accounts that the SQL Server can validate, not local machine accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -622,7 +622,9 @@ When adding a Windows login to remote servers, ensure the SQL Server can add the
 </tbody>
 </table>
 <h5 id="securepassword">-SecurePassword</h5>
-<p>By default, if a SQL Login is detected, you will be prompted for a password. Use this to securely bypass the prompt.<br></p>
+<p>Provides the password for SQL authentication logins as a SecureString to avoid interactive prompts.<br />
+Use this when automating the reset process or when you don't want to be prompted to enter the password manually. Only required for SQL logins, not Windows authentication accounts.<br />
+The password will be applied during login creation or when resetting an existing SQL login's password.<br></p>
 <table>
 <thead>
 <tr>
@@ -650,7 +652,10 @@ When adding a Windows login to remote servers, ensure the SQL Server can add the
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the Login(s) will be dropped and recreated on Destination. Logins that own Agent jobs cannot be dropped at this time.<br></p>
+<p>Bypasses all confirmation prompts and proceeds with the service restart and login reset operations.<br />
+Use this when you need to automate the recovery process or when you're certain about proceeding without manual confirmation. This includes the high-impact confirmation for stopping and restarting SQL<br />
+Server services.<br />
+Does not actually drop and recreate logins - the existing description appears to be incorrect for this function.<br></p>
 <table>
 <thead>
 <tr>

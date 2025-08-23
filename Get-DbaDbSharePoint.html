@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbSharePoint">Get-DbaDbSharePoint</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns databases that are part of a SharePoint Farm.</p>
+<p>Identifies all databases belonging to a SharePoint farm by querying the SharePoint Configuration database.</p>
 <h2 id="description">Description</h2>
-<p>Returns databases that are part of a SharePoint Farm, as found in the SharePoint Configuration database.</p>
-<p>By default, this command checks SharePoint_Config. To use an alternate database, use the ConfigDatabase parameter.</p>
+<p>Discovers and returns database objects for all databases that are part of a SharePoint farm by querying the SharePoint Configuration database's internal tables and stored procedures. This helps DBAs identify which databases on their SQL Server instance are actively used by SharePoint, eliminating guesswork when planning maintenance, migrations, or troubleshooting SharePoint connectivity issues.</p>
+<p>The function queries the SharePoint Configuration database to find registered SharePoint databases using SharePoint's internal proc_getObjectsByBaseClass stored procedure and Objects table. By default, this command checks SharePoint_Config. To use an alternate configuration database, use the ConfigDatabase parameter.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbSharePoint
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -570,7 +570,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="configdatabase">-ConfigDatabase</h5>
-<p>The name of the SharePoint Configuration database. Defaults to SharePoint_Config.<br></p>
+<p>Specifies the name of the SharePoint Configuration database to query for farm database information. Defaults to SharePoint_Config.<br />
+Use this when your SharePoint farm uses a non-standard configuration database name, such as SharePoint_Config_2016 or when managing multiple SharePoint versions on the same SQL instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +599,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Get-DbaDatabase.<br></p>
+<p>Accepts database objects from Get-DbaDatabase to directly analyze specific SharePoint Configuration databases.<br />
+Use this when you want to target a specific configuration database without connecting to the SQL instance again, or when working with multiple SharePoint farms across different instances.<br></p>
 <table>
 <thead>
 <tr>

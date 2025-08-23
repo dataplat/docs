@@ -485,9 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDatabaseSafely">Remove-DbaDatabaseSafely</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Safely removes a SQL Database and creates an Agent Job to restore it.</p>
+<p>Removes databases after creating verified backups and testing restore procedures.</p>
 <h2 id="description">Description</h2>
-<p>Performs a DBCC CHECKDB on the database, backs up the database with Checksum and verify only to a final (golden) backup location, creates an Agent Job to restore from that backup, drops the database, runs the agent job to restore the database, performs a DBCC CHECKDB and drops the database.</p>
+<p>Performs a comprehensive database removal workflow that validates database integrity, creates verified backups, and tests restore procedures before permanently removing databases. This function runs DBCC CHECKDB to verify database health, creates a checksummed backup to a specified location, generates a SQL Agent job for automated restore testing, drops the original database, executes the restore job to verify backup integrity, performs another DBCC check on the restored database, and finally removes the test database.</p>
+<p>This process ensures that removed databases have reliable, tested backups that can be restored if needed later. The automated restore job remains available for future recovery operations, making this ideal for database decommissioning, environment cleanup, or compliance scenarios where you need proof that backups are valid before removing production data.</p>
 <p>With huge thanks to Grant Fritchey and his verify your backups video. Take a look, it's only 3 minutes long. <a href="http://sqlps.io/backuprant">http://sqlps.io/backuprant</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDatabaseSafely
@@ -576,8 +577,8 @@ If there is a DBCC Error, the function  will continue to perform rest of the act
 </tbody>
 </table>
 <h5 id="backupfolder">-BackupFolder</h5>
-<p>Specifies the path to a folder where the final backups of the removed databases will be stored. If you are using separate source and destination servers, you must specify a UNC path such as<br />
-\SERVER1\BACKUPSHARE\ <br></p>
+<p>Specifies the directory path where final database backups will be stored before deletion. Must be accessible by both source and destination server service accounts.<br />
+Use a UNC path (like \SERVER1\BACKUPS) when source and destination servers are different, or a local path when using the same server for both operations. <br></p>
 <table>
 <thead>
 <tr>
@@ -636,7 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies one or more databases to remove.<br></p>
+<p>Specifies one or more databases to safely remove with validated backups. Accepts multiple database names as an array.<br />
+Use this to target specific databases for removal, ensuring each gets a verified backup before deletion.<br></p>
 <table>
 <thead>
 <tr>
@@ -664,8 +666,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>If specified, Agent jobs will be created on this server. By default, the jobs will be created on the server specified by SqlInstance. You must have sysadmin access and the server must be SQL Server<br />
-2000 or higher. The SQL Agent service will be started if it is not already running.<br></p>
+<p>Specifies the SQL Server instance where the SQL Agent restore job will be created and executed. Defaults to the same server as SqlInstance if not specified.<br />
+Use this when you want to test database backups on a different server than where the original database exists, which is a best practice for backup validation.<br></p>
 <table>
 <thead>
 <tr>
@@ -693,9 +695,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<p>Credentials for connecting to the destination SQL Server instance when different from SqlCredential. Accepts PowerShell credentials (Get-Credential).<br />
+Use this when the destination server requires different authentication than the source server, common in cross-domain or different security context scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -723,9 +724,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="nodbcccheckdb">-NoDbccCheckDb</h5>
-<p>If this switch is enabled, the initial DBCC CHECK DB will be skipped. This will make the process quicker but will also allow you to create an Agent job that restores a database backup containing a<br />
-corrupt database.<br />
-A second DBCC CHECKDB is performed on the restored database so you will still be notified BUT USE THIS WITH CARE.<br></p>
+<p>Skips the initial DBCC CHECKDB integrity check before creating the backup, reducing processing time.<br />
+Use this only when you're confident about database integrity or when time constraints outweigh the risk of backing up a corrupt database.<br />
+The function still runs DBCC on the restored test database, but corruption detection happens after backup creation.<br></p>
 <table>
 <thead>
 <tr>
@@ -753,7 +754,8 @@ A second DBCC CHECKDB is performed on the restored database so you will still be
 </tbody>
 </table>
 <h5 id="categoryname">-CategoryName</h5>
-<p>Specifies the Category Name for the Agent job that is created for restoring the database(s). By default, the name is &quot;Rationalisation&quot;.<br></p>
+<p>Sets the SQL Agent job category for the restore jobs that are created. Defaults to 'Rationalisation'.<br />
+Use a custom category name to organize these restoration jobs separately from other maintenance jobs in SQL Agent.<br></p>
 <table>
 <thead>
 <tr>
@@ -781,7 +783,8 @@ A second DBCC CHECKDB is performed on the restored database so you will still be
 </tbody>
 </table>
 <h5 id="jobowner">-JobOwner</h5>
-<p>Specifies the name of the account which will own the Agent jobs. By default, sa is used.<br></p>
+<p>Sets the owner account for the SQL Agent restore job that gets created. Defaults to the 'sa' login.<br />
+Specify a different owner when you need the job to run under specific security context or when 'sa' is disabled in your environment.<br></p>
 <table>
 <thead>
 <tr>
@@ -809,7 +812,8 @@ A second DBCC CHECKDB is performed on the restored database so you will still be
 </tbody>
 </table>
 <h5 id="alldatabases">-AllDatabases</h5>
-<p>If this switch is enabled, all user databases on the server will be removed. This is useful when decommissioning a server. You should use a Destination with this switch.<br></p>
+<p>Removes all user databases from the source server, excluding system databases. Primarily used for server decommissioning scenarios.<br />
+Use with caution and always specify a different Destination server to avoid removing databases from the same server that will test their backups.<br></p>
 <table>
 <thead>
 <tr>
@@ -837,7 +841,8 @@ A second DBCC CHECKDB is performed on the restored database so you will still be
 </tbody>
 </table>
 <h5 id="backupcompression">-BackupCompression</h5>
-<p>If this switch is enabled, compression will be used for the backup regardless of the SQL Server instance setting. By default, the SQL Server instance setting for backup compression is used.<br></p>
+<p>Controls backup compression behavior with values: Default, On, or Off. Default uses the server's backup compression configuration setting.<br />
+Use 'On' to force compression for smaller backup files and reduced network traffic, or 'Off' when compression overhead outweighs benefits.<br></p>
 <table>
 <thead>
 <tr>
@@ -869,7 +874,8 @@ A second DBCC CHECKDB is performed on the restored database so you will still be
 </tbody>
 </table>
 <h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
-<p>If this switch is enabled, the source folder structure will be used when restoring instead of using the destination instance default folder structure.<br></p>
+<p>Maintains the original database file paths and folder structure during the test restore operation on the destination server.<br />
+Use this when you need to preserve specific drive layouts or when the destination server has matching drive structure to the source.<br></p>
 <table>
 <thead>
 <tr>
@@ -897,7 +903,8 @@ A second DBCC CHECKDB is performed on the restored database so you will still be
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, all actions will be performed even if DBCC errors are detected. An Agent job will be created with 'DBCCERROR' in the name and the backup file will have 'DBCC' in its name.<br></p>
+<p>Continues the database removal process even when DBCC integrity checks detect corruption. Creates backups and jobs with 'DBCCERROR' naming to identify them.<br />
+Use this only in emergency situations when you must remove a corrupt database and accept the risk of having potentially unusable backups.<br></p>
 <table>
 <thead>
 <tr>

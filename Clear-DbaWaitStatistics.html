@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Clear-DbaWaitStatistics">Clear-DbaWaitStatistics</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Clears wait statistics</p>
+<p>Resets SQL Server wait statistics to establish a clean monitoring baseline</p>
 <h2 id="description">Description</h2>
-<p>Reset the aggregated statistics - basically just executes DBCC SQLPERF (N'sys.dm_os_wait_stats', CLEAR)</p>
+<p>Clears all accumulated wait statistics from sys.dm_os_wait_stats by executing DBCC SQLPERF (N'sys.dm_os_wait_stats', CLEAR). This is essential for performance troubleshooting when you need to establish a new baseline for wait analysis. DBAs commonly clear wait stats after resolving performance issues, during maintenance windows, or when beginning focused monitoring periods to isolate specific workload patterns without historical noise.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Clear-DbaWaitStatistics
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

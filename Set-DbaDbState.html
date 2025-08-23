@@ -485,16 +485,18 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaDbState">Set-DbaDbState</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Sets various options for databases, hereby called &quot;states&quot;</p>
+<p>Modifies database read/write access, online status, and user access modes</p>
 <h2 id="description">Description</h2>
-<p>Sets some common &quot;states&quot; on databases:</p>
+<p>Modifies database access modes and availability states through ALTER DATABASE commands, eliminating the need to write T-SQL manually for common database administration tasks.</p>
+<p>This function handles three categories of database state changes:</p>
 <ul>
-<li>&quot;RW&quot; options (ReadOnly, ReadWrite)</li>
-<li>&quot;Status&quot; options (Online, Offline, Emergency, plus a special &quot;Detached&quot;)</li>
-<li>&quot;Access&quot; options (SingleUser, RestrictedUser, MultiUser)</li>
+<li>Read/Write access: Sets databases to READ_ONLY for reporting scenarios or READ_WRITE for normal operations</li>
+<li>Online status: Brings databases ONLINE, takes them OFFLINE for maintenance, or sets EMERGENCY mode for corruption recovery</li>
+<li>User access: Restricts database access to SINGLE_USER for maintenance, RESTRICTED_USER for admin-only access, or MULTI_USER for normal operations</li>
+<li>Database detachment: Safely detaches databases by first removing them from Availability Groups and breaking mirroring relationships when -Force is specified</li>
 </ul>
-<p>Returns an object with SqlInstance, Database, RW, Status, Access, Notes</p>
-<p>Notes gets filled when something went wrong setting the state</p>
+<p>The -Force parameter rolls back open transactions immediately, allowing state changes to proceed even when active connections exist. Without -Force, operations use NO_WAIT and may fail if connections are blocking the change.</p>
+<p>Returns an object with SqlInstance, Database, RW, Status, Access, and Notes properties. The Notes field contains error details when state changes fail.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaDbState
     [-SqlCredential &lt;PSCredential&gt;]
@@ -615,7 +617,8 @@ Set-DbaDbState
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts piped database objects <br></p>
+<p>Accepts database objects from Get-DbaDatabase or Get-DbaDbState through the pipeline.<br />
+Use this to chain commands together, allowing you to filter databases first then modify their states in a single operation. <br></p>
 <table>
 <thead>
 <tr>
@@ -674,7 +677,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process - this list is auto-populated from the server. if unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to modify state for. Accepts single database name, comma-separated list, or wildcards.<br />
+Use this when you need to target specific databases instead of all user databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -702,7 +706,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>The database(s) to exclude - this list is auto-populated from the server<br></p>
+<p>Excludes specific databases from the state change operation when using -AllDatabases.<br />
+Useful when you want to modify most databases but skip critical production databases or those undergoing maintenance.<br></p>
 <table>
 <thead>
 <tr>
@@ -730,7 +735,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alldatabases">-AllDatabases</h5>
-<p>This is a parameter that was included for safety, so you don't accidentally set options on all databases without specifying<br></p>
+<p>Indicates that the operation should target all user databases on the instance.<br />
+Required safety parameter to prevent accidental modification of all databases when no specific database is specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -758,7 +764,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="readonly">-ReadOnly</h5>
-<p>RW Option : Sets the database as READ_ONLY<br></p>
+<p>Sets the database to read_ONLY mode, preventing any data modifications.<br />
+Use this for creating reporting databases, preparing for backups, or when you need to ensure data integrity during maintenance.<br></p>
 <table>
 <thead>
 <tr>
@@ -786,7 +793,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="readwrite">-ReadWrite</h5>
-<p>RW Option : Sets the database as READ_WRITE<br></p>
+<p>Sets the database to read_WRITE mode, allowing normal data modifications.<br />
+Use this to restore normal operations after maintenance or to enable writes on a previously read-only database.<br></p>
 <table>
 <thead>
 <tr>
@@ -814,7 +822,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="online">-Online</h5>
-<p>Status Option : Sets the database as ONLINE<br></p>
+<p>Brings the database online and makes it available for normal operations.<br />
+Use this to restore database availability after maintenance, upgrades, or recovery operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -842,7 +851,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="offline">-Offline</h5>
-<p>Status Option : Sets the database as OFFLINE<br></p>
+<p>Takes the database offline, making it inaccessible to users and applications.<br />
+Use this for maintenance tasks like file moves, hardware upgrades, or when you need to ensure no connections during critical operations.<br></p>
 <table>
 <thead>
 <tr>
@@ -870,7 +880,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="emergency">-Emergency</h5>
-<p>Status Option : Sets the database as EMERGENCY<br></p>
+<p>Sets the database to EMERGENCY mode for corruption recovery scenarios.<br />
+Use this when the database won't start normally due to corruption and you need to attempt data recovery or run emergency repairs.<br></p>
 <table>
 <thead>
 <tr>
@@ -898,7 +909,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="detached">-Detached</h5>
-<p>Status Option : Detaches the database<br></p>
+<p>Safely detaches the database from the SQL Server instance, removing it from sys.databases.<br />
+Use this when moving databases between instances or when you need to work with database files directly. Requires -Force for mirrored or AG databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -926,7 +938,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="singleuser">-SingleUser</h5>
-<p>Access Option : Sets the database as SINGLE_USER<br></p>
+<p>Restricts database access to a single connection, typically for administrative tasks.<br />
+Use this during maintenance operations, database restores, or when you need exclusive access to prevent user interference.<br></p>
 <table>
 <thead>
 <tr>
@@ -954,7 +967,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="restricteduser">-RestrictedUser</h5>
-<p>Access Option : Sets the database as RESTRICTED_USER<br></p>
+<p>Limits database access to members of db_owner, dbcreator, or sysadmin roles only.<br />
+Use this during maintenance windows when you need to allow admin access while blocking regular users.<br></p>
 <table>
 <thead>
 <tr>
@@ -982,7 +996,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="multiuser">-MultiUser</h5>
-<p>Access Option : Sets the database as MULTI_USER<br></p>
+<p>Restores normal multi-user access to the database, allowing all authorized connections.<br />
+Use this to return the database to normal operations after completing single-user or restricted-user maintenance tasks.<br></p>
 <table>
 <thead>
 <tr>
@@ -1010,9 +1025,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>For most options, this translates to instantly rolling back any open transactions<br />
-that may be stopping the process.<br />
-For -Detached it is required to break mirroring and Availability Groups<br></p>
+<p>Rolls back open transactions immediately and kills active connections to allow the state change to proceed.<br />
+Use this when normal state changes fail due to blocking connections, but be aware it will cause transaction rollbacks and connection drops.<br />
+Required for detaching databases that are in Availability Groups or mirroring relationships.<br></p>
 <table>
 <thead>
 <tr>

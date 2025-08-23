@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaServerRoleMember">Remove-DbaServerRoleMember</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes login(s) from a server-level role(s) for each instance(s) of SQL Server.</p>
+<p>Revokes server-level role membership from SQL Server logins and roles.</p>
 <h2 id="description">Description</h2>
-<p>Removes login(s) from a server-level role(s) for each instance(s) of SQL Server.</p>
+<p>Revokes membership from server-level roles by removing logins or nested roles from target roles like sysadmin, dbcreator, or custom server roles. This is essential for security management when you need to reduce user privileges or clean up role assignments after organizational changes. The function works with both fixed server roles (sysadmin, securityadmin, etc.) and user-defined server roles, supporting bulk operations across multiple instances.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaServerRoleMember
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -596,7 +596,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="serverrole">-ServerRole</h5>
-<p>The server-level role(s) to process.<br></p>
+<p>Specifies the server-level role(s) from which to remove members. Accepts both fixed server roles like sysadmin, securityadmin, dbcreator, and custom user-defined server roles.<br />
+Use this when you need to revoke specific permissions by removing logins or nested roles from elevated privilege roles.<br></p>
 <table>
 <thead>
 <tr>
@@ -624,7 +625,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The login(s) to remove from server-level role(s) specified.<br></p>
+<p>Specifies the login name(s) to remove from the target server role(s). Accepts SQL Server logins, Windows logins, and Active Directory accounts.<br />
+Use this when removing user access after role changes, departures, or security reviews where individual logins need privilege reduction.<br></p>
 <table>
 <thead>
 <tr>
@@ -652,7 +654,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="role">-Role</h5>
-<p>The role(s) to remove from server-level role(s) specified.<br></p>
+<p>Specifies the server role name(s) to remove from the target server role(s), enabling nested role management.<br />
+Use this when restructuring role hierarchies or removing inherited permissions where one server role should no longer be a member of another.<br></p>
 <table>
 <thead>
 <tr>
@@ -680,7 +683,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piped input from Get-DbaServerRole.<br></p>
+<p>Accepts piped server role objects from Get-DbaServerRole, allowing you to chain role discovery with member removal operations.<br />
+Use this pattern when you need to filter roles first then remove specific members from the filtered results.<br></p>
 <table>
 <thead>
 <tr>

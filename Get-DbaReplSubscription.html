@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaReplSubscription">Get-DbaReplSubscription</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Displays all subscriptions for a publication.</p>
+<p>Retrieves SQL Server replication subscription details for publications across instances.</p>
 <h2 id="description">Description</h2>
-<p>Displays all subscriptions for a publication</p>
+<p>Retrieves detailed information about replication subscriptions, showing which subscriber instances are receiving data from publications. This is essential for monitoring replication topology, troubleshooting subscription issues, and auditing data distribution across your SQL Server environment. You can filter results by database, publication name, subscriber instance, subscription database, or subscription type (Push/Pull) to focus on specific replication relationships.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaReplSubscription
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -589,7 +589,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which publication databases to include when retrieving subscriptions. Accepts multiple database names and wildcards.<br />
+Use this to focus on subscriptions from specific databases instead of checking all replicated databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -617,7 +618,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="publicationname">-PublicationName</h5>
-<p>The name of the publication.<br></p>
+<p>Filters results to subscriptions from specific publications by name. Accepts multiple publication names.<br />
+Use this when you need to check subscription status for particular publications rather than all publications on the server.<br></p>
 <table>
 <thead>
 <tr>
@@ -645,7 +647,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subscribername">-SubscriberName</h5>
-<p>The subscriber SQL Server instance name.<br></p>
+<p>Filters results to subscriptions where data is being delivered to specific subscriber instances. Accepts multiple instance names.<br />
+Use this to monitor subscription health and activity for particular subscriber servers in your replication topology.<br></p>
 <table>
 <thead>
 <tr>
@@ -673,7 +676,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="subscriptiondatabase">-SubscriptionDatabase</h5>
-<p>The name of the subscription database.<br></p>
+<p>Filters results to subscriptions where data is being delivered to specific databases on subscriber instances. Accepts multiple database names.<br />
+Use this to track how data flows to particular databases across your subscribers, especially when subscription databases have different names than source databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -701,7 +705,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Limit by specific type of publication. Valid choices include: Transactional, Merge, Snapshot<br></p>
+<p>Filters results to subscriptions of a specific delivery method (Push or Pull). Push subscriptions are managed by the publisher, while Pull subscriptions are managed by the subscriber.<br />
+Use this to separate subscription management tasks or troubleshoot issues specific to push or pull delivery mechanisms.<br></p>
 <table>
 <thead>
 <tr>

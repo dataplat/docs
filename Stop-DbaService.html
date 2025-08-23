@@ -485,9 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Stop-DbaService">Stop-DbaService</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Stops SQL Server services on a computer.</p>
+<p>Stops SQL Server-related Windows services with proper dependency handling.</p>
 <h2 id="description">Description</h2>
-<p>Stops the SQL Server related services on one or more computers. Will follow SQL Server service dependencies.</p>
+<p>Stops SQL Server services including Database Engine, SQL Agent, Reporting Services, Analysis Services, Integration Services, and other components across one or more computers. Automatically handles service dependencies to prevent dependency conflicts during shutdown operations.</p>
+<p>Particularly useful for planned maintenance windows, troubleshooting service issues, or preparing servers for patching and reboots. The Force parameter allows stopping dependent services automatically, which is essential when stopping Database Engine services that have SQL Agent dependencies.</p>
+<p>Supports targeting specific service types or instances, making it ideal for selective service management in multi-instance environments. Can be combined with Get-DbaService for advanced filtering and bulk operations across entire SQL Server environments.</p>
 <p>Requires Local Admin rights on destination computer(s).</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Stop-DbaService
@@ -541,7 +543,8 @@ Stop-DbaService
 <p>Stops SQL Server database engine services on sql1 forcing dependent SQL Server Agent services to stop as well.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>A collection of services from Get-DbaService <br></p>
+<p>Accepts service objects directly from Get-DbaService, allowing for advanced filtering and pipeline operations.<br />
+Use this approach when you need complex service filtering that goes beyond the built-in ComputerName, InstanceName, and Type parameters. <br></p>
 <table>
 <thead>
 <tr>
@@ -570,7 +573,8 @@ Stop-DbaService
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The target SQL Server instance or instances.<br></p>
+<p>Specifies the target computer(s) containing SQL Server services to stop. Accepts multiple computer names for bulk service management.<br />
+Use this when you need to stop SQL Server services across multiple servers during maintenance windows or troubleshooting scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -598,7 +602,8 @@ Stop-DbaService
 </tbody>
 </table>
 <h5 id="instancename">-InstanceName</h5>
-<p>Only affects services that belong to the specific instances.<br></p>
+<p>Targets services belonging to specific SQL Server named instances. Filters results to match only the specified instance names.<br />
+Essential in multi-instance environments where you need to stop services for particular instances while leaving others running.<br></p>
 <table>
 <thead>
 <tr>
@@ -655,8 +660,8 @@ Parameters ComputerName and InstanceName will be ignored if SqlInstance is used.
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Use -Type to collect only services of the desired SqlServiceType.<br />
-Can be one of the following: &quot;Agent&quot;,&quot;Browser&quot;,&quot;Engine&quot;,&quot;FullText&quot;,&quot;SSAS&quot;,&quot;SSIS&quot;,&quot;SSRS&quot;<br></p>
+<p>Filters which SQL Server service types to stop. Valid options: Agent, Browser, Engine, FullText, SSAS, SSIS, SSRS.<br />
+Use this when you need to stop specific service types across instances, such as stopping all SQL Agent services for patching while keeping Database Engine services running.<br></p>
 <table>
 <thead>
 <tr>
@@ -688,7 +693,8 @@ Can be one of the following: &quot;Agent&quot;,&quot;Browser&quot;,&quot;Engine&
 </tbody>
 </table>
 <h5 id="timeout">-Timeout</h5>
-<p>How long to wait for the start/stop request completion before moving on. Specify 0 to wait indefinitely.<br></p>
+<p>Sets the maximum wait time in seconds for each service stop operation before timing out. Default is 60 seconds, specify 0 to wait indefinitely.<br />
+Increase this value for services that take longer to shut down gracefully, particularly in environments with large databases or heavy workloads.<br></p>
 <table>
 <thead>
 <tr>
@@ -744,7 +750,8 @@ Can be one of the following: &quot;Agent&quot;,&quot;Browser&quot;,&quot;Engine&
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Use this switch to stop dependent services before proceeding with the specified service<br></p>
+<p>Automatically stops dependent services when stopping SQL Server Database Engine services. Prevents dependency conflicts that would otherwise block the stop operation.<br />
+Required when stopping Engine services that have dependent SQL Agent services running, as SQL Agent must be stopped first to avoid service dependency errors.<br></p>
 <table>
 <thead>
 <tr>

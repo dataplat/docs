@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaDbMailProfile">Get-DbaDbMailProfile</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets database mail profile(s) from SQL Server</p>
+<p>Retrieves Database Mail profiles and their configuration details from SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Gets database mail profile(s) from SQL Server</p>
+<p>Retrieves Database Mail profiles from one or more SQL Server instances, returning detailed configuration information for each profile including ID, name, description, and status properties. This function is essential for auditing Database Mail configurations across your environment, troubleshooting email notification issues, and documenting mail profile setups for compliance or change management. You can target specific profiles by name or exclude certain profiles from the results, making it useful for both broad configuration reviews and focused troubleshooting scenarios.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbMailProfile
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -584,7 +584,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="profile">-Profile</h5>
-<p>Specifies one or more profile(s) to get. If unspecified, all profiles will be returned.<br></p>
+<p>Specifies one or more Database Mail profile names to retrieve. Use this when you need to check configuration details for specific profiles rather than reviewing all profiles.<br />
+Accepts exact profile names and is case-sensitive to match SQL Server Database Mail profile naming.<br></p>
 <table>
 <thead>
 <tr>
@@ -612,7 +613,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeprofile">-ExcludeProfile</h5>
-<p>Specifies one or more profile(s) to exclude.<br></p>
+<p>Specifies one or more Database Mail profile names to exclude from the results. Useful when auditing multiple profiles but want to skip certain ones like test or deprecated profiles.<br />
+Helps focus on production profiles during compliance reviews or troubleshooting scenarios.<br></p>
 <table>
 <thead>
 <tr>
@@ -640,7 +642,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts pipeline input from Get-DbaDbMail<br></p>
+<p>Accepts Database Mail server objects from Get-DbaDbMail cmdlet through the pipeline. This allows you to chain commands when working with multiple SQL instances.<br />
+Eliminates the need to specify SqlInstance when you already have Database Mail objects from a previous command.<br></p>
 <table>
 <thead>
 <tr>

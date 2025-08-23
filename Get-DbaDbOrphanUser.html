@@ -574,7 +574,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies the database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to check for orphaned users. Accepts database names, wildcards, or arrays.<br />
+Use this when you need to focus the orphaned user search on specific databases rather than checking all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +603,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
-<p>Specifies the database(s) to exclude from processing. Options for this list are auto-populated from the server<br></p>
+<p>Specifies databases to skip when checking for orphaned users. Useful for excluding system databases or databases under maintenance.<br />
+Commonly used to exclude tempdb, distribution, or databases where orphaned users are expected and acceptable.<br></p>
 <table>
 <thead>
 <tr>

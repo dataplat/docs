@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaLinkedServerLogin">Get-DbaLinkedServerLogin</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Obtains linked server login(s).</p>
+<p>Retrieves linked server login mappings and authentication configurations from SQL Server instances.</p>
 <h2 id="description">Description</h2>
-<p>Obtains linked server login(s).</p>
+<p>Retrieves the login mappings configured for linked servers, showing how local SQL Server logins are mapped to remote server credentials. This function returns details about each login mapping including the local login name, remote user account, and whether impersonation is enabled. Use this to audit linked server security configurations, troubleshoot authentication issues between servers, or document cross-server login relationships for compliance purposes.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaLinkedServerLogin
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -582,7 +582,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="linkedserver">-LinkedServer</h5>
-<p>The name(s) of the linked server(s).<br></p>
+<p>Specifies the name(s) of the linked server(s) to retrieve login mappings from. Required when using SqlInstance parameter.<br />
+Use this to focus on specific linked servers when you have multiple configured on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -610,7 +611,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="locallogin">-LocalLogin</h5>
-<p>The name(s) of the linked server login(s) to include.<br></p>
+<p>Filters results to only include specific local SQL Server login names that have mappings configured for the linked server.<br />
+Useful when auditing a specific user's access or troubleshooting authentication for particular accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -638,7 +640,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludelocallogin">-ExcludeLocalLogin</h5>
-<p>The name(s) of the linked server login(s) to exclude<br></p>
+<p>Excludes specific local SQL Server login names from the results, showing all other configured login mappings.<br />
+Use this to hide system accounts or service accounts when focusing on user login mappings.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +669,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows piping from Connect-DbaInstance and Get-DbaLinkedServer<br></p>
+<p>Accepts piped input from Connect-DbaInstance or Get-DbaLinkedServer commands to work with existing connection objects.<br />
+When piping from Get-DbaLinkedServer, the LinkedServer parameter becomes optional since the linked server context is already established.<br></p>
 <table>
 <thead>
 <tr>

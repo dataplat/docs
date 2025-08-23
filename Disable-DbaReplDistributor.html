@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Disable-DbaReplDistributor">Disable-DbaReplDistributor</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Disables replication distribution for the target SQL instances.</p>
+<p>Removes SQL Server replication distribution configuration from target instances.</p>
 <h2 id="description">Description</h2>
-<p>Disables replication distribution for the target SQL instances.</p>
+<p>Removes the distribution database and configuration from SQL Server instances currently acting as replication distributors. This command terminates active connections to distribution databases and uninstalls the distributor role completely. Use this when decommissioning replication, troubleshooting distribution issues, or reconfiguring your replication topology. The Force parameter allows removal even when dependent objects or remote publishers cannot be contacted.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Disable-DbaReplDistributor
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -573,9 +573,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>Specify whether or not replication objects are removed from the server, even if a remote Distributor cannot be reached.<br />
-If true, the publishing and Distributor configuration at the current server is uninstalled regardless of whether or not dependent publishing and distribution objects are uninstalled.<br />
-If false, the publisher and distribution databases must already be uninstalled, and no local databases are enabled for publishing.<br></p>
+<p>Forces removal of the distributor configuration even when dependent replication objects exist or remote publishers cannot be contacted.<br />
+Use this when decommissioning a distributor that has orphaned publications or when network connectivity to remote publishers is unavailable.<br />
+Without Force, the command will fail if any local databases are enabled for publishing or if publisher/distribution databases haven't been cleanly removed first.<br></p>
 <table>
 <thead>
 <tr>

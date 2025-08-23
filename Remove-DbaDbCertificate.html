@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbCertificate">Remove-DbaDbCertificate</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Deletes specified database certificate</p>
+<p>Removes database certificates from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Deletes specified database certificate</p>
+<p>Removes database certificates from specified SQL Server databases using the DROP CERTIFICATE statement. This function is commonly used during certificate rotation, security cleanup, or when decommissioning encryption features like Transparent Data Encryption (TDE) or Always Encrypted. Certificates can be targeted individually by name or removed in bulk using pipeline input from Get-DbaDbCertificate.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbCertificate
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -572,7 +572,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database where the certificate will be removed.<br></p>
+<p>Specifies the target databases containing certificates to remove. Accepts multiple database names.<br />
+When omitted, the function will process certificates from all databases that contain the specified certificates.<br></p>
 <table>
 <thead>
 <tr>
@@ -600,7 +601,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="certificate">-Certificate</h5>
-<p>The certificate that will be removed<br></p>
+<p>Specifies the names of certificates to remove from the target databases. Supports multiple certificate names.<br />
+Use this to target specific certificates rather than removing all certificates found by Get-DbaDbCertificate.<br></p>
 <table>
 <thead>
 <tr>
@@ -628,7 +630,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Piped certificate objects<br></p>
+<p>Accepts certificate objects from Get-DbaDbCertificate via pipeline input.<br />
+This allows for advanced filtering and bulk operations when combined with other dbatools certificate functions.<br></p>
 <table>
 <thead>
 <tr>

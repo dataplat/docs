@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Set-DbaLogin">Set-DbaLogin</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Set-DbaLogin makes it possible to make changes to one or more logins.<br />
-SQL Azure DB is not supported.</p>
+<p>Modifies SQL Server login properties including passwords, permissions, roles, and account status</p>
 <h2 id="description">Description</h2>
-<p>Set-DbaLogin will enable you to change the password, unlock, rename, disable or enable, deny or grant login privileges to the login. It's also possible to add or remove server roles from the login.</p>
+<p>Manages SQL Server login accounts by modifying passwords, account status, security settings, and server role memberships in a single operation. Handles common DBA tasks like unlocking accounts, resetting passwords with force-change requirements, and applying password policies for security compliance. Includes a special unlock feature that preserves existing passwords by temporarily disabling policy checks, eliminating the need to reset passwords when unlocking accounts. Works across multiple instances and logins simultaneously, making it ideal for bulk user management and security maintenance workflows.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaLogin
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
@@ -638,7 +637,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="login">-Login</h5>
-<p>The login that needs to be changed<br></p>
+<p>Specifies one or more SQL Server login names to modify. Accepts an array for batch operations.<br />
+Use this to target specific login accounts when performing password resets, account management, or role assignments.<br></p>
 <table>
 <thead>
 <tr>
@@ -666,7 +666,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="securepassword">-SecurePassword</h5>
-<p>The new password for the login This can be either a credential or a secure string.<br></p>
+<p>Sets a new password for the login using either a PSCredential object or SecureString. Required when using -PasswordMustChange.<br />
+Create secure passwords with Get-Credential or ConvertTo-SecureString to avoid plain text exposure in scripts.<br></p>
 <table>
 <thead>
 <tr>
@@ -694,7 +695,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="defaultdatabase">-DefaultDatabase</h5>
-<p>Default database for the login<br></p>
+<p>Changes the default database that the login connects to after authentication. Must be an existing database name.<br />
+Use this when users need to land in a specific database instead of master, such as application-specific databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -722,8 +724,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="unlock">-Unlock</h5>
-<p>Switch to unlock an account. This can be used in conjunction with the -SecurePassword or -Force parameters.<br />
-The default is false.<br></p>
+<p>Unlocks a locked SQL Server login account that has been disabled due to failed authentication attempts.<br />
+Use with -SecurePassword to set a new password while unlocking, or with -Force to unlock without changing the password.<br></p>
 <table>
 <thead>
 <tr>
@@ -751,10 +753,8 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="passwordmustchange">-PasswordMustChange</h5>
-<p>Does the user need to change his/her password. This will only be used in conjunction with the -SecurePassword parameter.<br />
-It is required that the login have both PasswordPolicyEnforced (check_policy) and PasswordExpirationEnabled (check_expiration) enabled for the login. See the Microsoft documentation for ALTER LOGIN<br />
-for more details.<br />
-The default is false.<br></p>
+<p>Forces the user to change their password at next login. Requires -SecurePassword and both PasswordPolicyEnforced and PasswordExpirationEnabled to be enabled.<br />
+Use this for security compliance when setting temporary passwords or after potential password compromises.<br></p>
 <table>
 <thead>
 <tr>
@@ -782,7 +782,8 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="newname">-NewName</h5>
-<p>The new name for the login.<br></p>
+<p>Renames the login to a new name. The new name must not already exist on the SQL Server instance.<br />
+Use this when standardizing login naming conventions or correcting login names during organizational changes.<br></p>
 <table>
 <thead>
 <tr>
@@ -810,7 +811,8 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="disable">-Disable</h5>
-<p>Disable the login<br></p>
+<p>Disables the login account, preventing authentication while preserving the account and its permissions.<br />
+Use this for temporary account suspension during investigations or when employees are on extended leave.<br></p>
 <table>
 <thead>
 <tr>
@@ -838,7 +840,8 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="enable">-Enable</h5>
-<p>Enable the login<br></p>
+<p>Enables a previously disabled login account, restoring authentication access with all existing permissions intact.<br />
+Use this to reactivate accounts after temporary suspension or when employees return from extended leave.<br></p>
 <table>
 <thead>
 <tr>
@@ -866,7 +869,8 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="denylogin">-DenyLogin</h5>
-<p>Deny access to SQL Server<br></p>
+<p>Explicitly denies the login permission to connect to the SQL Server instance. The account remains but cannot authenticate.<br />
+Use this for permanent access restriction while maintaining the login for audit trails or future reference.<br></p>
 <table>
 <thead>
 <tr>
@@ -894,7 +898,8 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="grantlogin">-GrantLogin</h5>
-<p>Grant access to SQL Server<br></p>
+<p>Grants or restores the login permission to connect to the SQL Server instance, reversing a previous deny action.<br />
+Use this to restore access for logins that were previously denied without recreating the entire account.<br></p>
 <table>
 <thead>
 <tr>
@@ -922,7 +927,8 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="passwordpolicyenforced">-PasswordPolicyEnforced</h5>
-<p>Enable the password policy on the login (check_policy = ON). This option must be enabled in order for -PasswordExpirationEnabled to be used.<br></p>
+<p>Enables or disables Windows password policy enforcement for the login (check_policy). Must be enabled to use password expiration checks.<br />
+Use this to apply corporate password complexity and lockout policies to SQL Server authentication accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -950,7 +956,8 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="passwordexpirationenabled">-PasswordExpirationEnabled</h5>
-<p>Enable the password expiration check on the login (check_expiration = ON). In order to enable this option the PasswordPolicyEnforced (check_policy) must also be enabled for the login.<br></p>
+<p>Enables or disables password expiration checking for the login (check_expiration). Requires PasswordPolicyEnforced to be enabled first.<br />
+Use this to enforce regular password changes according to Windows password age policies for SQL Server accounts.<br></p>
 <table>
 <thead>
 <tr>
@@ -978,8 +985,8 @@ The default is false.<br></p>
 </tbody>
 </table>
 <h5 id="addrole">-AddRole</h5>
-<p>Add one or more server roles to the login<br />
-The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &quot;diskadmin&quot;, &quot;processadmin&quot;, &quot;public&quot;, &quot;securityadmin&quot;, &quot;serveradmin&quot;, &quot;setupadmin&quot;, &quot;sysadmin&quot;.<br></p>
+<p>Grants one or more server-level roles to the login. Accepts: bulkadmin, dbcreator, diskadmin, processadmin, public, securityadmin, serveradmin, setupadmin, sysadmin.<br />
+Use this to assign specific server privileges without granting full sysadmin rights, following the principle of least privilege.<br></p>
 <table>
 <thead>
 <tr>
@@ -1011,8 +1018,8 @@ The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &q
 </tbody>
 </table>
 <h5 id="removerole">-RemoveRole</h5>
-<p>Remove one or more server roles to the login<br />
-The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &quot;diskadmin&quot;, &quot;processadmin&quot;, &quot;public&quot;, &quot;securityadmin&quot;, &quot;serveradmin&quot;, &quot;setupadmin&quot;, &quot;sysadmin&quot;.<br></p>
+<p>Revokes one or more server-level roles from the login. Accepts: bulkadmin, dbcreator, diskadmin, processadmin, public, securityadmin, serveradmin, setupadmin, sysadmin.<br />
+Use this to reduce login privileges during access reviews or when job responsibilities change.<br></p>
 <table>
 <thead>
 <tr>
@@ -1044,7 +1051,8 @@ The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &q
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Allows logins to be piped in from Get-DbaLogin<br></p>
+<p>Accepts login objects from Get-DbaLogin for pipeline operations. Enables processing multiple logins from filtered queries.<br />
+Use this for bulk operations when you need to modify logins based on specific criteria like locked status or role membership.<br></p>
 <table>
 <thead>
 <tr>
@@ -1072,8 +1080,8 @@ The following roles can be used &quot;bulkadmin&quot;, &quot;dbcreator&quot;, &q
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>This switch is used with -Unlock to unlock a login without providing a password. This command will temporarily disable and enable the policy settings as described at<br />
-<a href="https://www.mssqltips.com/sqlservertip/2758/how-to-unlock-a-sql-login-without-resetting-the-password/">https://www.mssqltips.com/sqlservertip/2758/how-to-unlock-a-sql-login-without-resetting-the-password/</a>.<br></p>
+<p>Unlocks a login account without requiring a password reset by temporarily manipulating password policy settings.<br />
+Use this when you need to unlock accounts but cannot change the password, preserving the original password for the user.<br></p>
 <table>
 <thead>
 <tr>

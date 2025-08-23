@@ -485,10 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaDbDbccCleanTable">Invoke-DbaDbDbccCleanTable</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Execution of Database Console Command DBCC CLEANTABLE</p>
+<p>Reclaims disk space from dropped variable-length columns in tables and indexed views</p>
 <h2 id="description">Description</h2>
-<p>Executes the command DBCC CLEANTABLE against defined objects and returns results</p>
-<p>Reclaims space from dropped variable-length columns in tables or indexed views</p>
+<p>Executes DBCC CLEANTABLE to reclaim disk space after variable-length columns (varchar, nvarchar, varbinary, text, ntext, image, xml, or CLR user-defined types) have been dropped from tables or indexed views.</p>
+<p>When you drop variable-length columns, SQL Server doesn't immediately reclaim the space those columns occupied. This function runs the necessary DBCC command to physically remove that unused space and compact the remaining data, which can significantly reduce table size and improve performance.</p>
+<p>The function accepts either table names (like 'dbo.TableName') or table object IDs for processing. You can control the operation through batch processing to minimize impact on production systems, and optionally suppress informational messages for cleaner output.</p>
 <p>Read more:<br />
 - <a href="https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-cleantable-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-cleantable-transact-sql</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -589,7 +590,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to include in the clean table operation. Accepts multiple database names.<br />
+When omitted, the operation runs against all accessible databases on the instance.<br />
+Use this to target specific databases where you know variable-length columns have been dropped recently.<br></p>
 <table>
 <thead>
 <tr>
@@ -617,7 +620,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="object">-Object</h5>
-<p>The table(s) or indexed view(s) to be cleaned.<br></p>
+<p>Specifies the table or indexed view names to clean, or their object IDs for more precise targeting.<br />
+Accepts schema-qualified names like 'dbo.TableName' or numeric object IDs like 34636372.<br />
+This parameter is required since DBCC CLEANTABLE must target specific objects, not entire databases.<br></p>
 <table>
 <thead>
 <tr>
@@ -645,8 +650,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="batchsize">-BatchSize</h5>
-<p>Is the number of rows processed per transaction.<br />
-If not specified, or if 0 is specified, the statement processes the whole table in one transaction.<br></p>
+<p>Controls how many rows are processed per transaction during the clean operation.<br />
+Use smaller batch sizes (like 5000-10000) on production systems to reduce lock duration and transaction log impact.<br />
+When omitted, processes the entire table in a single transaction which is faster but holds locks longer.<br></p>
 <table>
 <thead>
 <tr>
@@ -674,7 +680,9 @@ If not specified, or if 0 is specified, the statement processes the whole table 
 </tbody>
 </table>
 <h5 id="noinformationalmessages">-NoInformationalMessages</h5>
-<p>Suppresses all informational messages.<br></p>
+<p>Suppresses informational messages from the DBCC CLEANTABLE output, showing only errors and warnings.<br />
+Use this in automated scripts or when processing multiple tables to reduce console output volume.<br />
+Equivalent to adding WITH NO_INFOMSGS to the DBCC command.<br></p>
 <table>
 <thead>
 <tr>

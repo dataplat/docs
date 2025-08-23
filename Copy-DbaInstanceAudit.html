@@ -485,10 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaInstanceAudit">Copy-DbaInstanceAudit</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Copy-DbaInstanceAudit migrates server audits from one SQL Server to another.</p>
+<p>Copies SQL Server audit objects from source to destination instances</p>
 <h2 id="description">Description</h2>
-<p>By default, all audits are copied. The -Audit parameter is auto-populated for command-line completion and can be used to copy only specific audits.</p>
-<p>If the audit already exists on the destination, it will be skipped unless -Force is used.</p>
+<p>Migrates SQL Server audit objects and their configurations from one instance to another, preserving audit settings and file paths. This function handles the complex task of recreating audit definitions on destination servers, making it essential for server migrations, disaster recovery scenarios, or standardizing auditing policies across multiple SQL Server instances. By default, all audits are copied, but you can specify individual audits to migrate. If an audit already exists on the destination, it will be skipped unless -Force is used to drop and recreate it.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaInstanceAudit
     [-Source] &lt;DbaInstanceParameter&gt;
@@ -527,7 +526,8 @@ on sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 <p>Copies audit audit1 from sqlserver-0 to sqlserver-1. The file path on sqlserver-1 will be set to 'C:\audit1'.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="source">-Source</h5>
-<p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2000 or higher. <br></p>
+<p>Source SQL Server instance containing the audit objects to copy. Requires sysadmin access to read audit configurations and their associated file paths.<br />
+Must be SQL Server 2008 or higher since server audits were introduced in SQL Server 2008. <br></p>
 <table>
 <thead>
 <tr>
@@ -555,7 +555,8 @@ on sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 </tbody>
 </table>
 <h5 id="destination">-Destination</h5>
-<p>Destination SQL Server. You must have sysadmin access and the server must be SQL Server 2000 or higher. <br></p>
+<p>Destination SQL Server instance where audit objects will be created. Requires sysadmin access to create audits and potentially create audit file directories.<br />
+Must be SQL Server 2008 or higher since server audits were introduced in SQL Server 2008. <br></p>
 <table>
 <thead>
 <tr>
@@ -584,7 +585,8 @@ on sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+<p>Login credentials for the source SQL Server instance. Use this when the current Windows user doesn't have sysadmin access to read audit objects.<br />
+Must have sysadmin privileges since audit configurations require elevated permissions to access.<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
@@ -614,7 +616,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+<p>Login credentials for the destination SQL Server instance. Use this when the current Windows user doesn't have sysadmin access to create audit objects.<br />
+Must have sysadmin privileges since creating audits and directories requires elevated permissions.<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
@@ -644,7 +647,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="audit">-Audit</h5>
-<p>The audit(s) to process. Options for this list are auto-populated from the server. If unspecified, all audits will be processed.<br></p>
+<p>Specifies which server audits to copy by name. Use this when you only need to migrate specific audits rather than all audits on the server.<br />
+Supports tab completion with audit names from the source server. If not specified, all audits will be copied.<br></p>
 <table>
 <thead>
 <tr>
@@ -672,7 +676,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludeaudit">-ExcludeAudit</h5>
-<p>The audit(s) to exclude. Options for this list are auto-populated from the server.<br></p>
+<p>Specifies server audits to skip during the copy operation. Use this when you want to copy most audits but exclude specific ones that shouldn't be migrated.<br />
+Supports tab completion with audit names from the source server. Cannot be used with the -Audit parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -700,7 +705,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Destination file path. If not specified, the file path of the source will be used (or the default data directory).<br></p>
+<p>Specifies the directory path where audit files will be created on the destination server. Use this when the original audit file path from the source doesn't exist on the destination.<br />
+If not specified, the function attempts to use the source audit's original file path, or falls back to the default data directory if the path doesn't exist.<br></p>
 <table>
 <thead>
 <tr>
@@ -728,7 +734,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="force">-Force</h5>
-<p>If this switch is enabled, the audits will be dropped and recreated on Destination.<br></p>
+<p>Drops and recreates audits that already exist on the destination server. Also creates missing audit file directories if they don't exist.<br />
+Without this switch, existing audits are skipped and missing directories cause the operation to fail.<br></p>
 <table>
 <thead>
 <tr>

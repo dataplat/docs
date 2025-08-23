@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaPowerPlan">Get-DbaPowerPlan</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Gets the Power Plan settings for compliance with best practices, which recommend High Performance for SQL Server.</p>
+<p>Retrieves Windows Power Plan configuration from SQL Server hosts to verify High Performance settings.</p>
 <h2 id="description">Description</h2>
-<p>Gets the Power Plan settings on a computer against best practices recommendations.<br />
-To display all available Power Plans on a computer, use the parameter List.</p>
+<p>Checks the active Windows Power Plan configuration on SQL Server host computers to ensure they follow performance best practices. SQL Server performance can be significantly impacted by power management settings that throttle CPU frequency or put processors to sleep during idle periods.</p>
+<p>By default, returns the currently active power plan for each specified computer. Use the -List parameter to view all available power plans and their status. Microsoft recommends using the &quot;High Performance&quot; power plan for SQL Server hosts to prevent CPU throttling and ensure consistent database performance.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaPowerPlan
     [-ComputerName] &lt;DbaInstanceParameter[]&gt;
@@ -515,7 +515,8 @@ To display all available Power Plans on a computer, use the parameter List.</p>
 <p>Gets all available Power Plans on sql2017<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The server(s) to check Power Plan settings on. <br></p>
+<p>Specifies the SQL Server host computer(s) to check for Windows Power Plan configuration. Accepts multiple server names for bulk power plan auditing.<br />
+Use this to verify that your SQL Server hosts are configured with the recommended &quot;High Performance&quot; power plan instead of &quot;Balanced&quot; or &quot;Power Saver&quot; modes that can throttle CPU performance. <br></p>
 <table>
 <thead>
 <tr>
@@ -572,7 +573,8 @@ To display all available Power Plans on a computer, use the parameter List.</p>
 </tbody>
 </table>
 <h5 id="list">-List</h5>
-<p>Return all available Power Plans.<br></p>
+<p>Returns all available power plans on the target computers instead of just the currently active plan. Shows the status of each plan including which one is active.<br />
+Use this when you need to see all power plan options available on a server before making configuration changes or to audit power plan availability across your environment.<br></p>
 <table>
 <thead>
 <tr>

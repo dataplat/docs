@@ -535,7 +535,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Finds all commands searching the entire help for &quot;snapshot&quot;, rebuilding the index (good for developers)<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="pattern">-Pattern</h5>
-<p>Searches help for all commands in dbatools for the specified pattern and displays all results<br></p>
+<p>Searches all help text properties (synopsis, description, examples, parameters) for the specified text pattern using wildcard matching.<br />
+Use this for broad searches when you know a concept or term but aren't sure which specific commands handle it.<br></p>
 <table>
 <thead>
 <tr>
@@ -563,7 +564,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="tag">-Tag</h5>
-<p>Finds all commands tagged with this auto-populated tag<br></p>
+<p>Filters results to show only commands that contain all specified tags. Tags categorize commands by SQL Server feature area like &quot;Backup&quot;, &quot;AG&quot;, &quot;Job&quot;, or &quot;Security&quot;.<br />
+Use this when you need to find commands related to specific SQL Server functionality. Multiple tags require commands to have ALL specified tags.<br></p>
 <table>
 <thead>
 <tr>
@@ -591,7 +593,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="author">-Author</h5>
-<p>Finds all commands tagged with this author<br></p>
+<p>Filters results to show commands created by authors whose name contains the specified text. Uses wildcard matching so partial names work.<br />
+Useful when you want to find commands written by a specific contributor or when following up on recommendations from particular experts.<br></p>
 <table>
 <thead>
 <tr>
@@ -619,7 +622,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="minimumversion">-MinimumVersion</h5>
-<p>Finds all commands tagged with this auto-populated minimum version<br></p>
+<p>Filters results to show only commands that require the specified minimum version of dbatools or higher.<br />
+Use this to ensure compatibility when working with older dbatools installations or when checking what features require recent updates.<br></p>
 <table>
 <thead>
 <tr>
@@ -647,7 +651,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="maximumversion">-MaximumVersion</h5>
-<p>Finds all commands tagged with this auto-populated maximum version<br></p>
+<p>Filters results to show only commands that work with the specified maximum version of dbatools or lower.<br />
+Helpful when working with legacy environments where you need to avoid commands that require newer dbatools versions.<br></p>
 <table>
 <thead>
 <tr>
@@ -675,7 +680,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </tbody>
 </table>
 <h5 id="rebuild">-Rebuild</h5>
-<p>Rebuilds the index<br></p>
+<p>Forces a complete rebuild of the dbatools command index from the current module state. This rescans all help text and updates the cached index file.<br />
+Use this when developing new commands, after updating dbatools, or when search results seem outdated or incomplete.<br></p>
 <table>
 <thead>
 <tr>

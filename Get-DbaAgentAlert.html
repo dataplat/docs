@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Get-DbaAgentAlert">Get-DbaAgentAlert</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Returns SQL Agent alerts on a SQL Server Agent.</p>
+<p>Retrieves SQL Server Agent alert configurations from one or more instances</p>
 <h2 id="description">Description</h2>
-<p>This function returns SQL Agent alerts.</p>
+<p>Retrieves alert configurations from SQL Server Agent, including alert names, types, severity levels, message IDs, and notification settings. Use this to audit alert configurations across multiple servers, troubleshoot missing or misconfigured alerts, or gather information for compliance reporting. The function returns detailed alert properties like enabled status, last occurrence dates, and response delays, making it essential for monitoring your alerting infrastructure and ensuring critical system events are properly configured for notification.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaAgentAlert
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -574,7 +574,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="alert">-Alert</h5>
-<p>The name of the alerts to return. If null, will get all alerts from the server. Note - this parameter accepts wildcards.<br></p>
+<p>Specifies the specific SQL Agent alert names to retrieve from the target instances. Accepts wildcards for pattern matching.<br />
+Use this when you need to check specific alerts like 'Severity 016*' or 'DB Mail*' instead of retrieving all alerts on the server.<br></p>
 <table>
 <thead>
 <tr>
@@ -602,7 +603,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludealert">-ExcludeAlert</h5>
-<p>The name of the alerts to exclude. If not provided, no alerts will be excluded. Note - this parameter accepts wildcards.<br></p>
+<p>Specifies SQL Agent alert names to exclude from the results. Accepts wildcards for pattern matching.<br />
+Use this to filter out unwanted alerts when auditing or when you need to focus on specific alert categories without built-in system alerts.<br></p>
 <table>
 <thead>
 <tr>

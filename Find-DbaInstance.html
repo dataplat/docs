@@ -485,30 +485,26 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Find-DbaInstance">Find-DbaInstance</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Search for SQL Server Instances.</p>
+<p>Discovers SQL Server instances across networks using multiple scanning methods</p>
 <h2 id="description">Description</h2>
-<p>This function searches for SQL Server Instances.</p>
-<p>It supports a variety of scans for this purpose which can be separated in two categories:</p>
+<p>This function performs comprehensive SQL Server instance discovery across your network infrastructure using multiple detection methods. Perfect for creating complete SQL Server inventories, compliance auditing, and finding forgotten or undocumented instances that might pose security risks.</p>
+<p>The function combines two distinct phases to systematically locate SQL Server instances:</p>
+<p>Discovery Phase:<br />
+Compiles target lists using several methods: Active Directory SPN lookups (finds registered SQL services), SQL Instance Enumeration (same method SSMS uses for browsing), IP address range scanning (scans entire subnets), and Domain Server searches (targets all Windows servers in AD).<br />
+You can specify explicit computer lists via -ComputerName or use automated discovery via -DiscoveryType.</p>
+<p>Scan Phase:<br />
+Tests each discovered target using multiple verification methods: Browser service queries, WMI/CIM SQL service enumeration, TCP port connectivity testing (default 1433), DNS resolution checks, ping tests, and optional SQL connection attempts.<br />
+Results include confidence levels (High/Medium/Low) based on scan success combinations.</p>
+<p>Common DBA scenarios:</p>
 <ul>
-<li>Discovery</li>
-<li>Scan</li>
+<li>Audit all SQL instances before migrations or compliance reviews</li>
+<li>Discover shadow IT databases that bypass standard deployment processes</li>
+<li>Inventory instances across acquired companies or merged networks</li>
+<li>Validate disaster recovery documentation against actual running instances</li>
+<li>Identify instances running on non-standard ports or with unusual configurations</li>
 </ul>
-<p>Discovery:<br />
-This is where it compiles a list of computers / addresses to check.<br />
-It supports several methods of generating such lists (including Active Directory lookup or IP Ranges), but also supports specifying a list of computers to check.</p>
-<ul>
-<li>For details on discovery, see the documentation on the '-DiscoveryType' parameter</li>
-<li>For details on explicitly providing a list, see the documentation on the '-ComputerName' parameter</li>
-</ul>
-<p>Scan:<br />
-Once a list of computers has been provided, this command will execute a variety of actions to determine any instances present for each of them.<br />
-This is described in more detail in the documentation on the '-ScanType' parameter.<br />
-Additional parameters allow more granular control over individual scans (e.g. Credentials to use).</p>
-<p>Note on logging and auditing:<br />
-The Discovery phase is un-problematic since it is non-intrusive, however during the scan phase, all targeted computers may be accessed repeatedly.<br />
-This may cause issues with security teams, due to many logon events and possibly failed authentication.<br />
-This action constitutes a network scan, which may be illegal depending on the nation you are in and whether you own the network you scan.<br />
-If you are unsure whether you may use this command in your environment, check the detailed description on the '-ScanType' parameter and contact your IT security team for advice.</p>
+<p>Security considerations:<br />
+The Discovery phase is non-intrusive, but the Scan phase generates network traffic and authentication attempts across your infrastructure. This creates audit logs and may trigger security monitoring systems. Some scan types require elevated privileges for WMI access or SQL connections. Always coordinate with your security team before running network-wide scans, especially in regulated environments.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Find-DbaInstance
     [-Credential &lt;PSCredential&gt;]
@@ -598,8 +594,9 @@ PS C:\&gt; $results | Format-Table -Wrap
 Using this method regularly is not recommended. Use Get-DbaService or Get-DbaRegServer instead.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
-<p>The computer to scan. Can be a variety of input types, including text or the output of Get-ADComputer.<br />
-Any extra instance information (such as connection strings or live sql server connections) beyond the computername will be discarded. <br></p>
+<p>Specifies target computers to scan for SQL Server instances. Accepts computer names, IP addresses, or output from Get-ADComputer.<br />
+Use this when you have a specific list of servers to inventory rather than performing network-wide discovery.<br />
+Only the computer name portion is used - connection strings or SQL instance details are ignored. <br></p>
 <table>
 <thead>
 <tr>
@@ -627,40 +624,31 @@ Any extra instance information (such as connection strings or live sql server co
 </tbody>
 </table>
 <h5 id="discoverytype">-DiscoveryType</h5>
-<p>The mechanisms to be used to discover instances.<br />
-Supports any combination of:</p>
+<h2 id="specifies-which-automatic-discovery-methods-to-use-for-finding-sql-server-targets-across-your-network.choose-discovery-methods-based-on-your-environment-domainspn-for-registered-services-datasourceenumeration-for-broadcasting-instances-iprange-for-subnet-scanning-or-domainserver-for-all-windows-servers.combine-multiple-types-for-comprehensive-coverage-but-be-aware-that-iprange-scanning-can-be-time-intensive-on-large-networks">Specifies which automatic discovery methods to use for finding SQL Server targets across your network.
+Choose discovery methods based on your environment: DomainSPN for registered services, DataSourceEnumeration for broadcasting instances, IPRange for subnet scanning, or DomainServer for all Windows
+servers.
+Combine multiple types for comprehensive coverage, but be aware that IPRange scanning can be time-intensive on large networks.</h2>
 <ul>
-<li>Service Principal Name lookup ('DomainSPN'; from Active Directory)</li>
-<li>SQL Instance Enumeration ('DataSourceEnumeration'; same as SSMS uses)</li>
-<li>IP Address range ('IPRange'; all IP Addresses will be scanned)</li>
-<li>Domain Server lookup ('DomainServer'; from Active Directory)</li>
-</ul>
-<hr />
-<ul>
-<li><p>SPN Lookup</p>
-<p>The function tries to connect active directory to look up all computers with registered SQL Instances.<br />
+<li>SPN Lookup<br />
+The function tries to connect active directory to look up all computers with registered SQL Instances.<br />
 Not all instances need to be registered properly, making this not 100% reliable.<br />
 By default, your nearest Domain Controller is contacted for this scan.<br />
 However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.<br />
-If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.</p>
-</li>
-<li><p>SQL Instance Enumeration</p>
-<p>This uses the default UDP Broadcast based instance enumeration used by SSMS to detect instances.<br />
+If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains.</li>
+<li>SQL Instance Enumeration<br />
+This uses the default UDP Broadcast based instance enumeration used by SSMS to detect instances.<br />
 Note that the result from this is not used in the actual scan, but only to compile a list of computers to scan.<br />
-To enable the same results for the scan, ensure that the 'Browser' scan is enabled.</p>
-</li>
-<li><p>IP Address range:</p>
-<p>This 'Discovery' uses a range of IPAddresses and simply passes them on to be tested.<br />
+To enable the same results for the scan, ensure that the 'Browser' scan is enabled.</li>
+<li>IP Address range:<br />
+This 'Discovery' uses a range of IPAddresses and simply passes them on to be tested.<br />
 See the 'Description' part of help on security issues of network scanning.<br />
 By default, it will enumerate all ethernet network adapters on the local computer and scan the entire subnet they are on.<br />
-By using the '-IpAddress' parameter, custom network ranges can be specified.</p>
-</li>
-<li><p>Domain Server:</p>
-<p>This will discover every single computer in Active Directory that is a Windows Server and enabled.<br />
+By using the '-IpAddress' parameter, custom network ranges can be specified.</li>
+<li>Domain Server:<br />
+This will discover every single computer in Active Directory that is a Windows Server and enabled.<br />
 By default, your nearest Domain Controller is contacted for this scan.<br />
 However it is possible to explicitly state the DC to contact using its DistinguishedName and the '-DomainController' parameter.<br />
-If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains. <br></p>
-</li>
+If credentials were specified using the '-Credential' parameter, those same credentials are used to perform this lookup, allowing the scan of other domains. <br></li>
 </ul>
 <table>
 <thead>
@@ -752,9 +740,9 @@ See the '-ScanType' parameter documentation on affected scans.<br></p>
 </tbody>
 </table>
 <h5 id="scantype">-ScanType</h5>
-<p>The scans are the individual methods used to retrieve information about the scanned computer and any potentially installed instances.<br />
-This parameter is optional, by default all scans except for establishing an actual SQL connection are performed.<br />
-Scans can be specified in any arbitrary combination, however at least one instance detecting scan needs to be specified in order for data to be returned.<br />
+<p>Controls which verification methods are used to detect and validate SQL Server instances on target computers.<br />
+Use specific scan types to optimize performance or reduce network impact - for example, use only Browser and SQLService for quick detection, or add SqlConnect for definitive verification.<br />
+Default performs all scans except SqlConnect, which requires explicit specification due to authentication overhead.<br />
 Scans:</p>
 <ul>
 <li>Browser
@@ -844,15 +832,9 @@ Scans:</p>
 </tbody>
 </table>
 <h5 id="ipaddress">-IpAddress</h5>
-<p>This parameter can be used to override the defaults for the IPRange discovery.<br />
-This parameter accepts a list of strings supporting any combination of:</p>
-<ul>
-<li>Plain IP Addresses (e.g.: &quot;10.1.1.1&quot;)</li>
-<li>IP Address Ranges (e.g.: &quot;10.1.1.1-10.1.1.5&quot;)</li>
-<li>IP Address &amp; Subnet Mask (e.g.: &quot;10.1.1.1/255.255.255.0&quot;)</li>
-<li>IP Address &amp; Subnet Length: (e.g.: &quot;10.1.1.1/24)<br />
-Overlapping addresses will not result in duplicate scans.<br></li>
-</ul>
+<p>Defines custom IP ranges to scan when using IPRange discovery instead of auto-detecting local subnets.<br />
+Use this to target specific network segments like DMZ subnets or remote locations where SQL instances might exist.<br />
+Supports multiple formats: single IPs (10.1.1.1), ranges (10.1.1.1-10.1.1.5), CIDR notation (10.1.1.1/24), or subnet masks (10.1.1.1/255.255.255.0).<br></p>
 <table>
 <thead>
 <tr>
@@ -880,8 +862,9 @@ Overlapping addresses will not result in duplicate scans.<br></li>
 </tbody>
 </table>
 <h5 id="domaincontroller">-DomainController</h5>
-<p>The domain controller to contact for SPN lookups / searches.<br />
-Uses the credentials from the '-Credential' parameter if specified.<br></p>
+<p>Specifies a specific domain controller for Active Directory queries when using DomainSPN or DomainServer discovery.<br />
+Use this when you need to target a specific DC for cross-domain searches or when the nearest DC is unavailable.<br />
+Requires the '-Credential' parameter when querying remote domains or when explicit authentication is needed.<br></p>
 <table>
 <thead>
 <tr>
@@ -909,8 +892,9 @@ Uses the credentials from the '-Credential' parameter if specified.<br></p>
 </tbody>
 </table>
 <h5 id="tcpport">-TCPPort</h5>
-<p>The ports to scan in the TCP Port Scan method.<br />
-Defaults to 1433.<br></p>
+<p>Specifies which TCP ports to test for SQL Server connectivity during port scanning.<br />
+Use this to detect instances running on non-standard ports or to scan multiple common SQL Server ports like 1433, 1434, and custom ports.<br />
+Defaults to 1433 (SQL Server default port).<br></p>
 <table>
 <thead>
 <tr>
@@ -938,16 +922,9 @@ Defaults to 1433.<br></p>
 </tbody>
 </table>
 <h5 id="minimumconfidence">-MinimumConfidence</h5>
-<p>This command tries to discover instances, which isn't always a sure thing.<br />
-Depending on the number and type of scans completed, we have different levels of confidence in our results.<br />
-By default, we will return anything that we have at least a low confidence of being an instance.<br />
-These are the confidence levels we support and how they are determined:</p>
-<ul>
-<li>High: Established SQL Connection (including rejection for bad credentials) or service scan.</li>
-<li>Medium: Browser reply or a combination of TCPConnect <em>and</em> SPN test.</li>
-<li>Low: Either TCPConnect <em>or</em> SPN</li>
-<li>None: Computer existence could be verified, but no sign of an SQL Instance<br></li>
-</ul>
+<p>Filters results based on how certain the scan is that a SQL Server instance exists on each target.<br />
+Use High for definitive results when you need accurate inventories, Medium for likely instances, or Low for comprehensive discovery that includes potential false positives.<br />
+High confidence requires successful SQL service detection or connection, Medium requires browser response or combined port+SPN validation, Low accepts single indicators like open ports or SPN records.<br></p>
 <table>
 <thead>
 <tr>

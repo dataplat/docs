@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaDbRole">Export-DbaDbRole</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Exports database roles to a T-SQL file. Export includes Role creation, object permissions and Schema ownership.</p>
+<p>Generates T-SQL scripts for database role definitions with their complete permission sets and schema ownership</p>
 <h2 id="description">Description</h2>
-<p>Exports database roles to a T-SQL file. Export includes Role creation, object permissions and Schema ownership.</p>
+<p>Creates executable T-SQL scripts that fully define database roles including CREATE ROLE statements, granular object permissions, and schema ownership assignments. The output captures every permission granted to custom roles across all database securables like tables, schemas, assemblies, and certificates so you can recreate identical security configurations in other environments. This is particularly useful for migrating role-based security between development, test, and production databases, or documenting security configurations for compliance audits.</p>
 <p>This command is based off of John Eisbrener's post &quot;Fully Script out a MSSQL Database Role&quot;<br />
 Reference:  <a href="https://dbaeyes.wordpress.com/2013/04/19/fully-script-out-a-mssql-database-role/">https://dbaeyes.wordpress.com/2013/04/19/fully-script-out-a-mssql-database-role/</a></p>
 <h2 id="syntax">Syntax</h2>
@@ -615,7 +615,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Enables piping from Get-DbaDatabase and Get-DbaLogin.<br></p>
+<p>Accepts database role objects from Get-DbaDbRole, database objects from Get-DbaDatabase, or server instances.<br />
+Use this when you need to export roles from a filtered set of databases or specific role objects.<br></p>
 <table>
 <thead>
 <tr>
@@ -643,7 +644,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="scriptingoptionsobject">-ScriptingOptionsObject</h5>
-<p>An SMO Scripting Object that can be used to customize the output - see New-DbaScriptingOption<br></p>
+<p>Controls T-SQL script generation options using an SMO ScriptingOptions object from New-DbaScriptingOption.<br />
+Customize output format, object naming, and scripting behavior to match your deployment requirements.<br></p>
 <table>
 <thead>
 <tr>
@@ -671,7 +673,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>The database(s) to process. Options for this list are auto-populated from the server. If unspecified, all databases will be processed.<br></p>
+<p>Specifies which databases to export role definitions from. Accepts wildcards for pattern matching.<br />
+Use this when you need role scripts for specific databases rather than processing all databases on the instance.<br></p>
 <table>
 <thead>
 <tr>
@@ -699,7 +702,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="role">-Role</h5>
-<p>The Role(s) to process. If unspecified, all Roles will be processed.<br></p>
+<p>Specifies which database roles to export. Accepts wildcards and multiple role names.<br />
+Use this when you need scripts for specific custom roles rather than all roles in the database.<br></p>
 <table>
 <thead>
 <tr>
@@ -727,7 +731,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excluderole">-ExcludeRole</h5>
-<p>The Role(s) to exclude.<br></p>
+<p>Excludes specific database roles from the export operation. Accepts wildcards and multiple role names.<br />
+Useful when you want most roles except certain application-specific or sensitive roles.<br></p>
 <table>
 <thead>
 <tr>
@@ -755,7 +760,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="excludefixedrole">-ExcludeFixedRole</h5>
-<p>Excludes all members of fixed roles.<br></p>
+<p>Excludes built-in SQL Server fixed database roles like db_datareader, db_datawriter, and db_owner.<br />
+Use this when you only want to export custom application roles and not the standard SQL Server roles.<br></p>
 <table>
 <thead>
 <tr>
@@ -783,7 +789,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="includerolemember">-IncludeRoleMember</h5>
-<p>Include scripting of role members in script<br></p>
+<p>Includes ALTER ROLE statements to add existing members back to the roles.<br />
+Use this when you need to recreate both the role definitions and their current membership assignments.<br></p>
 <table>
 <thead>
 <tr>
@@ -811,8 +818,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the directory where the file or files will be exported.<br />
-Will default to Path.DbatoolsExport Configuration entry<br></p>
+<p>Specifies the output directory for generated SQL script files. Defaults to the configured DbatoolsExport path.<br />
+Each database gets its own script file named with the instance and database name for organization.<br></p>
 <table>
 <thead>
 <tr>
@@ -840,8 +847,8 @@ Will default to Path.DbatoolsExport Configuration entry<br></p>
 </tbody>
 </table>
 <h5 id="filepath">-FilePath</h5>
-<p>Specifies the full file path of the output file. If left blank then filename based on Instance name, Database name and date is created.<br />
-If more than one database or instance is input then this parameter should normally be blank.<br></p>
+<p>Specifies the exact file path for the output script. Auto-generates filename based on instance and database if not provided.<br />
+Only use this when processing a single database, as multiple databases would overwrite the same file.<br></p>
 <table>
 <thead>
 <tr>
@@ -869,7 +876,8 @@ If more than one database or instance is input then this parameter should normal
 </tbody>
 </table>
 <h5 id="passthru">-Passthru</h5>
-<p>Output script to console only<br></p>
+<p>Outputs the T-SQL script to the console instead of writing to files.<br />
+Use this to review the generated scripts before saving them or to pipe output to other commands.<br></p>
 <table>
 <thead>
 <tr>
@@ -897,7 +905,8 @@ If more than one database or instance is input then this parameter should normal
 </tbody>
 </table>
 <h5 id="batchseparator">-BatchSeparator</h5>
-<p>Batch separator for scripting output. Uses the value from configuration Formatting.BatchSeparator by default. This is normally &quot;GO&quot;<br></p>
+<p>Sets the batch separator between T-SQL statements in the output script. Defaults to &quot;GO&quot; from configuration.<br />
+Change this when deploying to tools that require different batch separators or set to null to remove separators entirely.<br></p>
 <table>
 <thead>
 <tr>
@@ -925,7 +934,8 @@ If more than one database or instance is input then this parameter should normal
 </tbody>
 </table>
 <h5 id="noclobber">-NoClobber</h5>
-<p>If this switch is enabled, a file already existing at the path specified by Path will not be overwritten. This takes precedence over Append switch<br></p>
+<p>Prevents overwriting existing files at the target location. The operation will fail if files already exist.<br />
+Use this as a safety measure when you want to avoid accidentally replacing existing role scripts.<br></p>
 <table>
 <thead>
 <tr>
@@ -953,7 +963,8 @@ If more than one database or instance is input then this parameter should normal
 </tbody>
 </table>
 <h5 id="append">-Append</h5>
-<p>If this switch is enabled, content will be appended to a file already existing at the path specified by FilePath. If the file does not exist, it will be created.<br></p>
+<p>Adds the generated T-SQL scripts to the end of existing files rather than overwriting them.<br />
+Use this to combine role scripts from multiple operations into a single deployment file.<br></p>
 <table>
 <thead>
 <tr>
@@ -981,7 +992,8 @@ If more than one database or instance is input then this parameter should normal
 </tbody>
 </table>
 <h5 id="noprefix">-NoPrefix</h5>
-<p>Do not include a Prefix<br></p>
+<p>Removes the header comment block that includes creation timestamp, user, and source information.<br />
+Use this when you need clean T-SQL scripts without metadata comments for automated deployments.<br></p>
 <table>
 <thead>
 <tr>
@@ -1009,16 +1021,8 @@ If more than one database or instance is input then this parameter should normal
 </tbody>
 </table>
 <h5 id="encoding">-Encoding</h5>
-<p>Specifies the file encoding. The default is UTF8.<br />
-Valid values are:<br />
--- ASCII: Uses the encoding for the ASCII (7-bit) character set.<br />
--- BigEndianUnicode: Encodes in UTF-16 format using the big-endian byte order.<br />
--- Byte: Encodes a set of characters into a sequence of bytes.<br />
--- String: Uses the encoding type for a string.<br />
--- Unicode: Encodes in UTF-16 format using the little-endian byte order.<br />
--- UTF7: Encodes in UTF-7 format.<br />
--- UTF8: Encodes in UTF-8 format.<br />
--- Unknown: The encoding type is unknown or invalid. The data can be treated as binary.<br></p>
+<p>Sets the character encoding for output files. Defaults to UTF8 for broad compatibility.<br />
+Change to Unicode when working with international character sets in role names or comments.<br></p>
 <table>
 <thead>
 <tr>
