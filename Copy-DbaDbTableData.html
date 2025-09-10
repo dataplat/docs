@@ -581,8 +581,9 @@ PS C:\&gt; Copy-DbaDbTableData @params
 <p>Copies data returned from the query on server1 into the AdventureWorks2017 on server1, using a 3-part name for the DestinationTable parameter. Copy is processed in BatchSize of 10000 rows.<br>
 See the Query param documentation for more details.<br></p>
 <h5 id="example-8">Example:  8</h5>
-<p>PS &gt; Copy-DbaDbTableData -SqlInstance sql1 -Database tempdb -View [tempdb].[dbo].[vw1] -DestinationTable [SampleDb].[SampleSchema].[SampleTable] -AutoCreateTable<br>
-Copies all data from [tempdb].[dbo].[vw1] (3-part name) view on instance sql1 to an auto-created table [SampleDb].[SampleSchema].[SampleTable] on instance sql1<br></p>
+<pre><code>PS C:\&gt; Copy-DbaDbTableData -SqlInstance sql1 -Database tempdb -View [tempdb].[dbo].[vw1] -DestinationTable [SampleDb].[SampleSchema].[SampleTable] -AutoCreateTable
+</code></pre>
+<p>Copies all data from [tempdb].[dbo].[vw1] (3-part name) view on instance sql1 to an auto-created table [SampleDb].[SampleSchema].[SampleTable] on instance sql1<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>Source SQL Server.You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>

@@ -513,8 +513,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<p>PS &gt; Invoke-DbaDbDataGenerator -SqlInstance sqldb2 -Database DB1 -FilePath C:\temp\sqldb1.db1.tables.json<br>
-Apply the data generation configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2. Prompt for confirmation for each table.<br></p>
+<pre><code>PS C:\&gt; Invoke-DbaDbDataGenerator -SqlInstance sqldb2 -Database DB1 -FilePath C:\temp\sqldb1.db1.tables.json
+</code></pre>
+<p>Apply the data generation configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2. Prompt for confirmation for each table.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="filepath">-FilePath</h5>
 <p>Path to the JSON configuration file that defines data generation rules for tables and columns. Accepts local file paths or HTTP URLs.<br />

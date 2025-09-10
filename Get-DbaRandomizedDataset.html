@@ -503,20 +503,25 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<p>PS &gt; Get-DbaRandomizedDataset -Template Personaldata<br>
-Generate a data set based on the default template PersonalData.<br></p>
+<pre><code>PS C:\&gt; Get-DbaRandomizedDataset -Template Personaldata
+</code></pre>
+<p>Generate a data set based on the default template PersonalData.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<p>PS &gt; Get-DbaRandomizedDataset -Template Personaldata -Rows 10<br>
-Generate a data set based on the default template PersonalData with 10 rows<br></p>
+<pre><code>PS C:\&gt; Get-DbaRandomizedDataset -Template Personaldata -Rows 10
+</code></pre>
+<p>Generate a data set based on the default template PersonalData with 10 rows<br></p>
 <h5 id="example-3">Example:  3</h5>
-<p>PS &gt; Get-DbaRandomizedDataset -TemplateFile C:\Dataset\FinancialData.json<br>
-Generates data set based on a template file in another directory<br></p>
+<pre><code>PS C:\&gt; Get-DbaRandomizedDataset -TemplateFile C:\Dataset\FinancialData.json
+</code></pre>
+<p>Generates data set based on a template file in another directory<br></p>
 <h5 id="example-4">Example:  4</h5>
-<p>PS &gt; Get-DbaRandomizedDataset -Template Personaldata, FinancialData<br>
-Generates multiple data sets<br></p>
+<pre><code>PS C:\&gt; Get-DbaRandomizedDataset -Template Personaldata, FinancialData
+</code></pre>
+<p>Generates multiple data sets<br></p>
 <h5 id="example-5">Example:  5</h5>
-<p>PS &gt; Get-DbaRandomizedDatasetTemplate -Template PersonalData | Get-DbaRandomizedDataset<br>
-Pipe the templates from Get-DbaRandomizedDatasetTemplate to Get-DbaRandomizedDataset and generate the data set<br></p>
+<pre><code>PS C:\&gt; Get-DbaRandomizedDatasetTemplate -Template PersonalData | Get-DbaRandomizedDataset
+</code></pre>
+<p>Pipe the templates from Get-DbaRandomizedDatasetTemplate to Get-DbaRandomizedDataset and generate the data set<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="template">-Template</h5>
 <p>Specifies the name of one or more built-in templates to use for data generation.<br />

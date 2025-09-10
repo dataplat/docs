@@ -509,20 +509,25 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<p>PS &gt; Install-DbaSqlWatch -SqlInstance server1<br>
-Logs into server1 with Windows authentication and then installs SqlWatch in the SQLWATCH database.<br></p>
+<pre><code>PS C:\&gt; Install-DbaSqlWatch -SqlInstance server1
+</code></pre>
+<p>Logs into server1 with Windows authentication and then installs SqlWatch in the SQLWATCH database.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<p>PS &gt; Install-DbaSqlWatch -SqlInstance server1\instance1 -Database DBA<br>
-Logs into server1\instance1 with Windows authentication and then installs SqlWatch in the DBA database.<br></p>
+<pre><code>PS C:\&gt; Install-DbaSqlWatch -SqlInstance server1\instance1 -Database DBA
+</code></pre>
+<p>Logs into server1\instance1 with Windows authentication and then installs SqlWatch in the DBA database.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<p>PS &gt; Install-DbaSqlWatch -SqlInstance server1\instance1 -Database DBA -SqlCredential $cred<br>
-Logs into server1\instance1 with SQL authentication and then installs SqlWatch in the DBA database.<br></p>
+<pre><code>PS C:\&gt; Install-DbaSqlWatch -SqlInstance server1\instance1 -Database DBA -SqlCredential $cred
+</code></pre>
+<p>Logs into server1\instance1 with SQL authentication and then installs SqlWatch in the DBA database.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<p>PS &gt; Install-DbaSqlWatch -SqlInstance sql2016\standardrtm, sql2016\sqlexpress, sql2014<br>
-Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs SqlWatch in the SQLWATCH database.<br></p>
+<pre><code>PS C:\&gt; Install-DbaSqlWatch -SqlInstance sql2016\standardrtm, sql2016\sqlexpress, sql2014
+</code></pre>
+<p>Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs SqlWatch in the SQLWATCH database.<br></p>
 <h5 id="example-5">Example:  5</h5>
-<p>PS &gt; $servers = &quot;sql2016\standardrtm&quot;, &quot;sql2016\sqlexpress&quot;, &quot;sql2014&quot;<br>
-$servers | Install-DbaSqlWatch<br>
+<pre><code>PS C:\&gt; $servers = &quot;sql2016\standardrtm&quot;, &quot;sql2016\sqlexpress&quot;, &quot;sql2014&quot;
+</code></pre>
+<p>$servers | Install-DbaSqlWatch<br>
 Logs into sql2016\standardrtm, sql2016\sqlexpress and sql2014 with Windows authentication and then installs SqlWatch in the SQLWATCH database.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>

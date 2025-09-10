@@ -528,18 +528,22 @@ Xml</p>
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<p>PS &gt; Invoke-DbaDbDataMasking -SqlInstance SQLDB2 -Database DB1 -FilePath C:\Temp\sqldb1.db1.tables.json<br>
-Apply the data masking configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2. Prompt for confirmation for each table.<br></p>
+<pre><code>PS C:\&gt; Invoke-DbaDbDataMasking -SqlInstance SQLDB2 -Database DB1 -FilePath C:\Temp\sqldb1.db1.tables.json
+</code></pre>
+<p>Apply the data masking configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2. Prompt for confirmation for each table.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<p>PS &gt; Get-ChildItem -Path C:\Temp\sqldb1.db1.tables.json | Invoke-DbaDbDataMasking -SqlInstance SQLDB2 -Database DB1 -Confirm:$false<br>
-Apply the data masking configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2. Do not prompt for confirmation.<br></p>
+<pre><code>PS C:\&gt; Get-ChildItem -Path C:\Temp\sqldb1.db1.tables.json | Invoke-DbaDbDataMasking -SqlInstance SQLDB2 -Database DB1 -Confirm:$false
+</code></pre>
+<p>Apply the data masking configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2. Do not prompt for confirmation.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<p>PS &gt; New-DbaDbMaskingConfig -SqlInstance SQLDB1 -Database DB1 -Path C:\Temp\clone -OutVariable file<br>
-$file | Invoke-DbaDbDataMasking -SqlInstance SQLDB2 -Database DB1 -Confirm:$false<br>
+<pre><code>PS C:\&gt; New-DbaDbMaskingConfig -SqlInstance SQLDB1 -Database DB1 -Path C:\Temp\clone -OutVariable file
+</code></pre>
+<p>$file | Invoke-DbaDbDataMasking -SqlInstance SQLDB2 -Database DB1 -Confirm:$false<br>
 Create the data masking configuration file &quot;sqldb1.db1.tables.json&quot;, then use it to mask the db1 database on sqldb2. Do not prompt for confirmation.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<p>PS &gt; Get-ChildItem -Path C:\Temp\sqldb1.db1.tables.json | Invoke-DbaDbDataMasking -SqlInstance SQLDB2, sqldb3 -Database DB1 -Confirm:$false<br>
-See what would happen if you the data masking configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2 and sqldb3. Do not prompt for confirmation.<br></p>
+<pre><code>PS C:\&gt; Get-ChildItem -Path C:\Temp\sqldb1.db1.tables.json | Invoke-DbaDbDataMasking -SqlInstance SQLDB2, sqldb3 -Database DB1 -Confirm:$false
+</code></pre>
+<p>See what would happen if you the data masking configuration from the file &quot;sqldb1.db1.tables.json&quot; to the db1 database on sqldb2 and sqldb3. Do not prompt for confirmation.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="filepath">-FilePath</h5>
 <p>Path to the JSON configuration file that defines masking rules for tables and columns. Accepts pipeline input from New-DbaDbMaskingConfig.<br />

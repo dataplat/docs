@@ -550,25 +550,24 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; $jobStep = @{
 </code></pre>
-<pre><code>    SqlInstance        = sqldev01&lt;br&gt;
-    Job                = dbatools1&lt;br&gt;
-    StepName           = &quot;Step 2&quot;&lt;br&gt;
-    Subsystem          = &quot;CmdExec&quot;&lt;br&gt;
-    Command            = &quot;enter command text here&quot;&lt;br&gt;
-    CmdExecSuccessCode = 0&lt;br&gt;
-    OnSuccessAction    = &quot;GoToStep&quot;&lt;br&gt;
-    OnSuccessStepId    = 1&lt;br&gt;
-    OnFailAction       = &quot;GoToStep&quot;&lt;br&gt;
-    OnFailStepId       = 1&lt;br&gt;
-    Database           = TestDB&lt;br&gt;
-    RetryAttempts      = 2&lt;br&gt;
-    RetryInterval      = 5&lt;br&gt;
-    OutputFileName     = &quot;logCmdExec.txt&quot;&lt;br&gt;
-    Flag               = [Microsoft.SqlServer.Management.Smo.Agent.JobStepFlags]::AppendAllCmdExecOutputToJobHistory&lt;br&gt;
-    ProxyName          = &quot;dbatoolsci_proxy_1&quot;&lt;br&gt;
-    Force              = $true&lt;br&gt;
-}&lt;br&gt;
-</code></pre>
+<p>SqlInstance        = sqldev01<br>
+Job                = dbatools1<br>
+StepName           = &quot;Step 2&quot;<br>
+Subsystem          = &quot;CmdExec&quot;<br>
+Command            = &quot;enter command text here&quot;<br>
+CmdExecSuccessCode = 0<br>
+OnSuccessAction    = &quot;GoToStep&quot;<br>
+OnSuccessStepId    = 1<br>
+OnFailAction       = &quot;GoToStep&quot;<br>
+OnFailStepId       = 1<br>
+Database           = TestDB<br>
+RetryAttempts      = 2<br>
+RetryInterval      = 5<br>
+OutputFileName     = &quot;logCmdExec.txt&quot;<br>
+Flag               = [Microsoft.SqlServer.Management.Smo.Agent.JobStepFlags]::AppendAllCmdExecOutputToJobHistory<br>
+ProxyName          = &quot;dbatoolsci_proxy_1&quot;<br>
+Force              = $true<br>
+}<br></p>
 <pre><code>PS C:\&gt; $newJobStep = Set-DbaAgentJobStep @jobStep
 </code></pre>
 <p>Updates or creates a new job step named Step 2 in the dbatools1 job on the sqldev01 instance. The subsystem is set to CmdExec and uses a proxy.<br></p>

@@ -501,17 +501,21 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<p>PS &gt; Get-DbaRandomizedType<br>
-Get all the types and subtypes<br></p>
+<pre><code>PS C:\&gt; Get-DbaRandomizedType
+</code></pre>
+<p>Get all the types and subtypes<br></p>
 <h5 id="example-2">Example:  2</h5>
-<p>PS &gt; Get-DbaRandomizedType -Pattern &quot;Addr&quot;<br>
-Find all the types and sub types based on a pattern<br></p>
+<pre><code>PS C:\&gt; Get-DbaRandomizedType -Pattern &quot;Addr&quot;
+</code></pre>
+<p>Find all the types and sub types based on a pattern<br></p>
 <h5 id="example-3">Example:  3</h5>
-<p>PS &gt; Get-DbaRandomizedType -RandomizedType Person<br>
-Find all the sub types for Person<br></p>
+<pre><code>PS C:\&gt; Get-DbaRandomizedType -RandomizedType Person
+</code></pre>
+<p>Find all the sub types for Person<br></p>
 <h5 id="example-4">Example:  4</h5>
-<p>PS &gt; Get-DbaRandomizedType -RandomizedSubType LastName<br>
-Get all the types and subtypes that known by &quot;LastName&quot;<br></p>
+<pre><code>PS C:\&gt; Get-DbaRandomizedType -RandomizedSubType LastName
+</code></pre>
+<p>Get all the types and subtypes that known by &quot;LastName&quot;<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="randomizedtype">-RandomizedType</h5>
 <p>Filters results to specific main data categories for realistic test data generation.<br />

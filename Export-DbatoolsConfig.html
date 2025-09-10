@@ -524,8 +524,9 @@ Export-DbatoolsConfig -ModuleName &lt;String&gt;
 </code></pre>
 <p>Exports all current settings to json.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<p>PS &gt; Export-DbatoolsConfig -Module message -OutPath '~/export.json' -SkipUnchanged<br>
-Exports all settings of the module 'message' that are no longer the original default values to json.<br></p>
+<pre><code>PS C:\&gt; Export-DbatoolsConfig -Module message -OutPath '~/export.json' -SkipUnchanged
+</code></pre>
+<p>Exports all settings of the module 'message' that are no longer the original default values to json.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="fullname">-FullName</h5>
 <p>Specifies the complete configuration setting name to export, including the module prefix (e.g., 'dbatools.path.dbatoolsdata').<br />

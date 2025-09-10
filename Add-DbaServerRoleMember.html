@@ -532,8 +532,9 @@ PS C:\&gt; $roles | Add-DbaServerRoleMember -Login login1
 </code></pre>
 <p>Adds login1 on the server localhost to the bulkadmin and dbcreator fixed server-level roles.<br></p>
 <h5 id="example-7">Example:  7</h5>
-<p>PS &gt; PS C:\ $logins = Get-Content C:\logins.txt<br>
-PS C:\ $srvLogins = Get-DbaLogin -SqlInstance server1 -Login $logins<br>
+<pre><code>PS C:\&gt; PS C:\ $logins = Get-Content C:\logins.txt
+</code></pre>
+<p>PS C:\ $srvLogins = Get-DbaLogin -SqlInstance server1 -Login $logins<br>
 PS C:\ New-DbaServerRole -SqlInstance server1 -ServerRole mycustomrole -Owner sa | Add-DbaServerRoleMember -Login $logins<br>
 Adds all the logins found in C:\logins.txt to the newly created server-level role mycustomrole on server1.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>

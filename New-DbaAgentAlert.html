@@ -520,13 +520,12 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; $parms = @{
 </code></pre>
-<pre><code>    SqlInstance           = &quot;sql01&quot;&lt;br&gt;
-    Severity              = 18&lt;br&gt;
-    Alert                 = &quot;Severity 018 - Nonfatal Internal Error&quot;&lt;br&gt;
-    DelayBetweenResponses = 60&lt;br&gt;
-    NotifyMethod          = &quot;NotifyEmail&quot;&lt;br&gt;
-}&lt;br&gt;
-</code></pre>
+<p>SqlInstance           = &quot;sql01&quot;<br>
+Severity              = 18<br>
+Alert                 = &quot;Severity 018 - Nonfatal Internal Error&quot;<br>
+DelayBetweenResponses = 60<br>
+NotifyMethod          = &quot;NotifyEmail&quot;<br>
+}<br></p>
 <pre><code>PS C:\&gt; $alert = New-DbaAgentAlert @parms
 </code></pre>
 <p>Creates a new alert for severity 18 with the name Severity 018 - Nonfatal Internal Error.<br>
