@@ -501,6 +501,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-FrequencySubdayInterval] &lt;Int32&gt;]
     [[-FrequencyRelativeInterval] &lt;Object&gt;]
     [[-FrequencyRecurrenceFactor] &lt;Int32&gt;]
+    [[-FrequencyText] &lt;String&gt;]
     [[-StartDate] &lt;String&gt;]
     [[-EndDate] &lt;String&gt;]
     [[-StartTime] &lt;String&gt;]
@@ -532,6 +533,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; New-DbaAgentSchedule -SqlInstance sstad-pc -Schedule RunWeekly -FrequencyType Weekly -FrequencyInterval Sunday -StartTime 010000 -Force
 </code></pre>
 <p>Create a schedule that will run jobs once a week on Sunday @ 1:00AM<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; New-DbaAgentSchedule -SqlInstance sstad-pc -FrequencyText 'Every sunday at 02:00:00'
+</code></pre>
+<p>Create a schedule with the name &quot;Every sunday at 02:00:00&quot; that will run jobs once a week on Sunday @ 2:00AM<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater. <br></p>
@@ -888,6 +893,45 @@ FrequencyRecurrenceFactor is used only if FrequencyType is &quot;Weekly&quot;, &
 <tr>
 <td>Default Value</td>
 <td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="frequencytext">-FrequencyText</h5>
+<p>Describe common frequencies as a text. Sample text:<br />
+Every minute<br />
+Every 5 minutes<br />
+Every 10 minutes starting at 00:02:30<br />
+Every hour<br />
+Every 2 hours<br />
+Every 4 hours starting at 02:00:00<br />
+Every day at 05:00:00<br />
+Every sunday at 02:00:00<br />
+This is the used regex: every(\s+(?<interval>\d+))?\s+(?<unit>minute|hour|day|sunday|monday|tuesday|wednesday|thursday|friday|saturday)s?(\s+starting)?(\s+at\s+(?<start>\d\d:\d\d:\d\d))?<br />
+If parameter Schedule is not provided, the FrequencyText will be used as the name of the schedule.<br />
+Parameter Force will be set to $true.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

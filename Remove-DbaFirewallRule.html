@@ -617,8 +617,8 @@ Use this when you need to filter or review existing firewall rules before removi
 <h5 id="type">-Type</h5>
 <p>Specifies which types of SQL Server firewall rules to remove from the target computer.<br />
 Use this to control exactly which network access rules are cleaned up when decommissioning or reconfiguring SQL Server instances.<br />
-Engine removes rules for SQL Server database connections, Browser removes UDP port 1434 rules for SQL Server Browser service, DAC removes Dedicated Admin Connection rules, and AllInstance removes all<br />
-SQL Server-related rules. Defaults to Engine and DAC since Browser rules are often shared between multiple instances.<br></p>
+Engine removes rules for SQL Server database connections, Browser removes UDP port 1434 rules for SQL Server Browser service, DAC removes Dedicated Admin Connection rules, DatabaseMirroring removes<br />
+database mirroring or Availability Groups rules, and AllInstance removes all SQL Server-related rules. Defaults to Engine and DAC since Browser rules are often shared between multiple instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -645,7 +645,7 @@ SQL Server-related rules. Defaults to Engine and DAC since Browser rules are oft
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Engine,Browser,DAC,AllInstance</td>
+<td>Engine,Browser,DAC,DatabaseMirroring,AllInstance</td>
 </tr>
 </tbody>
 </table>
