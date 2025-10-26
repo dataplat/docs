@@ -256,6 +256,23 @@ function Split-ArrayInParts($array, [int]$parts) {
     $rtn
 }
 
+# Build Tailwind CSS before generating pages
+Write-Host "Building Tailwind CSS..." -ForegroundColor Cyan
+$repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
+Push-Location $repoRoot
+try {
+    if (Test-Path "node_modules") {
+        & npm run build:css
+        Write-Host "CSS build complete." -ForegroundColor Green
+    } else {
+        Write-Warning "Node modules not found. Run 'npm install' first. Skipping CSS build."
+    }
+} catch {
+    Write-Warning "Error building CSS: $_. Continuing anyway..."
+} finally {
+    Pop-Location
+}
+
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
 
 #get json index path
