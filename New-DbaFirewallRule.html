@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  New-DbaFirewallRule" />
-    
+
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/New-DbaFirewallRule.png">
     <meta name="twitter:card" content="summary_large_image">
-    
+
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  New-DbaFirewallRule">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-                
+
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -180,7 +180,7 @@
                 }
 
 
-                //not all code is a block 
+                //not all code is a block
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
@@ -393,7 +393,7 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
+            <img width="265" height="64" src="https://dbatools.io/images/dbatools-docs.png"
                 class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -499,42 +499,42 @@ All rules use the &quot;SQL Server&quot; group for easy management with Get-DbaF
 <p>As long as you can read this note here, there may be breaking changes in future versions.<br />
 So please review your scripts using this command after updating dbatools.</p>
 <p>The firewall rule for the instance itself will have the following configuration (parameters for New-NetFirewallRule):</p>
-<pre><code>DisplayName = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'  
-Name        = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'  
-Group       = 'SQL Server'  
-Enabled     = 'True'  
-Direction   = 'Inbound'  
-Protocol    = 'TCP'  
-LocalPort   = '&lt;Port&gt;' (for instances with static port)  
-Program     = '&lt;Path ending with MSSQL\Binn\sqlservr.exe&gt;' (for instances with dynamic port)  
+<pre><code>DisplayName = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'
+Name        = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'
+Group       = 'SQL Server'
+Enabled     = 'True'
+Direction   = 'Inbound'
+Protocol    = 'TCP'
+LocalPort   = '&lt;Port&gt;' (for instances with static port)
+Program     = '&lt;Path ending with MSSQL\Binn\sqlservr.exe&gt;' (for instances with dynamic port)
 </code></pre>
 <p>The firewall rule for the SQL Server Browser will have the following configuration (parameters for New-NetFirewallRule):</p>
-<pre><code>DisplayName = 'SQL Server Browser'  
-Name        = 'SQL Server Browser'  
-Group       = 'SQL Server'  
-Enabled     = 'True'  
-Direction   = 'Inbound'  
-Protocol    = 'UDP'  
-LocalPort   = '1434'  
+<pre><code>DisplayName = 'SQL Server Browser'
+Name        = 'SQL Server Browser'
+Group       = 'SQL Server'
+Enabled     = 'True'
+Direction   = 'Inbound'
+Protocol    = 'UDP'
+LocalPort   = '1434'
 </code></pre>
 <p>The firewall rule for the dedicated admin connection (DAC) will have the following configuration (parameters for New-NetFirewallRule):</p>
-<pre><code>DisplayName = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'  
-Name        = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'  
-Group       = 'SQL Server'  
-Enabled     = 'True'  
-Direction   = 'Inbound'  
-Protocol    = 'TCP'  
-LocalPort   = '&lt;Port&gt;' (typically 1434 for a default instance, but will be fetched from ERRORLOG)  
+<pre><code>DisplayName = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'
+Name        = 'SQL Server default instance (DAC)' or 'SQL Server instance &lt;InstanceName&gt; (DAC)'
+Group       = 'SQL Server'
+Enabled     = 'True'
+Direction   = 'Inbound'
+Protocol    = 'TCP'
+LocalPort   = '&lt;Port&gt;' (typically 1434 for a default instance, but will be fetched from ERRORLOG)
 </code></pre>
 <p>The firewall rule for the DAC will only be created if the DAC is configured for listening remotely.<br />
 Use <code>Set-DbaSpConfigure -SqlInstance SRV1 -Name RemoteDacConnectionsEnabled -Value 1</code> to enable remote DAC before running this command.</p>
 <p>The firewall rule for database mirroring or Availability Groups will have the following configuration (parameters for New-NetFirewallRule):</p>
-<pre><code>DisplayName = 'SQL Server default instance (DatabaseMirroring)' or 'SQL Server instance &lt;InstanceName&gt; (DatabaseMirroring)'  
-Name        = 'SQL Server default instance (DatabaseMirroring)' or 'SQL Server instance &lt;InstanceName&gt; (DatabaseMirroring)'  
-Group       = 'SQL Server'  
-Enabled     = 'True'  
-Direction   = 'Inbound'  
-Protocol    = 'TCP'  
+<pre><code>DisplayName = 'SQL Server default instance (DatabaseMirroring)' or 'SQL Server instance &lt;InstanceName&gt; (DatabaseMirroring)'
+Name        = 'SQL Server default instance (DatabaseMirroring)' or 'SQL Server instance &lt;InstanceName&gt; (DatabaseMirroring)'
+Group       = 'SQL Server'
+Enabled     = 'True'
+Direction   = 'Inbound'
+Protocol    = 'TCP'
 LocalPort   = '5022' (can be overwritten by using the parameter Configuration)
 </code></pre>
 <h2 id="syntax">Syntax</h2>
