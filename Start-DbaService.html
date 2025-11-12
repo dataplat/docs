@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  Start-DbaService" />
-
+    
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Start-DbaService.png">
     <meta name="twitter:card" content="summary_large_image">
-
+    
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  Start-DbaService">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-
+                
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -180,7 +180,7 @@
                 }
 
 
-                //not all code is a block
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
@@ -393,7 +393,7 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/images/dbatools-docs.png"
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
                 class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Starts SQL Server related services across multiple computers while respecting service dependencies.</p>
 <h2 id="description">Description</h2>
-<p>Starts SQL Server services (Engine, Agent, Browser, FullText, SSAS, SSIS, SSRS) on one or more computers following proper dependency order. This function handles the complexity of starting services in the correct sequence so you don't have to manually determine which services depend on others. Commonly used after maintenance windows, server reboots, or when troubleshooting stopped services across an environment.</p>
+<p>Starts SQL Server services (Engine, Agent, Browser, FullText, SSAS, SSIS, SSRS, PolyBase, Launchpad) on one or more computers following proper dependency order. This function handles the complexity of starting services in the correct sequence so you don't have to manually determine which services depend on others. Commonly used after maintenance windows, server reboots, or when troubleshooting stopped services across an environment.</p>
 <p>Requires Local Admin rights on destination computer(s).</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Start-DbaService
@@ -652,7 +652,7 @@ Parameters ComputerName and InstanceName will be ignored if SqlInstance is used.
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Filters to specific SQL Server service types rather than starting all services. Valid types: Agent, Browser, Engine, FullText, SSAS, SSIS, SSRS.<br />
+<p>Filters to specific SQL Server service types rather than starting all services. Valid types: Agent, Browser, Engine, FullText, SSAS, SSIS, SSRS, PolyBase, Launchpad.<br />
 Use this when you need to start only specific service types, such as starting just SQL Agent after maintenance or only SSRS services on reporting servers.<br></p>
 <table>
 <thead>
@@ -680,7 +680,7 @@ Use this when you need to start only specific service types, such as starting ju
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Agent,Browser,Engine,FullText,SSAS,SSIS,SSRS</td>
+<td>Agent,Browser,Engine,FullText,SSAS,SSIS,SSRS,PolyBase,Launchpad</td>
 </tr>
 </tbody>
 </table>

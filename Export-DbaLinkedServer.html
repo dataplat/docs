@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  Export-DbaLinkedServer" />
-
+    
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Export-DbaLinkedServer.png">
     <meta name="twitter:card" content="summary_large_image">
-
+    
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  Export-DbaLinkedServer">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-
+                
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -180,7 +180,7 @@
                 }
 
 
-                //not all code is a block
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
@@ -393,7 +393,7 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/images/dbatools-docs.png"
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
                 class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -498,6 +498,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-FilePath] &lt;String&gt;]
     [-ExcludePassword]
     [-Append]
+    [-Passthru]
     [[-InputObject] &lt;LinkedServer[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -514,6 +515,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; Export-DbaLinkedServer -SqlInstance sql2017 -Path C:\temp\ls.sql -ExcludePassword
 </code></pre>
 <p>Exports the linked servers, without passwords, from sql2017 to the file C:\temp\ls.sql<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Export-DbaLinkedServer -SqlInstance sql2017 -Passthru
+</code></pre>
+<p>Returns the T-SQL script for linked servers to the console instead of writing to a file<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>Source SQL Server. You must have sysadmin access and server version must be SQL Server version 2005 or higher. <br></p>
@@ -721,6 +726,35 @@ Use this when sharing scripts across environments or with team members where you
 <h5 id="append">-Append</h5>
 <p>Adds the exported linked server scripts to an existing file instead of overwriting it.<br />
 Use this when combining multiple linked server exports into a single deployment script or building comprehensive migration scripts over multiple runs.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="passthru">-Passthru</h5>
+<p>Returns the generated T-SQL script to the PowerShell pipeline instead of saving to file.<br />
+Use this to capture the script in a variable, pipe to other commands, or display directly in the console.<br></p>
 <table>
 <thead>
 <tr>

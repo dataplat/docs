@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  Stop-DbaService" />
-
+    
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Stop-DbaService.png">
     <meta name="twitter:card" content="summary_large_image">
-
+    
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  Stop-DbaService">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-
+                
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -180,7 +180,7 @@
                 }
 
 
-                //not all code is a block
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
@@ -393,7 +393,7 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/images/dbatools-docs.png"
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
                 class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Stops SQL Server-related Windows services with proper dependency handling.</p>
 <h2 id="description">Description</h2>
-<p>Stops SQL Server services including Database Engine, SQL Agent, Reporting Services, Analysis Services, Integration Services, and other components across one or more computers. Automatically handles service dependencies to prevent dependency conflicts during shutdown operations.</p>
+<p>Stops SQL Server services including Database Engine, SQL Agent, Reporting Services, Analysis Services, Integration Services, PolyBase, Launchpad, and other components across one or more computers. Automatically handles service dependencies to prevent dependency conflicts during shutdown operations.</p>
 <p>Particularly useful for planned maintenance windows, troubleshooting service issues, or preparing servers for patching and reboots. The Force parameter allows stopping dependent services automatically, which is essential when stopping Database Engine services that have SQL Agent dependencies.</p>
 <p>Supports targeting specific service types or instances, making it ideal for selective service management in multi-instance environments. Can be combined with Get-DbaService for advanced filtering and bulk operations across entire SQL Server environments.</p>
 <p>Requires Local Admin rights on destination computer(s).</p>
@@ -660,7 +660,7 @@ Parameters ComputerName and InstanceName will be ignored if SqlInstance is used.
 </tbody>
 </table>
 <h5 id="type">-Type</h5>
-<p>Filters which SQL Server service types to stop. Valid options: Agent, Browser, Engine, FullText, SSAS, SSIS, SSRS.<br />
+<p>Filters which SQL Server service types to stop. Valid options: Agent, Browser, Engine, FullText, SSAS, SSIS, SSRS, PolyBase, Launchpad.<br />
 Use this when you need to stop specific service types across instances, such as stopping all SQL Agent services for patching while keeping Database Engine services running.<br></p>
 <table>
 <thead>
@@ -688,7 +688,7 @@ Use this when you need to stop specific service types across instances, such as 
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Agent,Browser,Engine,FullText,SSAS,SSIS,SSRS</td>
+<td>Agent,Browser,Engine,FullText,SSAS,SSIS,SSRS,PolyBase,Launchpad</td>
 </tr>
 </tbody>
 </table>

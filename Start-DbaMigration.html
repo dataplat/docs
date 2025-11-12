@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  Start-DbaMigration" />
-
+    
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Start-DbaMigration.png">
     <meta name="twitter:card" content="summary_large_image">
-
+    
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  Start-DbaMigration">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-
+                
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -180,7 +180,7 @@
                 }
 
 
-                //not all code is a block
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
@@ -393,7 +393,7 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/images/dbatools-docs.png"
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
                 class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -508,8 +508,10 @@ All Policy Management objects. Use -Exclude PolicyManagement to skip.<br />
 All Resource Governor objects. Use -Exclude ResourceGovernor to skip.<br />
 All Server Audit Specifications. Use -Exclude ServerAuditSpecifications to skip.<br />
 All Custom Errors (User Defined Messages). Use -Exclude CustomErrors to skip.<br />
+All Server Roles. Use -Exclude ServerRoles to skip.<br />
 All Data Collector collection sets. Does not configure the server. Use -Exclude DataCollector to skip.<br />
-All startup procedures. Use -Exclude StartupProcedures to skip.</p>
+All startup procedures. Use -Exclude StartupProcedures to skip.<br />
+All custom Extended Stored Procedures. Use -Exclude ExtendedStoredProcedures to skip.</p>
 <p>This script provides the ability to migrate databases using detach/copy/attach or backup/restore. SQL Server logins, including passwords, SID and database/server roles can also be migrated. In addition, job server objects can be migrated and server configuration settings can be exported or migrated. This script works with named instances, clusters and SQL Express.</p>
 <p>By default, databases will be migrated to the destination SQL Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure. Filestreams and filegroups are also migrated. Safety is emphasized.</p>
 <h2 id="syntax">Syntax</h2>
@@ -975,7 +977,7 @@ Accepts PowerShell credential objects created with Get-Credential for SQL Authen
 <p>Specifies which migration components to skip during the migration process.<br />
 Use this to exclude specific object types when you only need partial migrations or when certain objects should remain on the source.<br />
 Valid values: Databases, Logins, AgentServer, Credentials, LinkedServers, SpConfigure, CentralManagementServer, DatabaseMail, SysDbUserObjects, SystemTriggers, BackupDevices, Audits, Endpoints,<br />
-ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, CustomErrors, DataCollector, StartupProcedures, AgentServerProperties, MasterCertificates.<br></p>
+ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, CustomErrors, ServerRoles, DataCollector, StartupProcedures, AgentServerProperties, MasterCertificates.<br></p>
 <table>
 <thead>
 <tr>
@@ -1002,7 +1004,7 @@ ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, C
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Databases,Logins,AgentServer,Credentials,LinkedServers,SpConfigure,CentralManagementServer,DatabaseMail,SysDbUserObjects,SystemTriggers,BackupDevices,Audits,Endpoints,ExtendedEvents,PolicyManagement,ResourceGovernor,ServerAuditSpecifications,CustomErrors,DataCollector,StartupProcedures,AgentServerProperties,MasterCertificates</td>
+<td>Databases,Logins,AgentServer,Credentials,LinkedServers,SpConfigure,CentralManagementServer,DatabaseMail,SysDbUserObjects,SystemTriggers,BackupDevices,Audits,Endpoints,ExtendedEvents,PolicyManagement,ResourceGovernor,ServerAuditSpecifications,CustomErrors,ServerRoles,DataCollector,StartupProcedures,ExtendedStoredProcedures,AgentServerProperties,MasterCertificates</td>
 </tr>
 </tbody>
 </table>

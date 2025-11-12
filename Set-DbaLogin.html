@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  Set-DbaLogin" />
-
+    
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Set-DbaLogin.png">
     <meta name="twitter:card" content="summary_large_image">
-
+    
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  Set-DbaLogin">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-
+                
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -180,7 +180,7 @@
                 }
 
 
-                //not all code is a block
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
@@ -393,7 +393,7 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/images/dbatools-docs.png"
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
                 class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -494,6 +494,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Login] &lt;String[]&gt;]
     [[-SecurePassword] &lt;Object&gt;]
+    [[-PasswordHash] &lt;String&gt;]
     [[-DefaultDatabase] &lt;String&gt;]
     [-Unlock]
     [-PasswordMustChange]
@@ -577,6 +578,17 @@ PS C:\&gt; $login | Set-DbaLogin -Disable
 <pre><code>PS C:\&gt; Set-DbaLogin -SqlInstance sql1 -Login login1 -Unlock -Force
 </code></pre>
 <p>Unlocks the login1 on the sql1 instance using the technique described at <a href="https://www.mssqltips.com/sqlservertip/2758/how-to-unlock-a-sql-login-without-resetting-the-password/">https://www.mssqltips.com/sqlservertip/2758/how-to-unlock-a-sql-login-without-resetting-the-password/</a><br></p>
+<h5 id="example-15">Example:  15</h5>
+<pre><code>PS C:\&gt; $hash = &quot;0x02001234567890ABCDEF...&quot;
+PS C:\&gt; Set-DbaLogin -SqlInstance sql2 -Login login1 -PasswordHash $hash
+</code></pre>
+<p>Sets the password for login1 on sql2 using a hashed password value from another instance<br></p>
+<h5 id="example-16">Example:  16</h5>
+<pre><code>PS C:\&gt; $sourceLogin = Get-DbaLogin -SqlInstance sql1 -Login app_user
+PS C:\&gt; $hash = Get-LoginPasswordHash -Login $sourceLogin
+PS C:\&gt; Set-DbaLogin -SqlInstance sql2 -Login app_user -PasswordHash $hash
+</code></pre>
+<p>Gets the password hash from sql1 and applies it to sql2, syncing the password between instances<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
@@ -679,6 +691,35 @@ Create secure passwords with Get-Credential or ConvertTo-SecureString to avoid p
 <tr>
 <td>Alias</td>
 <td>Password</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="passwordhash">-PasswordHash</h5>
+<p>Sets the login password using a hashed password value (0x...). This is used for transferring logins between instances without knowing the actual password.<br />
+The hash must be in the format returned by Get-LoginPasswordHash or extracted from sys.sql_logins. Cannot be used with -SecurePassword or -PasswordMustChange.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>

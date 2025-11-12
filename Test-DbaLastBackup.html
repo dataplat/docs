@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  Test-DbaLastBackup" />
-
+    
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Test-DbaLastBackup.png">
     <meta name="twitter:card" content="summary_large_image">
-
+    
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  Test-DbaLastBackup">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-
+                
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -180,7 +180,7 @@
                 }
 
 
-                //not all code is a block
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
@@ -393,7 +393,7 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/images/dbatools-docs.png"
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
                 class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -524,6 +524,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-IgnoreDiffBackup]
     [[-MaxDop] &lt;Int32&gt;]
     [-ReuseSourceFolderStructure]
+    [-Checksum]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -583,6 +584,10 @@ More information:<br>
 <pre><code>PS C:\&gt; Test-DbaLastBackup -SqlInstance sql2016 -MaxDop 4
 </code></pre>
 <p>The use of the MaxDop parameter will limit the number of processors used during the DBCC command<br></p>
+<h5 id="example-12">Example:  12</h5>
+<pre><code>PS C:\&gt; Test-DbaLastBackup -SqlInstance sql2016 -Database model, master -VerifyOnly -Checksum
+</code></pre>
+<p>Verifies the backup files using RESTORE VERIFYONLY WITH CHECKSUM. This will fail if the backups do not contain checksums, ensuring that backups follow best practices.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Unlike many of the other commands, you cannot specify more than one server.<br></p>
@@ -1336,6 +1341,36 @@ Lower values reduce CPU usage but increase DBCC runtime.<br></p>
 <p>Maintains the original file paths and directory structure from the source database during restore.<br />
 Use this when testing databases that have specific file location requirements or when simulating exact production restore scenarios.<br />
 Ensures the destination server has the same directory structure as the source or the restore will fail.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="checksum">-Checksum</h5>
+<p>Enables backup checksum verification during restore operations. When used with -VerifyOnly, forces the RESTORE VERIFYONLY command to use WITH CHECKSUM.<br />
+Use this to ensure backup files contain checksums and validate them during testing, following backup best practices.<br />
+Without this parameter, SQL Server verifies checksums if present but doesn't fail if checksums are missing. With this parameter, the operation fails if checksums are not present in the backup.<br></p>
 <table>
 <thead>
 <tr>

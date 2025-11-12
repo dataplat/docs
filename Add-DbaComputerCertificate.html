@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  Add-DbaComputerCertificate" />
-
+    
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Add-DbaComputerCertificate.png">
     <meta name="twitter:card" content="summary_large_image">
-
+    
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  Add-DbaComputerCertificate">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-
+                
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -180,7 +180,7 @@
                 }
 
 
-                //not all code is a block
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
@@ -393,7 +393,7 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/images/dbatools-docs.png"
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
                 class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -488,6 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Imports X.509 certificates into the Windows certificate store on local or remote computers.</p>
 <h2 id="description">Description</h2>
 <p>Imports X.509 certificates (including password-protected .pfx files with private keys) into the specified Windows certificate store on one or more computers. This function is essential for SQL Server TLS/SSL encryption setup, Availability Group certificate requirements, and Service Broker security configurations.</p>
+<p>When importing PFX files, the function imports the entire certificate chain, including intermediate certificates. This ensures proper certificate validation and prevents issues when using certificates with Set-DbaNetworkCertificate or other certificate-dependent operations.</p>
 <p>The function handles both certificate files from disk and certificate objects from the pipeline, supports remote installation via PowerShell remoting, and allows you to control import behavior through various flags like exportable/non-exportable private keys. By default, certificates are installed to the LocalMachine\My (Personal) store with exportable and persistent private keys, which is the standard location for SQL Server service certificates.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Add-DbaComputerCertificate
@@ -524,6 +525,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; Add-DbaComputerCertificate -ComputerName sql01 -Path C:\temp\sql01.pfx -Confirm:$false -Flag NonExportable
 </code></pre>
 <p>Adds the local C:\temp\sql01.pfx to sql01's LocalMachine\My (Personal) certificate store and marks the private key as non-exportable. Skips confirmation prompt.<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; $password = Read-Host &quot;Enter the SSL Certificate Password&quot; -AsSecureString
+PS C:\&gt; Add-DbaComputerCertificate -ComputerName sql01 -Path C:\cert\fullchain.pfx -SecurePassword $password
+PS C:\&gt; Get-DbaComputerCertificate -ComputerName sql01 | Where-Object Subject -match &quot;letsencrypt&quot; | Set-DbaNetworkCertificate -SqlInstance sql01
+</code></pre>
+<p>Imports a Let's Encrypt certificate with the full chain (including intermediate certificates) from a PFX file, then configures SQL Server to use it. The full chain import ensures that <br>
+Set-DbaNetworkCertificate can properly set permissions on the certificate.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
 <p>The target computer or computers where certificates will be installed. Accepts server names, FQDNs, or IP addresses.<br />
@@ -736,7 +744,7 @@ The key associated with a PFX file is created in memory and not persisted on dis
 Exportable<br />
 Imported keys are marked as exportable.<br />
 NonExportable<br />
-Expliictly mark keys as nonexportable.<br />
+Explicitly mark keys as nonexportable.<br />
 PersistKeySet<br />
 The key associated with a PFX file is persisted when importing a certificate.<br />
 UserProtected<br />

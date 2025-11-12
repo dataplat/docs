@@ -20,10 +20,10 @@
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:text:title" content="dbatools docs:  Install-DbaInstance" />
-
+    
     <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Install-DbaInstance.png">
     <meta name="twitter:card" content="summary_large_image">
-
+    
     <meta name=twitter:creator content="@psdbatools">
     <meta name=twitter:title content="dbatools docs:  Install-DbaInstance">
     <meta property="twitter:site" content="@psdbatools" />
@@ -145,7 +145,7 @@
         }
         $(document).ready(function () {
             function render_doc(doc_to_render, examples_mode) {
-
+                
                 $("#rendered h5").each(function (i, el) {
                     if ($(el).text().startsWith('-')) {
                         $(el).addClass('param')
@@ -180,7 +180,7 @@
                 }
 
 
-                //not all code is a block
+                //not all code is a block 
                 $("#rendered h3[id*='-parameters']").nextAll().find('code').addClass('hljs-inline')
                 $('#rendered #description').nextUntil('#rendered #syntax').find('code').addClass('hljs-inline')
             }
@@ -393,7 +393,7 @@
 
     <nav class="navbar navbar-expand-md customnav">
         <a href="https://docs.dbatools.io/" class="navbar-brand" rel="home" itemprop="url">
-            <img width="265" height="64" src="https://dbatools.io/images/dbatools-docs.png"
+            <img width="265" height="64" src="https://dbatools.io/wp-content/uploads/2018/09/dbatools-docs.png"
                 class="custom-logo" alt="dbatools" itemprop="logo" scale="0">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -556,6 +556,7 @@ To be able to configure CredSSP, the command needs to be run in an elevated Powe
     [[-BackupPath] &lt;String&gt;]
     [[-UpdateSourcePath] &lt;String&gt;]
     [[-AdminAccount] &lt;String[]&gt;]
+    [[-ASAdminAccount] &lt;String[]&gt;]
     [[-Port] &lt;Int32&gt;]
     [[-Throttle] &lt;Int32&gt;]
     [[-ProductID] &lt;String&gt;]
@@ -620,6 +621,13 @@ PS C:\&gt; Install-DbaInstance -SqlInstance localhost\v2017:1337 -Version 2017 -
 </code></pre>
 <p>Run the installation locally with default settings overriding the value of specific configuration items.<br>
 Instance name will be defined as 'v2017'; TCP port will be changed to 1337 after installation.<br></p>
+<h5 id="example-8">Example:  8</h5>
+<pre><code>PS C:\&gt; $svcAcc = Get-Credential MyDomain\SvcSqlServer
+PS C:\&gt; Install-DbaInstance -Version 2022 -Feature Engine,AnalysisServices -AdminAccount &quot;AD\MSSQLAdmins&quot; -ASAdminAccount &quot;AD\SSASAdmins&quot; -EngineCredential $svcAcc -ASCredential $svcAcc
+</code></pre>
+<p>Install SQL Server 2022 with Database Engine and Analysis Services features.<br>
+Grants sysadmin rights to AD\MSSQLAdmins on the Database Engine and administrator rights to AD\SSASAdmins on Analysis Services.<br>
+Uses MyDomain\SvcSqlServer as the service account for both services.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="version">-Version</h5>
 <p>Specifies the SQL Server version to install using the year-based identifier.<br />
@@ -1159,6 +1167,36 @@ The path should contain the update executable files compatible with the SQL Serv
 <h5 id="adminaccount">-AdminAccount</h5>
 <p>Specifies one or more Windows accounts to grant sysadmin privileges on the new SQL Server instance.<br />
 Defaults to the current user or the account specified in the Credential parameter.<br />
+Use domain\username format for domain accounts or computername\username for local accounts.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="asadminaccount">-ASAdminAccount</h5>
+<p>Specifies one or more Windows accounts to grant administrator privileges on Analysis Services.<br />
+Required when installing Analysis Services feature. At least one administrator account must be specified.<br />
 Use domain\username format for domain accounts or computername\username for local accounts.<br></p>
 <table>
 <thead>
