@@ -531,6 +531,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-UseLastBackup]
     [-AdvancedBackupParams &lt;Hashtable&gt;]
     [-NoWait]
+    [-SkipReuseSourceFolderStructure]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -546,6 +547,7 @@ Add-DbaAgDatabase
     [-UseLastBackup]
     [-AdvancedBackupParams &lt;Hashtable&gt;]
     [-NoWait]
+    [-SkipReuseSourceFolderStructure]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -922,6 +924,36 @@ Use this to control backup compression, file count, or other backup-specific set
 The underlying SQL command ALTER AVAILABILITY GROUP ... ADD DATABASE is immediate and does not wait for seeding to finish.<br />
 Use this when you want the command to return immediately after adding the database to the AG, allowing seeding to continue in the background.<br />
 This is particularly useful in deployments where seeding can take a long time and you want to start using the environment before synchronization completes.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="skipreusesourcefolderstructure">-SkipReuseSourceFolderStructure</h5>
+<p>Prevents restores from using the source server's folder structure when restoring databases to secondary replicas.<br />
+When enabled, Restore-DbaDatabase uses the replica's default data and log directories instead of attempting to replicate the primary's folder structure.<br />
+This is automatically set to true when the primary and replica servers run on different operating system platforms (e.g., Windows primary with Linux replica).<br></p>
 <table>
 <thead>
 <tr>

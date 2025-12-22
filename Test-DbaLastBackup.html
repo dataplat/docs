@@ -525,6 +525,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-MaxDop] &lt;Int32&gt;]
     [-ReuseSourceFolderStructure]
     [-Checksum]
+    [[-Wait] &lt;Int32&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -588,6 +589,10 @@ More information:<br>
 <pre><code>PS C:\&gt; Test-DbaLastBackup -SqlInstance sql2016 -Database model, master -VerifyOnly -Checksum
 </code></pre>
 <p>Verifies the backup files using RESTORE VERIFYONLY WITH CHECKSUM. This will fail if the backups do not contain checksums, ensuring that backups follow best practices.<br></p>
+<h5 id="example-13">Example:  13</h5>
+<pre><code>PS C:\&gt; Test-DbaLastBackup -SqlInstance sql2016 -Wait 5
+</code></pre>
+<p>Tests all database backups on sql2016 and waits 5 seconds between each database restore test. This helps prevent I/O errors on checkpoint files when restoring to network shares.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Unlike many of the other commands, you cannot specify more than one server.<br></p>
@@ -1394,6 +1399,36 @@ Without this parameter, SQL Server verifies checksums if present but doesn't fai
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="wait">-Wait</h5>
+<p>Specifies the number of seconds to wait between each database restore test.<br />
+Use this to prevent I/O errors on checkpoint files by allowing time for cleanup between restore operations.<br />
+Helpful when restoring to network shares or storage systems that need additional time to release file handles.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
 </tr>
 </tbody>
 </table>

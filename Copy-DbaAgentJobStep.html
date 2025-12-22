@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | New-DbaAgentSchedule</title>
+    <title>dbatools docs | Copy-DbaAgentJobStep</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,24 +12,24 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ,powershell,sql server,devops,json">
-    <meta name="subtitle" content="Docs for New-DbaAgentSchedule">
+    <meta name="subtitle" content="Docs for Copy-DbaAgentJobStep">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  New-DbaAgentSchedule" />
-    <meta property="og:url" content="https://docs.dbatools.io/New-DbaAgentSchedule.html" />
-    <meta property="og:description" content="dbatools docs for New-DbaAgentSchedule" />
+    <meta property="og:title" content="dbatools docs:  Copy-DbaAgentJobStep" />
+    <meta property="og:url" content="https://docs.dbatools.io/Copy-DbaAgentJobStep.html" />
+    <meta property="og:description" content="dbatools docs for Copy-DbaAgentJobStep" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  New-DbaAgentSchedule" />
+    <meta name="twitter:text:title" content="dbatools docs:  Copy-DbaAgentJobStep" />
     
-    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/New-DbaAgentSchedule.png">
+    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Copy-DbaAgentJobStep.png">
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name=twitter:creator content="@psdbatools">
-    <meta name=twitter:title content="dbatools docs:  New-DbaAgentSchedule">
+    <meta name=twitter:title content="dbatools docs:  Copy-DbaAgentJobStep">
     <meta property="twitter:site" content="@psdbatools" />
 
-    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/New-DbaAgentSchedule.png">
-    <link rel=canonical href="https://docs.dbatools.io/New-DbaAgentSchedule.html" />
+    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Copy-DbaAgentJobStep.png">
+    <link rel=canonical href="https://docs.dbatools.io/Copy-DbaAgentJobStep.html" />
     <link rel=alternate type=application/json
         href=https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
         title="dbatools documentation">
@@ -461,7 +461,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="new-dbaagentschedule">New-DbaAgentSchedule</h1>
+                    <h1 id="copy-dbaagentjobstep">Copy-DbaAgentJobStep</h1>
 <table>
 <thead>
 <tr>
@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Sander Stad (@sqlstad), sqlstad.nl</td>
+<td>the dbatools team + Claude</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -481,33 +481,24 @@
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/New-DbaAgentSchedule.ps1">New-DbaAgentSchedule</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Copy-DbaAgentJobStep.ps1">Copy-DbaAgentJobStep</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#New-DbaAgentSchedule">New-DbaAgentSchedule</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Copy-DbaAgentJobStep">Copy-DbaAgentJobStep</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates a new SQL Server Agent schedule for automated job execution</p>
+<p>Copies job steps from one SQL Server Agent job to another, preserving job history by synchronizing steps without dropping the job itself.</p>
 <h2 id="description">Description</h2>
-<p>Creates a new schedule in the msdb database that defines when SQL Server Agent jobs should execute. Schedules can be created as standalone objects or immediately attached to existing jobs, allowing you to standardize timing across multiple jobs without recreating the same schedule repeatedly. This replaces the need to manually create schedules through SQL Server Management Studio or T-SQL, while providing comprehensive validation of schedule parameters and frequency options. Supports all SQL Server Agent scheduling options including one-time, daily, weekly, monthly, and relative monthly frequencies with full control over start/end dates, times, and recurrence patterns.</p>
+<p>Synchronizes SQL Server Agent job steps between instances by copying step definitions from source jobs to destination jobs. Unlike Copy-DbaAgentJob with -Force, this command preserves job execution history because it only drops and recreates individual steps rather than the entire job. This is essential for maintaining historical job execution data in Always On Availability Group scenarios, disaster recovery environments, or when deploying step modifications across multiple servers.</p>
+<p>The function removes all existing steps from the destination job before copying source steps, ensuring a clean synchronization. Job metadata like ownership, schedules, and alerts remain unchanged on the destination.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>New-DbaAgentSchedule
-    [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
-    [[-SqlCredential] &lt;PSCredential&gt;]
+<pre><code>Copy-DbaAgentJobStep
+    [[-Source] &lt;DbaInstanceParameter&gt;]
+    [[-SourceSqlCredential] &lt;PSCredential&gt;]
+    [-Destination] &lt;DbaInstanceParameter[]&gt;
+    [[-DestinationSqlCredential] &lt;PSCredential&gt;]
     [[-Job] &lt;Object[]&gt;]
-    [[-Schedule] &lt;Object&gt;]
-    [-Disabled]
-    [[-FrequencyType] &lt;Object&gt;]
-    [[-FrequencyInterval] &lt;Object[]&gt;]
-    [[-FrequencySubdayType] &lt;Object&gt;]
-    [[-FrequencySubdayInterval] &lt;Int32&gt;]
-    [[-FrequencyRelativeInterval] &lt;Object&gt;]
-    [[-FrequencyRecurrenceFactor] &lt;Int32&gt;]
-    [[-FrequencyText] &lt;String&gt;]
-    [[-StartDate] &lt;String&gt;]
-    [[-EndDate] &lt;String&gt;]
-    [[-StartTime] &lt;String&gt;]
-    [[-EndTime] &lt;String&gt;]
-    [[-Owner] &lt;String&gt;]
-    [-Force]
+    [[-ExcludeJob] &lt;Object[]&gt;]
+    [[-Step] &lt;String[]&gt;]
+    [[-InputObject] &lt;Job[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -518,158 +509,25 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule -SqlInstance sql01 -Schedule DailyAt6 -FrequencyType Daily -StartTime &quot;060000&quot; -Force
+<pre><code>PS C:\&gt; Copy-DbaAgentJobStep -Source PrimaryAG -Destination SecondaryAG1, SecondaryAG2 -Job &quot;MaintenanceJob&quot;
 </code></pre>
-<p>Creates a schedule that runs jobs every day at 6 in the morning. It assumes default values for the start date, start time, end date and end time due to -Force.<br></p>
+<p>Copies all job steps from the &quot;MaintenanceJob&quot; on PrimaryAG to the same job on SecondaryAG1 and SecondaryAG2, preserving job history on the destination servers.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule -SqlInstance localhost\SQL2016 -Schedule daily -FrequencyType Daily -FrequencyInterval Everyday -Force
+<pre><code>PS C:\&gt; Get-DbaAgentJob -SqlInstance PrimaryAG -Job &quot;BackupJob&quot; | Copy-DbaAgentJobStep -Destination SecondaryAG1
 </code></pre>
-<p>Creates a schedule with a daily frequency every day. It assumes default values for the start date, start time, end date and end time due to -Force.<br></p>
+<p>Retrieves the BackupJob from PrimaryAG and synchronizes its steps to the same job on SecondaryAG1 using pipeline input.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule -SqlInstance sstad-pc -Schedule MonthlyTest -FrequencyType Monthly -FrequencyInterval 10 -FrequencyRecurrenceFactor 1 -Force
+<pre><code>PS C:\&gt; Copy-DbaAgentJobStep -Source sqlserver2014a -Destination sqlcluster -Job &quot;DataETL&quot; -SourceSqlCredential $cred
 </code></pre>
-<p>Create a schedule with a monthly frequency occuring every 10th of the month. It assumes default values for the start date, start time, end date and end time due to -Force.<br></p>
+<p>Copies job steps for the &quot;DataETL&quot; job from sqlserver2014a to sqlcluster, using SQL credentials for the source server and Windows credentials for the destination.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule -SqlInstance sstad-pc -Schedule RunWeekly -FrequencyType Weekly -FrequencyInterval Sunday -StartTime 010000 -Force
+<pre><code>PS C:\&gt; Copy-DbaAgentJobStep -Source Primary -Destination Replica1, Replica2, Replica3
 </code></pre>
-<p>Create a schedule that will run jobs once a week on Sunday @ 1:00AM<br></p>
-<h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule -SqlInstance sstad-pc -FrequencyText 'Every sunday at 02:00:00'
-</code></pre>
-<p>Create a schedule with the name &quot;Every sunday at 02:00:00&quot; that will run jobs once a week on Sunday @ 2:00AM<br></p>
-<h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; $splatSchedule = @{
-</code></pre>
-<p>SqlInstance             = &quot;sql01&quot;<br>
-Schedule                = &quot;HourlyBusinessHours&quot;<br>
-FrequencyType           = &quot;Daily&quot;<br>
-FrequencySubdayType     = &quot;Hours&quot;<br>
-FrequencySubdayInterval = 1<br>
-StartTime               = &quot;080000&quot;<br>
-EndTime                 = &quot;170000&quot;<br>
-Force                   = $true<br>
-}<br></p>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule @splatSchedule
-</code></pre>
-<p>Creates a schedule that runs every hour between 8:00 AM and 5:00 PM. Jobs using this schedule execute at 8 AM, 9 AM, 10 AM, etc., stopping at 5 PM.<br></p>
-<h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; $splatSchedule = @{
-</code></pre>
-<p>SqlInstance             = &quot;sql01&quot;<br>
-Schedule                = &quot;EveryFiveMinutes&quot;<br>
-FrequencyType           = &quot;Daily&quot;<br>
-FrequencySubdayType     = &quot;Minutes&quot;<br>
-FrequencySubdayInterval = 5<br>
-Force                   = $true<br>
-}<br></p>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule @splatSchedule
-</code></pre>
-<p>Creates a schedule that runs every 5 minutes throughout the day. Useful for frequent monitoring jobs that need to check system health regularly.<br></p>
-<h5 id="example-8">Example:  8</h5>
-<pre><code>PS C:\&gt; $splatSchedule = @{
-</code></pre>
-<p>SqlInstance = &quot;sql01&quot;<br>
-Schedule    = &quot;TwiceDaily&quot;<br>
-FrequencyType           = &quot;Daily&quot;<br>
-FrequencySubdayType     = &quot;Hours&quot;<br>
-FrequencySubdayInterval = 12<br>
-StartTime               = &quot;060000&quot;<br>
-Force                   = $true<br>
-}<br></p>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule @splatSchedule
-</code></pre>
-<p>Creates a schedule that runs twice per day at 6:00 AM and 6:00 PM. The 12-hour interval ensures jobs execute exactly twice daily.<br></p>
-<h5 id="example-9">Example:  9</h5>
-<pre><code>PS C:\&gt; $splatSchedule = @{
-</code></pre>
-<p>SqlInstance               = &quot;sql01&quot;<br>
-Schedule                  = &quot;FirstMondayOfMonth&quot;<br>
-FrequencyType             = &quot;MonthlyRelative&quot;<br>
-FrequencyInterval         = &quot;Monday&quot;<br>
-FrequencyRelativeInterval = &quot;First&quot;<br>
-FrequencyRecurrenceFactor = 1<br>
-StartTime                 = &quot;020000&quot;<br>
-Force                     = $true<br>
-}<br></p>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule @splatSchedule
-</code></pre>
-<p>Creates a schedule that runs on the first Monday of every month at 2:00 AM. Perfect for monthly maintenance tasks that should run on a specific weekday.<br></p>
-<h5 id="example-10">Example:  10</h5>
-<pre><code>PS C:\&gt; $splatSchedule = @{
-</code></pre>
-<p>SqlInstance = &quot;sql01&quot;<br>
-Schedule    = &quot;MaintenanceWindow&quot;<br>
-FrequencyType = &quot;Weekly&quot;<br>
-FrequencyInterval = &quot;Saturday&quot;, &quot;Sunday&quot;<br>
-StartTime   = &quot;220000&quot;<br>
-EndTime     = &quot;060000&quot;<br>
-StartDate   = &quot;20250101&quot;<br>
-EndDate     = &quot;20251231&quot;<br>
-Force       = $true<br>
-}<br></p>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule @splatSchedule
-</code></pre>
-<p>Creates a schedule for weekend maintenance windows running Saturday and Sunday nights from 10:00 PM to 6:00 AM. The schedule is active only during 2025.<br></p>
-<h5 id="example-11">Example:  11</h5>
-<pre><code>PS C:\&gt; $splatSchedule = @{
-</code></pre>
-<p>SqlInstance = &quot;sql01&quot;<br>
-Schedule    = &quot;PreprodRefresh&quot;<br>
-Disabled    = $true<br>
-FrequencyType = &quot;Weekly&quot;<br>
-FrequencyInterval = &quot;Sunday&quot;<br>
-StartTime   = &quot;040000&quot;<br>
-Force       = $true<br>
-}<br></p>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule @splatSchedule
-</code></pre>
-<p>Creates a disabled schedule for pre-production database refreshes. The schedule is configured but won't execute until manually enabled, allowing you to prepare schedules in advance.<br></p>
-<h5 id="example-12">Example:  12</h5>
-<pre><code>PS C:\&gt; $splatSchedule = @{
-</code></pre>
-<p>SqlInstance = &quot;sql01&quot;<br>
-Job         = &quot;BackupUserDatabases&quot;, &quot;CheckDBIntegrity&quot;, &quot;UpdateStatistics&quot;<br>
-Schedule    = &quot;NightlyMaintenance&quot;<br>
-FrequencyType = &quot;Daily&quot;<br>
-StartTime   = &quot;010000&quot;<br>
-Force       = $true<br>
-}<br></p>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule @splatSchedule
-</code></pre>
-<p>Creates a schedule and immediately attaches it to three different jobs. This demonstrates how to apply a single schedule to multiple jobs in one command.<br></p>
-<h5 id="example-13">Example:  13</h5>
-<pre><code>PS C:\&gt; $splatSchedule = @{
-</code></pre>
-<p>SqlInstance = &quot;sql01&quot;<br>
-Schedule    = &quot;QuarterEndReports&quot;<br>
-FrequencyType = &quot;Monthly&quot;<br>
-FrequencyInterval = 31<br>
-FrequencyRecurrenceFactor = 3<br>
-StartTime   = &quot;180000&quot;<br>
-Owner       = &quot;DOMAIN\SQLServiceAccount&quot;<br>
-Force       = $true<br>
-}<br></p>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule @splatSchedule
-</code></pre>
-<p>Creates a schedule that runs every 3 months on the 31st (or last day of month) at 6:00 PM. The Owner parameter specifies which account owns the schedule for permission management.<br></p>
-<h5 id="example-14">Example:  14</h5>
-<pre><code>PS C:\&gt; $splatSchedule = @{
-</code></pre>
-<p>SqlInstance = &quot;sql01&quot;<br>
-Schedule    = &quot;BusinessHoursEvery30Min&quot;<br>
-FrequencyType           = &quot;Daily&quot;<br>
-FrequencySubdayType     = &quot;Minutes&quot;<br>
-FrequencySubdayInterval = 30<br>
-StartTime               = &quot;083000&quot;<br>
-EndTime                 = &quot;173000&quot;<br>
-Force                   = $true<br>
-}<br></p>
-<pre><code>PS C:\&gt; New-DbaAgentSchedule @splatSchedule
-</code></pre>
-<p>Creates a schedule that runs every 30 minutes during business hours (8:30 AM to 5:30 PM). First execution is at 8:30 AM, last execution at 5:00 PM.<br></p>
+<p>Synchronizes all job steps from Primary to multiple AG replicas, ensuring all replicas have identical job step definitions while preserving their individual job execution histories.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
-<h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2000 or greater. <br></p>
+<h5 id="destination">-Destination</h5>
+<p>Destination SQL Server instance(s) where job steps will be synchronized. You must have sysadmin access and the server must be SQL Server 2000 or higher.<br />
+Supports multiple destinations to copy job steps to multiple servers simultaneously, such as syncing all AG replicas or DR servers. <br></p>
 <table>
 <thead>
 <tr>
@@ -688,7 +546,7 @@ Force                   = $true<br>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>true (ByValue)</td>
+<td>false</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -697,10 +555,69 @@ Force                   = $true<br>
 </tbody>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
-Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
-For MFA support, please use Connect-DbaInstance.<br></p>
+<h5 id="source">-Source</h5>
+<p>Source SQL Server instance containing the jobs with steps to copy. You must have sysadmin access and server version must be SQL Server 2000 or higher.<br />
+Use this when copying job steps from a specific instance rather than piping job objects with InputObject.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
+<p>Alternative credentials for connecting to the source SQL Server instance. Accepts PowerShell credentials (Get-Credential).<br />
+Use this when the source server requires different authentication than your current Windows session, such as SQL authentication or cross-domain scenarios.<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="destinationsqlcredential">-DestinationSqlCredential</h5>
+<p>Alternative credentials for connecting to the destination SQL Server instance. Accepts PowerShell credentials (Get-Credential).<br />
+Use this when the destination server requires different authentication than your current Windows session, such as SQL authentication or cross-domain scenarios.<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br></p>
 <table>
 <thead>
 <tr>
@@ -728,8 +645,9 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="job">-Job</h5>
-<p>Specifies existing SQL Server Agent jobs to immediately attach this schedule to after creation.<br />
-Use this when you want to apply the same schedule to multiple jobs without manually attaching it later through SSMS.<br></p>
+<p>Specifies which SQL Agent jobs to process by name. Accepts wildcards and multiple job names.<br />
+Use this to synchronize steps for specific jobs, such as copying modified steps from a primary AG replica to secondary replicas.<br />
+If unspecified, all jobs will be processed.<br></p>
 <table>
 <thead>
 <tr>
@@ -756,9 +674,9 @@ Use this when you want to apply the same schedule to multiple jobs without manua
 </tr>
 </tbody>
 </table>
-<h5 id="schedule">-Schedule</h5>
-<p>The name for the new schedule that will appear in SQL Server Agent.<br />
-Choose descriptive names like &quot;DailyAt6AM&quot; or &quot;WeeklyMaintenanceWindow&quot; to make schedule management easier for your team.<br></p>
+<h5 id="excludejob">-ExcludeJob</h5>
+<p>Specifies which SQL Agent jobs to skip during the copy operation. Accepts wildcards and multiple job names.<br />
+Use this to exclude specific jobs from bulk operations, such as skipping environment-specific jobs that shouldn't be synchronized.<br></p>
 <table>
 <thead>
 <tr>
@@ -785,85 +703,9 @@ Choose descriptive names like &quot;DailyAt6AM&quot; or &quot;WeeklyMaintenanceW
 </tr>
 </tbody>
 </table>
-<h5 id="disabled">-Disabled</h5>
-<p>Creates the schedule in a disabled state, preventing any attached jobs from running until the schedule is manually enabled.<br />
-Use this when you need to set up schedules in advance but don't want them active immediately.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="frequencytype">-FrequencyType</h5>
-<p>Determines the basic execution pattern for jobs using this schedule.<br />
-Daily runs every day or every N days, Weekly runs on specific days of the week, Monthly runs on specific dates, and MonthlyRelative runs on relative dates like &quot;first Monday.&quot;<br />
-Once/OneTime creates single-execution schedules, while AgentStart/AutoStart and IdleComputer/OnIdle create event-triggered schedules.<br />
-Allowed values: 'Once', 'OneTime', 'Daily', 'Weekly', 'Monthly', 'MonthlyRelative', 'AgentStart', 'AutoStart', 'IdleComputer', 'OnIdle'<br />
-The following synonyms provide flexibility to the allowed values for this function parameter:<br />
-Once=OneTime<br />
-AgentStart=AutoStart<br />
-IdleComputer=OnIdle<br />
-If force is used the default will be &quot;Once&quot;.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Once,OneTime,Daily,Weekly,Monthly,MonthlyRelative,AgentStart,AutoStart,IdleComputer,OnIdle</td>
-</tr>
-</tbody>
-</table>
-<h5 id="frequencyinterval">-FrequencyInterval</h5>
-<p>Defines which specific days the job executes based on the FrequencyType selected.<br />
-For Daily: use numbers 1-365 for &quot;every N days&quot; or &quot;EveryDay&quot; for daily execution.<br />
-For Weekly: specify day names like &quot;Monday,Friday&quot; or use &quot;Weekdays,&quot; &quot;Weekend,&quot; or &quot;EveryDay.&quot;<br />
-For Monthly: use numbers 1-31 to run on specific dates of each month.<br />
-Allowed values for FrequencyType 'Daily': EveryDay or a number between 1 and 365.<br />
-Allowed values for FrequencyType 'Weekly': Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Weekdays, Weekend or EveryDay.<br />
-Allowed values for FrequencyType 'Monthly': Numbers 1 to 31 for each day of the month.<br />
-If &quot;Weekdays&quot;, &quot;Weekend&quot; or &quot;EveryDay&quot; is used it over writes any other value that has been passed before.<br />
-If force is used the default will be 1.<br></p>
+<h5 id="step">-Step</h5>
+<p>Specifies which job steps to copy by name. If not specified, all steps are copied.<br />
+Use this to synchronize specific steps rather than all steps from a job.<br></p>
 <table>
 <thead>
 <tr>
@@ -890,16 +732,9 @@ If force is used the default will be 1.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="frequencysubdaytype">-FrequencySubdayType</h5>
-<p>Sets the time interval unit when jobs need to run multiple times per day.<br />
-Use &quot;Once&quot; for single daily execution, &quot;Hours&quot; for hourly intervals, &quot;Minutes&quot; for minute-based intervals, or &quot;Seconds&quot; for very frequent execution.<br />
-Most maintenance jobs use &quot;Once&quot; while monitoring jobs might use &quot;Minutes&quot; or &quot;Hours.&quot;<br />
-Allowed values: 'Once', 'Time', 'Seconds', 'Second', 'Minutes', 'Minute', 'Hours', 'Hour'<br />
-The following synonyms provide flexibility to the allowed values for this function parameter:<br />
-Once=Time<br />
-Seconds=Second<br />
-Minutes=Minute<br />
-Hours=Hour<br></p>
+<h5 id="inputobject">-InputObject</h5>
+<p>Accepts SQL Agent job objects from the pipeline, typically from Get-DbaAgentJob.<br />
+Use this to copy steps for pre-filtered jobs or when combining with other job management cmdlets for complex workflows.<br></p>
 <table>
 <thead>
 <tr>
@@ -918,328 +753,11 @@ Hours=Hour<br></p>
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Once,Time,Seconds,Second,Minutes,Minute,Hours,Hour</td>
-</tr>
-</tbody>
-</table>
-<h5 id="frequencysubdayinterval">-FrequencySubdayInterval</h5>
-<p>Specifies how often the job repeats within a day when FrequencySubdayType is not &quot;Once.&quot;<br />
-For example, with FrequencySubdayType &quot;Hours&quot; and FrequencySubdayInterval 4, the job runs every 4 hours.<br />
-Minimum interval is 10 seconds for second-based scheduling.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="frequencyrelativeinterval">-FrequencyRelativeInterval</h5>
-<p>Determines which occurrence of a day type to use for MonthlyRelative schedules.<br />
-Use &quot;First&quot; for first occurrence, &quot;Second&quot; for second occurrence, etc., or &quot;Last&quot; for the final occurrence of that day in the month.<br />
-For example, &quot;Second&quot; with &quot;Friday&quot; runs on the second Friday of each month.<br />
-Allowed values: First, Second, Third, Fourth or Last<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Unused,First,Second,Third,Fourth,Last</td>
-</tr>
-</tbody>
-</table>
-<h5 id="frequencyrecurrencefactor">-FrequencyRecurrenceFactor</h5>
-<p>Controls how many weeks or months to skip between executions for Weekly, Monthly, and MonthlyRelative schedules.<br />
-Use 1 for every week/month, 2 for every other week/month, 3 for every third, etc.<br />
-This allows schedules like &quot;every 2 weeks on Monday&quot; or &quot;every 3 months on the 15th.&quot;<br />
-FrequencyRecurrenceFactor is used only if FrequencyType is &quot;Weekly&quot;, &quot;Monthly&quot; or &quot;MonthlyRelative&quot;.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="frequencytext">-FrequencyText</h5>
-<p>Describe common frequencies as a text. Sample text:<br />
-Every minute<br />
-Every 5 minutes<br />
-Every 10 minutes starting at 00:02:30<br />
-Every hour<br />
-Every 2 hours<br />
-Every 4 hours starting at 02:00:00<br />
-Every day at 05:00:00<br />
-Every sunday at 02:00:00<br />
-This is the used regex: every(\s+(?<interval>\d+))?\s+(?<unit>minute|hour|day|sunday|monday|tuesday|wednesday|thursday|friday|saturday)s?(\s+starting)?(\s+at\s+(?<start>\d\d:\d\d:\d\d))?<br />
-If parameter Schedule is not provided, the FrequencyText will be used as the name of the schedule.<br />
-Parameter Force will be set to $true.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="startdate">-StartDate</h5>
-<p>The earliest date this schedule can execute jobs, formatted as yyyyMMdd (e.g., &quot;20240315&quot; for March 15, 2024).<br />
-Use this to delay schedule activation until a future date or to document when recurring maintenance should begin.<br />
-With -Force, defaults to today's date.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="enddate">-EndDate</h5>
-<p>The latest date this schedule can execute jobs, formatted as yyyyMMdd (e.g., &quot;20241231&quot; for December 31, 2024).<br />
-Use this for temporary schedules or to automatically deactivate seasonal jobs.<br />
-With -Force, defaults to &quot;99991231&quot; (no expiration).<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="starttime">-StartTime</h5>
-<p>The time of day when job execution can begin, formatted as HHmmss in 24-hour format (e.g., &quot;143000&quot; for 2:30 PM).<br />
-For subday schedules, this is when the first execution occurs each day.<br />
-With -Force, defaults to &quot;000000&quot; (midnight).<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="endtime">-EndTime</h5>
-<p>The time of day when job execution must stop, formatted as HHmmss in 24-hour format (e.g., &quot;180000&quot; for 6:00 PM).<br />
-For subday schedules, no new executions start after this time, but running jobs can complete.<br />
-With -Force, defaults to &quot;235959&quot; (one second before midnight).<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="owner">-Owner</h5>
-<p>The SQL Server login that owns this schedule, which determines permissions for schedule modification.<br />
-Defaults to the login running this command, but you can specify a service account or DBA login for centralized schedule management.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="force">-Force</h5>
-<p>Bypasses parameter validation and applies default values for missing required parameters like dates and times.<br />
-Also removes any existing schedule with the same name before creating the new one, preventing naming conflicts.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
 </tr>
 </tbody>
 </table>
@@ -1274,7 +792,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="whatif">-WhatIf</h5>
-<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<p>If this switch is enabled, no actions are performed but informational messages will be displayed that explain what would happen if the command were to run.<br></p>
 <table>
 <thead>
 <tr>
@@ -1302,7 +820,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<p>If this switch is enabled, you will be prompted for confirmation before executing any operations that change state.<br></p>
 <table>
 <thead>
 <tr>

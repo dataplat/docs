@@ -485,9 +485,9 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Remove-DbaDbUdf">Remove-DbaDbUdf</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Removes user-defined functions from SQL Server databases.</p>
+<p>Removes user-defined functions and user-defined aggregates from SQL Server databases.</p>
 <h2 id="description">Description</h2>
-<p>Removes user-defined functions from specified databases, providing a clean way to drop obsolete or unwanted UDFs without manual T-SQL scripting. This function is particularly useful during database cleanup operations, code refactoring projects, or when removing deprecated functions that are no longer needed. Supports filtering by schema and function name, and can exclude system UDFs to prevent accidental removal of built-in functions. Works seamlessly with Get-DbaDbUdf for pipeline operations.</p>
+<p>Removes user-defined functions and user-defined aggregates from specified databases, providing a clean way to drop obsolete or unwanted UDFs and UDAs without manual T-SQL scripting. This function is particularly useful during database cleanup operations, code refactoring projects, or when removing deprecated functions that are no longer needed. Supports filtering by schema and function name, and can exclude system UDFs to prevent accidental removal of built-in functions. Works seamlessly with Get-DbaDbUdf for pipeline operations.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbUdf
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -504,7 +504,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Confirm]
     [&lt;CommonParameters&gt;]
 
-Remove-DbaDbUdf -InputObject &lt;UserDefinedFunction[]&gt;
+Remove-DbaDbUdf -InputObject &lt;Object[]&gt;
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -553,8 +553,8 @@ PS C:\&gt; $udfs | Remove-DbaDbUdf
 </tbody>
 </table>
 <h5 id="inputobject">-InputObject</h5>
-<p>Accepts UDF objects directly from Get-DbaDbUdf pipeline operations.<br />
-Use this when you need to filter or examine UDFs first before removal, enabling complex selection logic not possible with simple name matching. <br></p>
+<p>Accepts UDF and UDA objects directly from Get-DbaDbUdf pipeline operations.<br />
+Use this when you need to filter or examine UDFs or UDAs first before removal, enabling complex selection logic not possible with simple name matching. <br></p>
 <table>
 <thead>
 <tr>

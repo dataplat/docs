@@ -550,6 +550,7 @@ To change these defaults we have introduced configuration parameters for all of 
     [[-SubnetMask] &lt;IPAddress&gt;]
     [[-Port] &lt;Int32&gt;]
     [-Dhcp]
+    [[-ClusterConnectionOption] &lt;String&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -1629,6 +1630,48 @@ Use this when static IP management is not desired and DHCP reservations can prov
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="clusterconnectionoption">-ClusterConnectionOption</h5>
+<p>Specifies connection options for TDS 8.0 support in SQL Server 2025 and above.<br />
+This allows the Windows Server Failover Cluster (WSFC) to connect to SQL Server instances using ODBC with TLS 1.3 encryption.<br />
+The value is a string containing semicolon-delimited key-value pairs.<br />
+Available keys:</p>
+<ul>
+<li>Encrypt: Controls connection encryption</li>
+<li>TrustServerCertificate: Whether to trust the server certificate</li>
+<li>HostNameInCertificate: Expected hostname in the certificate</li>
+<li>ServerCertificate: Path to server certificate<br />
+This setting is persisted by WSFC in the registry and used continuously for cluster-to-instance communication.<br />
+Note: PowerShell does not validate these values - invalid combinations will be rejected by SMO or the ODBC driver.<br />
+Example: &quot;Encrypt=Strict;TrustServerCertificate=False&quot;<br />
+For detailed documentation, see:<br />
+<a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql">https://learn.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql</a><br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

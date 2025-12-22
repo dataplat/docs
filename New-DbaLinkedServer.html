@@ -513,18 +513,19 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; New-DbaLinkedServer -SqlInstance sql01 -LinkedServer linkedServer1 -ServerProduct mssql -Provider sqlncli -DataSource sql02
+<pre><code>PS C:\&gt; New-DbaLinkedServer -SqlInstance sql01 -LinkedServer linkedServer1 -ServerProduct mssql -Provider MSOLEDBSQL -DataSource sql02
 </code></pre>
-<p>Creates a new linked server named linkedServer1 on the sql01 instance. The link is via the SQL Native Client and is connected to the sql02 instance.<br></p>
+<p>Creates a new linked server named linkedServer1 on the sql01 instance. The link uses the Microsoft OLE DB Driver for SQL Server and is connected to the sql02 instance.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Connect-DbaInstance -SqlInstance sql01 | New-DbaLinkedServer -LinkedServer linkedServer1 -ServerProduct mssql -Provider sqlncli -DataSource sql02
+<pre><code>PS C:\&gt; Connect-DbaInstance -SqlInstance sql01 | New-DbaLinkedServer -LinkedServer linkedServer1 -ServerProduct mssql -Provider MSOLEDBSQL -DataSource sql02
 </code></pre>
-<p>Creates a new linked server named linkedServer1 on the sql01 instance. The link is via the SQL Native Client and is connected to the sql02 instance. The sql01 instance is passed in via pipeline.<br></p>
+<p>Creates a new linked server named linkedServer1 on the sql01 instance. The link uses the Microsoft OLE DB Driver for SQL Server and is connected to the sql02 instance. The sql01 instance is passed in <br>
+via pipeline.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; New-DbaLinkedServer -SqlInstance sql01 -LinkedServer linkedServer1 -ServerProduct mssql -Provider sqlncli -DataSource sql02 -SecurityContext CurrentSecurityContext
+<pre><code>PS C:\&gt; New-DbaLinkedServer -SqlInstance sql01 -LinkedServer linkedServer1 -ServerProduct mssql -Provider MSOLEDBSQL -DataSource sql02 -SecurityContext CurrentSecurityContext
 </code></pre>
-<p>Creates a new linked server named linkedServer1 on the sql01 instance. The link is via the SQL Native Client and is connected to the sql02 instance. Connections with logins that are not explicitly <br>
-mapped to the remote server will use the current login's security context.<br></p>
+<p>Creates a new linked server named linkedServer1 on the sql01 instance. The link uses the Microsoft OLE DB Driver for SQL Server and is connected to the sql02 instance. Connections with logins that <br>
+are not explicitly mapped to the remote server will use the current login's security context.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function<br />
@@ -646,7 +647,8 @@ This is primarily used for documentation and identification purposes in system v
 </table>
 <h5 id="provider">-Provider</h5>
 <p>Specifies the OLE DB provider used to connect to the remote data source.<br />
-Common providers include 'SQLNCLI' or 'MSOLEDBSQL' for SQL Server, 'OraOLEDB.Oracle' for Oracle, or 'Microsoft.ACE.OLEDB.12.0' for Access databases.<br />
+For SQL Server, use 'MSOLEDBSQL' or 'MSOLEDBSQL19' (recommended) - SQL Server Native Client (SQLNCLI) is deprecated and removed from SQL Server 2022 and SSMS 19.<br />
+Other common providers include 'OraOLEDB.Oracle' for Oracle or 'Microsoft.ACE.OLEDB.12.0' for Access databases.<br />
 The provider must be installed and registered on the SQL Server instance.<br></p>
 <table>
 <thead>

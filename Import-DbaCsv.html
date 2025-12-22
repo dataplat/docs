@@ -541,6 +541,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-StaticColumns] &lt;Hashtable&gt;]
     [[-DateTimeFormats] &lt;String[]&gt;]
     [[-Culture] &lt;String&gt;]
+    [[-SampleRows] &lt;Int32&gt;]
+    [-DetectColumnTypes]
     [-Parallel]
     [[-ThrottleLimit] &lt;Int32&gt;]
     [[-ParallelBatchSize] &lt;Int32&gt;]
@@ -682,6 +684,32 @@ specifies custom format strings to parse non-standard date columns correctly.<br
 </code></pre>
 <p>Imports a CSV with German number formatting where comma is the decimal separator (e.g., &quot;1.234,56&quot;).<br>
 The -Culture parameter ensures numbers are parsed correctly according to the specified locale.<br></p>
+<h5 id="example-26">Example:  26</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\sales.csv -SqlInstance sql001 -Database sales -Table SalesData -AutoCreateTable -SampleRows 10000
+</code></pre>
+<p>Imports sales.csv and creates the table with optimal column types inferred from the first 10,000 rows.<br>
+Instead of nvarchar(MAX) for all columns, the table will have appropriate types like int, decimal(10,2),<br>
+datetime2, bit, or varchar(50) based on the actual data patterns detected.<br>
+This is fast but has a small risk if data patterns change after the sampled rows.<br></p>
+<h5 id="example-27">Example:  27</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\large_dataset.csv -SqlInstance sql001 -Database warehouse -Table FactSales -AutoCreateTable -DetectColumnTypes
+</code></pre>
+<p>Imports large_dataset.csv with guaranteed optimal column types by scanning the entire file first.<br>
+A separate progress bar shows &quot;Analyzing column types...&quot; during the detection phase.<br>
+The final output (Elapsed, RowsPerSecond) reflects only the import time, not the detection overhead.<br>
+This is slower (reads file twice) but guarantees no import failures due to type mismatches.<br></p>
+<h5 id="example-28">Example:  28</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\products.csv -SqlInstance sql001 -Database inventory -Table Products -AutoCreateTable -SampleRows 5000 -DateTimeFormats @(&quot;dd-MMM-yyyy&quot;, &quot;yyyy/MM/dd&quot;)
+</code></pre>
+<p>Imports products.csv with type detection from 5,000 rows, using custom date formats for parsing.<br>
+Columns containing dates in formats like &quot;15-Jan-2024&quot; or &quot;2024/01/15&quot; will be detected as datetime2.<br></p>
+<h5 id="example-29">Example:  29</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\quickload.csv -SqlInstance sql001 -Database tempdb -Table QuickData -AutoCreateTable
+</code></pre>
+<p>Imports quickload.csv with AutoCreateTable. After import completes, column sizes are automatically<br>
+optimized by querying actual max lengths and altering columns from nvarchar(MAX) to padded sizes<br>
+like nvarchar(16), nvarchar(32), nvarchar(64), etc. The nvarchar type is preserved to avoid any<br>
+risk of data loss from Unicode conversion. For ASCII-&gt;varchar conversion, use -SampleRows or -DetectColumnTypes.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The SQL Server Instance to import data into. <br></p>
@@ -1238,7 +1266,9 @@ Use this when column names don't match but the order is correct, or when dealing
 </table>
 <h5 id="autocreatetable">-AutoCreateTable</h5>
 <p>Creates the destination table automatically if it doesn't exist, using nvarchar(max) for all columns.<br />
-Convenient for quick imports or testing, but for production use, create tables manually with appropriate data types, indexes, and constraints.<br></p>
+After import, column sizes are automatically optimized based on actual data lengths (nvarchar(MAX) -&gt; nvarchar(16/32/64/etc.)).<br />
+For proper type inference (int, decimal, datetime2, varchar vs nvarchar), use -SampleRows or -DetectColumnTypes instead.<br />
+For production use with specific constraints, create tables manually with appropriate data types, indexes, and constraints.<br></p>
 <table>
 <thead>
 <tr>
@@ -2117,6 +2147,80 @@ Default is InvariantCulture.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="samplerows">-SampleRows</h5>
+<p>Enables smart type detection by sampling the first N rows of the CSV file.<br />
+When specified, the command analyzes the sample to infer optimal SQL Server column types<br />
+instead of using nvarchar(MAX) for all columns.<br />
+This is faster than -DetectColumnTypes but has a small risk if data patterns change<br />
+after the sampled rows (e.g., row 10001 has a longer string than any in the sample).<br />
+Implies -AutoCreateTable behavior for type detection.<br />
+Example: -SampleRows 10000 samples the first 10,000 rows to determine types like<br />
+int, bigint, decimal(p,s), datetime2, bit, uniqueidentifier, or varchar(n)/nvarchar(n)<br />
+with appropriate lengths. Unlike plain -AutoCreateTable, this can infer varchar for<br />
+ASCII-only string data, saving storage space.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="detectcolumntypes">-DetectColumnTypes</h5>
+<p>Enables smart type detection by scanning the entire CSV file before import.<br />
+This guarantees no import failures due to type mismatches but requires reading<br />
+the file twice (once for analysis, once for import).<br />
+A separate progress bar is displayed during the type detection phase.<br />
+The final output (Elapsed, RowsPerSecond) reflects only the import time,<br />
+not the detection overhead.<br />
+Implies -AutoCreateTable behavior for type detection.<br />
+Detected types include: int, bigint, decimal(p,s), datetime2, bit,<br />
+uniqueidentifier, varchar(n) for ASCII-only strings, and nvarchar(n) when Unicode is detected.<br />
+This provides optimal storage by using varchar where possible.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

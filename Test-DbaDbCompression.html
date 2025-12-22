@@ -495,7 +495,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <li>Percent_Scan shows the percentage of scan operations relative to total operations. Higher scan percentages indicate better candidates for page compression.</li>
 <li>Compression_Type_Recommendation provides specific guidance: 'PAGE', 'ROW', 'NO_GAIN' or '?' when the algorithm cannot determine the best option.</li>
 </ul>
-<p>The function automatically excludes tables that cannot be compressed: memory-optimized tables (SQL 2014+), tables with encrypted columns (SQL 2016+), graph tables (SQL 2017+), and tables with sparse columns. It only analyzes user tables with no existing compression and requires SQL Server 2016 SP1 or higher for non-Enterprise editions.</p>
+<p>The function automatically excludes tables that cannot be compressed: memory-optimized tables (SQL 2014+), tables with encrypted columns (SQL 2016+), graph tables (SQL 2017+), tables with sparse columns, tables with FileStream columns, and FileTables (SQL 2012+). It only analyzes user tables with no existing compression and requires SQL Server 2016 SP1 or higher for non-Enterprise editions.</p>
 <p>Test-DbaDbCompression script derived from GitHub and the Tiger Team's repository: (<a href="https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains">https://github.com/Microsoft/tigertoolbox/tree/master/Evaluate-Compression-Gains</a>)</p>
 <p>Be aware this may take considerable time on large databases as sp_estimate_data_compression_savings requires shared locks that can be blocked by concurrent activity. The analysis covers only ROW and PAGE compression options, not columnstore compression.</p>
 <h2 id="syntax">Syntax</h2>

@@ -534,6 +534,21 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Equivalent to running &quot;ALTER AVAILABILITY GROUP... MODIFY REPLICA... (READ_ONLY_ROUTING_LIST = (('Replica2', 'Replica3')));&quot; setting a load balanced routing list for when Replica1 is the primary <br>
 replica.<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; # Complete read-only routing setup for a two-replica AG
+PS C:\&gt; # Step 1: Configure secondary replica to accept read-only connections
+PS C:\&gt; Set-DbaAgReplica -SqlInstance $primary -AvailabilityGroup MyAG -Replica Secondary1 -ConnectionModeInSecondaryRole AllowReadIntentConnectionsOnly
+PS C:\&gt; 
+PS C:\&gt; # Step 2: Set the routing URL for each replica
+PS C:\&gt; Set-DbaAgReplica -SqlInstance $primary -AvailabilityGroup MyAG -Replica Primary1 -ReadonlyRoutingConnectionUrl &quot;TCP://Primary1:1433&quot;
+PS C:\&gt; Set-DbaAgReplica -SqlInstance $primary -AvailabilityGroup MyAG -Replica Secondary1 -ReadonlyRoutingConnectionUrl &quot;TCP://Secondary1:1433&quot;
+PS C:\&gt; 
+PS C:\&gt; # Step 3: Set the routing list (which replicas receive read-only traffic when this replica is primary)
+PS C:\&gt; Set-DbaAgReplica -SqlInstance $primary -AvailabilityGroup MyAG -Replica Primary1 -ReadOnlyRoutingList Secondary1, Primary1
+</code></pre>
+<p>Complete example showing the prerequisites for read-only routing. The routing list specifies where to route<br>
+read-intent connections when Primary1 is the primary replica. Note that all replicas in the routing list<br>
+must have their ReadonlyRoutingConnectionUrl configured first.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Server version must be SQL Server version 2012 or higher.<br></p>
@@ -937,9 +952,17 @@ Required when setting up read-only routing to distribute read workloads across s
 </tbody>
 </table>
 <h5 id="readonlyroutinglist">-ReadOnlyRoutingList</h5>
-<p>Defines the ordered list of secondary replicas that should receive read-only connections when this replica is primary. Accepts arrays for load-balanced routing or simple arrays for priority-based<br />
-routing.<br />
-Use this to establish read-only routing policies that distribute read workloads across available secondary replicas.<br></p>
+<p>Defines the ordered list of secondary replicas that should receive read-only connections when this replica is primary.<br />
+Accepts arrays for priority-based routing or nested arrays for load-balanced routing.<br />
+IMPORTANT: Read-only routing requires proper setup:</p>
+<ol>
+<li>The availability group must have at least two replicas (primary + secondary)</li>
+<li>Target replicas must exist in the availability group</li>
+<li>Secondary replicas must have ConnectionModeInSecondaryRole set to AllowReadIntentConnectionsOnly or AllowAllConnections</li>
+<li>Each replica in the routing list must have ReadonlyRoutingConnectionUrl configured</li>
+<li>An availability group listener is required for read-only routing to function<br />
+For more information, see: <a href="https://learn.microsoft.com/sql/database-engine/availability-groups/windows/configure-read-only-routing-for-an-availability-group-sql-server">https://learn.microsoft.com/sql/database-engine/availability-groups/windows/configure-read-only-routing-for-an-availability-group-sql-server</a><br></li>
+</ol>
 <table>
 <thead>
 <tr>

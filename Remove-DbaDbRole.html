@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Ben Miller (@DBAduck)</td>
+<td>Ben Miller (@DBAduck), the dbatools team + Claude</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -487,8 +487,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Removes custom database roles from SQL Server databases</p>
 <h2 id="description">Description</h2>
-<p>Removes user-defined database roles from SQL Server databases while protecting against accidental deletion of system roles. This function automatically excludes fixed database roles (like db_owner, db_datareader) and the public role, ensuring only custom roles created for specific security requirements can be removed.</p>
-<p>The function performs safety checks before removal, preventing deletion of roles that own database schemas to avoid orphaning database objects. This is particularly useful when cleaning up deprecated security configurations or removing roles from development databases that were copied from production.</p>
+<p>Removes user-defined database roles from SQL Server databases while protecting against accidental deletion of system roles and intelligently handling schema ownership. This function automatically excludes fixed database roles (like db_owner, db_datareader) and the public role, ensuring only custom roles created for specific security requirements can be removed.</p>
+<p>When a role owns schemas, the function intelligently manages the cleanup: schemas with the same name as the role are dropped (if empty), while other owned schemas have their ownership transferred to 'dbo'. If schemas contain objects, use -Force to allow ownership transfer and proceed with role removal.</p>
 <p>You can target specific roles across multiple databases and instances, making it ideal for standardizing security configurations or bulk cleanup operations. By default, system databases are excluded unless explicitly included with the IncludeSystemDbs parameter.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Remove-DbaDbRole
@@ -500,6 +500,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-ExcludeRole] &lt;String[]&gt;]
     [-IncludeSystemDbs]
     [[-InputObject] &lt;Object[]&gt;]
+    [-Force]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -758,6 +759,35 @@ Use this for pipeline operations where you first retrieve specific roles or data
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>Forces schema ownership transfer to 'dbo' when the role owns schemas containing database objects. Without this, role removal fails if owned schemas contain objects.<br />
+Use this during role cleanup when you need to ensure complete removal regardless of schema dependencies.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

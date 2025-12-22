@@ -506,6 +506,7 @@ Temporal version history cannot be preserved as these values are system-managed.
     [[-Table] &lt;String[]&gt;]
     [[-View] &lt;String[]&gt;]
     [[-Query] &lt;String&gt;]
+    [-ForceExplicitMapping]
     [-AutoCreateTable]
     [[-BatchSize] &lt;Int32&gt;]
     [[-NotifyAfter] &lt;Int32&gt;]
@@ -587,6 +588,23 @@ See the Query param documentation for more details.<br></p>
 <pre><code>PS C:\&gt; Copy-DbaDbTableData -SqlInstance sql1 -Database tempdb -View [tempdb].[dbo].[vw1] -DestinationTable [SampleDb].[SampleSchema].[SampleTable] -AutoCreateTable
 </code></pre>
 <p>Copies all data from [tempdb].[dbo].[vw1] (3-part name) view on instance sql1 to an auto-created table [SampleDb].[SampleSchema].[SampleTable] on instance sql1<br></p>
+<h5 id="example-9">Example:  9</h5>
+<pre><code>PS C:\&gt; $params = @{
+&gt;&gt;     SqlInstance         = &quot;SERVER001&quot;
+&gt;&gt;     Database            = &quot;MyDatabaseName&quot;
+&gt;&gt;     View                = &quot;sys.schemas&quot;
+&gt;&gt;     Query               = &quot;SELECT 0, DB_NAME(), [name] FROM sys.schemas&quot;
+&gt;&gt;     Destination         = &quot;SERVER002&quot;
+&gt;&gt;     DestinationDatabase = &quot;MyOtherDatabaseName&quot;
+&gt;&gt;     DestinationTable    = &quot;syscollect.stage_map_schema_id&quot;
+&gt;&gt; }
+&gt;&gt;
+PS C:\&gt; Copy-DbaDbTableData @params
+</code></pre>
+<p>Copies schema data from sys.schemas to a table with an identity column.<br>
+The first SELECT column (0) is a placeholder for the destination's identity column.<br>
+Since -KeepIdentity is not specified, the destination auto-generates identity values and ignores the placeholder.<br>
+Columns are mapped by position: 0 â†’ ID (ignored), DB_NAME() â†’ database_name, [name] â†’ schema_name.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>Source SQL Server.You must have sysadmin access and server version must be SQL Server version 2000 or greater.<br></p>
@@ -822,7 +840,9 @@ Use square brackets for names with spaces or special characters. Cannot be used 
 </table>
 <h5 id="query">-Query</h5>
 <p>Custom SQL SELECT query to use as the data source instead of copying the entire table or view. Supports 3 or 4-part object names.<br />
-Use this when you need to filter rows, join multiple tables, or transform data during the copy operation. Still requires specifying a Table or View parameter for metadata purposes.<br></p>
+Use this when you need to filter rows, join multiple tables, or transform data during the copy operation. Still requires specifying a Table or View parameter for metadata purposes.<br />
+Note: Columns are mapped by ordinal position. If the destination table has an identity column, include a placeholder value (e.g., 0) in your SELECT list at that position.<br />
+The placeholder will be ignored and the identity value auto-generated unless -KeepIdentity is specified.<br></p>
 <table>
 <thead>
 <tr>
@@ -846,6 +866,37 @@ Use this when you need to filter rows, join multiple tables, or transform data d
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="forceexplicitmapping">-ForceExplicitMapping</h5>
+<p>When used together with Query parameter, force the use of explicit column mapping (name-based) instead of switching over to ordinal position mapping. Use with care if query contains aliases.<br />
+Default behaviour when using Query parameter is to use ordinal position mapping, due to the possibility of the query including aliases (SELECT x AS y) which could lead to column mismatching and data<br />
+not copying.<br />
+The downside of it automatically switching over to ordinal mapping is that it also tries to copy over computed columns, which will cause it to fail.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

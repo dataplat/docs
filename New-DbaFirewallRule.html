@@ -489,26 +489,43 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Creates inbound Windows firewall rules for SQL Server instances, Browser service, and Dedicated Admin Connection (DAC) to allow network connectivity.<br />
 This automates the tedious post-installation task of configuring firewall access for SQL Server, eliminating the need to manually determine ports and create rules through Windows Firewall GUI or netsh commands.</p>
-<p>The function intelligently detects whether instances use static or dynamic ports and creates appropriate rules.<br />
-For static ports, it creates port-based rules; for dynamic ports, it creates program-based rules targeting sqlservr.exe.<br />
-When instances use non-default ports, it automatically includes a Browser service rule so clients can discover the instance.</p>
+<p>By default, the function creates program-based firewall rules that target SQL Server executables (sqlservr.exe, sqlbrowser.exe).<br />
+This approach allows instances to work regardless of port configuration changes - named instances on different ports or default instances on non-standard ports are automatically allowed without needing to update firewall rules.<br />
+Alternatively, you can use -RuleType Port to create traditional port-based firewall rules.</p>
 <p>This is a wrapper around New-NetFirewallRule executed remotely on the target computer via Invoke-Command2.<br />
 Both DisplayName and Name are set to the same value to ensure unique rule identification and prevent duplicates.<br />
 All rules use the &quot;SQL Server&quot; group for easy management with Get-DbaFirewallRule.</p>
 <p>The functionality is currently limited. Help to extend the functionality is welcome.</p>
 <p>As long as you can read this note here, there may be breaking changes in future versions.<br />
 So please review your scripts using this command after updating dbatools.</p>
-<p>The firewall rule for the instance itself will have the following configuration (parameters for New-NetFirewallRule):</p>
+<p>With -RuleType Program (default), the firewall rule for the instance itself will have the following configuration (parameters for New-NetFirewallRule):</p>
 <pre><code>DisplayName = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'  
 Name        = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'  
 Group       = 'SQL Server'  
 Enabled     = 'True'  
 Direction   = 'Inbound'  
 Protocol    = 'TCP'  
-LocalPort   = '&lt;Port&gt;' (for instances with static port)  
-Program     = '&lt;Path ending with MSSQL\Binn\sqlservr.exe&gt;' (for instances with dynamic port)  
+Program     = '&lt;Path ending with MSSQL\Binn\sqlservr.exe&gt;'  
 </code></pre>
-<p>The firewall rule for the SQL Server Browser will have the following configuration (parameters for New-NetFirewallRule):</p>
+<p>With -RuleType Port, the firewall rule for the instance itself will have the following configuration (parameters for New-NetFirewallRule):</p>
+<pre><code>DisplayName = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'  
+Name        = 'SQL Server default instance' or 'SQL Server instance &lt;InstanceName&gt;'  
+Group       = 'SQL Server'  
+Enabled     = 'True'  
+Direction   = 'Inbound'  
+Protocol    = 'TCP'  
+LocalPort   = '&lt;Port&gt;'  
+</code></pre>
+<p>With -RuleType Program (default), the firewall rule for the SQL Server Browser will have the following configuration (parameters for New-NetFirewallRule):</p>
+<pre><code>DisplayName = 'SQL Server Browser'  
+Name        = 'SQL Server Browser'  
+Group       = 'SQL Server'  
+Enabled     = 'True'  
+Direction   = 'Inbound'  
+Protocol    = 'Any'  
+Program     = '&lt;Path ending with sqlbrowser.exe&gt;'  
+</code></pre>
+<p>With -RuleType Port, the firewall rule for the SQL Server Browser will have the following configuration (parameters for New-NetFirewallRule):</p>
 <pre><code>DisplayName = 'SQL Server Browser'  
 Name        = 'SQL Server Browser'  
 Group       = 'SQL Server'  
@@ -542,6 +559,7 @@ LocalPort   = '5022' (can be overwritten by using the parameter Configuration)
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-Credential] &lt;PSCredential&gt;]
     [[-Type] &lt;String[]&gt;]
+    [[-RuleType] &lt;String&gt;]
     [[-Configuration] &lt;Hashtable&gt;]
     [-Force]
     [-EnableException]
@@ -556,21 +574,27 @@ LocalPort   = '5022' (can be overwritten by using the parameter Configuration)
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; New-DbaFirewallRule -SqlInstance SRV1, SRV1\TEST
 </code></pre>
-<p>Automatically configures the needed firewall rules for both the default instance and the instance named TEST on SRV1.<br></p>
+<p>Automatically configures the needed firewall rules for both the default instance and the instance named TEST on SRV1.<br>
+By default, creates program-based rules targeting the SQL Server executables, allowing the instances to work regardless of port configuration changes.<br></p>
 <h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; New-DbaFirewallRule -SqlInstance SRV1, SRV1\TEST -RuleType Port
+</code></pre>
+<p>Creates port-based firewall rules instead of the default program-based rules.<br>
+This creates traditional TCP/UDP port rules for the instances.<br></p>
+<h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; New-DbaFirewallRule -SqlInstance SRV1, SRV1\TEST -Configuration @{ Profile = 'Domain' }
 </code></pre>
 <p>Automatically configures the needed firewall rules for both the default instance and the instance named TEST on SRV1,<br>
 but configures the firewall rule for the domain profile only.<br></p>
-<h5 id="example-3">Example:  3</h5>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; New-DbaFirewallRule -SqlInstance SRV1\TEST -Type Engine -Force -Confirm:$false
 </code></pre>
 <p>Creates or recreates the firewall rule for the instance TEST on SRV1. Does not prompt for confirmation.<br></p>
-<h5 id="example-4">Example:  4</h5>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; New-DbaFirewallRule -SqlInstance SQL01 -Type DatabaseMirroring
 </code></pre>
 <p>Creates the firewall rule for database mirroring or Availability Groups on the default instance on SQL01 using the default port 5022.<br></p>
-<h5 id="example-5">Example:  5</h5>
+<h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; New-DbaFirewallRule -SqlInstance SQL02 -Type DatabaseMirroring -Configuration @{ LocalPort = '5023' }
 </code></pre>
 <p>Creates the firewall rule for database mirroring or Availability Groups on the default instance on SQL02 using the custom port 5023.<br></p>
@@ -664,6 +688,42 @@ the function automatically creates Engine rules plus Browser rules for non-defau
 <tr>
 <td>Accepted Values</td>
 <td>Engine,Browser,DAC,DatabaseMirroring</td>
+</tr>
+</tbody>
+</table>
+<h5 id="ruletype">-RuleType</h5>
+<p>Specifies how firewall rules identify SQL Server traffic - either by targeting the executable program or by targeting specific TCP/UDP ports.<br />
+Valid values are Program (targets sqlservr.exe and sqlbrowser.exe executables) and Port (targets TCP/UDP port numbers).<br />
+Defaults to Program, which allows instances to work regardless of port configuration changes (named instances on different ports, default instances on non-standard ports).<br />
+Use Port when you need traditional port-based rules or when Program-based rules cannot be created.<br />
+Note: DAC and DatabaseMirroring rules are always port-based regardless of this setting.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Program</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Program,Port</td>
 </tr>
 </tbody>
 </table>

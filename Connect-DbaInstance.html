@@ -523,6 +523,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-SqlExecutionModes] &lt;String&gt;]
     [[-StatementTimeout] &lt;Int32&gt;]
     [-TrustServerCertificate]
+    [-AllowTrustServerCertificate]
     [[-WorkstationId] &lt;String&gt;]
     [-AlwaysEncrypted]
     [[-AppendConnectionString] &lt;String&gt;]
@@ -651,6 +652,14 @@ PS C:\&gt; $server | Disconnect-DbaInstance
 Receives all non-system processes from the instance using the DAC.<br>
 Opens a grid view to let the user select processes to be stopped.<br>
 Closes the connection.<br></p>
+<h5 id="example-19">Example:  19</h5>
+<pre><code>PS C:\&gt; $servers = &quot;sql1&quot;, &quot;sql2&quot;, &quot;sql3&quot;
+PS C:\&gt; $servers | Connect-DbaInstance -AllowTrustServerCertificate
+</code></pre>
+<p>Connects to multiple servers where some may have valid TLS certificates and others may not.<br>
+For each server, attempts connection with proper TLS validation first.<br>
+If a server fails due to certificate validation, automatically retries with TrustServerCertificate enabled.<br>
+This provides a secure-by-default approach for mixed environments without requiring separate connection logic.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances. <br></p>
@@ -1328,6 +1337,36 @@ Use this for development environments or when connecting to servers with self-si
 <tr>
 <td>Default Value</td>
 <td>(Get-DbatoolsConfigValue -FullName 'sql.connection.trustcert')</td>
+</tr>
+</tbody>
+</table>
+<h5 id="allowtrustservercertificate">-AllowTrustServerCertificate</h5>
+<p>Attempts connection with proper TLS validation first, then retries with TrustServerCertificate if the initial connection fails due to certificate validation.<br />
+Provides a secure-by-default approach for mixed environments where some servers have valid certificates and others do not.<br />
+Only retries on certificate validation failures, not on other connection errors like authentication or network issues.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>(Get-DbatoolsConfigValue -FullName 'sql.connection.allowtrustcert')</td>
 </tr>
 </tbody>
 </table>

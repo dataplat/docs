@@ -485,11 +485,11 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaDacPackage">Export-DbaDacPackage</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Creates DACPAC or BACPAC deployment packages from SQL Server databases using SqlPackage</p>
+<p>Exports DACPAC or BACPAC packages from SQL Server databases using the DacFx framework</p>
 <h2 id="description">Description</h2>
-<p>Creates database deployment packages for version control, migrations, and schema distribution. Generates DACPAC files containing database schema definitions or BACPAC files that include both schema and data. This automates the SqlPackage utility so you don't have to remember complex command-line syntax or manage connection strings manually.</p>
+<p>Creates database deployment packages for version control, migrations, and schema distribution. Generates DACPAC files containing database schema definitions or BACPAC files that include both schema and data.</p>
 <p>Perfect for creating deployable packages from development databases, capturing schema snapshots for source control, or preparing migration artifacts for different environments. The function handles multiple databases in batch operations and provides flexible table filtering when you only need specific objects.</p>
-<p>Uses Microsoft DAC Services under the hood with automatic SqlPackage installation if needed. Note that extraction can fail with three-part references to external databases or complex cross-database dependencies.</p>
+<p>Uses Microsoft DacFx API from dbatools.library. Note that extraction can fail with three-part references to external databases or complex cross-database dependencies.</p>
 <p>For help with the extract action parameters and properties, refer to <a href="https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-extract">https://learn.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-extract</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Export-DbaDacPackage -SqlInstance &lt;DbaInstanceParameter[]&gt;
@@ -543,8 +543,8 @@ name, and the current timestamp in the &quot;%Y%m%d%H%M%S&quot; format.<br></p>
 <pre><code>PS C:\&gt; $moreparams = &quot;/OverwriteFiles:$true /Quiet:$true&quot;
 PS C:\&gt; Export-DbaDacPackage -SqlInstance sql2016 -Database SharePoint_Config -Path C:\temp -ExtendedParameters $moreparams
 </code></pre>
-<p>Using extended parameters to over-write the files and performs the extraction in quiet mode to C:\temp\sql2016-SharePoint_Config-20201227140759-dacpackage.dacpac. Uses command line instead of SMO <br>
-behind the scenes. As noted the generated filename will contain the server name, database name, and the current timestamp in the &quot;%Y%m%d%H%M%S&quot; format.<br></p>
+<p>Using extended parameters to over-write the files and performs the extraction in quiet mode to C:\temp\sql2016-SharePoint_Config-20201227140759-dacpackage.dacpac. Uses SqlPackage.exe command line <br>
+instead of DacFx API behind the scenes. As noted the generated filename will contain the server name, database name, and the current timestamp in the &quot;%Y%m%d%H%M%S&quot; format.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Must be SQL Server 2008 R2 or higher (DAC Framework minimum version 10.50). <br></p>
@@ -780,7 +780,8 @@ Use this to control extraction behavior like command timeouts, table data inclus
 </table>
 <h5 id="extendedparameters">-ExtendedParameters</h5>
 <p>Passes additional command-line parameters directly to SqlPackage.exe for advanced scenarios (e.g., '/OverwriteFiles:true /Quiet:true').<br />
-Use this when you need SqlPackage options not available through DacOption or when integrating with existing SqlPackage workflows.<br></p>
+Use this when you need SqlPackage options not available through DacOption or when integrating with existing SqlPackage workflows.<br />
+Note: This parameter requires SqlPackage.exe to be installed via Install-DbaSqlPackage or locally.<br></p>
 <table>
 <thead>
 <tr>
@@ -809,7 +810,8 @@ Use this when you need SqlPackage options not available through DacOption or whe
 </table>
 <h5 id="extendedproperties">-ExtendedProperties</h5>
 <p>Passes additional property settings directly to SqlPackage.exe for fine-tuned control over extraction behavior.<br />
-Use this when you need to set specific SqlPackage properties that aren't exposed through the standard DacOption parameter.<br></p>
+Use this when you need to set specific SqlPackage properties that aren't exposed through the standard DacOption parameter.<br />
+Note: This parameter requires SqlPackage.exe to be installed via Install-DbaSqlPackage.<br></p>
 <table>
 <thead>
 <tr>
