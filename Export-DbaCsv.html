@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Install-DbaInstance</title>
+    <title>dbatools docs | Export-DbaCsv</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,24 +12,24 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ,powershell,sql server,devops,json">
-    <meta name="subtitle" content="Docs for Install-DbaInstance">
+    <meta name="subtitle" content="Docs for Export-DbaCsv">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Install-DbaInstance" />
-    <meta property="og:url" content="https://docs.dbatools.io/Install-DbaInstance.html" />
-    <meta property="og:description" content="dbatools docs for Install-DbaInstance" />
+    <meta property="og:title" content="dbatools docs:  Export-DbaCsv" />
+    <meta property="og:url" content="https://docs.dbatools.io/Export-DbaCsv.html" />
+    <meta property="og:description" content="dbatools docs for Export-DbaCsv" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Install-DbaInstance" />
+    <meta name="twitter:text:title" content="dbatools docs:  Export-DbaCsv" />
     
-    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Install-DbaInstance.png">
+    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Export-DbaCsv.png">
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name=twitter:creator content="@psdbatools">
-    <meta name=twitter:title content="dbatools docs:  Install-DbaInstance">
+    <meta name=twitter:title content="dbatools docs:  Export-DbaCsv">
     <meta property="twitter:site" content="@psdbatools" />
 
-    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Install-DbaInstance.png">
-    <link rel=canonical href="https://docs.dbatools.io/Install-DbaInstance.html" />
+    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Export-DbaCsv.png">
+    <link rel=canonical href="https://docs.dbatools.io/Export-DbaCsv.html" />
     <link rel=alternate type=application/json
         href=https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
         title="dbatools documentation">
@@ -461,7 +461,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="install-dbainstance">Install-DbaInstance</h1>
+                    <h1 id="export-dbacsv">Export-DbaCsv</h1>
 <table>
 <thead>
 <tr>
@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Reitse Eskens (@2meterDBA), Kirill Kravtsov (@nvarscar)</td>
+<td>the dbatools team + Claude</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -481,98 +481,40 @@
 </tbody>
 </table>
 <p> </p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Install-DbaInstance.ps1">Install-DbaInstance</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Export-DbaCsv.ps1">Export-DbaCsv</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Install-DbaInstance">Install-DbaInstance</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Export-DbaCsv">Export-DbaCsv</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Automates SQL Server instance installation across local and remote computers with customizable configuration.</p>
+<p>Exports SQL Server query results or table data to CSV files with optional compression.</p>
 <h2 id="description">Description</h2>
-<p>Orchestrates unattended SQL Server installations by generating configuration files and executing setup.exe remotely or locally. Automates the tedious process of creating proper configuration.ini files, handling service accounts, and managing installation prerequisites like pending reboots and authentication protocols.</p>
-<p>The function dynamically builds installation configurations based on your parameters, automatically configures optimal settings like tempdb file counts based on CPU cores (SQL 2016+), and handles authentication scenarios including CredSSP for network installations. It can install multiple instances in parallel and manages the complete installation lifecycle from prerequisite checks to post-installation TCP port configuration.</p>
-<p>Key automation features include:</p>
-<ul>
-<li>Generates secure SA passwords for mixed authentication mode installations</li>
-<li>Automatically grants sysadmin rights to your account or specified administrators</li>
-<li>Configures tempdb file counts based on server CPU cores for optimal performance</li>
-<li>Handles service account credentials using native PowerShell credential objects</li>
-<li>Manages installation media location detection across network and local paths</li>
-<li>Performs prerequisite validation including pending reboot detection</li>
-<li>Supports parallel installation across multiple servers with throttling controls</li>
-<li>Configures TCP port settings post-installation when specified</li>
-</ul>
-<p>Advanced configuration capabilities:</p>
-<ul>
-<li>Import existing Configuration.ini files or build configurations from scratch</li>
-<li>Override any SQL Server setup parameter using the -Configuration hashtable</li>
-<li>Support for specialized installations like failover cluster instances</li>
-<li>Enable instant file initialization (perform volume maintenance tasks) automatically</li>
-<li>Slipstream updates during installation using -UpdateSourcePath</li>
-<li>Install specific feature combinations using templates (Default, All) or individual components</li>
-</ul>
-<p>Authentication and credential management:</p>
-<ul>
-<li>Automatically configures CredSSP authentication for network-based installations when needed</li>
-<li>Supports various authentication protocols (Kerberos, NTLM, Basic) with fallback options</li>
-<li>Handles domain service accounts, managed service accounts (MSAs), and local accounts</li>
-<li>Manages distinct service credentials for Database Engine, SQL Agent, Analysis Services, Integration Services, and other components</li>
-</ul>
-<p>Installation media requirements:</p>
-<ul>
-<li>Requires extracted SQL Server installation media accessible to target servers</li>
-<li>Supports both local and network-based installation media repositories</li>
-<li>Automatically locates appropriate setup.exe files based on specified SQL Server version</li>
-<li>Falls back to Evaluation edition if no Product ID is provided in configuration</li>
-</ul>
-<p>Remote execution considerations:</p>
-<ul>
-<li>Requires elevated privileges on target computers for SQL Server installation</li>
-<li>Automatically handles CredSSP configuration when installing from network shares</li>
-<li>Supports custom authentication protocols and credential delegation scenarios</li>
-<li>Can optionally restart target computers automatically when required by installation prerequisites</li>
-</ul>
-<p>Note that the downloaded installation media must be extracted and available to the server where the installation runs.<br />
-NOTE: If no ProductID (PID) is found in the configuration files/parameters, Evaluation version is going to be installed.</p>
-<p>When using CredSSP authentication, this function will try to configure CredSSP authentication for PowerShell Remoting sessions.<br />
-If this is not desired (e.g.: CredSSP authentication is managed externally, or is already configured appropriately,)<br />
-it can be disabled by setting the dbatools configuration option 'commands.initialize-credssp.bypass' value to $true.<br />
-To be able to configure CredSSP, the command needs to be run in an elevated PowerShell session.</p>
+<p>Export-DbaCsv provides high-performance CSV export capabilities with support for multiple compression formats<br />
+including GZip, Deflate, Brotli, and ZLib. The function can export data from SQL queries, tables, or piped<br />
+objects to CSV files with configurable formatting options.</p>
+<p>Supports various output formats including custom delimiters, quoting behaviors, date formatting, and encoding options.<br />
+Compression can significantly reduce file sizes for large exports, making it ideal for archiving, data transfer,<br />
+or storage-constrained environments.</p>
+<p>Perfect for ETL processes, data exports, reporting, and creating portable data files from SQL Server.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Install-DbaInstance
+<pre><code>Export-DbaCsv
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
-    [-Version] &lt;String&gt;
-    [[-InstanceName] &lt;String&gt;]
-    [[-SaCredential] &lt;PSCredential&gt;]
-    [[-Credential] &lt;PSCredential&gt;]
-    [[-Authentication] &lt;String&gt;]
-    [[-ConfigurationFile] &lt;Object&gt;]
-    [[-Configuration] &lt;Hashtable&gt;]
-    [[-Path] &lt;String[]&gt;]
-    [[-Feature] &lt;String[]&gt;]
-    [[-AuthenticationMode] &lt;String&gt;]
-    [[-InstancePath] &lt;String&gt;]
-    [[-DataPath] &lt;String&gt;]
-    [[-LogPath] &lt;String&gt;]
-    [[-TempPath] &lt;String&gt;]
-    [[-BackupPath] &lt;String&gt;]
-    [[-UpdateSourcePath] &lt;String&gt;]
-    [[-AdminAccount] &lt;String[]&gt;]
-    [[-ASAdminAccount] &lt;String[]&gt;]
-    [[-Port] &lt;Int32&gt;]
-    [[-Throttle] &lt;Int32&gt;]
-    [[-ProductID] &lt;String&gt;]
-    [[-AsCollation] &lt;String&gt;]
-    [[-SqlCollation] &lt;String&gt;]
-    [[-EngineCredential] &lt;PSCredential&gt;]
-    [[-AgentCredential] &lt;PSCredential&gt;]
-    [[-ASCredential] &lt;PSCredential&gt;]
-    [[-ISCredential] &lt;PSCredential&gt;]
-    [[-RSCredential] &lt;PSCredential&gt;]
-    [[-FTCredential] &lt;PSCredential&gt;]
-    [[-PBEngineCredential] &lt;PSCredential&gt;]
-    [[-SaveConfiguration] &lt;String&gt;]
-    [-PerformVolumeMaintenanceTasks]
-    [-Restart]
-    [-NoPendingRenameCheck]
+    [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Database] &lt;String&gt;]
+    [[-Query] &lt;String&gt;]
+    [[-Table] &lt;String&gt;]
+    [[-InputObject] &lt;Object[]&gt;]
+    [-Path] &lt;String&gt;
+    [[-Delimiter] &lt;String&gt;]
+    [-NoHeader]
+    [[-Quote] &lt;Char&gt;]
+    [[-QuotingBehavior] &lt;String&gt;]
+    [[-Encoding] &lt;String&gt;]
+    [[-NullValue] &lt;String&gt;]
+    [[-DateTimeFormat] &lt;String&gt;]
+    [-UseUtc]
+    [[-CompressionType] &lt;String&gt;]
+    [[-CompressionLevel] &lt;String&gt;]
+    [-Append]
+    [-NoClobber]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -583,56 +525,38 @@ To be able to configure CredSSP, the command needs to be run in an elevated Powe
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Install-DbaInstance -Version 2017 -Feature All
+<pre><code>PS C:\&gt; Export-DbaCsv -SqlInstance sql001 -Database Northwind -Query &quot;SELECT * FROM Customers&quot; -Path C:\temp\customers.csv
 </code></pre>
-<p>Install a default SQL Server instance and run the installation enabling all features with default settings. Automatically generates configuration.ini<br></p>
+<p>Exports all customers from the Northwind database to a CSV file.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Install-DbaInstance -SqlInstance sql2017\sqlexpress, server01 -Version 2017 -Feature Default
+<pre><code>PS C:\&gt; Export-DbaCsv -SqlInstance sql001 -Database Northwind -Table &quot;dbo.Orders&quot; -Path C:\temp\orders.csv.gz -CompressionType GZip
 </code></pre>
-<p>Install a named SQL Server instance named sqlexpress on sql2017, and a default instance on server01. Automatically generates configuration.ini.<br>
-Default features will be installed.<br></p>
+<p>Exports the Orders table to a GZip-compressed CSV file.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Install-DbaInstance -Version 2008R2 -SqlInstance sql2017 -ConfigurationFile C:\temp\configuration.ini
+<pre><code>PS C:\&gt; Get-DbaDbTable -SqlInstance sql001 -Database tempdb -Table &quot;#MyTempTable&quot; | Export-DbaCsv -Path C:\temp\data.csv
 </code></pre>
-<p>Install a default named SQL Server instance on the remote machine, sql2017 and use the local configuration.ini<br></p>
+<p>Pipes table data from Get-DbaDbTable to export as CSV.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Install-DbaInstance -Version 2017 -InstancePath G:\SQLServer -UpdateSourcePath '\\my\updates'
+<pre><code>PS C:\&gt; Export-DbaCsv -SqlInstance sql001 -Database Sales -Query &quot;SELECT * FROM BigTable&quot; -Path C:\archive\data.csv.gz -CompressionType GZip -CompressionLevel SmallestSize
 </code></pre>
-<p>Run the installation locally with default settings apart from the application volume, this will be redirected to G:\SQLServer.<br>
-The installation procedure would search for SQL Server updates in \my\updates and slipstream them into the installation.<br></p>
+<p>Exports query results with maximum GZip compression for archival purposes.<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; $svcAcc = Get-Credential MyDomain\SvcSqlServer
-PS C:\&gt; Install-DbaInstance -Version 2016 -InstancePath D:\Root -DataPath E: -LogPath L: -PerformVolumeMaintenanceTasks -EngineCredential $svcAcc
+<pre><code>PS C:\&gt; Export-DbaCsv -SqlInstance sql001 -Database HR -Table Employees -Path C:\temp\employees.csv -Delimiter &quot;`t&quot; -QuotingBehavior Always
 </code></pre>
-<p>Install SQL Server 2016 instance into D:\Root drive, set default data folder as E: and default logs folder as L:.<br>
-Perform volume maintenance tasks permission is granted. MyDomain\SvcSqlServer is used as a service account for SqlServer.<br></p>
+<p>Exports to a tab-delimited file with all fields quoted.<br></p>
 <h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; $svcAcc = [PSCredential]::new(&quot;MyDomain\SvcSqlServer$&quot;, [SecureString]::new())
-PS C:\&gt; Install-DbaInstance -Version 2016 -InstancePath D:\Root -DataPath E: -LogPath L: -PerformVolumeMaintenanceTasks -EngineCredential $svcAcc
+<pre><code>PS C:\&gt; $results = Invoke-DbaQuery -SqlInstance sql001 -Database master -Query &quot;SELECT * FROM sys.databases&quot;
+PS C:\&gt; $results | Export-DbaCsv -Path C:\temp\databases.csv -DateTimeFormat &quot;yyyy-MM-dd&quot;
 </code></pre>
-<p>The same as the last example except MyDomain\SvcSqlServer is now a Managed Service Account (MSA).<br></p>
+<p>Exports query results with custom date formatting.<br></p>
 <h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; $config = @{
-&gt;&gt; AGTSVCSTARTUPTYPE = &quot;Manual&quot;
-&gt;&gt; BROWSERSVCSTARTUPTYPE = &quot;Manual&quot;
-&gt;&gt; FILESTREAMLEVEL = 1
-&gt;&gt; }
-PS C:\&gt; Install-DbaInstance -SqlInstance localhost\v2017:1337 -Version 2017 -SqlCollation Latin1_General_CI_AS -Configuration $config
+<pre><code>PS C:\&gt; Export-DbaCsv -SqlInstance sql001 -Database Sales -Query &quot;SELECT * FROM Orders WHERE Region = 'EMEA'&quot; -Path C:\temp\emea.csv -Encoding Unicode
 </code></pre>
-<p>Run the installation locally with default settings overriding the value of specific configuration items.<br>
-Instance name will be defined as 'v2017'; TCP port will be changed to 1337 after installation.<br></p>
-<h5 id="example-8">Example:  8</h5>
-<pre><code>PS C:\&gt; $svcAcc = Get-Credential MyDomain\SvcSqlServer
-PS C:\&gt; Install-DbaInstance -Version 2022 -Feature Engine,AnalysisServices -AdminAccount &quot;AD\MSSQLAdmins&quot; -ASAdminAccount &quot;AD\SSASAdmins&quot; -EngineCredential $svcAcc -ASCredential $svcAcc
-</code></pre>
-<p>Install SQL Server 2022 with Database Engine and Analysis Services features.<br>
-Grants sysadmin rights to AD\MSSQLAdmins on the Database Engine and administrator rights to AD\SSASAdmins on Analysis Services.<br>
-Uses MyDomain\SvcSqlServer as the service account for both services.<br></p>
+<p>Exports with Unicode encoding for international character support.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
-<h5 id="version">-Version</h5>
-<p>Specifies the SQL Server version to install using the year-based identifier.<br />
-Valid values are 2008, 2008R2, 2012, 2014, 2016, 2017, 2019, 2022, and 2025.<br />
-This parameter determines which setup.exe file to locate in the installation media and configures version-specific features like tempdb file optimization (SQL 2016+). <br></p>
+<h5 id="path">-Path</h5>
+<p>The output file path for the CSV. If the path ends with .gz, .br, .deflate, or .zlib,<br />
+the appropriate compression will be applied automatically unless -CompressionType is specified. <br></p>
 <table>
 <thead>
 <tr>
@@ -657,51 +581,11 @@ This parameter determines which setup.exe file to locate in the installation med
 <td>Default Value</td>
 <td></td>
 </tr>
-<tr>
-<td>Accepted Values</td>
-<td>2008,2008R2,2012,2014,2016,2017,2019,2022,2025</td>
-</tr>
 </tbody>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target computer and, optionally, a new instance name and a port number.<br />
-Use one of the following generic formats:<br />
-Server1<br />
-Server2\Instance1<br />
-Server1\Alpha:1533, Server2\Omega:1566<br />
-&quot;ServerName\NewInstanceName,1534&quot;<br />
-You can also define instance name and port using -InstanceName and -Port parameters.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>ComputerName</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>$env:COMPUTERNAME</td>
-</tr>
-</tbody>
-</table>
-<h5 id="instancename">-InstanceName</h5>
-<p>Specifies the name for the new SQL Server instance, overriding any instance name in the SqlInstance parameter.<br />
-Use 'MSSQLSERVER' for the default instance or a custom name for named instances.<br />
-Named instances enable multiple SQL Server installations on the same server and affect service names, registry keys, and connection strings.<br></p>
+<p>The target SQL Server instance or instances.<br></p>
 <table>
 <thead>
 <tr>
@@ -728,10 +612,10 @@ Named instances enable multiple SQL Server installations on the same server and 
 </tr>
 </tbody>
 </table>
-<h5 id="sacredential">-SaCredential</h5>
-<p>Specifies the password for the sa account when AuthenticationMode is set to Mixed.<br />
-If not provided with Mixed mode, a random 128-character password is automatically generated and returned in the output.<br />
-Only required when you want to set a specific sa password instead of using the auto-generated one.<br></p>
+<h5 id="sqlcredential">-SqlCredential</h5>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
+For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
 <tr>
@@ -758,11 +642,8 @@ Only required when you want to set a specific sa password instead of using the a
 </tr>
 </tbody>
 </table>
-<h5 id="credential">-Credential</h5>
-<p>Windows Credential with permission to log on to the remote server.<br />
-Must be specified for any remote connection if SQL Server installation media is located on a network folder.<br />
-Authentication will default to CredSSP if -Credential is used.<br />
-For CredSSP see also additional information in DESCRIPTION.<br></p>
+<h5 id="database">-Database</h5>
+<p>Specifies the database to query. Required when using -Query or -Table parameters.<br></p>
 <table>
 <thead>
 <tr>
@@ -789,11 +670,8 @@ For CredSSP see also additional information in DESCRIPTION.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="authentication">-Authentication</h5>
-<p>Specifies the PowerShell remoting authentication protocol for connecting to remote servers during installation.<br />
-Defaults to CredSSP when -Credential is provided to handle network share access and avoid double-hop authentication issues.<br />
-Use 'Kerberos' in domain environments where CredSSP is restricted, or 'Basic' for workgroup scenarios.<br />
-When installing from network shares, CredSSP is typically required to pass credentials through to the file server.<br></p>
+<h5 id="query">-Query</h5>
+<p>The T-SQL query to execute. Results will be exported to CSV.<br></p>
 <table>
 <thead>
 <tr>
@@ -816,18 +694,12 @@ When installing from network shares, CredSSP is typically required to pass crede
 </tr>
 <tr>
 <td>Default Value</td>
-<td>@('Credssp', 'Default')[$null -eq $Credential]</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>Default,Basic,Negotiate,NegotiateWithImplicitCredential,Credssp,Digest,Kerberos</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<h5 id="configurationfile">-ConfigurationFile</h5>
-<p>Path to an existing SQL Server Configuration.ini file to use for the installation.<br />
-Use this when you have a pre-configured setup file from a previous installation or when you need specific settings not covered by the function parameters.<br />
-The function will read and apply all settings from this file, overriding any conflicting parameters.<br></p>
+<h5 id="table">-Table</h5>
+<p>The name of the table to export. Can include schema (e.g., &quot;dbo.Customers&quot;).<br></p>
 <table>
 <thead>
 <tr>
@@ -838,7 +710,35 @@ The function will read and apply all settings from this file, overriding any con
 <tbody>
 <tr>
 <td>Alias</td>
-<td>FilePath</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="inputobject">-InputObject</h5>
+<p>Accepts piped objects to export. Can be used with results from other dbatools commands or any PowerShell objects.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>
@@ -854,11 +754,10 @@ The function will read and apply all settings from this file, overriding any con
 </tr>
 </tbody>
 </table>
-<h5 id="configuration">-Configuration</h5>
-<p>A hashtable containing SQL Server setup configuration parameters that override function defaults.<br />
-Use this for advanced scenarios like setting custom startup types, enabling specific features, or configuring failover cluster instances.<br />
-Each key-value pair becomes a parameter in the Configuration.ini file, allowing full control over the installation process.<br />
-When ACTION is specified, only minimal defaults are set, requiring you to provide all necessary configuration items for that specific installation type.<br></p>
+<h5 id="delimiter">-Delimiter</h5>
+<p>Sets the field separator for the CSV output. Defaults to comma.<br />
+Common values include comma (,), tab (`t), pipe (|), or semicolon (;).<br />
+Multi-character delimiters are supported (e.g., &quot;::&quot;, &quot;||&quot;).<br></p>
 <table>
 <thead>
 <tr>
@@ -881,14 +780,13 @@ When ACTION is specified, only minimal defaults are set, requiring you to provid
 </tr>
 <tr>
 <td>Default Value</td>
-<td></td>
+<td>,</td>
 </tr>
 </tbody>
 </table>
-<h5 id="path">-Path</h5>
-<p>Specifies the directory containing extracted SQL Server installation media, which will be scanned recursively for the appropriate setup.exe.<br />
-Can be a local path or network share accessible from target servers during remote installations.<br />
-The path must contain the extracted ISO contents or downloaded installer files, not the ISO file itself.<br></p>
+<h5 id="noheader">-NoHeader</h5>
+<p>Suppresses the header row in the output. Use this when appending to existing files<br />
+or when the consuming application doesn't expect headers.<br></p>
 <table>
 <thead>
 <tr>
@@ -911,15 +809,12 @@ The path must contain the extracted ISO contents or downloaded installer files, 
 </tr>
 <tr>
 <td>Default Value</td>
-<td>(Get-DbatoolsConfigValue -Name 'Path.SQLServerSetup')</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
-<h5 id="feature">-Feature</h5>
-<p>Specifies which SQL Server components to install, either as individual features or using predefined templates.<br />
-'Default' installs Engine, Replication, FullText, and Tools for typical database server setups.<br />
-'All' installs every available feature for the specified version.<br />
-Choose specific features like 'Engine', 'AnalysisServices', 'ReportingServices', or 'IntegrationServices' for targeted installations based on your requirements.<br></p>
+<h5 id="quote">-Quote</h5>
+<p>Specifies the character used to quote fields. Defaults to double-quote (&quot;).<br></p>
 <table>
 <thead>
 <tr>
@@ -942,18 +837,51 @@ Choose specific features like 'Engine', 'AnalysisServices', 'ReportingServices',
 </tr>
 <tr>
 <td>Default Value</td>
-<td>Default</td>
+<td>&quot;</td>
+</tr>
+</tbody>
+</table>
+<h5 id="quotingbehavior">-QuotingBehavior</h5>
+<p>Controls when field values are quoted.</p>
+<ul>
+<li>AsNeeded: Quote only when necessary (contains delimiter, quote, or newline). This is the default.</li>
+<li>Always: Always quote all fields.</li>
+<li>Never: Never quote fields (may produce invalid CSV with some data).</li>
+<li>NonNumeric: Quote only non-numeric fields.<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>AsNeeded</td>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Default,All,Engine,Tools,Replication,FullText,DataQuality,PolyBase,MachineLearning,AnalysisServices,ReportingServices,ReportingForSharepoint,SharepointAddin,IntegrationServices,MasterDataServices,PythonPackages,RPackages,BackwardsCompatibility,Connectivity,ReplayController,ReplayClient,SDK,BIDS,SSMS</td>
+<td>AsNeeded,Always,Never,NonNumeric</td>
 </tr>
 </tbody>
 </table>
-<h5 id="authenticationmode">-AuthenticationMode</h5>
-<p>Specifies the SQL Server authentication mode: Windows (Windows Authentication only) or Mixed (Windows and SQL Authentication).<br />
-Windows mode is more secure and recommended for domain environments, while Mixed mode is required for applications that need SQL logins.<br />
-When using Mixed mode, ensure you provide a strong SaCredential or allow the function to generate a secure random password.<br></p>
+<h5 id="encoding">-Encoding</h5>
+<p>The text encoding for the output file. Defaults to UTF8.<br />
+Valid values: ASCII, BigEndianUnicode, Unicode, UTF7, UTF8, UTF32.<br></p>
 <table>
 <thead>
 <tr>
@@ -976,18 +904,16 @@ When using Mixed mode, ensure you provide a strong SaCredential or allow the fun
 </tr>
 <tr>
 <td>Default Value</td>
-<td>Windows</td>
+<td>UTF8</td>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Windows,Mixed</td>
+<td>ASCII,BigEndianUnicode,Unicode,UTF7,UTF8,UTF32</td>
 </tr>
 </tbody>
 </table>
-<h5 id="instancepath">-InstancePath</h5>
-<p>Specifies the root directory where SQL Server instance files will be installed, including program files, system databases, and logs.<br />
-Defaults to the standard program files location unless you need to install on a different drive for capacity or performance reasons.<br />
-This path becomes the base for all instance-specific directories unless individual paths are specified.<br></p>
+<h5 id="nullvalue">-NullValue</h5>
+<p>The string to use for NULL values in the output. Defaults to empty string.<br></p>
 <table>
 <thead>
 <tr>
@@ -1014,10 +940,8 @@ This path becomes the base for all instance-specific directories unless individu
 </tr>
 </tbody>
 </table>
-<h5 id="datapath">-DataPath</h5>
-<p>Specifies the default directory for user database data files (.mdf and .ndf).<br />
-Used as the default location when creating new databases if no explicit path is provided in CREATE DATABASE statements.<br />
-Consider placing this on high-performance storage separate from logs for optimal I/O performance.<br></p>
+<h5 id="datetimeformat">-DateTimeFormat</h5>
+<p>The format string for DateTime values. Defaults to ISO 8601 format (yyyy-MM-dd HH:mm:ss.fff).<br></p>
 <table>
 <thead>
 <tr>
@@ -1040,614 +964,12 @@ Consider placing this on high-performance storage separate from logs for optimal
 </tr>
 <tr>
 <td>Default Value</td>
-<td></td>
+<td>yyyy-MM-dd HH:mm:ss.fff</td>
 </tr>
 </tbody>
 </table>
-<h5 id="logpath">-LogPath</h5>
-<p>Specifies the default directory for user database transaction log files (.ldf).<br />
-Used as the default location for transaction logs when creating new databases.<br />
-Best practice is to place logs on separate storage from data files to optimize write performance and enable better backup strategies.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="temppath">-TempPath</h5>
-<p>Specifies the directory for tempdb database files, which handle temporary objects and internal SQL Server operations.<br />
-Consider placing tempdb on fast storage (SSD) separate from user databases since it's heavily used for sorts, joins, and temporary tables.<br />
-For SQL 2016+, the function automatically configures multiple tempdb data files based on CPU core count.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="backuppath">-BackupPath</h5>
-<p>Specifies the default directory for database backup files when no explicit path is provided in BACKUP commands.<br />
-This location should have sufficient space for your backup retention strategy and be accessible to your backup software.<br />
-Consider network accessibility if you plan to backup to shared storage or use backup software that requires UNC paths.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="updatesourcepath">-UpdateSourcePath</h5>
-<p>Specifies the directory containing SQL Server updates (service packs, cumulative updates) to apply during installation.<br />
-Enables slipstream installation to avoid separate patching steps after the base installation completes.<br />
-The path should contain the update executable files compatible with the SQL Server version being installed.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="adminaccount">-AdminAccount</h5>
-<p>Specifies one or more Windows accounts to grant sysadmin privileges on the new SQL Server instance.<br />
-Defaults to the current user or the account specified in the Credential parameter.<br />
-Use domain\username format for domain accounts or computername\username for local accounts.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="asadminaccount">-ASAdminAccount</h5>
-<p>Specifies one or more Windows accounts to grant administrator privileges on Analysis Services.<br />
-Required when installing Analysis Services feature. At least one administrator account must be specified.<br />
-Use domain\username format for domain accounts or computername\username for local accounts.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="port">-Port</h5>
-<p>Specifies the TCP port number for SQL Server after installation, overriding the default port 1433.<br />
-The function configures the port post-installation since SQL Server setup doesn't directly support custom ports.<br />
-Use non-standard ports for security through obscurity or when running multiple instances that need distinct ports.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="throttle">-Throttle</h5>
-<p>Specifies the maximum number of concurrent SQL Server installations when targeting multiple servers.<br />
-Controls resource usage and network bandwidth by limiting parallel operations.<br />
-Consider your network capacity, installation media server performance, and available system resources when adjusting from the default of 50.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>50</td>
-</tr>
-</tbody>
-</table>
-<h5 id="productid">-ProductID</h5>
-<p>Specifies the product license key (PID) to install a licensed edition of SQL Server instead of Evaluation edition.<br />
-Required only when the installation media doesn't include an embedded license key.<br />
-Without a valid ProductID, the installation defaults to a time-limited Evaluation edition that expires after 180 days.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>PID</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="ascollation">-AsCollation</h5>
-<p>Specifies the collation for Analysis Services, determining sort order and character comparison rules for SSAS databases.<br />
-Defaults to Latin1_General_CI_AS if not specified.<br />
-Choose a collation that matches your data locale and case sensitivity requirements for dimensional and tabular models.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="sqlcollation">-SqlCollation</h5>
-<p>Specifies the server-level collation for the Database Engine, affecting sort order, case sensitivity, and accent sensitivity for all databases.<br />
-Defaults to the Windows locale setting if not specified.<br />
-Choose carefully as changing server collation after installation requires rebuilding system databases and can affect application compatibility.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="enginecredential">-EngineCredential</h5>
-<p>Specifies the Windows account to run the SQL Server Database Engine service.<br />
-Use domain service accounts for network access, Managed Service Accounts (MSAs) for automated password management, or local accounts for standalone servers.<br />
-The account needs specific Windows privileges like 'Log on as a service' and permissions to the installation directories.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="agentcredential">-AgentCredential</h5>
-<p>Specifies the Windows account to run the SQL Server Agent service, which manages scheduled jobs, alerts, and replication.<br />
-Typically uses the same account as the Database Engine for simplicity, but can be separate for security isolation.<br />
-Requires permissions to execute job steps, access network resources for backup jobs, and interact with other SQL Server instances for replication.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="ascredential">-ASCredential</h5>
-<p>Specifies the Windows account to run the Analysis Services (SSAS) service for OLAP cubes and tabular models.<br />
-The account needs permissions to data sources, file system access for processing, and network connectivity for distributed queries.<br />
-Consider using a dedicated service account when SSAS requires different security contexts than the Database Engine.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="iscredential">-ISCredential</h5>
-<p>Specifies the Windows account to run the Integration Services (SSIS) service for ETL package execution and management.<br />
-The account needs permissions to source and destination systems, file shares for package storage, and SQL Server databases for logging and configuration.<br />
-Use a service account with broad permissions since SSIS packages often access multiple systems and data sources.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="rscredential">-RSCredential</h5>
-<p>Specifies the Windows account to run the Reporting Services (SSRS) service for report generation and delivery.<br />
-The account needs permissions to the report server database, data sources used in reports, and network resources for email delivery.<br />
-Consider network connectivity requirements when reports access remote data sources or when using email subscriptions.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="ftcredential">-FTCredential</h5>
-<p>Specifies the Windows account to run the Full-Text Filter Daemon service for indexing and searching text content in databases.<br />
-The account needs permissions to database files and temporary directories used during full-text indexing operations.<br />
-Usually runs under a low-privilege account since it only processes text extraction and indexing without requiring broad system access.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="pbenginecredential">-PBEngineCredential</h5>
-<p>Specifies the Windows account to run the PolyBase Engine service for distributed queries against Hadoop, Azure Blob Storage, and other external data sources.<br />
-The account needs network access to external systems and permissions to temporary directories for data processing.<br />
-Required when installing PolyBase features for big data integration and external table functionality.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="saveconfiguration">-SaveConfiguration</h5>
-<p>Specifies a path to save the generated Configuration.ini file for future reference or reuse.<br />
-Without this parameter, the configuration file is created in a temporary location and not preserved after installation.<br />
-Useful for documenting installation settings, troubleshooting, or replicating installations across multiple servers.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="performvolumemaintenancetasks">-PerformVolumeMaintenanceTasks</h5>
-<p>Grants the SQL Server service account 'Perform volume maintenance tasks' privilege to enable instant file initialization.<br />
-Allows SQL Server to skip zero-initialization of data files, significantly reducing the time for database creation, restore operations, and auto-growth events.<br />
-Only affects data files; transaction log files are always zero-initialized for transaction integrity.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>InstantFileInitialization,IFI</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="restart">-Restart</h5>
-<p>Automatically restarts target computers when required by Windows updates, pending file operations, or installation prerequisites.<br />
-Use this during maintenance windows when automatic restarts are acceptable.<br />
-Without this parameter, installations will fail if pending restarts are detected, requiring manual intervention.<br></p>
+<h5 id="useutc">-UseUtc</h5>
+<p>Converts DateTime values to UTC before formatting.<br></p>
 <table>
 <thead>
 <tr>
@@ -1674,10 +996,15 @@ Without this parameter, installations will fail if pending restarts are detected
 </tr>
 </tbody>
 </table>
-<h5 id="nopendingrenamecheck">-NoPendingRenameCheck</h5>
-<p>Skips the check for pending file rename operations when validating reboot requirements.<br />
-Use this when you know pending renames won't affect the SQL Server installation or when working with systems that show false positives for pending renames.<br />
-Generally safer to allow the default validation unless you have specific reasons to bypass this safety check.<br></p>
+<h5 id="compressiontype">-CompressionType</h5>
+<p>The type of compression to apply to the output file.</p>
+<ul>
+<li>None: No compression (default)</li>
+<li>GZip: GZip compression (.gz)</li>
+<li>Deflate: Deflate compression</li>
+<li>Brotli: Brotli compression (.br) - .NET 8+ only</li>
+<li>ZLib: ZLib compression - .NET 8+ only<br></li>
+</ul>
 <table>
 <thead>
 <tr>
@@ -1700,7 +1027,105 @@ Generally safer to allow the default validation unless you have specific reasons
 </tr>
 <tr>
 <td>Default Value</td>
-<td>(Get-DbatoolsConfigValue -Name 'OS.PendingRename' -Fallback $false)</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>None,GZip,Deflate,Brotli,ZLib</td>
+</tr>
+</tbody>
+</table>
+<h5 id="compressionlevel">-CompressionLevel</h5>
+<p>The compression level to use. Defaults to Optimal.</p>
+<ul>
+<li>Fastest: Compress as fast as possible, even if the resulting file is not optimally compressed.</li>
+<li>Optimal: Balance between compression speed and file size.</li>
+<li>SmallestSize: Compress as much as possible, even if it takes longer.</li>
+<li>NoCompression: No compression.<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Optimal</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Fastest,Optimal,SmallestSize,NoCompression</td>
+</tr>
+</tbody>
+</table>
+<h5 id="append">-Append</h5>
+<p>Appends to an existing file instead of overwriting. Headers are automatically suppressed when appending.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="noclobber">-NoClobber</h5>
+<p>Prevents overwriting an existing file. Returns an error if the file already exists.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>
@@ -1735,7 +1160,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="whatif">-WhatIf</h5>
-<p>Shows what would happen if the command were to run. No actions are actually performed.<br></p>
+<br>
 <table>
 <thead>
 <tr>
@@ -1763,7 +1188,7 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </tbody>
 </table>
 <h5 id="confirm">-Confirm</h5>
-<p>Prompts you for confirmation before executing any changing operations within the command.<br></p>
+<br>
 <table>
 <thead>
 <tr>

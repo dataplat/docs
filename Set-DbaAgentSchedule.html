@@ -493,7 +493,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
     [[-SqlCredential] &lt;PSCredential&gt;]
     [-Job] &lt;Object[]&gt;
-    [-ScheduleName] &lt;String&gt;
+    [-Schedule] &lt;String&gt;
     [[-NewName] &lt;String&gt;]
     [-Enabled]
     [-Disabled]
@@ -518,23 +518,23 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Set-DbaAgentSchedule -SqlInstance sql1 -Job Job1 -ScheduleName daily -Enabled
+<pre><code>PS C:\&gt; Set-DbaAgentSchedule -SqlInstance sql1 -Job Job1 -Schedule daily -Enabled
 </code></pre>
 <p>Changes the schedule for Job1 with the name 'daily' to enabled<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Set-DbaAgentSchedule -SqlInstance sql1 -Job Job1 -ScheduleName daily -NewName weekly -FrequencyType Weekly -FrequencyInterval Monday, Wednesday, Friday
+<pre><code>PS C:\&gt; Set-DbaAgentSchedule -SqlInstance sql1 -Job Job1 -Schedule daily -NewName weekly -FrequencyType Weekly -FrequencyInterval Monday, Wednesday, Friday
 </code></pre>
 <p>Changes the schedule for Job1 with the name daily to have a new name weekly<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Set-DbaAgentSchedule -SqlInstance sql1 -Job Job1, Job2, Job3 -ScheduleName daily -StartTime '230000'
+<pre><code>PS C:\&gt; Set-DbaAgentSchedule -SqlInstance sql1 -Job Job1, Job2, Job3 -Schedule daily -StartTime '230000'
 </code></pre>
 <p>Changes the start time of the schedule for Job1 to 11 PM for multiple jobs<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Set-DbaAgentSchedule -SqlInstance sql1, sql2, sql3 -Job Job1 -ScheduleName daily -Enabled
+<pre><code>PS C:\&gt; Set-DbaAgentSchedule -SqlInstance sql1, sql2, sql3 -Job Job1 -Schedule daily -Enabled
 </code></pre>
 <p>Changes the schedule for Job1 with the name daily to enabled on multiple servers<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; sql1, sql2, sql3 | Set-DbaAgentSchedule -Job Job1 -ScheduleName daily -Enabled
+<pre><code>PS C:\&gt; sql1, sql2, sql3 | Set-DbaAgentSchedule -Job Job1 -Schedule daily -Enabled
 </code></pre>
 <p>Changes the schedule for Job1 with the name 'daily' to enabled on multiple servers using pipe line<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
@@ -595,7 +595,7 @@ Use this when you need to change schedule properties for specific jobs without a
 </tr>
 </tbody>
 </table>
-<h5 id="schedulename">-ScheduleName</h5>
+<h5 id="schedule">-Schedule</h5>
 <p>Specifies the name of the existing schedule to modify within the specified job. Schedule names are case-sensitive.<br />
 Use this to target the specific schedule when a job has multiple schedules attached to it. <br></p>
 <table>
@@ -608,7 +608,7 @@ Use this to target the specific schedule when a job has multiple schedules attac
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>ScheduleName</td>
 </tr>
 <tr>
 <td>Required</td>

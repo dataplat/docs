@@ -529,6 +529,21 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-SupportsMultiline]
     [-UseColumnDefault]
     [-NoTransaction]
+    [[-MaxDecompressedSize] &lt;Int64&gt;]
+    [[-SkipRows] &lt;Int32&gt;]
+    [[-QuoteMode] &lt;String&gt;]
+    [[-DuplicateHeaderBehavior] &lt;String&gt;]
+    [[-MismatchedFieldAction] &lt;String&gt;]
+    [-DistinguishEmptyFromNull]
+    [-NormalizeQuotes]
+    [-CollectParseErrors]
+    [[-MaxParseErrors] &lt;Int32&gt;]
+    [[-StaticColumns] &lt;Hashtable&gt;]
+    [[-DateTimeFormats] &lt;String[]&gt;]
+    [[-Culture] &lt;String&gt;]
+    [-Parallel]
+    [[-ThrottleLimit] &lt;Int32&gt;]
+    [[-ParallelBatchSize] &lt;Int32&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -592,6 +607,81 @@ PS C:\&gt; Import-DbaCsv -Path c:\temp\supersmall.csv -SqlInstance sql2016 -Data
 </code></pre>
 <p>If the CSV has no headers, passing a ColumnMap works when you have as the key the ordinal of the column (0-based).<br>
 In this example the first CSV field is inserted into SQL column 'FirstName' and the second CSV field is inserted into the SQL Column 'PhoneNumber'.<br></p>
+<h5 id="example-12">Example:  12</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\data.csv -SqlInstance sql001 -Database tempdb -Table MyTable -Delimiter &quot;::&quot; -AutoCreateTable
+</code></pre>
+<p>Imports a CSV file that uses a multi-character delimiter (::). The new CSV reader supports delimiters of any length,<br>
+not just single characters.<br></p>
+<h5 id="example-13">Example:  13</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\data.csv.gz -SqlInstance sql001 -Database tempdb -Table MyTable -AutoCreateTable
+</code></pre>
+<p>Imports a gzip-compressed CSV file. Compression is automatically detected from the .gz extension and the file<br>
+is decompressed on-the-fly during import without extracting to disk.<br></p>
+<h5 id="example-14">Example:  14</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\export.csv -SqlInstance sql001 -Database tempdb -Table MyTable -SkipRows 3 -AutoCreateTable
+</code></pre>
+<p>Skips the first 3 rows of the file before reading headers and data. Useful for files that have metadata rows,<br>
+comments, or report headers before the actual CSV content begins.<br></p>
+<h5 id="example-15">Example:  15</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\data.csv -SqlInstance sql001 -Database tempdb -Table MyTable -DuplicateHeaderBehavior Rename -AutoCreateTable
+</code></pre>
+<p>Handles CSV files with duplicate column headers by automatically renaming them (e.g., Name, Name_2, Name_3).<br>
+Without this, duplicate headers would cause an error.<br></p>
+<h5 id="example-16">Example:  16</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\messy.csv -SqlInstance sql001 -Database tempdb -Table MyTable -MismatchedFieldAction PadWithNulls -AutoCreateTable
+</code></pre>
+<p>Imports a CSV where some rows have fewer fields than the header row. Missing fields are padded with NULL values<br>
+instead of throwing an error. Useful for importing data from systems that omit trailing empty fields.<br></p>
+<h5 id="example-17">Example:  17</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\data.csv -SqlInstance sql001 -Database tempdb -Table MyTable -QuoteMode Lenient -AutoCreateTable
+</code></pre>
+<p>Uses lenient quote parsing for CSV files with improperly escaped quotes. This is useful when importing data<br>
+from systems that don't follow RFC 4180 strictly, such as files with embedded quotes that aren't doubled.<br></p>
+<h5 id="example-18">Example:  18</h5>
+<pre><code>PS C:\&gt; # Import CSV with proper type conversion to a pre-created table
+PS C:\&gt; $query = &quot;CREATE TABLE TypedData (id INT, amount DECIMAL(10,2), active BIT, created DATETIME)&quot;
+PS C:\&gt; Invoke-DbaQuery -SqlInstance sql001 -Database tempdb -Query $query
+PS C:\&gt; Import-DbaCsv -Path C:\temp\typed.csv -SqlInstance sql001 -Database tempdb -Table TypedData
+</code></pre>
+<p>Imports CSV data into a table with specific column types. The CSV reader automatically converts string values<br>
+to the appropriate SQL Server types (INT, DECIMAL, BIT, DATETIME, etc.) during import.<br></p>
+<h5 id="example-19">Example:  19</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\large.csv -SqlInstance sql001 -Database tempdb -Table BigData -AutoCreateTable -Parallel
+</code></pre>
+<p>Imports a large CSV file using parallel processing for improved performance. The -Parallel switch enables<br>
+concurrent line reading, parsing, and type conversion, which can provide 2-4x speedup on multi-core systems<br>
+for files with 100K+ rows.<br></p>
+<h5 id="example-20">Example:  20</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\huge.csv -SqlInstance sql001 -Database tempdb -Table HugeData -AutoCreateTable -Parallel -ThrottleLimit 4
+</code></pre>
+<p>Imports a large CSV with parallel processing limited to 4 worker threads. Use -ThrottleLimit to control<br>
+resource usage on shared systems or when you want to limit CPU consumption during the import.<br></p>
+<h5 id="example-21">Example:  21</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\massive.csv -SqlInstance sql001 -Database tempdb -Table MassiveData -AutoCreateTable -Parallel -ParallelBatchSize 500
+</code></pre>
+<p>Imports a very large CSV with parallel processing using larger batch sizes. Increase -ParallelBatchSize<br>
+for very large files (millions of rows) to reduce synchronization overhead. The default is 100.<br></p>
+<h5 id="example-22">Example:  22</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\refresh.csv -SqlInstance sql001 -Database tempdb -Table LookupData -Truncate
+</code></pre>
+<p>Performs a full data refresh by truncating the existing table before importing. The truncate and import<br>
+operations are wrapped in a transaction, so if the import fails, the original data is preserved.<br></p>
+<h5 id="example-23">Example:  23</h5>
+<pre><code>PS C:\&gt; $static = @{ SourceFile = &quot;sales_2024.csv&quot;; ImportDate = (Get-Date); Region = &quot;EMEA&quot; }
+PS C:\&gt; Import-DbaCsv -Path C:\temp\sales.csv -SqlInstance sql001 -Database sales -Table SalesData -StaticColumns $static -AutoCreateTable
+</code></pre>
+<p>Imports CSV data and adds three static columns (SourceFile, ImportDate, Region) to every row.<br>
+This is useful for tracking data lineage and tagging imported records with metadata.<br></p>
+<h5 id="example-24">Example:  24</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\oracle_export.csv -SqlInstance sql001 -Database tempdb -Table OracleData -DateTimeFormats @(&quot;dd-MMM-yyyy&quot;, &quot;dd-MMM-yyyy HH:mm:ss&quot;) -AutoCreateTable
+</code></pre>
+<p>Imports a CSV with Oracle-style date formats (e.g., &quot;15-Jan-2024&quot;). The -DateTimeFormats parameter<br>
+specifies custom format strings to parse non-standard date columns correctly.<br></p>
+<h5 id="example-25">Example:  25</h5>
+<pre><code>PS C:\&gt; Import-DbaCsv -Path C:\temp\german_data.csv -SqlInstance sql001 -Database tempdb -Table GermanData -Culture &quot;de-DE&quot; -AutoCreateTable
+</code></pre>
+<p>Imports a CSV with German number formatting where comma is the decimal separator (e.g., &quot;1.234,56&quot;).<br>
+The -Culture parameter ensures numbers are parsed correctly according to the specified locale.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The SQL Server Instance to import data into. <br></p>
@@ -798,9 +888,9 @@ Use this for full data refreshes where you want to replace all existing data wit
 </tbody>
 </table>
 <h5 id="delimiter">-Delimiter</h5>
-<p>Sets the field separator character used in the CSV file. Defaults to comma if not specified.<br />
+<p>Sets the field separator used in the CSV file. Defaults to comma if not specified.<br />
 Common values include comma (,), tab (`t), pipe (|), semicolon (;), or space for different export formats from various systems.<br />
-Note: Due to LumenWorks library limitations, only single-character delimiters are supported. If a multi-character delimiter is provided, only the first character will be used.<br></p>
+Multi-character delimiters are fully supported (e.g., &quot;::&quot;, &quot;||&quot;, &quot;\t\t&quot;).<br></p>
 <table>
 <thead>
 <tr>
@@ -811,7 +901,7 @@ Note: Due to LumenWorks library limitations, only single-character delimiters ar
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>DelimiterChar</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -1648,6 +1738,483 @@ Use this for very large imports where you want to commit data in batches, but be
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="maxdecompressedsize">-MaxDecompressedSize</h5>
+<p>Maximum size in bytes for decompressed data when reading compressed CSV files (.gz, .br, .deflate, .zlib).<br />
+This protects against decompression bomb attacks. Default is 10GB (10737418240 bytes).<br />
+Set to 0 for unlimited (not recommended for untrusted files).<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>10737418240</td>
+</tr>
+</tbody>
+</table>
+<h5 id="skiprows">-SkipRows</h5>
+<p>Number of rows to skip at the beginning of the file before reading headers or data.<br />
+Useful for files with metadata rows before the actual CSV content.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="quotemode">-QuoteMode</h5>
+<p>Controls how quoted fields are parsed.</p>
+<ul>
+<li>Strict: RFC 4180 compliant parsing (default)</li>
+<li>Lenient: More forgiving parsing for malformed CSV files with embedded quotes<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>Strict</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Strict,Lenient</td>
+</tr>
+</tbody>
+</table>
+<h5 id="duplicateheaderbehavior">-DuplicateHeaderBehavior</h5>
+<p>Controls how duplicate column headers are handled.</p>
+<ul>
+<li>ThrowException: Throw an error (default)</li>
+<li>Rename: Rename duplicates (Name_2, Name_3, etc.)</li>
+<li>UseFirstOccurrence: Keep first, ignore duplicates</li>
+<li>UseLastOccurrence: Keep last, rename earlier occurrences<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>ThrowException</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>ThrowException,Rename,UseFirstOccurrence,UseLastOccurrence</td>
+</tr>
+</tbody>
+</table>
+<h5 id="mismatchedfieldaction">-MismatchedFieldAction</h5>
+<p>Controls what happens when a row has more or fewer fields than expected.</p>
+<ul>
+<li>ThrowException: Throw an error (default)</li>
+<li>PadWithNulls: Pad missing fields with null</li>
+<li>TruncateExtra: Remove extra fields</li>
+<li>PadOrTruncate: Both pad and truncate as needed<br></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>ThrowException</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>ThrowException,PadWithNulls,TruncateExtra,PadOrTruncate</td>
+</tr>
+</tbody>
+</table>
+<h5 id="distinguishemptyfromnull">-DistinguishEmptyFromNull</h5>
+<p>When specified, treats empty quoted fields (&quot;&quot;) as empty strings and<br />
+unquoted empty fields (,,) as null values.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="normalizequotes">-NormalizeQuotes</h5>
+<p>When specified, converts smart/curly quotes (' ' &quot; &quot;) to standard ASCII quotes before parsing.<br />
+Useful when importing data exported from Microsoft Word or Excel.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="collectparseerrors">-CollectParseErrors</h5>
+<p>When specified, collects parse errors instead of throwing immediately.<br />
+Use with -MaxParseErrors to limit the number of errors collected.<br />
+Errors can be retrieved from the reader after import completes.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="maxparseerrors">-MaxParseErrors</h5>
+<p>Maximum number of parse errors to collect before stopping.<br />
+Only applies when -CollectParseErrors is specified. Default is 1000.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>1000</td>
+</tr>
+</tbody>
+</table>
+<h5 id="staticcolumns">-StaticColumns</h5>
+<p>A hashtable of static column names and values to add to every row.<br />
+Useful for tagging imported data with metadata like source filename or import timestamp.<br />
+Keys are column names, values are the static values to insert.<br />
+Example: @{ SourceFile = &quot;data.csv&quot;; ImportDate = (Get-Date) }<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="datetimeformats">-DateTimeFormats</h5>
+<p>An array of custom date/time format strings for parsing date columns.<br />
+Useful when importing data with non-standard date formats (e.g., Oracle's dd-MMM-yyyy).<br />
+Example: @(&quot;dd-MMM-yyyy&quot;, &quot;yyyy/MM/dd&quot;, &quot;MM-dd-yyyy&quot;)<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="culture">-Culture</h5>
+<p>The culture name to use for parsing numbers and dates (e.g., &quot;de-DE&quot;, &quot;fr-FR&quot;, &quot;en-US&quot;).<br />
+Useful when importing CSV files with locale-specific number formats (e.g., comma as decimal separator).<br />
+Default is InvariantCulture.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="parallel">-Parallel</h5>
+<p>Enables parallel processing for improved performance on large files.<br />
+When enabled, line reading, parsing, and type conversion are performed in parallel<br />
+using a producer-consumer pipeline. This can provide 2-4x performance improvement<br />
+on multi-core systems.<br />
+Note: Parallel processing is most beneficial for large files (&gt;100K rows) with<br />
+complex type conversions. For small files, sequential processing may be faster<br />
+due to lower overhead.<br />
+When Parallel is used, the progress bar is disabled because the progress callback<br />
+cannot run in background threads.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="throttlelimit">-ThrottleLimit</h5>
+<p>Sets the maximum number of worker threads for parallel processing.<br />
+Default is 0, which uses the number of logical processors on the system.<br />
+Set to 1 to effectively disable parallelism while still using the pipeline architecture.<br />
+Only used when Parallel is specified.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="parallelbatchsize">-ParallelBatchSize</h5>
+<p>Sets the number of records to batch before yielding to the consumer during parallel processing.<br />
+Larger batches reduce synchronization overhead but increase memory usage and latency.<br />
+Default is 100. Minimum is 1.<br />
+Only used when Parallel is specified.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>100</td>
 </tr>
 </tbody>
 </table>
