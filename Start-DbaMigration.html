@@ -525,6 +525,7 @@ All custom Extended Stored Procedures. Use -Exclude ExtendedStoredProcedures to 
     [-WithReplace]
     [-NoRecovery]
     [-SetSourceReadOnly]
+    [-SetSourceOffline]
     [-ReuseSourceFolderStructure]
     [-IncludeSupportDbs]
     [[-SourceSqlCredential] &lt;PSCredential&gt;]
@@ -575,6 +576,10 @@ credentials, SQL Agent, Central Management Server, and SQL Server global configu
 </code></pre>
 <p>Migrates databases using detach/copy/attach. Reattach at source and set source databases read-only. Also migrates everything else.<br></p>
 <h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Start-DbaMigration -Verbose -Source sqlcluster -Destination sql2016 -BackupRestore -SharedPath &quot;\\fileserver\backups&quot; -SetSourceOffline
+</code></pre>
+<p>Migrates databases using backup/restore method. Sets source databases offline before migration to prevent any connections during the process.<br></p>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; $PSDefaultParameters = @{
 &gt;&gt; &quot;dbatools:Source&quot; = &quot;sqlcluster&quot;
 &gt;&gt; &quot;dbatools:Destination&quot; = &quot;sql2016&quot;
@@ -829,6 +834,36 @@ Only applies to backup/restore method and prevents normal database access until 
 <p>Sets migrated databases to read-only mode on the source server before migration begins.<br />
 This prevents data changes during migration and helps ensure data consistency.<br />
 When combined with -Reattach, databases remain read-only after being reattached to the source.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="setsourceoffline">-SetSourceOffline</h5>
+<p>Sets migrated databases offline on the source server before migration begins.<br />
+This prevents any connections to the source databases during migration, ensuring complete isolation.<br />
+When combined with -Reattach, databases are brought back online after being reattached to the source.<br></p>
 <table>
 <thead>
 <tr>

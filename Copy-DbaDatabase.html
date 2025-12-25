@@ -510,6 +510,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-NoBackupCleanup]
     [-NumberFiles &lt;Int32&gt;]
     [-SetSourceReadOnly]
+    [-SetSourceOffline]
     [-ReuseSourceFolderStructure]
     [-IncludeSupportDbs]
     [-UseLastBackup]
@@ -518,7 +519,6 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-NoCopyOnly]
     [-KeepCDC]
     [-KeepReplication]
-    [-SetSourceOffline]
     [-NewName &lt;String&gt;]
     [-Prefix &lt;String&gt;]
     [-Force]
@@ -539,11 +539,11 @@ Copy-DbaDatabase
     -DetachAttach
     [-Reattach]
     [-SetSourceReadOnly]
+    [-SetSourceOffline]
     [-ReuseSourceFolderStructure]
     [-IncludeSupportDbs]
     [-InputObject &lt;Database[]&gt;]
     [-NoCopyOnly]
-    [-SetSourceOffline]
     [-NewName &lt;String&gt;]
     [-Prefix &lt;String&gt;]
     [-Force]
@@ -1128,6 +1128,36 @@ Use this to ensure data consistency when databases must remain accessible at the
 </tr>
 </tbody>
 </table>
+<h5 id="setsourceoffline">-SetSourceOffline</h5>
+<p>Sets source databases offline before migration to prevent any connections during the process.<br />
+Use this to ensure complete isolation when databases must be completely inaccessible at the source during migration.<br />
+When combined with -Reattach, databases are brought back online after being reattached to the source.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 <h5 id="reusesourcefolderstructure">-ReuseSourceFolderStructure</h5>
 <p>Maintains the exact file path structure from the source instance on the destination.<br />
 Use this when destination servers have identical drive layouts or when preserving specific organizational folder structures.<br />
@@ -1337,35 +1367,6 @@ Use this when destination databases need to maintain CDC tracking for auditing o
 <h5 id="keepreplication">-KeepReplication</h5>
 <p>Preserves replication configuration during database migration.<br />
 Use this when migrating publisher or subscriber databases that participate in replication topologies.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="setsourceoffline">-SetSourceOffline</h5>
-<p>Sets source databases to offline status after successful migration.<br />
-Use this for cutover scenarios where source databases should be unavailable after migration.<br></p>
 <table>
 <thead>
 <tr>

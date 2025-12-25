@@ -521,11 +521,11 @@ Uses the Bogus library to ensure generated data follows realistic patterns rathe
 </code></pre>
 <p>Will generate a number between -2147483648 and 2147483647<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Get-DbaRandomizedValue -RandomizerSubType Zipcode
+<pre><code>PS C:\&gt; Get-DbaRandomizedValue -RandomizerType Address -RandomizerSubType Zipcode
 </code></pre>
 <p>Generates a random zipcode<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Get-DbaRandomizedValue -RandomizerSubType Zipcode -Format &quot;#### ##&quot;
+<pre><code>PS C:\&gt; Get-DbaRandomizedValue -RandomizerType Address -RandomizerSubType Zipcode -Format &quot;#### ##&quot;
 </code></pre>
 <p>Generates a random zipcode like &quot;1234 56&quot;<br></p>
 <h5 id="example-5">Example:  5</h5>
