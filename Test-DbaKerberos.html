@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>dbatools docs | Invoke-DbaQuery</title>
+    <title>dbatools docs | Test-DbaKerberos</title>
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="32x32">
     <link rel="icon" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png" sizes="192x192">
     <link rel="apple-touch-icon-precomposed" href="https://dbatools.io/wp-content/uploads/2016/05/dbatools.png">
@@ -12,24 +12,24 @@
 
     <link title="Search" rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml">
     <meta name="keywords" content="dbatools, ,powershell,sql server,devops,json">
-    <meta name="subtitle" content="Docs for Invoke-DbaQuery">
+    <meta name="subtitle" content="Docs for Test-DbaKerberos">
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="dbatools docs:  Invoke-DbaQuery" />
-    <meta property="og:url" content="https://docs.dbatools.io/Invoke-DbaQuery.html" />
-    <meta property="og:description" content="dbatools docs for Invoke-DbaQuery" />
+    <meta property="og:title" content="dbatools docs:  Test-DbaKerberos" />
+    <meta property="og:url" content="https://docs.dbatools.io/Test-DbaKerberos.html" />
+    <meta property="og:description" content="dbatools docs for Test-DbaKerberos" />
     <meta property="og:site_name" content="docs.dbatools.io" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:text:title" content="dbatools docs:  Invoke-DbaQuery" />
+    <meta name="twitter:text:title" content="dbatools docs:  Test-DbaKerberos" />
     
-    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Invoke-DbaQuery.png">
+    <meta name="twitter:image" content="https://docs.dbatools.io/assets/thumbs/Test-DbaKerberos.png">
     <meta name="twitter:card" content="summary_large_image">
     
     <meta name=twitter:creator content="@psdbatools">
-    <meta name=twitter:title content="dbatools docs:  Invoke-DbaQuery">
+    <meta name=twitter:title content="dbatools docs:  Test-DbaKerberos">
     <meta property="twitter:site" content="@psdbatools" />
 
-    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Invoke-DbaQuery.png">
-    <link rel=canonical href="https://docs.dbatools.io/Invoke-DbaQuery.html" />
+    <meta property="og:image" content="https://docs.dbatools.io/assets/thumbs/Test-DbaKerberos.png">
+    <link rel=canonical href="https://docs.dbatools.io/Test-DbaKerberos.html" />
     <link rel=alternate type=application/json
         href=https://raw.githubusercontent.com/dataplat/dbatools/master/bin/dbatools-index.json
         title="dbatools documentation">
@@ -461,7 +461,7 @@
                         title="Click to return on the top page">&#94;</a>
                 </div>
                 <div id="rendered">
-                    <h1 id="invoke-dbaquery">Invoke-DbaQuery</h1>
+                    <h1 id="test-dbakerberos">Test-DbaKerberos</h1>
 <table>
 <thead>
 <tr>
@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Friedrich Weinmann (@FredWeinmann)</td>
+<td>the dbatools team + Claude</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -481,71 +481,38 @@
 </tbody>
 </table>
 <p> </p>
-<p><em>Aliases : ivq</em></p>
-<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Invoke-DbaQuery.ps1">Invoke-DbaQuery</a> on GitHub.
+<p>Want to see the source code for this command? Check out <a href="https://github.com/dataplat/dbatools/blob/master/public/Test-DbaKerberos.ps1">Test-DbaKerberos</a> on GitHub.
 <br>
-Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Invoke-DbaQuery">Invoke-DbaQuery</a>.</p>
+Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaKerberos">Test-DbaKerberos</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Executes T-SQL queries, scripts, and stored procedures against SQL Server instances with parameterized query support</p>
+<p>Tests Kerberos authentication configuration for SQL Server instances by performing comprehensive diagnostic checks</p>
 <h2 id="description">Description</h2>
-<p>Executes T-SQL commands against one or more SQL Server instances, supporting queries from strings, files, URLs, or SQL Server Management Objects. This is the primary dbatools command for running custom SQL against your environment, whether you're extracting data for reports, deploying scripts across multiple servers, or running maintenance commands.</p>
-<p>The function provides secure parameterized query execution to prevent SQL injection attacks, making it safe to use with dynamic values. You can target specific databases, execute against Availability Group listeners with ReadOnly intent, and choose from multiple output formats to match your workflow needs.</p>
-<p>Built for pipeline operations, it accepts multiple instances from Get-DbaRegServer or database collections from Get-DbaDatabase, allowing you to efficiently execute the same query across your entire SQL Server estate. The function handles both simple ad-hoc queries and complex stored procedure calls with input/output parameters, table-valued parameters, and Always Encrypted column support.</p>
+<p>This function performs a comprehensive suite of diagnostic checks to troubleshoot Kerberos authentication issues for SQL Server instances. It addresses the most common causes of Kerberos authentication failures including SPN configuration problems, DNS issues, time synchronization errors, service account configuration, network connectivity problems, and security policy misconfigurations.</p>
+<p>The function performs 25+ checks across multiple categories:</p>
+<ul>
+<li>SPN validation (duplicate detection, format validation, ownership verification)</li>
+<li>Time synchronization (client-server and server-DC time comparisons)</li>
+<li>DNS resolution (forward/reverse lookups, CNAME detection)</li>
+<li>Service account configuration (lock status, delegation settings)</li>
+<li>Network connectivity (Kerberos and LDAP port testing)</li>
+<li>Security policy validation (encryption types, secure channel)</li>
+<li>SQL Server configuration (service account, network protocols)</li>
+<li>Authentication verification (current auth scheme validation)</li>
+</ul>
+<p>Each check returns a structured result with status (Pass/Fail/Warning), detailed findings, and actionable remediation recommendations. Use the -Detailed switch for verbose diagnostic output including intermediate check results.</p>
+<p>This command is essential for troubleshooting authentication failures, validating Kerberos setup before migrations, performing security audits, and as part of regular maintenance to ensure proper authentication across SQL Server environments.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Invoke-DbaQuery
-    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+<pre><code>Test-DbaKerberos -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;String&gt;]
-    -Query &lt;String&gt;
-    [-QueryTimeout &lt;Int32&gt;]
-    [-As &lt;String&gt;]
-    [-SqlParameter &lt;PSObject[]&gt;]
-    [-CommandType {Text | StoredProcedure | TableDirect}]
-    [-AppendServerInstance]
-    [-MessagesToOutput]
-    [-InputObject &lt;Database[]&gt;]
-    [-ReadOnly]
-    [-NoExec]
-    [-QuotedIdentifier]
-    [-AppendConnectionString &lt;String&gt;]
+    [-Credential &lt;PSCredential&gt;]
+    [-Detailed]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
-Invoke-DbaQuery
-    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+Test-DbaKerberos -ComputerName &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;String&gt;]
-    [-QueryTimeout &lt;Int32&gt;]
-    -SqlObject &lt;SqlSmoObject[]&gt;
-    [-As &lt;String&gt;]
-    [-SqlParameter &lt;PSObject[]&gt;]
-    [-CommandType {Text | StoredProcedure | TableDirect}]
-    [-AppendServerInstance]
-    [-MessagesToOutput]
-    [-InputObject &lt;Database[]&gt;]
-    [-ReadOnly]
-    [-NoExec]
-    [-QuotedIdentifier]
-    [-AppendConnectionString &lt;String&gt;]
-    [-EnableException]
-    [&lt;CommonParameters&gt;]
-
-Invoke-DbaQuery
-    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
-    [-SqlCredential &lt;PSCredential&gt;]
-    [-Database &lt;String&gt;]
-    [-QueryTimeout &lt;Int32&gt;]
-    -File &lt;Object[]&gt;
-    [-As &lt;String&gt;]
-    [-SqlParameter &lt;PSObject[]&gt;]
-    [-CommandType {Text | StoredProcedure | TableDirect}]
-    [-AppendServerInstance]
-    [-MessagesToOutput]
-    [-InputObject &lt;Database[]&gt;]
-    [-ReadOnly]
-    [-NoExec]
-    [-QuotedIdentifier]
-    [-AppendConnectionString &lt;String&gt;]
+    [-Credential &lt;PSCredential&gt;]
+    [-Detailed]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -554,93 +521,30 @@ Invoke-DbaQuery
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance server\instance -Query 'SELECT foo FROM bar'
+<pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016
 </code></pre>
-<p>Runs the sql query 'SELECT foo FROM bar' against the instance 'server\instance'<br></p>
+<p>Performs comprehensive Kerberos diagnostic checks for the sql2016 instance, returning pass/fail status for each check.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Get-DbaRegServer -SqlInstance [SERVERNAME] -Group [GROUPNAME] | Invoke-DbaQuery -Query 'SELECT foo FROM bar'
+<pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016 -Detailed
 </code></pre>
-<p>Runs the sql query 'SELECT foo FROM bar' against all instances in the group [GROUPNAME] on the CMS [SERVERNAME]<br></p>
+<p>Performs comprehensive Kerberos diagnostic checks with detailed output including verbose findings and intermediate results.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; &quot;server1&quot;, &quot;server1\nordwind&quot;, &quot;server2&quot; | Invoke-DbaQuery -File &quot;C:\scripts\sql\rebuild.sql&quot;
+<pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016, sql2019 -Credential (Get-Credential)
 </code></pre>
-<p>Runs the sql commands stored in rebuild.sql against the instances &quot;server1&quot;, &quot;server1\nordwind&quot; and &quot;server2&quot;<br></p>
+<p>Tests multiple SQL Server instances using specified credentials for AD queries.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance &quot;server1&quot;, &quot;server1\nordwind&quot;, &quot;server2&quot; | Invoke-DbaQuery -File &quot;C:\scripts\sql\rebuild.sql&quot;
+<pre><code>PS C:\&gt; Test-DbaKerberos -ComputerName SERVER01 -SqlCredential ad\sqldba
 </code></pre>
-<p>Runs the sql commands stored in rebuild.sql against all accessible databases of the instances &quot;server1&quot;, &quot;server1\nordwind&quot; and &quot;server2&quot;<br></p>
+<p>Tests Kerberos configuration for all SQL instances on SERVER01 using specified AD credentials.<br></p>
 <h5 id="example-5">Example:  5</h5>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance . -Query 'SELECT * FROM users WHERE Givenname = @name' -SqlParameter @{ Name = &quot;Maria&quot; }
+<pre><code>PS C:\&gt; Get-DbaRegServer -SqlInstance sqlcentral | Test-DbaKerberos | Where-Object Status -eq &quot;Fail&quot;
 </code></pre>
-<p>Executes a simple query against the users table using SQL Parameters.<br>
-This avoids accidental SQL Injection and is the safest way to execute queries with dynamic content.<br>
-Keep in mind the limitations inherent in parameters - it is quite impossible to use them for content references.<br>
-While it is possible to parameterize a where condition, it is impossible to use this to select which columns to select.<br>
-The inserted text will always be treated as string content, and not as a reference to any SQL entity (such as columns, tables or databases).<br></p>
-<h5 id="example-6">Example:  6</h5>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance aglistener1 -ReadOnly -Query &quot;select something from readonlydb.dbo.atable&quot;
-</code></pre>
-<p>Executes a query with ReadOnly application intent on aglistener1.<br></p>
-<h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance server1 -Database tempdb -Query Example_SP -SqlParameter @{ Name = &quot;Maria&quot; } -CommandType StoredProcedure
-</code></pre>
-<p>Executes a stored procedure Example_SP using SQL Parameters<br></p>
-<h5 id="example-8">Example:  8</h5>
-<pre><code>PS C:\&gt; $queryParameters = @{
-&gt;&gt;     StartDate = $startdate
-&gt;&gt;     EndDate   = $enddate
-&gt;&gt; }
-PS C:\&gt; Invoke-DbaQuery -SqlInstance server1 -Database tempdb -Query Example_SP -SqlParameter $queryParameters -CommandType StoredProcedure
-</code></pre>
-<p>Executes a stored procedure Example_SP using multiple SQL Parameters<br></p>
-<h5 id="example-9">Example:  9</h5>
-<pre><code>PS C:\&gt; $inparam = @()
-PS C:\&gt; $inparam += [PSCustomObject]@{
-&gt;&gt;     somestring = 'string1'
-&gt;&gt;     somedate = '2021-07-15T01:02:00'
-&gt;&gt; }
-PS C:\&gt; $inparam += [PSCustomObject]@{
-&gt;&gt;     somestring = 'string2'
-&gt;&gt;     somedate = '2021-07-15T02:03:00'
-&gt;&gt; }
-&gt;&gt; $inparamAsDataTable = ConvertTo-DbaDataTable -InputObject $inparam
-PS C:\&gt; $inparamAsSQLParameter = New-DbaSqlParameter -SqlDbType structured -Value $inparamAsDataTable -TypeName 'dbatools_tabletype'
-PS C:\&gt; Invoke-DbaQuery -SqlInstance localhost -Database master -CommandType StoredProcedure -Query my_proc -SqlParameter $inparamAsSQLParameter
-</code></pre>
-<p>Creates an TVP input parameter and uses it to invoke a stored procedure.<br></p>
-<h5 id="example-10">Example:  10</h5>
-<pre><code>PS C:\&gt; $output = New-DbaSqlParameter -ParameterName json_result -SqlDbType NVarChar -Size -1 -Direction Output
-PS C:\&gt; Invoke-DbaQuery -SqlInstance localhost -Database master -CommandType StoredProcedure -Query my_proc -SqlParameter $output
-PS C:\&gt; $output.Value
-</code></pre>
-<p>Creates an output parameter and uses it to invoke a stored procedure.<br></p>
-<h5 id="example-11">Example:  11</h5>
-<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance localhost -Database master -AlwaysEncrypted
-PS C:\&gt; $inputparamSSN = New-DbaSqlParameter -Direction Input -ParameterName &quot;@SSN&quot; -DbType AnsiStringFixedLength -Size 11 -SqlValue &quot;444-44-4444&quot; -ForceColumnEncryption
-PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query 'SELECT * FROM bar WHERE SSN_col = @SSN' -SqlParameter @inputparamSSN
-</code></pre>
-<p>Creates an input parameter using Always Encrypted<br></p>
-<h5 id="example-12">Example:  12</h5>
-<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance AG1 -Database dbatools -MultiSubnetFailover -ConnectTimeout 60
-PS C:\&gt; Invoke-DbaQuery -SqlInstance $server -Query 'SELECT foo FROM bar'
-</code></pre>
-<p>Reuses Connect-DbaInstance, leveraging advanced paramenters, to adhere to official guidelines to target FCI or AG listeners.<br>
-See <a href="https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery#connecting-with-multisubnetfailover">https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery#connecting-with-multisubnetfailover</a><br></p>
-<h5 id="example-13">Example:  13</h5>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance AG1 -Query 'SELECT foo FROM bar' -AppendConnectionString 'MultiSubnetFailover=true;Connect Timeout=60'
-</code></pre>
-<p>Leverages your own parameters, giving you full power, mimicking Connect-DbaInstance's <code>-MultiSubnetFailover -ConnectTimeout 60</code>, to adhere to official guidelines to target FCI or AG listeners.<br>
-See <a href="https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery#connecting-with-multisubnetfailover">https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/sql/sqlclient-support-for-high-availability-disaster-recovery#connecting-with-multisubnetfailover</a><br></p>
-<h5 id="example-14">Example:  14</h5>
-<pre><code>PS C:\&gt; Invoke-DbaQuery -SqlInstance server1 -Database tempdb -Query &quot;INSERT INTO dbo.TableWithFilteredIndex (Id, Name) VALUES (1, 'Test')&quot; -QuotedIdentifier
-</code></pre>
-<p>Executes an INSERT statement with QUOTED_IDENTIFIER set to ON. This is required when modifying tables that have filtered indexes, as SQL Server requires this setting for such operations.<br></p>
+<p>Tests all registered servers and returns only the checks that failed, useful for identifying problems across your environment.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
-<h5 id="query">-Query</h5>
-<p>Contains the T-SQL commands to execute against the target instances. Supports T-SQL statements, XQuery, and SQLCMD commands with GO batch separators.<br />
-Use this for ad-hoc queries, maintenance scripts, or data extraction commands. For complex scripts or version-controlled SQL, consider using the File parameter instead.<br />
-Escape any double quotation marks included in the string.<br />
-Consider using bracketed identifiers such as [MyTable] instead of quoted identifiers such as &quot;MyTable&quot;. <br></p>
+<h5 id="sqlinstance">-SqlInstance</h5>
+<p>The target SQL Server instance or instances to test Kerberos configuration.<br />
+Accepts SQL Server instance names and supports pipeline input for bulk testing.<br />
+The function will perform comprehensive Kerberos diagnostics for each specified instance. <br></p>
 <table>
 <thead>
 <tr>
@@ -659,7 +563,7 @@ Consider using bracketed identifiers such as [MyTable] instead of quoted identif
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -667,38 +571,10 @@ Consider using bracketed identifiers such as [MyTable] instead of quoted identif
 </tr>
 </tbody>
 </table>
-<h5 id="file">-File</h5>
-<p>Specifies file paths, URLs, or directories containing SQL scripts to execute. Supports individual .sql files, entire directories, or HTTP/HTTPS URLs for remote scripts.<br />
-Use this for deploying version-controlled SQL scripts, running standardized maintenance routines, or executing scripts downloaded from repositories. <br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>InputFile</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="sqlobject">-SqlObject</h5>
-<p>Accepts SQL Server Management Objects (SMO) that will be scripted out and executed on target instances. Works with tables, views, stored procedures, functions, and other database objects.<br />
-Use this to deploy database schema changes by passing SMO objects from a source environment to recreate them elsewhere. <br></p>
+<h5 id="computername">-ComputerName</h5>
+<p>Alternative parameter to specify target computers to test.<br />
+Use this when you want to test Kerberos configuration at the computer level rather than for specific SQL instances.<br />
+Accepts computer names, IP addresses, or fully qualified domain names. <br></p>
 <table>
 <thead>
 <tr>
@@ -717,7 +593,7 @@ Use this to deploy database schema changes by passing SMO objects from a source 
 </tr>
 <tr>
 <td>Pipeline</td>
-<td>false</td>
+<td>true (ByValue)</td>
 </tr>
 <tr>
 <td>Default Value</td>
@@ -726,37 +602,10 @@ Use this to deploy database schema changes by passing SMO objects from a source 
 </tbody>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="sqlinstance">-SqlInstance</h5>
-<p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Credential object used to connect to the SQL Server Instance as a different user. This can be a Windows or SQL Server account. Windows users are determined by the existence of a backslash, so if you<br />
-are intending to use an alternative Windows connection instead of a SQL login, ensure it contains a backslash.<br></p>
+<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
+For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
 <thead>
 <tr>
@@ -783,9 +632,9 @@ are intending to use an alternative Windows connection instead of a SQL login, e
 </tr>
 </tbody>
 </table>
-<h5 id="database">-Database</h5>
-<p>Specifies the target database context for query execution. The query will run against this database regardless of any USE statements in the SQL code.<br />
-Use this when you need to ensure queries execute in a specific database, particularly when running the same query against multiple instances with different default databases.<br></p>
+<h5 id="credential">-Credential</h5>
+<p>Alternative credential for connecting to Active Directory.<br />
+Required for querying AD to verify SPN registrations and service account properties.<br></p>
 <table>
 <thead>
 <tr>
@@ -812,132 +661,9 @@ Use this when you need to ensure queries execute in a specific database, particu
 </tr>
 </tbody>
 </table>
-<h5 id="querytimeout">-QueryTimeout</h5>
-<p>Sets the command timeout in seconds before the query is cancelled. Defaults to the connection's default timeout if not specified.<br />
-Increase this value for long-running maintenance operations, large data exports, or complex analytical queries that need more processing time.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h5 id="as">-As</h5>
-<p>Controls the format of returned query results. Choose 'DataRow' (default) for typical result sets, 'PSObject' for PowerShell-friendly objects, or 'SingleValue' for scalar results.<br />
-Use 'PSObject' when you need to pipe results to other PowerShell commands that expect objects. Use 'SingleValue' for queries returning a single value like COUNT(*) or configuration checks.<br />
-PSObject and PSObjectArray output introduces overhead but adds flexibility for working with results: <a href="https://forums.powershell.org/t/dealing-with-dbnull/2328/2">https://forums.powershell.org/t/dealing-with-dbnull/2328/2</a><br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>DataRow</td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>DataSet,DataTable,DataRow,PSObject,PSObjectArray,SingleValue</td>
-</tr>
-</tbody>
-</table>
-<h5 id="sqlparameter">-SqlParameter</h5>
-<p>Provides parameters for safe execution of queries with dynamic values, preventing SQL injection attacks. Accepts hashtables or SqlParameter objects from New-DbaSqlParameter.<br />
-Use this whenever your queries include user input, dynamic values, or when calling stored procedures with input/output parameters. Essential for secure production scripts.<br />
-<a href="http://blog.codinghorror.com/give-me-parameterized-sql-or-give-me-death/">http://blog.codinghorror.com/give-me-parameterized-sql-or-give-me-death/</a><br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td>SqlParameters</td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="commandtype">-CommandType</h5>
-<p>Defines how the Query parameter should be interpreted. Use 'Text' (default) for T-SQL statements, 'StoredProcedure' for procedure calls, or 'TableDirect' for direct table access.<br />
-Set this to 'StoredProcedure' when calling stored procedures, which enables proper parameter handling and allows the use of output parameters.<br />
-Further information: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlcommand.commandtype">https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlcommand.commandtype</a><br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>Text</td>
-</tr>
-</tbody>
-</table>
-<h5 id="appendserverinstance">-AppendServerInstance</h5>
-<p>Adds the source SQL Server instance name as a column to query results. Particularly useful when running the same query against multiple instances.<br />
-Use this when you need to identify which instance produced each row of results, essential for multi-instance reporting and troubleshooting scenarios.<br></p>
+<h5 id="detailed">-Detailed</h5>
+<p>Returns detailed diagnostic output including intermediate check results and verbose findings.<br />
+Use this switch when you need comprehensive troubleshooting information beyond pass/fail status.<br></p>
 <table>
 <thead>
 <tr>
@@ -961,182 +687,6 @@ Use this when you need to identify which instance produced each row of results, 
 <tr>
 <td>Default Value</td>
 <td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="messagestooutput">-MessagesToOutput</h5>
-<p>Captures and returns T-SQL PRINT statements, RAISERROR messages, and other informational messages along with query results.<br />
-Use this when debugging stored procedures, monitoring script progress, or when you need to see messages that SQL scripts output during execution.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="inputobject">-InputObject</h5>
-<p>Accepts database objects from the pipeline, typically from Get-DbaDatabase. The query will execute against each database in the collection.<br />
-Use this to run the same query across multiple databases efficiently, such as checking configuration settings or gathering statistics from all user databases.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="readonly">-ReadOnly</h5>
-<p>Sets the connection to use ReadOnly application intent, directing queries to readable secondary replicas in Availability Groups.<br />
-Use this when querying Availability Group listeners to reduce load on primary replicas and take advantage of readable secondaries for reporting workloads.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="noexec">-NoExec</h5>
-<p>Enables syntax and semantic validation without executing the actual statements. The SQL engine parses and compiles queries but doesn't run them.<br />
-Use this to validate T-SQL syntax, check object references, and verify permissions before running potentially destructive scripts in production environments.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="quotedidentifier">-QuotedIdentifier</h5>
-<p>Prepends SET QUOTED_IDENTIFIER ON to each batch before execution. This is required for INSERT, UPDATE, and DELETE operations on tables with filtered indexes, indexed views, computed columns, or XML<br />
-indexes.<br />
-Use this when modifying tables with filtered indexes and experiencing silent failures, as SMO connections may have QUOTED_IDENTIFIER set to OFF depending on server/database configuration.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
-</tr>
-</tbody>
-</table>
-<h5 id="appendconnectionstring">-AppendConnectionString</h5>
-<p>Adds custom connection string parameters for specialized connection requirements like MultiSubnetFailover, encryption settings, or timeout values.<br />
-Use this for Availability Group connections, Always Encrypted scenarios, or when you need connection properties not available through standard parameters. Authentication must still be handled via<br />
-SqlInstance and SqlCredential.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
 </tr>
 </tbody>
 </table>
