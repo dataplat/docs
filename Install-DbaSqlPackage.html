@@ -496,7 +496,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </ul>
 <p>By default, SqlPackage is installed as a portable ZIP file to the dbatools directory for CurrentUser scope, making it immediately available for database deployment tasks without requiring system-wide installation.<br />
 For AllUsers (LocalMachine) scope on Windows, you can use the MSI installer which requires administrative privileges and provides system-wide access.</p>
-<p>Writes to $script:PSModuleRoot\bin\sqlpackage by default for CurrentUser scope.</p>
+<p>Writes to dbatools data directory by default for CurrentUser scope.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Install-DbaSqlPackage
     [[-Path] &lt;String&gt;]
@@ -516,7 +516,7 @@ For AllUsers (LocalMachine) scope on Windows, you can use the MSI installer whic
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; Install-DbaSqlPackage
 </code></pre>
-<p>Downloads SqlPackage ZIP to the dbatools directory for the current user<br></p>
+<p>Downloads SqlPackage ZIP and extracts it to the dbatools directory for the current user<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; Install-DbaSqlPackage -Scope AllUsers -Type Msi
 </code></pre>
@@ -524,7 +524,7 @@ For AllUsers (LocalMachine) scope on Windows, you can use the MSI installer whic
 <h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; Install-DbaSqlPackage -Path C:\SqlPackage
 </code></pre>
-<p>Downloads SqlPackage ZIP to C:\SqlPackage<br></p>
+<p>Downloads SqlPackage ZIP and extracts it to C:\SqlPackage<br></p>
 <h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Install-DbaSqlPackage -LocalFile C:\temp\sqlpackage.zip
 </code></pre>

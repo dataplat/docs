@@ -734,7 +734,9 @@ Use this when you know the specific service names and want to avoid the overhead
 </table>
 <h5 id="advancedproperties">-AdvancedProperties</h5>
 <p>Includes additional service properties such as SQL Server version, service pack level, SKU name, and cluster information.<br />
-Use this when you need detailed service information for inventory, compliance, or troubleshooting purposes. Note that this adds processing time to the command.<br></p>
+Use this when you need detailed service information for inventory, compliance, or troubleshooting purposes. Note that this adds processing time to the command.<br />
+This will also output the additional property SqlInstance based on the Clustered and VSName properties for engine services.<br />
+Use this property to connect to the correct SQL instance.<br></p>
 <table>
 <thead>
 <tr>

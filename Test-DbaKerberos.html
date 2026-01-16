@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>the dbatools team + Claude</td>
+<td>Claude + Andreas Jordan + Chrissy LeMaire</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -485,34 +485,69 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#Test-DbaKerberos">Test-DbaKerberos</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Tests Kerberos authentication configuration for SQL Server instances by performing comprehensive diagnostic checks</p>
+<p>Tests Kerberos authentication configuration for SQL Server instances by performing comprehensive diagnostic checks.</p>
 <h2 id="description">Description</h2>
 <p>This function performs a comprehensive suite of diagnostic checks to troubleshoot Kerberos authentication issues for SQL Server instances. It addresses the most common causes of Kerberos authentication failures including SPN configuration problems, DNS issues, time synchronization errors, service account configuration, network connectivity problems, and security policy misconfigurations.</p>
-<p>The function performs 25+ checks across multiple categories:</p>
+<p>The function performs 20 checks across 9 categories (plus additional checks per AG listener):</p>
+<p>SPN (1-2+ checks):</p>
 <ul>
-<li>SPN validation (duplicate detection, format validation, ownership verification)</li>
-<li>Time synchronization (client-server and server-DC time comparisons)</li>
-<li>DNS resolution (forward/reverse lookups, CNAME detection)</li>
-<li>Service account configuration (lock status, delegation settings)</li>
-<li>Network connectivity (Kerberos and LDAP port testing)</li>
-<li>Security policy validation (encryption types, secure channel)</li>
-<li>SQL Server configuration (service account, network protocols)</li>
-<li>Authentication verification (current auth scheme validation)</li>
+<li>SPN Registration - Verifies required SPNs are registered using Test-DbaSpn</li>
+<li>AG Listener SPN - One check per Availability Group listener (if any exist)</li>
 </ul>
-<p>Each check returns a structured result with status (Pass/Fail/Warning), detailed findings, and actionable remediation recommendations. Use the -Detailed switch for verbose diagnostic output including intermediate check results.</p>
-<p>This command is essential for troubleshooting authentication failures, validating Kerberos setup before migrations, performing security audits, and as part of regular maintenance to ensure proper authentication across SQL Server environments.</p>
+<p>Time Sync (2 checks):</p>
+<ul>
+<li>Client-Server time synchronization (5-minute Kerberos threshold)</li>
+<li>Server-DC time synchronization</li>
+</ul>
+<p>DNS (3 checks):</p>
+<ul>
+<li>Forward lookup verification</li>
+<li>Reverse lookup verification</li>
+<li>CNAME detection (CNAMEs break Kerberos)</li>
+</ul>
+<p>Service Account (3 checks):</p>
+<ul>
+<li>Service account type validation (gMSA, domain account, built-in accounts)</li>
+<li>Account lock status in Active Directory</li>
+<li>Delegation settings (&quot;sensitive and cannot be delegated&quot; flag)</li>
+</ul>
+<p>Authentication (1 check):</p>
+<ul>
+<li>Current authentication scheme (Kerberos vs NTLM)</li>
+</ul>
+<p>Network (3 checks):</p>
+<ul>
+<li>Kerberos port TCP/88 connectivity to DC</li>
+<li>LDAP port TCP/389 connectivity to DC</li>
+<li>Kerberos-Kdc port TCP/464 connectivity to DC</li>
+</ul>
+<p>Security Policy (3 checks):</p>
+<ul>
+<li>Kerberos encryption types configuration</li>
+<li>Computer secure channel health</li>
+<li>Hosts file entries that may override DNS</li>
+</ul>
+<p>SQL Configuration (2 checks):</p>
+<ul>
+<li>SQL Server service account configuration</li>
+<li>Network protocol configuration (TCP/IP enabled)</li>
+</ul>
+<p>Client (1 check):</p>
+<ul>
+<li>Kerberos ticket cache inspection via klist</li>
+</ul>
+<p>Each check returns a structured result with ComputerName, InstanceName, Check, Category, Status (Pass/Fail/Warning), Details, and Remediation recommendations.</p>
+<p>Note: When using -ComputerName instead of -SqlInstance, SQL Server-specific checks (service account, authentication scheme, network protocols) are skipped.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Test-DbaKerberos -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
     [-Credential &lt;PSCredential&gt;]
-    [-Detailed]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
 Test-DbaKerberos -ComputerName &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
     [-Credential &lt;PSCredential&gt;]
-    [-Detailed]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -523,28 +558,36 @@ Test-DbaKerberos -ComputerName &lt;DbaInstanceParameter[]&gt;
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016
 </code></pre>
-<p>Performs comprehensive Kerberos diagnostic checks for the sql2016 instance, returning pass/fail status for each check.<br></p>
+<p>Performs comprehensive Kerberos diagnostic checks for the sql2016 instance, returning pass/fail/warning status for each check with remediation recommendations.<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016 -Detailed
+<pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016 -SqlCredential (Get-Credential) -Credential (Get-Credential)
 </code></pre>
-<p>Performs comprehensive Kerberos diagnostic checks with detailed output including verbose findings and intermediate results.<br></p>
+<p>Tests Kerberos configuration using SQL credentials to connect to the instance and separate AD credentials for remote WinRM and Active Directory queries.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016, sql2019 -Credential (Get-Credential)
+<pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016, sql2019
 </code></pre>
-<p>Tests multiple SQL Server instances using specified credentials for AD queries.<br></p>
+<p>Tests multiple SQL Server instances in a single command.<br></p>
 <h5 id="example-4">Example:  4</h5>
-<pre><code>PS C:\&gt; Test-DbaKerberos -ComputerName SERVER01 -SqlCredential ad\sqldba
+<pre><code>PS C:\&gt; Test-DbaKerberos -ComputerName SERVER01 -Credential (Get-Credential)
 </code></pre>
-<p>Tests Kerberos configuration for all SQL instances on SERVER01 using specified AD credentials.<br></p>
+<p>Tests Kerberos configuration at the computer level using specified credentials for WinRM and AD queries. SQL Server-specific checks are skipped.<br></p>
 <h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Get-DbaRegServer -SqlInstance sqlcentral | Test-DbaKerberos | Where-Object Status -eq &quot;Fail&quot;
 </code></pre>
 <p>Tests all registered servers and returns only the checks that failed, useful for identifying problems across your environment.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016 | Where-Object Category -eq &quot;SPN&quot;
+</code></pre>
+<p>Returns only the SPN-related checks for the specified instance.<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; Test-DbaKerberos -SqlInstance sql2016 | Format-Table -AutoSize
+</code></pre>
+<p>Displays results in a formatted table for easier reading.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances to test Kerberos configuration.<br />
 Accepts SQL Server instance names and supports pipeline input for bulk testing.<br />
-The function will perform comprehensive Kerberos diagnostics for each specified instance. <br></p>
+All checks including SQL Server-specific checks will be performed. <br></p>
 <table>
 <thead>
 <tr>
@@ -574,7 +617,8 @@ The function will perform comprehensive Kerberos diagnostics for each specified 
 <h5 id="computername">-ComputerName</h5>
 <p>Alternative parameter to specify target computers to test.<br />
 Use this when you want to test Kerberos configuration at the computer level rather than for specific SQL instances.<br />
-Accepts computer names, IP addresses, or fully qualified domain names. <br></p>
+Accepts computer names, IP addresses, or fully qualified domain names.<br />
+Note: SQL Server-specific checks will be skipped when using this parameter. <br></p>
 <table>
 <thead>
 <tr>
@@ -603,7 +647,7 @@ Accepts computer names, IP addresses, or fully qualified domain names. <br></p>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlcredential">-SqlCredential</h5>
-<p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
+<p>Login to the target SQL Server instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
 <table>
@@ -633,8 +677,8 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 </tbody>
 </table>
 <h5 id="credential">-Credential</h5>
-<p>Alternative credential for connecting to Active Directory.<br />
-Required for querying AD to verify SPN registrations and service account properties.<br></p>
+<p>Credential for remote WinRM connections and Active Directory queries.<br />
+Used for Invoke-Command calls to remote servers and for querying AD to verify SPN registrations and service account properties.<br></p>
 <table>
 <thead>
 <tr>
@@ -658,35 +702,6 @@ Required for querying AD to verify SPN registrations and service account propert
 <tr>
 <td>Default Value</td>
 <td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="detailed">-Detailed</h5>
-<p>Returns detailed diagnostic output including intermediate check results and verbose findings.<br />
-Use this switch when you need comprehensive troubleshooting information beyond pass/fail status.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td>False</td>
 </tr>
 </tbody>
 </table>
