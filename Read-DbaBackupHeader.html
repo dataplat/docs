@@ -497,7 +497,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Path] &lt;Object[]&gt;
     [-Simple]
     [-FileList]
-    [[-AzureCredential] &lt;String&gt;]
+    [[-StorageCredential] &lt;String&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -536,9 +536,13 @@ PS C:\&gt; $backupinfo.FileList
 </code></pre>
 <p>Gets a list of all .bak files on the \nas\sql share and reads the headers using the server named &quot;sql2016&quot;. This means that the server, sql2016, must have read access to the \nas\sql share.<br></p>
 <h5 id="example-8">Example:  8</h5>
-<pre><code>PS C:\&gt; Read-DbaBackupHeader -SqlInstance sql2016 -Path https://dbatoolsaz.blob.core.windows.net/azbackups/restoretime/restoretime_201705131850.bak -AzureCredential AzureBackupUser
+<pre><code>PS C:\&gt; Read-DbaBackupHeader -SqlInstance sql2016 -Path https://dbatoolsaz.blob.core.windows.net/azbackups/restoretime/restoretime_201705131850.bak -StorageCredential AzureBackupUser
 </code></pre>
 <p>Gets the backup header information from the SQL Server backup file stored at <a href="https://dbatoolsaz.blob.core.windows.net/azbackups/restoretime/restoretime_201705131850.bak">https://dbatoolsaz.blob.core.windows.net/azbackups/restoretime/restoretime_201705131850.bak</a> on Azure<br></p>
+<h5 id="example-9">Example:  9</h5>
+<pre><code>PS C:\&gt; Read-DbaBackupHeader -SqlInstance sql2022 -Path s3://s3.us-west-2.amazonaws.com/mybucket/backups/mydb.bak -StorageCredential MyS3Credential
+</code></pre>
+<p>Gets the backup header information from the SQL Server backup file stored in an AWS S3 bucket. Requires SQL Server 2022 or higher and a credential configured with S3 access keys.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. <br></p>
@@ -687,9 +691,11 @@ Use this when planning restores to different locations or when you need to under
 </tr>
 </tbody>
 </table>
-<h5 id="azurecredential">-AzureCredential</h5>
-<p>Specifies the name of a SQL Server credential object that contains the authentication information for accessing Azure blob storage.<br />
-Required when reading backup files stored in Azure blob storage. The credential must already exist on the target SQL Server instance and contain valid Azure storage account keys or SAS tokens.<br></p>
+<h5 id="storagecredential">-StorageCredential</h5>
+<p>Specifies the name of a SQL Server credential object that contains the authentication information for accessing Azure blob storage or S3-compatible object storage.<br />
+Required when reading backup files stored in Azure blob storage or S3. The credential must already exist on the target SQL Server instance.<br />
+For Azure: The credential must contain valid Azure storage account keys or SAS tokens.<br />
+For S3: The credential must use Identity = 'S3 Access Key' and Secret = 'AccessKeyID:SecretKeyID'. Requires SQL Server 2022 or higher.<br></p>
 <table>
 <thead>
 <tr>
@@ -700,7 +706,7 @@ Required when reading backup files stored in Azure blob storage. The credential 
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>AzureCredential,S3Credential</td>
 </tr>
 <tr>
 <td>Required</td>

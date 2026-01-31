@@ -508,8 +508,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-MaxTransferSize &lt;Int32&gt;]
     [-BlockSize &lt;Int32&gt;]
     [-BufferCount &lt;Int32&gt;]
-    [-AzureBaseUrl &lt;String[]&gt;]
-    [-AzureCredential &lt;String&gt;]
+    [-StorageBaseUrl &lt;String[]&gt;]
+    [-StorageCredential &lt;String&gt;]
+    [-StorageRegion &lt;String&gt;]
     [-NoRecovery]
     [-BuildPath]
     [-WithFormat]
@@ -545,8 +546,9 @@ Backup-DbaDatabase -SqlInstance &lt;DbaInstanceParameter&gt;
     [-MaxTransferSize &lt;Int32&gt;]
     [-BlockSize &lt;Int32&gt;]
     [-BufferCount &lt;Int32&gt;]
-    [-AzureBaseUrl &lt;String[]&gt;]
-    [-AzureCredential &lt;String&gt;]
+    [-StorageBaseUrl &lt;String[]&gt;]
+    [-StorageCredential &lt;String&gt;]
+    [-StorageRegion &lt;String&gt;]
     [-NoRecovery]
     [-BuildPath]
     [-WithFormat]
@@ -583,8 +585,9 @@ Backup-DbaDatabase
     [-MaxTransferSize &lt;Int32&gt;]
     [-BlockSize &lt;Int32&gt;]
     [-BufferCount &lt;Int32&gt;]
-    [-AzureBaseUrl &lt;String[]&gt;]
-    [-AzureCredential &lt;String&gt;]
+    [-StorageBaseUrl &lt;String[]&gt;]
+    [-StorageCredential &lt;String&gt;]
+    [-StorageRegion &lt;String&gt;]
     [-NoRecovery]
     [-BuildPath]
     [-WithFormat]
@@ -614,7 +617,7 @@ Backup-DbaDatabase
 </code></pre>
 <p>Backs up AdventureWorks2014 to sql2016 C:\temp folder.<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Backup-DbaDatabase -SqlInstance sql2016 -AzureBaseUrl https://dbatoolsaz.blob.core.windows.net/azbackups/ -AzureCredential dbatoolscred -Type Full -CreateFolder
+<pre><code>PS C:\&gt; Backup-DbaDatabase -SqlInstance sql2016 -StorageBaseUrl https://dbatoolsaz.blob.core.windows.net/azbackups/ -StorageCredential dbatoolscred -Type Full -CreateFolder
 </code></pre>
 <p>Performs a full backup of all databases on the sql2016 instance to their own containers under the <a href="https://dbatoolsaz.blob.core.windows.net/azbackups/">https://dbatoolsaz.blob.core.windows.net/azbackups/</a> container on Azure blob storage using the sql <br>
 credential &quot;dbatoolscred&quot; registered on the sql2016 instance.<br></p>
@@ -644,6 +647,19 @@ Shared Access Signature credentials for both containers exist on the source inst
 <pre><code>PS C:\&gt; Backup-DbaDatabase -SqlInstance Sql2017 -Database master -EncryptionAlgorithm AES256 -EncryptionCertificate BackupCert
 </code></pre>
 <p>Backs up the master database using the BackupCert certificate and the AES256 algorithm.<br></p>
+<h5 id="example-10">Example:  10</h5>
+<pre><code>PS C:\&gt; Backup-DbaDatabase -SqlInstance sql2022 -Database AdventureWorks -StorageBaseUrl &quot;s3://mybucket.s3.us-west-2.amazonaws.com/backups&quot; -Type Full -CompressBackup
+</code></pre>
+<p>Performs a full compressed backup of the AdventureWorks database to an S3-compatible storage bucket. Requires SQL Server 2022 or later and a credential matching the S3 URL created with <br>
+New-DbaCredential using Identity 'S3 Access Key'.<br></p>
+<h5 id="example-11">Example:  11</h5>
+<pre><code>PS C:\&gt; Backup-DbaDatabase -SqlInstance sql2022 -Database AdventureWorks -S3BaseUrl &quot;s3://minio.local:9000/sqlbackups&quot; -Type Full
+</code></pre>
+<p>Performs a full backup to a MinIO S3-compatible storage server using the S3BaseUrl alias. The credential must be created to match the S3 URL path.<br></p>
+<h5 id="example-12">Example:  12</h5>
+<pre><code>PS C:\&gt; Backup-DbaDatabase -SqlInstance sql2022 -Database AdventureWorks -StorageBaseUrl &quot;s3://mybucket.s3.amazonaws.com/backups&quot; -StorageRegion &quot;us-west-2&quot; -MaxTransferSize 10485760 -Type Full
+</code></pre>
+<p>Performs a full backup to S3 with explicit region specification and a 10MB transfer size. The StorageRegion parameter adds BACKUP_OPTIONS to the backup command for cross-region scenarios.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The SQL Server instance hosting the databases to be backed up. <br></p>
@@ -1160,7 +1176,9 @@ Critical for validating backups in automated processes and compliance requiremen
 </tbody>
 </table>
 <h5 id="maxtransfersize">-MaxTransferSize</h5>
-<p>Controls the size of each data transfer unit during backup operations. Must be a multiple of 64KB with 4MB maximum.<br />
+<p>Controls the size of each data transfer unit during backup operations. Must be a multiple of 64KB.<br />
+For disk and Azure backups: Maximum value is 4MB.<br />
+For S3 backups: Value must be between 5MB and 20MB (required for S3-compatible storage).<br />
 Larger values can improve performance for fast storage but may cause memory pressure.<br />
 Automatically set to 128KB for TDE-encrypted databases with compression to avoid conflicts.<br></p>
 <table>
@@ -1192,7 +1210,7 @@ Automatically set to 128KB for TDE-encrypted databases with compression to avoid
 <h5 id="blocksize">-BlockSize</h5>
 <p>Sets the physical block size for backup devices. Must be 0.5KB, 1KB, 2KB, 4KB, 8KB, 16KB, 32KB, or 64KB.<br />
 Affects backup file structure and restore performance. Larger blocks may improve performance for fast storage.<br />
-Cannot be used with Azure page blob backups (when AzureCredential is specified).<br></p>
+Cannot be used with Azure page blob backups (when StorageCredential is specified).<br></p>
 <table>
 <thead>
 <tr>
@@ -1249,11 +1267,11 @@ SQL Server calculates optimal values automatically, so specify only when perform
 </tr>
 </tbody>
 </table>
-<h5 id="azurebaseurl">-AzureBaseUrl</h5>
-<p>Specifies Azure blob storage container URLs for cloud backup destinations.<br />
-Single URL required for page blobs (with AzureCredential), multiple URLs supported for block blobs with SAS.<br />
-Requires corresponding SQL Server credentials for authentication. Limits other parameter usage to core backup options.<br />
-Essential for backing up to Azure storage for cloud-native or hybrid SQL Server deployments.<br></p>
+<h5 id="storagebaseurl">-StorageBaseUrl</h5>
+<p>Specifies cloud storage URLs for backup destinations, supporting Azure Blob Storage and S3-compatible object storage.<br />
+For Azure: Use https:// URLs like 'https://account.blob.core.windows.net/container'. Single URL required for page blobs (with StorageCredential), multiple URLs supported for block blobs with SAS.<br />
+For S3: Use s3:// URLs like 's3://bucket.s3.region.amazonaws.com/folder'. Requires SQL Server 2022 or later. Supports AWS S3, MinIO, and other S3-compatible providers.<br />
+Requires corresponding SQL Server credentials for authentication. Essential for backing up to cloud storage for cloud-native or hybrid SQL Server deployments.<br></p>
 <table>
 <thead>
 <tr>
@@ -1264,7 +1282,7 @@ Essential for backing up to Azure storage for cloud-native or hybrid SQL Server 
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>AzureBaseUrl,S3BaseUrl</td>
 </tr>
 <tr>
 <td>Required</td>
@@ -1280,10 +1298,11 @@ Essential for backing up to Azure storage for cloud-native or hybrid SQL Server 
 </tr>
 </tbody>
 </table>
-<h5 id="azurecredential">-AzureCredential</h5>
-<p>Specifies the SQL Server credential name for Azure storage access key authentication.<br />
-Creates page blob backups with automatic single-file restriction and ignores BlockSize/MaxTransferSize.<br />
-For SAS authentication, use credentials named to match the AzureBaseUrl. Required for Azure storage access key scenarios.<br></p>
+<h5 id="storagecredential">-StorageCredential</h5>
+<p>Specifies the SQL Server credential name for cloud storage authentication.<br />
+For Azure: The credential for storage access key authentication. Creates page blob backups with automatic single-file restriction and ignores BlockSize/MaxTransferSize.<br />
+For S3: The credential containing the S3 Access Key ID and Secret Key ID. The credential name should match the S3 URL path.<br />
+For SAS authentication, use credentials named to match the StorageBaseUrl.<br></p>
 <table>
 <thead>
 <tr>
@@ -1294,7 +1313,38 @@ For SAS authentication, use credentials named to match the AzureBaseUrl. Require
 <tbody>
 <tr>
 <td>Alias</td>
+<td>AzureCredential,S3Credential</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="storageregion">-StorageRegion</h5>
+<p>Specifies the AWS region for S3 backups using the BACKUP_OPTIONS JSON parameter. Only applies to S3-compatible storage.<br />
+Use this when your S3 bucket is in a specific region that differs from the default, or when required by your S3-compatible provider.<br />
+Example regions: us-east-1, us-west-2, eu-west-1, ap-southeast-1.<br />
+When specified, adds BACKUP_OPTIONS = '{&quot;s3&quot;: {&quot;region&quot;:&quot;<region>&quot;}}' to the backup command.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td>S3Region</td>
 </tr>
 <tr>
 <td>Required</td>

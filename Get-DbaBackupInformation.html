@@ -504,7 +504,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-IgnoreLogBackup]
     [-IgnoreDiffBackup]
     [-ExportPath &lt;String&gt;]
-    [-AzureCredential &lt;String&gt;]
+    [-StorageCredential &lt;String&gt;]
     [-Anonymise]
     [-NoClobber]
     [-PassThru]
@@ -518,7 +518,7 @@ Get-DbaBackupInformation -Path &lt;Object[]&gt;
     [-IgnoreLogBackup]
     [-IgnoreDiffBackup]
     [-ExportPath &lt;String&gt;]
-    [-AzureCredential &lt;String&gt;]
+    [-StorageCredential &lt;String&gt;]
     [-Import]
     [-Anonymise]
     [-NoClobber]
@@ -566,6 +566,11 @@ shortcut scanning all the files as we have nothing to work with<br></p>
 </code></pre>
 <p>As we know we are dealing with an Ola Hallengren style backup folder from the MaintenanceSolution switch, when IgnoreLogBackup is also included we can ignore the LOG folder to skip any scanning of <br>
 log backups. Note this also means they WON'T be restored<br></p>
+<h5 id="example-8">Example:  8</h5>
+<pre><code>PS C:\&gt; $Backups = Get-DbaBackupInformation -SqlInstance sql2022 -Path s3://s3.us-west-2.amazonaws.com/mybucket/backups/mydb.bak -StorageCredential MyS3Credential
+</code></pre>
+<p>Gets backup information from an S3-compatible object storage location. Requires SQL Server 2022 or higher. The credential must be configured with Identity = 'S3 Access Key' and Secret containing the <br>
+access key and secret key.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
 <p>Path to SQL Server backup files.<br />
@@ -943,8 +948,10 @@ For all other scenarios we need to read the file headers to be sure.<br></p>
 </tr>
 </tbody>
 </table>
-<h5 id="azurecredential">-AzureCredential</h5>
-<p>The name of the SQL Server credential to be used if restoring from an Azure hosted backup<br></p>
+<h5 id="storagecredential">-StorageCredential</h5>
+<p>The name of the SQL Server credential to be used if restoring from cloud storage (Azure Blob Storage or S3-compatible object storage).<br />
+For Azure, this is typically a credential with access to the storage account.<br />
+For S3, this should be a credential created with Identity 'S3 Access Key' matching the S3 URL path.<br></p>
 <table>
 <thead>
 <tr>
@@ -955,7 +962,7 @@ For all other scenarios we need to read the file headers to be sure.<br></p>
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>AzureCredential,S3Credential</td>
 </tr>
 <tr>
 <td>Required</td>

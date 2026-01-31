@@ -494,6 +494,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt; -Destination &lt;DbaInstanceParameter[]&gt;
     [-SourceSqlCredential &lt;PSCredential&gt;]
     [-DestinationSqlCredential &lt;PSCredential&gt;]
+    [-ExcludePassword]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -504,6 +505,7 @@ Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt; -Destination &lt;DbaInstance
     [-Type &lt;String[]&gt;]
     [-SourceSqlCredential &lt;PSCredential&gt;]
     [-DestinationSqlCredential &lt;PSCredential&gt;]
+    [-ExcludePassword]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -681,6 +683,35 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludepassword">-ExcludePassword</h5>
+<p>Copies credential definitions without the actual password values.<br />
+Use this in security-conscious environments where password decryption is restricted or when passwords should be manually reset after migration.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

@@ -529,7 +529,7 @@ It integrates seamlessly with Ola Hallengren's maintenance solution backup struc
     [-StandbyDirectory &lt;String&gt;]
     [-Continue]
     [-ExecuteAs &lt;String&gt;]
-    [-AzureCredential &lt;String&gt;]
+    [-StorageCredential &lt;String&gt;]
     [-ReplaceDbNameInFile]
     [-DestinationFileSuffix &lt;String&gt;]
     [-KeepCDC]
@@ -561,7 +561,7 @@ Restore-DbaDatabase -SqlInstance &lt;DbaInstanceParameter&gt;
     [-BlockSize &lt;Int32&gt;]
     [-BufferCount &lt;Int32&gt;]
     [-EnableException]
-    [-AzureCredential &lt;String&gt;]
+    [-StorageCredential &lt;String&gt;]
     [-GetBackupInformation &lt;String&gt;]
     [-StopAfterGetBackupInformation]
     [-SelectBackupInformation &lt;String&gt;]
@@ -587,7 +587,7 @@ Restore-DbaDatabase -SqlInstance &lt;DbaInstanceParameter&gt;
     [-DatabaseName &lt;Object[]&gt;]
     [-OutputScriptOnly]
     [-EnableException]
-    [-AzureCredential &lt;String&gt;]
+    [-StorageCredential &lt;String&gt;]
     [-Recover]
     [-GetBackupInformation &lt;String&gt;]
     [-StopAfterGetBackupInformation]
@@ -640,7 +640,7 @@ retrieval<br></p>
 <p>Scans all the files in c:\backups and then restores them onto the SQL Server Instance server1\instance1, placing data files<br>
 c:\DataFiles and all the log files into c:\LogFiles<br></p>
 <h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1\instance1 -Path http://demo.blob.core.windows.net/backups/dbbackup.bak -AzureCredential MyAzureCredential
+<pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1\instance1 -Path http://demo.blob.core.windows.net/backups/dbbackup.bak -StorageCredential MyAzureCredential
 </code></pre>
 <p>Will restore the backup held at  <a href="http://demo.blob.core.windows.net/backups/dbbackup.bak">http://demo.blob.core.windows.net/backups/dbbackup.bak</a> to server1\instance1. The connection to Azure will be made using the<br>
 credential MyAzureCredential held on instance Server1\instance1<br></p>
@@ -649,6 +649,11 @@ credential MyAzureCredential held on instance Server1\instance1<br></p>
 </code></pre>
 <p>Will attempt to restore the backups from <a href="http://demo.blob.core.windows.net/backups/dbbackup.bak">http://demo.blob.core.windows.net/backups/dbbackup.bak</a> if a SAS credential with the name <a href="http://demo.blob.core.windows.net/backups">http://demo.blob.core.windows.net/backups</a> exists on server1\instance1<br></p>
 <h5 id="example-9">Example:  9</h5>
+<pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance sql2022 -Path s3://s3.us-west-2.amazonaws.com/mybucket/backups/dbbackup.bak -StorageCredential MyS3Credential
+</code></pre>
+<p>Will restore the backup from S3-compatible storage to sql2022. Requires SQL Server 2022 or higher. The credential must be configured with Identity = 'S3 Access Key' and Secret containing the access <br>
+key and secret key.<br></p>
+<h5 id="example-10">Example:  10</h5>
 <pre><code>PS C:\&gt; $File = Get-ChildItem c:\backups, \\server1\backups
 PS C:\&gt; $File | Restore-DbaDatabase -SqlInstance Server1\Instance -UseDestinationDefaultDirectories
 </code></pre>
@@ -656,7 +661,7 @@ PS C:\&gt; $File | Restore-DbaDatabase -SqlInstance Server1\Instance -UseDestina
 Restore-DbaDatabase. Restore-DbaDatabase will then scan all of the files, and restore all of the databases included<br>
 to the latest point in time covered by their backups. All data and log files will be moved to the default SQL Server<br>
 folder for those file types as defined on the target instance.<br></p>
-<h5 id="example-10">Example:  10</h5>
+<h5 id="example-11">Example:  11</h5>
 <pre><code>PS C:\&gt; $files = Get-ChildItem C:\dbatools\db1
 PS C:\&gt; $params = @{
 &gt;&gt; SqlInstance = 'server\instance1'
@@ -682,31 +687,31 @@ First we restore the database to a point in time in standby mode. This means we 
 We then roll it on a further 9 minutes to perform some more checks<br>
 And finally we continue by rolling it all the way forward to the latest point in the backup.<br>
 At each step, only the log files needed to roll the database forward are restored.<br></p>
-<h5 id="example-11">Example:  11</h5>
+<h5 id="example-12">Example:  12</h5>
 <pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server\instance1 -Path c:\backups -DatabaseName example1 -NoRecovery
 PS C:\&gt; Restore-DbaDatabase -SqlInstance server\instance1 -Recover -DatabaseName example1
 </code></pre>
 <p>In this example we restore example1 database with no recovery, and then the second call is to set the database to recovery.<br></p>
-<h5 id="example-12">Example:  12</h5>
+<h5 id="example-13">Example:  13</h5>
 <pre><code>PS C:\&gt; $SuspectPage = Get-DbaSuspectPage -SqlInstance server\instance1 -Database ProdFinance
 PS C:\&gt; Get-DbaDbBackupHistory -SqlInstance server\instance1 -Database ProdFinance -Last | Restore-DbaDatabase -PageRestore $SuspectPage -PageRestoreTailFolder c:\temp -TrustDbBackupHistory
 </code></pre>
 <p>Gets a list of Suspect Pages using Get-DbaSuspectPage. Then uses Get-DbaDbBackupHistory and Restore-DbaDatabase to perform a restore of the suspect pages and bring them up to date<br>
 If server\instance1 is Enterprise edition this will be done online, if not it will be performed offline<br></p>
-<h5 id="example-13">Example:  13</h5>
+<h5 id="example-14">Example:  14</h5>
 <pre><code>PS C:\&gt; $BackupHistory = Get-DbaBackupInformation -SqlInstance sql2005 -Path \\backups\sql2000\ProdDb
 PS C:\&gt; $BackupHistory | Restore-DbaDatabase -SqlInstance sql2000 -TrustDbBackupHistory
 </code></pre>
 <p>Due to SQL Server 2000 not returning all the backup headers we cannot restore directly. As this is an issues with the SQL engine all we can offer is the following workaround<br>
 This will use a SQL Server instance &gt; 2000 to read the headers, and then pass them in to Restore-DbaDatabase as a BackupHistory object.<br></p>
-<h5 id="example-14">Example:  14</h5>
+<h5 id="example-15">Example:  15</h5>
 <pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1\instance1 -Path &quot;C:\Temp\devops_prod_full.bak&quot; -DatabaseName &quot;DevOps_DEV&quot; -ReplaceDbNameInFile
 PS C:\&gt; Rename-DbaDatabase -SqlInstance server1\instance1 -Database &quot;DevOps_DEV&quot; -LogicalName &quot;&lt;DBN&gt;_&lt;FT&gt;&quot;
 </code></pre>
 <p>This will restore the database from the &quot;C:\Temp\devops_prod_full.bak&quot; file, with the new name &quot;DevOps_DEV&quot; and store the different physical files with the new name. It will use the system default <br>
 configured data and log locations.<br>
 After the restore the logical names of the database files will be renamed with the &quot;DevOps_DEV_ROWS&quot; for MDF/NDF and &quot;DevOps_DEV_LOG&quot; for LDF<br></p>
-<h5 id="example-15">Example:  15</h5>
+<h5 id="example-16">Example:  16</h5>
 <pre><code>PS C:\&gt; $FileStructure = @{
 &gt;&gt; 'database_data' = 'C:\Data\database_data.mdf'
 &gt;&gt; 'database_log' = 'C:\Log\database_log.ldf'
@@ -715,12 +720,12 @@ After the restore the logical names of the database files will be renamed with t
 PS C:\&gt; Restore-DbaDatabase -SqlInstance server1 -Path \\ServerName\ShareName\File -DatabaseName database -FileMapping $FileStructure
 </code></pre>
 <p>Restores 'database' to 'server1' and moves the files to new locations. The format for the $FileStructure HashTable is the file logical name as the Key, and the new location as the Value.<br></p>
-<h5 id="example-16">Example:  16</h5>
+<h5 id="example-17">Example:  17</h5>
 <pre><code>PS C:\&gt; $filemap = Get-DbaDbFileMapping -SqlInstance sql2016 -Database test
 PS C:\&gt; Get-ChildItem \\nas\db\backups\test | Restore-DbaDatabase -SqlInstance sql2019 -Database test -FileMapping $filemap.FileMapping
 </code></pre>
 <p>Restores test to sql2019 using the file structure built from the existing database on sql2016<br></p>
-<h5 id="example-17">Example:  17</h5>
+<h5 id="example-18">Example:  18</h5>
 <pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1 -Path \\ServerName\ShareName\File -DatabaseName database -StopMark OvernightStart -StopBefore -StopAfterDate Get-Date('21:00 10/05/2020')
 </code></pre>
 <p>Restores the backups from \ServerName\ShareName\File as database, stops before the first 'OvernightStart' mark that occurs after '21:00 10/05/2020'.<br>
@@ -1738,10 +1743,11 @@ Essential for log shipping scenarios or when performing point-in-time recovery i
 </tr>
 </tbody>
 </table>
-<h5 id="azurecredential">-AzureCredential</h5>
-<p>Specifies the SQL Server credential name for authenticating to Azure blob storage during restore operations.<br />
-Use this when restoring from Azure blob storage backups that require authentication beyond SAS tokens.<br />
-The credential must be created on the SQL Server instance with the appropriate storage account access keys.<br></p>
+<h5 id="storagecredential">-StorageCredential</h5>
+<p>Specifies the SQL Server credential name for authenticating to Azure blob storage or S3-compatible object storage during restore operations.<br />
+Use this when restoring from Azure blob storage or S3 backups that require authentication.<br />
+For Azure: The credential must contain valid Azure storage account keys or SAS tokens.<br />
+For S3: The credential must use Identity = 'S3 Access Key' and Secret = 'AccessKeyID:SecretKeyID'. Requires SQL Server 2022 or higher.<br></p>
 <table>
 <thead>
 <tr>
@@ -1752,7 +1758,7 @@ The credential must be created on the SQL Server instance with the appropriate s
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>AzureCredential,S3Credential</td>
 </tr>
 <tr>
 <td>Required</td>

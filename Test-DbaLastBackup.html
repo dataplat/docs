@@ -517,7 +517,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-DeviceType] &lt;String[]&gt;]
     [-IncludeCopyOnly]
     [-IgnoreLogBackup]
-    [[-AzureCredential] &lt;String&gt;]
+    [[-StorageCredential] &lt;String&gt;]
     [[-InputObject] &lt;Database[]&gt;]
     [[-MaxTransferSize] &lt;Int32&gt;]
     [[-BufferCount] &lt;Int32&gt;]
@@ -593,6 +593,10 @@ More information:<br>
 <pre><code>PS C:\&gt; Test-DbaLastBackup -SqlInstance sql2016 -Wait 5
 </code></pre>
 <p>Tests all database backups on sql2016 and waits 5 seconds between each database restore test. This helps prevent I/O errors on checkpoint files when restoring to network shares.<br></p>
+<h5 id="example-14">Example:  14</h5>
+<pre><code>PS C:\&gt; Test-DbaLastBackup -SqlInstance sql2022 -Database Sales -StorageCredential &quot;S3Credential&quot;
+</code></pre>
+<p>Tests the last backup of the Sales database where backups are stored in S3-compatible storage. Requires SQL Server 2022 or later for S3 support.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Unlike many of the other commands, you cannot specify more than one server.<br></p>
@@ -1162,9 +1166,10 @@ Results in some data loss compared to a complete restore chain but significantly
 </tr>
 </tbody>
 </table>
-<h5 id="azurecredential">-AzureCredential</h5>
-<p>Specifies the name of the SQL Server credential that contains the key for accessing Azure Storage where backups are stored.<br />
-Use this when testing backups stored in Azure Blob Storage that require credential-based authentication.<br />
+<h5 id="storagecredential">-StorageCredential</h5>
+<p>Specifies the name of the SQL Server credential for accessing cloud storage where backups are stored.<br />
+For Azure: Use credentials containing the storage account access key or configured for SAS authentication.<br />
+For S3: Use credentials with Identity = 'S3 Access Key' and Secret = 'AccessKeyID:SecretKeyID'. Requires SQL Server 2022 or later.<br />
 The credential must already exist on the destination SQL Server instance.<br></p>
 <table>
 <thead>
@@ -1176,7 +1181,7 @@ The credential must already exist on the destination SQL Server instance.<br></p
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>AzureCredential,S3Credential</td>
 </tr>
 <tr>
 <td>Required</td>

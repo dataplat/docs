@@ -506,7 +506,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-BlockSize] &lt;Int32&gt;]
     [[-BufferCount] &lt;Int32&gt;]
     [-Continue]
-    [[-AzureCredential] &lt;String&gt;]
+    [[-StorageCredential] &lt;String&gt;]
     [-WithReplace]
     [-KeepReplication]
     [-KeepCDC]
@@ -896,10 +896,11 @@ Automatically enables WithReplace to allow the operation on existing database ob
 </tr>
 </tbody>
 </table>
-<h5 id="azurecredential">-AzureCredential</h5>
-<p>Name of the SQL Server credential object required to access backup files stored in Azure Blob Storage.<br />
+<h5 id="storagecredential">-StorageCredential</h5>
+<p>Name of the SQL Server credential object required to access backup files stored in Azure Blob Storage or S3-compatible object storage.<br />
 The credential must already exist on the target SQL Server instance with proper access keys for the storage account.<br />
-Required when restoring from URLs that point to Azure blob storage containers instead of local file paths.<br></p>
+For Azure: The credential must contain valid Azure storage account keys or SAS tokens.<br />
+For S3: The credential must use Identity = 'S3 Access Key' and Secret = 'AccessKeyID:SecretKeyID'. Requires SQL Server 2022 or higher.<br></p>
 <table>
 <thead>
 <tr>
@@ -910,7 +911,7 @@ Required when restoring from URLs that point to Azure blob storage containers in
 <tbody>
 <tr>
 <td>Alias</td>
-<td></td>
+<td>AzureCredential,S3Credential</td>
 </tr>
 <tr>
 <td>Required</td>
