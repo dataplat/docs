@@ -640,7 +640,7 @@ retrieval<br></p>
 <p>Scans all the files in c:\backups and then restores them onto the SQL Server Instance server1\instance1, placing data files<br>
 c:\DataFiles and all the log files into c:\LogFiles<br></p>
 <h5 id="example-7">Example:  7</h5>
-<pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1\instance1 -Path http://demo.blob.core.windows.net/backups/dbbackup.bak -StorageCredential MyAzureCredential
+<pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1\instance1 -Path http://demo.blob.core.windows.net/backups/dbbackup.bak -AzureCredential MyAzureCredential
 </code></pre>
 <p>Will restore the backup held at  <a href="http://demo.blob.core.windows.net/backups/dbbackup.bak">http://demo.blob.core.windows.net/backups/dbbackup.bak</a> to server1\instance1. The connection to Azure will be made using the<br>
 credential MyAzureCredential held on instance Server1\instance1<br></p>
@@ -730,6 +730,18 @@ PS C:\&gt; Get-ChildItem \\nas\db\backups\test | Restore-DbaDatabase -SqlInstanc
 </code></pre>
 <p>Restores the backups from \ServerName\ShareName\File as database, stops before the first 'OvernightStart' mark that occurs after '21:00 10/05/2020'.<br>
 Note that Date time needs to be specified in your local SQL Server culture<br></p>
+<h5 id="example-19">Example:  19</h5>
+<pre><code>PS C:\&gt; # Restore from S3 storage folder (SQL Server 2022+)
+PS C:\&gt; # First, enumerate S3 bucket contents using AWS PowerShell module - You need to be authenticated!
+PS C:\&gt; $s3Files = Get-S3Object -BucketName &quot;mybucket&quot; -KeyPrefix &quot;backups/AdventureWorks/&quot; -Region &quot;us-west-2&quot;
+PS C:\&gt; $backupPaths = $s3Files | Where-Object { $_.Key -match '\.(bak|trn|dif)$' } | ForEach-Object { &quot;s3://mybucket.s3.us-west-2.amazonaws.com/$($_.Key)&quot; }
+PS C:\&gt; 
+PS C:\&gt; # Then restore using the enumerated file paths
+PS C:\&gt; Restore-DbaDatabase -SqlInstance sql2022 -Path $backupPaths -StorageCredential MyS3Credential
+</code></pre>
+<p>Demonstrates the recommended workflow for restoring from S3 storage. Since SQL Server cannot enumerate S3 bucket contents via T-SQL, you must first use PowerShell's Get-S3Object cmdlet to list backup <br>
+files, then pass the full S3 URLs to Restore-DbaDatabase.<br>
+The StorageCredential parameter should reference a SQL Server credential configured for S3 access.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance. <br></p>
@@ -760,9 +772,11 @@ Note that Date time needs to be specified in your local SQL Server culture<br></
 </tbody>
 </table>
 <h5 id="path">-Path</h5>
-<p>Specifies the location of backup files to restore from, supporting local drives, UNC paths, or Azure blob storage URLs.<br />
+<p>Specifies the location of backup files to restore from, supporting local drives, UNC paths, Azure blob storage URLs, or S3 URLs.<br />
 Use this when you need to restore from a specific backup location or when piping backup files from Get-ChildItem.<br />
-Accepts multiple comma-separated paths for complex restore scenarios spanning multiple locations. <br></p>
+Accepts multiple comma-separated paths for complex restore scenarios spanning multiple locations.<br />
+For S3 storage (SQL Server 2022+): S3 bucket contents cannot be enumerated using T-SQL. You must provide explicit file paths or use PowerShell's Get-S3Object cmdlet (from AWS.Tools.S3 module) to<br />
+retrieve the list of backup files first, then pass them to this command. See examples for S3 usage patterns. <br></p>
 <table>
 <thead>
 <tr>

@@ -491,9 +491,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Database Mail is commonly used for automated alerts, backup notifications, job failure reports, and maintenance notifications. This function saves significant manual configuration time when setting up new servers, standardizing mail configurations across environments, or migrating to new hardware.</p>
 <p>The function preserves all SMTP authentication details including encrypted passwords, handles name conflicts with optional force replacement, and can enable Database Mail on the destination if it's enabled on the source. You can migrate specific component types or the entire configuration in one operation.</p>
 <h2 id="syntax">Syntax</h2>
-<pre><code>Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt; -Destination &lt;DbaInstanceParameter[]&gt;
+<pre><code>Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt;
     [-SourceSqlCredential &lt;PSCredential&gt;]
+    -Destination &lt;DbaInstanceParameter[]&gt;
     [-DestinationSqlCredential &lt;PSCredential&gt;]
+    [-Credential &lt;PSCredential&gt;]
     [-ExcludePassword]
     [-Force]
     [-EnableException]
@@ -501,10 +503,12 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Confirm]
     [&lt;CommonParameters&gt;]
 
-Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt; -Destination &lt;DbaInstanceParameter[]&gt;
-    [-Type &lt;String[]&gt;]
+Copy-DbaDbMail -Source &lt;DbaInstanceParameter&gt;
     [-SourceSqlCredential &lt;PSCredential&gt;]
+    -Destination &lt;DbaInstanceParameter[]&gt;
     [-DestinationSqlCredential &lt;PSCredential&gt;]
+    [-Credential &lt;PSCredential&gt;]
+    [-Type &lt;String[]&gt;]
     [-ExcludePassword]
     [-Force]
     [-EnableException]
@@ -592,40 +596,6 @@ You must have sysadmin privileges on each destination to create mail profiles, a
 </tbody>
 </table>
 <h3 id="optional-parameters">Optional Parameters</h3>
-<h5 id="type">-Type</h5>
-<p>Limits migration to specific Database Mail component types instead of copying everything. Choose 'ConfigurationValues' for global settings like retry attempts and file size limits, 'Profiles' for<br />
-mail profile definitions, 'Accounts' for SMTP account configurations, or 'MailServers' for SMTP server details.<br />
-Use this when you only need to sync specific components or when troubleshooting individual Database Mail layers.<br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>False</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>false</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-<tr>
-<td>Accepted Values</td>
-<td>ConfigurationValues,Profiles,Accounts,MailServers</td>
-</tr>
-</tbody>
-</table>
 <h5 id="sourcesqlcredential">-SourceSqlCredential</h5>
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
@@ -683,6 +653,69 @@ For MFA support, please use Connect-DbaInstance.<br></p>
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="credential">-Credential</h5>
+<p>Login to the target OS using alternative credentials. Accepts credential objects (Get-Credential)<br />
+Only used when passwords are being exported, as it requires access to the Windows OS via PowerShell remoting to decrypt the passwords.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="type">-Type</h5>
+<p>Limits migration to specific Database Mail component types instead of copying everything. Choose 'ConfigurationValues' for global settings like retry attempts and file size limits, 'Profiles' for<br />
+mail profile definitions, 'Accounts' for SMTP account configurations, or 'MailServers' for SMTP server details.<br />
+Use this when you only need to sync specific components or when troubleshooting individual Database Mail layers.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>ConfigurationValues,Profiles,Accounts,MailServers</td>
 </tr>
 </tbody>
 </table>

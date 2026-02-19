@@ -518,6 +518,7 @@ All custom Extended Stored Procedures. Use -Exclude ExtendedStoredProcedures to 
 <pre><code>Start-DbaMigration
     [[-Source] &lt;DbaInstanceParameter&gt;]
     [[-Destination] &lt;DbaInstanceParameter[]&gt;]
+    [[-Credential] &lt;PSCredential&gt;]
     [-DetachAttach]
     [-Reattach]
     [-BackupRestore]
@@ -538,6 +539,7 @@ All custom Extended Stored Procedures. Use -Exclude ExtendedStoredProcedures to 
     [-KeepCDC]
     [-KeepReplication]
     [-Continue]
+    [-ExcludePassword]
     [-Force]
     [[-AzureCredential] &lt;String&gt;]
     [[-MasterKeyPassword] &lt;SecureString&gt;]
@@ -624,6 +626,35 @@ This is the instance where all databases, logins, and server objects currently e
 <p>Specifies one or more destination SQL Server instances to migrate to. Accepts server name, server\instance, or connection string formats.<br />
 When specifying multiple destinations, all objects will be migrated to each destination server.<br />
 Multiple destinations require -Reattach when using -DetachAttach method.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="credential">-Credential</h5>
+<p>Login to the target OS using alternative credentials. Accepts credential objects (Get-Credential)<br />
+Only used when passwords are being exported, as it requires access to the Windows OS via PowerShell remoting to decrypt the passwords.<br></p>
 <table>
 <thead>
 <tr>
@@ -1227,6 +1258,35 @@ Use this when migrating databases that participate in replication and you want t
 <p>Attempts to apply additional transaction log backups to databases already in RESTORING or STANDBY states.<br />
 Use this to bring destination databases up-to-date when they were previously restored with NORECOVERY.<br />
 Only works with -UseLastBackup and requires databases to already exist in a restoring state.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludepassword">-ExcludePassword</h5>
+<p>Copies credentials, linked servers, and other objects without the actual password values.<br />
+Use this in security-conscious environments where password decryption is restricted or when passwords should be manually reset after migration.<br></p>
 <table>
 <thead>
 <tr>

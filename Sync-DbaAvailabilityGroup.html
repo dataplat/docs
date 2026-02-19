@@ -512,6 +512,7 @@ AgentJob</p>
     [[-PrimarySqlCredential] &lt;PSCredential&gt;]
     [[-Secondary] &lt;DbaInstanceParameter[]&gt;]
     [[-SecondarySqlCredential] &lt;PSCredential&gt;]
+    [[-Credential] &lt;PSCredential&gt;]
     [[-AvailabilityGroup] &lt;String&gt;]
     [[-Exclude] &lt;String[]&gt;]
     [[-Login] &lt;String[]&gt;]
@@ -520,6 +521,7 @@ AgentJob</p>
     [[-ExcludeJob] &lt;String[]&gt;]
     [-DisableJobOnDestination]
     [[-InputObject] &lt;AvailabilityGroup[]&gt;]
+    [-ExcludePassword]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -642,6 +644,35 @@ If not specified, the function will automatically discover all secondary replica
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="credential">-Credential</h5>
+<p>Login to the target OS using alternative credentials. Accepts credential objects (Get-Credential)<br />
+Only used when passwords are being exported, as it requires access to the Windows OS via PowerShell remoting to decrypt the passwords.<br></p>
 <table>
 <thead>
 <tr>
@@ -903,6 +934,35 @@ Use this to sync multiple availability groups at once or to process specific AGs
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludepassword">-ExcludePassword</h5>
+<p>Copies credentials, linked servers, and other objects without the actual password values.<br />
+Use this in security-conscious environments where password decryption is restricted or when passwords should be manually reset after migration.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

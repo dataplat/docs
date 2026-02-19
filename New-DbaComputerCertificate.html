@@ -488,7 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Creates a new computer certificate useful for Forcing Encryption</p>
 <h2 id="description">Description</h2>
 <p>Creates a new computer certificate - self-signed or signed by an Active Directory CA, using the Web Server certificate.</p>
-<p>By default, a key with a length of 1024 and a friendly name of the machines FQDN is generated.</p>
+<p>By default, a key with a length of 2048 bits and a friendly name of &quot;SQL Server&quot; is generated.</p>
 <p>This command was originally intended to help automate the process so that SSL certificates can be available for enforcing encryption on connections.</p>
 <p>It makes a lot of assumptions - namely, that your account is allowed to auto-enroll and that you have permission to do everything it needs to do ;)</p>
 <p>References:<br />
@@ -526,11 +526,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-1">Example:  1</h5>
 <pre><code>PS C:\&gt; New-DbaComputerCertificate
 </code></pre>
-<p>Creates a computer certificate signed by the local domain CA for the local machine with the keylength of 1024.<br></p>
+<p>Creates a computer certificate signed by the local domain CA for the local machine with the keylength of 2048 and SHA-256 hashing.<br></p>
 <h5 id="example-2">Example:  2</h5>
 <pre><code>PS C:\&gt; New-DbaComputerCertificate -ComputerName Server1
 </code></pre>
-<p>Creates a computer certificate signed by the local domain CA <em>on the local machine</em> for server1 with the keylength of 1024.<br>
+<p>Creates a computer certificate signed by the local domain CA <em>on the local machine</em> for server1 with the keylength of 2048 and SHA-256 hashing.<br>
 The certificate is then copied to the new machine over WinRM and imported.<br></p>
 <h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; New-DbaComputerCertificate -ComputerName sqla, sqlb -ClusterInstanceName sqlcluster -KeyLength 4096
@@ -790,8 +790,8 @@ The template must exist in your domain's PKI and allow auto-enrollment for your 
 </table>
 <h5 id="keylength">-KeyLength</h5>
 <p>Specifies the RSA key size in bits for the certificate's private key.<br />
-Defaults to 1024 bits, though 2048 or 4096 bits provide better security for production environments.<br />
-Longer keys provide stronger encryption but may slightly impact performance during SSL handshakes.<br></p>
+Defaults to 2048 bits which meets current industry security standards for production environments.<br />
+4096 bits can be used for high-security environments, though it may slightly impact performance during SSL handshakes.<br></p>
 <table>
 <thead>
 <tr>
@@ -814,7 +814,7 @@ Longer keys provide stronger encryption but may slightly impact performance duri
 </tr>
 <tr>
 <td>Default Value</td>
-<td>1024</td>
+<td>2048</td>
 </tr>
 </tbody>
 </table>
@@ -1005,8 +1005,8 @@ Using this switch turns this &quot;nice by default&quot; feature off and enables
 </table>
 <h5 id="hashalgorithm">-HashAlgorithm</h5>
 <p>Specifies the cryptographic hash algorithm used for certificate signing.<br />
-Defaults to &quot;sha1&quot; for compatibility, though &quot;Sha256&quot; or higher is recommended for production security.<br />
-Modern browsers and applications prefer SHA-256 or higher; avoid MD5 and MD4 for security reasons.<br></p>
+Defaults to &quot;Sha256&quot; which meets current industry security standards for production environments.<br />
+SHA-384 and SHA-512 provide even stronger security for high-security environments.<br></p>
 <table>
 <thead>
 <tr>
@@ -1029,11 +1029,11 @@ Modern browsers and applications prefer SHA-256 or higher; avoid MD5 and MD4 for
 </tr>
 <tr>
 <td>Default Value</td>
-<td>sha1</td>
+<td>Sha256</td>
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Sha256,sha384,sha512,sha1,md5,md4,md2</td>
+<td>Sha256,sha384,sha512</td>
 </tr>
 </tbody>
 </table>
