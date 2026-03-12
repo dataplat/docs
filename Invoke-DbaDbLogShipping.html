@@ -589,6 +589,7 @@ The copy destination must have at least read/write permission for the secondary 
     [[-StandbyDirectory] &lt;String&gt;]
     [-UseExistingFullBackup]
     [[-UseBackupFolder] &lt;String&gt;]
+    [-IgnoreFileChecks]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -3057,6 +3058,35 @@ The function processes all backup files in the folder to bring the secondary dat
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="ignorefilechecks">-IgnoreFileChecks</h5>
+<p>Skips path validation checks before backup operations. Use this when SQL Server cannot verify that the backup path exists,<br />
+for example when the network share is created just before the backup and there is latency in the path becoming visible to SQL Server.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

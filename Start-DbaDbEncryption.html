@@ -497,6 +497,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-EncryptorName] &lt;String&gt;]
     [[-EncryptorType] &lt;String&gt;]
     [[-Database] &lt;String[]&gt;]
+    [[-ExcludeDatabase] &lt;String[]&gt;]
     [-BackupPath] &lt;String&gt;
     [-MasterKeySecurePassword] &lt;SecureString&gt;
     [[-CertificateSubject] &lt;String&gt;]
@@ -761,8 +762,37 @@ Certificate is the most common choice for standard TDE implementations. Use Asym
 </tbody>
 </table>
 <h5 id="database">-Database</h5>
-<p>Specifies which user databases to encrypt with Transparent Data Encryption (TDE). Accepts single database names, arrays, or wildcards.<br />
+<p>Specifies which user databases to encrypt with Transparent Data Encryption (TDE).<br />
 Use this when you need to encrypt specific databases instead of all user databases on the instance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludedatabase">-ExcludeDatabase</h5>
+<p>Specifies which databases to exclude from TDE encryption when using AllUserDatabases.<br />
+Useful when you want to encrypt most databases but need to skip specific ones due to compatibility or business requirements.<br></p>
 <table>
 <thead>
 <tr>

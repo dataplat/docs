@@ -488,6 +488,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Retrieves SQL Server replication subscription details for publications across instances.</p>
 <h2 id="description">Description</h2>
 <p>Retrieves detailed information about replication subscriptions, showing which subscriber instances are receiving data from publications. This is essential for monitoring replication topology, troubleshooting subscription issues, and auditing data distribution across your SQL Server environment. You can filter results by database, publication name, subscriber instance, subscription database, or subscription type (Push/Pull) to focus on specific replication relationships.</p>
+<p>Pull subscriptions that exist only in the distribution database (but not in the publisher's syssubscriptions) are also returned, to handle cases where subscriptions were set up outside the normal creation process.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaReplSubscription
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

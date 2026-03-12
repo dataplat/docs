@@ -513,6 +513,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-ColumnMap] &lt;Hashtable&gt;]
     [-KeepOrdinalOrder]
     [-AutoCreateTable]
+    [-NoColumnOptimize]
     [-NoProgress]
     [-NoHeaderRow]
     [-UseFileNameForSchema]
@@ -1269,6 +1270,37 @@ Use this when column names don't match but the order is correct, or when dealing
 After import, column sizes are automatically optimized based on actual data lengths (nvarchar(MAX) -&gt; nvarchar(16/32/64/etc.)).<br />
 For proper type inference (int, decimal, datetime2, varchar vs nvarchar), use -SampleRows or -DetectColumnTypes instead.<br />
 For production use with specific constraints, create tables manually with appropriate data types, indexes, and constraints.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="nocolumnoptimize">-NoColumnOptimize</h5>
+<p>Skips the automatic column size optimization that runs after AutoCreateTable imports.<br />
+By default, AutoCreateTable creates nvarchar(MAX) columns and then shrinks them to fit the imported data.<br />
+Use this switch when importing multiple CSV files into the same auto-created table, so that later files<br />
+with longer values are not rejected due to columns being shrunk to fit only the first file's data.<br></p>
 <table>
 <thead>
 <tr>

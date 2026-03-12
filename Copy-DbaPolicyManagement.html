@@ -487,8 +487,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Copies Policy-Based Management policies, conditions, and categories between SQL Server instances</p>
 <h2 id="description">Description</h2>
-<p>Transfers your entire Policy-Based Management framework from one SQL Server instance to another, including custom policies, conditions, and categories. This streamlines environment standardization and disaster recovery scenarios where you need identical compliance policies across multiple servers.</p>
-<p>By default, all non-system policies and conditions are copied. Existing objects on the destination are skipped unless -Force is used to overwrite them. You can selectively copy specific policies or conditions using the include/exclude parameters, which provide auto-completion from the source server.</p>
+<p>Transfers your entire Policy-Based Management framework from one SQL Server instance to another, including custom policies, conditions, object sets, and categories. This streamlines environment standardization and disaster recovery scenarios where you need identical compliance policies across multiple servers.</p>
+<p>By default, all non-system policies, conditions, and object sets are copied. Object sets are migrated after conditions and before policies to ensure policy dependencies are satisfied. Existing objects on the destination are skipped unless -Force is used to overwrite them. You can selectively copy specific policies or conditions using the include/exclude parameters, which provide auto-completion from the source server.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaPolicyManagement
     [-Source] &lt;DbaInstanceParameter&gt;

@@ -510,6 +510,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-NoPrefix]
     [-Passthru]
     [-ObjectLevel]
+    [-IncludeRolePermissions]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -1119,6 +1120,36 @@ Use this to capture the script in a variable, pipe to other commands, or display
 <h5 id="objectlevel">-ObjectLevel</h5>
 <p>Includes detailed object-level permissions for each database user associated with the exported logins.<br />
 Use this for complete permission migration when you need granular security settings preserved in the target environment.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="includerolepermissions">-IncludeRolePermissions</h5>
+<p>Includes permissions granted to database roles that the login's database users are members of.<br />
+By default, Export-DbaLogin scripts role membership (ALTER ROLE ... ADD MEMBER) but not the permissions granted to those roles.<br />
+Use this switch to also export GRANT/DENY statements for each non-fixed role, ensuring the roles have the correct permissions on the target server.<br></p>
 <table>
 <thead>
 <tr>

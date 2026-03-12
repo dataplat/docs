@@ -1058,7 +1058,8 @@ Particularly useful for multi-database backups and maintaining organized backup 
 <h5 id="filecount">-FileCount</h5>
 <p>Specifies the number of files to stripe the backup across for improved performance.<br />
 Higher values increase backup speed but require more disk space and coordination during restores.<br />
-Automatically overridden when multiple Path values are provided. Typically use 2-4 files for optimal performance.<br></p>
+Automatically overridden when multiple Path values are provided. Typically use 2-4 files for optimal performance.<br />
+When using StorageBaseUrl (S3/Azure), an explicit FileCount allows striping multiple backup files into the same bucket/container.<br></p>
 <table>
 <thead>
 <tr>
