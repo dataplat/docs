@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Retrieves Windows security privileges critical for SQL Server performance from target computers.</p>
 <h2 id="description">Description</h2>
-<p>Audits five Windows privileges that directly impact SQL Server performance and functionality: Lock Pages in Memory, Instant File Initialization, Logon as Batch, Generate Security Audits, and Logon as a Service. These privileges are essential for SQL Server service accounts to achieve optimal performance and proper operation.</p>
+<p>Audits six Windows privileges that directly impact SQL Server performance and functionality: Lock Pages in Memory, Instant File Initialization, Logon as Batch, Generate Security Audits, Logon as a Service, and Create Global Objects. These privileges are essential for SQL Server service accounts to achieve optimal performance and proper operation.</p>
 <p>Use this to verify that SQL Server service accounts have the necessary Windows privileges configured, troubleshoot performance issues related to missing privileges, or audit security configurations across your SQL Server environment. The function exports the local security policy using secedit and parses the results to show which users and groups hold these critical privileges.</p>
 <p>Requires Local Admin rights on destination computer(s).</p>
 <h2 id="syntax">Syntax</h2>

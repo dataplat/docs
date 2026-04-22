@@ -526,6 +526,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-ReuseSourceFolderStructure]
     [-Checksum]
     [[-Wait] &lt;Int32&gt;]
+    [[-Path] &lt;String[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -597,6 +598,14 @@ More information:<br>
 <pre><code>PS C:\&gt; Test-DbaLastBackup -SqlInstance sql2022 -Database Sales -StorageCredential &quot;S3Credential&quot;
 </code></pre>
 <p>Tests the last backup of the Sales database where backups are stored in S3-compatible storage. Requires SQL Server 2022 or later for S3 support.<br></p>
+<h5 id="example-15">Example:  15</h5>
+<pre><code>PS C:\&gt; Test-DbaLastBackup -Path &quot;\\BackupShare\Backups\sql2016&quot; -Destination sql2016
+</code></pre>
+<p>Scans the specified UNC path for backup files, then tests all databases found by restoring them to sql2016 and performing a DBCC CHECKDB.<br></p>
+<h5 id="example-16">Example:  16</h5>
+<pre><code>PS C:\&gt; Test-DbaLastBackup -Path &quot;\\BackupShare\Backups\sql2016&quot; -Destination sql2016test -Database AdventureWorks
+</code></pre>
+<p>Scans the specified UNC path for AdventureWorks backup files and tests the restore on sql2016test.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Unlike many of the other commands, you cannot specify more than one server.<br></p>
@@ -1434,6 +1443,37 @@ Helpful when restoring to network shares or storage systems that need additional
 <tr>
 <td>Default Value</td>
 <td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="path">-Path</h5>
+<p>Specifies one or more folder paths containing backup files to test instead of querying backup history from a SQL instance.<br />
+Use this when you want to validate backup files from a specific location without needing the original source SQL Server instance.<br />
+Backup files will be discovered recursively from the specified paths. When using -Path, a -Destination server must be specified.<br />
+Accepts local paths, UNC paths, Azure blob storage URLs, or S3 URLs accessible to the destination SQL Server instance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

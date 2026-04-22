@@ -497,12 +497,16 @@ The function does NOT yet support heaps.</p>
 <p>The function will also check if the file groups are subject to balance out.<br />
 A file group would have at least have 2 data files and should be writable.<br />
 If a table is within such a file group it will be subject for processing. If not the table will be skipped.</p>
+<p>When the -TargetFileGroup parameter is specified, indexes can be moved from their current filegroup<br />
+to the specified target filegroup regardless of how many data files the current filegroup contains.<br />
+This allows consolidating or migrating data between filegroups.</p>
 <p>Note: this command does not perform a disk space check for non-Windows machines so make sure you have enough space on the disk.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Invoke-DbaBalanceDataFiles
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;Object[]&gt;]
     [-Table &lt;Object[]&gt;]
+    [-TargetFileGroup &lt;String&gt;]
     [-RebuildOffline]
     [-EnableException]
     [-Force]
@@ -514,6 +518,7 @@ Invoke-DbaBalanceDataFiles -SqlInstance &lt;DbaInstanceParameter[]&gt;
     [-SqlCredential &lt;PSCredential&gt;]
     [-Database &lt;Object[]&gt;]
     [-Table &lt;Object[]&gt;]
+    [-TargetFileGroup &lt;String&gt;]
     [-RebuildOffline]
     [-EnableException]
     [-Force]
@@ -542,6 +547,14 @@ Invoke-DbaBalanceDataFiles -SqlInstance &lt;DbaInstanceParameter[]&gt;
 </code></pre>
 <p>This command will consider the fact that there might be a SQL Server edition that does not support online rebuilds of indexes.<br>
 By supplying this parameter you give permission to do the rebuilds offline if the edition does not support it.<br></p>
+<h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Invoke-DbaBalanceDataFiles -SqlInstance sql1 -Database db1 -TargetFileGroup &quot;SECONDARY&quot;
+</code></pre>
+<p>This command will rebuild all clustered indexes into the SECONDARY filegroup, moving data from whatever filegroup each table currently resides in.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Invoke-DbaBalanceDataFiles -SqlInstance sql1 -Database db1 -Table table1,table2 -TargetFileGroup &quot;SECONDARY&quot; -RebuildOffline
+</code></pre>
+<p>This command will rebuild the clustered indexes of table1 and table2 offline, moving them into the SECONDARY filegroup.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. <br></p>
@@ -645,6 +658,36 @@ When omitted, all eligible tables in the database will be processed. Use this to
 <tr>
 <td>Alias</td>
 <td>Tables</td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="targetfilegroup">-TargetFileGroup</h5>
+<p>The name of the filegroup to rebuild indexes into. When specified, indexes can be moved from their current filegroup<br />
+to the target filegroup, regardless of how many data files the current filegroup contains.<br />
+When not specified, the function only processes tables in filegroups with at least 2 data files.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
 </tr>
 <tr>
 <td>Required</td>

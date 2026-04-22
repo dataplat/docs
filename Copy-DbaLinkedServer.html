@@ -489,6 +489,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Migrates SQL Server linked servers including all authentication credentials and connection settings from a source instance to one or more destination instances. The function preserves usernames and passwords by using password decryption techniques, eliminating the need to manually recreate linked server configurations and re-enter sensitive credentials.</p>
 <p>This is particularly useful during server migrations, disaster recovery scenarios, or when consolidating environments where maintaining external data connections is critical. The function handles various provider types and can optionally upgrade older SQL Client providers to current versions during migration.</p>
+<p>When upgrading from older versions to SQL Server 2025+, MSOLEDBSQL is changed to MSOLEDBSQL19 and provider string for encrypt and trustservercertificate settings is added if not already included to ensure compatibility with the breaking changes in the new driver.</p>
 <p>Credit: Password decryption techniques provided by Antti Rantasaari (NetSPI, 2014) - <a href="https://blog.netspi.com/decrypting-mssql-database-link-server-passwords/">https://blog.netspi.com/decrypting-mssql-database-link-server-passwords/</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Copy-DbaLinkedServer

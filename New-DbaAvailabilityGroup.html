@@ -551,6 +551,7 @@ To change these defaults we have introduced configuration parameters for all of 
     [[-Port] &lt;Int32&gt;]
     [-Dhcp]
     [[-ClusterConnectionOption] &lt;String&gt;]
+    [[-MasterKeySecurePassword] &lt;SecureString&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -1649,6 +1650,37 @@ Example: &quot;Encrypt=Strict;TrustServerCertificate=False&quot;<br />
 For detailed documentation, see:<br />
 <a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql">https://learn.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql</a><br></li>
 </ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="masterkeysecurepassword">-MasterKeySecurePassword</h5>
+<p>Password for creating the database master key on secondary replicas when adding TDE-encrypted databases.<br />
+When databases protected by Transparent Data Encryption (TDE) are added to the availability group, the TDE certificate<br />
+in the primary's master database must be copied to each secondary. Providing this parameter alongside SharedPath enables<br />
+automatic certificate copying. If a secondary replica is missing a master key, this password is used to create one.<br></p>
 <table>
 <thead>
 <tr>

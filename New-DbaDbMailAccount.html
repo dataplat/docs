@@ -498,6 +498,11 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-EmailAddress] &lt;String&gt;
     [[-ReplyToAddress] &lt;String&gt;]
     [[-MailServer] &lt;String&gt;]
+    [[-Port] &lt;Int32&gt;]
+    [-EnableSSL]
+    [-UseDefaultCredentials]
+    [[-UserName] &lt;String&gt;]
+    [[-Password] &lt;SecureString&gt;]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -512,6 +517,31 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; $account = New-DbaDbMailAccount -SqlInstance sql2017 -Account 'The DBA Team' -EmailAddress admin@ad.local -MailServer smtp.ad.local
 </code></pre>
 <p>Creates a new database mail account with the email address admin@ad.local on sql2017 named &quot;The DBA Team&quot; using the smtp.ad.local mail server.<br></p>
+<h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; $splatAccount = @{
+&gt;&gt;     SqlInstance  = 'sql2017'
+&gt;&gt;     Account      = 'Office365Alerts'
+&gt;&gt;     EmailAddress = 'alerts@company.com'
+&gt;&gt;     MailServer   = 'smtp.office365.com'
+&gt;&gt;     Port         = 587
+&gt;&gt;     EnableSSL    = $true
+&gt;&gt;     UserName     = 'alerts@company.com'
+&gt;&gt;     Password     = (ConvertTo-SecureString 'app-password' -AsPlainText -Force)
+&gt;&gt; }
+PS C:\&gt; New-DbaDbMailAccount @splatAccount
+</code></pre>
+<p>Creates a new database mail account configured for Office 365 with SSL and authentication on sql2017.<br></p>
+<h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; $splatAccount = @{
+&gt;&gt;     SqlInstance          = 'sql2017'
+&gt;&gt;     Account              = 'DomainRelay'
+&gt;&gt;     EmailAddress         = 'sqlserver@company.local'
+&gt;&gt;     MailServer           = 'smtp.company.local'
+&gt;&gt;     UseDefaultCredentials = $true
+&gt;&gt; }
+PS C:\&gt; New-DbaDbMailAccount @splatAccount
+</code></pre>
+<p>Creates a mail account that uses Windows integrated authentication (the SQL Server service account) for an internal domain mail relay.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. You must have sysadmin access and server version must be SQL Server version 2008 or higher. <br></p>
@@ -720,6 +750,153 @@ Useful when you want replies to go to a monitored mailbox like 'dba-team@company
 <h5 id="mailserver">-MailServer</h5>
 <p>Specifies the SMTP server hostname or IP address that SQL Server will use to send emails through this account. The server must be accessible from the SQL Server instance.<br />
 If not specified, uses the SQL Server instance name as the mail server. The function validates that the mail server exists unless -Force is used.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="port">-Port</h5>
+<p>Specifies the TCP port number used to connect to the SMTP server. Common values are 25 (standard SMTP), 465 (SMTPS), and 587 (SMTP with STARTTLS).<br />
+Use 587 for Office 365 and Gmail which require STARTTLS. If not specified, the default port of 25 is used.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="enablessl">-EnableSSL</h5>
+<p>Enables SSL/TLS encryption for the SMTP connection. Required for connecting to Office 365 (smtp.office365.com:587) and Gmail (smtp.gmail.com:587).<br />
+When enabled, the connection uses STARTTLS to upgrade to an encrypted connection.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="usedefaultcredentials">-UseDefaultCredentials</h5>
+<p>Configures the mail account to use Windows integrated security (the SQL Server service account credentials) for SMTP authentication.<br />
+Use this for internal mail relays in Windows domains that support Windows Authentication. Cannot be combined with UserName/Password.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="username">-UserName</h5>
+<p>Specifies the username for SMTP authentication when connecting to mail servers that require credentials.<br />
+For Office 365, use the full email address (e.g., 'alerts@company.com'). For Gmail, use the Gmail address.<br />
+Requires the -Password parameter to be specified as well.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="password">-Password</h5>
+<p>Specifies the password for SMTP authentication as a SecureString. Used in combination with -UserName for Basic authentication.<br />
+Create with: ConvertTo-SecureString 'yourpassword' -AsPlainText -Force<br />
+For Office 365, use an app-specific password if multi-factor authentication is enabled on the account.<br></p>
 <table>
 <thead>
 <tr>

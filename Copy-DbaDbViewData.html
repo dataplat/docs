@@ -512,6 +512,7 @@ Handles large datasets efficiently with configurable batch sizes and minimal res
     [-KeepNulls]
     [-Truncate]
     [[-BulkCopyTimeOut] &lt;Int32&gt;]
+    [[-ScriptingOptionsObject] &lt;ScriptingOptions&gt;]
     [[-InputObject] &lt;TableViewBase[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -1127,6 +1128,35 @@ Increase this value when copying very large view result sets that may take longe
 <tr>
 <td>Default Value</td>
 <td>5000</td>
+</tr>
+</tbody>
+</table>
+<h5 id="scriptingoptionsobject">-ScriptingOptionsObject</h5>
+<p>A scripting options object created by New-DbaScriptingOption that controls how the destination table is scripted when -AutoCreateTable is used.<br />
+Use this to control which table properties are included in the CREATE TABLE script, such as indexes, constraints, triggers, and extended properties.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

@@ -487,7 +487,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Grants essential Windows privileges to SQL Server service accounts for optimal performance and security.</p>
 <h2 id="description">Description</h2>
-<p>Configures critical Windows privileges for SQL Server service accounts including Lock Pages in Memory (LPIM), Instant File Initialization (IFI), Logon as Batch, Logon as Service, and Generate Security Audits. These privileges are essential for SQL Server performance optimization and proper service operation, eliminating the need to manually configure them through Local Security Policy. The function automatically discovers SQL service accounts on target computers or allows you to specify custom accounts, then uses secedit to update the local security policy.</p>
+<p>Configures critical Windows privileges for SQL Server service accounts including Lock Pages in Memory (LPIM), Instant File Initialization (IFI), Logon as Batch, Logon as Service, Generate Security Audits, and Create Global Objects. These privileges are essential for SQL Server performance optimization and proper service operation, eliminating the need to manually configure them through Local Security Policy. The function automatically discovers SQL service accounts on target computers or allows you to specify custom accounts, then uses secedit to update the local security policy.</p>
 <p>Requires Local Admin rights on destination computer(s).</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaPrivilege
@@ -515,9 +515,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="type">-Type</h5>
 <p>Specifies which Windows privileges to grant to the SQL Server service accounts. Accepts one or more values: 'IFI' (Instant File Initialization), 'LPIM' (Lock Pages in Memory), 'BatchLogon' (Log on as<br />
-a batch job), 'SecAudit' (Generate security audits), and 'ServiceLogon' (Log on as a service).<br />
-These privileges are essential for SQL Server performance and functionality - IFI speeds up database file operations, LPIM prevents memory paging for better performance, and the logon rights ensure<br />
-services can start properly.<br />
+a batch job), 'SecAudit' (Generate security audits), 'ServiceLogon' (Log on as a service), and 'CreateGlobalObjects' (Create global objects).<br />
+These privileges are essential for SQL Server performance and functionality - IFI speeds up database file operations, LPIM prevents memory paging for better performance, the logon rights ensure<br />
+services can start properly, and CreateGlobalObjects is required by certain backup solutions (e.g. Dell PowerProtect, Redgate, Veritas) whose SQL backup agents need to create named objects in the<br />
+Global namespace.<br />
 Multiple privileges can be specified together for comprehensive SQL Server optimization. <br></p>
 <table>
 <thead>
@@ -545,7 +546,7 @@ Multiple privileges can be specified together for comprehensive SQL Server optim
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>IFI,LPIM,BatchLogon,SecAudit,ServiceLogon</td>
+<td>IFI,LPIM,BatchLogon,SecAudit,ServiceLogon,CreateGlobalObjects</td>
 </tr>
 </tbody>
 </table>

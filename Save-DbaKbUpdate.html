@@ -496,6 +496,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-Architecture] &lt;String&gt;]
     [[-Language] &lt;String&gt;]
     [[-InputObject] &lt;Object[]&gt;]
+    [-UseWebRequest]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -705,6 +706,36 @@ Particularly useful when working with KBs that have multiple file options.<br></
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="usewebrequest">-UseWebRequest</h5>
+<p>Forces the use of Invoke-WebRequest instead of Start-BitsTransfer for downloading files.<br />
+Use this when running in a non-interactive context such as a scheduled task or SQL Agent job,<br />
+where Start-BitsTransfer may fail because it requires a logged-in user session.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

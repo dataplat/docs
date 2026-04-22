@@ -531,6 +531,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-AzureDomain] &lt;String&gt;]
     [[-Tenant] &lt;String&gt;]
     [[-AccessToken] &lt;PSObject&gt;]
+    [[-AuthenticationType] &lt;String&gt;]
     [-DedicatedAdminConnection]
     [-DisableException]
     [&lt;CommonParameters&gt;]
@@ -660,6 +661,22 @@ PS C:\&gt; $servers | Connect-DbaInstance -AllowTrustServerCertificate
 For each server, attempts connection with proper TLS validation first.<br>
 If a server fails due to certificate validation, automatically retries with TrustServerCertificate enabled.<br>
 This provides a secure-by-default approach for mixed environments without requiring separate connection logic.<br></p>
+<h5 id="example-20">Example:  20</h5>
+<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance sql01 -AuthenticationType ActiveDirectoryInteractive
+</code></pre>
+<p>Connects to a SQL Server instance (Azure SQL VM, Azure SQL Database, Azure SQL Managed Instance, or Fabric SQL Database)<br>
+using Entra ID (Azure AD) interactive authentication with MFA. A browser dialog will appear prompting you to select<br>
+your Entra ID account and complete any required MFA steps.<br></p>
+<h5 id="example-21">Example:  21</h5>
+<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance myserver.database.windows.net -Database mydb -AuthenticationType ActiveDirectoryInteractive
+</code></pre>
+<p>Connects to an Azure SQL Database using Entra ID interactive authentication with MFA.<br>
+A browser dialog will appear to complete authentication.<br></p>
+<h5 id="example-22">Example:  22</h5>
+<pre><code>PS C:\&gt; $server = Connect-DbaInstance -SqlInstance sql01 -AuthenticationType ActiveDirectoryIntegrated
+</code></pre>
+<p>Connects to a SQL Server instance using Entra ID integrated authentication.<br>
+Uses the currently signed-in Entra ID identity without prompting for credentials.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. This can be a collection and receive pipeline input to allow the function to be executed against multiple SQL Server instances. <br></p>
@@ -1570,6 +1587,44 @@ Use this for service principal authentication or when integrating with Azure aut
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="authenticationtype">-AuthenticationType</h5>
+<p>Specifies the authentication method for connecting to Azure SQL or Entra ID-protected SQL Server instances.<br />
+Use &quot;ActiveDirectoryInteractive&quot; for Entra ID (Azure AD) authentication with MFA â€” a browser dialog will prompt you to select your Entra ID account.<br />
+Use &quot;ActiveDirectoryIntegrated&quot; for Entra ID integrated authentication using your current Windows session.<br />
+Use &quot;ActiveDirectoryPassword&quot; for Entra ID authentication with a username and password via SqlCredential.<br />
+Use &quot;ActiveDirectoryServicePrincipal&quot; for service principal authentication (client ID and secret via SqlCredential).<br />
+Use &quot;ActiveDirectoryManagedIdentity&quot; for managed identity authentication in Azure-hosted environments.<br />
+Use &quot;ActiveDirectoryDeviceCodeFlow&quot; for device code flow authentication.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>ActiveDirectoryIntegrated,ActiveDirectoryInteractive,ActiveDirectoryPassword,ActiveDirectoryServicePrincipal,ActiveDirectoryManagedIdentity,ActiveDirectoryDeviceCodeFlow</td>
 </tr>
 </tbody>
 </table>

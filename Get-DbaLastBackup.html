@@ -494,6 +494,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Database] &lt;Object[]&gt;]
     [[-ExcludeDatabase] &lt;Object[]&gt;]
+    [-ExcludeReplica]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -524,6 +525,12 @@ Note that the property LastFullBackup is a custom object, with the subproperty D
 <pre><code>PS C:\&gt; Get-DbaLastBackup -SqlInstance ServerA\sql987 | Where-Object { $_.LastFullBackupIsCopyOnly -eq $true }
 </code></pre>
 <p>Filters for the databases that had a copy_only full backup done as the last backup.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Get-DbaLastBackup -SqlInstance sql2019, sql2019b -ExcludeReplica
+</code></pre>
+<p>Returns last backup information for all databases on both instances, excluding availability group databases<br>
+where the current instance is not the preferred backup replica. This prevents false alerts when secondary<br>
+replicas appear to have no recent backups because backups are only performed on the preferred replica.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. <br></p>
@@ -640,6 +647,37 @@ Use this when you want to check most databases but exclude certain ones like tem
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludereplica">-ExcludeReplica</h5>
+<p>When this switch is enabled, databases in an AlwaysOn Availability Group where the current SQL Server instance<br />
+is not the preferred backup replica are excluded from the results.<br />
+This is useful when running Get-DbaLastBackup against multiple servers in an availability group to avoid<br />
+false positives where secondary replicas appear to have missing backups because backups are taken on the preferred replica only.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

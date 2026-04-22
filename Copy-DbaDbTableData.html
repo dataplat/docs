@@ -520,6 +520,7 @@ Temporal version history cannot be preserved as these values are system-managed.
     [[-BulkCopyTimeout] &lt;Int32&gt;]
     [[-CommandTimeout] &lt;Int32&gt;]
     [-UseDefaultFileGroup]
+    [[-ScriptingOptionsObject] &lt;ScriptingOptions&gt;]
     [[-InputObject] &lt;TableViewBase[]&gt;]
     [-EnableException]
     [-WhatIf]
@@ -589,6 +590,14 @@ See the Query param documentation for more details.<br></p>
 </code></pre>
 <p>Copies all data from [tempdb].[dbo].[vw1] (3-part name) view on instance sql1 to an auto-created table [SampleDb].[SampleSchema].[SampleTable] on instance sql1<br></p>
 <h5 id="example-9">Example:  9</h5>
+<pre><code>PS C:\&gt; $so = New-DbaScriptingOption
+PS C:\&gt; $so.DriAll = $true
+PS C:\&gt; $so.Indexes = $true
+PS C:\&gt; $so.NoFileGroup = $true
+PS C:\&gt; Copy-DbaDbTableData -SqlInstance sql1 -Destination sql2 -Database db1 -Table dbo.MyTable -AutoCreateTable -ScriptingOptionsObject $so
+</code></pre>
+<p>Copies all data from dbo.MyTable in db1 on sql1 to an auto-created table on sql2, scripting the destination table with all constraints, indexes, and using the default filegroup.<br></p>
+<h5 id="example-10">Example:  10</h5>
 <pre><code>PS C:\&gt; $params = @{
 &gt;&gt;     SqlInstance         = &quot;SERVER001&quot;
 &gt;&gt;     Database            = &quot;MyDatabaseName&quot;
@@ -1274,6 +1283,36 @@ Use this when the destination database has different filegroup configurations or
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="scriptingoptionsobject">-ScriptingOptionsObject</h5>
+<p>A scripting options object created by New-DbaScriptingOption that controls how the destination table is scripted when -AutoCreateTable is used.<br />
+Use this to control which table properties are included in the CREATE TABLE script, such as indexes, constraints, triggers, and extended properties.<br />
+When specified, this takes precedence over -UseDefaultFileGroup. Use New-DbaScriptingOption to create the object and set the desired properties.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

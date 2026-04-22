@@ -495,6 +495,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-AvailabilityGroup] &lt;String[]&gt;]
     [[-Database] &lt;String[]&gt;]
+    [[-ExcludeDatabase] &lt;String[]&gt;]
     [[-InputObject] &lt;AvailabilityGroup[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -512,6 +513,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Returns all the databases in the availability group AG101 on sql2017a<br></p>
 <h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Get-DbaAgDatabase -SqlInstance sql2017a -ExcludeDatabase TestDB,StagingDB
+</code></pre>
+<p>Returns all the databases in each availability group found on sql2017a, excluding TestDB and StagingDB.<br></p>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Get-DbaAvailabilityGroup -SqlInstance sqlcluster -AvailabilityGroup SharePoint | Get-DbaAgDatabase -Database Sharepoint_Config
 </code></pre>
 <p>Returns the database Sharepoint_Config found in the availability group SharePoint on server sqlcluster<br></p>
@@ -606,6 +611,35 @@ Use this to limit results to specific availability groups when you have multiple
 <h5 id="database">-Database</h5>
 <p>Specifies which availability group databases to return information for. Accepts multiple database names with tab completion.<br />
 Use this to focus on specific databases when troubleshooting AG issues or monitoring particular applications.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludedatabase">-ExcludeDatabase</h5>
+<p>Specifies one or more databases to exclude from the results using exact name matching.<br />
+Use this to filter out specific databases like test or staging environments from your results.<br></p>
 <table>
 <thead>
 <tr>

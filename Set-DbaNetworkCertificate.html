@@ -472,7 +472,7 @@
 <tbody>
 <tr>
 <td><strong>Author</strong></td>
-<td>Chrissy LeMaire (@cl), netnerds.net</td>
+<td>Chrissy LeMaire (@cl), netnerds.net , Refactored by Andreas Jordan (@andreasjordan)</td>
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
@@ -487,36 +487,32 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="synopsis">Synopsis</h2>
 <p>Sets the network certificate for SQL Server instance</p>
 <h2 id="description">Description</h2>
-<p>Sets the network certificate for SQL Server instance. This setting is found in Configuration Manager.</p>
+<p>Sets the network certificate for SQL Server instance in two possible ways. This setting is found in Configuration Manager.</p>
+<p>Without the Certificate or Thumbprint parameter (Way One): Calls Test-DbaNetworkCertificate to retrieve<br />
+information about the currently configured certificate and available suitable certificates.<br />
+Returns without changes if the currently configured certificate is still valid.<br />
+Configures the suitable certificate if exactly one is available.<br />
+Fails if more than one or no suitable certificate is found.</p>
+<p>With the Certificate or Thumbprint parameter (Way Two): Calls Test-DbaNetworkCertificate to retrieve<br />
+information about the currently configured certificate and available suitable certificates.<br />
+Returns without changes if the given certificate match the currently configured certificate that is still valid.<br />
+Configures the given certificate if it is returned as a suitable certificate.<br />
+If the given certificate is not returned as a suitable certificate, the command gets detailed information<br />
+about why the given certificate is not suitable and fails with that information.</p>
 <p>This command also grants read permissions for the service account on the certificate's private key.</p>
+<p>The currently configured certificate can be unset by using the parameter -UnsetCertificate.</p>
 <p>References:<br />
 <a href="https://www.itprotoday.com/sql-server/7-steps-ssl-encryption">https://www.itprotoday.com/sql-server/7-steps-ssl-encryption</a><br />
 <a href="https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/">https://azurebi.jppp.org/2016/01/23/using-lets-encrypt-certificates-for-secure-sql-server-connections/</a><br />
-<a href="https://blogs.msdn.microsoft.com/sqlserverfaq/2016/09/26/creating-and-registering-ssl-certificates/">https://blogs.msdn.microsoft.com/sqlserverfaq/2016/09/26/creating-and-registering-ssl-certificates/</a></p>
+<a href="https://blogs.msdn.microsoft.com/sqlserverfaq/2016/09/26/creating-and-registering-ssl-certificates/">https://blogs.msdn.microsoft.com/sqlserverfaq/2016/09/26/creating-and-registering-ssl-certificates/</a><br />
+<a href="https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/certificate-requirements">https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/certificate-requirements</a></p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaNetworkCertificate
-    [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
-    [-Credential &lt;PSCredential&gt;]
-    [-RestartService]
-    [-EnableException]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-Set-DbaNetworkCertificate
-    [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
-    [-Credential &lt;PSCredential&gt;]
-    -Certificate &lt;X509Certificate2&gt;
-    [-RestartService]
-    [-EnableException]
-    [-WhatIf]
-    [-Confirm]
-    [&lt;CommonParameters&gt;]
-
-Set-DbaNetworkCertificate
-    [-SqlInstance &lt;DbaInstanceParameter[]&gt;]
-    [-Credential &lt;PSCredential&gt;]
-    -Thumbprint &lt;String&gt;
+    [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
+    [[-Credential] &lt;PSCredential&gt;]
+    [[-Certificate] &lt;X509Certificate2&gt;]
+    [[-Thumbprint] &lt;String&gt;]
+    [-UnsetCertificate]
     [-RestartService]
     [-EnableException]
     [-WhatIf]
@@ -532,70 +528,17 @@ Set-DbaNetworkCertificate
 </code></pre>
 <p>Creates and imports a new certificate signed by an Active Directory CA on localhost then sets the network certificate for the SQL2008R2SP2 to that newly created certificate.<br></p>
 <h5 id="example-2">Example:  2</h5>
+<pre><code>PS C:\&gt; Set-DbaNetworkCertificate -SqlInstance localhost\SQL2008R2SP2
+</code></pre>
+<p>Sets the network certificate for the SQL2008R2SP2 instance if exactly one suitable certificate is found.<br></p>
+<h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; Set-DbaNetworkCertificate -SqlInstance sql1\SQL2008R2SP2 -Thumbprint 1223FB1ACBCA44D3EE9640F81B6BA14A92F3D6E2
 </code></pre>
 <p>Sets the network certificate for the SQL2008R2SP2 instance to the certificate with the thumbprint of 1223FB1ACBCA44D3EE9640F81B6BA14A92F3D6E2 in LocalMachine\My on sql1<br></p>
-<h3 id="required-parameters">Required Parameters</h3>
-<h5 id="certificate">-Certificate</h5>
-<p>Specifies the X509Certificate2 object to configure as the network certificate for SQL Server.<br />
-Use this when piping certificate objects from other dbatools commands like New-DbaComputerCertificate.<br />
-The certificate must exist in the LocalMachine certificate store and have a private key for SQL Server to use it for SSL connections. <br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByValue)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="thumbprint">-Thumbprint</h5>
-<p>Specifies the thumbprint (SHA-1 hash) of the certificate to configure as the network certificate.<br />
-Use this when you know the specific certificate thumbprint from certificates already installed in LocalMachine\My.<br />
-The certificate must have a private key and the SQL Server service account will be granted read permissions to it. <br></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Alias</td>
-<td></td>
-</tr>
-<tr>
-<td>Required</td>
-<td>True</td>
-</tr>
-<tr>
-<td>Pipeline</td>
-<td>true (ByPropertyName)</td>
-</tr>
-<tr>
-<td>Default Value</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Set-DbaNetworkCertificate -SqlInstance localhost\SQL2008R2SP2 -UnsetCertificate -RestartService
+</code></pre>
+<p>Unsets the network certificate for the SQL2008R2SP2 instance and restarts the SQL Server service.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Defaults to localhost.<br></p>
@@ -650,6 +593,96 @@ The certificate must have a private key and the SQL Server service account will 
 <tr>
 <td>Default Value</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="certificate">-Certificate</h5>
+<p>Specifies the X509Certificate2 object to configure as the network certificate for SQL Server.<br />
+Use this when piping certificate objects from other dbatools commands like New-DbaComputerCertificate.<br />
+The certificate must exist in the LocalMachine certificate store and have a private key for SQL Server to use it for SSL connections.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByValue)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="thumbprint">-Thumbprint</h5>
+<p>Specifies the thumbprint (SHA-1 hash) of the certificate to configure as the network certificate.<br />
+Use this when you know the specific certificate thumbprint from certificates already installed in LocalMachine\My.<br />
+Must be a 40-character hexadecimal string (no spaces). The certificate must have a private key and the SQL Server<br />
+service account will be granted read permissions to it.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>true (ByPropertyName)</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="unsetcertificate">-UnsetCertificate</h5>
+<p>Unsets the currently configured network certificate for the SQL Server instance.<br />
+This will remove the certificate configuration, and SQL Server will not use any certificate for SSL connections.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
 </tr>
 </tbody>
 </table>

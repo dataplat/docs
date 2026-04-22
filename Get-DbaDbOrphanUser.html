@@ -488,6 +488,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Get orphaned users.</p>
 <h2 id="description">Description</h2>
 <p>An orphan user is defined by a user that does not have their matching login. (Login property = &quot;&quot;).</p>
+<p>Note: Users in contained databases (Partial or Full containment type) are not considered orphaned for SQL logins,<br />
+as these users authenticate directly to the database without requiring a server-level login.<br />
+Windows users are still checked for orphaned status regardless of containment type.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaDbOrphanUser
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;

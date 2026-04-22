@@ -503,15 +503,15 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="examples">Examples</h2>
 <p> </p>
 <h5 id="example-1">Example:  1</h5>
-<pre><code>PS C:\&gt; Invoke-DbaCycleLog -SqlInstance sql2016 -Type agent
+<pre><code>PS C:\&gt; Invoke-DbaCycleErrorLog -SqlInstance sql2016 -Type agent
 </code></pre>
 <p>Cycles the current error log for the SQL Server Agent on SQL Server instance sql2016<br></p>
 <h5 id="example-2">Example:  2</h5>
-<pre><code>PS C:\&gt; Invoke-DbaCycleLog -SqlInstance sql2016 -Type instance
+<pre><code>PS C:\&gt; Invoke-DbaCycleErrorLog -SqlInstance sql2016 -Type instance
 </code></pre>
 <p>Cycles the current error log for the SQL Server instance on SQL Server instance sql2016<br></p>
 <h5 id="example-3">Example:  3</h5>
-<pre><code>PS C:\&gt; Invoke-DbaCycleLog -SqlInstance sql2016
+<pre><code>PS C:\&gt; Invoke-DbaCycleErrorLog -SqlInstance sql2016
 </code></pre>
 <p>Cycles the current error log for both SQL Server instance and SQL Server Agent on SQL Server instance sql2016<br></p>
 <h3 id="required-parameters">Required Parameters</h3>

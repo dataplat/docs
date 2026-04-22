@@ -511,7 +511,8 @@ All Custom Errors (User Defined Messages). Use -Exclude CustomErrors to skip.<br
 All Server Roles. Use -Exclude ServerRoles to skip.<br />
 All Data Collector collection sets. Does not configure the server. Use -Exclude DataCollector to skip.<br />
 All startup procedures. Use -Exclude StartupProcedures to skip.<br />
-All custom Extended Stored Procedures. Use -Exclude ExtendedStoredProcedures to skip.</p>
+All custom Extended Stored Procedures. Use -Exclude ExtendedStoredProcedures to skip.<br />
+All SSIS catalog folders, projects, and environments. Use -Exclude SsisCatalog to skip.</p>
 <p>This script provides the ability to migrate databases using detach/copy/attach or backup/restore. SQL Server logins, including passwords, SID and database/server roles can also be migrated. In addition, job server objects can be migrated and server configuration settings can be exported or migrated. This script works with named instances, clusters and SQL Express.</p>
 <p>By default, databases will be migrated to the destination SQL Server's default data and log directories. You can override this by specifying -ReuseSourceFolderStructure. Filestreams and filegroups are also migrated. Safety is emphasized.</p>
 <h2 id="syntax">Syntax</h2>
@@ -1043,7 +1044,8 @@ Accepts PowerShell credential objects created with Get-Credential for SQL Authen
 <p>Specifies which migration components to skip during the migration process.<br />
 Use this to exclude specific object types when you only need partial migrations or when certain objects should remain on the source.<br />
 Valid values: Databases, Logins, AgentServer, Credentials, LinkedServers, SpConfigure, CentralManagementServer, DatabaseMail, SysDbUserObjects, SystemTriggers, BackupDevices, Audits, Endpoints,<br />
-ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, CustomErrors, ServerRoles, DataCollector, StartupProcedures, AgentServerProperties, MasterCertificates.<br></p>
+ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, CustomErrors, ServerRoles, DataCollector, StartupProcedures, ExtendedStoredProcedures, AgentServerProperties,<br />
+MasterCertificates, SsisCatalog.<br></p>
 <table>
 <thead>
 <tr>
@@ -1070,7 +1072,7 @@ ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, C
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>Databases,Logins,AgentServer,Credentials,LinkedServers,SpConfigure,CentralManagementServer,DatabaseMail,SysDbUserObjects,SystemTriggers,BackupDevices,Audits,Endpoints,ExtendedEvents,PolicyManagement,ResourceGovernor,ServerAuditSpecifications,CustomErrors,ServerRoles,DataCollector,StartupProcedures,ExtendedStoredProcedures,AgentServerProperties,MasterCertificates</td>
+<td>Databases,Logins,AgentServer,Credentials,LinkedServers,SpConfigure,CentralManagementServer,DatabaseMail,SysDbUserObjects,SystemTriggers,BackupDevices,Audits,Endpoints,ExtendedEvents,PolicyManagement,ResourceGovernor,ServerAuditSpecifications,CustomErrors,ServerRoles,DataCollector,StartupProcedures,ExtendedStoredProcedures,AgentServerProperties,MasterCertificates,SsisCatalog</td>
 </tr>
 </tbody>
 </table>

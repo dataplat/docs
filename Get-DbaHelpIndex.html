@@ -489,7 +489,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>This function queries SQL Server DMVs to return detailed index and statistics information for performance analysis, index maintenance planning, and identifying optimization opportunities. You can target all indexes in a database or focus on a specific table to analyze index usage patterns, sizes, and fragmentation levels.</p>
 <p>Essential for DBAs performing index tuning, this command helps identify unused indexes for removal, oversized indexes consuming storage, and indexes requiring maintenance based on fragmentation or usage statistics. The data combines structural information (key columns, include columns, filters) with runtime metrics (reads, updates, last used) to provide a complete index health picture.</p>
-<p>Uses SQL Server DMVs and system tables, requiring SQL Server 2005 or later. For performance reasons, certain statistics details are limited in SQL Server 2005 unless you specify a specific table with the ObjectName parameter.</p>
+<p>Uses SQL Server DMVs and system tables, requiring SQL Server 2008 or later.</p>
 <p>The data includes:</p>
 <ul>
 <li>ObjectName: the table containing the index</li>
@@ -504,10 +504,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <li>IndexRows: the number of the rows in the index (note filtered indexes will have fewer rows than exist in the table)</li>
 <li>IndexLookups: the number of lookups that have been performed (only applicable for the heap or clustered index)</li>
 <li>MostRecentlyUsed: when the index was most recently queried (default to 1900 for when never read)</li>
-<li>StatsSampleRows: the number of rows queried when the statistics were built/rebuilt (not included in SQL Server 2005 unless ObjectName is specified)</li>
+<li>StatsSampleRows: the number of rows queried when the statistics were built/rebuilt</li>
 <li>StatsRowMods: the number of changes to the statistics since the last rebuild</li>
-<li>HistogramSteps: the number of steps in the statistics histogram (not included in SQL Server 2005 unless ObjectName is specified)</li>
-<li>StatsLastUpdated: when the statistics were last rebuilt (not included in SQL Server 2005 unless ObjectName is specified)</li>
+<li>HistogramSteps: the number of steps in the statistics histogram</li>
+<li>StatsLastUpdated: when the statistics were last rebuilt</li>
 </ul>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Get-DbaHelpIndex

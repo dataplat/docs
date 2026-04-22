@@ -1717,8 +1717,8 @@ Use this when your source files contain blank lines for formatting that should n
 </tbody>
 </table>
 <h5 id="supportsmultiline">-SupportsMultiline</h5>
-<p>Allows field values to span multiple lines when properly quoted, such as addresses or comments with embedded line breaks.<br />
-Enable this when your CSV contains multi-line text data that should be preserved as single field values.<br></p>
+<p>Controls whether properly quoted field values may span multiple lines, such as addresses or comments with embedded line breaks.<br />
+In Strict QuoteMode, RFC 4180 multiline handling is enabled by default. Specify -SupportsMultiline:$false to force single-line parsing, or -SupportsMultiline to enable it explicitly in Lenient mode.<br></p>
 <table>
 <thead>
 <tr>

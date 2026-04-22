@@ -512,6 +512,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-Flag] &lt;String[]&gt;]
     [[-Dns] &lt;String[]&gt;]
     [-SelfSigned]
+    [-DocumentEncryptionCert]
     [-EnableException]
     [[-HashAlgorithm] &lt;String&gt;]
     [[-MonthsValid] &lt;Int32&gt;]
@@ -549,6 +550,12 @@ The certificate is then copied to sqla <em>and</em> sqlb over WinRM and imported
 <pre><code>PS C:\&gt; New-DbaComputerCertificate -SelfSigned -HashAlgorithm Sha256 -MonthsValid 60
 </code></pre>
 <p>Creates a self-signed certificate using the SHA256 hashing algorithm that does not expire for 5 years<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; New-DbaComputerCertificate -SelfSigned -DocumentEncryptionCert
+</code></pre>
+<p>Creates a self-signed certificate suitable for use as a Column Master Key for Always Encrypted.<br>
+The certificate includes the Document Encryption and IKE Intermediate Extended Key Usage OIDs<br>
+required by SQL Server Always Encrypted.<br></p>
 <h3 id="optional-parameters">Optional Parameters</h3>
 <h5 id="computername">-ComputerName</h5>
 <p>Specifies the target computer or computers where the certificate will be created and installed. Defaults to localhost.<br />
@@ -882,6 +889,7 @@ Use &quot;TrustedPeople&quot; or other folders only for specific certificate tru
 <p>Specifies how the certificate's private key should be handled during import operations.<br />
 Defaults to &quot;Exportable, PersistKeySet&quot; allowing the key to be backed up and persisted on disk.<br />
 Use &quot;NonExportable&quot; for high-security environments where private keys should never leave the machine.<br />
+When copying certificates to remote computers, the temporary source certificate remains exportable so the destination import can honor the requested flags.<br />
 &quot;UserProtected&quot; requires interactive confirmation and only works on localhost installations.<br></p>
 <table>
 <thead>
@@ -947,6 +955,41 @@ Add extra DNS names that clients will use to connect, such as aliases or load ba
 <p>Creates a self-signed certificate instead of requesting one from a Certificate Authority.<br />
 Useful for development environments or when no domain CA is available.<br />
 Self-signed certificates will generate trust warnings unless manually added to client trust stores.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="documentencryptioncert">-DocumentEncryptionCert</h5>
+<p>Creates a certificate suitable for use as a Column Master Key for Always Encrypted.<br />
+When specified, the certificate uses KeyEncipherment key usage and includes the<br />
+Document Encryption (1.3.6.1.4.1.311.10.3.11) and IKE Intermediate (1.3.6.1.5.5.8.2.2)<br />
+Extended Key Usage OIDs required by Always Encrypted, instead of the default Server<br />
+Authentication OID (1.3.6.1.5.5.7.3.1).<br />
+For CA-signed certificates, specify -CertificateTemplate with a template configured<br />
+for Always Encrypted column master keys. The default WebServer template is intended<br />
+for TLS server certificates and is not suitable for this switch.<br></p>
 <table>
 <thead>
 <tr>

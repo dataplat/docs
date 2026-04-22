@@ -506,10 +506,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Force]
     [-InstallParallel]
     [-ChangeBackupType]
-    [-Compress]
+    [[-Compress] &lt;String&gt;]
     [-CopyOnly]
-    [-Verify]
-    [-CheckSum]
+    [[-Verify] &lt;String&gt;]
+    [[-CheckSum] &lt;String&gt;]
     [[-ModificationLevel] &lt;Int32&gt;]
     [-EnableException]
     [-WhatIf]
@@ -590,7 +590,7 @@ The following SQL Agent jobs will be deleted:<br></li>
 &gt;&gt; SqlInstance = &quot;localhost&quot;
 &gt;&gt; InstallJobs = $true
 &gt;&gt; CleanupTime = 720
-&gt;&gt; AutoSchedule = &quot;WeeklyFull&quot;
+&gt;&gt; AutoScheduleJobs = &quot;WeeklyFull&quot;
 &gt;&gt; }
 &gt;&gt; Install-DbaMaintenanceSolution @params
 </code></pre>
@@ -623,9 +623,9 @@ See <a href="https://blog.netnerds.net/2023/05/install-dbamaintenancesolution-no
 &gt;&gt; BackupLocation = &quot;D:\SQLBackups&quot;
 &gt;&gt; CleanupTime = 168
 &gt;&gt; ChangeBackupType = $true
-&gt;&gt; Compress = $true
-&gt;&gt; Verify = $true
-&gt;&gt; CheckSum = $true
+&gt;&gt; Compress = &quot;ForceOn&quot;
+&gt;&gt; Verify = &quot;ForceOn&quot;
+&gt;&gt; CheckSum = &quot;ForceOn&quot;
 &gt;&gt; }
 PS C:\&gt; Install-DbaMaintenanceSolution @params
 </code></pre>
@@ -930,7 +930,8 @@ Without this switch, only the stored procedures are installed and must be schedu
 </tbody>
 </table>
 <h5 id="autoschedulejobs">-AutoScheduleJobs</h5>
-<p>Automatically creates optimized job schedules for backup operations. Valid values: WeeklyFull, DailyFull, NoDiff, FifteenMinuteLog, HourlyLog.<br />
+<p>Automatically creates optimized job schedules for backup operations when InstallJobs is specified. Valid values: WeeklyFull, DailyFull, NoDiff, FifteenMinuteLog, HourlyLog.<br />
+Specify exactly one full backup cadence, WeeklyFull or DailyFull, and optionally combine it with NoDiff, FifteenMinuteLog, or HourlyLog.<br />
 WeeklyFull creates weekly full backups, daily differentials, and 15-minute log backups. DailyFull skips differentials. Use HourlyLog for less frequent transaction log backups.<br />
 System databases are always backed up daily regardless of user database schedule. Automatically resolves schedule conflicts by adjusting start times.<br></p>
 <table>
@@ -1110,8 +1111,11 @@ This ensures backup chains remain valid even if scheduled full backups fail or a
 </tbody>
 </table>
 <h5 id="compress">-Compress</h5>
-<p>Controls backup compression for all backup operations. When not specified, uses the SQL Server instance's default compression setting.<br />
-Set to enable compression (recommended for reducing backup size and network transfer time) or disable for compatibility with older restore targets.<br />
+<p>Controls backup compression in job commands. Valid values: Default, ForceOn, ForceOff, Remove.<br />
+Default: does not include @Compress in job text, so the SQL Server instance's compression setting applies.<br />
+ForceOn: explicitly sets @Compress = 'Y' in job commands.<br />
+ForceOff: explicitly sets @Compress = 'N' in job commands.<br />
+Remove: removes @Compress from job commands if present.<br />
 Only applies when InstallJobs is specified.<br></p>
 <table>
 <thead>
@@ -1135,7 +1139,11 @@ Only applies when InstallJobs is specified.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>False</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Default,ForceOn,ForceOff,Remove</td>
 </tr>
 </tbody>
 </table>
@@ -1170,8 +1178,11 @@ Only applies when InstallJobs is specified.<br></p>
 </tbody>
 </table>
 <h5 id="verify">-Verify</h5>
-<p>Verifies backup integrity immediately after creation by performing a RESTORE VERIFYONLY operation.<br />
-Defaults to enabled (Y) if not specified. Verification adds time to backup operations but ensures backups are restorable.<br />
+<p>Controls backup verification in job commands. Valid values: Default, ForceOn, ForceOff, Remove.<br />
+Default: uses Ola's default, which includes @Verify = 'Y' in job commands.<br />
+ForceOn: explicitly sets @Verify = 'Y' in job commands.<br />
+ForceOff: explicitly sets @Verify = 'N' in job commands.<br />
+Remove: removes @Verify from job commands, letting the stored procedure's built-in default apply.<br />
 Only applies when InstallJobs is specified.<br></p>
 <table>
 <thead>
@@ -1195,13 +1206,20 @@ Only applies when InstallJobs is specified.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>False</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Default,ForceOn,ForceOff,Remove</td>
 </tr>
 </tbody>
 </table>
 <h5 id="checksum">-CheckSum</h5>
-<p>Enables checksum validation during backup operations to detect data corruption.<br />
-Defaults to enabled (Y) if not specified. Checksums provide additional data integrity verification with minimal performance impact.<br />
+<p>Controls checksum validation in job commands. Valid values: Default, ForceOn, ForceOff, Remove.<br />
+Default: uses Ola's default, which includes @Checksum = 'Y' in job commands.<br />
+ForceOn: explicitly sets @Checksum = 'Y' in job commands.<br />
+ForceOff: explicitly sets @Checksum = 'N' in job commands.<br />
+Remove: removes @Checksum from job commands, letting the stored procedure's built-in default apply.<br />
 Only applies when InstallJobs is specified.<br></p>
 <table>
 <thead>
@@ -1225,7 +1243,11 @@ Only applies when InstallJobs is specified.<br></p>
 </tr>
 <tr>
 <td>Default Value</td>
-<td>False</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>Default,ForceOn,ForceOff,Remove</td>
 </tr>
 </tbody>
 </table>

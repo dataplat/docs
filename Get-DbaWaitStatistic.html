@@ -507,6 +507,8 @@ URL</p>
     [[-SqlCredential] &lt;PSCredential&gt;]
     [[-Threshold] &lt;Int32&gt;]
     [-IncludeIgnorable]
+    [[-ExcludeWaitType] &lt;String[]&gt;]
+    [[-IncludeWaitType] &lt;String[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
 
@@ -535,6 +537,14 @@ URL</p>
 PS C:\&gt; foreach ($row in ($output | Sort-Object -Unique Url)) { Start-Process ($row).Url }
 </code></pre>
 <p>Displays the output then loads the associated sqlskills website for each result. Opens one tab per unique URL.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Get-DbaWaitStatistic -SqlInstance sql2016 -ExcludeWaitType &quot;CXPACKET&quot;, &quot;CXCONSUMER&quot;
+</code></pre>
+<p>Gets wait statistics excluding parallelism waits (CXPACKET and CXCONSUMER) in addition to the default ignorable waits.<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; Get-DbaWaitStatistic -SqlInstance sql2016 -IncludeWaitType &quot;BROKER_RECEIVE_WAITFOR&quot;
+</code></pre>
+<p>Gets wait statistics and ensures BROKER_RECEIVE_WAITFOR is included even though it's in the default ignorable list.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. Server version must be SQL Server version 2005 or higher. <br></p>
@@ -650,6 +660,64 @@ Use this when you need to see all wait activity or when investigating unusual is
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludewaittype">-ExcludeWaitType</h5>
+<p>Additional wait types to exclude beyond the default ignorable list. Provide an array of wait type names (e.g., &quot;CXPACKET&quot;, &quot;CXCONSUMER&quot;).<br />
+Use this when you want to filter out specific waits that may not be relevant to your analysis.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="includewaittype">-IncludeWaitType</h5>
+<p>Wait types to always include in results, even if they appear in the ignorable list. Provide an array of wait type names.<br />
+Use this to ensure specific waits are shown regardless of the -IncludeIgnorable switch setting.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

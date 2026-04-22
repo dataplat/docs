@@ -511,6 +511,7 @@ All Custom Errors (User Defined Messages).<br />
 All Server Roles.<br />
 All Availability Groups.<br />
 All OLEDB Providers.</p>
+<p>When -IncludeDbMasterKey is specified: all database certificates (exported as .cer files; private keys exported as .pvk files when -EncryptionPassword is provided) and all database master keys encrypted with the -EncryptionPassword.</p>
 <p>The exported files are written to a folder using the naming convention &quot;machinename$instance-yyyyMMddHHmmss&quot;, making it easy to identify the source instance and export timestamp.</p>
 <p>This command is particularly valuable for:</p>
 <ul>
@@ -535,6 +536,8 @@ All OLEDB Providers.</p>
     [-NoRecovery]
     [[-AzureCredential] &lt;String&gt;]
     [-IncludeDbMasterKey]
+    [[-EncryptionPassword] &lt;SecureString&gt;]
+    [[-DecryptionPassword] &lt;SecureString&gt;]
     [[-Exclude] &lt;String[]&gt;]
     [[-BatchSeparator] &lt;String&gt;]
     [[-ScriptingOption] &lt;ScriptingOptions&gt;]
@@ -742,8 +745,10 @@ Required when generating restore scripts for databases backed up to Azure storag
 </tbody>
 </table>
 <h5 id="includedbmasterkey">-IncludeDbMasterKey</h5>
-<p>Exports database master keys from system databases and copies them to the export directory.<br />
-Critical for environments using Transparent Data Encryption (TDE) or encrypted backups where master keys are required for restoration.<br></p>
+<p>When specified, exports database certificates (.cer files) and database master keys (.key files) to the export directory.<br />
+Certificate private keys (.pvk files) are also exported when -EncryptionPassword is provided.<br />
+Database master keys require -EncryptionPassword to be specified; if omitted, only certificates are exported.<br />
+Use -Exclude DbCertificates to suppress certificate export while still exporting master keys.<br></p>
 <table>
 <thead>
 <tr>
@@ -770,11 +775,71 @@ Critical for environments using Transparent Data Encryption (TDE) or encrypted b
 </tr>
 </tbody>
 </table>
+<h5 id="encryptionpassword">-EncryptionPassword</h5>
+<p>Secure password used to encrypt exported certificate private key files (.pvk) and database master key backups (.key).<br />
+When specified with -IncludeDbMasterKey, enables export of private keys alongside certificates and also backs up database master keys.<br />
+Required for database master key export; optional for certificate export (without it only .cer files are generated).<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="decryptionpassword">-DecryptionPassword</h5>
+<p>Password required to decrypt the certificate's existing private key before it can be re-encrypted for backup.<br />
+Use this when certificates were originally created with a password or imported from a password-protected source.<br />
+Only applies when -IncludeDbMasterKey is specified and DbCertificates is not in -Exclude.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h5 id="exclude">-Exclude</h5>
 <p>Skips specific object types from the export to reduce scope or avoid problematic areas.<br />
 Useful when you only need certain components or when specific features cause export issues in your environment.<br />
 Valid values: Databases, Logins, AgentServer, Credentials, LinkedServers, SpConfigure, CentralManagementServer, DatabaseMail, SysDbUserObjects, SystemTriggers, BackupDevices, Audits, Endpoints,<br />
-ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, CustomErrors, ServerRoles, AvailabilityGroups, ReplicationSettings, OleDbProvider.<br></p>
+ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, CustomErrors, ServerRoles, AvailabilityGroups, ReplicationSettings, OleDbProvider, DbCertificates.<br></p>
 <table>
 <thead>
 <tr>
@@ -801,7 +866,7 @@ ExtendedEvents, PolicyManagement, ResourceGovernor, ServerAuditSpecifications, C
 </tr>
 <tr>
 <td>Accepted Values</td>
-<td>AgentServer,Audits,AvailabilityGroups,BackupDevices,CentralManagementServer,Credentials,CustomErrors,DatabaseMail,Databases,Endpoints,ExtendedEvents,LinkedServers,Logins,PolicyManagement,ReplicationSettings,ResourceGovernor,ServerAuditSpecifications,ServerRoles,SpConfigure,SysDbUserObjects,SystemTriggers,OleDbProvider</td>
+<td>AgentServer,Audits,AvailabilityGroups,BackupDevices,CentralManagementServer,Credentials,CustomErrors,DatabaseMail,Databases,DbCertificates,Endpoints,ExtendedEvents,LinkedServers,Logins,PolicyManagement,ReplicationSettings,ResourceGovernor,ServerAuditSpecifications,ServerRoles,SpConfigure,SysDbUserObjects,SystemTriggers,OleDbProvider</td>
 </tr>
 </tbody>
 </table>

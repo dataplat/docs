@@ -489,7 +489,9 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h2 id="description">Description</h2>
 <p>Converts Extended Events trace files into PowerShell objects so you can analyze captured SQL Server events without needing SQL Server Management Studio. This function takes the raw XEvent data from .xel or .xem files and transforms it into structured objects with properties for each field and action in the trace.</p>
 <p>Perfect for post-incident analysis of deadlocks, performance issues, or security events that were captured by your Extended Events sessions. You can pipe the results to other PowerShell cmdlets for filtering, sorting, exporting to CSV, or building reports.</p>
-<p>When using pipeline input from Get-DbaXESession, the function automatically skips the file currently being written to avoid access conflicts, and can read files from remote servers via admin shares.</p>
+<p>When using pipeline input from Get-DbaXESession, the function automatically skips the file currently being written to avoid access conflicts, and reads files from remote servers via Windows admin shares (e.g. \server\C$...). This means the PowerShell session must be running as a Windows account with administrative access to the SQL Server host â€” SqlCredential alone is not sufficient. This approach is Windows-only; it does not work for Linux-hosted SQL Server or Docker containers.</p>
+<p>If you only know the session name and not the file path, use the full pipeline:<br />
+Get-DbaXESession | Get-DbaXESessionTarget | Get-DbaXESessionTargetFile | Read-DbaXEFile</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Read-DbaXEFile
     [-Path] &lt;Object[]&gt;
@@ -512,12 +514,20 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <h5 id="example-3">Example:  3</h5>
 <pre><code>PS C:\&gt; Get-DbaXESession -SqlInstance sql2019 -Session deadlocks | Read-DbaXEFile
 </code></pre>
-<p>Reads remote XEvents by accessing the file over the admin UNC share.<br></p>
+<p>Reads remote XEvents by accessing the file over the Windows admin share (e.g. \sql2019\C$...). Requires the PowerShell session to be running as a Windows account with administrative access to the <br>
+sql2019 host. Does not work with Linux-hosted SQL Server or Docker containers.<br></p>
+<h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Get-DbaXESession -SqlInstance sql2019 -Session deadlocks | Get-DbaXESessionTarget | Get-DbaXESessionTargetFile | Read-DbaXEFile
+</code></pre>
+<p>Reads XEvents from a session by name without needing to know the file path in advance. Uses Get-DbaXESessionTarget and Get-DbaXESessionTargetFile to resolve the physical .xel files via Windows admin <br>
+shares, then reads them. Requires the PowerShell session to be running as a Windows account with read access to the target files on the SQL Server host. If the session is still running, stop it first <br>
+to force a rollover so the latest events are flushed to disk.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="path">-Path</h5>
-<p>Specifies the Extended Events file path (.xel or .xem), file objects, or XEvent session objects to read from. Supports local paths, UNC paths for remote files, and pipeline input from Get-ChildItem<br />
-or Get-DbaXESession.<br />
-When using session objects from Get-DbaXESession, automatically accesses files via admin shares and skips the current file being written to prevent access conflicts. <br></p>
+<p>Specifies the Extended Events file path (.xel or .xem), file objects, or XEvent session objects to read from. Supports local paths, UNC paths for remote files, and pipeline input from Get-ChildItem,<br />
+Get-DbaXESession, or Get-DbaXESessionTargetFile.<br />
+When using session objects from Get-DbaXESession, automatically accesses files via Windows admin shares and skips the current file being written to prevent access conflicts. Requires the PowerShell<br />
+session to be running as a Windows account with administrative access to the SQL Server host. <br></p>
 <table>
 <thead>
 <tr>

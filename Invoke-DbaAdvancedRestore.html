@@ -510,11 +510,13 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-WithReplace]
     [-KeepReplication]
     [-KeepCDC]
+    [-ErrorBrokerConversations]
     [[-PageRestore] &lt;Object[]&gt;]
     [[-ExecuteAs] &lt;String&gt;]
     [-StopBefore]
     [[-StopMark] &lt;String&gt;]
     [[-StopAfterDate] &lt;DateTime&gt;]
+    [[-StopAtLsn] &lt;String&gt;]
     [-Checksum]
     [-Restart]
     [-EnableException]
@@ -1017,6 +1019,36 @@ Cannot be combined with NoRecovery or StandbyDirectory parameters as CDC require
 </tr>
 </tbody>
 </table>
+<h5 id="errorbrokerconversations">-ErrorBrokerConversations</h5>
+<p>Ends all conversations in the database with an error message when restoring, using the ERROR_BROKER_CONVERSATIONS option.<br />
+Use this when you want to clean up Service Broker conversations that may be left in an inconsistent state after a restore.<br />
+Only applied during the final restore step (WITH RECOVERY), not during intermediate log restores.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 <h5 id="pagerestore">-PageRestore</h5>
 <p>Array of page objects from Get-DbaSuspectPage specifying corrupted pages to restore using page-level restore.<br />
 Use this for targeted repair of specific corrupted pages without restoring the entire database.<br />
@@ -1078,9 +1110,9 @@ Typically used to ensure specific ownership patterns or when the current login l
 </tbody>
 </table>
 <h5 id="stopbefore">-StopBefore</h5>
-<p>Stops the restore operation just before the specified StopMark rather than after it.<br />
-Use this when you need to exclude a particular marked transaction from the restored database.<br />
-Only effective when used in combination with the StopMark parameter for mark-based recovery scenarios.<br></p>
+<p>Stops the restore operation just before the specified StopMark or StopAtLsn rather than after it.<br />
+Use this when you need to exclude a particular marked transaction or LSN from the restored database.<br />
+Only effective when used in combination with the StopMark or StopAtLsn parameter.<br></p>
 <table>
 <thead>
 <tr>
@@ -1141,6 +1173,37 @@ Provides more granular control than timestamp-based recovery for critical busine
 <p>DateTime value specifying that only StopMark occurrences after this date should be considered for restore termination.<br />
 Use this when the same mark name appears multiple times in your transaction log backups.<br />
 Ensures the restore stops at the correct instance of the mark when identical mark names exist at different times.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="stopatlsn">-StopAtLsn</h5>
+<p>Log Sequence Number (LSN) in the transaction log at which to stop the restore operation.<br />
+Use this for precise point-in-time recovery to an exact LSN, which provides more granular control than timestamp-based recovery.<br />
+Accepts either the numeric restore format used by SQL Server or the colon-delimited format returned by sys.fn_dblog.<br />
+Combine with -StopBefore to stop just before the specified LSN.<br></p>
 <table>
 <thead>
 <tr>

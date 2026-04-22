@@ -533,6 +533,7 @@ It integrates seamlessly with Ola Hallengren's maintenance solution backup struc
     [-ReplaceDbNameInFile]
     [-DestinationFileSuffix &lt;String&gt;]
     [-KeepCDC]
+    [-ErrorBrokerConversations]
     [-GetBackupInformation &lt;String&gt;]
     [-StopAfterGetBackupInformation]
     [-SelectBackupInformation &lt;String&gt;]
@@ -544,6 +545,7 @@ It integrates seamlessly with Ola Hallengren's maintenance solution backup struc
     [-StopBefore]
     [-StopMark &lt;String&gt;]
     [-StopAfterDate &lt;DateTime&gt;]
+    [-StopAtLsn &lt;String&gt;]
     [-StatementTimeout &lt;Int32&gt;]
     [-Checksum]
     [-Restart]
@@ -575,6 +577,7 @@ Restore-DbaDatabase -SqlInstance &lt;DbaInstanceParameter&gt;
     [-StopBefore]
     [-StopMark &lt;String&gt;]
     [-StopAfterDate &lt;DateTime&gt;]
+    [-StopAtLsn &lt;String&gt;]
     [-StatementTimeout &lt;Int32&gt;]
     [-Checksum]
     [-Restart]
@@ -600,6 +603,7 @@ Restore-DbaDatabase -SqlInstance &lt;DbaInstanceParameter&gt;
     [-StopBefore]
     [-StopMark &lt;String&gt;]
     [-StopAfterDate &lt;DateTime&gt;]
+    [-StopAtLsn &lt;String&gt;]
     [-StatementTimeout &lt;Int32&gt;]
     [-WhatIf]
     [-Confirm]
@@ -728,9 +732,17 @@ PS C:\&gt; Get-ChildItem \\nas\db\backups\test | Restore-DbaDatabase -SqlInstanc
 <h5 id="example-18">Example:  18</h5>
 <pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1 -Path \\ServerName\ShareName\File -DatabaseName database -StopMark OvernightStart -StopBefore -StopAfterDate Get-Date('21:00 10/05/2020')
 </code></pre>
-<p>Restores the backups from \ServerName\ShareName\File as database, stops before the first 'OvernightStart' mark that occurs after '21:00 10/05/2020'.<br>
-Note that Date time needs to be specified in your local SQL Server culture<br></p>
+<p>Restores the backups from \ServerName\ShareName\File as database, stops before the first 'OvernightStart' mark that occurs after '21:00 10/05/2020'.<br></p>
 <h5 id="example-19">Example:  19</h5>
+<pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1 -Path \\ServerName\ShareName\File -DatabaseName database -StopAtLsn '00000030:00000f28:0001'
+</code></pre>
+<p>Restores the backups from \ServerName\ShareName\File as database, stopping when the specified LSN is reached.<br></p>
+<h5 id="example-20">Example:  20</h5>
+<pre><code>PS C:\&gt; Restore-DbaDatabase -SqlInstance server1 -Path \\ServerName\ShareName\File -DatabaseName database -StopAtLsn '00000030:00000f28:0001' -StopBefore
+</code></pre>
+<p>Restores the backups from \ServerName\ShareName\File as database, stopping just before the specified LSN is reached.<br>
+Note that Date time needs to be specified in your local SQL Server culture<br></p>
+<h5 id="example-21">Example:  21</h5>
 <pre><code>PS C:\&gt; # Restore from S3 storage folder (SQL Server 2022+)
 PS C:\&gt; # First, enumerate S3 bucket contents using AWS PowerShell module - You need to be authenticated!
 PS C:\&gt; $s3Files = Get-S3Object -BucketName &quot;mybucket&quot; -KeyPrefix &quot;backups/AdventureWorks/&quot; -Region &quot;us-west-2&quot;
@@ -742,6 +754,21 @@ PS C:\&gt; Restore-DbaDatabase -SqlInstance sql2022 -Path $backupPaths -StorageC
 <p>Demonstrates the recommended workflow for restoring from S3 storage. Since SQL Server cannot enumerate S3 bucket contents via T-SQL, you must first use PowerShell's Get-S3Object cmdlet to list backup <br>
 files, then pass the full S3 URLs to Restore-DbaDatabase.<br>
 The StorageCredential parameter should reference a SQL Server credential configured for S3 access.<br></p>
+<h5 id="example-22">Example:  22</h5>
+<pre><code>PS C:\&gt; Get-ChildItem \\server\backups | Where-Object { $_.Extension -eq &quot;.bak&quot; } | Restore-DbaDatabase -SqlInstance server1\instance1
+</code></pre>
+<p>Scans the \server\backups share and restores only files with a .bak extension, excluding any incomplete or in-progress files<br>
+such as those with extensions like .bak.part that may be created by SFTP clients or other upload tools during file transfer.<br>
+When backup files are uploaded to a share while a restore job is running, incomplete files with non-standard extensions<br>
+can cause Restore-DbaDatabase to hang while trying to read the backup header of a locked or partial file. Always filter<br>
+your file list to include only complete backup files before passing them to this command.<br></p>
+<h5 id="example-23">Example:  23</h5>
+<pre><code>PS C:\&gt; $backupFiles = Get-ChildItem \\server\backups -Recurse | Where-Object { $_.Name -match '\.(bak|trn|dif)$' }
+PS C:\&gt; $backupFiles | Restore-DbaDatabase -SqlInstance server1\instance1
+</code></pre>
+<p>Recursively scans \server\backups and filters files to only those ending in .bak, .trn, or .dif using a regex match,<br>
+then restores them to server1\instance1. This pattern is recommended when your backup directory may contain non-backup<br>
+files or files from in-progress uploads, ensuring only complete backup files are processed.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance. <br></p>
@@ -1908,6 +1935,36 @@ Cannot be combined with NoRecovery or Standby modes as CDC requires the database
 </tr>
 </tbody>
 </table>
+<h5 id="errorbrokerconversations">-ErrorBrokerConversations</h5>
+<p>Ends all conversations in the database with an error message when restoring, using the ERROR_BROKER_CONVERSATIONS option.<br />
+Use this when you want to clean up Service Broker conversations that may be left in an inconsistent state after a restore.<br />
+Only applied during the final restore step (WITH RECOVERY), not during intermediate log restores.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
 <h5 id="getbackupinformation">-GetBackupInformation</h5>
 <p>Passing a string value into this parameter will cause a global variable to be created holding the output of Get-DbaBackupInformation.<br></p>
 <table>
@@ -2133,7 +2190,7 @@ Cannot be combined with NoRecovery or Standby modes as CDC requires the database
 </tbody>
 </table>
 <h5 id="stopbefore">-StopBefore</h5>
-<p>Switch to indicate the restore should stop before StopMark occurs, default is to stop when mark is created.<br></p>
+<p>Switch to indicate the restore should stop before StopMark or StopAtLsn occurs, default is to stop when mark/LSN is reached.<br></p>
 <table>
 <thead>
 <tr>
@@ -2214,6 +2271,36 @@ Cannot be combined with NoRecovery or Standby modes as CDC requires the database
 <tr>
 <td>Default Value</td>
 <td>(Get-Date '01/01/1971')</td>
+</tr>
+</tbody>
+</table>
+<h5 id="stopatlsn">-StopAtLsn</h5>
+<p>Log Sequence Number (LSN) in the transaction log at which to stop the restore operation.<br />
+Use this for precise point-in-time recovery to an exact LSN, which provides more granular control than timestamp-based recovery.<br />
+The LSN value can be obtained from sys.fn_dblog, backup headers, or error logs. Combine with -StopBefore to stop just before the specified LSN.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

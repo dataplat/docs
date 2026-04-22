@@ -503,6 +503,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-Force]
     [-ObjectLevel]
     [-ExcludePermissionSync]
+    [-ExcludeDatabaseMapping]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -522,6 +523,7 @@ Copy-DbaLogin -Source &lt;DbaInstanceParameter&gt;
     [-Force]
     [-ObjectLevel]
     [-ExcludePermissionSync]
+    [-ExcludeDatabaseMapping]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -540,6 +542,7 @@ Copy-DbaLogin -Source &lt;DbaInstanceParameter&gt;
     [-Force]
     [-ObjectLevel]
     [-ExcludePermissionSync]
+    [-ExcludeDatabaseMapping]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -559,6 +562,7 @@ Copy-DbaLogin
     [-Force]
     [-ObjectLevel]
     [-ExcludePermissionSync]
+    [-ExcludeDatabaseMapping]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -577,6 +581,7 @@ Copy-DbaLogin
     [-Force]
     [-ObjectLevel]
     [-ExcludePermissionSync]
+    [-ExcludeDatabaseMapping]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -1072,6 +1077,36 @@ Use this for complete security replication when applications rely on specific ob
 <h5 id="excludepermissionsync">-ExcludePermissionSync</h5>
 <p>Skips copying server roles, database permissions, and security mappings for the login accounts.<br />
 Use this when you only need the login accounts created but plan to configure permissions separately, or when copying logins for testing purposes.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludedatabasemapping">-ExcludeDatabaseMapping</h5>
+<p>Skips copying database-level permissions and role memberships, syncing only server-level roles and securables.<br />
+Use this when you want to sync server permissions (sysadmin membership, server securables, etc.) without iterating through all databases, which significantly improves performance on instances with<br />
+many databases. When used with -OutFile, generated scripts also exclude database user mappings and permissions.<br></p>
 <table>
 <thead>
 <tr>

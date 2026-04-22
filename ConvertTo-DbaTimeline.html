@@ -485,10 +485,10 @@
 <br>
 Want to see the Bill Of Health for this command? Check out <a href="https://dataplat.github.io/boh#ConvertTo-DbaTimeline">ConvertTo-DbaTimeline</a>.</p>
 <h2 id="synopsis">Synopsis</h2>
-<p>Generates interactive HTML timeline visualizations from SQL Server job history and backup history data</p>
+<p>Generates interactive HTML timeline visualizations from SQL Server job history, backup history, and database growth event data</p>
 <h2 id="description">Description</h2>
-<p>Transforms SQL Server job execution and backup operation data into visual timeline reports for analysis and troubleshooting. Takes piped output from Get-DbaAgentJobHistory and Get-DbaDbBackupHistory and generates a complete HTML file with an interactive Google Charts timeline.</p>
-<p>Perfect for analyzing job schedules, identifying backup windows, troubleshooting overlapping operations, or creating visual reports for management. The timeline shows execution duration, status, and timing relationships across multiple instances, with hover tooltips displaying detailed information including start/end times and duration calculations.</p>
+<p>Transforms SQL Server job execution, backup operation, and database growth event data into visual timeline reports for analysis and troubleshooting. Takes piped output from Get-DbaAgentJobHistory, Get-DbaDbBackupHistory, or Find-DbaDbGrowthEvent and generates a complete HTML file with an interactive Google Charts timeline.</p>
+<p>Perfect for analyzing job schedules, identifying backup windows, visualizing auto-growth events, troubleshooting overlapping operations, or creating visual reports for management. The timeline shows execution duration, status, and timing relationships across multiple instances, with hover tooltips displaying detailed information including start/end times and duration calculations.</p>
 <p>Output is a self-contained HTML file that can be viewed in any browser, emailed to stakeholders, or archived for historical analysis. Supports both single and multi-instance scenarios with automatic labeling and color-coded status indicators.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>ConvertTo-DbaTimeline
@@ -511,6 +511,10 @@ Creates an output file containing a pretty timeline for all of the agent job his
 </code></pre>
 <p>Creates an output file containing a pretty timeline for the agent job history since 2018-08-13 for all of the registered servers on sqlcm<br></p>
 <h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Find-DbaDbGrowthEvent -SqlInstance sql-1 | ConvertTo-DbaTimeline | Out-File C:\temp\DbaDbGrowthEvent.html -Encoding ASCII
+</code></pre>
+<p>Creates an output file containing a timeline of all database auto-growth and auto-shrink events for sql-1.<br></p>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; $messageParameters = @{
 &gt;&gt; Subject = &quot;Backup history for sql2017 and sql2016&quot;
 &gt;&gt; Body = Get-DbaDbBackupHistory -SqlInstance sql2017, sql2016 -Since '2018-08-13 00:00' | ConvertTo-DbaTimeline | Out-String
@@ -524,8 +528,8 @@ PS C:\&gt; Send-MailMessage @messageParameters -BodyAsHtml
 <p>Sends an email to dba@ad.local with the results of Get-DbaDbBackupHistory. Note that viewing these reports may not be supported in all email clients.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="inputobject">-InputObject</h5>
-<p>Specifies the SQL Server data to convert into timeline visualization. Accepts piped output from Get-DbaAgentJobHistory or Get-DbaDbBackupHistory.<br />
-Use this to transform job execution history or backup operation data into an interactive HTML timeline chart.<br />
+<p>Specifies the SQL Server data to convert into timeline visualization. Accepts piped output from Get-DbaAgentJobHistory, Get-DbaDbBackupHistory, or Find-DbaDbGrowthEvent.<br />
+Use this to transform job execution history, backup operation data, or database auto-growth/shrink events into an interactive HTML timeline chart.<br />
 The function automatically detects the input type and formats the timeline appropriately with status colors and duration calculations. <br></p>
 <table>
 <thead>

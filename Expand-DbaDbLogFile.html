@@ -525,6 +525,7 @@ Example: If you have a log file with 8192MB and you say that the target size is 
     [[-ExcludeDatabase] &lt;Object[]&gt;]
     [-TargetLogSize] &lt;Int32&gt;
     [[-IncrementSize] &lt;Int32&gt;]
+    [-TargetVlfCount &lt;Int32&gt;]
     [[-LogFileId] &lt;Int32&gt;]
     [-ExcludeDiskSpaceValidation]
     [-EnableException]
@@ -539,6 +540,7 @@ Expand-DbaDbLogFile
     [[-ExcludeDatabase] &lt;Object[]&gt;]
     [-TargetLogSize] &lt;Int32&gt;
     [[-IncrementSize] &lt;Int32&gt;]
+    [-TargetVlfCount &lt;Int32&gt;]
     [[-LogFileId] &lt;Int32&gt;]
     [-ShrinkLogFile]
     [-ShrinkSize] &lt;Int32&gt;
@@ -574,6 +576,14 @@ Expand-DbaDbLogFile
 </code></pre>
 <p>Grows the transaction logs for databases db1 and db2 on SQL server SQLInstance to 100MB, sets the incremental growth to 10MB, shrinks the transaction log to 10MB and uses the directory <br>
 R:\MSSQL\Backup for the required backups.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Expand-DbaDbLogFile -SqlInstance sqlcluster -Database db1 -TargetLogSize 10000 -TargetVlfCount 16
+</code></pre>
+<p>Grows the transaction log for database db1 on sqlcluster to 10000MB and automatically calculates an increment size that keeps the total VLF count at or below 16.<br></p>
+<h5 id="example-7">Example:  7</h5>
+<pre><code>PS C:\&gt; Expand-DbaDbLogFile -SqlInstance sqlcluster -Database db1 -TargetLogSize 10000 -ShrinkLogFile -ShrinkSize 10 -BackupDirectory R:\MSSQL\Backup -TargetVlfCount 8
+</code></pre>
+<p>Shrinks the transaction log for db1 to 10MB, then re-grows it to 10000MB using an increment size calculated to keep the final VLF count at or below 8.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. <br></p>
@@ -784,6 +794,36 @@ Use this to exclude system databases, read-only databases, or databases with spe
 <p>Controls the size of each growth operation in megabytes during the expansion process.<br />
 If not specified, the function calculates an optimal increment size based on your target size and SQL Server version to minimize VLF fragmentation. Only specify this if you need to override the<br />
 intelligent defaults.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+<h5 id="targetvlfcount">-TargetVlfCount</h5>
+<p>Sets the desired maximum number of Virtual Log Files (VLFs) after the expansion completes.<br />
+When specified, the function calculates the optimal increment size to keep total VLFs at or below this value. If the current VLF count already meets or exceeds this target, a warning is issued and<br />
+the database is skipped â€” use -ShrinkLogFile to first reduce the VLF count. If the target is mathematically impossible given the required growth, a warning is issued and the database is skipped.<br></p>
 <table>
 <thead>
 <tr>
