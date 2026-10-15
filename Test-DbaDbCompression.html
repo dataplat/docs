@@ -506,6 +506,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-ExcludeDatabase] &lt;String[]&gt;]
     [[-Schema] &lt;String[]&gt;]
     [[-Table] &lt;String[]&gt;]
+    [[-ExcludeTable] &lt;String[]&gt;]
     [[-ResultSize] &lt;Int32&gt;]
     [[-Rank] &lt;String&gt;]
     [[-FilterBy] &lt;String&gt;]
@@ -541,30 +542,34 @@ Returns the recommendation of either Page, Row or NO_GAIN<br></p>
 Returns the recommendation of either Page, Row or NO_GAIN.<br>
 Returns a result for each partition of any Heap, Clustered or NonClustered index.<br></p>
 <h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Test-DbaDbCompression -SqlInstance ServerA -Database MyDatabase -ExcludeTable &quot;Staging*&quot;
+</code></pre>
+<p>Returns compression recommendations for MyDatabase while excluding tables whose names start with Staging.<br></p>
+<h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; Test-DbaDbCompression -SqlInstance ServerA, ServerB -ResultSize 10
 </code></pre>
 <p>Returns results of all potential compression options for all databases on ServerA and ServerB.<br>
 Returns the recommendation of either Page, Row or NO_GAIN.<br>
 Returns results for the top 10 partitions by TotalPages used per database.<br></p>
-<h5 id="example-7">Example:  7</h5>
+<h5 id="example-8">Example:  8</h5>
 <pre><code>PS C:\&gt; ServerA | Test-DbaDbCompression -Schema Test -ResultSize 10 -Rank UsedPages -FilterBy Table
 </code></pre>
 <p>Returns results of all potential compression options for all databases on ServerA containing a schema Test<br>
 Returns results for the top 10 Tables by Used Pages per database.<br>
 Results are split by Table, Index and Partition so more than 10 results may be returned.<br></p>
-<h5 id="example-8">Example:  8</h5>
+<h5 id="example-9">Example:  9</h5>
 <pre><code>PS C:\&gt; $servers = 'Server1','Server2'
 PS C:\&gt; $servers | Test-DbaDbCompression -Database DBName | Out-GridView
 </code></pre>
 <p>Returns results of all potential compression options for a single database DBName on Server1 or Server2<br>
 Returns the recommendation of either Page, Row or NO_GAIN in a nicely formatted GridView<br></p>
-<h5 id="example-9">Example:  9</h5>
+<h5 id="example-10">Example:  10</h5>
 <pre><code>PS C:\&gt; $cred = Get-Credential sqladmin
 PS C:\&gt; Test-DbaDbCompression -SqlInstance ServerA -Database MyDB -SqlCredential $cred -Schema Test -Table Test1, Test2
 </code></pre>
 <p>Returns results of all potential compression options for objects in Database MyDb on instance ServerA using SQL credentials to authentication to ServerA.<br>
 Returns the recommendation of either Page, Row or NO_GAIN for tables with Schema Test and name in Test1 or Test2<br></p>
-<h5 id="example-10">Example:  10</h5>
+<h5 id="example-11">Example:  11</h5>
 <pre><code>PS C:\&gt; $servers = 'Server1','Server2'
 PS C:\&gt; foreach ($svr in $servers) {
 &gt;&gt; Test-DbaDbCompression -SqlInstance $svr | Export-Csv -Path C:\temp\CompressionAnalysisPAC.csv -Append
@@ -721,6 +726,35 @@ Use this when you need compression recommendations for tables in specific schema
 <h5 id="table">-Table</h5>
 <p>Filters analysis to specific table names only. Accepts multiple table names for focused compression analysis.<br />
 Use this when investigating compression opportunities for known large tables or when validating compression recommendations for specific objects.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="excludetable">-ExcludeTable</h5>
+<p>Specifies table names to skip during compression analysis. Accepts multiple names, schema-qualified names, and the wildcards * and ?.<br />
+Use this to avoid analyzing transient or frequently changing tables such as staging tables.<br></p>
 <table>
 <thead>
 <tr>

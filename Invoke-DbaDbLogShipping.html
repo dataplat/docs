@@ -476,7 +476,7 @@
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows, Linux, macOS</td>
+<td>Windows only</td>
 </tr>
 </tbody>
 </table>
@@ -590,6 +590,7 @@ The copy destination must have at least read/write permission for the secondary 
     [-UseExistingFullBackup]
     [[-UseBackupFolder] &lt;String&gt;]
     [-IgnoreFileChecks]
+    [-AddSecondary]
     [-Force]
     [-EnableException]
     [-WhatIf]
@@ -641,6 +642,19 @@ PS C:\&gt; Invoke-DbaDbLogShipping @params
 The script will show a message that the copy destination has not been supplied and asks if you want to use the default which would be the backup directory of the secondary server with the folder <br>
 &quot;logshipping&quot; i.e. &quot;D:\SQLBackup\Logshiping&quot;.<br></p>
 <h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; $params = @{
+&gt;&gt; SourceSqlInstance      = &quot;sql1&quot;
+&gt;&gt; DestinationSqlInstance = &quot;sql3&quot;
+&gt;&gt; Database               = &quot;db1&quot;
+&gt;&gt; CopyDestinationFolder  = &quot;D:\LogShipping&quot;
+&gt;&gt; NoInitialization       = $true
+&gt;&gt; AddSecondary           = $true
+&gt;&gt; Force                  = $true
+&gt;&gt; }
+PS C:\&gt; Invoke-DbaDbLogShipping @params
+</code></pre>
+<p>Adds sql3 as another secondary for the existing log shipping primary db1. The secondary database must already be initialized because NoInitialization is specified.<br></p>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; # First, create the SAS credential on both instances
 PS C:\&gt; $azureUrl = &quot;https://mystorageaccount.blob.core.windows.net/logshipping&quot;
 PS C:\&gt; $cred = Get-Credential -Message &quot;Paste SAS token (without leading ?) in password field&quot; -UserName &quot;SHARED ACCESS SIGNATURE&quot;
@@ -3064,6 +3078,36 @@ The function processes all backup files in the folder to bring the secondary dat
 <h5 id="ignorefilechecks">-IgnoreFileChecks</h5>
 <p>Skips path validation checks before backup operations. Use this when SQL Server cannot verify that the backup path exists,<br />
 for example when the network share is created just before the backup and there is latency in the path becoming visible to SQL Server.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="addsecondary">-AddSecondary</h5>
+<p>Adds a new secondary to a database that is already configured as a log shipping primary.<br />
+The command reuses the existing primary backup directory, share, and backup job from msdb. It does not recreate or modify the primary backup configuration, job, or schedule, and it refuses duplicate<br />
+primary-secondary associations.<br></p>
 <table>
 <thead>
 <tr>

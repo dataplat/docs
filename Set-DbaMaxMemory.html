@@ -501,6 +501,7 @@ be going on in your specific environment.</p>
 <pre><code>Set-DbaMaxMemory
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-SqlCredential] &lt;PSCredential&gt;]
+    [[-Credential] &lt;PSCredential&gt;]
     [[-Max] &lt;Int32&gt;]
     [[-InputObject] &lt;PSObject[]&gt;]
     [-EnableException]
@@ -558,6 +559,34 @@ of the server (think 2147483647), then pipe those to Set-DbaMaxMemory and use th
 <p>Login to the target instance using alternative credentials. Accepts PowerShell credentials (Get-Credential).<br />
 Windows Authentication, SQL Server Authentication, Active Directory - Password, and Active Directory - Integrated are all supported.<br />
 For MFA support, please use Connect-DbaInstance.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="credential">-Credential</h5>
+<p>Windows Credential with permission to log on to the server running the SQL instance<br></p>
 <table>
 <thead>
 <tr>

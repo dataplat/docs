@@ -476,7 +476,7 @@
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows, Linux, macOS</td>
+<td>Windows only</td>
 </tr>
 </tbody>
 </table>
@@ -495,6 +495,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-SqlInstance] &lt;DbaInstanceParameter[]&gt;]
     [[-Credential] &lt;PSCredential&gt;]
     [[-Value] &lt;Object&gt;]
+    [[-AcceptedSpn] &lt;String[]&gt;]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -521,6 +522,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Set Extended Protection of SQL Engine for the SQL2008R2SP2 on sql01 to &quot;Allowed&quot;. Uses Windows Credentials to both connect and modify the registry.<br></p>
 <h5 id="example-5">Example:  5</h5>
+<pre><code>PS C:\&gt; Set-DbaExtendedProtection -SqlInstance sql01 -AcceptedSpn &quot;MSSQLSvc/sql01.domain.local:1433&quot;, &quot;MSSQLSvc/sql01:1433&quot;
+</code></pre>
+<p>Sets the accepted SPNs for Extended Protection without changing the current Extended Protection level.<br></p>
+<h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; Set-DbaExtendedProtection -SqlInstance sql01\SQL2008R2SP2 -WhatIf
 </code></pre>
 <p>Shows what would happen if the command were executed.<br></p>
@@ -612,6 +617,35 @@ Defaults to &quot;Off&quot; when not specified. Setting to &quot;Required&quot; 
 <tr>
 <td>Accepted Values</td>
 <td>0,Off,1,Allowed,2,Required</td>
+</tr>
+</tbody>
+</table>
+<h5 id="acceptedspn">-AcceptedSpn</h5>
+<p>Specifies the service principal names SQL Server accepts for Extended Protection service binding. Multiple values are stored as a semicolon-delimited registry value.<br />
+When this parameter is supplied without Value, the current Extended Protection level is left unchanged. Pass an empty string to clear the accepted SPN list.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

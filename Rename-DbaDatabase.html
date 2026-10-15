@@ -476,7 +476,7 @@
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows, Linux, macOS</td>
+<td>Windows only</td>
 </tr>
 </tbody>
 </table>
@@ -514,7 +514,11 @@ Use the -Preview parameter first to see exactly what changes would occur: &quot;
     [-DatabaseName &lt;String&gt;]
     [-FileGroupName &lt;String&gt;]
     [-LogicalName &lt;String&gt;]
+    [-LogicalNameRows &lt;String&gt;]
+    [-LogicalNameLog &lt;String&gt;]
     [-FileName &lt;String&gt;]
+    [-FileNameRows &lt;String&gt;]
+    [-FileNameLog &lt;String&gt;]
     [-ReplaceBefore]
     [-Force]
     [-Move]
@@ -532,7 +536,11 @@ Rename-DbaDatabase
     [-DatabaseName &lt;String&gt;]
     [-FileGroupName &lt;String&gt;]
     [-LogicalName &lt;String&gt;]
+    [-LogicalNameRows &lt;String&gt;]
+    [-LogicalNameLog &lt;String&gt;]
     [-FileName &lt;String&gt;]
+    [-FileNameRows &lt;String&gt;]
+    [-FileNameLog &lt;String&gt;]
     [-ReplaceBefore]
     [-Force]
     [-Move]
@@ -587,11 +595,15 @@ PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -Database
 <p>Renames the HR database to &quot;dbatools_HR&quot; and then all filenames as &quot;dbatools_HR_[Name of the FileGroup]_[original_filename]&quot;<br>
 The db stays online (watch out!). You can then proceed manually to move/copy files by hand, set the db offline and then online again to finish the rename process<br></p>
 <h5 id="example-10">Example:  10</h5>
+<pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -FileNameRows &quot;&lt;DBN&gt;&quot; -FileNameLog &quot;&lt;DBN&gt;_log&quot;
+</code></pre>
+<p>Renames ROWS data files with the database name and transaction log files with an additional _log suffix.<br></p>
+<h5 id="example-11">Example:  11</h5>
 <pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName &quot;dbatools_&lt;DBN&gt;&quot; -FileName &quot;&lt;DBN&gt;_&lt;FGN&gt;_&lt;FNN&gt;&quot; -SetOffline
 </code></pre>
 <p>Renames the HR database to &quot;dbatools_HR&quot; and then all filenames as &quot;dbatools_HR_[Name of the FileGroup]_[original_filename]&quot;<br>
 The db is then set offline (watch out!). You can then proceed manually to move/copy files by hand and then set it online again to finish the rename process<br></p>
-<h5 id="example-11">Example:  11</h5>
+<h5 id="example-12">Example:  12</h5>
 <pre><code>PS C:\&gt; Rename-DbaDatabase -SqlInstance sqlserver2014a -Database HR -DatabaseName &quot;dbatools_&lt;DBN&gt;&quot; -FileName &quot;&lt;DBN&gt;_&lt;FGN&gt;_&lt;FNN&gt;&quot; -Move
 </code></pre>
 <p>Renames the HR database to &quot;dbatools_HR&quot; and then all filenames as &quot;dbatools_HR_[Name of the FileGroup]_[original_filename]&quot;<br>
@@ -864,11 +876,129 @@ distinct names cannot be generated, a counter is appended (0001, 0002, etc).<br>
 </tr>
 </tbody>
 </table>
+<h5 id="logicalnamerows">-LogicalNameRows</h5>
+<p>Specifies a template override for the logical names of ROWS data files. Uses the same placeholders as LogicalName.<br />
+When provided, this template is used for ROWS files while LogicalName remains the fallback for other file types.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="logicalnamelog">-LogicalNameLog</h5>
+<p>Specifies a template override for the logical names of transaction log files. Uses the same placeholders as LogicalName, except <FGN> resolves to an empty string because log files do not belong to a<br />
+filegroup.<br />
+When provided, this template is used for LOG files while LogicalName remains the fallback for other file types.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h5 id="filename">-FileName</h5>
 <p>Specifies a template for renaming physical database file names on disk using placeholder substitution. Changes only the file name, preserving the original directory and file extension.<br />
 Use this when you need to align physical file names with your database naming standards for easier file management, monitoring, and disaster recovery operations.<br />
 Valid placeholders are: <FNN> (current file name without directory or extension), <FT> (file type: ROWS, LOG, MMO, FS), <LGN> (current logical name), <FGN> (current filegroup name), <DBN> (current<br />
 database name), <DATE> (current date in yyyyMMdd format). If distinct names cannot be generated, a counter is appended (0001, 0002, etc).<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filenamerows">-FileNameRows</h5>
+<p>Specifies a template override for the physical file names of ROWS data files. Uses the same placeholders as FileName.<br />
+When provided, this template is used for ROWS files while FileName remains the fallback for other file types.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="filenamelog">-FileNameLog</h5>
+<p>Specifies a template override for the physical file names of transaction log files. Uses the same placeholders as FileName, except <FGN> resolves to an empty string because log files do not belong to<br />
+a filegroup.<br />
+When provided, this template is used for LOG files while FileName remains the fallback for other file types.<br></p>
 <table>
 <thead>
 <tr>

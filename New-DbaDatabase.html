@@ -497,6 +497,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-Name] &lt;String[]&gt;]
     [[-Collation] &lt;String&gt;]
     [[-RecoveryModel] &lt;String&gt;]
+    [[-ContainmentType] &lt;String&gt;]
     [[-Owner] &lt;String&gt;]
     [[-DataFilePath] &lt;String&gt;]
     [[-LogFilePath] &lt;String&gt;]
@@ -532,15 +533,19 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Creates a database named dbatools and a database named dbachecks on sql1<br></p>
 <h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; New-DbaDatabase -SqlInstance sql1 -Name containeddb -ContainmentType Partial
+</code></pre>
+<p>Creates a partially contained database named containeddb on sql1<br></p>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; New-DbaDatabase -SqlInstance sql1, sql2, sql3 -Name multidb, multidb2 -SecondaryFilesize 20 -SecondaryFileGrowth 20 -LogSize 20 -LogGrowth 20
 </code></pre>
 <p>Creates two databases, multidb and multidb2, on 3 instances (sql1, sql2 and sql3) and sets the secondary data file size to 20MB, the file growth to 20MB and the log growth to 20MB for each<br></p>
-<h5 id="example-4">Example:  4</h5>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; New-DbaDatabase -SqlInstance sql1 -Name nondefault -DataFilePath M:\Data -LogFilePath 'L:\Logs with spaces' -SecondaryFileCount 2
 </code></pre>
 <p>Creates a database named nondefault and places data files in in the M:\data directory and log files in &quot;L:\Logs with spaces&quot;.<br>
 Creates a secondary group with 2 files in the Secondary filegroup.<br></p>
-<h5 id="example-5">Example:  5</h5>
+<h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; $databaseParams = @{
 &gt;&gt; SqlInstance             = &quot;sql1&quot;
 &gt;&gt; Name                    = &quot;newDb&quot;
@@ -711,6 +716,39 @@ Full enables complete point-in-time recovery with log backups, BulkLogged offers
 <tr>
 <td>Accepted Values</td>
 <td>Simple,Full,BulkLogged</td>
+</tr>
+</tbody>
+</table>
+<h5 id="containmenttype">-ContainmentType</h5>
+<p>Sets the containment type for the new database. Use Partial to create a partially contained database, or None to create a non-contained database. Database containment requires SQL Server 2012 or<br />
+later. If not specified, inherits from the model database.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+<tr>
+<td>Accepted Values</td>
+<td>None,Partial</td>
 </tr>
 </tbody>
 </table>

@@ -495,6 +495,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-Database] &lt;String[]&gt;]
     [[-ExcludeDatabase] &lt;String[]&gt;]
     [[-Table] &lt;String[]&gt;]
+    [[-View] &lt;String[]&gt;]
     [[-CompressionType] &lt;String&gt;]
     [[-MaxRunTime] &lt;Int32&gt;]
     [[-PercentCompression] &lt;Int32&gt;]
@@ -519,21 +520,25 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Utilizes Page compression for tables table1 and table2 in DBName on ServerA with no time limit.<br></p>
 <h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -Database DBName -CompressionType Page -View &quot;dbo.SalesSummary&quot;
+</code></pre>
+<p>Utilizes Page compression only for indexes on the dbo.SalesSummary indexed view in DBName on ServerA.<br></p>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -Database DBName -PercentCompression 25 | Out-GridView
 </code></pre>
 <p>Will compress tables/indexes within the specified database that would show any % improvement with compression and with no time limit. The results will be piped into a nicely formatted GridView.<br></p>
-<h5 id="example-4">Example:  4</h5>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; $testCompression = Test-DbaDbCompression -SqlInstance ServerA -Database DBName
 PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -Database DBName -InputObject $testCompression
 </code></pre>
 <p>Gets the compression suggestions from Test-DbaDbCompression into a variable, this can then be reviewed and passed into Set-DbaDbCompression.<br></p>
-<h5 id="example-5">Example:  5</h5>
+<h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; $cred = Get-Credential sqladmin
 PS C:\&gt; Set-DbaDbCompression -SqlInstance ServerA -ExcludeDatabase Database -SqlCredential $cred -MaxRunTime 60 -PercentCompression 25
 </code></pre>
 <p>Set the compression run time to 60 minutes and will start the compression of tables/indexes for all databases except the specified excluded database. Only objects that have a difference of 25% or <br>
 higher between current and recommended will be compressed.<br></p>
-<h5 id="example-6">Example:  6</h5>
+<h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; $servers = 'Server1','Server2'
 PS C:\&gt; foreach ($svr in $servers) {
 &gt;&gt; Set-DbaDbCompression -SqlInstance $svr -MaxRunTime 60 -PercentCompression 25 | Export-Csv -Path C:\temp\CompressionAnalysisPAC.csv -Append
@@ -661,7 +666,36 @@ Use this when you want to compress most databases but exclude specific ones like
 </table>
 <h5 id="table">-Table</h5>
 <p>Specifies which tables to compress within the selected databases. Accepts multiple table names and works with wildcard patterns.<br />
-When omitted, all eligible tables in the database will be processed. Use this to target specific large tables or avoid compressing certain tables.<br></p>
+When both Table and View are omitted, all eligible tables and indexed views in the database are processed. Use this to target specific large tables or avoid compressing other objects.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="view">-View</h5>
+<p>Specifies which indexed views to compress within the selected databases. Accepts multiple view names, including database- and schema-qualified names.<br />
+When View is specified without Table, only matching indexed views are processed. View requires an explicit CompressionType of Page, Row, or None because Recommended analysis supports tables only.<br></p>
 <table>
 <thead>
 <tr>

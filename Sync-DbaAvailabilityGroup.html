@@ -506,6 +506,7 @@ AgentSchedule<br />
 AgentJob</p>
 <p>Any of these object types can be excluded using the -Exclude parameter. For granular control over specific objects (like excluding individual jobs or logins), use the -ExcludeJob, -ExcludeLogin parameters or the underlying Copy-Dba* commands directly.</p>
 <p>The command copies ALL objects of each enabled type - it doesn't filter based on which objects are actually used by the availability group databases. Use the exclusion parameters to limit scope when needed.</p>
+<p>Copying credentials, database mail accounts and linked servers includes the stored passwords, and decrypting those requires a dedicated admin connection (DAC) to the primary. As SQL Server only allows one DAC per instance, this command opens a single DAC and hands it to all three of those copy operations instead of letting each of them open its own. Use -ExcludePassword if no DAC should be opened at all.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Sync-DbaAvailabilityGroup
     [[-Primary] &lt;DbaInstanceParameter&gt;]

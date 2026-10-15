@@ -911,7 +911,8 @@ The downside of it automatically switching over to ordinal mapping is that it al
 </table>
 <h5 id="autocreatetable">-AutoCreateTable</h5>
 <p>Automatically creates the destination table if it doesn't exist, using the same structure as the source table.<br />
-Essential for initial data migrations or when copying to new environments where destination tables haven't been created yet.<br></p>
+Essential for initial data migrations or when copying to new environments where destination tables haven't been created yet.<br />
+Azure external source tables are created as ordinary destination tables containing only the source column names, data types, collations, and nullability.<br></p>
 <table>
 <thead>
 <tr>

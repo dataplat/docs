@@ -488,8 +488,8 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <p>Configures tempdb database files according to Microsoft best practices for optimal performance</p>
 <h2 id="description">Description</h2>
 <p>Configures tempdb database files to follow Microsoft's recommended best practices for performance optimization. This function calculates the optimal number of data files based on logical CPU cores (capped at 8) and distributes the specified total data file size evenly across those files. You must specify the target SQL Server instance and total data file size as mandatory parameters.</p>
-<p>The function automatically determines the appropriate number of data files based on your server's logical cores, but you can override this behavior. It validates the current tempdb configuration to ensure it won't conflict with your desired settings - existing files must be smaller than the calculated target size and you cannot have more existing files than the target configuration.</p>
-<p>Additional parameters let you customize file paths, log file size, and growth settings. The function generates ALTER DATABASE statements but does not shrink or delete existing files. If your current tempdb is larger than your target configuration, you'll need to shrink it manually before running this function. A SQL Server restart is required for tempdb changes to take effect.</p>
+<p>The function automatically determines the appropriate number of data files based on your server's logical cores, but you can override this behavior. It validates the current tempdb configuration to ensure it won't conflict with your desired settings. Existing files must be smaller than the calculated target size, and by default you cannot have more existing files than the target configuration.</p>
+<p>Additional parameters let you customize file paths, log file size, and growth settings. Use Force to reduce the number of data files by emptying and removing the highest-numbered secondary files when the requested total size can hold all currently used space. Without Force, the function does not shrink or delete existing files. A SQL Server restart is required for tempdb changes to take effect.</p>
 <h2 id="syntax">Syntax</h2>
 <pre><code>Set-DbaTempDbConfig
     [-SqlInstance] &lt;DbaInstanceParameter[]&gt;
@@ -504,6 +504,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-OutFile] &lt;String&gt;]
     [-OutputScriptOnly]
     [-DisableGrowth]
+    [-Force]
     [-EnableException]
     [-WhatIf]
     [-Confirm]
@@ -533,6 +534,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 <pre><code>PS C:\&gt; Set-DbaTempDbConfig -SqlInstance localhost -DataFileSize 1000 -OutputScriptOnly
 </code></pre>
 <p>Returns the T-SQL script representing tempdb configuration.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Set-DbaTempDbConfig -SqlInstance localhost -DataFileCount 4 -DataFileSize 2048 -Force -OutputScriptOnly
+</code></pre>
+<p>Returns a script that empties and removes the highest-numbered secondary data files when tempdb currently has more than four data files, then configures the four retained files.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="sqlinstance">-SqlInstance</h5>
 <p>The target SQL Server instance or instances. <br></p>
@@ -857,6 +862,36 @@ Use this to review the configuration changes before applying them, or to run the
 <h5 id="disablegrowth">-DisableGrowth</h5>
 <p>Prevents tempdb files from auto-growing by setting growth to 0. Overrides any values specified for -DataFileGrowth and -LogFileGrowth.<br />
 Use this when you want to pre-size tempdb files appropriately and prevent unexpected growth during production workloads.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>Allows the command to reduce the number of tempdb data files. The highest-numbered secondary data files are emptied and removed first, and the primary data file is never selected for removal.<br />
+The command refuses the reduction when current used space exceeds the requested total data file size. Use OutputScriptOnly to review the generated DBCC SHRINKFILE and ALTER DATABASE statements before<br />
+execution.<br></p>
 <table>
 <thead>
 <tr>

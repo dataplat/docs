@@ -500,6 +500,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-DisableOnSource]
     [-DisableOnDestination]
     [-Force]
+    [[-NewName] &lt;String&gt;]
     [-UseLastModified]
     [[-InputObject] &lt;Job[]&gt;]
     [-EnableException]
@@ -533,6 +534,10 @@ sqlcluster, it will be dropped and recreated because -Force was used.<br></p>
 </code></pre>
 <p>Copies jobs from sqlserver2014a to sqlserver2014b, but only creates new jobs or updates existing jobs where the source job has a newer date_modified timestamp. Jobs with matching timestamps are <br>
 skipped.<br></p>
+<h5 id="example-6">Example:  6</h5>
+<pre><code>PS C:\&gt; Copy-DbaAgentJob -Source sqlserver2014a -Destination sqlserver2014a -Job &quot;OriginalJob&quot; -NewName &quot;JobCopy&quot;
+</code></pre>
+<p>Copies the job &quot;OriginalJob&quot; on sqlserver2014a to the same server as &quot;JobCopy&quot;. When source and destination are the same instance, -NewName is required.<br></p>
 <h3 id="required-parameters">Required Parameters</h3>
 <h5 id="destination">-Destination</h5>
 <p>Destination SQL Server instance(s) where jobs will be created. You must have sysadmin access and the server must be SQL Server 2000 or higher.<br />
@@ -796,6 +801,36 @@ Use this when you need to replace existing jobs or when source job owners don't 
 <tr>
 <td>Default Value</td>
 <td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="newname">-NewName</h5>
+<p>The new name for the job on the destination server.<br />
+Required when source and destination are the same server instance. Use this to create a copy of a job under a different name on the same or a different server.<br />
+Cannot be used when copying multiple jobs simultaneously.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

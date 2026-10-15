@@ -513,6 +513,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [-PercentFreeSpace &lt;Int32&gt;]
     [-ShrinkMethod &lt;String&gt;]
     [-FileType &lt;String&gt;]
+    [-FileName &lt;String[]&gt;]
     [-StepSize &lt;Int64&gt;]
     [-StatementTimeout &lt;Int32&gt;]
     [-WaitAtLowPriority]
@@ -542,14 +543,18 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Shrinks AdventureWorks2014 to have 50% free space, runs shrinks in 25MB chunks for improved performance.<br></p>
 <h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Invoke-DbaDbShrink -SqlInstance sql2014 -Database AdventureWorks2014 -FileName &quot;AdventureWorks2014_Data2&quot; -PercentFreeSpace 10 -FileType Data -StepSize 25MB
+</code></pre>
+<p>Shrinks only the AdventureWorks2014_Data2 logical data file, running shrinks in 25MB chunks.<br></p>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Invoke-DbaDbShrink -SqlInstance sql2012 -AllUserDatabases
 </code></pre>
 <p>Shrinks all user databases on SQL2012 (not ideal for production)<br></p>
-<h5 id="example-5">Example:  5</h5>
+<h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; Get-DbaDatabase -SqlInstance sql2012 -Database Northwind,pubs | Invoke-DbaDbShrink
 </code></pre>
 <p>Shrinks all databases coming from a pre-filtered list via Get-DbaDatabase<br></p>
-<h5 id="example-6">Example:  6</h5>
+<h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; Invoke-DbaDbShrink -SqlInstance sql2022 -Database AdventureWorks2014 -WaitAtLowPriority -AbortAfterWait Blockers
 </code></pre>
 <p>Shrinks AdventureWorks2014 using WAIT_AT_LOW_PRIORITY, killing blocking sessions if the wait expires. Requires SQL Server 2022+.<br></p>
@@ -792,6 +797,35 @@ Use Data when you only need to reclaim space from data files after large deletio
 <tr>
 <td>Accepted Values</td>
 <td>All,Data,Log</td>
+</tr>
+</tbody>
+</table>
+<h5 id="filename">-FileName</h5>
+<p>Specifies one or more logical database file names to shrink. The filter is applied after FileType, so the requested files must also match the selected file type.<br />
+Use this when a database has multiple data or log files and only specific files should be shrunk. If omitted, all files matching FileType are processed.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
 </tr>
 </tbody>
 </table>

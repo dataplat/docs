@@ -496,6 +496,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-AvailabilityGroup] &lt;String[]&gt;]
     [[-Database] &lt;String[]&gt;]
     [[-ExcludeDatabase] &lt;String[]&gt;]
+    [[-Pattern] &lt;String[]&gt;]
     [[-InputObject] &lt;AvailabilityGroup[]&gt;]
     [-EnableException]
     [&lt;CommonParameters&gt;]
@@ -517,6 +518,10 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Returns all the databases in each availability group found on sql2017a, excluding TestDB and StagingDB.<br></p>
 <h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Get-DbaAgDatabase -SqlInstance sql2017a -Pattern &quot;^dbatools_&quot;
+</code></pre>
+<p>Returns all databases in each availability group found on sql2017a that match the regex pattern &quot;^dbatools_&quot; (e.g., dbatools_example1, dbatools_example2)<br></p>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Get-DbaAvailabilityGroup -SqlInstance sqlcluster -AvailabilityGroup SharePoint | Get-DbaAgDatabase -Database Sharepoint_Config
 </code></pre>
 <p>Returns the database Sharepoint_Config found in the availability group SharePoint on server sqlcluster<br></p>
@@ -640,6 +645,36 @@ Use this to focus on specific databases when troubleshooting AG issues or monito
 <h5 id="excludedatabase">-ExcludeDatabase</h5>
 <p>Specifies one or more databases to exclude from the results using exact name matching.<br />
 Use this to filter out specific databases like test or staging environments from your results.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pattern">-Pattern</h5>
+<p>Specifies a pattern for filtering databases using regular expressions.<br />
+Use this when you need to match databases by pattern, such as &quot;^dbatools_&quot; or &quot;.*_prod$&quot;.<br />
+This parameter supports standard .NET regular expression syntax.<br></p>
 <table>
 <thead>
 <tr>

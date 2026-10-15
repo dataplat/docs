@@ -476,7 +476,7 @@
 </tr>
 <tr>
 <td><strong>Availability</strong></td>
-<td>Windows, Linux, macOS</td>
+<td>Windows only</td>
 </tr>
 </tbody>
 </table>
@@ -513,6 +513,7 @@ about why the given certificate is not suitable and fails with that information.
     [[-Certificate] &lt;X509Certificate2&gt;]
     [[-Thumbprint] &lt;String&gt;]
     [-UnsetCertificate]
+    [-Force]
     [-RestartService]
     [-EnableException]
     [-WhatIf]
@@ -536,6 +537,10 @@ about why the given certificate is not suitable and fails with that information.
 </code></pre>
 <p>Sets the network certificate for the SQL2008R2SP2 instance to the certificate with the thumbprint of 1223FB1ACBCA44D3EE9640F81B6BA14A92F3D6E2 in LocalMachine\My on sql1<br></p>
 <h5 id="example-4">Example:  4</h5>
+<pre><code>PS C:\&gt; Set-DbaNetworkCertificate -SqlInstance sql1\SQL2008R2SP2 -Thumbprint 1223FB1ACBCA44D3EE9640F81B6BA14A92F3D6E2 -Force
+</code></pre>
+<p>Sets the network certificate even when the certificate fails one or more suitability checks. Failed checks are reported as a warning.<br></p>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Set-DbaNetworkCertificate -SqlInstance localhost\SQL2008R2SP2 -UnsetCertificate -RestartService
 </code></pre>
 <p>Unsets the network certificate for the SQL2008R2SP2 instance and restarts the SQL Server service.<br></p>
@@ -660,6 +665,35 @@ service account will be granted read permissions to it.<br></p>
 <h5 id="unsetcertificate">-UnsetCertificate</h5>
 <p>Unsets the currently configured network certificate for the SQL Server instance.<br />
 This will remove the certificate configuration, and SQL Server will not use any certificate for SSL connections.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+<h5 id="force">-Force</h5>
+<p>Configures the specified certificate even when suitability checks fail.<br />
+The certificate must still exist in the LocalMachine certificate store. Failed checks are reported as a warning.<br></p>
 <table>
 <thead>
 <tr>

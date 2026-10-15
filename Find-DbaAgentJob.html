@@ -495,6 +495,7 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
     [[-JobName] &lt;String[]&gt;]
     [[-ExcludeJobName] &lt;String[]&gt;]
     [[-StepName] &lt;String[]&gt;]
+    [[-Pattern] &lt;String[]&gt;]
     [[-LastUsed] &lt;Int32&gt;]
     [-IsDisabled]
     [-IsFailed]
@@ -519,34 +520,38 @@ Want to see the Bill Of Health for this command? Check out <a href="https://data
 </code></pre>
 <p>Returns all agent job(s) that are named exactly Mybackup<br></p>
 <h5 id="example-3">Example:  3</h5>
+<pre><code>PS C:\&gt; Find-DbaAgentJob -SqlInstance Dev01 -Pattern &quot;^(Backup|Restore)-\d{4}$&quot;
+</code></pre>
+<p>Returns jobs whose names match the supplied regular expression.<br></p>
+<h5 id="example-4">Example:  4</h5>
 <pre><code>PS C:\&gt; Find-DbaAgentJob -SqlInstance Dev01 -LastUsed 10
 </code></pre>
 <p>Returns all agent job(s) that have not ran in 10 days<br></p>
-<h5 id="example-4">Example:  4</h5>
+<h5 id="example-5">Example:  5</h5>
 <pre><code>PS C:\&gt; Find-DbaAgentJob -SqlInstance Dev01 -IsDisabled -IsNoEmailNotification -IsNotScheduled
 </code></pre>
 <p>Returns all agent job(s) that are either disabled, have no email notification or don't have a schedule. returned with detail<br></p>
-<h5 id="example-5">Example:  5</h5>
+<h5 id="example-6">Example:  6</h5>
 <pre><code>PS C:\&gt; $servers | Find-DbaAgentJob -IsFailed | Start-DbaAgentJob
 </code></pre>
 <p>Finds all failed job then starts them. Consider using a -WhatIf at the end of Start-DbaAgentJob to see what it'll do first<br></p>
-<h5 id="example-6">Example:  6</h5>
+<h5 id="example-7">Example:  7</h5>
 <pre><code>PS C:\&gt; Find-DbaAgentJob -SqlInstance Dev01 -LastUsed 10 -ExcludeJobName &quot;Yearly - RollUp Workload&quot;, &quot;SMS - Notification&quot;
 </code></pre>
 <p>Returns all agent jobs that have not ran in the last 10 days ignoring jobs &quot;Yearly - RollUp Workload&quot; and &quot;SMS - Notification&quot;<br></p>
-<h5 id="example-7">Example:  7</h5>
+<h5 id="example-8">Example:  8</h5>
 <pre><code>PS C:\&gt; Find-DbaAgentJob -SqlInstance Dev01 -Category &quot;REPL-Distribution&quot;, &quot;REPL-Snapshot&quot; | Format-Table -AutoSize -Wrap
 </code></pre>
 <p>Returns all job/s on Dev01 that are in either category &quot;REPL-Distribution&quot; or &quot;REPL-Snapshot&quot;<br></p>
-<h5 id="example-8">Example:  8</h5>
+<h5 id="example-9">Example:  9</h5>
 <pre><code>PS C:\&gt; Find-DbaAgentJob -SqlInstance Dev01, Dev02 -IsFailed -Since '2016-07-01 10:47:00'
 </code></pre>
 <p>Returns all agent job(s) on Dev01 and Dev02 that have failed since July of 2016 (and still have history in msdb)<br></p>
-<h5 id="example-9">Example:  9</h5>
+<h5 id="example-10">Example:  10</h5>
 <pre><code>PS C:\&gt; Get-DbaRegServer -SqlInstance CMSServer -Group Production | Find-DbaAgentJob -Disabled -IsNotScheduled | Format-Table -AutoSize -Wrap
 </code></pre>
 <p>Queries CMS server to return all SQL instances in the Production folder and then list out all agent jobs that have either been disabled or have no schedule.<br></p>
-<h5 id="example-10">Example:  10</h5>
+<h5 id="example-11">Example:  11</h5>
 <pre><code>PS C:\&gt; $Instances = 'SQL2017N5','SQL2019N5','SQL2019N20','SQL2019N21','SQL2019N22'
 </code></pre>
 <p>Find-DbaAgentJob -SqlInstance $Instances -JobName <em>backup</em> -IsNotScheduled<br>
@@ -674,6 +679,35 @@ Use this to filter out known good jobs when searching for problematic ones, like
 <p>Searches for jobs containing steps with specific names or patterns.<br />
 Supports wildcards to find jobs with steps like <em>backup</em>, <em>index</em>, or <em>cleanup</em>.<br />
 Helpful when troubleshooting issues in multi-step jobs or finding jobs that perform specific operations.<br></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alias</td>
+<td></td>
+</tr>
+<tr>
+<td>Required</td>
+<td>False</td>
+</tr>
+<tr>
+<td>Pipeline</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pattern">-Pattern</h5>
+<p>Filters job names using one or more regular expressions. Multiple patterns use OR semantics.<br />
+Combine this with JobName or StepName to further narrow those results.<br></p>
 <table>
 <thead>
 <tr>
